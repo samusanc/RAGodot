@@ -1,4 +1,4 @@
-# RAG-GodotDocumentation
+# RAGodot Godot Documentation RAG
 
 ## Overview
 This project implements a Retrieval-Augmented Generation (RAG) pipeline tailored for the Godot Engine documentation. It enables natural language querying of engine features, class references, and GDScript syntax.
