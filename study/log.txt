@@ -1,0 +1,1 @@
+first i'm going to study how the files in godot docs are structured, if they follow a pattern and if not, what should i do to chunk them for the rag.
