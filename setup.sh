@@ -1,38 +1,38 @@
 #!/usr/bin/env bash
-set -e
 
 REPO_URL="https://github.com/godotengine/godot-docs.git"
 TARGET_DIR="godot"
+TEMP_DIR="godot_clean"
 
 echo "Checking Godot docs repo..."
 
-if [ -d "$TARGET_DIR/.git" ]; then
-    echo "Repository exists. Updating..."
-    cd "$TARGET_DIR"
-    git sparse-checkout init --cone
-    git sparse-checkout set classes tutorials getting_started
-    git pull --ff-only
-    git sparse-checkout reapply
-    cd ..
-
-elif [ -d "$TARGET_DIR" ]; then
-    echo "Directory exists but is not a git repo. Recreating..."
-    rm -rf "$TARGET_DIR"
-    git clone --filter=blob:none --no-checkout "$REPO_URL" "$TARGET_DIR"
-    cd "$TARGET_DIR"
-    git sparse-checkout init --cone
-    git sparse-checkout set classes tutorials getting_started
-    git checkout
-    cd ..
-
+# Check if folder exists
+if [ -d "$TARGET_DIR" ]; then
+    # Check if it is a git repo
+    if [ -d "$TARGET_DIR/.git" ]; then
+        echo "Existing git repository found."
+    else
+        echo "Folder exists but is not a git repo. Recreating..."
+        rm -rf "$TARGET_DIR"
+        git clone "$REPO_URL" "$TARGET_DIR"
+    fi
 else
-    echo "Cloning repository..."
-    git clone --filter=blob:none --no-checkout "$REPO_URL" "$TARGET_DIR"
-    cd "$TARGET_DIR"
-    git sparse-checkout init --cone
-    git sparse-checkout set classes tutorials getting_started
-    git checkout
-    cd ..
+    echo "Repository not found. Cloning..."
+    git clone "$REPO_URL" "$TARGET_DIR"
 fi
 
-echo "Done. godot/ contains only: classes/ tutorials/ getting_started/"
+# Clean previous temp folder
+rm -rf "$TEMP_DIR"
+mkdir "$TEMP_DIR"
+
+echo "Extracting required documentation..."
+
+mv "$TARGET_DIR/classes" "$TEMP_DIR"
+mv "$TARGET_DIR/tutorials" "$TEMP_DIR"
+mv "$TARGET_DIR/getting_started" "$TEMP_DIR"
+
+rm -rf "$TARGET_DIR"
+
+mv "$TEMP_DIR" "$TARGET_DIR"
+
+echo "Done."
