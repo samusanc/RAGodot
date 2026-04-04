@@ -39,6 +39,7 @@ rm -rf $(find godot -type f -name "index.rst")
 rm -rf godot/tutorials/scripting/c_sharp/
 rm -rf godot/tutorials/migrating/
 rm -rf godot/tutorials/scripting/cpp/
+rm -rf $(find godot -type d -name "img")
 
 
 echo "Cleaning Data..."
