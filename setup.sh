@@ -34,5 +34,6 @@ mv "$TARGET_DIR/getting_started" "$TEMP_DIR"
 rm -rf "$TARGET_DIR"
 
 mv "$TEMP_DIR" "$TARGET_DIR"
+rm -rf $(find ./godot/  -type f | grep -v ".rst" | grep -v ".gd")
 
 echo "Done."
