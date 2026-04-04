@@ -36,6 +36,9 @@ rm -rf "$TARGET_DIR"
 mv "$TEMP_DIR" "$TARGET_DIR"
 rm -rf $(find godot -type f ! -name "*.rst")
 rm -rf $(find godot -type f -name "index.rst")
+rm -rf godot/tutorials/scripting/c_sharp/
+rm -rf godot/tutorials/migrating/
+rm -rf godot/tutorials/scripting/cpp/
 
 
 echo "Cleaning Data..."
