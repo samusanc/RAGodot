@@ -1,32 +1,42 @@
 """
 chunk_godot.py — Godot RST → cleaned chunks via Qwen3 (remote Ollama)
 
-Key fix over v1: RST files are pre-split into sections BEFORE sending to Qwen.
-This keeps each LLM call under ~4k chars, preventing format drift on large files.
+Uses a thread pool to process multiple files in parallel, saturating the GPU
+instead of leaving it idle between sequential token generation calls.
+
+Usage:
+    python chunk_godot.py            # default 3 workers
+    python chunk_godot.py --workers 5
+    python chunk_godot.py --workers 1  # single-threaded (debug)
 
 Directory mapping:
   godot/classes/          → CLASS prompt  → godot_chk/classes/
   godot/getting_started/  → TUTORIAL prompt → godot_chk/getting_started/
   godot/tutorials/        → TUTORIAL prompt → godot_chk/tutorials/
-
-Output files use .chk extension. Each .chk file contains one or more chunks
-separated by ---CHUNK--- so you can re-ingest without re-running Qwen.
 """
 
 import re
 import sys
 import time
+import argparse
+import threading
 from pathlib import Path
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import ollama
 
 # ── Config ────────────────────────────────────────────────────────────────────
-OLLAMA_HOST  = "http://192.168.0.36:11434"
-OLLAMA_MODEL = "qwen3:14b"
+OLLAMA_HOST       = "http://192.168.0.36:11434"
+OLLAMA_MODEL      = "qwen3:14b"
+MAX_SECTION_CHARS = 4000   # max chars per LLM call — keeps model on-task
+DEFAULT_WORKERS   = 3      # parallel files; raise to 4-5 if GPU stays under 80%
 
-# Max chars to send in a single LLM call. Keep under ~4000 to avoid format drift.
-MAX_SECTION_CHARS = 4000
+# Each worker gets its own client (thread-safe, no shared state)
+_local = threading.local()
 
-client = ollama.Client(host=OLLAMA_HOST)
+def get_client() -> ollama.Client:
+    if not hasattr(_local, "client"):
+        _local.client = ollama.Client(host=OLLAMA_HOST)
+    return _local.client
 
 # ── Directory routing ─────────────────────────────────────────────────────────
 INPUT_ROOT  = Path("./godot")
@@ -64,13 +74,14 @@ RULES — follow every one exactly:
    - ".. warning::" blocks → inline sentence starting with "Warning:"
    - Method signatures → "Method: name(params) → ReturnType" then description below
 
-5. KEEP intact:
-   - All GDScript and C# code examples (preserve indentation, remove RST fences, use plain labels "GDScript:" and "C#:")
+5. KEEP intact, with plain labels (no markdown fences):
+   - All GDScript examples — label as "GDScript:" on its own line, then indented code
+   - All C# examples — label as "C#:" on its own line, then indented code
    - All class names, method names, property names (exact casing)
    - Inheritance chain ("inherits from X")
    - Enum values and their integer mappings
 
-6. CHUNK SIZE target: 300–600 words. If this section is very short (under 100 words of real content), still output it with the metadata header — do not skip it.
+6. CHUNK SIZE target: 300–600 words. Very short sections (under 100 words) still need the metadata header — do not skip them.
 
 7. BOOLEAN CONTEXT notes and edge cases count as key rules — rewrite as "Key Rule: [plain sentence]".
 
@@ -78,33 +89,10 @@ RULES — follow every one exactly:
 
 Output ONLY the cleaned chunk. No separators — the calling script handles those."""
 
-USER_PROMPT_CLASS_DESCRIPTION = """Process this section from a Godot CLASS reference file.
-It covers the class identity, description, and inheritance.
-File path for metadata: {path}
-
-RST content:
-{content}"""
-
-USER_PROMPT_CLASS_PROPERTIES = """Process this section from a Godot CLASS reference file.
-It covers the class properties/member variables.
-File path for metadata: {path}
-
-RST content:
-{content}"""
-
-USER_PROMPT_CLASS_METHODS = """Process this section from a Godot CLASS reference file.
-It covers class methods (group: {group_label}).
-File path for metadata: {path}
-
-RST content:
-{content}"""
-
-USER_PROMPT_TUTORIAL_SECTION = """Process this section from a Godot TUTORIAL file.
-It is one H2/H3 section of a larger tutorial.
-File path for metadata: {path}
-
-RST content:
-{content}"""
+USER_PROMPT_CLASS_DESCRIPTION = "Process this Godot CLASS reference section — class identity, description, inheritance.\nFile path for metadata: {path}\n\nRST content:\n{content}"
+USER_PROMPT_CLASS_PROPERTIES  = "Process this Godot CLASS reference section — class properties/member variables.\nFile path for metadata: {path}\n\nRST content:\n{content}"
+USER_PROMPT_CLASS_METHODS     = "Process this Godot CLASS reference section — methods (group: {group_label}).\nFile path for metadata: {path}\n\nRST content:\n{content}"
+USER_PROMPT_TUTORIAL_SECTION  = "Process this Godot TUTORIAL section (one H2/H3 of a larger tutorial).\nFile path for metadata: {path}\n\nRST content:\n{content}"
 
 # ── Pre-filter ────────────────────────────────────────────────────────────────
 _STRIP_PATTERNS = [
@@ -119,15 +107,9 @@ _STRIP_PATTERNS = [
 ]
 
 def pre_filter(text: str) -> str:
-    lines = text.splitlines()
-    kept = []
-    for line in lines:
-        if any(pat.match(line.strip()) for pat in _STRIP_PATTERNS):
-            continue
-        kept.append(line)
-    # Collapse 3+ blank lines to 2
-    result = []
-    blank_count = 0
+    kept = [l for l in text.splitlines()
+            if not any(p.match(l.strip()) for p in _STRIP_PATTERNS)]
+    result, blank_count = [], 0
     for line in kept:
         if line.strip() == "":
             blank_count += 1
@@ -138,113 +120,80 @@ def pre_filter(text: str) -> str:
             result.append(line)
     return "\n".join(result)
 
-# ── RST pre-splitter ──────────────────────────────────────────────────────────
-_RST_HEADING_CHARS = r"[=\-~^\"'`#*+]"
-_HEADING_RE = re.compile(
-    r"^(.+)\n(" + _RST_HEADING_CHARS + r")\2{2,}\s*$",
-    re.MULTILINE,
-)
+# ── RST splitter ──────────────────────────────────────────────────────────────
+_HEADING_RE = re.compile(r"^(.+)\n([=\-~^\"'`#*+])\2{2,}\s*$", re.MULTILINE)
 
 def _split_by_headings(text: str) -> list[tuple[str, str]]:
-    """
-    Split RST text at heading boundaries.
-    Returns list of (heading_title, section_content) tuples.
-    """
     matches = list(_HEADING_RE.finditer(text))
     if not matches:
         return [("", text)]
-
     sections = []
     preamble = text[:matches[0].start()].strip()
     if preamble:
         sections.append(("__preamble__", preamble))
-
     for i, m in enumerate(matches):
         title = m.group(1).strip()
         start = m.end()
         end   = matches[i + 1].start() if i + 1 < len(matches) else len(text)
         body  = text[start:end].strip()
         sections.append((title, body))
-
     return sections
 
 def split_class_rst(text: str) -> list[tuple[str, str]]:
-    """
-    For class files: split into logical parts.
-    Returns list of (label, content).
-    Labels: 'description', 'properties', 'methods_N', 'other'
-    """
     sections = _split_by_headings(text)
-    result = []
-    method_buffer = []
-    method_buffer_chars = 0
-    method_group = 1
+    result, method_buffer, method_chars, method_group = [], [], 0, 1
 
-    def flush_methods():
-        nonlocal method_group, method_buffer, method_buffer_chars
+    def flush():
+        nonlocal method_group, method_buffer, method_chars
         if method_buffer:
             result.append((f"methods_{method_group}", "\n\n".join(method_buffer)))
             method_group += 1
-            method_buffer = []
-            method_buffer_chars = 0
+            method_buffer.clear()
+            method_chars = 0
 
     for title, body in sections:
-        label = title.lower()
         if not body:
             continue
+        label = title.lower()
+        chunk = f"{title}\n{body}" if title not in ("__preamble__", "") else body
 
         if label in ("__preamble__", "description", ""):
-            flush_methods()
-            result.append(("description", f"{title}\n{body}" if title not in ("__preamble__", "") else body))
-
-        elif any(kw in label for kw in ("propert", "member")):
-            flush_methods()
-            result.append(("properties", f"{title}\n{body}"))
-
-        elif any(kw in label for kw in ("method", "constructor", "operator", "signal", "enum", "theme")):
-            chunk = f"{title}\n{body}"
-            if method_buffer_chars + len(chunk) > MAX_SECTION_CHARS:
-                flush_methods()
+            flush(); result.append(("description", chunk))
+        elif any(k in label for k in ("propert", "member")):
+            flush(); result.append(("properties", chunk))
+        elif any(k in label for k in ("method", "constructor", "operator", "signal", "enum", "theme")):
+            if method_chars + len(chunk) > MAX_SECTION_CHARS:
+                flush()
             method_buffer.append(chunk)
-            method_buffer_chars += len(chunk)
-
+            method_chars += len(chunk)
         else:
-            flush_methods()
-            result.append(("other", f"{title}\n{body}"))
+            flush(); result.append(("other", chunk))
 
-    flush_methods()
+    flush()
     return result
 
 def split_tutorial_rst(text: str) -> list[tuple[str, str]]:
-    """
-    For tutorial files: split at every heading.
-    Oversized sections are further split at paragraph boundaries.
-    """
-    sections = _split_by_headings(text)
     result = []
-
-    for title, body in sections:
+    for title, body in _split_by_headings(text):
         content = f"{title}\n{body}" if title not in ("__preamble__", "") else body
         if len(content) <= MAX_SECTION_CHARS:
             result.append((title, content))
         else:
             paragraphs = re.split(r"\n{2,}", content)
-            buffer = ""
-            part = 1
+            buf, part = "", 1
             for para in paragraphs:
-                if len(buffer) + len(para) > MAX_SECTION_CHARS and buffer:
-                    result.append((f"{title} (part {part})", buffer.strip()))
-                    part += 1
-                    buffer = para
+                if len(buf) + len(para) > MAX_SECTION_CHARS and buf:
+                    result.append((f"{title} (part {part})", buf.strip()))
+                    part += 1; buf = para
                 else:
-                    buffer += "\n\n" + para
-            if buffer.strip():
-                result.append((f"{title} (part {part})", buffer.strip()))
-
+                    buf += "\n\n" + para
+            if buf.strip():
+                result.append((f"{title} (part {part})", buf.strip()))
     return result
 
 # ── LLM call ──────────────────────────────────────────────────────────────────
 def call_qwen(user_message: str, retries: int = 3) -> str:
+    client = get_client()
     for attempt in range(1, retries + 1):
         try:
             response = client.chat(
@@ -253,135 +202,152 @@ def call_qwen(user_message: str, retries: int = 3) -> str:
                     {"role": "system", "content": SYSTEM_PROMPT},
                     {"role": "user",   "content": user_message},
                 ],
-                options={
-                    "temperature": 0.1,
-                    "num_ctx": 8192,
-                },
+                options={"temperature": 0.1, "num_ctx": 8192},
             )
             return response["message"]["content"].strip()
         except Exception as e:
-            print(f"    [!] Ollama error (attempt {attempt}/{retries}): {e}")
             if attempt < retries:
                 time.sleep(4 * attempt)
+            else:
+                return ""
     return ""
 
-# ── Per-section LLM dispatch ──────────────────────────────────────────────────
-def process_class_section(label: str, content: str, path: str, group_n: int) -> str:
-    if label == "description":
-        prompt = USER_PROMPT_CLASS_DESCRIPTION.format(path=path, content=content)
-    elif label == "properties":
-        prompt = USER_PROMPT_CLASS_PROPERTIES.format(path=path, content=content)
-    elif label.startswith("methods_"):
-        prompt = USER_PROMPT_CLASS_METHODS.format(
-            path=path, content=content, group_label=f"group {group_n}"
-        )
-    else:
-        prompt = USER_PROMPT_TUTORIAL_SECTION.format(path=path, content=content)
-    return call_qwen(prompt)
-
-def process_tutorial_section(title: str, content: str, path: str) -> str:
-    prompt = USER_PROMPT_TUTORIAL_SECTION.format(path=path, content=content)
-    return call_qwen(prompt)
-
-# ── Core processor ────────────────────────────────────────────────────────────
-def process_file(raw_content: str, prompt_type: str, file_path: Path) -> str:
+# ── File processing ───────────────────────────────────────────────────────────
+def process_file(raw: str, prompt_type: str, file_path: Path) -> tuple[str, list[str]]:
+    """Returns (final_chk_content, log_lines)."""
     path_str = str(file_path)
-    filtered = pre_filter(raw_content)
-
-    before = len(raw_content)
-    after  = len(filtered)
-    pct    = 100 * (1 - after / max(before, 1))
-    print(f"  → pre-filter: {before} chars → {after} chars ({pct:.0f}% stripped)")
-
+    filtered = pre_filter(raw)
+    logs = [f"  pre-filter: {len(raw)}→{len(filtered)} chars "
+            f"({100*(1-len(filtered)/max(len(raw),1)):.0f}% stripped)"]
     chunks = []
 
     if prompt_type == "class":
         sections = split_class_rst(filtered)
-        print(f"  → split into {len(sections)} section(s)")
+        logs.append(f"  split: {len(sections)} section(s)")
         method_group = 1
         for label, content in sections:
             if not content.strip():
                 continue
-            print(f"    • {label} ({len(content)} chars) ...", end=" ", flush=True)
-            result = process_class_section(label, content, path_str, method_group)
-            if label.startswith("methods_"):
+            if label == "description":
+                prompt = USER_PROMPT_CLASS_DESCRIPTION.format(path=path_str, content=content)
+            elif label == "properties":
+                prompt = USER_PROMPT_CLASS_PROPERTIES.format(path=path_str, content=content)
+            elif label.startswith("methods_"):
+                prompt = USER_PROMPT_CLASS_METHODS.format(path=path_str, content=content, group_label=f"group {method_group}")
                 method_group += 1
+            else:
+                prompt = USER_PROMPT_TUTORIAL_SECTION.format(path=path_str, content=content)
+            result = call_qwen(prompt)
             if result:
                 chunks.append(result)
-                print("ok")
+                logs.append(f"  ✓ {label} ({len(content)} chars)")
             else:
-                print("EMPTY (skipped)")
-
-    else:  # tutorial
+                logs.append(f"  ✗ {label} — empty response")
+    else:
         sections = split_tutorial_rst(filtered)
-        print(f"  → split into {len(sections)} section(s)")
+        logs.append(f"  split: {len(sections)} section(s)")
         for title, content in sections:
             if not content.strip():
                 continue
-            short_title = title[:40] if title else "(preamble)"
-            print(f"    • {short_title!r} ({len(content)} chars) ...", end=" ", flush=True)
-            result = process_tutorial_section(title, content, path_str)
+            prompt = USER_PROMPT_TUTORIAL_SECTION.format(path=path_str, content=content)
+            result = call_qwen(prompt)
+            short = (title[:35] + "…") if len(title) > 35 else (title or "(preamble)")
             if result:
                 chunks.append(result)
-                print("ok")
+                logs.append(f"  ✓ {short!r} ({len(content)} chars)")
             else:
-                print("EMPTY (skipped)")
+                logs.append(f"  ✗ {short!r} — empty response")
 
     if not chunks:
-        print("  [!] No chunks produced — saving pre-filtered content as fallback.")
-        return filtered
+        logs.append("  ! no chunks produced — using pre-filtered fallback")
+        return filtered, logs
 
-    return "\n---CHUNK---\n".join(chunks)
+    return "\n---CHUNK---\n".join(chunks), logs
 
-# ── Parse helper ──────────────────────────────────────────────────────────────
-def parse_chunks(chk_content: str) -> list[str]:
-    parts = chk_content.split("---CHUNK---")
-    return [p.strip() for p in parts if p.strip()]
+# ── Worker (called from thread pool) ─────────────────────────────────────────
+_print_lock = threading.Lock()
+
+def worker(args: tuple) -> tuple[Path, int, bool]:
+    """Process one file. Returns (output_path, chunk_count, success)."""
+    idx, total, file_path, prompt_type, output_path = args
+
+    with _print_lock:
+        print(f"[{idx}/{total}] START  {file_path.relative_to(INPUT_ROOT)}")
+
+    try:
+        raw = file_path.read_text(encoding="utf-8")
+        content, logs = process_file(raw, prompt_type, file_path)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content, encoding="utf-8")
+        chunk_count = len([p for p in content.split("---CHUNK---") if p.strip()])
+
+        with _print_lock:
+            print(f"[{idx}/{total}] DONE   {file_path.name} → {chunk_count} chunk(s)")
+            for line in logs:
+                print(f"  {line}")
+
+        return output_path, chunk_count, True
+
+    except Exception as e:
+        with _print_lock:
+            print(f"[{idx}/{total}] FAIL   {file_path.name}: {e}")
+        return output_path, 0, False
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--workers", type=int, default=DEFAULT_WORKERS,
+                        help="Parallel files to process (default: %(default)s)")
+    args = parser.parse_args()
+
     if not INPUT_ROOT.exists():
-        print(f"Error: input root '{INPUT_ROOT}' not found.")
+        print(f"Error: '{INPUT_ROOT}' not found.")
         sys.exit(1)
 
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 
-    jobs: list[tuple[Path, str]] = []
-    seen: set[Path] = set()
-
+    # Collect jobs
+    jobs, seen = [], set()
     for pattern, prompt_type in PATH_ROUTING:
         for file_path in sorted(INPUT_ROOT.glob(pattern)):
-            if file_path not in seen:
-                seen.add(file_path)
-                jobs.append((file_path, prompt_type))
+            if file_path in seen:
+                continue
+            seen.add(file_path)
+            relative   = file_path.relative_to(INPUT_ROOT)
+            output_path = OUTPUT_ROOT / relative.with_suffix(".chk")
+            if output_path.exists():
+                print(f"SKIP   {relative} (already processed)")
+                continue
+            jobs.append((file_path, prompt_type, output_path))
 
     total = len(jobs)
-    print(f"Found {total} RST files to process.\n")
+    print(f"\nProcessing {total} files with {args.workers} worker(s).\n")
 
-    for idx, (file_path, prompt_type) in enumerate(jobs, 1):
-        relative_path = file_path.relative_to(INPUT_ROOT)
-        output_path   = OUTPUT_ROOT / relative_path.with_suffix(".chk")
-        output_path.parent.mkdir(parents=True, exist_ok=True)
+    if total == 0:
+        print("Nothing to do.")
+        return
 
-        print(f"[{idx}/{total}] {relative_path}  (type={prompt_type})")
+    work_args = [
+        (idx + 1, total, fp, pt, op)
+        for idx, (fp, pt, op) in enumerate(jobs)
+    ]
 
-        if output_path.exists():
-            print(f"  → already exists, skipping. Delete to reprocess.\n")
-            continue
+    t_start = time.time()
+    success, failed = 0, 0
 
-        try:
-            raw = file_path.read_text(encoding="utf-8")
-            processed = process_file(raw, prompt_type, file_path)
+    with ThreadPoolExecutor(max_workers=args.workers) as pool:
+        futures = {pool.submit(worker, a): a for a in work_args}
+        for future in as_completed(futures):
+            _, _, ok = future.result()
+            if ok:
+                success += 1
+            else:
+                failed += 1
 
-            output_path.write_text(processed, encoding="utf-8")
-
-            chunk_count = len(parse_chunks(processed))
-            print(f"  ✓ saved {chunk_count} chunk(s) → {output_path}\n")
-
-        except Exception as e:
-            print(f"  [!] Failed: {e}\n")
-
-    print(f"Done. Output in '{OUTPUT_ROOT}/'")
+    elapsed = time.time() - t_start
+    print(f"\n{'─'*50}")
+    print(f"Done in {elapsed/60:.1f} min — {success} ok, {failed} failed.")
+    print(f"Output in '{OUTPUT_ROOT}/'")
 
 if __name__ == "__main__":
     main()
