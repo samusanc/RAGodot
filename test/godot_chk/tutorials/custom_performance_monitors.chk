@@ -1,0 +1,36 @@
+Document: Custom Performance Monitors  
+Path: godot/tutorials/custom_performance_monitors.rst  
+Summary: This section provides a reference link for the Custom Performance Monitors tutorial.
+---CHUNK---
+Document: Custom Performance Monitors  
+Path: godot/tutorials/custom_performance_monitors.rst  
+Summary: Introduces the concept of creating custom performance monitors in Godot.  
+
+Custom performance monitors
+---CHUNK---
+Document: Custom Performance Monitors  
+Path: godot/tutorials/custom_performance_monitors.rst  
+Summary: Introduces Godot's Debugger Monitors panel and how to declare custom performance metrics for tracking project-specific data.  
+
+As explained in the Debugger Panel documentation, Godot features a Debugger > Monitors bottom panel that allows tracking various values with graphs showing their evolution over time. The data for those graphs is sourced from the engine's Performance singleton. Godot lets you declare custom values to be displayed in the Monitors tab. Example use cases for custom performance monitors include:  
+
+- Displaying performance metrics specific to your project. For instance, in a voxel game, you could create a performance monitor to track the number of chunks that are loaded every second.  
+- Displaying in-game metrics not strictly related to performance but useful for debugging. For instance, you could track the number of enemies present in the game to verify spawning mechanics function as intended.
+---CHUNK---
+Document: Creating a custom performance monitor  
+Path: godot/tutorials/custom_performance_monitors.rst  
+Summary: This section explains how to create a custom performance monitor in Godot to track enemy counts in a game scene.  
+
+The example creates a custom performance monitor to track the number of enemies present in the scene. The main scene uses a Timer node with a script that registers a custom monitor using `Performance.add_custom_monitor("game/enemies", get_enemy_count)`. The `get_enemy_count` function returns the size of the "enemies" group via `get_tree().get_nodes_in_group("enemies").size()`. The Timer triggers spawning enemies every 0.05 seconds, instantiating a scene named `enemy.tscn` and adding it to the parent node.  
+
+The `enemy.tscn` scene contains a Node2D with a script that adds the node to the "enemies" group and connects a Timer's timeout signal to `_on_timer_timeout`, which calls `queue_free()` after 2.5 seconds to despawn the enemy. This setup results in 20 enemies spawned per second, each despawning after 2.5 seconds, leading to a stable count of 50 enemies in the scene.  
+
+To view the monitor data, run the project, open the Debugger > Monitors panel in the editor, and check the "Enemies" subcategory under the "Game" section. A graph visualizing the enemy count over time will appear.  
+
+Note: The performance monitor handling code doesn't have to live in the same script as the nodes themselves. You may choose to move the performance monitor registration and getter function to an autoload instead.
+---CHUNK---
+Document: Custom Performance Monitors  
+Path: godot/tutorials/custom_performance_monitors.rst  
+Summary: How to retrieve and display custom performance monitor values in a running Godot project using the Performance API  
+
+To display a custom performance monitor's value in a running project's window, use `Performance.get_custom_monitor("category/name")` to fetch the value. This can be shown via Label, RichTextLabel, custom 2D drawing, or 3D text elements. The method works in exported projects (debug and release modes), enabling visualizations outside the editor.

@@ -1,6 +1,9 @@
 """
 chunk_godot.py — Godot RST → cleaned chunks via Qwen3 (remote Ollama)
 
+Key fix over v1: RST files are pre-split into sections BEFORE sending to Qwen.
+This keeps each LLM call under ~4k chars, preventing format drift on large files.
+
 Directory mapping:
   godot/classes/          → CLASS prompt  → godot_chk/classes/
   godot/getting_started/  → TUTORIAL prompt → godot_chk/getting_started/
@@ -16,30 +19,31 @@ import time
 from pathlib import Path
 import ollama
 
-# ── Ollama remote client ────────────────────────────────────────────────────
+# ── Config ────────────────────────────────────────────────────────────────────
 OLLAMA_HOST  = "http://192.168.0.36:11434"
-OLLAMA_MODEL = "qwen3:14b"          # swap to "qwen3:8b" for speed
+OLLAMA_MODEL = "qwen3:14b"
+
+# Max chars to send in a single LLM call. Keep under ~4000 to avoid format drift.
+MAX_SECTION_CHARS = 4000
 
 client = ollama.Client(host=OLLAMA_HOST)
 
-# ── Directory routing ────────────────────────────────────────────────────────
+# ── Directory routing ─────────────────────────────────────────────────────────
 INPUT_ROOT  = Path("./godot")
 OUTPUT_ROOT = Path("./godot_chk")
 
-# Each entry: (glob_pattern_relative_to_INPUT_ROOT, prompt_type)
-# prompt_type is either "class" or "tutorial"
 PATH_ROUTING = [
     ("classes/**/*.rst",         "class"),
     ("getting_started/**/*.rst", "tutorial"),
     ("tutorials/**/*.rst",       "tutorial"),
 ]
 
-# ── Prompts ──────────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """You are a documentation pre-processor for a Godot Engine RAG system. Your sole job is to clean and restructure raw RST documentation files into dense, embedding-friendly plain text chunks.
+# ── Prompts ───────────────────────────────────────────────────────────────────
+SYSTEM_PROMPT = """You are a documentation pre-processor for a Godot Engine RAG system. Your sole job is to clean and restructure raw RST documentation sections into dense, embedding-friendly plain text chunks.
 
 RULES — follow every one exactly:
 
-1. OUTPUT FORMAT: Return only the cleaned chunk. No preamble, no "Here is the cleaned chunk:", no markdown code fences, no explanation after.
+1. OUTPUT FORMAT: Return only the cleaned chunk. No preamble, no "Here is the cleaned chunk:", no markdown code fences, no explanation after. No <answer> tags.
 
 2. ALWAYS START with this metadata block (fill in the values):
    Document: [class or tutorial name]
@@ -66,62 +70,62 @@ RULES — follow every one exactly:
    - Inheritance chain ("inherits from X")
    - Enum values and their integer mappings
 
-6. CHUNK SIZE target: 300–600 words of clean content (excluding the metadata block). If the input is a long tutorial with multiple H2 headers, output ONE chunk per H2 section, each with its own metadata block. Add "Part N of M:" to the Summary line when splitting.
+6. CHUNK SIZE target: 300–600 words. If this section is very short (under 100 words of real content), still output it with the metadata header — do not skip it.
 
-7. BOOLEAN CONTEXT notes and edge cases count as key rules — do not discard them. Rewrite as "Key Rule: [plain sentence]".
+7. BOOLEAN CONTEXT notes and edge cases count as key rules — rewrite as "Key Rule: [plain sentence]".
 
-Now process the RST content the user provides."""
+8. Do NOT add information not present in the input. Do NOT hallucinate methods, use cases, or best practices. Only clean and reformat what is given.
 
-USER_PROMPT_CLASS = """Process the following Godot RST documentation file. It is a CLASS reference page.
+Output ONLY the cleaned chunk. No separators — the calling script handles those."""
 
-Split it into these chunks in order:
-1. Identity & Description chunk (what the class is, inheritance, key rules)
-2. Properties chunk (all member variables as bullet list)
-3. Methods chunk (group up to 5 related methods per chunk; each gets its own if it has a code example)
-
-Output each chunk separated by the line:
----CHUNK---
+USER_PROMPT_CLASS_DESCRIPTION = """Process this section from a Godot CLASS reference file.
+It covers the class identity, description, and inheritance.
+File path for metadata: {path}
 
 RST content:
-"""
+{content}"""
 
-USER_PROMPT_TUTORIAL = """Process the following Godot RST documentation file. It is a TUTORIAL page.
-
-Split it by H2 headers (lines underlined with "=" or "-" in RST). Each H2 section becomes one chunk. If a section exceeds 600 words, split further at H3 headers.
-
-Keep the tutorial title and the page Path in every chunk's metadata.
-Output each chunk separated by the line:
----CHUNK---
+USER_PROMPT_CLASS_PROPERTIES = """Process this section from a Godot CLASS reference file.
+It covers the class properties/member variables.
+File path for metadata: {path}
 
 RST content:
-"""
+{content}"""
+
+USER_PROMPT_CLASS_METHODS = """Process this section from a Godot CLASS reference file.
+It covers class methods (group: {group_label}).
+File path for metadata: {path}
+
+RST content:
+{content}"""
+
+USER_PROMPT_TUTORIAL_SECTION = """Process this section from a Godot TUTORIAL file.
+It is one H2/H3 section of a larger tutorial.
+File path for metadata: {path}
+
+RST content:
+{content}"""
 
 # ── Pre-filter ────────────────────────────────────────────────────────────────
-# Patterns that are pure RST boilerplate — safe to strip before sending to LLM.
 _STRIP_PATTERNS = [
-    re.compile(r"^\.\.\s*\|.*$"),                   # substitution defs: .. |virtual| replace::
-    re.compile(r"^[+|][-=+|]+[+|]\s*$"),            # ASCII table borders: +-----+-----+
-    re.compile(r"^:github_url:.*$"),                 # github_url meta
-    re.compile(r"^:gitref:.*$"),                     # gitref meta
-    re.compile(r".*DO NOT EDIT THIS FILE.*"),        # generator headers
-    re.compile(r".*Generated automatically.*"),      # generator comments
-    re.compile(r"^\.\. Generated.*$"),               # RST generator line
-    re.compile(r"^\.\. XML source.*$"),              # XML source line
+    re.compile(r"^\.\.\s*\|.*$"),
+    re.compile(r"^[+|][-=+|]+[+|]\s*$"),
+    re.compile(r"^:github_url:.*$"),
+    re.compile(r"^:gitref:.*$"),
+    re.compile(r".*DO NOT EDIT THIS FILE.*"),
+    re.compile(r".*Generated automatically.*"),
+    re.compile(r"^\.\. Generated.*$"),
+    re.compile(r"^\.\. XML source.*$"),
 ]
 
 def pre_filter(text: str) -> str:
-    """
-    Strip RST boilerplate line-by-line before sending to Qwen.
-    Removes ~15-20% of tokens from class reference files.
-    """
     lines = text.splitlines()
     kept = []
     for line in lines:
         if any(pat.match(line.strip()) for pat in _STRIP_PATTERNS):
             continue
         kept.append(line)
-
-    # Collapse runs of 3+ blank lines down to 2
+    # Collapse 3+ blank lines to 2
     result = []
     blank_count = 0
     for line in kept:
@@ -132,54 +136,205 @@ def pre_filter(text: str) -> str:
         else:
             blank_count = 0
             result.append(line)
-
     return "\n".join(result)
 
-# ── LLM call ─────────────────────────────────────────────────────────────────
-def call_qwen(system: str, user: str, retries: int = 3) -> str:
+# ── RST pre-splitter ──────────────────────────────────────────────────────────
+_RST_HEADING_CHARS = r"[=\-~^\"'`#*+]"
+_HEADING_RE = re.compile(
+    r"^(.+)\n(" + _RST_HEADING_CHARS + r")\2{2,}\s*$",
+    re.MULTILINE,
+)
+
+def _split_by_headings(text: str) -> list[tuple[str, str]]:
+    """
+    Split RST text at heading boundaries.
+    Returns list of (heading_title, section_content) tuples.
+    """
+    matches = list(_HEADING_RE.finditer(text))
+    if not matches:
+        return [("", text)]
+
+    sections = []
+    preamble = text[:matches[0].start()].strip()
+    if preamble:
+        sections.append(("__preamble__", preamble))
+
+    for i, m in enumerate(matches):
+        title = m.group(1).strip()
+        start = m.end()
+        end   = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        body  = text[start:end].strip()
+        sections.append((title, body))
+
+    return sections
+
+def split_class_rst(text: str) -> list[tuple[str, str]]:
+    """
+    For class files: split into logical parts.
+    Returns list of (label, content).
+    Labels: 'description', 'properties', 'methods_N', 'other'
+    """
+    sections = _split_by_headings(text)
+    result = []
+    method_buffer = []
+    method_buffer_chars = 0
+    method_group = 1
+
+    def flush_methods():
+        nonlocal method_group, method_buffer, method_buffer_chars
+        if method_buffer:
+            result.append((f"methods_{method_group}", "\n\n".join(method_buffer)))
+            method_group += 1
+            method_buffer = []
+            method_buffer_chars = 0
+
+    for title, body in sections:
+        label = title.lower()
+        if not body:
+            continue
+
+        if label in ("__preamble__", "description", ""):
+            flush_methods()
+            result.append(("description", f"{title}\n{body}" if title not in ("__preamble__", "") else body))
+
+        elif any(kw in label for kw in ("propert", "member")):
+            flush_methods()
+            result.append(("properties", f"{title}\n{body}"))
+
+        elif any(kw in label for kw in ("method", "constructor", "operator", "signal", "enum", "theme")):
+            chunk = f"{title}\n{body}"
+            if method_buffer_chars + len(chunk) > MAX_SECTION_CHARS:
+                flush_methods()
+            method_buffer.append(chunk)
+            method_buffer_chars += len(chunk)
+
+        else:
+            flush_methods()
+            result.append(("other", f"{title}\n{body}"))
+
+    flush_methods()
+    return result
+
+def split_tutorial_rst(text: str) -> list[tuple[str, str]]:
+    """
+    For tutorial files: split at every heading.
+    Oversized sections are further split at paragraph boundaries.
+    """
+    sections = _split_by_headings(text)
+    result = []
+
+    for title, body in sections:
+        content = f"{title}\n{body}" if title not in ("__preamble__", "") else body
+        if len(content) <= MAX_SECTION_CHARS:
+            result.append((title, content))
+        else:
+            paragraphs = re.split(r"\n{2,}", content)
+            buffer = ""
+            part = 1
+            for para in paragraphs:
+                if len(buffer) + len(para) > MAX_SECTION_CHARS and buffer:
+                    result.append((f"{title} (part {part})", buffer.strip()))
+                    part += 1
+                    buffer = para
+                else:
+                    buffer += "\n\n" + para
+            if buffer.strip():
+                result.append((f"{title} (part {part})", buffer.strip()))
+
+    return result
+
+# ── LLM call ──────────────────────────────────────────────────────────────────
+def call_qwen(user_message: str, retries: int = 3) -> str:
     for attempt in range(1, retries + 1):
         try:
             response = client.chat(
                 model=OLLAMA_MODEL,
                 messages=[
-                    {"role": "system", "content": system},
-                    {"role": "user",   "content": user},
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user",   "content": user_message},
                 ],
-                options={"temperature": 0.1},   # low temp for deterministic cleaning
+                options={
+                    "temperature": 0.1,
+                    "num_ctx": 8192,
+                },
             )
-            return response["message"]["content"]
+            return response["message"]["content"].strip()
         except Exception as e:
-            print(f"  [!] Ollama error (attempt {attempt}/{retries}): {e}")
+            print(f"    [!] Ollama error (attempt {attempt}/{retries}): {e}")
             if attempt < retries:
-                time.sleep(3 * attempt)
+                time.sleep(4 * attempt)
     return ""
+
+# ── Per-section LLM dispatch ──────────────────────────────────────────────────
+def process_class_section(label: str, content: str, path: str, group_n: int) -> str:
+    if label == "description":
+        prompt = USER_PROMPT_CLASS_DESCRIPTION.format(path=path, content=content)
+    elif label == "properties":
+        prompt = USER_PROMPT_CLASS_PROPERTIES.format(path=path, content=content)
+    elif label.startswith("methods_"):
+        prompt = USER_PROMPT_CLASS_METHODS.format(
+            path=path, content=content, group_label=f"group {group_n}"
+        )
+    else:
+        prompt = USER_PROMPT_TUTORIAL_SECTION.format(path=path, content=content)
+    return call_qwen(prompt)
+
+def process_tutorial_section(title: str, content: str, path: str) -> str:
+    prompt = USER_PROMPT_TUTORIAL_SECTION.format(path=path, content=content)
+    return call_qwen(prompt)
 
 # ── Core processor ────────────────────────────────────────────────────────────
 def process_file(raw_content: str, prompt_type: str, file_path: Path) -> str:
-    """
-    1. Pre-filter boilerplate
-    2. Send to Qwen with the right user prompt
-    3. Return raw model output (chunks separated by ---CHUNK---)
-    """
+    path_str = str(file_path)
     filtered = pre_filter(raw_content)
 
-    user_prompt = (USER_PROMPT_CLASS if prompt_type == "class" else USER_PROMPT_TUTORIAL)
-    user_message = user_prompt + filtered
+    before = len(raw_content)
+    after  = len(filtered)
+    pct    = 100 * (1 - after / max(before, 1))
+    print(f"  → pre-filter: {before} chars → {after} chars ({pct:.0f}% stripped)")
 
-    print(f"  → pre-filter: {len(raw_content)} chars → {len(filtered)} chars "
-          f"({100*(1-len(filtered)/max(len(raw_content),1)):.0f}% stripped)")
+    chunks = []
 
-    result = call_qwen(SYSTEM_PROMPT, user_message)
+    if prompt_type == "class":
+        sections = split_class_rst(filtered)
+        print(f"  → split into {len(sections)} section(s)")
+        method_group = 1
+        for label, content in sections:
+            if not content.strip():
+                continue
+            print(f"    • {label} ({len(content)} chars) ...", end=" ", flush=True)
+            result = process_class_section(label, content, path_str, method_group)
+            if label.startswith("methods_"):
+                method_group += 1
+            if result:
+                chunks.append(result)
+                print("ok")
+            else:
+                print("EMPTY (skipped)")
 
-    if not result:
-        print(f"  [!] Empty response — saving pre-filtered content as fallback.")
+    else:  # tutorial
+        sections = split_tutorial_rst(filtered)
+        print(f"  → split into {len(sections)} section(s)")
+        for title, content in sections:
+            if not content.strip():
+                continue
+            short_title = title[:40] if title else "(preamble)"
+            print(f"    • {short_title!r} ({len(content)} chars) ...", end=" ", flush=True)
+            result = process_tutorial_section(title, content, path_str)
+            if result:
+                chunks.append(result)
+                print("ok")
+            else:
+                print("EMPTY (skipped)")
+
+    if not chunks:
+        print("  [!] No chunks produced — saving pre-filtered content as fallback.")
         return filtered
 
-    return result
+    return "\n---CHUNK---\n".join(chunks)
 
-# ── Parse helper (also useful when re-ingesting .chk files) ──────────────────
+# ── Parse helper ──────────────────────────────────────────────────────────────
 def parse_chunks(chk_content: str) -> list[str]:
-    """Split a .chk file on ---CHUNK--- and return non-empty chunks."""
     parts = chk_content.split("---CHUNK---")
     return [p.strip() for p in parts if p.strip()]
 
@@ -191,7 +346,6 @@ def main():
 
     OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
 
-    # Collect all (file_path, prompt_type) pairs without duplicates
     jobs: list[tuple[Path, str]] = []
     seen: set[Path] = set()
 
@@ -211,9 +365,8 @@ def main():
 
         print(f"[{idx}/{total}] {relative_path}  (type={prompt_type})")
 
-        # Skip if already processed (re-run safety)
         if output_path.exists():
-            print(f"  → already exists, skipping. Delete to reprocess.")
+            print(f"  → already exists, skipping. Delete to reprocess.\n")
             continue
 
         try:
@@ -223,12 +376,12 @@ def main():
             output_path.write_text(processed, encoding="utf-8")
 
             chunk_count = len(parse_chunks(processed))
-            print(f"  ✓ saved {chunk_count} chunk(s) → {output_path}")
+            print(f"  ✓ saved {chunk_count} chunk(s) → {output_path}\n")
 
         except Exception as e:
-            print(f"  [!] Failed: {e}")
+            print(f"  [!] Failed: {e}\n")
 
-    print(f"\nDone. Output in '{OUTPUT_ROOT}/'")
+    print(f"Done. Output in '{OUTPUT_ROOT}/'")
 
 if __name__ == "__main__":
     main()
