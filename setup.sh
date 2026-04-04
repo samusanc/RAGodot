@@ -36,4 +36,6 @@ rm -rf "$TARGET_DIR"
 mv "$TEMP_DIR" "$TARGET_DIR"
 rm -rf $(find ./godot/  -type f | grep -v ".rst" | grep -v ".gd")
 
+echo "Cleaning Data..."
+
 echo "Done."
