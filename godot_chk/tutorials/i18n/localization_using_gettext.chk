@@ -1,0 +1,256 @@
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This document explains how to use the gettext system for localization in Godot Engine.
+
+This tutorial covers how to use the gettext system for localization in Godot Engine.
+
+gettext is a widely used internationalization and localization system. It allows you to translate your game's text into multiple languages. Godot integrates with gettext to provide a robust localization workflow.
+
+The process involves exporting your game's translatable strings, translating them using gettext tools, and then importing the translations back into Godot.
+
+Key steps include:
+1. Exporting translatable strings from your project.
+2. Translating the exported files using a gettext editor.
+3. Importing the translated files back into your Godot project.
+
+This system is particularly useful for games with a significant amount of text, such as dialogue, UI elements, and descriptions. By using gettext, you can ensure your game is accessible to a global audience.
+
+The following sections will detail each step of this process, providing practical examples and explanations.
+---CHUNK---
+Document: Localization using gettext (PO files)
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section introduces Godot's support for localization using gettext PO and MO files, in addition to CSV.
+
+Note: For an introduction to gettext, check out A Quick Gettext Tutorial. It's written with C projects in mind, but much of the advice also applies to Godot (with the exception of xgettext). For the complete documentation, see GNU Gettext.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section outlines the advantages of using the gettext format for localization in Godot.
+Advantages:
+- gettext is a standard format, editable with text or GUI editors like Poedit. This offers translators tools for managing outdated and untranslated strings.
+- gettext is supported by translation platforms such as Transifex and Weblate, facilitating collaborative localization efforts.
+- Compared to CSV, gettext files integrate better with version control systems like Git, as each locale has its own messages file.
+- Multiline strings are easier to edit in gettext PO files than in CSV files.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section outlines the disadvantages of using gettext for localization in Godot.
+Disadvantages:
+- gettext PO files have a more complex format than CSV and can be harder to grasp for people new to software localization.
+- People who maintain localization files will have to install gettext tools on their system. However, as Godot supports using text-based message files (``.po``), translators can test their work without having to install gettext tools.
+- gettext PO files usually use English as the base language. Translators will use this base language to translate to other languages. You could still user other languages as the base language, but this is not common.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: Instructions for installing the gettext command-line tools and Poedit GUI for localization.
+The command line gettext tools are required to perform maintenance operations, such as updating message files. Therefore, it's strongly recommended to install them.
+
+*   **Windows:** Download an installer from https://mlocati.github.io/articles/gettext-iconv-windows.html. Any architecture and binary type (shared or static) works; if in doubt, choose the 64-bit static installer.
+*   **macOS:** Install gettext either using Homebrew with the `brew install gettext` command, or using MacPorts with the `sudo port install gettext` command.
+*   **Linux:** On most distributions, install the `gettext` package from your distribution's package manager.
+
+For a GUI tool you can get Poedit from its Official website https://poedit.net/. The basic version is open source and available under the MIT license.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to create a PO template file from your Godot project's translation strings.
+
+To create a PO template file from your project, you need to use the `xgettext` command-line tool. This tool scans your project files for translatable strings and generates a `.pot` file.
+
+First, ensure you have `gettext` installed on your system. On Debian/Ubuntu, you can install it using `sudo apt install gettext`. On macOS, you can use Homebrew: `brew install gettext`.
+
+Once installed, navigate to your project's root directory in the terminal. Then, run the following command:
+
+xgettext --package-name="YourProjectName" --package-version="1.0" --msgid-bugs-address="your.email@example.com" --copyright-holder="Your Name" --keyword=_ --keyword=N_ -o YourProjectName.pot -L GDScript -f filelist.txt
+
+Let's break down the command:
+
+*   `xgettext`: The command-line tool itself.
+*   `--package-name="YourProjectName"`: Sets the name of your project. Replace `"YourProjectName"` with your actual project name.
+*   `--package-version="1.0"`: Sets the version of your project.
+*   `--msgid-bugs-address="your.email@example.com"`: Specifies an email address for bug reports related to translations.
+*   `--copyright-holder="Your Name"`: Sets the copyright holder for the translations.
+*   `--keyword=_`: Tells `xgettext` to look for strings marked with the `_()` function. This is the standard for `gettext`.
+*   `--keyword=N_`: Tells `xgettext` to look for strings marked with the `N_()` function. This is useful for strings that are only used as context and not directly displayed.
+*   `-o YourProjectName.pot`: Specifies the output file name for the PO template.
+*   `-L GDScript`: Tells `xgettext` that the source files are written in GDScript.
+*   `-f filelist.txt`: Specifies a file containing a list of all the files in your project that contain translatable strings. You need to create this `filelist.txt` manually.
+
+To create `filelist.txt`, list each of your project's script files, one per line, relative to the project root. For example:
+
+res://scripts/main.gd
+res://scenes/ui/main_menu.gd
+res://scenes/game/player.gd
+
+After running `xgettext`, you will have a `YourProjectName.pot` file in your project directory. This file contains all the translatable strings from your project, ready to be translated into different languages.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to automatically generate a PO template file from project scenes and GDScript files using the Godot editor.
+
+The editor can generate a PO template automatically from specified scene and GDScript files. This POT generation also supports translation contexts and pluralization if used in a script, with the optional second argument of tr() and the tr_n() method.
+
+Open Project > Project Settings > Localization > Template Generation, then use the Add… button to specify the path to your project's scenes and scripts that contain localizable strings.
+
+After adding at least one scene or script, click Generate in the top-right corner, then specify the path to the output file with a pot file extension. This file can be placed anywhere in the project directory, but it's recommended to keep it in a subdirectory such as locale, as each locale will be defined in its own file.
+
+See below for how to add comments for translators or exclude some strings from being added to the PO template for GDScript files.
+
+You can then move over to creating a messages file from a PO template.
+
+Note: Remember to regenerate the PO template after making any changes to localizable strings, or after adding new scenes or scripts. Otherwise, newly added strings will not be localizable and translators won't be able to update translations for outdated strings.
+---CHUNK---
+Document: localization_using_gettext.rst
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: Describes how to manually create a PO template file for localization in Godot.
+The PO template file can be created manually in a text editor and placed anywhere in the project directory, though a dedicated subdirectory is recommended. Create a directory named ``locale`` in your project directory. Inside this directory, save a file named ``messages.pot`` with the following content:
+
+msgid ""
+msgstr ""
+
+msgid "Hello world!"
+msgstr ""
+
+msgid "There is %d apple."
+msgid_plural "There are %d apples."
+msgstr[0] ""
+msgstr[1] ""
+
+msgctxt "Actions"
+msgid "Close"
+msgstr ""
+
+Messages in gettext consist of ``msgid`` and ``msgstr`` pairs. The ``msgid`` is the original string (typically in English), and the ``msgstr`` is where the translated string will be placed. Warning: The ``msgstr`` value in PO template files (``.pot``) must always be empty. Translation is performed in the generated ``.po`` files.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: How to create a French localization file from a PO template using msginit.
+The msginit command is used to turn a PO template into a messages file. For instance, to create a French localization file, use the following command while in the locale directory:
+msginit --no-translator --input=messages.pot --locale=fr
+The command above will create a file named fr.po in the same directory as the PO template. Alternatively, you can do that graphically using Poedit, or by uploading the POT file to your web platform of choice.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to load a messages file into Godot's project settings for localization.
+To register a messages file as a translation in a project, open the Project Settings, then go to Localization > Translations, click Add…, then choose the .po or .mo file in the file dialog. The locale will be inferred from the "Language: <code>\n" property in the messages file. Note: See Internationalizing games for more information on importing and testing translations in Godot.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to update PO message files using the msgmerge tool after modifying the PO template.
+Updating message files to follow the PO template
+After updating the PO template, you will have to update message files so that they contain new strings, while removing strings that are no longer present in the PO template. This can be done automatically using the msgmerge tool:
+
+GDScript:
+msgmerge --update --backup=none fr.po messages.pot
+
+If you want to keep a backup of the original message file (which would be saved as fr.po~ in this example), remove the --backup=none argument.
+Note: After running msgmerge, strings which were modified in the source language will have a "fuzzy" comment added before them in the .po file. This comment denotes that the translation should be updated to match the new source string, as the translation will most likely be inaccurate until it's updated. Strings with "fuzzy" comments will not be read by Godot until the translation is updated and the "fuzzy" comment is removed.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to check the validity of a PO file using the gettext command-line tool.
+
+Checking the validity of a PO file or template
+It is possible to check whether a gettext file's syntax is valid.
+
+If you open with Poeditor, it will display the appropriate warnings if there's some syntax errors. You can also verify by running the gettext command below:
+
+GDScript:
+    msgfmt fr.po --check
+
+If there are syntax errors or warnings, they will be displayed in the console. Otherwise, msgfmt won't output anything.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to use binary MO files for localization in Godot, including their generation and decompilation.
+
+Using binary MO files (useful for large projects only)
+For large projects with several thousands of strings to translate or more, it can be worth it to use binary (compiled) MO message files instead of text-based PO files. Binary MO files are smaller and faster to read than the equivalent PO files.
+
+You can generate an MO file with the command below:
+shell:
+msgfmt fr.po --no-hash -o fr.mo
+
+If the PO file is valid, this command will create an fr.mo file besides the PO file. This MO file can then be loaded in Godot as described above.
+
+The original PO file should be kept in version control so you can update your translation in the future. In case you lose the original PO file and wish to decompile an MO file into a text-based PO file, you can do so with:
+shell:
+msgunfmt fr.mo > fr.po
+
+The decompiled file will not include comments or fuzzy strings, as these are never compiled in the MO file in the first place.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section details how the built-in editor plugin extracts localizable strings from GDScript files and how to use comments to control the extraction process.
+The built-in editor plugin recognizes various patterns in GDScript source code to extract localizable strings. These patterns include calls to `tr()`, `tr_n()`, `atr()`, and `atr_n()`. They also cover assignments to properties like `text`, `placeholder_text`, and `tooltip_text`. Additionally, calls to methods such as `add_tab()`, `add_item()`, `set_tab_title()`, and `FileDialog` filters like `"*.png ; PNG Images"` are recognized.
+
+Note: The argument or right operand must be a constant string for the plugin to evaluate and extract it.
+
+To ignore strings that the plugin might extract unnecessarily, use the `NO_TRANSLATE` comment. For providing additional information to translators, use the `TRANSLATORS:` comment. These comments should be placed either on the same line as the recognized pattern or immediately before it.
+
+GDScript:
+$CharacterName.text = "???" # NO_TRANSLATE
+
+# NO_TRANSLATE: Language name.
+$TabContainer.set_tab_title(0, "Python")
+
+item.text = "Tool" # TRANSLATORS: Up to 10 characters.
+
+# TRANSLATORS: This is a reference to Lewis Carroll's poem "Jabberwocky",
+# make sure to keep this as it is important to the plot.
+say(tr("He took his vorpal sword in hand. The end?"))
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to use the context parameter in gettext for differentiating translations of identical strings based on their usage or meaning.
+The `context` parameter can be used to differentiate the situation where a translation is used, or to differentiate polysemic words (words with multiple meanings).
+
+For example:
+
+GDScript:
+    tr("Start", "Main Menu")
+    tr("End", "Main Menu")
+    tr("Shop", "Main Menu")
+    tr("Shop", "In Game")
+
+In a gettext PO file, a string with a context can be defined as follows:
+
+GDScript:
+    # Example of a string with a translation context.
+    msgctxt "Main Menu"
+    msgid "Shop"
+    msgstr ""
+
+    # A different source string that is identical, but with a different context.
+    msgctxt "In Game"
+    msgid "Shop"
+    msgstr ""
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: This section explains how to update PO files with new strings using gettext tools.
+
+Updating PO files
+When new content is added to a game, new strings requiring translation will appear. To handle this, existing PO files must be updated to incorporate these new strings.
+
+The process involves two main steps:
+1. Generate a new POT file that includes all existing strings along with the newly added ones.
+2. Merge the existing PO files with the newly generated POT file.
+
+There are two primary methods for merging:
+
+- Using a gettext editor: Most gettext editors provide an option to update a PO file from a POT file.
+
+- Using the gettext `msgmerge` tool: This command-line utility can merge PO files. The command structure is as follows:
+
+  shell:
+      # The order matters: specify the message file *then* the PO template!
+      msgmerge --update --backup=none fr.po messages.pot
+
+  To create a backup of the original message file before merging (which would be saved as `fr.po~` in this example), omit the `--backup=none` argument.
+---CHUNK---
+Document: Localization using gettext
+Path: godot/tutorials/i18n/localization_using_gettext.rst
+Summary: Describes how to create a custom plugin for generating POT files from custom file formats.
+POT generation custom plugin
+If you have any extra file format to deal with, you could write a custom plugin to parse and and extract the strings from the custom file. This custom plugin will extract the strings and write into the POT file when you hit Generate POT. To learn more about how to create the translation parser plugin, see EditorTranslationParserPlugin.

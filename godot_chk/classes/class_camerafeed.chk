@@ -1,0 +1,169 @@
+Document: CameraFeed
+Path: godot/classes/class_camerafeed.rst
+Summary: Provides access to the camera feed for AR/VR applications.
+
+CameraFeed
+
+Inherits: Resource < RefCounted < Object
+
+Base class for camera feed resources used in AR/VR applications. It provides access to the camera feed for rendering and tracking purposes.
+
+This class is intended to be inherited by specific camera feed implementations, such as those for ARKit or OpenXR. It defines the common interface for accessing camera data and properties.
+
+Properties:
+active (bool): Whether the camera feed is currently active and providing data.
+texture (Texture2D): The texture containing the camera feed image.
+transform (Transform3D): The transform of the camera in the AR/VR world space.
+
+Methods:
+get_active_texture() → Texture2D: Returns the active texture of the camera feed.
+get_camera_transform() → Transform3D: Returns the current transform of the camera.
+get_feed_texture() → Texture2D: Returns the texture containing the camera feed image.
+get_projection_matrix() → Projection: Returns the projection matrix for the camera.
+get_texture_transform() → Transform2D: Returns the transform of the camera feed texture.
+is_active() → bool: Checks if the camera feed is active.
+start() → void: Starts the camera feed.
+stop() → void: Stops the camera feed.
+---CHUNK---
+Document: CameraFeed
+Path: godot/classes/class_camerafeed.rst
+Summary: Provides access to a single physical camera attached to the device.
+
+CameraFeed
+Inherits: RefCounted < Object
+
+A camera feed gives you access to a single physical camera attached to your device.
+---CHUNK---
+Document: CameraFeed
+Path: godot/classes/class_camerafeed.rst
+Summary: Provides access to a physical camera feed on a device, capturing frames for use in Godot.
+A camera feed gives you access to a single physical camera attached to your device. When enabled, Godot will start capturing frames from the camera which can then be used. See also CameraServer.
+
+Note: Many cameras will return YCbCr images which are split into two textures and need to be combined in a shader. Godot does this automatically for you if you set the environment to show the camera image in the background.
+
+Note: This class is currently only implemented on Linux, Android, macOS, and iOS. On other platforms no CameraFeeds will be available. To get a CameraFeed on iOS, the camera plugin from godot-ios-plugins is required.
+---CHUNK---
+Document: CameraFeed
+Path: godot/classes/class_camerafeed.rst
+Summary: Defines the properties of the CameraFeed class, including its active state, transform, and supported formats.
+
+Properties:
+* feed_is_active (bool): Indicates if the camera feed is currently active. Default: false
+* feed_transform (Transform2D): The transformation matrix applied to the camera feed. Default: Transform2D(1, 0, 0, -1, 0, 1)
+* formats (Array): An array listing the supported image formats for the camera feed. Default: []
+---CHUNK---
+Document: CameraFeed
+Path: godot/classes/class_camerafeed.rst
+Summary: This section details the methods available for the CameraFeed class in Godot Engine.
+
+Method: _activate_feed() → bool
+Method: _deactivate_feed() → void
+Method: _get_formats() → Array
+Method: _set_format(index: int, parameters: Dictionary) → bool
+Method: get_datatype() → FeedDataType
+Method: get_id() → int
+Method: get_name() → String
+Method: get_position() → FeedPosition
+Method: get_texture_tex_id(feed_image_type: FeedImage) → int
+Method: set_external(width: int, height: int) → void
+Method: set_format(index: int, parameters: Dictionary) → bool
+Method: set_name(name: String) → void
+Method: set_position(position: FeedPosition) → void
+Method: set_rgb_image(rgb_image: Image) → void
+Method: set_ycbcr_image(ycbcr_image: Image) → void
+Method: set_ycbcr_images(y_image: Image, cbcr_image: Image) → void
+
+Signal: format_changed()
+Emitted when the format has changed.
+
+Signal: frame_changed()
+Emitted when a new frame is available.
+
+Enum FeedDataType:
+FEED_NOIMAGE = 0 (No image set for the feed.)
+FEED_RGB = 1 (Feed supplies RGB images.)
+FEED_YCBCR = 2 (Feed supplies YCbCr images that need to be converted to RGB.)
+FEED_YCBCR_SEP = 3 (Feed supplies separate Y and CbCr images that need to be combined and converted to RGB.)
+FEED_EXTERNAL = 4 (Feed supplies external image.)
+
+Enum FeedPosition:
+FEED_UNSPECIFIED = 0 (Unspecified position.)
+FEED_FRONT = 1 (Camera is mounted at the front of the device.)
+FEED_BACK = 2 (Camera is mounted at the back of the device.)
+---CHUNK---
+Document: CameraFeed
+Path: godot/classes/class_camerafeed.rst
+Summary: Describes the properties of the CameraFeed class, including its active state, transform, and supported formats.
+
+Property Descriptions
+Property: feed_is_active (bool)
+Default: false
+Setter: set_active(value: bool)
+Getter: is_active() → bool
+If true, the feed is active.
+
+Property: feed_transform (Transform2D)
+Default: Transform2D(1, 0, 0, -1, 0, 1)
+Setter: set_transform(value: Transform2D)
+Getter: get_transform() → Transform2D
+The transform applied to the camera's image.
+
+Property: formats (Array)
+Default: []
+Getter: get_formats() → Array
+Formats supported by the feed. Each entry is a Dictionary describing format parameters.
+---CHUNK---
+Document: CameraFeed
+Path: godot/classes/class_camerafeed.rst
+Summary: This section details the methods available for managing and interacting with camera feeds in Godot.
+
+Method: _activate_feed() → bool
+Called when the camera feed is activated.
+
+Method: _deactivate_feed() → void
+Called when the camera feed is deactivated.
+
+Method: _get_formats() → Array
+Override this method to define supported formats of the camera feed.
+
+Method: _set_format(index: int, parameters: Dictionary) → bool
+Override this method to set the format of the camera feed.
+
+Method: get_datatype() → FeedDataType
+Returns feed image data type.
+
+Method: get_id() → int
+Returns the unique ID for this feed.
+
+Method: get_name() → String
+Returns the camera's name.
+
+Method: get_position() → FeedPosition
+Returns the position of camera on the device.
+
+Method: get_texture_tex_id(feed_image_type: FeedImage) → int
+Returns the texture backend ID (usable by some external libraries that need a handle to a texture to write data).
+
+Method: set_external(width: int, height: int) → void
+Sets the feed as external feed provided by another library.
+
+Method: set_format(index: int, parameters: Dictionary) → bool
+Sets the feed format parameters for the given index in the formats array. Returns true on success. By default, the YUYV encoded stream is transformed to FEED_RGB. The YUYV encoded stream output format can be changed by setting parameters's output entry to one of the following:
+- "separate" will result in FEED_YCBCR_SEP;
+- "grayscale" will result in desaturated FEED_RGB;
+- "copy" will result in FEED_YCBCR.
+
+Method: set_name(name: String) → void
+Sets the camera's name.
+
+Method: set_position(position: FeedPosition) → void
+Sets the position of this camera.
+
+Method: set_rgb_image(rgb_image: Image) → void
+Sets RGB image for this feed.
+
+Method: set_ycbcr_image(ycbcr_image: Image) → void
+Sets YCbCr image for this feed.
+
+Method: set_ycbcr_images(y_image: Image, cbcr_image: Image) → void
+Sets Y and CbCr images for this feed.

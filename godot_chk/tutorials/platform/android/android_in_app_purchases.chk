@@ -1,0 +1,395 @@
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This document explains how to implement in-app purchases for Android applications using Godot.
+
+This tutorial covers how to integrate in-app purchases (IAPs) into your Godot project for Android.
+
+**Prerequisites:**
+
+*   A Godot project exported for Android.
+*   A Google Play Developer account.
+*   An application registered on the Google Play Console with IAPs configured.
+
+**Setting up the Plugin:**
+
+1.  **Download the Plugin:** Obtain the official Godot Android In-App Billing plugin. You can usually find this on the Godot Asset Library or the plugin's GitHub repository.
+2.  **Add to Project:** Place the plugin's folder into your Godot project's `addons` directory.
+3.  **Enable Plugin:** Go to `Project` -> `Project Settings` -> `Plugins` tab. Find the Android In-App Billing plugin and enable it.
+
+**Initializing the Plugin:**
+
+Before you can make any purchase requests, you need to initialize the plugin. This is typically done when your game starts or when the player reaches a screen where purchases are available.
+
+GDScript:
+```gdscript
+var iap = null
+
+func _ready():
+    if OS.has_feature("android"):
+        iap = get_node("IAP") # Assuming you have an IAP node in your scene
+        iap.connect("purchase_completed", self, "_on_purchase_completed")
+        iap.connect("purchase_failed", self, "_on_purchase_failed")
+        iap.initialize()
+    else:
+        print("In-app purchases are only available on Android.")
+```
+
+**Fetching Product Details:**
+
+To display items for purchase, you need to fetch their details (like title, description, and price) from the Google Play Store.
+
+GDScript:
+```gdscript
+func _on_iap_initialized():
+    var product_ids = ["consumable_item_1", "non_consumable_item_1"]
+    iap.fetch_products(product_ids)
+
+func _on_products_fetched(products):
+    for product in products:
+        print("Product: ", product.name, " - Price: ", product.price)
+        # Update your UI with product details
+```
+
+**Making a Purchase:**
+
+When the player decides to buy an item, you initiate the purchase flow.
+
+GDScript:
+```gdscript
+func _on_buy_button_pressed(product_id):
+    iap.purchase(product_id)
+```
+
+**Handling Purchase Results:**
+
+You need to handle the outcomes of the purchase process, whether it's successful or failed.
+
+GDScript:
+```gdscript
+func _on_purchase_completed(receipt):
+    print("Purchase successful! Receipt: ", receipt)
+    # Grant the item to the player
+    # If it's a consumable, consume it after granting
+    # iap.consume_item(receipt.product_id)
+
+func _on_purchase_failed(error_code, error_message):
+    print("Purchase failed: ", error_message, " (Code: ", error_code, ")")
+    # Show an error message to the player
+```
+
+**Consuming Consumable Items:**
+
+Consumable items (like in-game currency) should be consumed after the player has received them to allow them to be purchased again.
+
+GDScript:
+```gdscript
+func _on_purchase_completed(receipt):
+    print("Purchase successful! Receipt: ", receipt)
+    # Grant the item to the player
+    if is_consumable(receipt.product_id): # You need to define this logic
+        iap.consume_item(receipt.product_id)
+
+func _on_item_consumed(product_id):
+    print("Item consumed: ", product_id)
+```
+
+**Restoring Purchases:**
+
+For non-consumable items and subscriptions, players should be able to restore their previous purchases.
+
+GDScript:
+```gdscript
+func _on_restore_button_pressed():
+    iap.restore_purchases()
+
+func _on_restore_completed(purchases):
+    print("Purchases restored: ", purchases)
+    # Grant restored items to the player
+```
+
+**Important Considerations:**
+
+*   **Testing:** Use Google Play's testing tools (license testers, static responses) to thoroughly test your IAP implementation without incurring real charges.
+*   **Security:** Never rely solely on the client-side for validating purchases. For critical items, consider server-side validation.
+*   **Error Handling:** Implement robust error handling for all stages of the IAP process.
+*   **UI/UX:** Provide clear feedback to the user throughout the purchase process.
+
+This setup provides a basic framework for integrating in-app purchases. Refer to the specific plugin's documentation for detailed API information and advanced features.
+---CHUNK---
+Document: Android in-app purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This section introduces the GodotGooglePlayBilling Android plugin for handling in-app purchases in Godot 4.2+.
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This section covers the usage of the Android in-app purchases API in Godot.
+
+Usage
+The Android in-app purchases API allows you to sell digital goods and subscriptions within your Android game. To use this API, you need to set up the necessary configurations in your Google Play Console and in your Godot project.
+
+First, ensure you have added the necessary Godot plugins for in-app purchases. These are typically found in the Asset Library or can be compiled from source. Once installed, you'll need to configure them with your Google Play Store license key and other relevant details.
+
+The core functionality is accessed through the `PurchaseManager` class. You'll typically interact with this manager to:
+
+1.  **Initialize the service**: Before making any purchase requests, you must initialize the purchase service. This usually involves calling an `initialize()` method on the `PurchaseManager`.
+2.  **Fetch available products**: Retrieve a list of products that can be purchased from your Google Play Console. This allows your game to display the items available for sale.
+3.  **Initiate a purchase**: When a user decides to buy an item, you'll call a method to start the purchase flow. This will typically open the Google Play Store's purchase dialog.
+4.  **Handle purchase results**: After the user completes or cancels the purchase, the `PurchaseManager` will emit signals or provide callbacks indicating the success or failure of the transaction. You must handle these to grant the purchased item to the user or inform them of any issues.
+5.  **Consume purchases**: For consumable items (like in-game currency), you need to "consume" them after the user has received the item. This marks the item as used and allows the user to purchase it again. Non-consumable items (like unlocking a level) do not need to be consumed.
+6.  **Restore purchases**: Users may want to restore purchases they've made on a previous device or after reinstalling the app. The API provides methods to check for and restore these past purchases.
+
+Example GDScript usage might look like this:
+
+GDScript:
+```gdscript
+extends Node
+
+var purchase_manager = null
+
+func _ready():
+    purchase_manager = get_node("PurchaseManager") # Assuming PurchaseManager is a child node
+    purchase_manager.connect("purchase_succeeded", self, "_on_purchase_succeeded")
+    purchase_manager.connect("purchase_failed", self, "_on_purchase_failed")
+    purchase_manager.initialize()
+
+func _on_purchase_succeeded(product_id):
+    print("Purchase succeeded for product: ", product_id)
+    # Grant item to user here
+    if is_consumable(product_id):
+        purchase_manager.consume_purchase(product_id)
+
+func _on_purchase_failed(error_code, error_message):
+    print("Purchase failed: ", error_code, " - ", error_message)
+    # Inform user of failure
+
+func buy_item(product_id):
+    purchase_manager.initiate_purchase(product_id)
+```
+
+Remember to consult the specific documentation for the in-app purchase plugin you are using, as method names and signal parameters may vary. Proper error handling and user feedback are crucial for a good user experience.
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This section provides initial setup steps for implementing Android in-app purchases in Godot.
+Make sure you have enabled and successfully set up Android Gradle Builds.
+Follow the installation instructions on the GodotGooglePlayBilling github page.
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This section explains how to initialize the GodotGooglePlayBilling API by connecting to its signals and starting the connection.
+
+To use the GodotGooglePlayBilling API, you need to:
+1. Access the BillingClient.
+2. Connect to its signals to receive billing results.
+3. Call start_connection.
+
+Initialization example:
+
+GDScript:
+    var billing_client: BillingClient
+    func _ready():
+        billing_client = BillingClient.new()
+        billing_client.connected.connect(_on_connected) # No params
+        billing_client.disconnected.connect(_on_disconnected) # No params
+        billing_client.connect_error.connect(_on_connect_error) # response_code: int, debug_message: String
+        billing_client.query_product_details_response.connect(_on_query_product_details_response) # response: Dictionary
+        billing_client.query_purchases_response.connect(_on_query_purchases_response) # response: Dictionary
+        billing_client.on_purchase_updated.connect(_on_purchase_updated) # response: Dictionary
+        billing_client.consume_purchase_response.connect(_on_consume_purchase_response) # response: Dictionary
+        billing_client.acknowledge_purchase_response.connect(_on_acknowledge_purchase_response) # response: Dictionary
+
+        billing_client.start_connection()
+
+The API must be in a connected state prior to use. The connected signal is sent when the connection process succeeds. You can also use is_ready() to determine if the plugin is ready for use. The get_connection_state() function returns the current connection state of the plugin.
+
+Return values for get_connection_state():
+
+Enum ConnectionState:
+	DISCONNECTED: This client was not yet connected to billing service or was already closed.
+	CONNECTING: This client is currently in process of connecting to billing service.
+	CONNECTED: This client is currently connected to billing service.
+	CLOSED: This client was already closed and shouldn't be used again.
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This section explains how to query available in-app purchase products using the `query_product_details()` method.
+
+Once the API has connected, query product IDs using `query_product_details()`. You must successfully complete a product details query before calling the `purchase()`, `purchase_subscription()`, or `update_subscription()` functions, or they will return an error. `query_product_details()` takes two parameters: an array of product ID strings and the type of product being queried. The product type should be `BillingClient.ProductType.INAPP` for normal in-app purchases or `BillingClient.ProductType.SUBS` for subscriptions. The ID strings in the array should match the product IDs defined in the Google Play Console entry for your app.
+
+GDScript:
+func _on_connected():
+  billing_client.query_product_details(["my_iap_item"], BillingClient.ProductType.INAPP) # BillingClient.ProductType.SUBS for subscriptions.
+
+func _on_query_product_details_response(query_result: Dictionary):
+    if query_result.response_code == BillingClient.BillingResponseCode.OK:
+        print("Product details query success")
+        for available_product in query_result.product_details:
+            print(available_product)
+    else:
+        print("Product details query failed")
+        print("response_code: ", query_result.response_code, "debug_message: ", query_result.debug_message)
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This section explains how to query a user's existing in-app purchases and subscriptions using the BillingClient.
+
+To retrieve a user's purchases, call the `query_purchases()` function, passing a product type to query. The product type should be `BillingClient.ProductType.INAPP` for normal in-app purchases or `BillingClient.ProductType.SUBS` for subscriptions. The `query_purchases_response` signal is sent with the result. The signal has a single parameter: a Dictionary with a response code and either an array of purchases or a debug message. Only active subscriptions and non-consumed one-time purchases are included in the purchase array.
+
+Example use of `query_purchases()`:
+
+GDScript:
+    func _query_purchases():
+        billing_client.query_purchases(BillingClient.ProductType.INAPP) # Or BillingClient.ProductType.SUBS for subscriptions.
+
+    func _on_query_purchases_response(query_result: Dictionary):
+        if query_result.response_code == BillingClient.BillingResponseCode.OK:
+            print("Purchase query success")
+            for purchase in query_result.purchases:
+                _process_purchase(purchase)
+        else:
+            print("Purchase query failed")
+            print("response_code: ", query_result.response_code, "debug_message: ", query_result.debug_message)
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: This section explains how to initiate the purchase flow for in-app items and subscriptions in Godot for Android.
+
+To purchase an item, use the `purchase()` method for in-app products or `purchase_subscription()` for subscriptions. Both methods require the product ID. `purchase_subscription()` also accepts a base plan ID and an optional offer ID. You can optionally pass a boolean to indicate if offers are personalized.
+
+Key Rule: You must query product details before initiating a purchase.
+
+The `purchase()` and `purchase_subscription()` methods return a dictionary indicating the success of launching the billing flow. This dictionary contains a response code and either an array of purchases or a debug message.
+
+GDScript:
+    var result = billing_client.purchase("my_iap_item")
+    if result.response_code == BillingClient.BillingResponseCode.OK:
+        print("Billing flow launch success")
+    else:
+        print("Billing flow launch failed")
+        print("response_code: ", result.response_code, "debug_message: ", result.debug_message)
+
+Purchase results are communicated via the `on_purchases_updated` signal.
+
+GDScript:
+    func _on_purchases_updated(result: Dictionary):
+        if result.response_code == BillingClient.BillingResponseCode.OK:
+            print("Purchase update received")
+            for purchase in result.purchases:
+                _process_purchase(purchase)
+        else:
+            print("Purchase update error")
+            print("response_code: ", result.response_code, "debug_message: ", result.debug_message)
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: Describes the structure of purchase data returned by the Android in-app purchase system.
+
+The `query_purchases_response` and `on_purchases_updated` signals provide an array of purchases in Dictionary format. The purchase Dictionary includes keys that map to values of the Google Play Billing Purchase class.
+
+Purchase fields:
+* order_id (String): The unique identifier for the purchase.
+* purchase_token (String): A token that uniquely identifies a purchase.
+* package_name (String): The package name of the application that made the purchase.
+* purchase_state (int): The state of the purchase.
+* purchase_time (int): The time the purchase was made, in milliseconds since the epoch (January 1, 1970).
+* original_json (String): The original JSON string returned by the Google Play Billing API.
+* is_acknowledged (bool): Indicates whether the purchase has been acknowledged by the application.
+* is_auto_renewing (bool): Indicates whether the purchase is set to auto-renew.
+* quantity (int): The number of items purchased.
+* signature (String): The signature of the purchase data, used for verification.
+* product_ids (PackedStringArray): An array of product identifiers included in the purchase.
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: Explains how to check the purchase state of an in-app purchase in Godot for Android.
+Check the purchase_state value of a purchase to determine if a purchase was completed or is still pending.
+
+Enum PurchaseState:
+UNSPECIFIED
+PURCHASED
+PENDING
+
+If a purchase is in a PENDING state, you should not award the contents of the purchase or do any further processing of the purchase until it reaches the PURCHASED state. If you have a store interface, you may wish to display information about pending purchases needing to be completed in the Google Play Store.
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: Explains how to handle consumable in-app purchases in Godot for Android.
+Consumable in-app items, such as virtual currency, can be purchased multiple times. To allow a user to repurchase a consumable item, you must call the `consume_purchase()` method. This method takes the `purchase_token` from the purchase dictionary as an argument. Calling `consume_purchase()` also automatically acknowledges the purchase. Once consumed, the item will not appear in subsequent `query_purchases()` calls until it is repurchased.
+
+GDScript:
+    func _process_purchase(purchase):
+        if "my_consumable_iap_item" in purchase.product_ids and purchase.purchase_state == BillingClient.PurchaseState.PURCHASED:
+            # Add code to store payment so we can reconcile the purchase token
+            # in the completion callback against the original purchase
+            billing_client.consume_purchase(purchase.purchase_token)
+
+    func _on_consume_purchase_response(result: Dictionary):
+        if result.response_code == BillingClient.BillingResponseCode.OK:
+            print("Consume purchase success")
+            _handle_purchase_token(result.token, true)
+        else:
+            print("Consume purchase failed")
+            print("response_code: ", result.response_code, "debug_message: ", result.debug_message, "purchase_token: ", result.token)
+
+    # Find the product associated with the purchase token and award the
+    # product if successful
+    func _handle_purchase_token(purchase_token, purchase_successful):
+        # check/award logic, remove purchase from tracking list
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: Explains how to acknowledge one-time in-app purchases in Godot for Android to prevent automatic refunds.
+
+Acknowledging purchases is crucial for one-time in-app items. You must call the `acknowledge_purchase()` function with the `purchase_token` from the purchase dictionary. Failure to acknowledge a purchase within three days results in an automatic refund and revocation of the purchase by Google Play. If `consume_purchase()` is used, it automatically acknowledges the purchase, making a separate call to `acknowledge_purchase()` unnecessary.
+
+GDScript:
+    func _process_purchase(purchase):
+        if "my_one_time_iap_item" in purchase.product_ids and \
+                purchase.purchase_state == BillingClient.PurchaseState.PURCHASED and \
+                not purchase.is_acknowledged:
+            # Add code to store payment so we can reconcile the purchase token
+            # in the completion callback against the original purchase
+            billing_client.acknowledge_purchase(purchase.purchase_token)
+
+    func _on_acknowledge_purchase_response(result: Dictionary):
+        if result.response_code == BillingClient.BillingResponseCode.OK:
+            print("Acknowledge purchase success")
+            _handle_purchase_token(result.token, true)
+        else:
+            print("Acknowledge purchase failed")
+            print("response_code: ", result.response_code, "debug_message: ", result.debug_message, "purchase_token: ", result.token)
+
+    # Find the product associated with the purchase token and award the
+    # product if successful
+    func _handle_purchase_token(purchase_token, purchase_successful):
+        # check/award logic, remove purchase from tracking list
+---CHUNK---
+Document: Android In-App Purchases
+Path: godot/tutorials/platform/android/android_in_app_purchases.rst
+Summary: Guide to managing Android subscription purchases, including querying, acknowledging, and handling upgrades or downgrades.
+
+Subscriptions function similarly to regular in-app items. Use BillingClient.ProductType.SUBS as the second argument to query_product_details() to retrieve subscription details. Similarly, pass BillingClient.ProductType.SUBS to query_purchases() to retrieve subscription purchase details.
+
+You can check the is_auto_renewing property in a subscription purchase returned from query_purchases() to determine if a user has cancelled an auto-renewing subscription. You must acknowledge new subscription purchases, but you do not need to acknowledge automatic subscription renewals.
+
+If you support upgrading or downgrading between different subscription levels, use update_subscription() to trigger the subscription update flow. Like the purchase() method, results are returned by the on_purchases_updated signal.
+
+Parameters for update_subscription():
+- old_purchase_token (String): The purchase token of the currently active subscription.
+- replacement_mode (ReplacementMode): The replacement mode to apply to the subscription.
+- product_id (String): The product ID of the new subscription to switch to.
+- base_plan_id (String): The base plan ID of the target subscription.
+- offer_id (String, optional): The offer ID under the base plan.
+- is_offer_personalized (bool, optional): Whether to enable personalized pricing.
+
+ReplacementMode enum values:
+- UNKNOWN_REPLACEMENT_MODE (0): Unknown.
+- WITH_TIME_PRORATION (1): The new plan takes effect immediately, and the remaining time will be prorated and credited to the user. Note: This is the default behavior.
+- CHARGE_PRORATED_PRICE (2): The new plan takes effect immediately, and the billing cycle remains the same.
+- WITHOUT_PRORATION (3): The new plan takes effect immediately, and the new price will be charged on the next recurrence time.
+- CHARGE_FULL_PRICE (5): Replacement takes effect immediately, the user is charged the full price of the new plan, and is given a full billing cycle plus remaining prorated time from the old plan.
+- DEFERRED (6): The new purchase takes effect immediately, but the new plan will take effect when the old item expires.
+
+GDScript:
+    billing_client.update_subscription(_active_subscription_purchase.purchase_token, \
+                        BillingClient.ReplacementMode.WITH_TIME_PRORATION, "new_sub_product_id", "base_plan_id")

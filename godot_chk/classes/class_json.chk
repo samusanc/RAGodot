@@ -1,0 +1,188 @@
+Document: JSON
+Path: godot/classes/class_json.rst
+Summary: Provides methods for encoding and decoding JSON data.
+
+Inherits: Object
+
+JSON is a data interchange format that uses human-readable text to transmit data objects consisting of attribute-value pairs and array data types. Godot provides a JSON class to encode and decode JSON data.
+
+Methods:
+Method: parse(json_string: String) → Variant
+Parses a JSON string and returns the resulting Variant. Returns null if parsing fails.
+
+Method: stringify(value: Variant, pretty_print: bool = false) → String
+Converts a Variant to a JSON string. If pretty_print is true, the output will be formatted with indentation and line breaks.
+---CHUNK---
+Document: JSON
+Path: godot/classes/class_json.rst
+Summary: Helper class for creating and parsing JSON data.
+---CHUNK---
+Document: JSON
+Path: godot/classes/class_json.rst
+Summary: Provides methods for converting Godot data types to and from JSON strings.
+Inherits: Object
+
+The JSON class enables all data types to be converted to and from a JSON string, useful for serializing data for saving or network transmission.
+
+Method: stringify(value: Variant) → String
+Converts any data type into a JSON string.
+
+Method: parse(json_string: String) → int
+Converts an existing JSON string into a Variant. Returns OK on success, or an error code on failure. Use get_error_message() and get_error_line() to retrieve details about the error.
+
+Property: data (Variant)
+The parsed Variant data. Available after a successful parse() call.
+
+Method: parse_string(json_string: String) → Variant
+A static method to parse JSON strings. Returns the parsed Variant or null if parsing fails. This method does not handle errors.
+
+Note: Both parse methods have some deviations from the strict JSON specification:
+- Trailing commas in arrays or objects are ignored.
+- Newline and tab characters within string literals are accepted and treated as escape sequences (\n, \t).
+- Numbers are parsed using String.to_float(), which is more lenient than the JSON standard.
+- Some errors, like invalid Unicode sequences, do not cause a parser error but result in string cleanup and a console log.
+
+GDScript:
+    var data_to_send = ["a", "b", "c"]
+    var json_string = JSON.stringify(data_to_send)
+    # Save data
+    # ...
+    # Retrieve data
+    var json = JSON.new()
+    var error = json.parse(json_string)
+    if error == OK:
+        var data_received = json.data
+        if typeof(data_received) == TYPE_ARRAY:
+            print(data_received) # Prints the array.
+        else:
+            print("Unexpected data")
+    else:
+        print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+
+GDScript:
+    var data = JSON.parse_string(json_string) # Returns null if parsing failed.
+---CHUNK---
+Document: JSON
+Path: godot/classes/class_json.rst
+Summary: Defines properties and member variables for the JSON class.
+
+Properties
+* data (Variant): The JSON data. Default: null.
+---CHUNK---
+Document: JSON
+Path: godot/classes/class_json.rst
+Summary: Provides methods for parsing and stringifying JSON data in Godot.
+
+Method: from_native(variant: Variant, full_objects: bool = false) → Variant |static|
+Converts a Godot Variant into a JSON string representation.
+
+Method: get_error_line() → int |const|
+Returns the line number where the last parsing error occurred.
+
+Method: get_error_message() → String |const|
+Returns the error message from the last parsing operation.
+
+Method: get_parsed_text() → String |const|
+Returns the original JSON text that was parsed.
+
+Method: parse(json_text: String, keep_text: bool = false) → Error
+Parses a JSON string into a Godot Variant. Returns an Error code indicating success or failure.
+
+Method: parse_string(json_string: String) → Variant |static|
+Parses a JSON string and returns the resulting Variant.
+
+Method: stringify(data: Variant, indent: String = "", sort_keys: bool = true, full_precision: bool = false) → String |static|
+Converts a Godot Variant into a JSON string.
+
+Method: to_native(json: Variant, allow_objects: bool = false) → Variant |static|
+Converts a JSON string (represented as a Variant) into a Godot Variant.
+---CHUNK---
+Document: JSON
+Path: godot/classes/class_json.rst
+Summary: Describes the 'data' property of the JSON class, which holds the parsed JSON data as a Variant.
+
+Property Descriptions
+
+:Variant: **data** = null
+    Contains the parsed JSON data in Variant form.
+    Method: set_data(value: Variant)
+    Method: get_data() → Variant
+---CHUNK---
+Document: JSON
+Path: godot/classes/class_json.rst
+Summary: Provides methods for parsing and stringifying JSON data, including handling native engine types and error reporting.
+
+Method: from_native(variant: Variant, full_objects: bool = false) → Variant |static|
+Converts a native engine type to a JSON-compliant value.
+By default, objects are ignored for security reasons, unless full_objects is true.
+GDScript:
+    func encode_data(value, full_objects = false):
+        return JSON.stringify(JSON.from_native(value, full_objects))
+
+Method: get_error_line() → int |const|
+Returns 0 if the last call to parse was successful, or the line number where the parse failed.
+
+Method: get_error_message() → String |const|
+Returns an empty string if the last call to parse was successful, or the error message if it failed.
+
+Method: get_parsed_text() → String |const|
+Return the text parsed by parse (requires passing keep_text to parse).
+
+Method: parse(json_text: String, keep_text: bool = false) → Error
+Attempts to parse the json_text provided.
+Returns an Error. If the parse was successful, it returns @GlobalScope.OK and the result can be retrieved using data. If unsuccessful, use get_error_line and get_error_message to identify the source of the failure.
+Non-static variant of parse_string, if you want custom error handling.
+The optional keep_text argument instructs the parser to keep a copy of the original text. This text can be obtained later by using the get_parsed_text function and is used when saving the resource (instead of generating new text from data).
+
+Method: parse_string(json_string: String) → Variant |static|
+Attempts to parse the json_string provided and returns the parsed data. Returns null if parse failed.
+
+Method: stringify(data: Variant, indent: String = "", sort_keys: bool = true, full_precision: bool = false) → String |static|
+Converts a Variant var to JSON text and returns the result. Useful for serializing data to store or send over the network.
+Note: The JSON specification does not define integer or float types, but only a number type. Therefore, converting a Variant to JSON text will convert all numerical values to float types.
+Note: If full_precision is true, when stringifying floats, the unreliable digits are stringified in addition to the reliable digits to guarantee exact decoding.
+The indent parameter controls if and how something is indented; its contents will be used where there should be an indent in the output. Even spaces like "   " will work. \t and \n can also be used for a tab indent, or to make a newline for each indent respectively.
+Warning: Non-finite numbers are not supported in JSON. Any occurrences of @GDScript.INF will be replaced with 1e99999, and negative @GDScript.INF will be replaced with -1e99999, but they will be interpreted correctly as infinity by most JSON parsers. @GDScript.NAN will be replaced with null, and it will not be interpreted as NaN in JSON parsers. If you expect non-finite numbers, consider passing your data through from_native first.
+Example output:
+GDScript:
+    ## JSON.stringify(my_dictionary)
+    {"name":"my_dictionary","version":"1.0.0","entities":[{"name":"entity_0","value":"value_0"},{"name":"entity_1","value":"value_1"}]}
+
+    ## JSON.stringify(my_dictionary, "\t")
+    {
+        "name": "my_dictionary",
+        "version": "1.0.0",
+        "entities": [
+            {
+                "name": "entity_0",
+                "value": "value_0"
+            },
+            {
+                "name": "entity_1",
+                "value": "value_1"
+            }
+        ]
+    }
+
+    ## JSON.stringify(my_dictionary, "...")
+    {
+    ..."name": "my_dictionary",
+    ..."version": "1.0.0",
+    ..."entities": [
+    ......{
+    ........."name": "entity_0",
+    ........."value": "value_0"
+    ......},
+    ......{
+    ........."name": "entity_1",
+    ........."value": "value_1"
+    ......}
+    ...]
+    }
+
+Method: to_native(json: Variant, allow_objects: bool = false) → Variant |static|
+Converts a JSON-compliant value that was created with from_native back to native engine types.
+By default, objects are ignored for security reasons, unless allow_objects is true.
+GDScript:
+    func decode_data(string, allow_objects = false):
+        return JSON.to_native(JSON.parse_string(string), allow_objects)

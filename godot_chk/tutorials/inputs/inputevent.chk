@@ -1,0 +1,284 @@
+Document: InputEvent
+Path: godot/tutorials/inputs/inputevent.rst
+Summary: This document explains the InputEvent class in Godot, which represents input actions like mouse clicks, key presses, and joystick movements.
+
+Inherits: Resource
+
+The InputEvent class is the base class for all input events in Godot. It represents input actions such as mouse clicks, key presses, joystick movements, and more. All specific input events, like InputEventMouseMotion, InputEventKey, or InputEventJoypadButton, inherit from this base class.
+
+Key Properties:
+
+*   `device` (int): The ID of the device that generated the event. This is useful when dealing with multiple input devices.
+*   `is_echo()` (bool): Returns true if the event is an echo event. Echo events are generated when a key is held down for a certain period, causing the key press event to repeat.
+*   `is_pressed()` (bool): Returns true if the event represents a press action (e.g., key down, mouse button down).
+*   `is_released()` (bool): Returns true if the event represents a release action (e.g., key up, mouse button up).
+*   `is_action()` (bool): Returns true if the event matches the specified input action name. This is a convenient way to check if an event corresponds to a predefined action in the Input Map.
+*   `is_action_pressed()` (bool): Returns true if the event matches the specified input action name and represents a press action.
+*   `is_action_released()` (bool): Returns true if the event matches the specified input action name and represents a release action.
+
+Methods:
+
+*   `InputEvent()`: Constructor for the InputEvent class.
+*   `as_text()`: Returns a human-readable string representation of the input event.
+*   `get_device()`: Returns the device ID.
+*   `is_echo()`: Returns true if the event is an echo.
+*   `is_pressed()`: Returns true if the event is a press.
+*   `is_released()`: Returns true if the event is a release.
+*   `is_action()`: Checks if the event matches an action.
+*   `is_action_pressed()`: Checks if the event matches an action and is pressed.
+*   `is_action_released()`: Checks if the event matches an action and is released.
+*   `set_device(device: int)`: Sets the device ID.
+
+Input events are typically handled in the `_input(event)` virtual method of a Node. This method is called whenever an input event occurs.
+
+GDScript:
+func _input(event):
+    if event.is_action_pressed("ui_accept"):
+        print("Accept action was pressed!")
+    if event.is_action_released("ui_cancel"):
+        print("Cancel action was released!")
+    if event is InputEventMouseMotion:
+        print("Mouse moved to: ", event.position)
+    if event is InputEventKey and event.pressed and not event.echo:
+        print("Key pressed: ", OS.get_keycode_string(event.keycode))
+
+C#:
+public override void _Input(InputEvent @event)
+{
+    if (@event.IsActionPressed("ui_accept"))
+    {
+        GD.Print("Accept action was pressed!");
+    }
+    if (@event.IsActionReleased("ui_cancel"))
+    {
+        GD.Print("Cancel action was released!");
+    }
+    if (@event is InputEventMouseMotion mouseMotion)
+    {
+        GD.Print("Mouse moved to: ", mouseMotion.Position);
+    }
+    if (@event is InputEventKey keyEvent && keyEvent.Pressed && !keyEvent.Echo)
+    {
+        GD.Print("Key pressed: ", OS.GetKeycodeString(keyEvent.Keycode));
+    }
+}
+---CHUNK---
+Document: Using InputEvent
+Path: godot/tutorials/inputs/inputevent.rst
+Summary: This document explains the InputEvent class and its common properties.
+
+The InputEvent class is the base class for all input events in Godot. It provides common properties that are shared by all input events, such as the event's device ID and whether it was handled.
+
+Properties:
+device (int): The ID of the device that generated the event.
+event (InputEvent): The event itself.
+
+Common InputEvent Properties:
+All input events inherit from InputEvent and share the following properties:
+
+device (int): The ID of the device that generated the event. For example, mouse events have a device ID of 0, while gamepad events have device IDs starting from 1.
+event (InputEvent): The event itself. This property is not directly accessible in GDScript.
+
+InputEvent subclasses:
+InputEventMouse
+InputEventMouseButton
+InputEventMouseMotion
+InputEventKey
+InputEventJoypadButton
+InputEventJoypadMotion
+InputEventScreenTouch
+InputEventAction
+
+InputEventMouse
+Inherits: InputEvent
+Summary: Represents mouse events.
+
+Properties:
+global_position (Vector2): The global position of the mouse cursor.
+position (Vector2): The position of the mouse cursor relative to the viewport.
+relative (Vector2): The change in mouse position since the last event.
+button_mask (int): A bitmask representing the pressed mouse buttons.
+
+InputEventMouseButton
+Inherits: InputEventMouse
+Summary: Represents mouse button events.
+
+Properties:
+button_index (int): The index of the mouse button that was pressed or released.
+pressed (bool): True if the button was pressed, false if it was released.
+doubleclick (bool): True if the event is a double-click.
+
+InputEventMouseMotion
+Inherits: InputEventMouse
+Summary: Represents mouse motion events.
+
+Properties:
+relative (Vector2): The change in mouse position since the last event.
+speed (Vector2): The speed of the mouse cursor.
+
+InputEventKey
+Inherits: InputEvent
+Summary: Represents keyboard events.
+
+Properties:
+alt_pressed (bool): True if the Alt key was pressed.
+as_text (String): The key as a string.
+command_pressed (bool): True if the Command key was pressed (macOS).
+ctrl_pressed (bool): True if the Ctrl key was pressed.
+echo (bool): True if the key event is an echo (i.e., the key is being held down).
+event (InputEvent): The event itself.
+key_code (int): The key code of the pressed key.
+meta_pressed (bool): True if the Meta key was pressed (Windows key on Windows, Command key on macOS).
+pressed (bool): True if the key was pressed, false if it was released.
+shift_pressed (bool): True if the Shift key was pressed.
+
+InputEventJoypadButton
+Inherits: InputEvent
+Summary: Represents gamepad button events.
+
+Properties:
+button_index (int): The index of the button that was pressed or released.
+pressed (bool): True if the button was pressed, false if it was released.
+
+InputEventJoypadMotion
+Inherits: InputEvent
+Summary: Represents gamepad motion events.
+
+Properties:
+axis (int): The axis of the gamepad that was moved.
+value (float): The value of the axis, ranging from -1.0 to 1.0.
+
+InputEventScreenTouch
+Inherits: InputEvent
+Summary: Represents touch screen events.
+
+Properties:
+index (int): The index of the touch point.
+position (Vector2): The position of the touch point relative to the viewport.
+pressed (bool): True if the touch point was pressed, false if it was released.
+
+InputEventAction
+Inherits: InputEvent
+Summary: Represents an input action event.
+
+Properties:
+action (StringName): The name of the input action.
+pressed (bool): True if the action was triggered by pressing, false if by releasing.
+event (InputEvent): The event that triggered the action.
+---CHUNK---
+Document: InputEvent
+Path: godot/tutorials/inputs/inputevent.rst
+Summary: Explains the InputEvent class and how to use InputMap for managing input actions in Godot.
+InputEvent is a built-in datatype in Godot used to manage various types of input events, simplifying cross-platform input handling. These events can be received in different parts of the engine based on their purpose.
+
+GDScript:
+func _unhandled_input(event):
+    if event is InputEventKey:
+        if event.pressed and event.keycode == KEY_ESCAPE:
+            get_tree().quit()
+
+C#:
+public override void _UnhandledInput(InputEvent @event)
+{
+    if (@event is InputEventKey eventKey)
+    {
+        if (eventKey.Pressed && eventKey.Keycode == Key.Escape)
+        {
+            GetTree().Quit();
+        }
+    }
+}
+While directly handling InputEventKey is possible, using the InputMap feature is more flexible. InputMap allows defining input actions and assigning multiple input devices (like keyboard keys or gamepad buttons) to a single action. This separation of input configuration from code enables easier modification of key mappings in project settings without code changes, and even runtime remapping.
+
+InputMap can be configured under Project > Project Settings > Input Map. Actions defined in InputMap can then be checked in code.
+
+GDScript:
+func _process(delta):
+    if Input.is_action_pressed("ui_right"):
+        # Move right.
+
+C#:
+public override void _Process(double delta)
+{
+    if (Input.IsActionPressed("ui_right"))
+    {
+        // Move right.
+    }
+}
+---CHUNK---
+Document: InputEvent
+Path: godot/tutorials/inputs/inputevent.rst
+Summary: Explains the flow of input events through the Godot engine, from user interaction to node processing.
+
+Input events originate from user actions and are processed by the DisplayServer, then fed to the root Window. The Window's Viewport then handles these events in a specific order:
+
+1.  **Window Management:** If the Viewport is embedding Windows, it first attempts to interpret events for window management tasks like resizing or moving.
+2.  **Embedded Window Focus:** If an embedded Window has focus, the event is sent to that Window. If no embedded Window is focused, the event is sent to the current viewport's nodes.
+3.  **`_input()` Callback:** The `_input()` function is called on any node that overrides it and has input processing enabled. If a node consumes the event using `Viewport.set_input_as_handled()`, it will not propagate further. This is useful for filtering events before they reach the GUI.
+4.  **GUI Input (`_gui_input()`):** The event is then offered to the GUI. If a Control node can receive it, its `_gui_input()` function is called, and the "gui_input" signal is emitted. Controls can consume events using `Control.accept_event()`. The `Control.mouse_filter` property determines how mouse events are handled and propagated.
+5.  **Shortcut Input (`_shortcut_input()`):** If the event is an `InputEventKey`, `InputEventShortcut`, or `InputEventJoypadButton` and hasn't been handled, the `_shortcut_input()` callback is invoked. Consuming the event here prevents further propagation. This is ideal for shortcut-like inputs.
+6.  **Unhandled Key Input (`_unhandled_key_input()`):** If the event is an `InputEventKey` and still unhandled, the `_unhandled_key_input()` callback is called. Consuming it here stops propagation. This is suitable for general key event handling.
+7.  **Unhandled Input (`_unhandled_input()`):** Finally, if the event remains unhandled, the `_unhandled_input()` callback is called. Consuming it here prevents it from spreading further. This is typically used for full-screen gameplay input that should not be intercepted by the GUI.
+8.  **Object Picking:** If no node has handled the event and object picking is enabled (either in the Viewport or Project Settings), the event is used for physics object picking. For 3D scenes, a ray is cast from the camera; for 2D, a similar process occurs. If an object is hit, its `_input_event()` function is called.
+
+When a Viewport sends events to its child nodes, it does so in a reverse depth-first order, starting from the deepest node and moving towards the root. This order excludes Windows and SubViewports.
+
+Note: The `_gui_input()` callback for GUI mouse events uses a different propagation method based on event location and the `Control.mouse_filter` property. Mouse events travel up the scene tree to direct ancestors of the targeted Control. GUI keyboard and joypad events are handled only by the Control that received them and do not propagate up the tree; otherwise, they are passed to `_unhandled_input()`.
+
+To send events to `SubViewports`, either use a `SubViewportContainer` or implement custom event propagation logic. This system allows specialized nodes to handle specific events, with more general handling available at higher levels of the scene tree.
+---CHUNK---
+Document: InputEvent
+Path: godot/tutorials/inputs/inputevent.rst
+Summary: This section describes the base InputEvent type and its specialized subclasses for various input types.
+
+InputEvent is just a base built-in type, it does not represent anything and only contains some basic information, such as event ID (which is increased for each event), device index, etc.
+
+There are several specialized types of InputEvent, described below:
+- InputEvent: Empty Input Event.
+- InputEventKey: Contains a keycode and Unicode value, as well as modifiers.
+- InputEventMouseButton: Contains click information, such as button, modifiers, etc.
+- InputEventMouseMotion: Contains motion information, such as relative and absolute positions and speed.
+- InputEventJoypadMotion: Contains Joystick/Joypad analog axis information.
+- InputEventJoypadButton: Contains Joystick/Joypad button information.
+- InputEventScreenTouch: Contains multi-touch press/release information. (only available on mobile devices)
+- InputEventScreenDrag: Contains multi-touch drag information. (only available on mobile devices)
+- InputEventMagnifyGesture: Contains a position, a factor as well as modifiers.
+- InputEventPanGesture: Contains a position, a delta as well as modifiers.
+- InputEventMIDI: Contains MIDI-related information.
+- InputEventShortcut: Contains a shortcut.
+- InputEventAction: Contains a generic action. These events are often generated by the programmer as feedback.
+---CHUNK---
+Document: InputEvent
+Path: godot/tutorials/inputs/inputevent.rst
+Summary: Explains input actions in Godot, how they abstract input events, and how to create and use them programmatically.
+Input actions group zero or more InputEvents into a single title, such as "ui_left", which can represent both joypad and keyboard input. They are not strictly required but are useful for abstracting various inputs in game logic, allowing the same code to work across different devices and enabling input reconfiguration or programmatic triggering at runtime.
+
+Actions are created and assigned input events in the Project Settings menu under the **Input Map** tab.
+
+An InputEvent has methods like is_action(), is_pressed(), and is_echo().
+
+To supply an action back to the game from code, for example, to detect gestures, the Input singleton provides the parse_input_event() method.
+
+GDScript:
+    var ev = InputEventAction.new()
+    # Set as ui_left, pressed.
+    ev.action = "ui_left"
+    ev.pressed = true
+    # Feedback.
+    Input.parse_input_event(ev)
+
+C#:
+    var ev = new InputEventAction();
+    // Set as ui_left, pressed.
+    ev.Action = "ui_left";
+    ev.Pressed = true;
+    // Feedback.
+    Input.ParseInputEvent(ev);
+
+See the tutorial on adding input actions in project settings for more information.
+---CHUNK---
+Document: InputEvent
+Path: godot/tutorials/inputs/inputevent.rst
+Summary: Explains how to use the InputMap singleton for runtime input remapping.
+InputMap
+Customizing and re-mapping input from code is often desired. If your whole workflow depends on actions, the InputMap singleton is ideal for reassigning or creating different actions at runtime. This singleton is not saved (must be modified manually) and its state is run from the project settings (project.godot). So any dynamic system of this type needs to store settings in the way the programmer best sees fit.

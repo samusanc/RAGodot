@@ -1,0 +1,436 @@
+Document: GDScript Advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section covers advanced GDScript concepts for writing more efficient code.
+
+GDScript offers many features to write code more efficiently.
+
+.. _doc_gdscript_more_efficiently_performance:
+
+Performance
+-----------
+
+GDScript is an interpreted language, so it's not as fast as compiled languages like C++. However, GDScript is optimized for the Godot engine, and for most use cases, its performance is perfectly adequate.
+
+If you encounter performance issues, here are some common areas to investigate:
+
+*   **Avoid frequent calls to `get_node()`:** Node paths can be slow. Cache node references in variables when possible.
+*   **Use `_process()` and `_physics_process()` sparingly:** These functions are called every frame or physics frame, respectively. Avoid putting heavy computations in them.
+*   **Optimize loops:** Minimize work done inside loops.
+*   **Use built-in functions:** Godot's built-in functions are often implemented in C++ and are highly optimized.
+*   **Consider using `Array` and `Dictionary` efficiently:** Understand their performance characteristics. For example, accessing elements by index in an `Array` is fast, but searching for a value can be slow. Dictionaries offer fast lookups by key.
+*   **Profile your code:** Use Godot's built-in profiler to identify performance bottlenecks.
+
+.. _doc_gdscript_more_efficiently_memory:
+
+Memory Management
+-----------------
+
+GDScript uses automatic memory management (garbage collection). You generally don't need to manually free memory. However, be mindful of creating unnecessary objects or holding references to objects that are no longer needed, as this can lead to increased memory usage.
+
+*   **Avoid circular references:** While GDScript's garbage collector is robust, complex circular references can sometimes cause issues or delays in memory deallocation.
+*   **Clear references when done:** If you have a long-lived object that holds references to many other objects, consider setting those references to `null` when they are no longer needed to allow the garbage collector to reclaim the memory sooner.
+
+.. _doc_gdscript_more_efficiently_idioms:
+
+Idiomatic GDScript
+-----------------
+
+Writing idiomatic GDScript means following common patterns and practices that make your code more readable, maintainable, and often more efficient.
+
+*   **Use meaningful variable and function names:** Clear names make your code easier to understand.
+*   **Keep functions short and focused:** Each function should do one thing well.
+*   **Use signals for communication:** Signals are a powerful and flexible way for nodes to communicate without direct dependencies.
+*   **Leverage built-in types:** Use `Vector2`, `Vector3`, `Color`, `Rect2`, etc., appropriately.
+*   **Understand scope:** Be aware of variable scope (local, member, global).
+*   **Use `const` for constants:** This improves readability and can sometimes allow for optimizations.
+*   **Use `enum` for related constants:** Grouping related constants makes them easier to manage.
+
+Example: Caching node references
+
+GDScript:
+    var my_label: Label
+
+    func _ready():
+        my_label = $Path/To/MyLabel
+
+    func _process(delta):
+        if my_label:
+            my_label.text = "Updated"
+
+Example: Using signals
+
+GDScript:
+    # In NodeA.gd
+    signal value_changed(new_value)
+
+    func _some_function():
+        var current_value = 10
+        emit_signal("value_changed", current_value)
+
+    # In NodeB.gd
+    func _ready():
+        $NodeA.connect("value_changed", self, "_on_value_changed")
+
+    func _on_value_changed(new_value):
+        print("Value changed to: ", new_value)
+
+By following these guidelines, you can write more efficient, readable, and maintainable GDScript code.
+---CHUNK---
+Document: GDScript advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section introduces GDScript as a dynamic language and discusses its implications for scripting in Godot.
+
+GDScript is a dynamic language. This means that variable types are not explicitly declared and can change during runtime. This offers flexibility and can speed up development, especially for smaller projects or prototypes. However, it also means that type errors might only be discovered at runtime, potentially leading to unexpected behavior if not carefully managed.
+
+For example, a variable `my_var` could initially hold an integer, then later be assigned a string.
+
+GDScript:
+```gdscript
+var my_var = 10
+print(typeof(my_var)) # Output: 1 (int)
+my_var = "hello"
+print(typeof(my_var)) # Output: 5 (String)
+```
+
+While GDScript is dynamic, Godot provides tools to help mitigate the risks associated with dynamic typing. The type hints system, for instance, allows developers to optionally specify the expected type of variables, function arguments, and return values. This improves code readability and allows the editor to perform static analysis, catching potential type mismatches before runtime.
+
+GDScript:
+```gdscript
+var score: int = 0
+func add_points(amount: int) -> void:
+    score += amount
+
+add_points(5)
+# add_points("ten") # This would be flagged by the type checker
+```
+
+The dynamic nature of GDScript also influences how functions and methods are called. In a strictly static language, the compiler would verify that a method exists and has the correct signature before execution. In GDScript, this check is deferred until runtime. This allows for more flexible programming patterns, such as duck typing, where the focus is on whether an object can perform a certain action (i.e., has a specific method) rather than its declared type.
+
+Key Rule: Dynamic typing allows for flexibility but requires careful testing to catch runtime type errors. Type hints can be used to improve code safety and readability.
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This tutorial provides a quick reference for efficient GDScript usage, focusing on language-specific features and general concepts for dynamically typed languages.
+---CHUNK---
+Document: GDScript Advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section discusses the dynamic nature of GDScript, including dynamic typing and the use of `Variant` and `Object`.
+
+GDScript is a dynamically typed language. This means that you do not need to declare the type of a variable when you create it. The type is determined at runtime based on the value assigned to the variable.
+
+For example, you can do this:
+
+GDScript:
+var my_variable = 10
+my_variable = "Hello"
+my_variable = Vector2(1, 2)
+
+This flexibility can be very convenient, but it also means that you need to be careful about the types of your variables. If you try to perform an operation on a variable that is not compatible with its current type, you will get a runtime error.
+
+To help with this, GDScript provides the `Variant` type. A `Variant` can hold any type of value. You can also explicitly cast a variable to a `Variant` if you need to.
+
+GDScript:
+var my_variant : Variant = 10
+print(my_variant.get_type()) # Output: int
+my_variant = "Hello"
+print(my_variant.get_type()) # Output: String
+
+In addition to `Variant`, GDScript also has a base class called `Object`. All classes in Godot inherit from `Object`, so all objects in GDScript are also `Object`s. This allows you to use certain methods on any object, such as `get_class()` and `set()`.
+
+GDScript:
+var my_node = get_node("MyNode")
+print(my_node.get_class()) # Output: Node2D (or whatever the node type is)
+my_node.set("position", Vector2(100, 50))
+
+Key Rule: Dynamic typing means variable types are determined at runtime, offering flexibility but requiring careful type management to avoid runtime errors.
+Key Rule: `Variant` can hold any data type, and `Object` is the base class for all Godot objects, enabling common methods like `get_class()` and `set()`.
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: Discusses the pros and cons of GDScript's dynamic typing and its implications for game development in Godot.
+GDScript is a Dynamically Typed language. Its main advantages are:
+- The language is easy to get started with.
+- Most code can be written and changed quickly and without hassle.
+- The code is easy to read (little clutter).
+- No compilation is required to test.
+- Runtime is tiny.
+- It has duck-typing and polymorphism by nature.
+
+The main disadvantages are:
+- Less performance than statically typed languages.
+- More difficult to refactor (symbols can't be traced).
+- Some errors that would typically be detected at compile time in statically typed languages only appear while running the code (because expression parsing is more strict).
+- Less flexibility for code-completion (some variable types are only known at runtime).
+
+This means that Godot used with GDScript is a combination designed to create games quickly and efficiently. For games that are very computationally intensive and can't benefit from the engine built-in tools (such as the Vector types, Physics Engine, Math library, etc), the possibility of using C++ is present too. This allows you to still create most of the game in GDScript and add small bits of C++ in the areas that need a performance boost.
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section explains variable assignment and type flexibility in GDScript compared to statically typed languages.
+Variables & assignment
+All variables in GDScript are dynamically typed, meaning their type is not fixed and can change through assignment.
+
+GDScript:
+    var a # 'null' by default.
+    a = 5 # Valid, 'a' becomes an integer.
+    a = "Hi!" # Valid, 'a' changed to a string.
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section explains how GDScript functions are dynamic and can accept arguments of any type, unlike statically typed languages.
+GDScript:
+    func print_value(value):
+        print(value)
+
+    print_value(55) # Valid.
+    print_value("Hello") # Valid.
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: Explains how GDScript handles references and memory management compared to C++ and Java.
+In GDScript, only base types (int, float, string, and vector types) are passed by value to functions, meaning a copy of the value is made. All other data types, including instances, arrays, and dictionaries, are passed by reference. Classes that inherit from RefCounted (the default behavior) are automatically freed when they are no longer in use. Manual memory management is also possible if a class inherits directly from Object.
+
+GDScript's approach to references is similar to Java, where objects are treated as references and managed by a garbage collector. This contrasts with C++, which requires manual memory management using `new` and `delete` to avoid memory leaks.
+
+GDScript:
+```gdscript
+func use_class(instance): # Does not care about class type
+    instance.use() # Will work with any class that has a ".use()" method.
+
+func do_something():
+    var instance = SomeClass.new() # Created as reference.
+    use_class(instance) # Passed as reference.
+    # Will be unreferenced and deleted.
+```
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section explains how GDScript arrays differ from arrays in statically typed languages, highlighting their dynamic nature and ability to hold mixed data types.
+
+GDScript arrays are dynamic and can hold mixed data types, unlike static arrays which are fixed in type and size.
+
+GDScript:
+```gdscript
+var array = [10, "hello", 40, 60] # You can mix types.
+array.resize(3) # Can be resized.
+use_array(array) # Passed as reference.
+# Freed when no longer in use.
+```
+
+GDScript arrays can also function as lists:
+
+GDScript:
+```gdscript
+var array = []
+array.append(4)
+array.append(5)
+array.pop_front()
+```
+
+And as unordered sets:
+
+GDScript:
+```gdscript
+var a = 20
+if a in [10, 20, 30]:
+    print("We have a winner!")
+```
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section explains how to use dictionaries in GDScript, covering their dynamic nature, efficiency, and various use cases including implementing game logic and data structures.
+
+Dictionaries are a powerful tool in dynamically typed languages. In GDScript, untyped dictionaries can be used for many cases where a statically typed language would tend to use another data structure.
+
+Dictionaries can map any value to any other value with complete disregard for the datatype used as either key or value. They are efficient because they can be implemented with hash tables.
+
+GDScript:
+var d = {"name": "John", "age": 22}
+print("Name: ", d["name"], " Age: ", d["age"])
+
+Dictionaries are also dynamic; keys can be added or removed at any point at little cost.
+
+GDScript:
+d["mother"] = "Rebecca" # Addition.
+d["age"] = 11 # Modification.
+d.erase("name") # Removal.
+
+In most cases, two-dimensional arrays can often be implemented more easily with dictionaries. Here's a battleship game example:
+
+GDScript:
+# Battleship Game
+
+const SHIP = 0
+const SHIP_HIT = 1
+const WATER_HIT = 2
+
+var board = {}
+
+func initialize():
+    board[Vector2(1, 1)] = SHIP
+    board[Vector2(1, 2)] = SHIP
+    board[Vector2(1, 3)] = SHIP
+
+func missile(pos):
+    if pos in board: # Something at that position.
+        if board[pos] == SHIP: # There was a ship! hit it.
+            board[pos] = SHIP_HIT
+        else:
+            print("Already hit here!") # Hey dude you already hit here.
+    else: # Nothing, mark as water.
+        board[pos] = WATER_HIT
+
+func game():
+    initialize()
+    missile(Vector2(1, 1))
+    missile(Vector2(5, 8))
+    missile(Vector2(2, 3))
+
+Dictionaries can also be used as data markup or quick structures. While GDScript's dictionaries resemble Python dictionaries, it also supports Lua style syntax and indexing, which makes it useful for writing initial states and quick structs.
+
+GDScript:
+# Same example, lua-style support.
+# This syntax is a lot more readable and usable.
+# Like any GDScript identifier, keys written in this form cannot start
+# with a digit.
+
+var d = {
+    name = "John",
+    age = 22
+}
+
+print("Name: ", d.name, " Age: ", d.age) # Used "." based indexing.
+
+# Indexing
+
+d["mother"] = "Rebecca"
+d.mother = "Caroline" # This would work too to create a new key.
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section explains GDScript's for-in loop syntax and how it compares to C-style loops, including iterating over containers, using range(), and looping backwards.
+
+GDScript uses a for-in loop for iterating over iterables, which is simpler than C-style for loops.
+
+GDScript Example:
+    for s in strings:
+        print(s)
+
+Container datatypes like arrays and dictionaries are iterable. Dictionaries can be iterated by their keys:
+
+GDScript Example:
+    for key in dict:
+        print(key, " -> ", dict[key])
+
+Iteration with indices is also supported using the range() function:
+
+GDScript Example:
+    for i in range(strings.size()):
+        print(strings[i])
+
+The range() function accepts up to three arguments:
+- range(n): Counts from 0 up to (but not including) n, with a step of 1.
+- range(b, n): Counts from b (inclusive) up to (but not including) n, with a step of 1.
+- range(b, n, s): Counts from b (inclusive) up to (but not including) n, with a step of s.
+
+Examples of translating C-style for loops to GDScript's range():
+
+C++ Example:
+    for (int i = 0; i < 10; i++) {}
+
+GDScript Example:
+    for i in range(10):
+        pass
+
+C++ Example:
+    for (int i = 5; i < 10; i++) {}
+
+GDScript Example:
+    for i in range(5, 10):
+        pass
+
+C++ Example:
+    for (int i = 5; i < 10; i += 2) {}
+
+GDScript Example:
+    for i in range(5, 10, 2):
+        pass
+
+Looping backwards is achieved using a negative step in the range():
+
+C++ Example:
+    for (int i = 10; i > 0; i--) {}
+
+GDScript Example:
+    for i in range(10, 0, -1):
+        pass
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section explains the usage of while loops in GDScript.
+GDScript:
+    var i = 0
+
+    while i < strings.size():
+        print(strings[i])
+        i += 1
+---CHUNK---
+Document: GDScript Advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: This section explains how to create custom iterators in GDScript by overriding specific methods.
+Custom iterators can be created by overriding the Variant class's _iter_init, _iter_next, and _iter_get functions.
+
+GDScript:
+class ForwardIterator:
+    var start
+    var current
+    var end
+    var increment
+
+    func _init(start, stop, increment):
+        self.start = start
+        self.current = start
+        self.end = stop
+        self.increment = increment
+
+    func should_continue():
+        return (current < end)
+
+    func _iter_init(arg):
+        current = start
+        return should_continue()
+
+    func _iter_next(arg):
+        current += increment
+        return should_continue()
+
+    func _iter_get(arg):
+        return current
+
+This custom iterator can be used in a for loop:
+
+GDScript:
+var itr = ForwardIterator.new(0, 6, 2)
+for i in itr:
+    print(i) # Will print 0, 2, and 4.
+
+Key Rule: The state of the iterator must be reset in _iter_init to ensure nested for-loops using custom iterators function correctly.
+---CHUNK---
+Document: gdscript_advanced
+Path: godot/tutorials/scripting/gdscript/gdscript_advanced.rst
+Summary: Explains the concept of duck typing in GDScript, contrasting it with statically typed languages and demonstrating its practical application with code examples.
+Duck typing is a concept in dynamic typing where the suitability of an object is determined by the presence of certain methods and properties, rather than by the object's actual type or inheritance. This simplifies code design by removing the need for strict inheritance hierarchies.
+
+In a statically typed language, if a `BigRollingRock` needs to interact with objects that can be smashed, those objects would typically need to inherit from a common `Smashable` class or have a `smash()` method defined in a base class like `Entity`. This can become cumbersome if only a few derived classes actually need the `smash()` functionality.
+
+GDScript, being dynamically typed, handles this differently. The `_on_object_hit` function can simply call `object.smash()` without requiring `object` to inherit from a specific class. If the `object` has a `smash()` method, it will be executed. This aligns with the principle of duck typing: "If it walks like a duck and quacks like a duck, it's a duck." In programming terms, "If the object can be smashed, don't care what it is, just smash it."
+
+However, GDScript is stricter than some dynamically typed languages. If an object does not have the requested method, calling it will result in an error. To prevent this, it's good practice to check if the object has the method before calling it using `object.has_method("smash")`.
+
+GDScript:
+```gdscript
+func _on_object_hit(object):
+    if object.has_method("smash"):
+        object.smash()
+```
+This approach allows any object with a `smash()` method to be interacted with by the `BigRollingRock` without enforcing a rigid inheritance structure.

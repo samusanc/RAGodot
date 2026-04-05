@@ -1,0 +1,275 @@
+Document: Using Viewport as Texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This tutorial explains how to use a Viewport node as a texture within a shader in Godot Engine.
+
+This tutorial covers how to use a Viewport node as a texture within a shader. This technique is useful for rendering complex scenes or effects to a texture that can then be applied to other objects, allowing for advanced visual effects like post-processing, minimaps, or dynamic reflections.
+
+To achieve this, you need to:
+
+1.  Create a Viewport node.
+2.  Add the content you want to render to this Viewport as child nodes.
+3.  Create a ShaderMaterial and assign a shader to it.
+4.  In the shader, sample the texture from the Viewport.
+
+Here's a breakdown of the steps and considerations:
+
+**1. Setting up the Viewport**
+
+Add a `Viewport` node to your scene. Any nodes you want to render into the texture should be added as children of this `Viewport`. The `Viewport` itself has properties like `size` that determine the resolution of the texture it produces. You can also set the `update_mode` property of the `Viewport` to control when it renders its content. Common options include:
+
+*   `UPDATE_ONCE`: Renders only once when the scene starts.
+*   `UPDATE_WHEN_VISIBLE`: Renders when the Viewport is visible on screen.
+*   `UPDATE_WHEN_PARENT_VISIBLE`: Renders when its parent is visible.
+*   `UPDATE_ALWAYS`: Renders every frame.
+
+For most uses where the Viewport's content changes dynamically, `UPDATE_ALWAYS` is often used, but be mindful of performance implications.
+
+**2. Creating the Shader**
+
+Create a `ShaderMaterial` and assign a new shader to it. This material will be applied to the `MeshInstance` or `Control` node that will display the rendered Viewport texture.
+
+**3. Accessing the Viewport Texture in the Shader**
+
+In your shader code, you can access the `Viewport`'s texture by creating a `uniform sampler2D`. You then need to assign the `Viewport` node to this uniform in the Inspector.
+
+Here's a basic GLSL shader example:
+
+```glsl
+shader_type canvas_item;
+
+uniform sampler2D viewport_texture : hint_albedo;
+
+void fragment() {
+    vec4 tex_color = texture(viewport_texture, UV);
+    COLOR = tex_color;
+}
+```
+
+In this shader:
+
+*   `shader_type canvas_item;` indicates this shader is for 2D rendering.
+*   `uniform sampler2D viewport_texture : hint_albedo;` declares a uniform texture sampler named `viewport_texture`. The `hint_albedo` hint suggests it's intended for color information.
+*   `texture(viewport_texture, UV)` samples the color from the `viewport_texture` at the current UV coordinates.
+*   `COLOR = tex_color;` sets the final pixel color to the sampled color.
+
+**4. Assigning the Viewport to the Uniform**
+
+After creating the `ShaderMaterial` and assigning the shader, select the node that has this material applied. In the Inspector panel, under the `Shader Parameters` section, you will see the `viewport_texture` uniform. Drag and drop the `Viewport` node from the Scene tree into this slot.
+
+**Example Use Case: Minimap**
+
+A common application is creating a minimap. You would have a main scene and a separate `Viewport` containing a camera looking down at the main scene from above. The `Viewport`'s texture is then applied to a `TextureRect` or a `MeshInstance` in the UI to display the minimap.
+
+**Performance Considerations**
+
+Using `UPDATE_ALWAYS` on a `Viewport` can be performance-intensive, especially if the `Viewport` is rendering a complex scene at a high resolution. Consider optimizing the content within the `Viewport` or adjusting its `update_mode` if performance becomes an issue. You can also adjust the `Viewport`'s `size` property to match the resolution of the target display element to avoid unnecessary scaling.
+---CHUNK---
+Document: Using a SubViewport as a texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This tutorial explains how to use a SubViewport's texture in shaders.
+
+To use a SubViewport's texture in a shader, you need to:
+
+1.  Add a SubViewport node to your scene.
+2.  Add a Node with a MeshInstance as a child of the SubViewport.
+3.  Assign a Material to the MeshInstance.
+4.  In the material's shader, add a uniform sampler2D named `SCREEN_TEXTURE` or `DEPTH_TEXTURE`.
+5.  In the SubViewport's `update_mode` property, set it to `UPDATE_WHEN_VISIBLE`.
+6.  In the script attached to the SubViewport, get the MeshInstance's material and set the `SCREEN_TEXTURE` uniform to the SubViewport's texture.
+
+Example GDScript:
+
+GDScript:
+```gdscript
+extends SubViewport
+
+func _ready():
+	var mesh_instance = get_node("MeshInstance") # Assuming you have a MeshInstance child
+	var material = mesh_instance.get_surface_material(0) # Assuming the first surface
+	if material and material is ShaderMaterial:
+		material.set_shader_param("SCREEN_TEXTURE", get_texture())
+```
+
+This setup allows you to render anything within the SubViewport and use it as a texture in a shader applied to another object, enabling effects like screen-space distortions or post-processing.
+
+The `UPDATE_WHEN_VISIBLE` mode is crucial for performance, as it ensures the SubViewport is only rendered when it's actually visible on screen. If you need the SubViewport to update constantly, you can set `update_mode` to `UPDATE_ALWAYS`.
+
+Key Rule: The `SCREEN_TEXTURE` uniform in a shader automatically receives the rendered output of the SubViewport it's applied to, provided the SubViewport's `update_mode` is set correctly and the texture is assigned via script.
+---CHUNK---
+Document: Using Viewport as Texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This tutorial explains how to use a SubViewport as a texture for 3D objects, demonstrated by creating a procedural planet.
+
+This tutorial introduces using the SubViewport as a texture that can be applied to 3D objects, walking through the process of making a procedural planet.
+Note: This tutorial does not cover how to code a dynamic atmosphere like the one this planet has.
+
+This tutorial assumes familiarity with setting up a basic scene including a Camera3D, a light source (OmniLight3D), a MeshInstance3D with a Primitive Mesh, and applying a StandardMaterial3D to the mesh. The focus will be on using the SubViewport to dynamically create textures that can be applied to the mesh.
+
+In this tutorial, we'll cover the following topics:
+- How to use a SubViewport as a render texture
+- Mapping a texture to a sphere with equirectangular mapping
+- Fragment shader techniques for procedural planets
+- Setting a Roughness map from a Viewport Texture
+---CHUNK---
+Document: Using Viewport as Texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This section describes how to set up a basic 3D scene with a SphereMesh for use with viewport textures.
+Setting up the scene
+Create a new scene and add the following nodes exactly as shown below.
+Go into the the MeshInstance3D and make the mesh a SphereMesh
+---CHUNK---
+Document: Using Viewport as Texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This section details how to set up a SubViewport node and a ColorRect to render a shader, preparing it to be used as a texture.
+Select the SubViewport node and set its size to (1024, 512). The SubViewport can be any size, but the width should be double the height for accurate mapping onto a sphere using equirectangular projection. Disable 3D rendering as a ColorRect will be used for surface rendering.
+
+Select the ColorRect and set its anchors preset to Full Rect in the inspector. This ensures the ColorRect occupies the entire SubViewport.
+
+Add a ShaderMaterial to the ColorRect (ColorRect > CanvasItem > Material > Material > New ShaderMaterial).
+Note: Basic familiarity with shading is recommended for this tutorial. However, even if you are new to shaders, all the code will be provided, so you should have no problem following along.
+
+Click the dropdown menu button for the shader material and select Edit. Navigate to Shader > New Shader. Name the shader and click "Create". Click the shader in the inspector to open the shader editor. Delete the default code and add the following GLSL code:
+GDScript:
+    shader_type canvas_item;
+
+    void fragment() {
+        COLOR = vec4(UV.x, UV.y, 0.5, 1.0);
+    }
+Save the shader code. The inspector will display a gradient, demonstrating the shader's output.
+
+This setup provides a basic SubViewport for rendering and a unique image that can be applied to a sphere.
+---CHUNK---
+Document: Using Viewport as Texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This section explains how to apply a ViewportTexture to a MeshInstance3D's StandardMaterial3D to display the rendered output of a viewport.
+
+To apply the texture, select the MeshInstance3D node. In the Inspector, add a StandardMaterial3D to the "Material Override" property. You do not need a ShaderMaterial for this basic setup.
+
+Navigate to the material's properties:
+- Resource section: Check the "Local to scene" box.
+- Albedo section: Click next to the "Texture" property and choose "New ViewportTexture".
+
+After creating the ViewportTexture, select it in the Inspector. Click "Assign" and then choose the Viewport node that was previously rendered to.
+
+The sphere should now display the colors rendered to the Viewport.
+
+A common issue encountered is a visible seam where the texture wraps around the object. This occurs because UV coordinates do not inherently wrap, leading to a discontinuity when projecting a 2D map onto a sphere. This is a classic problem in map projection, and game developers often face it when mapping 2D textures onto spherical surfaces. The following section will introduce a method to address this seam issue.
+---CHUNK---
+Document: Using Viewport as Texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This section explains how to use trigonometric functions and 3D noise to create a seamless planet texture on a sphere, addressing issues like seams and pinching caused by standard texture mapping.
+
+The section details how to improve the planet texture by addressing seams and pinching. Initially, using `sin` and `cos` on UV coordinates helps remove seams but introduces pinching at the poles due to Godot's equirectangular projection for `StandardMaterial3D`.
+
+Note: Equirectangular projection maps a spherical map onto a 2D plane. This section involves converting spherical coordinates to Cartesian coordinates. Spherical coordinates represent longitude and latitude, while Cartesian coordinates are vectors from the sphere's center.
+
+To solve the pinching problem, the tutorial proposes calculating noise in 3D space across the sphere's surface rather than on a 2D plane. This approach avoids seams and pinch points. The following GLSL code converts UV coordinates to Cartesian coordinates:
+
+```glsl
+    float theta = UV.y * 3.14159;
+    float phi = UV.x * 3.14159 * 2.0;
+    vec3 unit = vec3(0.0, 0.0, 0.0);
+
+    unit.x = sin(phi) * sin(theta);
+    unit.y = cos(theta) * -1.0;
+    unit.z = cos(phi) * sin(theta);
+    unit = normalize(unit);
+```
+
+This `unit` vector represents the 3D position on the sphere's surface.
+
+The tutorial then introduces a 3D noise function, adapted from Shadertoy by Inigo Quilez, to generate planet-like textures.
+
+Note: All credit for the noise function goes to Inigo Quilez, published under the MIT license.
+
+The `hash` and `noise` functions are provided:
+
+```glsl
+    vec3 hash(vec3 p) {
+        p = vec3(dot(p, vec3(127.1, 311.7, 74.7)),
+                 dot(p, vec3(269.5, 183.3, 246.1)),
+                 dot(p, vec3(113.5, 271.9, 124.6)));
+
+        return -1.0 + 2.0 * fract(sin(p) * 43758.5453123);
+    }
+
+    float noise(vec3 p) {
+      vec3 i = floor(p);
+      vec3 f = fract(p);
+      vec3 u = f * f * (3.0 - 2.0 * f);
+
+      return mix(mix(mix(dot(hash(i + vec3(0.0, 0.0, 0.0)), f - vec3(0.0, 0.0, 0.0)),
+                         dot(hash(i + vec3(1.0, 0.0, 0.0)), f - vec3(1.0, 0.0, 0.0)), u.x),
+                     mix(dot(hash(i + vec3(0.0, 1.0, 0.0)), f - vec3(0.0, 1.0, 0.0)),
+                         dot(hash(i + vec3(1.0, 1.0, 0.0)), f - vec3(1.0, 1.0, 0.0)), u.x), u.y),
+                 mix(mix(dot(hash(i + vec3(0.0, 0.0, 1.0)), f - vec3(0.0, 0.0, 1.0)),
+                         dot(hash(i + vec3(1.0, 0.0, 1.0)), f - vec3(1.0, 0.0, 1.0)), u.x),
+                     mix(dot(hash(i + vec3(0.0, 1.0, 1.0)), f - vec3(0.0, 1.0, 1.0)),
+                         dot(hash(i + vec3(1.0, 1.0, 1.0)), f - vec3(1.0, 1.0, 1.0)), u.x), u.y), u.z );
+    }
+```
+
+To apply this noise to the planet's color, the `noise` function is called within the `fragment` function:
+
+```glsl
+    float n = noise(unit * 5.0);
+    COLOR.xyz = vec3(n * 0.5 + 0.5);
+```
+
+Note: To better visualize the texture, the material is set to unshaded.
+
+The result is a noise pattern that wraps seamlessly around the sphere. The tutorial concludes by stating that this current result does not resemble a planet and will move on to adding color.
+---CHUNK---
+Document: using_viewport_as_texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This section explains how to color a planet in a shader using the `mix` and `smoothstep` functions, and how to add roughness to terrain by layering noise.
+
+Coloring the planet
+To color the planet, a gradient between water and land is used. The `mix` function in GLSL interpolates between two values based on a third. It can handle various data types, unlike `lerp` which is typically for floats.
+
+GLSL code:
+```glsl
+COLOR.xyz = mix(vec3(0.05, 0.3, 0.5), vec3(0.9, 0.4, 0.1), n * 0.5 + 0.5);
+```
+
+The first color `vec3(0.05, 0.3, 0.5)` represents the ocean blue, and the second `vec3(0.9, 0.4, 0.1)` is the reddish alien terrain. The mixing is controlled by `n * 0.5 + 0.5`, where `n` ranges from -1 to 1, mapped to the 0-1 range expected by `mix`.
+
+To achieve a sharper separation between land and sea, `smoothstep(-0.1, 0.0, n)` replaces `n * 0.5 + 0.5`.
+
+GLSL code:
+```glsl
+COLOR.xyz = mix(vec3(0.05, 0.3, 0.5), vec3(0.9, 0.4, 0.1), smoothstep(-0.1, 0.0, n));
+```
+
+The `smoothstep` function returns 0 if the third argument is less than the first, 1 if it's greater than the second, and smoothly interpolates between 0 and 1 if the third argument is between the first and second. In this case, it returns 0 when `n` is less than -0.1 and 1 when `n` is above 0.
+
+To make the land appear less blobby and the edges rougher, multiple layers of noise at different frequencies are layered. This creates a more natural-looking terrain. The variable `n` is calculated using four lines of shader code:
+
+GLSL code:
+```glsl
+float n = noise(unit * 5.0) * 0.5;
+n += noise(unit * 10.0) * 0.25;
+n += noise(unit * 20.0) * 0.125;
+n += noise(unit * 40.0) * 0.0625;
+```
+---CHUNK---
+Document: using_viewport_as_texture
+Path: godot/tutorials/shaders/using_viewport_as_texture.rst
+Summary: This section explains how to use a viewport texture to create a planet with distinct ocean and land reflections by adjusting shader properties and enabling transparent background rendering.
+
+GDScript:
+    render_mode blend_premul_alpha;
+
+This line returns 0.3 for water and 1.0 for land. This means that the land is going to be quite rough, while the water will be quite smooth.
+
+In the material, under the "Metallic" section, set Metallic to 0 and Specular to 1. The reason for this is the water reflects light really well, but isn't metallic. These values are not physically accurate, but they are good enough for this demo.
+
+Next, under the "Roughness" section set the roughness texture to a Viewport Texture pointing to the planet texture SubViewport. Finally, set the Texture Channel to Alpha. This instructs the renderer to use the alpha channel of the output COLOR as the Roughness value.
+
+You'll notice that very little changes except that the planet is no longer reflecting the sky. This is happening because, by default, when something is rendered with an alpha value, it gets drawn as a transparent object over the background. And since the default background of the SubViewport is opaque, the alpha channel of the Viewport Texture is 1, resulting in the planet texture being drawn with slightly fainter colors and a Roughness value of 1 everywhere. To correct this, go into the SubViewport and enable the "Transparent Bg" property. Since we are now rendering one transparent object on top of another, enable blend_premul_alpha.
+
+This pre-multiplies the colors by the alpha value and then blends them correctly together. Typically, when blending one transparent color on top of another, even if the background has an alpha of 0 (as it does in this case), you end up with weird color bleed issues. Setting blend_premul_alpha fixes that.
+
+Now the planet should look like it is reflecting light on the ocean but not the land. Move around the OmniLight3D in the scene so you can see the effect of the reflections on the ocean.
+
+And there you have it. A procedural planet generated using a SubViewport.

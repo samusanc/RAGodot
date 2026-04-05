@@ -1,0 +1,120 @@
+Document: PacketPeerUDP
+Path: godot/classes/class_packetpeerudp.rst
+Summary: Provides UDP network communication functionality.
+
+PacketPeerUDP is a high-level UDP interface. It allows you to send and receive packets of data over the network using the User Datagram Protocol. UDP is a connectionless protocol, meaning it doesn't establish a persistent connection like TCP. This makes it faster but less reliable, as packets can be lost, duplicated, or arrive out of order. PacketPeerUDP handles some of this by providing methods to check for available data and to get the sender's address.
+
+Inherits: PacketPeer < RefCounted
+
+This class is the base for network communication using UDP. It provides methods for binding to a local port, connecting to a remote host, sending data, and receiving data. It also includes functionality to check for errors and the status of the connection.
+
+Key Rule: UDP is connectionless and unreliable. Packet loss, duplication, and out-of-order delivery are possible. PacketPeerUDP provides tools to manage this, but application-level logic may be needed for robust communication.
+---CHUNK---
+Document: PacketPeerUDP
+Path: godot/classes/class_packetpeerudp.rst
+Summary: This document describes the PacketPeerUDP class, which handles UDP packet communication in Godot.
+
+PacketPeerUDP
+Inherits: PacketPeer < RefCounted < Object
+
+UDP packet peer.
+---CHUNK---
+Document: PacketPeerUDP
+Path: godot/classes/class_packetpeerudp.rst
+Summary: Overview and usage examples for the PacketPeerUDP class, which handles raw UDP packet transmission and reception.
+
+Inherits: PacketPeer < RefCounted < Object
+
+Description:
+PacketPeerUDP is a UDP packet peer. It can be used to send and receive raw UDP packets as well as Variant types.
+
+Note: When exporting to Android, make sure to enable the INTERNET permission in the Android export preset before exporting the project or using one-click deploy. Otherwise, network communication of any kind will be blocked by Android.
+
+GDScript:
+    var peer = PacketPeerUDP.new()
+    # Optionally, you can select the local port used to send the packet.
+    peer.bind(4444)
+    peer.set_dest_address("1.1.1.1", 4433)
+    peer.put_packet("hello".to_utf8_buffer())
+
+GDScript:
+    var peer
+    func _ready():
+        peer = PacketPeerUDP.new()
+        peer.bind(4433)
+    func _process(_delta):
+        if peer.get_available_packet_count() > 0:
+            var array_bytes = peer.get_packet()
+            var packet_string = array_bytes.get_string_from_ascii()
+            print("Received message: ", packet_string)
+---CHUNK---
+Document: PacketPeerUDP
+Path: godot/classes/class_packetpeerudp.rst
+Summary: Provides methods for sending and receiving UDP packets, including binding to ports, connecting to hosts, and managing multicast groups.
+
+Method: bind(port: int, bind_address: String = "*", recv_buf_size: int = 65536) → Error
+Binds this PacketPeerUDP to the specified port and bind_address with a buffer size, allowing it to receive incoming packets. If bind_address is "*", it binds to all available addresses. If it's "0.0.0.0" or "::", it binds to all addresses of that IP type. If it's a specific address, it binds only to that interface.
+
+Method: close() → void
+Closes the PacketPeerUDP's underlying UDP socket.
+
+Method: connect_to_host(host: String, port: int) → Error
+Connects this UDP peer to the given host/port pair. This means incoming packets from different addresses are discarded, and outgoing packets are always sent to the connected address. Future calls to set_dest_address are not allowed. This method does not send data; use put_var or put_packet for that. Note: Connecting does not protect against IP spoofing; consider encryption like TLS or DTLS for sensitive information.
+
+Method: get_local_port() → int
+Returns the local port to which this peer is bound.
+
+Method: get_packet_ip() → String
+Returns the IP of the remote peer that sent the last received packet.
+
+Method: get_packet_port() → int
+Returns the port of the remote peer that sent the last received packet.
+
+Method: is_bound() → bool
+Returns whether this PacketPeerUDP is bound to an address and can receive packets.
+
+Method: is_socket_connected() → bool
+Returns true if the UDP socket is open and has been connected to a remote address.
+
+Method: join_multicast_group(multicast_address: String, interface_name: String) → Error
+Joins the multicast group specified by multicast_address using the interface identified by interface_name. Multiple interfaces can join the same group. Note: Some Android devices may require the CHANGE_WIFI_MULTICAST_STATE permission for multicast to work.
+
+Method: leave_multicast_group(multicast_address: String, interface_name: String) → Error
+Removes the interface identified by interface_name from the multicast group specified by multicast_address.
+
+Method: set_broadcast_enabled(enabled: bool) → void
+Enables or disables sending of broadcast packets. This option is disabled by default. Note: Some Android devices may require the CHANGE_WIFI_MULTICAST_STATE permission and this option to be enabled to receive broadcast packets too.
+
+Method: set_dest_address(host: String, port: int) → Error
+Sets the destination address and port for sending packets and variables. A hostname will be resolved using DNS if needed. Note: set_broadcast_enabled must be enabled before sending packets to a broadcast address (e.g., 255.255.255.255).
+
+Method: wait() → Error
+Waits for a packet to arrive on the bound address. This method cannot be interrupted once called. A workaround involves sending a specific "death pill" packet to signal termination.
+
+GDScript:
+socket = PacketPeerUDP.new()
+# Server
+socket.set_dest_address("127.0.0.1", 789)
+socket.put_packet("Time to stop".to_ascii_buffer())
+
+# Client
+while socket.wait() == OK:
+    var data = socket.get_packet().get_string_from_ascii()
+    if data == "Time to stop":
+        return
+
+C#:
+var socket = new PacketPeerUdp();
+// Server
+socket.SetDestAddress("127.0.0.1", 789);
+socket.PutPacket("Time to stop".ToAsciiBuffer());
+
+// Client
+while (socket.Wait() == OK)
+{
+    string data = socket.GetPacket().GetStringFromASCII();
+    if (data == "Time to stop")
+    {
+        return;
+    }
+}

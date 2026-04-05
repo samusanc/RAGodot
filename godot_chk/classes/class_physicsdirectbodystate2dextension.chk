@@ -1,0 +1,220 @@
+Document: PhysicsDirectBodyState2DExtension
+Path: godot/classes/class_physicsdirectbodystate2dextension.rst
+Summary: This section defines the PhysicsDirectBodyState2DExtension class.
+---CHUNK---
+Document: PhysicsDirectBodyState2DExtension
+Path: godot/classes/class_physicsdirectbodystate2dextension.rst
+Summary: Provides virtual methods for custom PhysicsDirectBodyState2D implementations.
+
+Inherits: PhysicsDirectBodyState2D < Object
+
+Provides virtual methods that can be overridden to create custom PhysicsDirectBodyState2D implementations.
+---CHUNK---
+Document: PhysicsDirectBodyState2DExtension
+Path: godot/classes/class_physicsdirectbodystate2dextension.rst
+Summary: This class extends PhysicsDirectBodyState2D with virtual methods for custom physics implementations.
+
+This class extends PhysicsDirectBodyState2D by providing additional virtual methods that can be overridden. When these methods are overridden, they will be called instead of the internal methods of the physics server.
+
+Intended for use with GDExtension to create custom implementations of PhysicsDirectBodyState2D.
+---CHUNK---
+Document: PhysicsDirectBodyState2DExtension
+Path: godot/classes/class_physicsdirectbodystate2dextension.rst
+Summary: This section lists the virtual methods that can be implemented for PhysicsDirectBodyState2DExtension.
+
+Method: _add_constant_central_force(force: Vector2) -> void
+Method: _add_constant_force(force: Vector2, position: Vector2) -> void
+Method: _add_constant_torque(torque: float) -> void
+Method: _apply_central_force(force: Vector2) -> void
+Method: _apply_central_impulse(impulse: Vector2) -> void
+Method: _apply_force(force: Vector2, position: Vector2) -> void
+Method: _apply_impulse(impulse: Vector2, position: Vector2) -> void
+Method: _apply_torque(torque: float) -> void
+Method: _apply_torque_impulse(impulse: float) -> void
+Method: _get_angular_velocity() -> float
+Method: _get_center_of_mass() -> Vector2
+Method: _get_center_of_mass_local() -> Vector2
+Method: _get_collision_layer() -> int
+Method: _get_collision_mask() -> int
+Method: _get_constant_force() -> Vector2
+Method: _get_constant_torque() -> float
+Method: _get_contact_collider(contact_idx: int) -> RID
+Method: _get_contact_collider_id(contact_idx: int) -> int
+Method: _get_contact_collider_object(contact_idx: int) -> Object
+Method: _get_contact_collider_position(contact_idx: int) -> Vector2
+Method: _get_contact_collider_shape(contact_idx: int) -> int
+Method: _get_contact_collider_velocity_at_position(contact_idx: int) -> Vector2
+Method: _get_contact_count() -> int
+Method: _get_contact_impulse(contact_idx: int) -> Vector2
+Method: _get_contact_local_normal(contact_idx: int) -> Vector2
+Method: _get_contact_local_position(contact_idx: int) -> Vector2
+Method: _get_contact_local_shape(contact_idx: int) -> int
+Method: _get_contact_local_velocity_at_position(contact_idx: int) -> Vector2
+Method: _get_inverse_inertia() -> float
+Method: _get_inverse_mass() -> float
+Method: _get_linear_velocity() -> Vector2
+Method: _get_space_state() -> PhysicsDirectSpaceState2D
+Method: _get_step() -> float
+Method: _get_total_angular_damp() -> float
+Method: _get_total_gravity() -> Vector2
+Method: _get_total_linear_damp() -> float
+Method: _get_transform() -> Transform2D
+Method: _get_velocity_at_local_position(local_position: Vector2) -> Vector2
+Method: _integrate_forces() -> void
+Method: _is_sleeping() -> bool
+Method: _set_angular_velocity(velocity: float) -> void
+Method: _set_collision_layer(layer: int) -> void
+Method: _set_collision_mask(mask: int) -> void
+Method: _set_constant_force(force: Vector2) -> void
+Method: _set_constant_torque(torque: float) -> void
+Method: _set_linear_velocity(velocity: Vector2) -> void
+Method: _set_sleep_state(enabled: bool) -> void
+Method: _set_transform(transform: Transform2D) -> void
+---CHUNK---
+Document: PhysicsDirectBodyState2DExtension
+Path: godot/classes/class_physicsdirectbodystate2dextension.rst
+Summary: This section details the virtual methods available for extending PhysicsDirectBodyState2D behavior in 2D physics.
+
+Method: _add_constant_central_force(force: Vector2) -> void
+Overridable version of PhysicsDirectBodyState2D.add_constant_central_force().
+
+Method: _add_constant_force(force: Vector2, position: Vector2) -> void
+Overridable version of PhysicsDirectBodyState2D.add_constant_force().
+
+Method: _add_constant_torque(torque: float) -> void
+Overridable version of PhysicsDirectBodyState2D.add_constant_torque().
+
+Method: _apply_central_force(force: Vector2) -> void
+Overridable version of PhysicsDirectBodyState2D.apply_central_force().
+
+Method: _apply_central_impulse(impulse: Vector2) -> void
+Overridable version of PhysicsDirectBodyState2D.apply_central_impulse().
+
+Method: _apply_force(force: Vector2, position: Vector2) -> void
+Overridable version of PhysicsDirectBodyState2D.apply_force().
+
+Method: _apply_impulse(impulse: Vector2, position: Vector2) -> void
+Overridable version of PhysicsDirectBodyState2D.apply_impulse().
+
+Method: _apply_torque(torque: float) -> void
+Overridable version of PhysicsDirectBodyState2D.apply_torque().
+
+Method: _apply_torque_impulse(impulse: float) -> void
+Overridable version of PhysicsDirectBodyState2D.apply_torque_impulse().
+
+Method: _get_angular_velocity() -> float
+Implement to override the behavior of PhysicsDirectBodyState2D.angular_velocity and its respective getter.
+
+Method: _get_center_of_mass() -> Vector2
+Implement to override the behavior of PhysicsDirectBodyState2D.center_of_mass and its respective getter.
+
+Method: _get_center_of_mass_local() -> Vector2
+Implement to override the behavior of PhysicsDirectBodyState2D.center_of_mass_local and its respective getter.
+
+Method: _get_collision_layer() -> int
+There is currently no description for this method.
+
+Method: _get_collision_mask() -> int
+There is currently no description for this method.
+
+Method: _get_constant_force() -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_constant_force().
+
+Method: _get_constant_torque() -> float
+Overridable version of PhysicsDirectBodyState2D.get_constant_torque().
+
+Method: _get_contact_collider(contact_idx: int) -> RID
+Overridable version of PhysicsDirectBodyState2D.get_contact_collider().
+
+Method: _get_contact_collider_id(contact_idx: int) -> int
+Overridable version of PhysicsDirectBodyState2D.get_contact_collider_id().
+
+Method: _get_contact_collider_object(contact_idx: int) -> Object
+Overridable version of PhysicsDirectBodyState2D.get_contact_collider_object().
+
+Method: _get_contact_collider_position(contact_idx: int) -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_contact_collider_position().
+
+Method: _get_contact_collider_shape(contact_idx: int) -> int
+Overridable version of PhysicsDirectBodyState2D.get_contact_collider_shape().
+
+Method: _get_contact_collider_velocity_at_position(contact_idx: int) -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_contact_collider_velocity_at_position().
+
+Method: _get_contact_count() -> int
+Overridable version of PhysicsDirectBodyState2D.get_contact_count().
+
+Method: _get_contact_impulse(contact_idx: int) -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_contact_impulse().
+
+Method: _get_contact_local_normal(contact_idx: int) -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_contact_local_normal().
+
+Method: _get_contact_local_position(contact_idx: int) -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_contact_local_position().
+
+Method: _get_contact_local_shape(contact_idx: int) -> int
+Overridable version of PhysicsDirectBodyState2D.get_contact_local_shape().
+
+Method: _get_contact_local_velocity_at_position(contact_idx: int) -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_contact_local_velocity_at_position().
+
+Method: _get_inverse_inertia() -> float
+Implement to override the behavior of PhysicsDirectBodyState2D.inverse_inertia and its respective getter.
+
+Method: _get_inverse_mass() -> float
+Implement to override the behavior of PhysicsDirectBodyState2D.inverse_mass and its respective getter.
+
+Method: _get_linear_velocity() -> Vector2
+Implement to override the behavior of PhysicsDirectBodyState2D.linear_velocity and its respective getter.
+
+Method: _get_space_state() -> PhysicsDirectSpaceState2D
+Overridable version of PhysicsDirectBodyState2D.get_space_state().
+
+Method: _get_step() -> float
+Implement to override the behavior of PhysicsDirectBodyState2D.step and its respective getter.
+
+Method: _get_total_angular_damp() -> float
+Implement to override the behavior of PhysicsDirectBodyState2D.total_angular_damp and its respective getter.
+
+Method: _get_total_gravity() -> Vector2
+Implement to override the behavior of PhysicsDirectBodyState2D.total_gravity and its respective getter.
+
+Method: _get_total_linear_damp() -> float
+Implement to override the behavior of PhysicsDirectBodyState2D.total_linear_damp and its respective getter.
+
+Method: _get_transform() -> Transform2D
+Implement to override the behavior of PhysicsDirectBodyState2D.transform and its respective getter.
+
+Method: _get_velocity_at_local_position(local_position: Vector2) -> Vector2
+Overridable version of PhysicsDirectBodyState2D.get_velocity_at_local_position().
+
+Method: _integrate_forces() -> void
+Overridable version of PhysicsDirectBodyState2D.integrate_forces().
+
+Method: _is_sleeping() -> bool
+Implement to override the behavior of PhysicsDirectBodyState2D.sleeping and its respective getter.
+
+Method: _set_angular_velocity(velocity: float) -> void
+Implement to override the behavior of PhysicsDirectBodyState2D.angular_velocity and its respective setter.
+
+Method: _set_collision_layer(layer: int) -> void
+There is currently no description for this method.
+
+Method: _set_collision_mask(mask: int) -> void
+There is currently no description for this method.
+
+Method: _set_constant_force(force: Vector2) -> void
+Overridable version of PhysicsDirectBodyState2D.set_constant_force().
+
+Method: _set_constant_torque(torque: float) -> void
+Overridable version of PhysicsDirectBodyState2D.set_constant_torque().
+
+Method: _set_linear_velocity(velocity: Vector2) -> void
+Implement to override the behavior of PhysicsDirectBodyState2D.linear_velocity and its respective setter.
+
+Method: _set_sleep_state(enabled: bool) -> void
+Implement to override the behavior of PhysicsDirectBodyState2D.sleeping and its respective setter.
+
+Method: _set_transform(transform: Transform2D) -> void
+Implement to override the behavior of PhysicsDirectBodyState2D.transform and its respective setter.

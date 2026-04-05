@@ -1,0 +1,35 @@
+Document: VisualShaderNodeParticleMeshEmitter
+Path: godot/classes/class_visualshadernodeparticlemeshemitter.rst
+Summary: Class reference for VisualShaderNodeParticleMeshEmitter.
+---CHUNK---
+Document: VisualShaderNodeParticleMeshEmitter
+Path: godot/classes/class_visualshadernodeparticlemeshemitter.rst
+Summary: A visual shader node that emits particles in a shape defined by a Mesh.
+
+Inherits: VisualShaderNodeParticleEmitter < VisualShaderNode < Resource < RefCounted < Object
+A visual shader node that makes particles emitted in a shape defined by a Mesh.
+---CHUNK---
+Document: VisualShaderNodeParticleMeshEmitter
+Path: godot/classes/class_visualshadernodeparticlemeshemitter.rst
+Summary: A VisualShaderNodeParticleEmitter that emits particles in the shape of an assigned mesh, from its surfaces.
+
+This node emits particles in the shape of the assigned mesh. Particles are emitted from the mesh's surfaces, either all surfaces or only the specified one. The mesh property determines the shape from which particles are emitted.
+---CHUNK---
+Document: VisualShaderNodeParticleMeshEmitter
+Path: godot/classes/class_visualshadernodeparticlemeshemitter.rst
+Summary: Properties and their default values for the VisualShaderNodeParticleMeshEmitter class.
+
+Properties:
+- mesh (Mesh): No default value specified.
+- surface_index (int): Default value is 0.
+- use_all_surfaces (bool): Default value is true.
+---CHUNK---
+Document: VisualShaderNodeParticleMeshEmitter
+Path: godot/classes/class_visualshadernodeparticlemeshemitter.rst
+Summary: Properties defining particle emission behavior from a mesh in visual shaders.
+
+Property: mesh (Mesh): The Mesh that defines emission shape. Default: none. Methods: set_mesh(Mesh) → void, get_mesh() → Mesh.
+
+Property: surface_index (int): Index of the surface that emits particles. Default: 0. Methods: set_surface_index(int) → void, get_surface_index() → int. Note: use_all_surfaces must be false for this to take effect.
+
+Property: use_all_surfaces (bool): If true, particles emit from all surfaces of the mesh. Default: true. Methods: set_use_all_surfaces(bool) → void, is_use_all_surfaces() → bool.

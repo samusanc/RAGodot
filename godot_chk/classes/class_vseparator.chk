@@ -1,0 +1,16 @@
+Document: VSeparator
+Path: godot/classes/class_vseparator.rst
+Summary: Class reference for VSeparator.
+---CHUNK---
+Document: VSeparator
+Path: godot/classes/class_vseparator.rst
+Summary: A vertical line used for separating other controls.
+
+Inherits: Separator < Control < CanvasItem < Node < Object
+A vertical line used for separating other controls.
+---CHUNK---
+Document: VSeparator  
+Path: godot/classes/class_vseparator.rst  
+Summary: A vertical separator control for visually dividing horizontally arranged elements, rendered using a StyleBoxLine.  
+
+A vertical separator used for separating other controls that are arranged horizontally. VSeparator is purely visual and normally drawn as a StyleBoxLine.

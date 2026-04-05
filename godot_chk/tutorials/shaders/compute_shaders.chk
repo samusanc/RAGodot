@@ -1,0 +1,226 @@
+Document: Compute Shaders
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This document introduces compute shaders in Godot, explaining their purpose and basic usage.
+
+Compute shaders are a type of shader that can be used for general-purpose computation on the GPU, rather than for rendering graphics. They are particularly useful for tasks that can be parallelized, such as image processing, physics simulations, and data manipulation.
+
+In Godot, compute shaders are implemented using the `ComputeShader` resource. This resource can be created and configured in the Godot editor or loaded from a `.glsl` file. The shader code itself is written in GLSL (OpenGL Shading Language), with specific extensions for compute shaders.
+
+To use a compute shader, you typically need to:
+
+1.  **Create a `ComputeShader` resource:** This can be done by creating a new `ComputeShader` resource in the FileSystem dock and then editing its properties.
+2.  **Write the shader code:** The shader code will define the computation to be performed. It will typically involve dispatching workgroups and performing calculations on data stored in buffers or textures.
+3.  **Bind resources:** You need to bind the necessary resources (buffers, textures, uniforms) to the compute shader. This is done using the `RenderingDevice` API.
+4.  **Dispatch the compute shader:** Once the resources are bound, you can dispatch the compute shader to execute the computation on the GPU. This involves specifying the number of workgroups to launch.
+
+Compute shaders offer significant performance advantages for parallelizable tasks by leveraging the massive parallelism of modern GPUs. They are a powerful tool for developers looking to optimize performance-critical parts of their applications.
+---CHUNK---
+Document: Compute Shaders
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This section introduces compute shaders in Godot, explaining their purpose, structure, and basic GLSL syntax for a minimal example.
+
+A compute shader is a versatile shader program designed for general-purpose computation, offering more flexibility than traditional vertex and fragment shaders. They allow heavy calculations to be offloaded to the GPU with minimal overhead.
+
+Note: This tutorial assumes familiarity with general shader concepts. Refer to the introduction to shaders and your first shader tutorials before proceeding.
+
+Compute shaders are written directly in GLSL. To create a compute shader, create a new file (e.g., `compute_example.glsl`) in your project folder.
+
+Note: Compute shaders are only supported by RenderingDevice-based renderers (Forward+ or Mobile). Ensure you are using one of these renderers. Support on mobile devices may be limited due to driver issues.
+
+The following GLSL code defines a basic compute shader:
+
+```glsl
+#[compute]
+#version 450
+
+// Invocations in the (x, y, z) dimension
+layout(local_size_x = 2, local_size_y = 1, local_size_z = 1) in;
+
+// A binding to the buffer we create in our script
+layout(set = 0, binding = 0, std430) restrict buffer MyDataBuffer {
+    float data[];
+}
+my_data_buffer;
+
+// The code we want to execute in each invocation
+void main() {
+    // gl_GlobalInvocationID.x uniquely identifies this invocation across all work groups
+    my_data_buffer.data[gl_GlobalInvocationID.x] *= 2.0;
+}
+```
+
+This shader takes an array of floats, multiplies each element by 2, and stores the result back into the buffer.
+
+Line-by-line explanation:
+
+`#[compute]`
+`#version 450`
+These lines indicate that the code is a compute shader and uses GLSL version 450. The `#[compute]` directive is a Godot-specific hint for proper file import. These lines typically do not need modification.
+
+`layout(local_size_x = 2, local_size_y = 1, local_size_z = 1) in;`
+This line defines the number of invocations per workgroup. Invocations are instances of the shader running within a workgroup, and workgroups run in parallel. This example uses 2 invocations per workgroup.
+
+`layout(set = 0, binding = 0, std430) restrict buffer MyDataBuffer { float data[]; } my_data_buffer;`
+This section declares the memory buffer accessible by the shader. The `layout` specifies the `set` and `binding` indices, which must match the CPU-side setup. The `restrict` keyword optimizes the shader by indicating the buffer is accessed from a single location. This is an unsized buffer, requiring careful index management.
+
+`void main() { my_data_buffer.data[gl_GlobalInvocationID.x] *= 2.0; }`
+The `main` function contains the core logic. `gl_GlobalInvocationID.x` provides a unique identifier for each invocation, used here to access and modify elements in the `my_data_buffer`.
+---CHUNK---
+Document: Compute Shaders Tutorial
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This section explains how to create a local RenderingDevice and load a compute shader in GDScript and C#.
+To interact with and execute a compute shader, we need a script. Create a new script in the language of your choice and attach it to any Node in your scene.
+
+Now to execute our shader we need a local RenderingDevice which can be created using the RenderingServer:
+
+GDScript:
+    # Create a local rendering device.
+    var rd := RenderingServer.create_local_rendering_device()
+
+C#:
+    // Create a local rendering device.
+    var rd = RenderingServer.CreateLocalRenderingDevice();
+
+After that, we can load the newly created shader file compute_example.glsl and create a precompiled version of it using this:
+
+GDScript:
+    # Load GLSL shader
+    var shader_file := load("res://compute_example.glsl")
+    var shader_spirv: RDShaderSPIRV = shader_file.get_spirv()
+    var shader := rd.shader_create_from_spirv(shader_spirv)
+
+C#:
+    // Load GLSL shader
+    var shaderFile = GD.Load<RDShaderFile>("res://compute_example.glsl");
+    var shaderBytecode = shaderFile.GetSpirV();
+    var shader = rd.ShaderCreateFromSpirV(shaderBytecode);
+
+Warning: Local RenderingDevices cannot be debugged using tools such as RenderDoc.
+---CHUNK---
+Document: Compute Shaders
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This section explains how to prepare and pass input data to a compute shader using storage buffers in Godot.
+
+To pass input data to a compute shader, you need to create a buffer. For an array of floats, a storage buffer is suitable. Storage buffers allow data transfer between the CPU and GPU.
+
+GDScript:
+# Prepare our data. We use floats in the shader, so we need 32 bit.
+var input := PackedFloat32Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+var input_bytes := input.to_byte_array()
+
+# Create a storage buffer that can hold our float values.
+# Each float has 4 bytes (32 bit) so 10 x 4 = 40 bytes
+var buffer := rd.storage_buffer_create(input_bytes.size(), input_bytes)
+
+C#:
+// Prepare our data. We use floats in the shader, so we need 32 bit.
+float[] input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var inputBytes = new byte[input.Length * sizeof(float)];
+Buffer.BlockCopy(input, 0, inputBytes, 0, inputBytes.Length);
+
+// Create a storage buffer that can hold our float values.
+// Each float has 4 bytes (32 bit) so 10 x 4 = 40 bytes
+var buffer = rd.StorageBufferCreate((uint)inputBytes.Length, inputBytes);
+
+After creating the buffer, you need to inform the rendering device to use it. This involves creating a uniform and assigning it to a uniform set, which will then be passed to the shader.
+
+GDScript:
+# Create a uniform to assign the buffer to the rendering device
+var uniform := RDUniform.new()
+uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
+uniform.binding = 0 # this needs to match the "binding" in our shader file
+uniform.add_id(buffer)
+var uniform_set := rd.uniform_set_create([uniform], shader, 0) # the last parameter (the 0) needs to match the "set" in our shader file
+
+C#:
+// Create a uniform to assign the buffer to the rendering device
+var uniform = new RDUniform
+{
+    UniformType = RenderingDevice.UniformType.StorageBuffer,
+    Binding = 0
+};
+uniform.AddId(buffer);
+var uniformSet = rd.UniformSetCreate([uniform], shader, 0);
+---CHUNK---
+Document: Compute Shaders
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This section details the steps required to create and dispatch a compute pipeline in Godot, including binding resources and specifying workgroups.
+
+The next step is to create a set of instructions our GPU can execute. We need a pipeline and a compute list for that.
+
+The steps we need to do to compute our result are:
+* Create a new pipeline.
+* Begin a list of instructions for our GPU to execute.
+* Bind our compute list to our pipeline
+* Bind our buffer uniform to our pipeline
+* Specify how many workgroups to use
+* End the list of instructions
+
+GDScript:
+    # Create a compute pipeline
+    var pipeline := rd.compute_pipeline_create(shader)
+    var compute_list := rd.compute_list_begin()
+    rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
+    rd.compute_list_bind_uniform_set(compute_list, uniform_set, 0)
+    rd.compute_list_dispatch(compute_list, 5, 1, 1)
+    rd.compute_list_end()
+
+C#:
+    // Create a compute pipeline
+    var pipeline = rd.ComputePipelineCreate(shader);
+    var computeList = rd.ComputeListBegin();
+    rd.ComputeListBindComputePipeline(computeList, pipeline);
+    rd.ComputeListBindUniformSet(computeList, uniformSet, 0);
+    rd.ComputeListDispatch(computeList, xGroups: 5, yGroups: 1, zGroups: 1);
+    rd.ComputeListEnd();
+
+Note: we are dispatching the compute shader with 5 work groups in the X axis, and one in the others. Since we have 2 local invocations in the X axis (specified in our shader), 10 compute shader invocations will be launched in total. If you read or write to indices outside of the range of your buffer, you may access memory outside of your shaders control or parts of other variables which may cause issues on some hardware.
+---CHUNK---
+Document: Compute Shaders
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This section explains how to execute a compute shader pipeline and discusses synchronization and potential issues like TDR.
+
+To execute the compute shader pipeline, you need to submit it to the GPU and wait for the execution to finish. This involves recording the commands and then actually running the shader program.
+
+GDScript:
+# Submit to GPU and wait for sync
+rd.submit()
+rd.sync()
+
+C#:
+// Submit to GPU and wait for sync
+rd.Submit();
+rd.Sync();
+
+It is generally not recommended to call `sync()` immediately after submission, as this forces the CPU to wait for the GPU to complete its work. In this example, synchronization is done right away to make the data available for reading immediately. In a typical application, you would wait for at least 2 or 3 frames before synchronizing to allow the GPU to operate in parallel with the CPU.
+
+Warning: Long computations can trigger Windows' Timeout Detection and Recovery (TDR) mechanism, which can cause graphics drivers to crash and reinitialize. TDR is activated when the graphics driver is inactive for a set period (typically 5 to 10 seconds). The duration of your compute shader's execution might necessitate splitting it into multiple dispatches. This reduces the time each individual dispatch takes, thereby lowering the risk of triggering a TDR. Slower GPUs may be more susceptible to TDRs for a given compute shader compared to faster GPUs, as TDR is time-dependent.
+---CHUNK---
+Document: Compute Shaders
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This section explains how to retrieve and print the results computed by a compute shader from a storage buffer.
+
+GDScript:
+    # Read back the data from the buffer
+    var output_bytes := rd.buffer_get_data(buffer)
+    var output := output_bytes.to_float32_array()
+    print("Input: ", input)
+    print("Output: ", output)
+
+C#:
+    // Read back the data from the buffers
+    var outputBytes = rd.BufferGetData(buffer);
+    var output = new float[input.Length];
+    Buffer.BlockCopy(outputBytes, 0, output, 0, outputBytes.Length);
+    GD.Print("Input: ", string.Join(", ", input));
+    GD.Print("Output: ", string.Join(", ", output));
+---CHUNK---
+Document: Compute Shaders
+Path: godot/tutorials/shaders/compute_shaders.rst
+Summary: This section explains how to manually free RIDs used by compute shaders in Godot.
+
+When working with compute shaders in Godot, the `buffer`, `pipeline`, and `uniform_set` variables are all of type `RID`. Since the `RenderingDevice` is a low-level API, these RIDs are not automatically freed. It is the developer's responsibility to manually free the memory associated with these RIDs when they are no longer needed. This is done using the `free_rid()` method of the `RenderingDevice`.
+
+For example, after you are finished using a `buffer` RID, you must call `rendering_device.free_rid(buffer)` to release its memory.
+
+The demo projects repository includes a Compute Shader Heightmap demo. This project demonstrates heightmap image generation on both the CPU and GPU, allowing for a comparison of implementation approaches and highlighting the performance benefits of GPU computation for such algorithms.

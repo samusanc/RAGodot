@@ -1,0 +1,207 @@
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: This document describes the Label3D class.
+---CHUNK---
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: A node for displaying plain text in 3D space.
+
+Inherits: GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+
+A node for displaying plain text in 3D space.
+---CHUNK---
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: A node for displaying plain text in 3D space with configurable appearance and camera-facing behavior.
+
+A node for displaying plain text in 3D space. By adjusting various properties of this node, you can configure things such as the text's appearance and whether it always faces the camera.
+---CHUNK---
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: Reference links for 3D text tutorials related to the Label3D class.
+
+Tutorials:
+- 3D text
+---CHUNK---
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: This section lists and describes the properties available for the Label3D node, including text rendering, appearance, and 3D display options.
+
+*   alpha_antialiasing_edge (float): Default: 0.0
+*   alpha_antialiasing_mode (AlphaAntiAliasing): Default: 0
+*   alpha_cut (AlphaCutMode): Default: 0
+*   alpha_hash_scale (float): Default: 1.0
+*   alpha_scissor_threshold (float): Default: 0.5
+*   autowrap_mode (AutowrapMode): Default: 0
+*   autowrap_trim_flags (bitfield[LineBreakFlag]): Default: 192
+*   billboard (BillboardMode): Default: 0
+*   cast_shadow (ShadowCastingSetting): Default: 0 (overrides GeometryInstance3D)
+*   double_sided (bool): Default: true
+*   fixed_size (bool): Default: false
+*   font (Font):
+*   font_size (int): Default: 32
+*   gi_mode (GIMode): Default: 0 (overrides GeometryInstance3D)
+*   horizontal_alignment (HorizontalAlignment): Default: 1
+*   justification_flags (bitfield[JustificationFlag]): Default: 163
+*   language (String): Default: ""
+*   line_spacing (float): Default: 0.0
+*   modulate (Color): Default: Color(1, 1, 1, 1)
+*   no_depth_test (bool): Default: false
+*   offset (Vector2): Default: Vector2(0, 0)
+*   outline_modulate (Color): Default: Color(0, 0, 0, 1)
+*   outline_render_priority (int): Default: -1
+*   outline_size (int): Default: 12
+*   pixel_size (float): Default: 0.005
+*   render_priority (int): Default: 0
+*   shaded (bool): Default: false
+*   structured_text_bidi_override (StructuredTextParser): Default: 0
+*   structured_text_bidi_override_options (Array): Default: []
+*   text (String): Default: ""
+*   text_direction (Direction): Default: 0
+*   texture_filter (TextureFilter): Default: 3
+*   uppercase (bool): Default: false
+*   vertical_alignment (VerticalAlignment): Default: 1
+*   width (float): Default: 500.0
+---CHUNK---
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: This section describes the methods available for Label3D and defines its DrawFlags and AlphaCutMode enumerations.
+
+Method: generate_triangle_mesh() -> TriangleMesh
+Method: get_draw_flag(flag: DrawFlags) -> bool
+Method: set_draw_flag(flag: DrawFlags, enabled: bool) -> void
+
+Enumerations
+enum DrawFlags:
+- FLAG_SHADED = 0: If set, lights in the environment affect the label.
+- FLAG_DOUBLE_SIDED = 1: If set, text can be seen from the back as well. If not, the text is invisible when looking at it from behind.
+- FLAG_DISABLE_DEPTH_TEST = 2: Disables the depth test, so this object is drawn on top of all others. However, objects drawn after it in the draw order may cover it.
+- FLAG_FIXED_SIZE = 3: Label is scaled by depth so that it always appears the same size on screen.
+- FLAG_MAX = 4: Represents the size of the DrawFlags enum.
+
+enum AlphaCutMode:
+- ALPHA_CUT_DISABLED = 0: This mode performs standard alpha blending. It can display translucent areas, but transparency sorting issues may be visible when multiple transparent materials are overlapping. GeometryInstance3D.cast_shadow has no effect when this transparency mode is used; the Label3D will never cast shadows.
+- ALPHA_CUT_DISCARD = 1: This mode only allows fully transparent or fully opaque pixels. Harsh edges will be visible unless some form of screen-space antialiasing is enabled (see ProjectSettings.rendering/anti_aliasing/quality/screen_space_aa). This mode is also known as alpha testing or 1-bit transparency. Note: This mode might have issues with anti-aliased fonts and outlines, try adjusting alpha_scissor_threshold or using MSDF font. Note: When using text with overlapping glyphs (e.g., cursive scripts), this mode might have transparency sorting issues between the main text and the outline.
+- ALPHA_CUT_OPAQUE_PREPASS = 2: This mode draws fully opaque pixels in the depth prepass. This is slower than ALPHA_CUT_DISABLED or ALPHA_CUT_DISCARD, but it allows displaying translucent areas and smooth edges while using proper sorting. Note: When using text with overlapping glyphs (e.g., cursive scripts), this mode might have transparency sorting issues between the main text and the outline.
+- ALPHA_CUT_HASH = 3: This mode draws cuts off all values below a spatially-deterministic threshold, the rest will remain opaque.
+---CHUNK---
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: This section describes the properties available for configuring a Label3D node, including text rendering, appearance, and behavior.
+
+- alpha_antialiasing_edge (float): Threshold at which antialiasing will be applied on the alpha channel. Default: 0.0
+  Method: set_alpha_antialiasing_edge(value: float)
+  Method: get_alpha_antialiasing_edge()
+- alpha_antialiasing_mode (AlphaAntiAliasing): The type of alpha antialiasing to apply. Default: 0
+  Method: set_alpha_antialiasing(value: AlphaAntiAliasing)
+  Method: get_alpha_antialiasing()
+- alpha_cut (AlphaCutMode): The alpha cutting mode to use for the sprite. Default: 0
+  Method: set_alpha_cut_mode(value: AlphaCutMode)
+  Method: get_alpha_cut_mode()
+- alpha_hash_scale (float): The hashing scale for Alpha Hash. Recommended values between 0 and 2. Default: 1.0
+  Method: set_alpha_hash_scale(value: float)
+  Method: get_alpha_hash_scale()
+- alpha_scissor_threshold (float): Threshold at which the alpha scissor will discard values. Default: 0.5
+  Method: set_alpha_scissor_threshold(value: float)
+  Method: get_alpha_scissor_threshold()
+- autowrap_mode (AutowrapMode): If set to something other than TextServer.AUTOWRAP_OFF, the text gets wrapped inside the node's bounding rectangle. If you resize the node, it will change its height automatically to show all the text. Default: 0
+  Method: set_autowrap_mode(value: AutowrapMode)
+  Method: get_autowrap_mode()
+- autowrap_trim_flags (bitfield[LineBreakFlag]): Autowrap space trimming flags. See TextServer.BREAK_TRIM_START_EDGE_SPACES and TextServer.BREAK_TRIM_END_EDGE_SPACES for more info. Default: 192
+  Method: set_autowrap_trim_flags(value: bitfield[LineBreakFlag])
+  Method: get_autowrap_trim_flags()
+- billboard (BillboardMode): The billboard mode to use for the label. Default: 0
+  Method: set_billboard_mode(value: BillboardMode)
+  Method: get_billboard_mode()
+- double_sided (bool): If true, text can be seen from the back as well, if false, it is invisible when looking at it from behind. Default: true
+  Method: set_draw_flag(flag: DrawFlags, enabled: bool)
+  Method: get_draw_flag(flag: DrawFlags) -> bool
+- fixed_size (bool): If true, the label is rendered at the same size regardless of distance. The label's size on screen is the same as if the camera was 1.0 units away from the label's origin, regardless of the actual distance from the camera. The Camera3D's field of view (or Camera3D.size when in orthogonal/frustum mode) still affects the size the label is drawn at. Default: false
+  Method: set_draw_flag(flag: DrawFlags, enabled: bool)
+  Method: get_draw_flag(flag: DrawFlags) -> bool
+- font (Font): Font configuration used to display text.
+  Method: set_font(value: Font)
+  Method: get_font()
+- font_size (int): Font size of the Label3D's text. To make the font look more detailed when up close, increase font_size while decreasing pixel_size at the same time. Higher font sizes require more time to render new characters, which can cause stuttering during gameplay. Default: 32
+  Method: set_font_size(value: int)
+  Method: get_font_size()
+- horizontal_alignment (HorizontalAlignment): Controls the text's horizontal alignment. Supports left, center, right, and fill (also known as justify). Default: 1
+  Method: set_horizontal_alignment(value: HorizontalAlignment)
+  Method: get_horizontal_alignment()
+- justification_flags (bitfield[JustificationFlag]): Line fill alignment rules. Default: 163
+  Method: set_justification_flags(value: bitfield[JustificationFlag])
+  Method: get_justification_flags()
+- language (String): Language code used for line-breaking and text shaping algorithms. If left empty, the current locale is used instead. Default: ""
+  Method: set_language(value: String)
+  Method: get_language()
+- line_spacing (float): Additional vertical spacing between lines (in pixels), spacing is added to line descent. This value can be negative. Default: 0.0
+  Method: set_line_spacing(value: float)
+  Method: get_line_spacing()
+- modulate (Color): Text Color of the Label3D. Default: Color(1, 1, 1, 1)
+  Method: set_modulate(value: Color)
+  Method: get_modulate()
+- no_depth_test (bool): If true, depth testing is disabled and the object will be drawn in render order. Default: false
+  Method: set_draw_flag(flag: DrawFlags, enabled: bool)
+  Method: get_draw_flag(flag: DrawFlags) -> bool
+- offset (Vector2): The text drawing offset (in pixels). Default: Vector2(0, 0)
+  Method: set_offset(value: Vector2)
+  Method: get_offset()
+- outline_modulate (Color): The tint of text outline. Default: Color(0, 0, 0, 1)
+  Method: set_outline_modulate(value: Color)
+  Method: get_outline_modulate()
+- outline_render_priority (int): Sets the render priority for the text outline. Higher priority objects will be sorted in front of lower priority objects. Default: -1
+  Note: This only applies if alpha_cut is set to ALPHA_CUT_DISABLED (default value).
+  Note: This only applies to sorting of transparent objects. This will not impact how transparent objects are sorted relative to opaque objects. This is because opaque objects are not sorted, while transparent objects are sorted from back to front (subject to priority).
+  Method: set_outline_render_priority(value: int)
+  Method: get_outline_render_priority()
+- outline_size (int): Text outline size. Default: 12
+  Method: set_outline_size(value: int)
+  Method: get_outline_size()
+- pixel_size (float): The size of one pixel's width on the label to scale it in 3D. To make the font look more detailed when up close, increase font_size while decreasing pixel_size at the same time. Default: 0.005
+  Method: set_pixel_size(value: float)
+  Method: get_pixel_size()
+- render_priority (int): Sets the render priority for the text. Higher priority objects will be sorted in front of lower priority objects. Default: 0
+  Note: This only applies if alpha_cut is set to ALPHA_CUT_DISABLED (default value).
+  Note: This only applies to sorting of transparent objects. This will not impact how transparent objects are sorted relative to opaque objects. This is because opaque objects are not sorted, while transparent objects are sorted from back to front (subject to priority).
+  Method: set_render_priority(value: int)
+  Method: get_render_priority()
+- shaded (bool): If true, the Light3D in the Environment has effects on the label. Default: false
+  Method: set_draw_flag(flag: DrawFlags, enabled: bool)
+  Method: get_draw_flag(flag: DrawFlags) -> bool
+- structured_text_bidi_override (StructuredTextParser): Set BiDi algorithm override for the structured text. Default: 0
+  Method: set_structured_text_bidi_override(value: StructuredTextParser)
+  Method: get_structured_text_bidi_override()
+- structured_text_bidi_override_options (Array): Set additional options for BiDi override. Default: []
+  Method: set_structured_text_bidi_override_options(value: Array)
+  Method: get_structured_text_bidi_override_options()
+- text (String): The text to display on screen. Default: ""
+  Method: set_text(value: String)
+  Method: get_text()
+- text_direction (Direction): Base text writing direction. Default: 0
+  Method: set_text_direction(value: Direction)
+  Method: get_text_direction()
+- texture_filter (TextureFilter): Filter flags for the texture. Default: 3
+  Method: set_texture_filter(value: TextureFilter)
+  Method: get_texture_filter()
+- uppercase (bool): If true, all the text displays as UPPERCASE. Default: false
+  Method: set_uppercase(value: bool)
+  Method: is_uppercase()
+- vertical_alignment (VerticalAlignment): Controls the text's vertical alignment. Supports top, center, and bottom. Default: 1
+  Method: set_vertical_alignment(value: VerticalAlignment)
+  Method: get_vertical_alignment()
+- width (float): Text width (in pixels), used for autowrap and fill alignment. Default: 500.0
+  Method: set_width(value: float)
+  Method: get_width()
+---CHUNK---
+Document: Label3D
+Path: godot/classes/class_label3d.rst
+Summary: Describes methods for generating a triangle mesh from a Label3D and managing its draw flags.
+
+Method: generate_triangle_mesh() -> TriangleMesh
+Returns a TriangleMesh with the label's vertices following its current configuration (such as its pixel_size).
+
+Method: get_draw_flag(flag: DrawFlags) -> bool
+Returns the value of the specified flag.
+
+Method: set_draw_flag(flag: DrawFlags, enabled: bool) -> void
+If `true`, the specified `flag` will be enabled.

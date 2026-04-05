@@ -1,0 +1,277 @@
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This section describes the Basis class.
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: Describes the Basis class, a 3x3 matrix for 3D rotation and scale.
+
+Basis
+A 3×3 matrix for representing 3D rotation and scale.
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: Describes the Basis built-in type, a 3x3 matrix used for 3D rotation, scale, and shear, and its properties like orthogonality and normalization.
+
+The Basis built-in Variant type is a 3x3 matrix used to represent 3D rotation, scale, and shear. It is frequently used within a Transform3D.
+
+A Basis is composed by 3 axis vectors, each representing a column of the matrix: x, y, and z. The length of each axis (Vector3.length()) influences the basis's scale, while the direction of all axes influence the rotation. Usually, these axes are perpendicular to one another. However, when you rotate any axis individually, the basis becomes sheared. Applying a sheared basis to a 3D model will make the model appear distorted.
+
+A Basis is:
+
+- Orthogonal if its axes are perpendicular to each other.
+
+- Normalized if the length of every axis is 1.0.
+
+- Uniform if all axes share the same length (see get_scale()).
+
+- Orthonormal if it is both orthogonal and normalized, which allows it to only represent rotations (see orthonormalized()).
+
+- Conformal if it is both orthogonal and uniform, which ensures it is not distorted.
+
+For a general introduction, see the Matrices and transforms tutorial.
+
+Note: Godot uses a right-handed coordinate system, which is a common standard. For directions, the convention for built-in types like Camera3D is for -Z to point forward (+X is right, +Y is up, and +Z is back). Other objects may use different direction conventions. For more information, see the 3D asset direction conventions tutorial.
+
+Note: The basis matrices are exposed as column-major order, which is the same as OpenGL. However, they are stored internally in row-major order, which is the same as DirectX.
+
+Key Rule: In a boolean context, a basis will evaluate to false if it's equal to IDENTITY. Otherwise, a basis will always evaluate to true.
+
+Note: There are notable differences when using this API with C#. See doc_c_sharp_differences for more information.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_basis.rst
+Summary: Lists various tutorials and demos related to math, matrices, transforms, and 3D game development.
+
+Tutorials
+- Math documentation index
+- Matrices and transforms
+- Using 3D transforms
+- Matrix Transform Demo
+- 3D Platformer Demo
+- 3D Voxel Demo
+- 2.5D Game Demo
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This section describes the properties of the Basis class, which represent its x, y, and z axes.
+
+Properties:
+* x (Vector3): Default: Vector3(1, 0, 0)
+* y (Vector3): Default: Vector3(0, 1, 0)
+* z (Vector3): Default: Vector3(0, 0, 1)
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This section lists the constructors, methods, and operators available for the Basis class.
+
+Constructors:
+- Basis()
+- Basis(from: Basis)
+- Basis(axis: Vector3, angle: float)
+- Basis(from: Quaternion)
+- Basis(x_axis: Vector3, y_axis: Vector3, z_axis: Vector3)
+
+Methods:
+- Method: determinant() -> float
+- Method: from_euler(euler: Vector3, order: int = 2) -> Basis
+- Method: from_scale(scale: Vector3) -> Basis
+- Method: get_euler(order: int = 2) -> Vector3
+- Method: get_rotation_quaternion() -> Quaternion
+- Method: get_scale() -> Vector3
+- Method: inverse() -> Basis
+- Method: is_conformal() -> bool
+- Method: is_equal_approx(b: Basis) -> bool
+- Method: is_finite() -> bool
+- Method: is_orthonormal() -> bool
+- Method: looking_at(target: Vector3, up: Vector3 = Vector3(0, 1, 0), use_model_front: bool = false) -> Basis
+- Method: orthonormalized() -> Basis
+- Method: rotated(axis: Vector3, angle: float) -> Basis
+- Method: scaled(scale: Vector3) -> Basis
+- Method: scaled_local(scale: Vector3) -> Basis
+- Method: slerp(to: Basis, weight: float) -> Basis
+- Method: tdotx(with: Vector3) -> float
+- Method: tdoty(with: Vector3) -> float
+- Method: tdotz(with: Vector3) -> float
+- Method: transposed() -> Basis
+
+Operators:
+- Operator: operator !=(right: Basis) -> bool
+- Operator: operator *(right: Basis) -> Basis
+- Operator: operator *(right: Vector3) -> Vector3
+- Operator: operator *(right: float) -> Basis
+- Operator: operator *(right: int) -> Basis
+- Operator: operator /(right: float) -> Basis
+- Operator: operator /(right: int) -> Basis
+- Operator: operator ==(right: Basis) -> bool
+- Operator: operator [](index: int) -> Vector3
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This chunk describes the IDENTITY, FLIP_X, FLIP_Y, and FLIP_Z constants of the Basis class.
+
+Constants
+IDENTITY = Basis(1, 0, 0, 0, 1, 0, 0, 0, 1)
+The identity Basis. This is an orthonormal basis with no rotation, no shear, and a scale of Vector3.ONE. This also means that:
+- The x points right (Vector3.RIGHT);
+- The y points up (Vector3.UP);
+- The z points back (Vector3.BACK).
+
+GDScript:
+    var basis = Basis.IDENTITY
+    print("| X | Y | Z")
+    print("| %.f | %.f | %.f" % [basis.x.x, basis.y.x, basis.z.x])
+    print("| %.f | %.f | %.f" % [basis.x.y, basis.y.y, basis.z.y])
+    print("| %.f | %.f | %.f" % [basis.x.z, basis.y.z, basis.z.z])
+    # Prints:
+    # | X | Y | Z
+    # | 1 | 0 | 0
+    # | 0 | 1 | 0
+    # | 0 | 0 | 1
+
+If a Vector3 or another Basis is transformed (multiplied) by this constant, no transformation occurs.
+Note: In GDScript, this constant is equivalent to creating a Basis without any arguments. It can be used to make your code clearer, and for consistency with C#.
+
+FLIP_X = Basis(-1, 0, 0, 0, 1, 0, 0, 0, 1)
+When any basis is multiplied by FLIP_X, it negates all components of the x axis (the X column).
+When FLIP_X is multiplied by any basis, it negates the Vector3.x component of all axes (the X row).
+
+FLIP_Y = Basis(1, 0, 0, 0, -1, 0, 0, 0, 1)
+When any basis is multiplied by FLIP_Y, it negates all components of the y axis (the Y column).
+When FLIP_Y is multiplied by any basis, it negates the Vector3.y component of all axes (the Y row).
+
+FLIP_Z = Basis(1, 0, 0, 0, 1, 0, 0, 0, -1)
+When any basis is multiplied by FLIP_Z, it negates all components of the z axis (the Z column).
+When FLIP_Z is multiplied by any basis, it negates the Vector3.z component of all axes (the Z row).
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This section describes the x, y, and z axis properties of the Basis class.
+
+*   Property: x (Vector3): The basis's X axis, and the column 0 of the matrix. On the identity basis, this vector points right (Vector3.RIGHT). Default: Vector3(1, 0, 0).
+*   Property: y (Vector3): The basis's Y axis, and the column 1 of the matrix. On the identity basis, this vector points up (Vector3.UP). Default: Vector3(0, 1, 0).
+*   Property: z (Vector3): The basis's Z axis, and the column 2 of the matrix. On the identity basis, this vector points back (Vector3.BACK). Default: Vector3(0, 0, 1).
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This section describes the various constructors available for the Basis class.
+
+Method: Basis()
+Constructs a Basis identical to IDENTITY. Note: In C#, this constructs a Basis with all of its components set to Vector3.ZERO.
+
+Method: Basis(from: Basis)
+Constructs a Basis as a copy of the given Basis.
+
+Method: Basis(axis: Vector3, angle: float)
+Constructs a Basis that only represents rotation, rotated around the axis by the given angle, in radians. The axis must be a normalized vector. Note: This is the same as using rotated() on the IDENTITY basis. With more than one angle consider using from_euler(), instead.
+
+Method: Basis(from: Quaternion)
+Constructs a Basis that only represents rotation from the given Quaternion. Note: Quaternions only store rotation, not scale. Because of this, conversions from Basis to Quaternion cannot always be reversed.
+
+Method: Basis(x_axis: Vector3, y_axis: Vector3, z_axis: Vector3)
+Constructs a Basis from 3 axis vectors. These are the columns of the basis matrix.
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This section describes methods for Basis, including determinant calculation, constructing from Euler angles or scale, and retrieving Euler angles or quaternions.
+
+Method: determinant() → float
+Returns the determinant of this basis's matrix. For advanced math, this number can be used to determine a few attributes:
+- If the determinant is exactly 0.0, the basis is not invertible (see inverse()).
+- If the determinant is a negative number, the basis represents a negative scale.
+Note: If the basis's scale is the same for every axis, its determinant is always that scale by the power of 3.
+
+Method: from_euler(euler: Vector3, order: int = 2) (static) → Basis
+Constructs a new Basis that only represents rotation from the given Vector3 of Euler angles, in radians.
+- The Vector3.x should contain the angle around the x axis (pitch);
+- The Vector3.y should contain the angle around the y axis (yaw);
+- The Vector3.z should contain the angle around the z axis (roll).
+
+GDScript:
+# Creates a Basis whose z axis points down.
+var my_basis = Basis.from_euler(Vector3(TAU / 4, 0, 0))
+
+print(my_basis.z) # Prints (0.0, -1.0, 0.0)
+C#:
+// Creates a Basis whose z axis points down.
+var myBasis = Basis.FromEuler(new Vector3(Mathf.Tau / 4.0f, 0.0f, 0.0f));
+
+GD.Print(myBasis.Z); // Prints (0, -1, 0)
+
+The order of each consecutive rotation can be changed with order (see EulerOrder constants). By default, the YXZ convention is used (EULER_ORDER_YXZ): the basis rotates first around the Y axis (yaw), then X (pitch), and lastly Z (roll). When using the opposite method get_euler(), this order is reversed.
+
+Method: from_scale(scale: Vector3) (static) → Basis
+Constructs a new Basis that only represents scale, with no rotation or shear, from the given scale vector.
+
+GDScript:
+var my_basis = Basis.from_scale(Vector3(2, 4, 8))
+
+print(my_basis.x) # Prints (2.0, 0.0, 0.0)
+print(my_basis.y) # Prints (0.0, 4.0, 0.0)
+print(my_basis.z) # Prints (0.0, 0.0, 8.0)
+C#:
+var myBasis = Basis.FromScale(new Vector3(2.0f, 4.0f, 8.0f));
+
+GD.Print(myBasis.X); // Prints (2, 0, 0)
+GD.Print(myBasis.Y); // Prints (0, 4, 0)
+GD.Print(myBasis.Z); // Prints (0, 0, 8)
+
+Note: In linear algebra, the matrix of this basis is also known as a diagonal matrix.
+
+Method: get_euler(order: int = 2) → Vector3
+Returns this basis's rotation as a Vector3 of Euler angles, in radians. For the returned value:
+- The Vector3.x contains the angle around the x axis (pitch);
+- The Vector3.y contains the angle around the y axis (yaw);
+- The Vector3.z contains the angle around the z axis (roll).
+The order of each consecutive rotation can be changed with order (see EulerOrder constants). By default, the YXZ convention is used (EULER_ORDER_YXZ): Z (roll) is calculated first, then X (pitch), and lastly Y (yaw). When using the opposite method from_euler(), this order is reversed.
+Note: For this method to return correctly, the basis needs to be orthonormal (see orthonormalized()).
+Note: Euler angles are much more intuitive but are not suitable for 3D math. Because of this, consider using the get_rotation_quaternion() method instead, which returns a Quaternion.
+Note: In the Inspector dock, a basis's rotation is often displayed in Euler angles (in degrees), as is the case with the Node3D.rotation property.
+
+Method: get_rotation_quaternion() → Quaternion
+Returns this basis's rotation as a Quaternion.
+Note: Quaternions are much more suitable for 3D math but are less intuitive. For user interfaces, consider using the get_euler() method, which returns Euler angles.
+---CHUNK---
+Document: Basis
+Path: godot/classes/class_basis.rst
+Summary: This section describes the operator overloads available for the Basis class, including comparison, multiplication, division, and indexing.
+
+Method: bool operator !=(right: Basis)
+Returns `true` if the components of both Basis matrices are not equal.
+Note: Due to floating-point precision errors, consider using is_equal_approx() instead, which is more reliable.
+
+Method: Basis operator *(right: Basis)
+Transforms (multiplies) the `right` basis by this basis. This is the operation performed between parent and child Node3Ds.
+
+Method: Vector3 operator *(right: Vector3)
+Transforms (multiplies) the `right` vector by this basis, returning a Vector3.
+
+GDScript:
+    # Basis that swaps the X/Z axes and doubles the scale.
+    var my_basis = Basis(Vector3(0, 2, 0), Vector3(2, 0, 0), Vector3(0, 0, 2))
+    print(my_basis * Vector3(1, 2, 3)) # Prints (4.0, 2.0, 6.0)
+
+C#:
+    // Basis that swaps the X/Z axes and doubles the scale.
+    var myBasis = new Basis(new Vector3(0, 2, 0), new Vector3(2, 0, 0), new Vector3(0, 0, 2));
+    GD.Print(myBasis * new Vector3(1, 2, 3)); // Prints (4, 2, 6)
+
+Method: Basis operator *(right: float)
+Multiplies all components of the Basis by the given float. This affects the basis's scale uniformly, resizing all 3 axes by the `right` value.
+
+Method: Basis operator *(right: int)
+Multiplies all components of the Basis by the given int. This affects the basis's scale uniformly, resizing all 3 axes by the `right` value.
+
+Method: Basis operator /(right: float)
+Divides all components of the Basis by the given float. This affects the basis's scale uniformly, resizing all 3 axes by the `right` value.
+
+Method: Basis operator /(right: int)
+Divides all components of the Basis by the given int. This affects the basis's scale uniformly, resizing all 3 axes by the `right` value.
+
+Method: bool operator ==(right: Basis)
+Returns `true` if the components of both Basis matrices are exactly equal.
+Note: Due to floating-point precision errors, consider using is_equal_approx() instead, which is more reliable.
+
+Method: Vector3 operator [](index: int)
+Accesses each axis (column) of this basis by their index. Index `0` is the same as x, index `1` is the same as y, and index `2` is the same as z.
+Note: In C++, this operator accesses the rows of the basis matrix, *not* the columns. For the same behavior as scripting languages, use the `set_column` and `get_column` methods.

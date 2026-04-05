@@ -1,0 +1,32 @@
+Document: PanoramaSkyMaterial
+Path: godot/classes/class_panoramaskymaterial.rst
+Summary: This class provides a material for rendering panoramic sky textures in 3D scenes.
+---CHUNK---
+Document: PanoramaSkyMaterial
+Path: godot/classes/class_panoramaskymaterial.rst
+Summary: A material that provides an HDR panorama texture to a Sky for environmental lighting.
+
+Inherits: Material < Resource < RefCounted < Object
+A material that provides a special texture to a Sky, usually an HDR panorama.
+---CHUNK---
+Document: PanoramaSkyMaterial
+Path: godot/classes/class_panoramaskymaterial.rst
+Summary: A resource used to draw a background in Godot, utilizing an equirectangular sky map instead of a cubemap.
+
+A resource referenced in a Sky that is used to draw a background. PanoramaSkyMaterial functions similar to skyboxes in other engines, except it uses an equirectangular sky map instead of a Cubemap. Using an HDR panorama is strongly recommended for accurate, high-quality reflections. Godot supports the Radiance HDR (.hdr) and OpenEXR (.exr) image formats for this purpose. You can use this tool to convert a cubemap to an equirectangular sky map.
+---CHUNK---
+Document: PanoramaSkyMaterial
+Path: godot/classes/class_panoramaskymaterial.rst
+Summary: Properties of the PanoramaSkyMaterial class including energy multiplier, filter setting, and panorama texture.
+
+Property: energy_multiplier (float): Scales the overall energy of the sky. Default: 1.0
+Property: filter (bool): Enables or disables color filtering for the sky. Default: true
+Property: panorama (Texture2D): The panoramic texture used to generate the sky appearance. Default: none
+---CHUNK---
+Document: PanoramaSkyMaterial  
+Path: godot/classes/class_panoramaskymaterial.rst  
+Summary: Properties and methods for configuring a PanoramaSkyMaterial in Godot, including brightness control, texture filtering, and panorama texture assignment.  
+
+Property: energy_multiplier (float): The sky's overall brightness multiplier. Higher values result in a brighter sky. Default: 1.0. Method: set_energy_multiplier(value: float). Method: get_energy_multiplier() → float.  
+Property: filter (bool): A boolean value to determine if the background texture should be filtered or not. Default: true. Method: set_filtering_enabled(value: bool). Method: is_filtering_enabled() → bool.  
+Property: panorama (Texture2D): Texture2D to be applied to the PanoramaSkyMaterial. Method: set_panorama(value: Texture2D). Method: get_panorama() → Texture2D.

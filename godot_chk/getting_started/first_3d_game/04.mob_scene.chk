@@ -1,0 +1,307 @@
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/04.mob_scene.rst
+Summary: This section details the creation and configuration of the Mob scene in Godot Engine for a first-person 3D game.
+
+Inherits: KinematicBody
+This section covers the creation of the Mob scene, which will serve as the enemy character in the game.
+
+Scene Setup:
+The Mob scene is built upon a KinematicBody node. This node is suitable for characters that need to move and collide with the environment but are not controlled by physics simulation.
+
+Nodes:
+- KinematicBody (root)
+  - Sprite3D: Used to display the mob's visual representation.
+  - CollisionShape: Defines the mob's collision boundaries.
+  - AnimationPlayer: Manages the mob's animations (e.g., walking, dying).
+  - NavigationAgent: Handles pathfinding for the mob to navigate the game world.
+
+Mob Script:
+A GDScript is attached to the KinematicBody node to control the mob's behavior.
+
+GDScript:
+extends KinematicBody
+
+# Export variables for easy tweaking in the editor
+export var speed = 3.0
+export var rotation_speed = 2.0
+export var health = 100
+
+# Node references
+onready var sprite = $Sprite3D
+onready var animation_player = $AnimationPlayer
+onready var navigation_agent = $NavigationAgent
+
+# State variables
+var velocity = Vector3.ZERO
+var target_position = Vector3.ZERO
+var is_dead = false
+
+func _ready():
+	# Initialize navigation agent
+	navigation_agent.set_target_location(global_transform.origin)
+	target_position = global_transform.origin
+
+func _physics_process(delta):
+	if is_dead:
+		return
+
+	# Move towards the target position
+	var next_path_position = navigation_agent.get_next_location()
+	velocity = (next_path_position - global_transform.origin) * speed
+	move_and_slide(velocity, Vector3.UP)
+
+	# Rotate towards the direction of movement
+	if velocity.length() > 0:
+		var direction = velocity.normalized()
+		var target_rotation = direction.angle_to(Vector3.FORWARD)
+		var angle = lerp_angle(rotation.y, target_rotation, rotation_speed * delta)
+		rotation.y = angle
+
+	# Update animation
+	if velocity.length() > 0:
+		animation_player.play("walk")
+	else:
+		animation_player.play("idle")
+
+func set_target(target_loc):
+	target_position = target_loc
+	navigation_agent.set_target_location(target_position)
+
+func take_damage(amount):
+	health -= amount
+	if health <= 0:
+		die()
+
+func die():
+	is_dead = true
+	animation_player.play("die")
+	# Disable collision and navigation
+	set_collision_mask_bit(0, false) # Example: disable collision with layer 0
+	navigation_agent.set_target_location(global_transform.origin) # Stop navigation
+	# Optionally, emit a signal or queue_free() after animation finishes
+
+Collision Shape:
+The CollisionShape node is configured with a shape that accurately represents the mob's physical form, typically a CapsuleShape or BoxShape. This ensures proper collision detection with the player and the environment.
+
+Animation Setup:
+The AnimationPlayer node is used to manage the mob's animations. Common animations include "idle," "walk," and "die." The script references these animations by name to control the mob's visual state.
+
+Navigation:
+The NavigationAgent node is crucial for the mob's AI. It allows the mob to pathfind its way around obstacles and reach its target destination within the game world. The `set_target` function in the script is used to update the mob's destination.
+---CHUNK---
+Document: first_3d_game
+Path: godot/getting_started/first_3d_game/04.mob_scene.rst
+Summary: This section describes the process of creating the Mob scene in Godot, including setting up the node structure, adding the 3D model, and configuring the collision shape.
+Create a new scene with a CharacterBody3D node as the root, named "Mob".
+Add a Node3D child node named "Pivot".
+Drag and drop the "mob.glb" file from the FileSystem dock onto the "Pivot" node to add the monster's 3D model.
+Rename the newly created "mob" node to "Character".
+Add a CollisionShape3D as a child node to the "Mob" root node.
+In the Inspector, assign a BoxShape3D to the Shape property of the CollisionShape3D.
+Adjust the size of the BoxShape3D interactively to better fit the 3D model. The box should touch the floor and be slightly thinner than the model.
+Key Rule: Collision shapes do not need to perfectly match the 3D model; their size and form should be dictated by how the game feels during testing to ensure fair gameplay.
+---CHUNK---
+Document: first_3d_game/04.mob_scene
+Path: godot/getting_started/first_3d_game/04.mob_scene.rst
+Summary: This section explains how to use VisibleOnScreenNotifier3D to remove off-screen mobs and discusses object pooling in GDScript.
+Select the ``Mob`` node and add a child node VisibleOnScreenNotifier3D. Another box, pink this time, appears. When this box completely leaves the screen, the node will emit a signal. Resize it using the orange dots until it covers the entire 3D model.
+
+Note: When you keep instancing an object, there's a technique you can use to avoid the cost of creating and destroying instances all the time called pooling. It consists of pre-creating an array of objects and reusing them over and over. When working with GDScript, you don't need to worry about this. The main reason to use pools is to avoid freezes with garbage-collected languages like C# or Lua. GDScript uses a different technique to manage memory, reference counting, which doesn't have that caveat. You can learn more about that here: gdscript_basics_memory_management.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/04.mob_scene.rst
+Summary: This section details how to code the movement and initialization logic for the "Mob" enemy in Godot, including random speed and direction.
+
+Coding the mob's movement
+This section covers implementing the monster's motion by first creating a script on the `Mob` node to define an initialization function, and then setting up a randomized spawning mechanism in the main scene that calls this function.
+
+Attach a script to the `Mob`.
+
+The initial movement code defines `min_speed` and `max_speed` properties to establish a random speed range for the `CharacterBody3D.velocity`.
+
+GDScript:
+extends CharacterBody3D
+
+# Minimum speed of the mob in meters per second.
+@export var min_speed = 10
+# Maximum speed of the mob in meters per second.
+@export var max_speed = 18
+
+
+func _physics_process(_delta):
+    move_and_slide()
+
+C#:
+using Godot;
+
+public partial class Mob : CharacterBody3D
+{
+    // Don't forget to rebuild the project so the editor knows about the new export variable.
+
+    // Minimum speed of the mob in meters per second
+    [Export]
+    public int MinSpeed { get; set; } = 10;
+    // Maximum speed of the mob in meters per second
+    [Export]
+    public int MaxSpeed { get; set; } = 18;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        MoveAndSlide();
+    }
+}
+
+Similar to the player, the mob moves each frame using `CharacterBody3D.move_and_slide()`. Unlike the player, the `velocity` is not updated every frame, ensuring the monster moves at a constant speed and leaves the screen even if it encounters obstacles.
+
+A new function is required to calculate the `CharacterBody3D.velocity`. This function will orient the monster towards the player, randomize its movement angle, and set its velocity.
+
+The function accepts `start_position` (the mob's spawn point) and `player_position` as arguments.
+
+The mob is positioned at `start_position` and oriented towards the player using `look_at_from_position()`. The angle is then randomized by rotating around the Y-axis within a range defined by `randf_range()`, which outputs a random value between -PI/4 and PI/4 radians (-45 to +45 degrees).
+
+GDScript:
+# This function will be called from the Main scene.
+func initialize(start_position, player_position):
+    # We position the mob by placing it at start_position
+    # and rotate it towards player_position, so it looks at the player.
+    look_at_from_position(start_position, player_position, Vector3.UP)
+    # Rotate this mob randomly within range of -45 and +45 degrees,
+    # so that it doesn't move directly towards the player.
+    rotate_y(randf_range(-PI / 4, PI / 4))
+
+C#:
+// This function will be called from the Main scene.
+public void Initialize(Vector3 startPosition, Vector3 playerPosition)
+{
+    // We position the mob by placing it at startPosition
+    // and rotate it towards playerPosition, so it looks at the player.
+    LookAtFromPosition(startPosition, playerPosition, Vector3.Up);
+    // Rotate this mob randomly within range of -45 and +45 degrees,
+    // so that it doesn't move directly towards the player.
+    RotateY((float)GD.RandRange(-Mathf.Pi / 4.0, Mathf.Pi / 4.0));
+}
+
+After obtaining a random position, a `random_speed` is determined using `randi_range()` for random integer values between `min_speed` and `max_speed`. This `random_speed` is then used to multiply the `CharacterBody3D.velocity`. Finally, the `velocity` vector is rotated to align with the mob's current Y rotation, ensuring it moves in the direction the mob is facing.
+
+GDScript:
+func initialize(start_position, player_position):
+    # ...
+
+    # We calculate a random speed (integer)
+    var random_speed = randi_range(min_speed, max_speed)
+    # We calculate a forward velocity that represents the speed.
+    velocity = Vector3.FORWARD * random_speed
+    # We then rotate the velocity vector based on the mob's Y rotation
+    # in order to move in the direction the mob is looking.
+    velocity = velocity.rotated(Vector3.UP, rotation.y)
+
+C#:
+public void Initialize(Vector3 startPosition, Vector3 playerPosition)
+{
+    // ...
+
+    // We calculate a random speed (integer).
+    int randomSpeed = GD.RandRange(MinSpeed, MaxSpeed);
+    // We calculate a forward velocity that represents the speed.
+    Velocity = Vector3.Forward * randomSpeed;
+    // We then rotate the velocity vector based on the mob's Y rotation
+    // in order to move in the direction the mob is looking.
+    Velocity = Velocity.Rotated(Vector3.Up, Rotation.Y);
+}
+---CHUNK---
+Document: godot/getting_started/first_3d_game/04.mob_scene.rst
+Path: godot/getting_started/first_3d_game/04.mob_scene.rst
+Summary: This section explains how to make mobs disappear when they leave the screen by connecting the VisibleOnScreenNotifier3D's screen_exited signal to the mob script.
+
+To destroy mobs when they leave the screen, connect the VisibleOnScreenNotifier3D node's screen_exited signal to the Mob.
+
+Navigate to the 3D viewport. Select the VisibleOnScreenNotifier3D node. In the Signals dock, double-click the screen_exited() signal. Connect this signal to the Mob.
+
+This action adds a new function to your mob script: _on_visible_on_screen_notifier_3d_screen_exited(). Inside this function, call the queue_free() method to destroy the instance.
+
+GDScript:
+func _on_visible_on_screen_notifier_3d_screen_exited():
+    queue_free()
+
+C#:
+// We also specified this function name in PascalCase in the editor's connection window.
+private void OnVisibilityNotifierScreenExited()
+{
+    QueueFree();
+}
+
+The complete mob.gd script is provided for reference.
+
+GDScript:
+extends CharacterBody3D
+
+# Minimum speed of the mob in meters per second.
+@export var min_speed = 10
+# Maximum speed of the mob in meters per second.
+@export var max_speed = 18
+
+func _physics_process(_delta):
+    move_and_slide()
+
+# This function will be called from the Main scene.
+func initialize(start_position, player_position):
+    # We position the mob by placing it at start_position
+    # and rotate it towards player_position, so it looks at the player.
+    look_at_from_position(start_position, player_position, Vector3.UP)
+    # Rotate this mob randomly within range of -45 and +45 degrees,
+    # so that it doesn't move directly towards the player.
+    rotate_y(randf_range(-PI / 4, PI / 4))
+
+    # We calculate a random speed (integer)
+    var random_speed = randi_range(min_speed, max_speed)
+    # We calculate a forward velocity that represents the speed.
+    velocity = Vector3.FORWARD * random_speed
+    # We then rotate the velocity vector based on the mob's Y rotation
+    # in order to move in the direction the mob is looking.
+    velocity = velocity.rotated(Vector3.UP, rotation.y)
+
+func _on_visible_on_screen_notifier_3d_screen_exited():
+    queue_free()
+
+C#:
+using Godot;
+
+public partial class Mob : CharacterBody3D
+{
+    // Minimum speed of the mob in meters per second.
+    [Export]
+    public int MinSpeed { get; set; } = 10;
+    // Maximum speed of the mob in meters per second.
+    [Export]
+    public int MaxSpeed { get; set; } = 18;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        MoveAndSlide();
+    }
+
+    // This function will be called from the Main scene.
+    public void Initialize(Vector3 startPosition, Vector3 playerPosition)
+    {
+        // We position the mob by placing it at startPosition
+        // and rotate it towards playerPosition, so it looks at the player.
+        LookAtFromPosition(startPosition, playerPosition, Vector3.Up);
+        // Rotate this mob randomly within range of -45 and +45 degrees,
+        // so that it doesn't move directly towards the player.
+        RotateY((float)GD.RandRange(-Mathf.Pi / 4.0, Mathf.Pi / 4.0));
+
+        // We calculate a random speed (integer).
+        int randomSpeed = GD.RandRange(MinSpeed, MaxSpeed);
+        // We calculate a forward velocity that represents the speed.
+        Velocity = Vector3.Forward * randomSpeed;
+        // We then rotate the velocity vector based on the mob's Y rotation
+        // in order to move in the direction the mob is looking.
+        Velocity = Velocity.Rotated(Vector3.Up, Rotation.Y);
+    }
+
+    // We also specified this function name in PascalCase in the editor's connection window.
+    private void OnVisibilityNotifierScreenExited()
+    {
+        QueueFree();
+    }
+}

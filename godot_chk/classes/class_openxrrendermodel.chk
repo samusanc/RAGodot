@@ -1,0 +1,50 @@
+Document: OpenXRRenderModel
+Path: godot/classes/class_openxrrendermodel.rst
+Summary: Class representing an OpenXR render model in Godot.
+---CHUNK---
+Document: OpenXRRenderModel
+Path: godot/classes/class_openxrrendermodel.rst
+Summary: A node that displays an OpenXR render model.
+
+Inherits: Node3D < Node < Object
+This node will display an OpenXR render model.
+---CHUNK---
+Document: class_openxrrendermodel
+Path: godot/classes/class_openxrrendermodel.rst
+Summary: This node displays OpenXR render models using GLTF files and processes animation data for controllers and devices.
+
+This node will display an OpenXR render model by accessing the associated GLTF and processes all animation data (if supported by the XR runtime). Render models were introduced to allow showing the correct model for the controller (or other device) the user has in hand, since the OpenXR action map does not provide information about the hardware used by the user. Note that while the controller (or device) can be somewhat inferred by the bound action map profile, this is a dangerous approach as the user may be using hardware not known at time of development and OpenXR will simply simulate an available interaction profile.
+---CHUNK---
+Document: class_openxrrendermodel
+Path: godot/classes/class_openxrrendermodel.rst
+Summary: Properties and their default values for the OpenXRRenderModel class.
+
+- Property: render_model (Type: RID): Default: RID()
+---CHUNK---
+Document: OpenXRRenderModel
+Path: godot/classes/class_openxrrendermodel.rst
+Summary: Method for retrieving the top-level path of a render model and signal emission details.
+
+Method: get_top_level_path() → String const
+Returns the top-level path associated with this render model. This value is constant and cannot be modified directly through this method.
+
+Signal: render_model_top_level_path_changed()
+Emitted when the top-level path of this render model has changed. This signal allows listeners to react to updates in the render model's hierarchical structure.
+---CHUNK---
+Document: OpenXRRenderModel
+Path: godot/classes/class_openxrrendermodel.rst
+Summary: The 'render_model' property and its associated getter/setter methods for managing render model RIDs in OpenXR.
+
+render_model (RID): The render model RID for the render model to load, as returned by OpenXRRenderModelExtension.render_model_create() or OpenXRRenderModelExtension.render_model_get_all(). Default: RID()
+
+- set_render_model(value: RID): Sets the render model RID
+- get_render_model() → RID: Returns the current render model RID
+
+Note: The RID must be obtained through OpenXRRenderModelExtension methods before assignment.
+---CHUNK---
+Document: OpenXRRenderModel
+Path: godot/classes/class_openxrrendermodel.rst
+Summary: Method: get_top_level_path() returns the top-level path associated with this render model.
+
+Method: get_top_level_path() → String
+Returns the top level path related to this render model.

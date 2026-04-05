@@ -1,0 +1,48 @@
+Document: JavaClassWrapper
+Path: godot/classes/class_javaclasswrapper.rst
+Summary: This class provides a wrapper interface for interacting with Java classes within the Godot engine.
+---CHUNK---
+Document: JavaClassWrapper
+Path: godot/classes/class_javaclasswrapper.rst
+Summary: Provides access to the Java Native Interface for interacting with Java classes.
+
+Inherits: Object
+
+This class serves as a bridge between Godot's scripting environment and Java classes, enabling developers to call Java methods and access Java objects from within Godot projects. It is part of the Java Native Interface (JNI) integration in Godot, which allows for interoperability between Godot and Java-based applications or libraries.
+---CHUNK---
+Document: JavaClassWrapper
+Path: godot/classes/class_javaclasswrapper.rst
+Summary: JavaClassWrapper singleton enables Godot to send and receive data through the Java Native Interface (JNI) on Android builds.
+
+Note: This singleton is only available in Android builds.
+
+GDScript:
+    var LocalDateTime = JavaClassWrapper.wrap("java.time.LocalDateTime")
+    var DateTimeFormatter = JavaClassWrapper.wrap("java.time.format.DateTimeFormatter")
+
+    var datetime = LocalDateTime.now()
+    var formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
+
+    print(datetime.format(formatter))
+
+Warning: When calling Java methods, be sure to check get_exception() to check if the method threw an exception.
+---CHUNK---
+Document: class_javaclasswrapper
+Path: godot/classes/class_javaclasswrapper.rst
+Summary: Links to a tutorial on integrating Java class wrappers with Android APIs in Godot
+
+- Integrating with Android APIs
+---CHUNK---
+Document: JavaClassWrapper
+Path: godot/classes/class_javaclasswrapper.rst
+Summary: JavaClassWrapper methods for retrieving Java exceptions and wrapping Java classes for Godot interaction.
+
+JavaObject get_exception()  
+Returns the Java exception from the last call into a Java class. If no exception occurred, returns null. Note: Only functional on Android platforms.
+
+JavaClass wrap(String name)  
+Wraps a Java class for Godot interaction, returning it as a JavaClass Object. Use $ instead of . for nested classes (e.g., "android.view.WindowManager$LayoutParams"). Note: On non-Android platforms, returns empty JavaClass. To invoke constructors, call methods with the same name as the class:
+
+GDScript:
+	var Intent = JavaClassWrapper.wrap("android.content.Intent")
+	var intent = Intent.Intent()

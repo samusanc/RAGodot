@@ -1,0 +1,100 @@
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: Base class for all visual shader nodes.
+
+Inherits: Resource < Object
+
+VisualShaderNode is the base class for all nodes used in the VisualShader editor. It provides the basic structure and properties common to all visual shader nodes, such as their name, description, and input/output ports. Visual shader nodes are the building blocks of shaders created using Godot's visual shader system, allowing users to construct complex shader logic without writing code directly. Each node performs a specific operation, like mathematical calculations, texture sampling, or color manipulation, and connects to other nodes to form a complete shader graph.
+---CHUNK---
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: Base class for VisualShader nodes, providing fundamental properties and methods for shader graph construction.
+Inherits: Resource < RefCounted < Object
+
+Base class for VisualShader nodes. This class is not related to scene nodes. It serves as the foundation for all nodes used within the VisualShader editor, enabling the creation of complex shaders through a node-based interface. All visual shader nodes inherit from this class, gaining access to common functionalities and properties required for shader graph manipulation and rendering.
+---CHUNK---
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: Describes the fundamental structure and purpose of VisualShaderNode within Godot's visual shader system.
+Visual shader graphs consist of various nodes. Each node in the graph is a separate object and they are represented as a rectangular boxes with title and a set of properties. Each node also has connection ports that allow to connect it to another nodes and control the flow of the shader.
+---CHUNK---
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: This section provides a link to the VisualShaders tutorial.
+
+Tutorials
+- Using VisualShaders
+---CHUNK---
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: Defines the properties for VisualShaderNode, including linked parent graph frame and output port for preview.
+
+Properties
+* linked_parent_graph_frame (int): -1
+* output_port_for_preview (int): -1
+---CHUNK---
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: This section details the methods and enumerations for the VisualShaderNode class in Godot Engine.
+
+Methods
+Method: clear_default_input_values() → void
+Method: get_default_input_port(type: PortType) → int
+Method: get_default_input_values() → Array
+Method: get_input_port_default_value(port: int) → Variant
+Method: remove_input_port_default_value(port: int) → void
+Method: set_default_input_values(values: Array) → void
+Method: set_input_port_default_value(port: int, value: Variant, prev_value: Variant = null) → void
+
+Enumerations
+enum PortType:
+  PORT_TYPE_SCALAR = 0 (Floating-point scalar. Translated to float type in shader code.)
+  PORT_TYPE_SCALAR_INT = 1 (Integer scalar. Translated to int type in shader code.)
+  PORT_TYPE_SCALAR_UINT = 2 (Unsigned integer scalar. Translated to uint type in shader code.)
+  PORT_TYPE_VECTOR_2D = 3 (2D vector of floating-point values. Translated to vec2 type in shader code.)
+  PORT_TYPE_VECTOR_3D = 4 (3D vector of floating-point values. Translated to vec3 type in shader code.)
+  PORT_TYPE_VECTOR_4D = 5 (4D vector of floating-point values. Translated to vec4 type in shader code.)
+  PORT_TYPE_BOOLEAN = 6 (Boolean type. Translated to bool type in shader code.)
+  PORT_TYPE_TRANSFORM = 7 (Transform type. Translated to mat4 type in shader code.)
+  PORT_TYPE_SAMPLER = 8 (Sampler type. Translated to reference of sampler uniform in shader code. Can only be used for input ports in non-uniform nodes.)
+  PORT_TYPE_MAX = 9 (Represents the size of the PortType enum.)
+---CHUNK---
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: Describes the properties and their setters/getters for the VisualShaderNode class in Godot.
+
+Property Descriptions
+
+Property: linked_parent_graph_frame
+Type: int
+Default: -1
+Description: Represents the index of the frame this node is linked to. If set to -1 the node is not linked to any frame.
+Setters/Getters:
+- void set_frame(value: int)
+- int get_frame()
+
+Property: output_port_for_preview
+Type: int
+Default: -1
+Description: Sets the output port index which will be showed for preview. If set to -1 no port will be open for preview.
+Setters/Getters:
+- void set_output_port_for_preview(value: int)
+- int get_output_port_for_preview()
+---CHUNK---
+Document: VisualShaderNode
+Path: godot/classes/class_visualshadernode.rst
+Summary: This section describes methods for managing default input values for VisualShaderNode ports.
+Method: clear_default_input_values() → void
+Clears the default input ports value.
+Method: get_default_input_port(type: PortType) → int
+Returns the input port which should be connected by default when this node is created as a result of dragging a connection from an existing node to the empty space on the graph.
+Method: get_default_input_values() → Array
+Returns an Array containing default values for all of the input ports of the node in the form [index0, value0, index1, value1, ...].
+Method: get_input_port_default_value(port: int) → Variant
+Returns the default value of the input port.
+Method: remove_input_port_default_value(port: int) → void
+Removes the default value of the input port.
+Method: set_default_input_values(values: Array) → void
+Sets the default input ports values using an Array of the form [index0, value0, index1, value1, ...]. For example: [0, Vector3(0, 0, 0), 1, Vector3(0, 0, 0)].
+Method: set_input_port_default_value(port: int, value: Variant, prev_value: Variant = null) → void
+Sets the default value for the selected input port.

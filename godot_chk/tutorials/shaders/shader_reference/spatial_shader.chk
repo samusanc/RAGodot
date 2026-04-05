@@ -1,0 +1,243 @@
+Document: Spatial Shader
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: Introduction to spatial shaders.
+---CHUNK---
+Document: Spatial shaders
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: Spatial shaders are used for shading 3D objects and are highly configurable.
+
+Spatial shaders are used for shading 3D objects. They are the most complex type of shader Godot offers. Spatial shaders are highly configurable with different render modes and different rendering options (e.g. Subsurface Scattering, Transmission, Ambient Occlusion, Rim lighting, etc.). Users can optionally write vertex, fragment, and light processor functions to affect how objects are drawn.
+---CHUNK---
+Document: Spatial Shader
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: This section describes various render modes available for Spatial Shaders, controlling blending, depth, culling, shading, and other rendering behaviors.
+
+For visual examples of these render modes, see Standard Material 3D and ORM Material 3D.
+
+*   **blend_mix**: Mix blend mode (alpha is transparency), default.
+*   **blend_add**: Additive blend mode.
+*   **blend_sub**: Subtractive blend mode.
+*   **blend_mul**: Multiplicative blend mode.
+*   **blend_premul_alpha**: Premultiplied alpha blend mode (fully transparent = add, fully opaque = mix).
+*   **depth_draw_opaque**: Only draw depth for opaque geometry (not transparent).
+*   **depth_draw_always**: Always draw depth (opaque and transparent).
+*   **depth_draw_never**: Never draw depth.
+*   **depth_prepass_alpha**: Do opaque depth pre-pass for transparent geometry.
+*   **depth_test_disabled**: Disable depth testing.
+*   **depth_test_default**: Depth test will discard the pixel if it is behind other pixels. In Forward+ only, the pixel is also discarded if it's at the exact same depth as another pixel.
+*   **depth_test_inverted**: Depth test will discard the pixel if it is in front of other pixels. Useful for stencil effects.
+*   **sss_mode_skin**: Subsurface Scattering mode for skin (optimizes visuals for human skin, e.g. boosted red channel).
+*   **cull_back**: Cull back-faces (default).
+*   **cull_front**: Cull front-faces.
+*   **cull_disabled**: Culling disabled (double sided).
+*   **unshaded**: Result is just albedo. No lighting/shading happens in material, making it faster to render.
+*   **wireframe**: Geometry draws using lines (useful for troubleshooting). When using the Compatibility renderer, you must call RenderingServer.set_debug_generate_wireframes(true) *before* the mesh is loaded for wireframe rendering to work. In the Compatibility renderer, backface culling is always disabled in wireframe mode, while in the Forward+ and Mobile renderers, the cull mode is respected.
+*   **debug_shadow_splits**: Directional shadows are drawn using different colors for each split (useful for troubleshooting).
+*   **diffuse_burley**: Burley (Disney PBS) for diffuse (default).
+*   **diffuse_lambert**: Lambert shading for diffuse.
+*   **diffuse_lambert_wrap**: Lambert-wrap shading (roughness-dependent) for diffuse.
+*   **diffuse_toon**: Toon shading for diffuse.
+*   **specular_schlick_ggx**: Schlick-GGX for direct light specular lobes (default).
+*   **specular_toon**: Toon for direct light specular lobes.
+*   **specular_disabled**: Disable direct light specular lobes. Doesn't affect reflected light (use SPECULAR = 0.0 instead).
+*   **skip_vertex_transform**: VERTEX, NORMAL, TANGENT, and BITANGENT need to be transformed manually in the vertex() function.
+*   **world_vertex_coords**: VERTEX, NORMAL, TANGENT, and BITANGENT are modified in world space instead of model space.
+*   **ensure_correct_normals**: Use when non-uniform scale is applied to mesh (note: currently unimplemented).
+*   **shadows_disabled**: Disable computing shadows in shader. The shader will not receive shadows, but can still cast them.
+*   **ambient_light_disabled**: Disable contribution from ambient light and radiance map.
+*   **shadow_to_opacity**: Lighting modifies the alpha so shadowed areas are opaque and non-shadowed areas are transparent. Useful for overlaying shadows onto a camera feed in AR.
+*   **vertex_lighting**: Use vertex-based lighting instead of per-pixel lighting.
+*   **particle_trails**: Enables the trails when used on particle geometry.
+*   **alpha_to_coverage**: Alpha antialiasing mode.
+*   **alpha_to_coverage_and_one**: Alpha antialiasing mode.
+*   **fog_disabled**: Disable receiving depth-based or volumetric fog. Useful for blend_add materials like particles.
+---CHUNK---
+Document: Stencil modes
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: This section explains stencil modes, their operations, common uses, and available comparison functions.
+
+Note: Stencil support is experimental, use at your own risk. We will try to not break compatibility as much as possible, but if significant flaws are found in the API, it may change in the next minor version.
+
+Stencil operations are a set of operations that allow writing to an efficient buffer in an hardware-accelerated manner. This is generally used to mask in or out parts of the scene.
+
+Some of the most well-known uses are:
+* Outlines: Mask out the inner mesh that is being outlined to avoid inner outlines.
+* X-Ray: Display a mesh behind other objects.
+* Portals: Draw geometry that is normally "impossible" (non-Euclidian) by masking objects.
+
+Note: You can only read from the stencil buffer in the transparent pass. Any attempt to read in the opaque pass will fail, as it's currently not supported behavior. Note that for compositor effects, the main renderer's stencil buffer can't be copied to a custom texture.
+
+* read: Read from the stencil buffer.
+* write: Write reference value to the stencil buffer.
+* write_if_depth_fail: Write reference value to the stencil buffer if the depth test fails.
+* compare_always: Always pass stencil test.
+* compare_equal: Pass stencil test if the reference value is equal to the stencil buffer value.
+* compare_not_equal: Pass stencil test if the reference value is not equal to the stencil buffer value.
+* compare_less: Pass stencil test if the reference value is less than the stencil buffer value.
+* compare_less_or_equal: Pass stencil test if the reference value is less than or equal to the stencil buffer value.
+* compare_greater: Pass stencil test if the reference value is greater than the stencil buffer value.
+* compare_greater_or_equal: Pass stencil test if the reference value is greater than or equal to the stencil buffer value.
+---CHUNK---
+Document: Spatial Shader
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: Describes built-in variables available in Godot's spatial shaders and their access types.
+
+Built-ins
+Values marked as `in` are read-only. Values marked as `out` can optionally be written to and will not necessarily contain sensible values. Values marked as `inout` provide a sensible default value, and can optionally be written to. Samplers cannot be written to so they are not marked.
+
+Not all built-ins are available in all processing functions. To access a vertex built-in from the `fragment()` function, you can use a varying. The same applies for accessing fragment built-ins from the `light()` function.
+---CHUNK---
+Document: Global built-ins
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: This section describes global built-in variables available in Godot shaders, including time, mathematical constants, and rendering context flags.
+
+Global built-ins are available everywhere, including custom functions.
+
+*   in float TIME: Global time since the engine has started, in seconds. It repeats after every 3,600 seconds (which can be changed with the rendering/limits/time/time_rollover_secs setting). It's affected by time_scale but not by pausing. If you need a TIME variable that is not affected by time scale, add your own global shader uniform and update it each frame.
+*   in float PI: A PI constant (3.141592). The ratio of a circle's circumference to its diameter and the number of radians in a half turn.
+*   in float TAU: A TAU constant (6.283185). Equivalent to PI * 2 and the number of radians in a full turn.
+*   in float E: An E constant (2.718281). Euler's number, the base of the natural logarithm.
+*   in bool OUTPUT_IS_SRGB: true when output is in sRGB color space (this is true in the Compatibility renderer, false in Forward+ and Mobile).
+*   in float CLIP_SPACE_FAR: Clip space far z value. In the Forward+ or Mobile renderers, it's 0.0. In the Compatibility renderer, it's -1.0.
+*   in bool IS_MULTIVIEW: true when output is stereoscopic (XR), false when output is monoscopic.
+*   in bool IN_SHADOW_PASS: true when the shader is being rendered in a shadow mapping pass, false otherwise. This can be used to render objects differently in shadow maps compared to their regular rendering.
+---CHUNK---
+Document: Spatial Shader
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: This section describes the core vertex built-in variables and their manipulation in Godot's spatial shaders.
+
+Vertex data (VERTEX, NORMAL, TANGENT, and BITANGENT) are presented in model space (also called local space). If not written to, these values will not be modified and be passed through as they came, then transformed into view space to be used in fragment(). They can optionally be presented in world space by using the world_vertex_coords render mode. Users can disable the built-in modelview transform (projection will still happen later) and do it manually with the following code:
+
+    shader_type spatial;
+    render_mode skip_vertex_transform;
+
+    void vertex() {
+        VERTEX = (MODELVIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
+        NORMAL = normalize((MODELVIEW_MATRIX * vec4(NORMAL, 0.0)).xyz);
+        BINORMAL = normalize((MODELVIEW_MATRIX * vec4(BINORMAL, 0.0)).xyz);
+        TANGENT = normalize((MODELVIEW_MATRIX * vec4(TANGENT, 0.0)).xyz);
+    }
+
+Other built-ins, such as UV, UV2, and COLOR, are also passed through to the fragment() function if not modified.
+
+Users can override the modelview and projection transforms using the POSITION built-in. If POSITION is written to anywhere in the shader, it will always be used, so the user becomes responsible for ensuring that it always has an acceptable value. When POSITION is used, the value from VERTEX is ignored and projection does not happen. However, the value passed to the fragment shader still comes from VERTEX.
+
+For instancing, the INSTANCE_CUSTOM variable contains the instance custom data. When using particles, this information is usually: x: Rotation angle in radians; y: Phase during lifetime (0.0 to 1.0); z: Animation frame. This allows you to easily adjust the shader to a particle system using default particle material. When writing a custom particle shader, this value can be used as desired.
+---CHUNK---
+Document: Spatial Shader
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: This section describes the built-in variables available in the fragment function of a Godot spatial shader.
+
+The default use of a Godot fragment processor function is to set up the material properties of your object and to let the built-in renderer handle the final shading. However, you are not required to use all these properties, and if you don't write to them, Godot will optimize away the corresponding functionality.
+
+*   VIEWPORT_SIZE (in vec2): Size of viewport (in pixels).
+*   FRAGCOORD (in vec4): Coordinate of pixel center in screen space. `xy` specifies position in window. Upper-left of the viewport is the origin, `(0.0, 0.0)`. Bottom-right of the viewport is `(1.0, 1.0)`. `z` specifies fragment depth. It is also used as the output value for the fragment depth unless `DEPTH` is written to.
+*   FRONT_FACING (in bool): `true` if current face is front facing, `false` otherwise.
+*   VIEW (in vec3): Normalized vector from fragment position to camera (in view space). This is the same for both perspective and orthogonal cameras.
+*   UV (in vec2): UV that comes from the `vertex()` function.
+*   UV2 (in vec2): UV2 that comes from the `vertex()` function.
+*   COLOR (in vec4): COLOR that comes from the `vertex()` function.
+*   POINT_COORD (in vec2): Point coordinate for drawing points with `POINT_SIZE`.
+*   MODEL_MATRIX (in mat4): Model/local space to world space transform.
+*   MODEL_NORMAL_MATRIX (in mat3): Model/local space to world space transform for normals. This is the same as `MODEL_MATRIX` by default unless the object is scaled non-uniformly, in which case this is set to `transpose(inverse(mat3(MODEL_MATRIX)))`.
+*   VIEW_MATRIX (in mat4): World space to view space transform.
+*   INV_VIEW_MATRIX (in mat4): View space to world space transform.
+*   PROJECTION_MATRIX (in mat4): View space to clip space transform.
+*   INV_PROJECTION_MATRIX (in mat4): Clip space to view space transform.
+*   NODE_POSITION_WORLD (in vec3): Node position, in world space.
+*   NODE_POSITION_VIEW (in vec3): Node position, in view space.
+*   CAMERA_POSITION_WORLD (in vec3): Camera position, in world space. Represents the midpoint of the two eyes when in multiview/stereo rendering.
+*   CAMERA_DIRECTION_WORLD (in vec3): Camera direction, in world space.
+*   CAMERA_VISIBLE_LAYERS (in uint): Cull layers of the camera rendering the current pass.
+*   VERTEX (in vec3): Position of the fragment (pixel), in view space. It is the `VERTEX` value from `vertex()` interpolated between the face's vertices and transformed into view space. If `skip_vertex_transform` is enabled, it may not be in view space.
+*   LIGHT_VERTEX (inout vec3): A writable version of `VERTEX` that can be used to alter light and shadows. Writing to this will not change the position of the fragment.
+*   VIEW_INDEX (in int): The view that we are rendering. Used to distinguish between views in multiview/stereo rendering. `VIEW_MONO_LEFT` (`0`) for Mono (not multiview) or left eye, `VIEW_RIGHT` (`1`) for right eye.
+*   VIEW_MONO_LEFT (in int): Constant for Mono or left eye, always `0`.
+*   VIEW_RIGHT (in int): Constant for right eye, always `1`.
+*   EYE_OFFSET (in vec3): Position offset for the eye being rendered, in view space. Only applicable for multiview rendering.
+*   SCREEN_TEXTURE (sampler2D): Removed in Godot 4. Use a `sampler2D` with `hint_screen_texture` instead.
+*   SCREEN_UV (in vec2): Screen UV coordinate for the current pixel.
+*   DEPTH_TEXTURE (sampler2D): Removed in Godot 4. Use a `sampler2D` with `hint_depth_texture` instead.
+*   DEPTH (out float): Custom depth value (range `[0.0, 1.0]`). If `DEPTH` is written to in any shader branch, then you are responsible for setting `DEPTH` for all other branches. Otherwise, the graphics API will leave them uninitialized.
+*   NORMAL (inout vec3): Normal that comes from the `vertex()` function, in view space. If `skip_vertex_transform` is enabled, it may not be in view space.
+*   TANGENT (inout vec3): Tangent that comes from the `vertex()` function, in view space. If `skip_vertex_transform` is enabled, it may not be in view space.
+*   BINORMAL (inout vec3): Binormal that comes from the `vertex()` function, in view space. If `skip_vertex_transform` is enabled, it may not be in view space.
+*   NORMAL_MAP (out vec3): Set normal here in tangent space if reading normal from a texture instead of `NORMAL`. The blue channel is ignored, as it's reconstructed in the engine instead. This allows normal maps with RGTC (Red-Green Texture Compression) compression to work.
+*   NORMAL_MAP_DEPTH (out float): Depth from `NORMAL_MAP`. Default: `1.0`.
+*   BENT_NORMAL_MAP (out vec3): Set bent normal map here in tangent space to enable bent normals. This is used to improve specular occlusion, and requires a specially authored bent normal map. The blue channel is ignored, as it's reconstructed in the engine instead. This allows bent normal maps with RGTC (Red-Green Texture Compression) compression to work.
+*   ALBEDO (out vec3): Albedo (default white). Base color.
+*   ALPHA (out float): Alpha (range `[0.0, 1.0]`). If read from or written to, the material will go to the transparent pipeline.
+*   ALPHA_SCISSOR_THRESHOLD (out float): If written to, values below a certain amount of alpha are discarded.
+*   ALPHA_HASH_SCALE (out float): Alpha hash scale when using the alpha hash transparency mode. Default: `1.0`. Higher values result in more visible pixels in the dithering pattern.
+*   ALPHA_ANTIALIASING_EDGE (out float): The threshold below which alpha to coverage antialiasing should be used. Default: `0.0`. Requires the `alpha_to_coverage` render mode. Should be set to a value lower than `ALPHA_SCISSOR_THRESHOLD` to be effective.
+*   ALPHA_TEXTURE_COORDINATE (out vec2): The texture coordinate to use for alpha-to-coverge antialiasing. Requires the `alpha_to_coverage` render mode. Typically set to `UV * vec2(albedo_texture_size)` where `albedo_texture_size` is the size of the albedo texture in pixels.
+*   PREMUL_ALPHA_FACTOR (out float): Premultiplied alpha factor. Only effective if `render_mode blend_premul_alpha;` is used. This should be written to when using a *shaded* material with premultiplied alpha blending for interaction with lighting. This is not required for unshaded materials.
+*   METALLIC (out float): Metallic (range `[0.0, 1.0]`).
+*   SPECULAR (out float): Specular (not physically accurate to change). Default: `0.5`. `0.0` disables reflections.
+*   ROUGHNESS (out float): Roughness (range `[0.0, 1.0]`).
+*   RIM (out float): Rim (range `[0.0, 1.0]`). If used, Godot calculates rim lighting. Rim size depends on `ROUGHNESS`.
+*   RIM_TINT (out float): Rim Tint, range from `0.0` (white) to `1.0` (albedo). If used, Godot calculates rim lighting.
+*   CLEARCOAT (out float): Small specular blob added on top of the existing one. If used, Godot calculates clearcoat.
+*   CLEARCOAT_GLOSS (out float): Gloss of clearcoat. If used, Godot calculates clearcoat.
+*   ANISOTROPY (out float): For distorting the specular blob according to tangent space.
+*   ANISOTROPY_FLOW (out vec2): Distortion direction, use with flowmaps.
+*   SSS_STRENGTH (out float): Strength of subsurface scattering. If used, subsurface scattering will be applied to the object.
+*   SSS_TRANSMITTANCE_COLOR (out vec4): Color of subsurface scattering transmittance. If used, subsurface scattering transmittance will be applied to the object.
+*   SSS_TRANSMITTANCE_DEPTH (out float): Depth of subsurface scattering transmittance. Higher values allow the effect to reach deeper into the object.
+*   SSS_TRANSMITTANCE_BOOST (out float): Boosts the subsurface scattering transmittance if set above `0.0`. This makes the effect show up even on directly lit surfaces.
+*   BACKLIGHT (inout vec3): Color of backlighting (works like direct light, but it's received even if the normal is slightly facing away from the light). If used, backlighting will be applied to the object. Can be used as a cheaper approximation of subsurface scattering.
+*   AO (out float): Strength of ambient occlusion. For use with pre-baked AO.
+*   AO_LIGHT_AFFECT (out float): How much ambient occlusion affects direct light (range `[0.0, 1.0]`). Default: `0.0`.
+*   EMISSION (out vec3): Emission color (can go over `(1.0, 1.0, 1.0)` for HDR).
+*   FOG (out vec4): If written to, blends final pixel color with `FOG.rgb` based on `FOG.a`.
+*   RADIANCE (out vec4): If written to, blends environment map radiance with `RADIANCE.rgb` based on `RADIANCE.a`.
+*   IRRADIANCE (out vec4): If written to, blends environment map irradiance with `IRRADIANCE.rgb` based on `IRRADIANCE.a`.
+
+Note: Shaders going through the transparent pipeline when `ALPHA` is written to may exhibit transparency sorting issues. Read the transparency sorting section in the 3D rendering limitations page for more information and ways to avoid issues.
+---CHUNK---
+Document: Spatial Shader
+Path: godot/tutorials/shaders/shader_reference/spatial_shader.rst
+Summary: Describes light built-in variables and the light() function in spatial shaders.
+
+Light built-ins
+Writing light processor functions is completely optional. You can skip the light() function by using the unshaded render mode. If no light function is written, Godot will use the material properties written to in the fragment() function to calculate the lighting for you (subject to the render mode).
+
+The light() function is called for every light in every pixel. It is called within a loop for each light type.
+
+Below is an example of a custom light() function using a Lambertian lighting model:
+
+GLSL:
+    void light() {
+        DIFFUSE_LIGHT += clamp(dot(NORMAL, LIGHT), 0.0, 1.0) * ATTENUATION * LIGHT_COLOR / PI;
+    }
+
+If you want the lights to add together, add the light contribution to DIFFUSE_LIGHT using +=, rather than overwriting it.
+
+Warning: The light() function won't be run if the vertex_lighting render mode is enabled, or if Rendering > Quality > Shading > Force Vertex Shading is enabled in the Project Settings. (It's enabled by default on mobile platforms.)
+
+*   VIEWPORT_SIZE (in vec2): Size of viewport (in pixels).
+*   FRAGCOORD (in vec4): Coordinate of pixel center in screen space. xy specifies position in window. Upper-left of the viewport is the origin, (0.0, 0.0). Bottom-right of the viewport is (1.0, 1.0). z specifies fragment depth. It is also used as the output value for the fragment depth unless DEPTH is written to.
+*   MODEL_MATRIX (in mat4): Model/local space to world space transform.
+*   INV_VIEW_MATRIX (in mat4): View space to world space transform.
+*   VIEW_MATRIX (in mat4): World space to view space transform.
+*   PROJECTION_MATRIX (in mat4): View space to clip space transform.
+*   INV_PROJECTION_MATRIX (in mat4): Clip space to view space transform.
+*   NORMAL (in vec3): Normal vector, in view space.
+*   SCREEN_UV (in vec2): Screen UV coordinate for the current pixel.
+*   UV (in vec2): UV that comes from the vertex() function.
+*   UV2 (in vec2): UV2 that comes from the vertex() function.
+*   VIEW (in vec3): View vector, in view space.
+*   LIGHT (in vec3): Light vector, in view space.
+*   LIGHT_COLOR (in vec3): Light color multiplied by light energy multiplied by PI. The PI multiplication is present because physically-based lighting models include a division by PI.
+*   SPECULAR_AMOUNT (in float): For OmniLight3D and SpotLight3D, 2.0 multiplied by light_specular. For DirectionalLight3D, 1.0.
+*   LIGHT_IS_DIRECTIONAL (in bool): true if this pass is a DirectionalLight3D.
+*   ATTENUATION (in float): Attenuation based on distance or shadow.
+*   ALBEDO (in vec3): Base albedo.
+*   BACKLIGHT (in vec3):
+*   METALLIC (in float): Metallic.
+*   ROUGHNESS (in float): Roughness.
+*   DIFFUSE_LIGHT (out vec3): Diffuse light result.
+*   SPECULAR_LIGHT (out vec3): Specular light result.
+*   ALPHA (out float): Alpha (range [0.0, 1.0]). If written to, the material will go to the transparent pipeline.
+
+Note: Shaders going through the transparent pipeline when ALPHA is written to may exhibit transparency sorting issues. Read the transparency sorting section in the 3D rendering limitations page for more information and ways to avoid issues. Transparent materials also cannot cast shadows or appear in hint_screen_texture and hint_depth_texture uniforms. This in turn prevents those materials from appearing in screen-space reflections or refraction. SDFGI sharp reflections are not visible on transparent materials (only rough reflections are visible on transparent materials).

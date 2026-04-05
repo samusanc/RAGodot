@@ -1,0 +1,351 @@
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: This document introduces the fundamental concepts of vector math in Godot, covering vector types, operations, and their applications.
+
+Vectors are fundamental in game development for representing direction, position, and other spatial data. Godot provides several vector types, primarily `Vector2` for 2D and `Vector3` for 3D.
+
+Key Concepts:
+
+*   **Vectors as Points and Directions:** A vector can represent a point in space (e.g., a position) or a direction and magnitude (e.g., velocity).
+*   **Components:** Vectors are composed of components, typically `x`, `y`, and `z` (for `Vector3`).
+*   **Magnitude (Length):** The length of a vector, calculated using the Pythagorean theorem. For a `Vector2` (x, y), magnitude is `sqrt(x*x + y*y)`. For `Vector3` (x, y, z), it's `sqrt(x*x + y*y + z*z)`.
+*   **Normalization:** A normalized vector has a magnitude of 1. It represents only direction. Normalizing a vector involves dividing each component by its magnitude.
+
+Common Vector Operations:
+
+*   **Addition and Subtraction:** Vectors can be added or subtracted component-wise. This is useful for combining directions or calculating displacement.
+    *   `Vector2(1, 2) + Vector2(3, 4) = Vector2(4, 6)`
+    *   `Vector3(5, 0, -2) - Vector3(1, 1, 1) = Vector3(4, -1, -3)`
+*   **Scalar Multiplication and Division:** Multiplying or dividing a vector by a scalar (a single number) scales its magnitude.
+    *   `Vector2(2, 3) * 3 = Vector2(6, 9)`
+    *   `Vector3(10, -5, 0) / 2 = Vector3(5, -2.5, 0)`
+*   **Dot Product:** The dot product of two vectors results in a scalar value. It's useful for determining the angle between two vectors or projecting one vector onto another.
+    *   `Vector2(a.x, a.y) . Vector2(b.x, b.y) = a.x * b.x + a.y * b.y`
+    *   If the dot product is positive, the angle is less than 90 degrees. If negative, greater than 90 degrees. If zero, the vectors are orthogonal (90 degrees).
+*   **Cross Product (Vector3 only):** The cross product of two `Vector3` vectors results in a new `Vector3` that is perpendicular to both input vectors. Its direction follows the right-hand rule.
+    *   `Vector3(a.x, a.y, a.z) x Vector3(b.x, b.y, b.z)`
+    *   Useful for calculating surface normals or determining orientation.
+*   **Distance:** The distance between two points (represented as vectors) is the magnitude of the vector connecting them.
+    *   `distance(point_a, point_b) = (point_b - point_a).length()`
+*   **Interpolation (Lerp):** Linear interpolation between two vectors. `lerp(a, b, weight)` moves from `a` towards `b` by a factor of `weight`.
+    *   `a.lerp(b, 0.5)` returns a vector halfway between `a` and `b`.
+
+Built-in Vector Methods in Godot:
+
+Godot's `Vector2` and `Vector3` classes provide numerous built-in methods for common vector operations, such as:
+
+*   `length()`: Returns the magnitude of the vector.
+*   `normalized()`: Returns a normalized version of the vector.
+*   `distance_to(other_vector)`: Calculates the distance to another vector.
+*   `dot(other_vector)`: Calculates the dot product.
+*   `cross(other_vector)` (Vector3 only): Calculates the cross product.
+*   `lerp(to, weight)`: Performs linear interpolation.
+*   `angle_to(other_vector)` (Vector2 only): Returns the angle in radians between two vectors.
+*   `direction_to(other_vector)` (Vector2 only): Returns a normalized vector pointing from this vector to the other.
+
+Example Usage (GDScript):
+
+```gdscript
+var position = Vector2(100, 50)
+var velocity = Vector2(10, -5)
+
+# Move the position based on velocity
+position = position + velocity * delta # delta is the time elapsed since the last frame
+
+# Normalize velocity to get direction
+var direction = velocity.normalized()
+
+# Check if moving upwards (positive y component)
+if velocity.y < 0:
+    print("Moving upwards")
+
+# Calculate distance to another point
+var target_position = Vector2(200, 150)
+var dist = position.distance_to(target_position)
+print("Distance to target: ", dist)
+```
+---CHUNK---
+Document: Vector Math
+Path: godot/tutorials/math/vector_math.rst
+Summary: This document introduces the fundamental concepts of vector mathematics in Godot Engine.
+
+Vector math is a fundamental part of game development. Vectors are used to represent direction and magnitude. In Godot, vectors are represented by the Vector2 and Vector3 classes.
+
+Vector2
+The Vector2 class represents a 2D vector. It has two components: x and y.
+
+Vector3
+The Vector3 class represents a 3D vector. It has three components: x, y, and z.
+
+Common Vector Operations
+Addition: Adding two vectors results in a new vector that is the sum of the two. This is useful for combining movements or forces.
+Subtraction: Subtracting one vector from another results in a new vector representing the difference. This can be used to find the direction from one point to another.
+Scalar Multiplication: Multiplying a vector by a scalar (a single number) scales the vector's magnitude.
+Dot Product: The dot product of two vectors results in a scalar value. It's useful for determining the angle between two vectors or projecting one vector onto another.
+Cross Product: The cross product of two 3D vectors results in a new vector that is perpendicular to both. It's commonly used in 3D graphics for calculating surface normals or determining orientation.
+
+Example GDScript:
+var v1 = Vector2(1, 2)
+var v2 = Vector2(3, 4)
+var sum = v1 + v2 # sum is Vector2(4, 6)
+var difference = v2 - v1 # difference is Vector2(2, 2)
+var scaled = v1 * 2 # scaled is Vector2(2, 4)
+var dot = v1.dot(v2) # dot is 1*3 + 2*4 = 11
+var cross = Vector3(1, 0, 0).cross(Vector3(0, 1, 0)) # cross is Vector3(0, 0, 1)
+
+Key Rule: Vectors are essential for representing positions, directions, and movements in 2D and 3D space within Godot. Understanding their operations is crucial for implementing game mechanics.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: This tutorial provides a practical introduction to vector math and its applications in game development using Godot.
+Note: This tutorial is not a formal textbook on linear algebra, focusing solely on its application in game development.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains 2D coordinate systems, the concept of vectors as offsets from the origin, and their representation by magnitude and direction.
+Note: In 2D space, the positive y-axis points downwards, which is common in computer graphics.
+
+In 2D space, coordinates are defined using a horizontal axis (x) and a vertical axis (y). A particular position in 2D space is written as a pair of values such as (4, 3).
+
+Any position in the 2D plane can be identified by a pair of numbers. We can also think of the position (4, 3) as an offset from the (0, 0) point, or origin. Drawing an arrow pointing from the origin to the point creates a vector.
+
+A vector represents useful information. As well as telling us that the point is at (4, 3), we can also think of it as an angle θ (theta) and a length (or magnitude) m. In this case, the arrow is a position vector - it denotes a position in space, relative to the origin.
+
+A very important point to consider about vectors is that they only represent relative direction and magnitude. There is no concept of a vector's position. The following two vectors are identical:
+
+Both vectors represent a point 4 units to the right and 3 units below some starting point. It does not matter where on the plane you draw the vector, it always represents a relative direction and magnitude.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: This section introduces the use of Vector2 and Vector3 in Godot for representing positions and directions, explaining the coordinate notation for 2D nodes.
+
+Vectors can be represented using either x and y coordinates or angle and magnitude. For programming convenience, the coordinate notation is typically used. In Godot, the origin (0,0) for 2D is at the top-left corner of the screen. To position a 2D node 400 pixels to the right and 300 pixels down from the origin, you would use the following code:
+
+GDScript:
+    $Node2D.position = Vector2(400, 300)
+
+C#:
+    var node2D = GetNode<Node2D>("Node2D");
+    node2D.Position = new Vector2(400, 300);
+
+Godot provides Vector2 for 2D operations and Vector3 for 3D operations. The mathematical principles discussed for vectors apply to both types. When referring to Vector2 methods in the class reference, their Vector3 counterparts can also be consulted for 3D applications.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: This section explains how to access individual components of a Vector2 in Godot using GDScript and C#.
+
+GDScript:
+    # Create a vector with coordinates (2, 5).
+    var a = Vector2(2, 5)
+    # Create a vector and assign x and y manually.
+    var b = Vector2()
+    b.x = 3
+    b.y = 1
+
+C#:
+    // Create a vector with coordinates (2, 5).
+    var a = new Vector2(2, 5);
+    // Create a vector and assign x and y manually.
+    var b = new Vector2();
+    b.X = 3;
+    b.Y = 1;
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains how to add and subtract vectors in Godot, including a visual representation and the commutative property.
+Adding vectors
+When adding or subtracting two vectors, the corresponding components are added:
+
+GDScript:
+    var c = a + b  # (2, 5) + (3, 1) = (5, 6)
+
+C#:
+    var c = a + b;  // (2, 5) + (3, 1) = (5, 6)
+
+We can also see this visually by adding the second vector at the end of the first.
+Note that adding a + b gives the same result as b + a.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains scalar multiplication of vectors in Godot, including its effect on direction and magnitude.
+Note: Vectors represent both direction and magnitude. A value representing only magnitude is called a scalar. Scalars use the float type in Godot.
+
+A vector can be multiplied by a scalar:
+
+GDScript:
+    var c = a * 2  # (2, 5) * 2 = (4, 10)
+    var d = b / 3  # (3, 6) / 3 = (1, 2)
+    var e = d * -2 # (1, 2) * -2 = (-2, -4)
+
+C#:
+    var c = a * 2;  // (2, 5) * 2 = (4, 10)
+    var d = b / 3;  // (3, 6) / 3 = (1, 2)
+    var e = d * -2; // (1, 2) * -2 = (-2, -4)
+
+Note: Multiplying a vector by a positive scalar does not change its direction, only its magnitude. Multiplying with a negative scalar results in a vector in the opposite direction. This is how you scale a vector.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: This section introduces practical applications of vector addition and subtraction in game development.
+Practical applications
+Let's look at two common uses for vector addition and subtraction.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains how vectors represent quantities like position and velocity, and how to update position using velocity over time.
+A vector can represent any quantity with a magnitude and direction. Typical examples are: position, velocity, acceleration, and force. In this image, the spaceship at step 1 has a position vector of (1, 3) and a velocity vector of (2, 1). The velocity vector represents how far the ship moves each step. We can find the position for step 2 by adding the velocity to the current position. Tip: Velocity measures the change in position per unit of time. The new position is found by adding the velocity multiplied by the elapsed time (here assumed to be one unit, e.g. 1 s) to the previous position. In a typical 2D game scenario, you would have a velocity in pixels per second, and multiply it by the delta parameter (time elapsed since the previous frame) from the _process() or _physics_process() callbacks.
+---CHUNK---
+Document: Vector Math
+Path: godot/tutorials/math/vector_math.rst
+Summary: Demonstrates how to calculate a vector pointing from one position to another.
+To find a vector pointing from A to B, use B - A. In this scenario, you have a tank that wishes to point its turret at a robot. Subtracting the tank's position from the robot's position gives the vector pointing from the tank to the robot.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains the concept of unit vectors in vector mathematics.
+A vector with magnitude of 1 is called a unit vector. They are also sometimes referred to as direction vectors or normals. Unit vectors are helpful when you need to keep track of a direction.
+---CHUNK---
+Document: Vector Math
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains vector normalization and its implementation in Godot.
+Normalizing a vector means reducing its length to 1 while preserving its direction. This is done by dividing each of its components by its magnitude. Because this is such a common operation, Godot provides a dedicated normalized() method for this:
+
+GDScript:
+    a = a.normalized()
+
+C#:
+    a = a.Normalized();
+
+Warning: Because normalization involves dividing by the vector's length, you cannot normalize a vector of length 0. Attempting to do so would normally result in an error. In GDScript though, trying to call the normalized() method on a vector of length 0 leaves the value untouched and avoids the error for you.
+---CHUNK---
+Document: Vector Math
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains how to use vector reflection for bouncing objects off surfaces using normals.
+A common use of unit vectors is to indicate normals. Normal vectors are unit vectors aligned perpendicularly to a surface, defining its direction. They are commonly used for lighting, collisions, and other operations involving surfaces.
+
+For example, imagine we have a moving ball that we want to bounce off a wall or other object. The surface normal has a value of (0, -1) because this is a horizontal surface. When the ball collides, we take its remaining motion (the amount left over when it hits the surface) and reflect it using the normal. In Godot, there is a bounce() method to handle this. Here is a code example of the above diagram using a CharacterBody2D:
+
+GDScript:
+    var collision: KinematicCollision2D = move_and_collide(velocity * delta)
+    if collision:
+        var reflect = collision.get_remainder().bounce(collision.get_normal())
+        velocity = velocity.bounce(collision.get_normal())
+        move_and_collide(reflect)
+
+C#:
+    KinematicCollision2D collision = MoveAndCollide(_velocity * (float)delta);
+    if (collision != null)
+    {
+        var reflect = collision.GetRemainder().Bounce(collision.GetNormal());
+        _velocity = _velocity.Bounce(collision.GetNormal());
+        MoveAndCollide(reflect);
+    }
+---CHUNK---
+Document: Vector Math
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains the dot product of vectors, its formula, and its use in determining the angle between vectors.
+The **dot product** is an operation on two vectors that returns a scalar value. The formula for dot product takes two common forms: A · B = A<sub>x</sub>B<sub>x</sub> + A<sub>y</sub>B<sub>y</sub> and A · B = ||A|| ||B|| cos(θ). The mathematical notation ||A|| represents the magnitude of vector A, and A<sub>x</sub> means the x component of vector A.
+
+In Godot, it is easiest to use the built-in dot() method. Note that the order of the two vectors does not matter:
+
+GDScript:
+    var c = a.dot(b)
+    var d = b.dot(a)  # These are equivalent.
+
+C#:
+    float c = a.Dot(b);
+    float d = b.Dot(a);  # These are equivalent.
+
+The dot product is most useful when used with unit vectors, making the first formula reduce to just cos(θ). This means we can use the dot product to tell us something about the angle between two vectors: A · B = cos(θ). When using unit vectors, the result will always be between -1 (180°) and 1 (0°).
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: This section explains how to determine if one object is facing another using vector math, specifically the dot product.
+We can use vector math to detect whether an object is facing toward another object. In the diagram below, the player P is trying to avoid the zombies A and B. Assuming a zombie's field of view is 180°, we can determine if they can see the player.
+
+The green arrows fA and fB are unit vectors representing the zombie's facing direction, and the blue semicircle represents its field of view. For zombie A, we find the direction vector AP pointing to the player using P - A and normalize it. Godot provides a helper method called direction_to() for this. If the angle between this vector and the facing vector is less than 90°, then the zombie can see the player.
+
+This can be checked using the dot product. If the dot product of the direction vector to the player and the zombie's facing vector is greater than 0, it means the angle between them is less than 90 degrees, and thus the zombie can see the player.
+
+GDScript:
+    var AP = A.direction_to(P)
+    if AP.dot(fA) > 0:
+        print("A sees P!")
+
+C#:
+    var AP = A.DirectionTo(P);
+    if (AP.Dot(fA) > 0)
+    {
+        GD.Print("A sees P!");
+    }
+---CHUNK---
+Document: Vector Math
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains the cross product operation for 3D vectors and its 2D analog in Godot.
+The cross product is an operation on two vectors that results in a vector perpendicular to both. Its magnitude is dependent on the angle between the vectors; if they are parallel, the result is a null vector.
+
+The cross product is calculated as follows:
+
+GDScript:
+    var c = Vector3()
+    c.x = (a.y * b.z) - (a.z * b.y)
+    c.y = (a.z * b.x) - (a.x * b.z)
+    c.z = (a.x * b.y) - (a.y * b.x)
+
+C#:
+    var c = new Vector3();
+    c.X = (a.Y * b.Z) - (a.Z * b.Y);
+    c.Y = (a.Z * b.X) - (a.X * b.Z);
+    c.Z = (a.X * b.Y) - (a.Y * b.X);
+
+Godot provides the built-in Vector3.cross() method for this calculation:
+
+GDScript:
+    var c = a.cross(b)
+
+C#:
+    var c = a.Cross(b);
+
+While the cross product is not defined in 2D mathematically, Vector2.cross() offers a commonly used analog for 2D vectors.
+
+Note: The order of vectors in a cross product is significant. `a.cross(b)` yields a result opposite in direction to `b.cross(a)`.
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: This section explains how to calculate the surface normal of a triangle using the cross product of two edge vectors.
+
+GDScript:
+    func get_triangle_normal(a, b, c):
+        # Find the surface normal given 3 vertices.
+        var side1 = b - a
+        var side2 = c - a
+        var normal = side1.cross(side2)
+        return normal
+
+C#:
+    Vector3 GetTriangleNormal(Vector3 a, Vector3 b, Vector3 c)
+    {
+        // Find the surface normal given 3 vertices.
+        var side1 = b - a;
+        var side2 = c - a;
+        var normal = side1.Cross(side2);
+        return normal;
+    }
+---CHUNK---
+Document: Vector Math Tutorial
+Path: godot/tutorials/math/vector_math.rst
+Summary: Explains how to find the axis of rotation between two vectors using the cross product.
+
+Pointing to a target
+In the dot product section above, we saw how it could be used to find the angle
+between two vectors. However, in 3D, this is not enough information. We also
+need to know what axis to rotate around. We can find that by calculating the
+cross product of the current facing direction and the target direction. The
+resulting perpendicular vector is the axis of rotation.
+---CHUNK---
+Document: Vector Math
+Path: godot/tutorials/math/vector_math.rst
+Summary: Provides links to further reading on vector math and matrices in Godot.
+More information on using vector math in Godot can be found in the following articles:
+- vectors_advanced
+- matrices_and_transforms

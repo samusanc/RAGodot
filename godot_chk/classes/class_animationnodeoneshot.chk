@@ -1,0 +1,4913 @@
+Document: AnimationNodeOneShot
+Path: godot/classes/class_animationnodeoneshot.rst
+Summary: A control node for playing an animation once.
+
+Inherits: AnimationNode < Resource < Object
+
+AnimationNodeOneShot
+
+An AnimationNode that plays an animation once.
+
+This node is useful for playing animations that should only run once, such as attacks, jumps, or other one-off actions. It can be configured to control the playback of the animation, including its speed, looping, and whether it should restart when triggered.
+
+Properties:
+  - fade_out_time (float): The time in seconds it takes for the animation to fade out after it finishes. Default: 0.0.
+  - on_animation_finished (int): Defines what happens when the animation finishes.
+    - 0: Continue to next animation.
+    - 1: Stop.
+    - 2: Reset.
+    Default: 0.
+  - oneshot (StringName): The name of the animation to play.
+  - pause_mode (int): Defines how the animation behaves when the AnimationPlayer is paused.
+    - 0: Stop.
+    - 1: Pause.
+    - 2: Process.
+    Default: 1.
+  - remaining (float): The remaining time of the animation.
+  - reset_on_exit (bool): If true, the animation will reset to its beginning when the node exits. Default: false.
+  - start_offset (float): The time in seconds from which to start the animation. Default: 0.0.
+  - sync (bool): If true, the animation will synchronize with other animations in the graph. Default: true.
+
+Methods:
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool)
+  - _set_oneshot(value: StringName)
+  - _get_oneshot() → StringName
+  - _get_remaining() → float
+  - _get_reset_on_exit() → bool
+  - _get_start_offset() → float
+  - _get_sync() → bool
+  - _get_fade_out_time() → float
+  - _set_fade_out_time(value: float)
+  - _get_on_animation_finished() → int
+  - _get_pause_mode() → int
+  - _is_valid_animation_process_mode(mode: int) → bool
+  - _set_animation_process_mode(mode: int)
+  - _get_animation_process_mode() → int
+  - _set_animation_process_mode(mode: int)
+  - _set_on_animation_finished(value: int)
+  - _set_pause_mode(value: int)
+  - _set_remaining(value: float)
+  - _set_reset_on_exit(value: bool)
+  - _set_start_offset(value: float)
+  - _set_sync(value: bool
+---CHUNK---
+Document: AnimationNodeOneShot
+Path: godot/classes/class_animationnodeoneshot.rst
+Summary: This section introduces the AnimationNodeOneShot class, which is used to play an animation once within an AnimationNodeBlendTree.
+AnimationNodeOneShot
+Inherits: AnimationNodeSync < AnimationNode < Resource < RefCounted < Object
+
+Plays an animation once in an AnimationNodeBlendTree.
+---CHUNK---
+Document: AnimationNodeOneShot
+Path: godot/classes/class_animationnodeoneshot.rst
+Summary: Describes the AnimationNodeOneShot, an AnimationTree node that executes a sub-animation and returns upon completion, with customizable fade times and filters.
+
+Inherits: AnimationNode<AnimationBaseTag<Resource
+This animation node will execute a sub-animation and return once it finishes. Blend times for fading in and out can be customized, as well as filters.
+
+After setting the request and changing the animation playback, the one-shot node automatically clears the request on the next process frame by setting its `request` value to ONE_SHOT_REQUEST_NONE.
+
+GDScript:
+# Play child animation connected to "shot" port.
+animation_tree.set("parameters/OneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE)
+# Alternative syntax (same result as above).
+animation_tree["parameters/OneShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FIRE
+
+# Abort child animation connected to "shot" port.
+animation_tree.set("parameters/OneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT)
+# Alternative syntax (same result as above).
+animation_tree["parameters/OneShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_ABORT
+
+# Abort child animation with fading out connected to "shot" port.
+animation_tree.set("parameters/OneShot/request", AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT)
+# Alternative syntax (same result as above).
+animation_tree["parameters/OneShot/request"] = AnimationNodeOneShot.ONE_SHOT_REQUEST_FADE_OUT
+
+# Get current state (read-only).
+animation_tree.get("parameters/OneShot/active")
+# Alternative syntax (same result as above).
+animation_tree["parameters/OneShot/active"]
+
+# Get current internal state (read-only).
+animation_tree.get("parameters/OneShot/internal_active")
+# Alternative syntax (same result as above).
+animation_tree["parameters/OneShot/internal_active"]
+
+C#:
+# Play child animation connected to "shot" port.
+animationTree.Set("parameters/OneShot/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+
+# Abort child animation connected to "shot" port.
+animationTree.Set("parameters/OneShot/request", (int)AnimationNodeOneShot.OneShotRequest.Abort);
+
+# Abort child animation with fading out connected to "shot" port.
+animationTree.Set("parameters/OneShot/request", (int)AnimationNodeOneShot.OneShotRequest.FadeOut);
+
+# Get current state (read-only).
+animationTree.Get("parameters/OneShot/active");
+
+# Get current internal state (read-only).
+animationTree.Get("parameters/OneShot/internal_active");
+---CHUNK---
+Document: AnimationNodeOneShot
+Path: godot/classes/class_animationnodeoneshot.rst
+Summary: This document describes the AnimationNodeOneShot class, which is used to play an animation once and then transition to another animation.
+
+Inherits: AnimationNode < AnimationRootNode < Resource
+
+Description:
+Plays an animation once and then transitions to another animation.
+
+Properties:
+- `animation` (String): The name of the animation to play.
+- `delay` (float): The delay before playing the animation. Default: 0.0.
+- `fade_out` (float): The duration of the fade-out after the animation finishes. Default: 0.0.
+- `mix_mode` (MixMode): The mix mode to use when blending animations. Default: 0.
+- `one_shot` (bool): If true, the animation will only play once. If false, it will loop. Default: true.
+- `sync` (bool): If true, the animation will sync with the parent animation. Default: true.
+
+Methods:
+- `_get_animation_process_mode()` → AnimationRootNode.AnimationProcessMode: Returns the animation process mode.
+- `_set_animation_process_mode(mode: AnimationRootNode.AnimationProcessMode)`: Sets the animation process mode.
+- `get_animation()` → String: Returns the name of the animation to play.
+- `set_animation(anim: String)`: Sets the name of the animation to play.
+
+Enums:
+- MixMode:
+    - MIX_DEFAULT (0): Default mix mode.
+    - MIX_ADD (1): Additive mix mode.
+
+GDScript:
+```gdscript
+var anim_node = AnimationNodeOneShot.new()
+anim_node.animation = "jump"
+anim_node.delay = 0.2
+anim_node.fade_out = 0.1
+```
+
+C#:
+```csharp
+var animNode = new AnimationNodeOneShot();
+animNode.Animation = "jump";
+animNode.Delay = 0.2f;
+animNode.FadeOut = 0.1f;
+```
+---CHUNK---
+Document: AnimationNodeOneShot
+Path: godot/classes/class_animationnodeoneshot.rst
+Summary: Defines the properties for the AnimationNodeOneShot class, controlling its behavior for playing animations once.
+
+Properties:
+- abort_on_reset (bool): If true, the one-shot animation will be aborted if the node is reset. Default: false.
+- autorestart (bool): If true, the one-shot animation will restart automatically after it finishes. Default: false.
+- autorestart_delay (float): The delay in seconds before the animation restarts if autorestart is true. Default: 1.0.
+- autorestart_random_delay (float): A random delay in seconds to add to the autorestart_delay. Default: 0.0.
+- break_loop_at_end (bool): If true, and the animation is a loop, it will be broken at the end of the one-shot playback. Default: false.
+- fadein_curve (Curve): The curve used to control the fade-in transition.
+- fadein_time (float): The duration of the fade-in transition in seconds. Default: 0.0.
+- fadeout_curve (Curve): The curve used to control the fade-out transition.
+- fadeout_time (float): The duration of the fade-out transition in seconds. Default: 0.0.
+- mix_mode (MixMode): The mode used for mixing the animation when it's not playing. Default: 0.
+---CHUNK---
+Document: AnimationNodeOneShot
+Path: godot/classes/class_animationnodeoneshot.rst
+Summary: Defines enumerations for controlling the behavior and mixing modes of the AnimationNodeOneShot.
+
+Enumerations
+enum OneShotRequest:
+  ONE_SHOT_REQUEST_NONE = 0
+    The default state of the request. Nothing is done.
+  ONE_SHOT_REQUEST_FIRE = 1
+    The request to play the animation connected to "shot" port.
+  ONE_SHOT_REQUEST_ABORT = 2
+    The request to stop the animation connected to "shot" port.
+  ONE_SHOT_REQUEST_FADE_OUT = 3
+    The request to fade out the animation connected to "shot" port.
+
+enum MixMode:
+  MIX_MODE_BLEND = 0
+    Blends two animations. See also AnimationNodeBlend2.
+  MIX_MODE_ADD = 1
+    Blends two animations additively. See also AnimationNodeAdd2.
+---CHUNK---
+Document: AnimationNodeOneShot
+Path: godot/classes/class_animationnodeoneshot.rst
+Summary: Properties for configuring the AnimationNodeOneShot, including fade settings, autorestart behavior, and mixing modes.
+
+Property: abort_on_reset (bool). Default: false.
+Method: set_abort_on_reset(value: bool) → void
+Method: is_aborted_on_reset() → bool
+If true, the sub-animation will abort if resumed with a reset after a prior interruption.
+
+Property: autorestart (bool). Default: false.
+Method: set_autorestart(value: bool) → void
+Method: has_autorestart() → bool
+If true, the sub-animation will restart automatically after finishing. To start auto restarting, the animation must be played once with the ONE_SHOT_REQUEST_FIRE request. The ONE_SHOT_REQUEST_ABORT request stops the auto restarting, but it does not disable the autorestart property itself. The ONE_SHOT_REQUEST_FIRE request will start auto restarting again.
+
+Property: autorestart_delay (float). Default: 1.0.
+Method: set_autorestart_delay(value: float) → void
+Method: get_autorestart_delay() → float
+The delay after which the automatic restart is triggered, in seconds.
+
+Property: autorestart_random_delay (float). Default: 0.0.
+Method: set_autorestart_random_delay(value: float) → void
+Method: get_autorestart_random_delay() → float
+If autorestart is true, a random additional delay (in seconds) between 0 and this value will be added to autorestart_delay.
+
+Property: break_loop_at_end (bool). Default: false.
+Method: set_break_loop_at_end(value: bool) → void
+Method: is_loop_broken_at_end() → bool
+If true, breaks the loop at the end of the loop cycle for transition, even if the animation is looping.
+
+Property: fadein_curve (Curve).
+Method: set_fadein_curve(value: Curve) → void
+Method: get_fadein_curve() → Curve
+Determines how cross-fading between animations is eased. If empty, the transition will be linear. Should be a unit Curve.
+
+Property: fadein_time (float). Default: 0.0.
+Method: set_fadein_time(value: float) → void
+Method: get_fadein_time() → float
+The fade-in duration. For example, setting this to 1.0 for a 5 second length animation will produce a cross-fade that starts at 0 second and ends at 1 second during the animation. Note: AnimationNodeOneShot transitions the current state after the fading has finished.
+
+Property: fadeout_curve (Curve).
+Method: set_fadeout_curve(value: Curve) → void
+Method: get_fadeout_curve() → Curve
+Determines how cross-fading between animations is eased. If empty, the transition will be linear. Should be a unit Curve.
+
+Property: fadeout_time (float). Default: 0.0.
+Method: set_fadeout_time(value: float) → void
+Method: get_fadeout_time() → float
+The fade-out duration. For example, setting this to 1.0 for a 5 second length animation will produce a cross-fade that starts at 4 second and ends at 5 second during the animation. Note: AnimationNodeOneShot transitions the current state after the fading has finished.
+
+Property: mix_mode (MixMode). Default: 0.
+Method: set_mix_mode(value: MixMode) → void
+Method: get_mix_mode() → MixMode
+The blend type.

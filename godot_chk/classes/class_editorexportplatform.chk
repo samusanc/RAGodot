@@ -1,0 +1,159 @@
+Document: EditorExportPlatform
+Path: godot/classes/class_editorexportplatform.rst
+Summary: This document describes the EditorExportPlatform class.
+EditorExportPlatform
+---CHUNK---
+Document: EditorExportPlatform
+Path: godot/classes/class_editorexportplatform.rst
+Summary: Identifies a supported export platform and provides export functionality.
+
+Inherits: RefCounted < Object
+Inherited By: EditorExportPlatformAndroid, EditorExportPlatformAppleEmbedded, EditorExportPlatformExtension, EditorExportPlatformMacOS, EditorExportPlatformPC, EditorExportPlatformWeb
+
+Identifies a supported export platform, and internally provides the functionality of exporting to that platform.
+---CHUNK---
+Document: EditorExportPlatform
+Path: godot/classes/class_editorexportplatform.rst
+Summary: Describes the base resource for exporting projects to a platform from the editor.
+
+Base resource that provides the functionality of exporting a release build of a project to a platform, from the editor. Stores platform-specific metadata such as the name and supported features of the platform, and performs the exporting of projects, PCK files, and ZIP files. Uses an export template for the platform provided at the time of project exporting.
+
+Used in scripting by EditorExportPlugin to configure platform-specific customization of scenes and resources. See EditorExportPlugin._begin_customize_scenes() and EditorExportPlugin._begin_customize_resources() for more details.
+---CHUNK---
+Document: EditorExportPlatform
+Path: godot/classes/class_editorexportplatform.rst
+Summary: This section details the methods and enumerations available for the EditorExportPlatform class, used for managing export processes and debug flags.
+
+Methods
+Method: add_message(type: ExportMessageType, category: String, message: String) -> void
+Method: clear_messages() -> void
+Method: create_preset() -> EditorExportPreset
+Method: export_pack(preset: EditorExportPreset, debug: bool, path: String, flags: DebugFlags = 0) -> Error
+Method: export_pack_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray = PackedStringArray(), flags: DebugFlags = 0) -> Error
+Method: export_project(preset: EditorExportPreset, debug: bool, path: String, flags: DebugFlags = 0) -> Error
+Method: export_project_files(preset: EditorExportPreset, debug: bool, save_cb: Callable, shared_cb: Callable = Callable()) -> Error
+Method: export_zip(preset: EditorExportPreset, debug: bool, path: String, flags: DebugFlags = 0) -> Error
+Method: export_zip_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray = PackedStringArray(), flags: DebugFlags = 0) -> Error
+Method: find_export_template(template_file_name: String) const -> Dictionary
+Method: gen_export_flags(flags: DebugFlags) -> PackedStringArray
+Method: get_current_presets() const -> Array
+Method: get_forced_export_files(preset: EditorExportPreset = null) static -> PackedStringArray
+Method: get_internal_export_files(preset: EditorExportPreset, debug: bool) -> Dictionary
+Method: get_message_category(index: int) const -> String
+Method: get_message_count() const -> int
+Method: get_message_text(index: int) const -> String
+Method: get_message_type(index: int) const -> ExportMessageType
+Method: get_os_name() const -> String
+Method: get_worst_message_type() const -> ExportMessageType
+Method: save_pack(preset: EditorExportPreset, debug: bool, path: String, embed: bool = false) -> Dictionary
+Method: save_pack_patch(preset: EditorExportPreset, debug: bool, path: String) -> Dictionary
+Method: save_zip(preset: EditorExportPreset, debug: bool, path: String) -> Dictionary
+Method: save_zip_patch(preset: EditorExportPreset, debug: bool, path: String) -> Dictionary
+Method: ssh_push_to_remote(host: String, port: String, scp_args: PackedStringArray, src_file: String, dst_file: String) const -> Error
+Method: ssh_run_on_remote(host: String, port: String, ssh_arg: PackedStringArray, cmd_args: String, output: Array = [], port_fwd: int = -1) const -> Error
+Method: ssh_run_on_remote_no_wait(host: String, port: String, ssh_args: PackedStringArray, cmd_args: String, port_fwd: int = -1) const -> int
+
+Enumerations
+enum ExportMessageType:
+*   EXPORT_MESSAGE_NONE = 0: Invalid message type used as the default value when no type is specified.
+*   EXPORT_MESSAGE_INFO = 1: Message type for informational messages that have no effect on the export.
+*   EXPORT_MESSAGE_WARNING = 2: Message type for warning messages that should be addressed but still allow to complete the export.
+*   EXPORT_MESSAGE_ERROR = 3: Message type for error messages that must be addressed and fail the export.
+
+flags DebugFlags:
+*   DEBUG_FLAG_DUMB_CLIENT = 1: Flag is set if the remotely debugged project is expected to use the remote file system. If set, gen_export_flags() will append --remote-fs and --remote-fs-password (if EditorSettings.filesystem/file_server/password is defined) command line arguments to the returned list.
+*   DEBUG_FLAG_REMOTE_DEBUG = 2: Flag is set if remote debug is enabled. If set, gen_export_flags() will append --remote-debug and --breakpoints (if breakpoints are selected in the script editor or added by the plugin) command line arguments to the returned list.
+*   DEBUG_FLAG_REMOTE_DEBUG_LOCALHOST = 4: Flag is set if remotely debugged project is running on the localhost. If set, gen_export_flags() will use localhost instead of EditorSettings.network/debug/remote_host as remote debugger host.
+*   DEBUG_FLAG_VIEW_COLLISIONS = 8: Flag is set if the "Visible Collision Shapes" remote debug option is enabled. If set, gen_export_flags() will append the --debug-collisions command line argument to the returned list.
+*   DEBUG_FLAG_VIEW_NAVIGATION = 16: Flag is set if the "Visible Navigation" remote debug option is enabled. If set, gen_export_flags() will append the --debug-navigation command line argument to the returned list.
+---CHUNK---
+Document: EditorExportPlatform
+Path: godot/classes/class_editorexportplatform.rst
+Summary: This section describes methods available in the EditorExportPlatform class for managing export messages, creating presets, exporting projects in various formats, and interacting with remote hosts via SSH.
+
+Method: add_message(type: ExportMessageType, category: String, message: String) → void
+Adds a message to the export log that will be displayed when exporting ends.
+
+Method: clear_messages() → void
+Clears the export log.
+
+Method: create_preset() → EditorExportPreset
+Create a new preset for this platform.
+
+Method: export_pack(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags] = 0) → Error
+Creates a PCK archive at `path` for the specified `preset`.
+
+Method: export_pack_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray = PackedStringArray(), flags: bitfield[DebugFlags] = 0) → Error
+Creates a patch PCK archive at `path` for the specified `preset`, containing only the files that have changed since the last patch.
+Note: `patches` is an optional override of the set of patches defined in the export preset. When empty the patches defined in the export preset will be used instead.
+
+Method: export_project(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags] = 0) → Error
+Creates a full project at `path` for the specified `preset`.
+
+Method: export_project_files(preset: EditorExportPreset, debug: bool, save_cb: Callable, shared_cb: Callable = Callable()) → Error
+Exports project files for the specified preset. This method can be used to implement custom export format, other than PCK and ZIP. One of the callbacks is called for each exported file.
+`save_cb` is called for all exported files and have the following arguments: `file_path: String`, `file_data: PackedByteArray`, `file_index: int`, `file_count: int`, `encryption_include_filters: PackedStringArray`, `encryption_exclude_filters: PackedStringArray`, `encryption_key: PackedByteArray`.
+`shared_cb` is called for exported native shared/static libraries and have the following arguments: `file_path: String`, `tags: PackedStringArray`, `target_folder: String`.
+Note: `file_index` and `file_count` are intended for progress tracking only and aren't necessarily unique and precise.
+
+Method: export_zip(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags] = 0) → Error
+Create a ZIP archive at `path` for the specified `preset`.
+
+Method: export_zip_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray = PackedStringArray(), flags: bitfield[DebugFlags] = 0) → Error
+Create a patch ZIP archive at `path` for the specified `preset`, containing only the files that have changed since the last patch.
+Note: `patches` is an optional override of the set of patches defined in the export preset. When empty the patches defined in the export preset will be used instead.
+
+Method: find_export_template(template_file_name: String) → Dictionary
+Locates export template for the platform, and returns Dictionary with the following keys: `path: String` and `error: String`. This method is provided for convenience and custom export platforms aren't required to use it or keep export templates stored in the same way official templates are.
+
+Method: gen_export_flags(flags: bitfield[DebugFlags]) → PackedStringArray
+Generates array of command line arguments for the default export templates for the debug flags and editor settings.
+
+Method: get_current_presets() → Array
+Returns array of EditorExportPresets for this platform.
+
+Method: get_forced_export_files(preset: EditorExportPreset = null) → PackedStringArray
+Returns array of core file names that always should be exported regardless of preset config.
+
+Method: get_internal_export_files(preset: EditorExportPreset, debug: bool) → Dictionary
+Returns additional files that should always be exported regardless of preset configuration, and are not part of the project source. The returned Dictionary contains filename keys (String) and their corresponding raw data (PackedByteArray).
+
+Method: get_message_category(index: int) → String
+Returns the message category for the message with the given `index`.
+
+Method: get_message_count() → int
+Returns the number of messages in the export log.
+
+Method: get_message_text(index: int) → String
+Returns the text for the message with the given `index`.
+
+Method: get_message_type(index: int) → ExportMessageType
+Returns the type for the message with the given `index`.
+
+Method: get_os_name() → String
+Returns the name of the export operating system handled by this EditorExportPlatform class, as a friendly string. Possible return values are "Windows", "Linux", "macOS", "Android", "iOS", and "Web".
+
+Method: get_worst_message_type() → ExportMessageType
+Returns most severe message type currently present in the export log.
+
+Method: save_pack(preset: EditorExportPreset, debug: bool, path: String, embed: bool = false) → Dictionary
+Saves PCK archive and returns Dictionary with the following keys: `result: Error`, `so_files: Array` (array of the shared/static objects which contains dictionaries with the following keys: `path: String`, `tags: PackedStringArray`, and `target_folder: String`).
+If `embed` is `true`, PCK content is appended to the end of `path` file and return Dictionary additionally include following keys: `embedded_start: int` (embedded PCK offset) and `embedded_size: int` (embedded PCK size).
+
+Method: save_pack_patch(preset: EditorExportPreset, debug: bool, path: String) → Dictionary
+Saves patch PCK archive and returns Dictionary with the following keys: `result: Error`, `so_files: Array` (array of the shared/static objects which contains dictionaries with the following keys: `path: String`, `tags: PackedStringArray`, and `target_folder: String`).
+
+Method: save_zip(preset: EditorExportPreset, debug: bool, path: String) → Dictionary
+Saves ZIP archive and returns Dictionary with the following keys: `result: Error`, `so_files: Array` (array of the shared/static objects which contains dictionaries with the following keys: `path: String`, `tags: PackedStringArray`, and `target_folder: String`).
+
+Method: save_zip_patch(preset: EditorExportPreset, debug: bool, path: String) → Dictionary
+Saves patch ZIP archive and returns Dictionary with the following keys: `result: Error`, `so_files: Array` (array of the shared/static objects which contains dictionaries with the following keys: `path: String`, `tags: PackedStringArray`, and `target_folder: String`).
+
+Method: ssh_push_to_remote(host: String, port: String, scp_args: PackedStringArray, src_file: String, dst_file: String) → Error
+Uploads specified file over SCP protocol to the remote host.
+
+Method: ssh_run_on_remote(host: String, port: String, ssh_arg: PackedStringArray, cmd_args: String, output: Array = [], port_fwd: int = -1) → Error
+Executes specified command on the remote host via SSH protocol and returns command output in the `output`.
+
+Method: ssh_run_on_remote_no_wait(host: String, port: String, ssh_args: PackedStringArray, cmd_args: String, port_fwd: int = -1) → int
+Executes specified command on the remote host via SSH protocol and returns process ID (on the remote host) without waiting for command to finish.

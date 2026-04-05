@@ -1,0 +1,138 @@
+Document: RDSamplerState
+Path: godot/classes/class_rdsamplerstate.rst
+Summary: Defines the state of a sampler in the rendering device.
+
+RDSamplerState
+
+Inherits: Resource < RefCounted < Object
+
+A sampler state resource for the RenderingDevice.
+
+This resource holds the state for a sampler, which is used to sample textures. It can be configured with various parameters to control how the texture is sampled.
+
+Properties:
+- `filter` (SamplerFilter, default: SamplerFilter.LINEAR): The filtering mode for the sampler. Controls how texels are interpolated.
+- `repeat` (SamplerRepeat, default: SamplerRepeat.REPEAT): The repeat mode for the sampler. Controls how texture coordinates outside the [0, 1] range are handled.
+- `mipmaps` (SamplerMipmap, default: SamplerMipmap.LINEAR): The mipmap mode for the sampler. Controls how mipmaps are generated and selected.
+- `anisotropy_enable` (bool, default: false): Enables or disables anisotropic filtering.
+- `max_lod` (float, default: 0.0): The maximum Level of Detail (LOD) to use for sampling.
+- `min_lod` (float, default: 0.0): The minimum Level of Detail (LOD) to use for sampling.
+- `lod_bias` (float, default: 0.0): A bias to apply to the calculated LOD.
+
+SamplerFilter:
+- FILTER_NEAREST: Nearest neighbor filtering.
+- FILTER_LINEAR: Linear filtering.
+- FILTER_BILINEAR: Bilinear filtering (same as linear).
+- FILTER_TRILINEAR: Trilinear filtering.
+- FILTER_ANISOTROPIC: Anisotropic filtering.
+
+SamplerRepeat:
+- REPEAT: Repeat the texture.
+- MIRRORED_REPEAT: Mirrored repeat the texture.
+-CLAMP_TO_EDGE: Clamp the texture coordinates to the edge.
+-CLAMP_TO_BORDER: Clamp the texture coordinates to the border color.
+
+SamplerMipmap:
+- MIPMAP_NONE: No mipmaps are used.
+- MIPMAP_NEAREST: Nearest mipmap is selected.
+- MIPMAP_LINEAR: Linear interpolation between mipmaps is used.
+---CHUNK---
+Document: RDSamplerState
+Path: godot/classes/class_rdsamplerstate.rst
+Summary: RDSamplerState is a RefCounted object used to configure sampler states for the RenderingDevice in Godot.
+
+Inherits: RefCounted < Object
+
+Sampler state (used by RenderingDevice).
+---CHUNK---
+Document: RDSamplerState
+Path: godot/classes/class_rdsamplerstate.rst
+Summary: Describes the RDSamplerState class, used by RenderingDevice.
+
+RDSamplerState is an object used by RenderingDevice.
+---CHUNK---
+Document: RDSamplerState
+Path: godot/classes/class_rdsamplerstate.rst
+Summary: Defines the properties for configuring a sampler state in the RenderingDevice.
+
+Properties:
+* anisotropy_max (float): Maximum anisotropy level. Default: 1.0
+* border_color (SamplerBorderColor): The color used for border clamping. Default: 2
+* compare_op (CompareOperator): The comparison operator used when depth comparison is enabled. Default: 7
+* enable_compare (bool): Enables depth comparison. Default: false
+* lod_bias (float): Bias applied to the Level of Detail calculation. Default: 0.0
+* mag_filter (SamplerFilter): The filter used when sampling textures when magnified. Default: 0
+* max_lod (float): Maximum Level of Detail. Default: 1e+20
+* min_filter (SamplerFilter): The filter used when sampling textures when minified. Default: 0
+* min_lod (float): Minimum Level of Detail. Default: 0.0
+* mip_filter (SamplerFilter): The filter used when sampling between mipmap levels. Default: 0
+* repeat_u (SamplerRepeatMode): The repeat mode for the U coordinate. Default: 2
+* repeat_v (SamplerRepeatMode): The repeat mode for the V coordinate. Default: 2
+* repeat_w (SamplerRepeatMode): The repeat mode for the W coordinate. Default: 2
+* unnormalized_uvw (bool): If true, UVW coordinates are not normalized to [0, 1]. Default: false
+* use_anisotropy (bool): Enables anisotropic filtering. Default: false
+---CHUNK---
+Document: RDSamplerState
+Path: godot/classes/class_rdsamplerstate.rst
+Summary: Describes the properties of the RDSamplerState class, which control how textures are sampled in the RenderingDevice.
+
+Property Descriptions
+anisotropy_max (float): Maximum anisotropy that can be used when sampling. Only effective if use_anisotropy is true. Higher values result in a sharper sampler at oblique angles, at the cost of performance. This value may be limited by graphics hardware, typically up to 16.0. If anisotropy_max is 1.0, anisotropy is disabled even if use_anisotropy is true. Default: 1.0.
+Method: set_anisotropy_max(value: float)
+Method: get_anisotropy_max() -> float
+
+border_color (SamplerBorderColor): The border color that will be returned when sampling outside the sampler's bounds and the repeat modes are disabled. Default: 2.
+Method: set_border_color(value: SamplerBorderColor)
+Method: get_border_color() -> SamplerBorderColor
+
+compare_op (CompareOperator): The compare operation to use. Only effective if enable_compare is true. Default: 7.
+Method: set_compare_op(value: CompareOperator)
+Method: get_compare_op() -> CompareOperator
+
+enable_compare (bool): If true, returned values will be based on the comparison operation defined in compare_op. This is a hardware-based approach and is therefore faster than performing this manually in a shader. For example, compare operations are used for shadow map rendering by comparing depth values from a shadow sampler. Default: false.
+Method: set_enable_compare(value: bool)
+Method: get_enable_compare() -> bool
+
+lod_bias (float): The mipmap LOD bias to use. Positive values make the sampler blurrier, while negative values make it sharper (at the risk of looking grainy). Recommended values are between -0.5 and 0.0. Only effective if the sampler has mipmaps available. Default: 0.0.
+Method: set_lod_bias(value: float)
+Method: get_lod_bias() -> float
+
+mag_filter (SamplerFilter): The sampler's magnification filter. It is the filtering method used when sampling texels that appear bigger than on-screen pixels. Default: 0.
+Method: set_mag_filter(value: SamplerFilter)
+Method: get_mag_filter() -> SamplerFilter
+
+max_lod (float): The maximum mipmap LOD bias to display (lowest resolution). Only effective if the sampler has mipmaps available. Default: 1e+20.
+Method: set_max_lod(value: float)
+Method: get_max_lod() -> float
+
+min_filter (SamplerFilter): The sampler's minification filter. It is the filtering method used when sampling texels that appear smaller than on-screen pixels. Default: 0.
+Method: set_min_filter(value: SamplerFilter)
+Method: get_min_filter() -> SamplerFilter
+
+min_lod (float): The minimum mipmap LOD bias to display (highest resolution). Only effective if the sampler has mipmaps available. Default: 0.0.
+Method: set_min_lod(value: float)
+Method: get_min_lod() -> float
+
+mip_filter (SamplerFilter): The filtering method to use for mipmaps. Default: 0.
+Method: set_mip_filter(value: SamplerFilter)
+Method: get_mip_filter() -> SamplerFilter
+
+repeat_u (SamplerRepeatMode): The repeat mode to use along the U axis of UV coordinates. This affects the returned values if sampling outside the UV bounds. Default: 2.
+Method: set_repeat_u(value: SamplerRepeatMode)
+Method: get_repeat_u() -> SamplerRepeatMode
+
+repeat_v (SamplerRepeatMode): The repeat mode to use along the V axis of UV coordinates. This affects the returned values if sampling outside the UV bounds. Default: 2.
+Method: set_repeat_v(value: SamplerRepeatMode)
+Method: get_repeat_v() -> SamplerRepeatMode
+
+repeat_w (SamplerRepeatMode): The repeat mode to use along the W axis of UV coordinates. This affects the returned values if sampling outside the UV bounds. Only effective for 3D samplers. Default: 2.
+Method: set_repeat_w(value: SamplerRepeatMode)
+Method: get_repeat_w() -> SamplerRepeatMode
+
+unnormalized_uvw (bool): If true, the texture will be sampled with coordinates ranging from 0 to the texture's resolution. Otherwise, the coordinates will be normalized and range from 0 to 1. Default: false.
+Method: set_unnormalized_uvw(value: bool)
+Method: get_unnormalized_uvw() -> bool
+
+use_anisotropy (bool): If true, perform anisotropic sampling. See anisotropy_max. Default: false.
+Method: set_use_anisotropy(value: bool)
+Method: get_use_anisotropy() -> bool

@@ -1,0 +1,216 @@
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: Defines a NavigationObstacle3D node for creating dynamic obstacles in navigation meshes.
+
+NavigationObstacle3D
+
+Inherits: Node3D < Node < Object
+
+A dynamic obstacle that can be added to a NavigationRegion3D or NavigationRegion2D.
+
+This node is used to create dynamic obstacles in the navigation mesh. When a NavigationObstacle3D is added to the scene tree, it will automatically update the navigation mesh it belongs to. This allows for dynamic obstacles such as doors, moving platforms, or characters to be incorporated into the navigation mesh without needing to rebake the entire navigation mesh.
+
+The obstacle can be configured with various properties to control its behavior and impact on the navigation mesh. These properties include its size, shape, and whether it should be considered a walkable or unwalkable area.
+
+Key Rule: The NavigationObstacle3D node must be a direct or indirect child of a NavigationRegion3D or NavigationRegion2D node to function correctly.
+
+Properties:
+- radius (float): The radius of the obstacle. Default: 0.5.
+- height (float): The height of the obstacle. Default: 2.0.
+- obstacle_type (int): The type of obstacle. Can be OBSTACLE_STATIC or OBSTACLE_DYNAMIC. Default: 0.
+- carve_stationary_obstacles (bool): Whether to carve stationary obstacles. Default: true.
+- use_3d_physics_for_carving (bool): Whether to use 3D physics for carving. Default: true.
+- update_speed (float): The speed at which the obstacle updates. Default: 5.0.
+- enter_cost (float): The cost to enter the obstacle. Default: 0.0.
+- exit_cost (float): The cost to exit the obstacle. Default: 0.0.
+- owner (Node): The owner of the obstacle.
+
+Methods:
+- _update_obstacle()
+---CHUNK---
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: Introduces the NavigationObstacle3D node, an experimental feature for influencing navigation mesh baking and agent avoidance.
+
+NavigationObstacle3D
+**Experimental:** This class may be changed or removed in future versions.
+
+Inherits: Node3D < Node < Object
+
+3D obstacle used to affect navigation mesh baking or constrain velocities of avoidance controlled agents.
+---CHUNK---
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: Describes the properties and behavior of NavigationObstacle3D nodes in Godot, focusing on how they interact with navigation meshes and avoidance agents.
+An obstacle needs a navigation map and outline vertices defined to work correctly. The outlines cannot cross or overlap and are restricted to a plane projection. This means the y-axis of the vertices is ignored; instead, the obstacle's global y-axis position is used for placement. The projected shape is extruded by the obstacle's height along the y-axis.
+
+Obstacles can be included in the navigation mesh baking process when affect_navigation_mesh is enabled. They do not add walkable geometry; instead, their role is to discard other source geometry inside the shape. This can be used to prevent navigation mesh from appearing in unwanted places, e.g., inside "solid" geometry or on top of it. If carve_navigation_mesh is enabled, the baked shape will not be affected by offsets of the navigation mesh baking, e.g., the agent radius.
+
+With avoidance_enabled, the obstacle can constrain the avoidance velocities of avoidance using agents. If the obstacle's vertices are wound in clockwise order, avoidance agents will be pushed in by the obstacle; otherwise, avoidance agents will be pushed out. Obstacles using vertices and avoidance can warp to a new position but should not be moved every single frame, as each change requires a rebuild of the avoidance map.
+---CHUNK---
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: This document describes the NavigationObstacle3D class in Godot Engine, which is used to define dynamic obstacles for navigation.
+
+NavigationObstacle3D is a node that represents a dynamic obstacle in the navigation mesh. It allows for runtime modification of navigation paths by dynamically blocking areas of the navigation mesh.
+
+Properties:
+- `radius` (float): The radius of the obstacle. This is used for spherical obstacles. Default: 0.5.
+- `height` (float): The height of the obstacle. This is used for cylindrical obstacles. Default: 2.0.
+- `obstacle_type` (int): The type of the obstacle. Can be `OBSTACLE_TYPE_CYLINDER` or `OBSTACLE_TYPE_SPHERE`. Default: 0.
+- `carve_path` (bool): If true, the obstacle will carve a hole in the navigation mesh. Default: true.
+- `carve_sensitivity` (float): The sensitivity of the carving process. Higher values mean more aggressive carving. Default: 1.0.
+- `update_mode` (int): The update mode for the obstacle. Can be `UPDATE_MODE_ONCE`, `UPDATE_MODE_WHEN_NEEDED`, or `UPDATE_MODE_ALWAYS`. Default: 1.
+
+Methods:
+- `set_obstacle_type(type: int)`: Sets the type of the obstacle.
+- `get_obstacle_type() -> int`: Returns the type of the obstacle.
+- `set_radius(radius: float)`: Sets the radius of the obstacle.
+- `get_radius() -> float`: Returns the radius of the obstacle.
+- `set_height(height: float)`: Sets the height of the obstacle.
+- `get_height() -> float`: Returns the height of the obstacle.
+- `set_carve_path(carve: bool)`: Sets whether the obstacle carves the navigation mesh.
+- `is_carving_path() -> bool`: Returns whether the obstacle carves the navigation mesh.
+- `set_carve_sensitivity(sensitivity: float)`: Sets the carving sensitivity.
+- `get_carve_sensitivity() -> float`: Returns the carving sensitivity.
+- `set_update_mode(mode: int)`: Sets the update mode for the obstacle.
+- `get_update_mode() -> int`: Returns the update mode for the obstacle.
+
+Obstacle Types:
+- `OBSTACLE_TYPE_CYLINDER`: The obstacle is a cylinder.
+- `OBSTACLE_TYPE_SPHERE`: The obstacle is a sphere.
+
+Update Modes:
+- `UPDATE_MODE_ONCE`: The obstacle is updated only once when it is added to the scene.
+- `UPDATE_MODE_WHEN_NEEDED`: The obstacle is updated when its properties change or when the navigation mesh is updated.
+- `UPDATE_MODE_ALWAYS`: The obstacle is updated every frame.
+
+GDScript:
+```gdscript
+var obstacle = NavigationObstacle3D.new()
+obstacle.radius = 1.0
+obstacle.height = 3.0
+obstacle.obstacle_type = NavigationObstacle3D.OBSTACLE_TYPE_CYLINDER
+add_child(obstacle)
+```
+
+C#:
+```csharp
+var obstacle = new NavigationObstacle3D();
+obstacle.Radius = 1.0f;
+obstacle.Height = 3.0f;
+obstacle.ObstacleType = NavigationObstacle3D.ObstacleTypeEnum.ObstacleTypeCylinder;
+AddChild(obstacle);
+```
+---CHUNK---
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: Lists the properties available for the NavigationObstacle3D class, detailing their types, names, and default values.
+
+Properties
+* affect_navigation_mesh (bool): If `true`, the obstacle will affect the navigation mesh. Default: `false`.
+* avoidance_enabled (bool): If `true`, the obstacle will be considered by the avoidance system. Default: `true`.
+* avoidance_layers (int): The avoidance layers this obstacle belongs to. Default: `1`.
+* carve_navigation_mesh (bool): If `true`, the obstacle will carve a hole in the navigation mesh. Default: `false`.
+* height (float): The height of the obstacle when carving the navigation mesh. Default: `1.0`.
+* radius (float): The radius of the obstacle when carving the navigation mesh. Default: `0.0`.
+* use_3d_avoidance (bool): If `true`, the obstacle will use 3D avoidance. Default: `false`.
+* velocity (Vector3): The current velocity of the obstacle. Default: `Vector3(0, 0, 0)`.
+* vertices (PackedVector3Array): The vertices of the obstacle when carving the navigation mesh. Default: `PackedVector3Array()`.
+---CHUNK---
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: Provides methods for interacting with the navigation map and avoidance layers of a NavigationObstacle3D node.
+
+Method: get_avoidance_layer_value(layer_number: int) → bool
+Returns the value of the specified avoidance layer.
+
+Method: get_navigation_map() → RID
+Returns the navigation map this obstacle is currently using.
+
+Method: get_rid() → RID
+Returns the RID of the navigation obstacle.
+
+Method: set_avoidance_layer_value(layer_number: int, value: bool)
+Sets the value of the specified avoidance layer.
+
+Method: set_navigation_map(navigation_map: RID)
+Sets the navigation map for this obstacle.
+---CHUNK---
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: Describes the properties of the NavigationObstacle3D node, which affects navigation mesh generation and agent avoidance.
+
+Property Descriptions
+Property: affect_navigation_mesh (bool)
+Default: false
+Setter: set_affect_navigation_mesh
+Getter: get_affect_navigation_mesh
+If enabled and parsed in a navigation mesh baking process the obstacle will discard source geometry inside its vertices and height defined shape.
+
+Property: avoidance_enabled (bool)
+Default: true
+Setter: set_avoidance_enabled
+Getter: get_avoidance_enabled
+If true the obstacle affects avoidance using agents.
+
+Property: avoidance_layers (int)
+Default: 1
+Setter: set_avoidance_layers
+Getter: get_avoidance_layers
+A bitfield determining the avoidance layers for this obstacle. Agents with a matching bit on the their avoidance mask will avoid this obstacle.
+
+Property: carve_navigation_mesh (bool)
+Default: false
+Setter: set_carve_navigation_mesh
+Getter: get_carve_navigation_mesh
+If enabled the obstacle vertices will carve into the baked navigation mesh with the shape unaffected by additional offsets (e.g. agent radius). It will still be affected by further postprocessing of the baking process, like edge and polygon simplification. Requires affect_navigation_mesh to be enabled.
+
+Property: height (float)
+Default: 1.0
+Setter: set_height
+Getter: get_height
+Sets the obstacle height used in 2D avoidance. 2D avoidance using agent's ignore obstacles that are below or above them.
+
+Property: radius (float)
+Default: 0.0
+Setter: set_radius
+Getter: get_radius
+Sets the avoidance radius for the obstacle.
+
+Property: use_3d_avoidance (bool)
+Default: false
+Setter: set_use_3d_avoidance
+Getter: get_use_3d_avoidance
+If true the obstacle affects 3D avoidance using agent's with obstacle radius. If false the obstacle affects 2D avoidance using agent's with both obstacle vertices as well as obstacle radius.
+
+Property: velocity (Vector3)
+Default: Vector3(0, 0, 0)
+Setter: set_velocity
+Getter: get_velocity
+Sets the wanted velocity for the obstacle so other agent's can better predict the obstacle if it is moved with a velocity regularly (every frame) instead of warped to a new position. Does only affect avoidance for the obstacles radius. Does nothing for the obstacles static vertices.
+
+Property: vertices (PackedVector3Array)
+Default: PackedVector3Array()
+Setter: set_vertices
+Getter: get_vertices
+The outline vertices of the obstacle. If the vertices are winded in clockwise order agents will be pushed in by the obstacle, else they will be pushed out. Outlines can not be crossed or overlap. Should the vertices using obstacle be warped to a new position agent's can not predict this movement and may get trapped inside the obstacle. Note: The returned array is copied and any changes to it will not update the original property value.
+---CHUNK---
+Document: NavigationObstacle3D
+Path: godot/classes/class_navigationobstacle3d.rst
+Summary: Methods for managing avoidance layers, navigation maps, and RIDs for NavigationObstacle3D nodes.
+
+Method: get_avoidance_layer_value(layer_number: int) → bool
+Returns whether or not the specified layer of the avoidance_layers bitmask is enabled, given a layer_number between 1 and 32.
+
+Method: get_navigation_map() → RID
+Returns the RID of the navigation map for this NavigationObstacle node. This function returns always the map set on the NavigationObstacle node and not the map of the abstract obstacle on the NavigationServer. If the obstacle map is changed directly with the NavigationServer API the NavigationObstacle node will not be aware of the map change. Use set_navigation_map to change the navigation map for the NavigationObstacle and also update the obstacle on the NavigationServer.
+
+Method: get_rid() → RID
+Returns the RID of this obstacle on the NavigationServer3D.
+
+Method: set_avoidance_layer_value(layer_number: int, value: bool) → void
+Based on value, enables or disables the specified layer in the avoidance_layers bitmask, given a layer_number between 1 and 32.
+
+Method: set_navigation_map(navigation_map: RID) → void
+Sets the RID of the navigation map this NavigationObstacle node should use and also updates the obstacle on the NavigationServer.

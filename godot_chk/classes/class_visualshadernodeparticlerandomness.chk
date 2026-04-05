@@ -1,0 +1,43 @@
+Document: VisualShaderNodeParticleRandomness  
+Path: godot/classes/class_visualshadernodeparticlerandomness.rst  
+Summary: A visual shader node that introduces randomness parameters for particle effects in Godot Engine.
+---CHUNK---
+Document: VisualShaderNodeParticleRandomness
+Path: godot/classes/class_visualshadernodeparticlerandomness.rst
+Summary: A visual shader node for randomizing particle values.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Visual shader node for randomizing particle values.
+---CHUNK---
+Document: VisualShaderNodeParticleRandomness
+Path: godot/classes/class_visualshadernodeparticlerandomness.rst
+Summary: Pseudo-random value generator node for visual shaders with configurable minimum and maximum bounds.
+
+Randomness node will output pseudo-random values of the given type based on the specified minimum and maximum values.
+---CHUNK---
+Document: VisualShaderNodeParticleRandomness
+Path: godot/classes/class_visualshadernodeparticlerandomness.rst
+Summary: Properties and member variables of the VisualShaderNodeParticleRandomness class
+
+- op_type (VisualShaderNodeParticleRandomness_OpType): Enum value determining randomness behavior. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeParticleRandomness
+Path: godot/classes/class_visualshadernodeparticlerandomness.rst
+Summary: Defines the OpType enum and its constants for specifying data types in VisualShaderNodeParticleRandomness.
+
+enum OpType:
+- OP_TYPE_SCALAR (0): A floating-point scalar.
+- OP_TYPE_VECTOR_2D (1): A 2D vector type.
+- OP_TYPE_VECTOR_3D (2): A 3D vector type.
+- OP_TYPE_VECTOR_4D (3): A 4D vector type.
+- OP_TYPE_MAX (4): Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeParticleRandomness
+Path: godot/classes/class_visualshadernodeparticlerandomness.rst
+Summary: The op_type property and its setter/getter methods for controlling operand types in VisualShaderNodeParticleRandomness.
+
+OpType op_type = 0
+- void set_op_type(value: OpType)
+- OpType get_op_type()
+
+A type of operands and returned value. The OpType enum defines valid options for this property, with 0 as the default value. The setter method allows changing the operand type, while the getter retrieves the current value. This property determines how the node processes particle randomness data in visual shaders.

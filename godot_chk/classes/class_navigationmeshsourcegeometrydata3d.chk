@@ -1,0 +1,73 @@
+Document: NavigationMeshSourceGeometryData3D
+Path: godot/classes/class_navigationmeshsourcegeometrydata3d.rst
+Summary: Stores geometry data for NavigationMesh generation.
+
+NavigationMeshSourceGeometryData3D
+
+Stores geometry data for NavigationMesh generation.
+
+Inherits: Object < NavigationMeshSourceGeometryData3D
+---CHUNK---
+Document: NavigationMeshSourceGeometryData3D
+Path: godot/classes/class_navigationmeshsourcegeometrydata3d.rst
+Summary: Container for parsed source geometry data used in navigation mesh baking.
+
+NavigationMeshSourceGeometryData3D
+Container for parsed source geometry data used in navigation mesh baking.
+---CHUNK---
+Document: NavigationMeshSourceGeometryData3D
+Path: godot/classes/class_navigationmeshsourcegeometrydata3d.rst
+Summary: Container for parsed source geometry data used in navigation mesh baking.
+This class is a container for parsed source geometry data used in navigation mesh baking.
+---CHUNK---
+Document: NavigationMeshSourceGeometryData3D
+Path: godot/classes/class_navigationmeshsourcegeometrydata3d.rst
+Summary: This section details the methods available for manipulating and retrieving geometry data used in navigation mesh baking.
+
+Method: add_faces(faces: PackedVector3Array, xform: Transform3D) → void
+Adds an array of vertex positions to the geometry data for navigation mesh baking to form triangulated faces. Each face must have three vertex positions in clockwise winding order. The `xform` parameter is used to offset vertex positions by the node's transform.
+
+Method: add_mesh(mesh: Mesh, xform: Transform3D) → void
+Adds the geometry data of a Mesh resource to the navigation mesh baking data. The mesh must have valid triangulated mesh data. The `xform` parameter is used to offset vertex positions by the node's transform.
+
+Method: add_mesh_array(mesh_array: Array, xform: Transform3D) → void
+Adds an Array containing vertex and index data to the navigation mesh baking data. The array must have valid triangulated mesh data. The `xform` parameter is used to offset vertex positions by the node's transform.
+
+Method: add_projected_obstruction(vertices: PackedVector3Array, elevation: float, height: float, carve: bool) → void
+Adds a projected obstruction shape to the source geometry. The `vertices` define the shape on the XZ plane, `elevation` sets its Y position, `height` extrudes it, and `carve` determines if it's affected by navigation mesh baking offsets.
+
+Method: append_arrays(vertices: PackedFloat32Array, indices: PackedInt32Array) → void
+Appends `vertices` and `indices` arrays to the existing data, applying an offset to the appended indices.
+
+Method: clear() → void
+Clears all internal geometry data.
+
+Method: clear_projected_obstructions() → void
+Removes all previously added projected obstructions.
+
+Method: get_bounds() → AABB
+Returns an axis-aligned bounding box encompassing all stored geometry data. The bounds are cached and recalculated only when geometry data changes.
+
+Method: get_indices() → PackedInt32Array
+Returns the parsed source geometry data indices array.
+
+Method: get_projected_obstructions() → Array
+Returns the projected obstructions as an Array of Dictionaries. Each dictionary contains 'vertices', 'elevation', 'height', and 'carve' keys describing the obstruction.
+
+Method: get_vertices() → PackedFloat32Array
+Returns the parsed source geometry data vertices array.
+
+Method: has_data() → bool
+Returns true if there is any parsed source geometry data available.
+
+Method: merge(other_geometry: NavigationMeshSourceGeometryData3D) → void
+Adds the geometry data from another NavigationMeshSourceGeometryData3D instance to the current one.
+
+Method: set_indices(indices: PackedInt32Array) → void
+Sets the source geometry data indices. Warning: Incorrect data can cause baking process crashes.
+
+Method: set_projected_obstructions(projected_obstructions: Array) → void
+Sets the projected obstructions using an Array of Dictionaries. Each dictionary must contain 'vertices' (PackedFloat32Array), 'elevation' (float), 'height' (float), and 'carve' (bool).
+
+Method: set_vertices(vertices: PackedFloat32Array) → void
+Sets the source geometry data vertices. Warning: Incorrect data can cause baking process crashes.

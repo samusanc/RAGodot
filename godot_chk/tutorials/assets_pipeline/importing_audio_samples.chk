@@ -1,0 +1,285 @@
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This document explains how to import audio samples into Godot Engine.
+
+Godot supports importing audio samples in various formats, including WAV, OGG, and MP3. To import an audio sample, simply drag and drop the audio file into the FileSystem dock in Godot. The audio file will then appear in the FileSystem dock, ready to be used in your project.
+
+Once imported, you can configure the import settings for the audio sample by selecting the file in the FileSystem dock and then clicking the "Import" tab in the top-right corner of the editor. The import settings allow you to adjust various properties of the audio sample, such as its loop behavior, volume, and playback speed.
+
+For example, you can enable looping for background music or sound effects that need to repeat continuously. You can also adjust the volume to ensure that the audio sample is balanced with other sounds in your project. The playback speed can be modified to create slow-motion effects or to speed up certain sounds.
+
+Audio samples can be used in your project in several ways. You can play them directly from GDScript or C# code using the AudioStreamPlayer node. You can also assign them to the AudioStream property of an AudioStreamPlayer node in the editor.
+
+Here's a simple GDScript example of how to play an audio sample:
+
+GDScript:
+	var audio_player = $AudioStreamPlayer
+	var audio_sample = load("res://path/to/your/audio_sample.wav")
+	audio_player.stream = audio_sample
+	audio_player.play()
+
+And here's a C# example:
+
+C#:
+	var audioPlayer = GetNode<AudioStreamPlayer>("AudioStreamPlayer");
+	var audioSample = GD.Load<AudioStream>("res://path/to/your/audio_sample.wav");
+	audioPlayer.Stream = audioSample;
+	audioPlayer.Play();
+
+By following these steps, you can effectively import and utilize audio samples in your Godot projects to enhance the audio experience for your players.
+---CHUNK---
+Document: Importing audio samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This document explains how to import audio samples into Godot Engine.
+
+Importing audio samples into Godot is a straightforward process. You can import audio files directly into your project by dragging and dropping them into the FileSystem dock. Godot supports various common audio formats, including WAV, OGG, and MP3.
+
+Once imported, audio files appear in the FileSystem dock just like any other asset. You can then use them in your project by loading them into an AudioStreamPlayer node or by using them in code.
+
+For more advanced control over audio import settings, you can select the audio file in the FileSystem dock and adjust its import options in the Import dock. These options might include:
+
+*   **Looping:** Enable or disable looping for the audio sample.
+*   **Trim:** Remove silence from the beginning or end of the audio.
+*   **Force Mono:** Convert stereo audio to mono.
+*   **Sample Rate:** Resample the audio to a different sample rate.
+
+These import settings allow you to optimize audio assets for your game, reducing file size and ensuring they play as intended.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section details the supported audio formats in Godot, their advantages, disadvantages, and provides a comparative chart of file sizes.
+
+Godot supports WAV, Ogg Vorbis, and MP3 audio formats for import.
+
+WAV files use raw data or light compression (IMA ADPCM or Quite OK Audio). They are lightweight for CPU playback, allowing hundreds of simultaneous voices, but consume significant disk space. Godot currently imports WAV in raw format, with compression available post-import.
+
+Ogg Vorbis files offer strong compression, resulting in smaller file sizes but requiring more processing power for playback.
+
+MP3 files provide better compression than WAV (IMA ADPCM or Quite OK Audio) but less than Ogg Vorbis, meaning MP3 files of similar quality to Ogg Vorbis will be larger. However, MP3 requires less CPU usage for playback compared to Ogg Vorbis.
+
+Note: Some audio formats may not be available if specific modules were disabled during the compilation of the Godot editor from source.
+
+Comparative file size for 1 second of audio:
+* WAV 24-bit, 96 kHz, stereo: 576 KB
+* WAV 16-bit, 44 kHz, mono: 88 KB
+* WAV IMA ADPCM, 44 kHz, mono: 22 KB
+* Quite OK Audio, 44 kHz, mono: 17 KB
+* MP3 192 Kb/s, stereo: 24 KB
+* Ogg Vorbis 128 Kb/s, stereo: 16 KB
+* Ogg Vorbis 96 Kb/s, stereo: 12 KB
+
+The file sizes for MP3 and Ogg Vorbis can vary based on encoding type. The figures above use Constant Bit Rate (CBR) encoding for simplicity. Variable Bit Rate (VBR) encoding, commonly used online, is more efficient and makes file size dependent on audio complexity.
+
+Tip: For short, repetitive sound effects, consider using WAV. For music, speech, and long sound effects, Ogg Vorbis is recommended. MP3 is suitable for mobile and web projects with limited CPU resources, particularly when playing multiple compressed sounds concurrently, such as long ambient sounds.
+---CHUNK---
+Document: Importing audio samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section describes the import options available for audio files in Godot.
+
+When a WAV file is selected in the FileSystem dock, several import options are available in the Import dock. The set of options available for Ogg Vorbis or MP3 files is different. After importing a sound, it can be played back using AudioStreamPlayer, AudioStreamPlayer2D, or AudioStreamPlayer3D nodes.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section details the import options available for WAV audio files in Godot.
+
+When importing audio files, Godot provides several import options to fine-tune how the audio is processed and used within your project. These options are accessible through the Import tab in the FileSystem dock.
+
+For WAV files, the following import options are available:
+
+*   **Format**: This setting determines the audio format Godot will use internally.
+    *   **PCM16**: Standard 16-bit signed integer audio. This is a lossless format and generally offers good quality.
+    *   **IMAADPCM**: A lossy compression format. It offers smaller file sizes at the cost of some audio quality. This can be useful for reducing project size, especially for many short sound effects.
+    *   **MP3**: If the `godot-mp3` module is enabled, you can import audio as MP3. This is a lossy format that offers good compression.
+    *   **Ogg Vorbis**: If the `godot-ogg` module is enabled, you can import audio as Ogg Vorbis. This is a lossy format known for its good quality-to-size ratio.
+
+*   **Loop**: Enable this option if the audio sample should loop seamlessly. This is commonly used for background music or ambient sounds.
+
+*   **Loop Start**: If looping is enabled, this specifies the time in seconds where the loop should begin.
+
+*   **Loop End**: If looping is enabled, this specifies the time in seconds where the loop should end.
+
+*   **Normalize**: When enabled, Godot will attempt to adjust the audio's volume so that its peak amplitude reaches 0 dBFS (decibels relative to full scale). This can help ensure consistent loudness across different audio samples.
+
+*   **Force Rate**: If enabled, you can specify a custom sample rate for the audio. By default, Godot will try to preserve the original sample rate.
+
+*   **Mix Rate**: This setting determines the sample rate at which the audio will be played back. Setting this to a lower value can reduce memory usage and CPU load, but may also result in lower audio quality. Common values are 44100 Hz (CD quality) or 48000 Hz.
+
+*   **Trim**: This option allows you to remove silence from the beginning and end of the audio file. This can be useful for cleaning up recordings and reducing unnecessary file size.
+
+*   **Trim Start**: If Trim is enabled, this specifies the duration in seconds to trim from the beginning of the audio file.
+
+*   **Trim End**: If Trim is enabled, this specifies the duration in seconds to trim from the end of the audio file.
+
+These import options allow you to optimize your audio assets for various use cases, balancing quality, file size, and performance.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section explains the "Force > 8 Bit" import option for audio samples.
+Force > 8 Bit
+If enabled, forces the imported audio to use 8-bit quantization if the source file is 16-bit or higher. Enabling this is generally not recommended, as 8-bit quantization decreases audio quality significantly. If you need smaller file sizes, consider using Ogg Vorbis or MP3 audio instead.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: Explanation of the Force Mono import setting for audio files.
+
+Force Mono
+If enabled, forces the imported audio to be mono if the source file is stereo. This decreases the file size by 50% by merging the two channels into one.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: Describes the "Max Rate" import setting for audio samples.
+Force > Max Rate
+If set to a value greater than 0, forces the audio's sample rate to be reduced to a value lower than or equal to the value specified here. This can decrease file size noticeably on certain sounds, without impacting quality depending on the actual sound's contents. See importing_audio_samples_best_practices for more information.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section describes the "Trim" import option for audio samples in Godot.
+Edit > Trim
+The source audio file may contain long silences at the beginning and/or the end. These silences are inserted by DAWs (Digital Audio Workstations) when saving to a waveform, which increases their size unnecessarily and add latency to the moment they are played back.
+
+Enabling Trim will automatically trim the beginning and end of the audio if it's lower than -50 dB after normalization (see Edit > Normalize below). A fade-in/fade-out period of 500 samples is also used during trimming to avoid audible pops.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section describes the "Normalize" import option for audio samples in Godot.
+Edit > Normalize
+If enabled, audio volume will be normalized so that its peak volume is equal to 0 dB. When enabled, normalization will make audio sound louder depending on its original peak volume.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section explains the loop modes available for audio samples in Godot, including how to detect loop information from WAV files and manually set loop points.
+
+Edit > Loop Mode
+Unlike Ogg Vorbis and MP3, WAV files can contain metadata to indicate whether they're looping (in addition to loop points). By default, Godot will follow this metadata, but you can choose to apply a specific loop mode:
+- Detect from WAV: Uses loop information from the WAV metadata.
+- Disabled: Don't loop audio, even if metadata indicates the file should be played back looping.
+- Forward: Standard audio looping. Plays the audio forward from the beginning to the loop end, then returns to the loop beginning and repeats.
+- Ping-Pong: Plays the audio forward until the loop end, then backwards to the loop beginning, repeating this cycle.
+- Backward: Plays the audio backwards from the loop end to the loop beginning, then repeats.
+
+When choosing one of the Forward, Ping-Pong or Backward loop modes, loop points can also be defined to make only a specific part of the sound loop. Loop Begin is set in samples after the beginning of the audio file. Loop End is also set in samples after the beginning of the audio file, but will use the end of the audio file if set to -1.
+
+Warning: In AudioStreamPlayer, the finished signal won't be emitted for looping audio when it reaches the end of the audio file, as the audio will keep playing indefinitely.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section describes the audio compression modes available for importing audio samples into Godot.
+Compress > Mode
+Three compression modes can be chosen from for WAV files: PCM (Uncompressed), IMA ADPCM, or Quite OK Audio (default). IMA ADPCM reduces file size and memory usage a little, at the cost of decreasing quality in an audible manner. Quite OK Audio reduces file size a bit more than IMA ADPCM and the quality decrease is much less noticeable, at the cost of slightly higher CPU usage (still much lower than MP3).
+
+Ogg Vorbis and MP3 don't decrease quality as much and can provide greater file size reductions, at the cost of higher CPU usage during playback. This higher CPU usage is usually not a problem (especially with MP3), unless playing dozens of compressed sounds at the same time on mobile/web platforms.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section details the import options available for Ogg Vorbis and MP3 audio files in Godot.
+
+When importing audio samples, Godot provides several import options to fine-tune how the audio is processed and stored. These options are particularly relevant for compressed formats like Ogg Vorbis and MP3.
+
+Import Options:
+
+*   **Force MP3 to Mono**: If enabled, this option will convert stereo MP3 files to mono during import. This can reduce file size and memory usage if stereo is not required.
+*   **Loop**: If enabled, the audio sample will loop automatically when played. This is useful for background music, ambient sounds, or short sound effects that need to repeat.
+*   **Loop Start**: Specifies the frame number at which the loop should begin. This allows for precise control over the looping point, ensuring seamless transitions.
+*   **Loop End**: Specifies the frame number at which the loop should end. Combined with `Loop Start`, this defines the exact segment of the audio that will repeat.
+*   **Normalize**: If enabled, this option will adjust the volume of the audio sample so that its peak amplitude reaches the maximum possible value without clipping. This ensures the audio is as loud as possible while preventing distortion.
+*   **Pitch Scale**: Allows you to adjust the playback pitch of the audio sample. A value of 1.0 means the original pitch. Values greater than 1.0 increase the pitch, while values less than 1.0 decrease it. This can be used for sound effects or musical variations.
+*   **Max Rate**: Sets the maximum sample rate for the audio. If the original audio has a higher sample rate, it will be resampled down to this value. Lowering the sample rate can reduce file size and memory usage, but may also affect audio quality.
+*   **Trim**: If enabled, this option will remove silence from the beginning and end of the audio sample. This can help reduce file size and ensure sounds start immediately when triggered.
+*   **Silence Threshold**: Defines the decibel level below which audio is considered silence. Used in conjunction with the `Trim` option.
+*   **Beep Silent**: If enabled, this option will play a short "beep" sound when the audio sample is empty or contains only silence after trimming. This can be a useful indicator during development.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: Describes the loop property for audio import settings and its implications for the finished signal.
+Loop: If enabled, the audio will begin playing at the beginning after playback ends by reaching the end of the audio. Warning: In AudioStreamPlayer, the finished signal won't be emitted for looping audio when it reaches the end of the audio file, as the audio will keep playing indefinitely.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: Explains the loop offset setting for audio samples in Godot.
+Loop Offset
+The loop offset determines where audio will start to loop after playback reaches the end of the audio. This can be used to only loop a part of the audio file, which is useful for some ambient sounds or music. The value is determined in seconds relative to the beginning of the audio, so 0 will loop the entire audio file.
+Key Rule: Only has an effect if Loop is enabled.
+A more convenient editor for Loop Offset is provided in the Advanced import settings dialog, as it lets you preview your changes without having to reimport the audio.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: Describes the BPM setting for audio import in Godot.
+BPM: The Beats Per Minute of the audio track. This should match the BPM measure that was used to compose the track. This is only relevant for music that wishes to make use of interactive music functionality, not sound effects. A more convenient editor for BPM is provided in the Advanced import settings dialog, as it lets you preview your changes without having to reimport the audio.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: Describes the Beat Count property for audio import.
+Beat Count
+The beat count of the audio track. This is only relevant for music that wishes to make use of interactive music functionality, not sound effects.
+
+A more convenient editor for Beat Count is provided in the Advanced import settings dialog, as it lets you preview your changes without having to reimport the audio.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: Explains the "Bar Beats" import setting for audio samples in Godot.
+Bar Beats: The number of bars within a single beat in the audio track. This is only relevant for music that wishes to make use of interactive music functionality, not sound effects. A more convenient editor for Bar Beats is provided in the Advanced import settings dialog, as it lets you preview your changes without having to reimport the audio.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section details the advanced import settings for Ogg Vorbis and MP3 audio files in Godot, including loop points and future interactive music features.
+Advanced import settings (Ogg Vorbis and MP3)
+If you double-click an Ogg Vorbis or MP3 file in the FileSystem dock (or choose Advanced… in the Import dock), you will see a dialog appear. This dialog allows you to edit the audio's loop point with a real-time preview, in addition to the BPM (Beats Per Minute), beat count and bar beats. These 3 settings are currently unused, but they will be used in the future for interactive music support (which allows smoothly transitioning between different music tracks).
+Note: Unlike WAV files, Ogg Vorbis and MP3 only support a "loop begin" loop point, not a "loop end" point. Looping can also be only be standard forward looping, not ping-pong or backward.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section covers best practices for importing audio samples into Godot.
+
+Best practices
+============
+
+Importing audio samples into Godot is a straightforward process, but following a few best practices can help optimize your project and ensure consistent results.
+
+Audio format
+------------
+
+Godot supports a variety of audio formats, including WAV, OGG, and MP3. For most use cases, WAV is recommended due to its lossless quality, which is ideal for sound effects and music where fidelity is important. OGG is a good choice for music and longer sound effects where file size is a concern, as it offers good compression with minimal perceived loss of quality. MP3 is generally discouraged due to its lossy compression, which can introduce artifacts and degrade audio quality, especially for sound effects.
+
+Import settings
+---------------
+
+When you import an audio file into Godot, you can adjust various import settings in the Import dock. These settings allow you to fine-tune how the audio is processed and used within the engine.
+
+*   **Loop**: Enable this option if the audio sample should loop continuously. This is commonly used for background music or ambient sounds.
+*   **Loop Offset**: If looping is enabled, this setting allows you to specify a point in the audio where the loop should begin. This can help create seamless loops by avoiding abrupt transitions.
+*   **Max Rate**: This setting resamples the audio to a maximum sample rate. Lowering this can reduce memory usage and improve performance, especially for sound effects that don't require high fidelity. For example, a simple button click sound might not need a 44.1 kHz sample rate.
+*   **Trim**: This option automatically removes silence from the beginning and end of the audio file. This is useful for cleaning up recordings and ensuring that audio playback starts and stops precisely when intended.
+*   **Normalize**: When enabled, this option adjusts the audio's volume so that its peak level reaches a target value (usually 0 dBFS). This can help ensure consistent loudness across different audio samples.
+
+Project organization
+--------------------
+
+Organize your audio assets logically within your project's file system. Create dedicated folders for different types of audio, such as "SoundEffects," "Music," or "Ambiance." This makes it easier to manage your assets and locate specific sounds when needed.
+
+Consider using a consistent naming convention for your audio files. For example, `SFX_ButtonClick.wav` or `Music_Level1.ogg`. This improves readability and helps prevent naming conflicts.
+
+Performance considerations
+------------------------
+
+*   **Sample Rate**: As mentioned earlier, using lower sample rates for audio that doesn't require high fidelity can significantly reduce memory usage.
+*   **Mono vs. Stereo**: For many sound effects, stereo is unnecessary and doubles the memory footprint. Consider using mono audio when appropriate.
+*   **Compression**: For music or long soundscapes, using compressed formats like OGG can save disk space and reduce loading times. However, be mindful of the potential quality loss.
+
+By adhering to these best practices, you can ensure that your audio assets are well-managed, performant, and integrated effectively into your Godot projects.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section explains how to optimize audio import settings in Godot to reduce file size and memory usage without significant loss of audible quality.
+
+When importing audio files, especially WAV, Godot provides import options to reduce the final file size and memory usage without altering the original source file. To achieve this, consider adjusting the quantization, sample rate, and number of channels.
+
+Key Rules:
+- Using 24-bit audio offers no audible benefit in games, particularly when multiple sounds play simultaneously, making it difficult to discern individual sound quality.
+- Unless audio is slowed down during runtime, a sample rate exceeding 48 kHz provides no audible advantage. If a higher sample rate is needed for editing, the **Force > Max Rate** import option can limit the imported sound's sample rate (applicable only to WAV files).
+- Many sound effects can be converted to mono without noticeable degradation, even if the source is stereo. The **Force > Mono** import option can convert stereo sounds to mono (applicable only to WAV files).
+- Voice audio can typically be converted to mono. Their sample rate can often be reduced to 22 kHz without a perceptible loss in quality, as most human voices do not exceed 11 kHz.
+---CHUNK---
+Document: Importing Audio Samples
+Path: godot/tutorials/assets_pipeline/importing_audio_samples.rst
+Summary: This section explains how to use real-time audio effects in Godot to reduce the file size of audio samples.
+This section explains how to use real-time audio effects in Godot to reduce the file size of audio samples. Godot has an extensive bus system with built-in effects. This saves SFX artists the need to add reverb to the sound effects, reducing their size greatly and ensuring correct trimming. As you can see above, sound effects become much larger in file size with reverb added. Audio samples can be loaded and saved at runtime using runtime file loading and saving, including from an exported project.

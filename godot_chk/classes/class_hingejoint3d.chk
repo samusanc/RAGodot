@@ -1,0 +1,141 @@
+Document: HingeJoint3D
+Path: godot/classes/class_hingejoint3d.rst
+Summary: Provides a 3D hinge joint that allows rotation around one axis.
+
+HingeJoint3D
+
+Inherits: Joint3D < Node3D < Spatial < Node < Object
+
+A 3D hinge joint that allows rotation around one axis. This joint is useful for creating doors, levers, or any other object that pivots around a single point. It constrains the connected bodies' relative motion to a single degree of freedom, allowing them to rotate around the joint's axis.
+
+Properties:
+bias (float): The bias factor for the joint solver. This value controls how strongly the joint tries to maintain its constraints. A higher bias means a stronger constraint. Default: 0.3.
+damping (float): The damping factor for the joint. This value controls how quickly the joint's motion is dampened. A higher damping means faster dampening. Default: 1.0.
+enable_motor (bool): If true, the joint will attempt to reach a target angular velocity. Default: false.
+gear (float): The gear ratio for the motor. This value determines the relationship between the target angular velocity and the actual angular velocity. Default: 1.0.
+limit_above (float): The upper limit for the hinge's rotation in degrees. Default: 0.0.
+limit_below (float): The lower limit for the hinge's rotation in degrees. Default: 0.0.
+limit_softness (float): The softness of the rotation limits. A higher value makes the limits softer, allowing for some overshoot. Default: 0.0.
+motor_max_force (float): The maximum force that the motor can apply to reach the target angular velocity. Default: 0.0.
+param (float): The parameter for the joint. This value is used in conjunction with the joint's mode to control its behavior. Default: 0.0.
+rotation (float): The current rotation of the hinge in degrees. Read-only.
+spring (float): The spring constant for the joint. This value controls how strongly the joint tries to return to its rest position. Default: 0.0.
+stop_erp (float): The error reduction parameter for the joint. This value controls how quickly the joint's constraints are enforced. Default: 0.8.
+stop_mode (int): The stop mode for the joint. This determines how the joint behaves when it reaches its limits. Default: 0.
+stop_threshold (float): The threshold for the joint's stop mode. This value determines when the stop mode is activated. Default: 0.0.
+texture_filter (int): The texture filter mode for the joint. This property is not used by HingeJoint3D. Default: 0.
+texture_repeat (int): The texture repeat mode for the joint. This property is not used by HingeJoint3D. Default: 0.
+travel (float): The travel distance for the hinge. This value is used in conjunction with the hinge's limits to control its range of motion. Default: 0.0.
+twist_limit_enabled (bool): If true, the hinge's rotation will be limited to the specified range. Default: false.
+
+Methods:
+set_param(param: int, value: float) → void
+Sets a specific parameter of the joint. The available parameters are defined by the Joint3D.Param enum.
+
+get_param(param: int) → float
+Gets the value of a specific parameter of the joint. The available parameters are defined by the Joint3D.Param enum.
+---CHUNK---
+Document: HingeJoint3D
+Path: godot/classes/class_hingejoint3d.rst
+Summary: Describes the HingeJoint3D node, which restricts the rotation of 3D physics bodies around an axis.
+
+HingeJoint3D
+Inherits: Joint3D < Node3D < Node < Object
+
+A physics joint that restricts the rotation of a 3D physics body around an axis relative to another physics body.
+---CHUNK---
+Document: HingeJoint3D
+Path: godot/classes/class_hingejoint3d.rst
+Summary: Describes the HingeJoint3D class, a physics joint that restricts the rotation of a 3D physics body around an axis relative to another physics body.
+
+HingeJoint3D is a physics joint that restricts the rotation of a 3D physics body around an axis relative to another physics body. For example, Body A can be a StaticBody3D representing a door hinge that a RigidBody3D rotates around.
+---CHUNK---
+Document: HingeJoint3D
+Path: godot/classes/class_hingejoint3d.rst
+Summary: Defines the properties for configuring the angular limits and motor of a HingeJoint3D.
+
+Properties:
+* angular_limit/bias (float): Controls the bias for angular limit correction. Default: 0.3
+* angular_limit/enable (bool): Enables or disables the angular limit constraints. Default: false
+* angular_limit/lower (float): Sets the lower bound for the angular limit in radians. Default: -1.5707964
+* angular_limit/relaxation (float): Controls the relaxation factor for angular limits. Default: 1.0
+* angular_limit/softness (float): Adjusts the softness of the angular limit. Default: 0.9
+* angular_limit/upper (float): Sets the upper bound for the angular limit in radians. Default: 1.5707964
+* motor/enable (bool): Enables or disables the motor functionality for the hinge. Default: false
+* motor/max_impulse (float): Sets the maximum impulse the motor can apply. Default: 1.0
+* motor/target_velocity (float): Defines the target velocity for the motor in radians per second. Default: 1.0
+* params/bias (float): Controls the bias for joint parameter correction. Default: 0.3
+---CHUNK---
+Document: HingeJoint3D
+Path: godot/classes/class_hingejoint3d.rst
+Summary: This section details the methods and enumerations for the HingeJoint3D class in Godot Engine.
+
+Methods
+- get_flag(flag: Flag) → bool: Gets the state of a specific flag.
+- get_param(param: Param) → float: Gets the value of a specific parameter.
+- set_flag(flag: Flag, enabled: bool): Sets the state of a specific flag.
+- set_param(param: Param, value: float): Sets the value of a specific parameter.
+
+Enumerations
+enum Param:
+- PARAM_BIAS = 0: The speed with which the two bodies get pulled together when they move in different directions.
+- PARAM_LIMIT_UPPER = 1: The maximum rotation. Only active if angular_limit/enable is true.
+- PARAM_LIMIT_LOWER = 2: The minimum rotation. Only active if angular_limit/enable is true.
+- PARAM_LIMIT_BIAS = 3: The speed with which the rotation across the axis perpendicular to the hinge gets corrected.
+- PARAM_LIMIT_SOFTNESS = 4: Deprecated: This property is never used by the engine and is kept for compatibility purpose.
+- PARAM_LIMIT_RELAXATION = 5: The lower this value, the more the rotation gets slowed down.
+- PARAM_MOTOR_TARGET_VELOCITY = 6: Target speed for the motor.
+- PARAM_MOTOR_MAX_IMPULSE = 7: Maximum acceleration for the motor.
+- PARAM_MAX = 8: Represents the size of the Param enum.
+
+enum Flag:
+- FLAG_USE_LIMIT = 0: If true, the hinges maximum and minimum rotation, defined by angular_limit/lower and angular_limit/upper has effects.
+- FLAG_ENABLE_MOTOR = 1: When activated, a motor turns the hinge.
+- FLAG_MAX = 2: Represents the size of the Flag enum.
+---CHUNK---
+Document: HingeJoint3D
+Path: godot/classes/class_hingejoint3d.rst
+Summary: Describes the properties and member variables of the HingeJoint3D node in Godot Engine.
+
+Property Descriptions
+angular_limit/bias (float): The speed with which the rotation across the axis perpendicular to the hinge gets corrected. Default: 0.3.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+
+angular_limit/enable (bool): If true, the hinges maximum and minimum rotation, defined by angular_limit/lower and angular_limit/upper has effects. Default: false.
+  Methods: set_flag(flag: Flag, enabled: bool), get_flag(flag: Flag) -> bool
+
+angular_limit/lower (float): The minimum rotation. Only active if angular_limit/enable is true. Default: -1.5707964.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+
+angular_limit/relaxation (float): The lower this value, the more the rotation gets slowed down. Default: 1.0.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+
+angular_limit/softness (float): Deprecated: This property is never set by the engine and is kept for compatibility purposes. Default: 0.9.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+
+angular_limit/upper (float): The maximum rotation. Only active if angular_limit/enable is true. Default: 1.5707964.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+
+motor/enable (bool): When activated, a motor turns the hinge. Default: false.
+  Methods: set_flag(flag: Flag, enabled: bool), get_flag(flag: Flag) -> bool
+
+motor/max_impulse (float): Maximum acceleration for the motor. Default: 1.0.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+
+motor/target_velocity (float): Target speed for the motor. Default: 1.0.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+
+params/bias (float): The speed with which the two bodies get pulled together when they move in different directions. Default: 0.3.
+  Methods: set_param(param: Param, value: float), get_param(param: Param) -> float
+---CHUNK---
+Document: HingeJoint3D
+Path: godot/classes/class_hingejoint3d.rst
+Summary: Provides methods for getting and setting flags and parameters for a HingeJoint3D.
+Method: get_flag(flag: Flag) → bool
+Returns the value of the specified flag.
+Method: get_param(param: Param) → float
+Returns the value of the specified parameter.
+Method: set_flag(flag: Flag, enabled: bool) → void
+If true, enables the specified flag.
+Method: set_param(param: Param, value: float) → void
+Sets the value of the specified parameter.

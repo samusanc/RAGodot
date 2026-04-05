@@ -1,0 +1,49 @@
+Document: OpenXRSpatialAnchorCapability
+Path: godot/classes/class_openxrspatialanchorcapability.rst
+Summary: Defines the capabilities of OpenXR spatial anchor services.
+
+Inherits: Object < Object
+
+This class defines the capabilities of OpenXR spatial anchor services. It is used to query whether specific spatial anchor features are supported by the OpenXR runtime.
+
+Properties:
+anchor_supported (bool): Whether the OpenXR runtime supports creating and managing spatial anchors. Default: false.
+cloud_anchor_supported (bool): Whether the OpenXR runtime supports cloud anchors, which allow anchors to be shared across devices and sessions. Default: false.
+persistence_supported (bool): Whether the OpenXR runtime supports persistent anchors, which survive application restarts. Default: false.
+room_scale_anchor_supported (bool): Whether the OpenXR runtime supports anchors tied to the room's scale. Default: false.
+space_preserving_anchor_supported (bool): Whether the OpenXR runtime supports anchors that preserve space, meaning they remain fixed in the real world even if the user moves. Default: false.
+---CHUNK---
+Document: OpenXRSpatialAnchorCapability
+Path: godot/classes/class_openxrspatialanchorcapability.rst
+Summary: Implements spatial entity anchor logic for OpenXR.
+
+Inherits: OpenXRSpatialAnchorCapability < OpenXRExtensionWrapper < Object
+---CHUNK---
+Document: OpenXRSpace
+Path: godot/classes/class_openxrspatialanchorcapability.rst
+Summary: This document describes the OpenXR spatial anchor capability, an internal class for handling the OpenXR anchor spatial entity extension.
+
+Inherits: Object
+
+This is an internal class that handles the OpenXR anchor spatial entity extension.
+---CHUNK---
+Document: OpenXRSpatialAnchorCapability
+Path: godot/classes/class_openxrspatialanchorcapability.rst
+Summary: This section details the methods available for managing spatial anchors and their persistence within the OpenXR system.
+
+Methods
+* create_new_anchor(transform: Transform3D, spatial_context: RID = RID()) → OpenXRAnchorTracker: Creates a new anchor tracked by the XR runtime. The transform is in the local space of the XROrigin3D node. If spatial_context is not specified, the default is used, requiring ProjectSettings.xr/openxr/extensions/spatial_entity/enable_builtin_anchor_detection to be set. The returned tracker monitors the anchor's location if the reference space changes.
+* create_persistence_context(scope: PersistenceScope, user_callback: Callable = Callable()) → OpenXRFutureResult: Creates a new persistence context for storing persistent data. Note: This is an asynchronous method. On success, user_callback is called if specified. The result is the RID for the persistence context.
+* free_persistence_context(persistence_context: RID) → void: Frees a persistence context previously created with create_persistence_context.
+* get_persistence_context_handle(persistence_context: RID) → int: Returns the internal handle for this persistence context. Note: For GDExtension implementations.
+* is_persistence_scope_supported(scope: PersistenceScope) → bool: Returns true if this persistence scope is supported by the spatial anchor capability. Note: Only valid after an OpenXR instance has been created.
+* is_spatial_anchor_supported() → bool: Returns true if spatial anchors are supported by the hardware. Only returns a valid value after OpenXR has been initialized.
+* is_spatial_persistence_supported() → bool: Returns true if persistent spatial anchors are supported by the hardware. Only returns a valid value after OpenXR has been initialized.
+* persist_anchor(anchor_tracker: OpenXRAnchorTracker, persistence_context: RID = RID(), user_callback: Callable = Callable()) → OpenXRFutureResult: Makes an anchor persistent, storing its location on the device for restoration on subsequent application starts. If persistence_context is not specified, the default is used, requiring ProjectSettings.xr/openxr/extensions/spatial_entity/enable_builtin_anchor_detection to be set. Note: This is an asynchronous method. On success, user_callback is called if specified. The result is a boolean set to true on successful completion.
+* remove_anchor(anchor_tracker: OpenXRAnchorTracker) → void: Removes an anchor previously created with create_new_anchor. If the anchor was persistent, unpersist_anchor must be called first and its callback awaited.
+* unpersist_anchor(anchor_tracker: OpenXRAnchorTracker, persistence_context: RID = RID(), user_callback: Callable = Callable()) → OpenXRFutureResult: Removes persistent data from an anchor, preventing its recreation on application restart. If persistence_context is not specified, the default is used, requiring ProjectSettings.xr/openxr/extensions/spatial_entity/enabled to be set. Note: This is an asynchronous method. On success, user_callback is called if specified. The result is a boolean set to true on successful completion.
+
+Enumerations
+enum PersistenceScope:
+* PERSISTENCE_SCOPE_SYSTEM_MANAGED = 1: Provides read-only access to spatial entities persisted and managed by the system. The UUID can be used to correlate entities across spatial contexts and device reboots.
+* PERSISTENCE_SCOPE_LOCAL_ANCHORS = 1000781000: Limits persistence operations and data access to spatial anchors on the same device, for the same user and app, using persist_anchor and unpersist_anchor.

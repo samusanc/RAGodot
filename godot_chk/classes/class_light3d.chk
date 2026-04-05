@@ -1,0 +1,123 @@
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: This document describes the Light3D class.
+---CHUNK---
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: Provides a base class for different kinds of light nodes.
+
+Inherits: VisualInstance3D < Node3D < Node < Object
+Inherited By: DirectionalLight3D, OmniLight3D, SpotLight3D
+
+Provides a base class for different kinds of light nodes.
+---CHUNK---
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: Describes Light3D as an abstract base class for light nodes, containing common lighting parameters.
+
+Light3D is the abstract base class for light nodes. As it can't be instantiated, it shouldn't be used directly. Other types of light nodes inherit from it. Light3D contains the common variables and parameters used for lighting.
+---CHUNK---
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: This section lists related tutorials for 3D lighting and global illumination.
+
+Tutorials:
+- 3D lights and shadows
+- Faking global illumination
+- Third Person Shooter (TPS) Demo
+---CHUNK---
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: This section lists the properties available for Light3D nodes, including light characteristics, shadow settings, and distance fade options.
+
+*   distance_fade_begin (float): Default: 40.0.
+*   distance_fade_enabled (bool): Default: false.
+*   distance_fade_length (float): Default: 10.0.
+*   distance_fade_shadow (float): Default: 50.0.
+*   editor_only (bool): Default: false.
+*   light_angular_distance (float): Default: 0.0.
+*   light_bake_mode (BakeMode): Default: 2.
+*   light_color (Color): Default: Color(1, 1, 1, 1).
+*   light_cull_mask (int): Default: 4294967295.
+*   light_energy (float): Default: 1.0.
+*   light_indirect_energy (float): Default: 1.0.
+*   light_intensity_lumens (float):
+*   light_intensity_lux (float):
+*   light_negative (bool): Default: false.
+*   light_projector (Texture2D):
+*   light_size (float): Default: 0.0.
+*   light_specular (float): Default: 1.0.
+*   light_temperature (float):
+*   light_volumetric_fog_energy (float): Default: 1.0.
+*   shadow_bias (float): Default: 0.1.
+*   shadow_blur (float): Default: 1.0.
+*   shadow_caster_mask (int): Default: 4294967295.
+*   shadow_enabled (bool): Default: false.
+*   shadow_normal_bias (float): Default: 2.0.
+*   shadow_opacity (float): Default: 1.0.
+*   shadow_reverse_cull_face (bool): Default: false.
+*   shadow_transmittance_bias (float): Default: 0.05.
+---CHUNK---
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: Describes Light3D methods for getting and setting parameters, and enumerations for light parameters and bake modes.
+
+Methods:
+Method: get_correlated_color() → Color
+Method: get_param(param: Param) → float
+Method: set_param(param: Param, value: float) → void
+
+Enumerations
+enum Param:
+PARAM_ENERGY = 0: Constant for accessing light_energy.
+PARAM_INDIRECT_ENERGY = 1: Constant for accessing light_indirect_energy.
+PARAM_VOLUMETRIC_FOG_ENERGY = 2: Constant for accessing light_volumetric_fog_energy.
+PARAM_SPECULAR = 3: Constant for accessing light_specular.
+PARAM_RANGE = 4: Constant for accessing OmniLight3D.omni_range or SpotLight3D.spot_range.
+PARAM_SIZE = 5: Constant for accessing light_size.
+PARAM_ATTENUATION = 6: Constant for accessing OmniLight3D.omni_attenuation or SpotLight3D.spot_attenuation.
+PARAM_SPOT_ANGLE = 7: Constant for accessing SpotLight3D.spot_angle.
+PARAM_SPOT_ATTENUATION = 8: Constant for accessing SpotLight3D.spot_angle_attenuation.
+PARAM_SHADOW_MAX_DISTANCE = 9: Constant for accessing DirectionalLight3D.directional_shadow_max_distance.
+PARAM_SHADOW_SPLIT_1_OFFSET = 10: Constant for accessing DirectionalLight3D.directional_shadow_split_1.
+PARAM_SHADOW_SPLIT_2_OFFSET = 11: Constant for accessing DirectionalLight3D.directional_shadow_split_2.
+PARAM_SHADOW_SPLIT_3_OFFSET = 12: Constant for accessing DirectionalLight3D.directional_shadow_split_3.
+PARAM_SHADOW_FADE_START = 13: Constant for accessing DirectionalLight3D.directional_shadow_fade_start.
+PARAM_SHADOW_NORMAL_BIAS = 14: Constant for accessing shadow_normal_bias.
+PARAM_SHADOW_BIAS = 15: Constant for accessing shadow_bias.
+PARAM_SHADOW_PANCAKE_SIZE = 16: Constant for accessing DirectionalLight3D.directional_shadow_pancake_size.
+PARAM_SHADOW_OPACITY = 17: Constant for accessing shadow_opacity.
+PARAM_SHADOW_BLUR = 18: Constant for accessing shadow_blur.
+PARAM_TRANSMITTANCE_BIAS = 19: Constant for accessing shadow_transmittance_bias.
+PARAM_INTENSITY = 20: Constant for accessing light_intensity_lumens and light_intensity_lux. Only used when ProjectSettings.rendering/lights_and_shadows/use_physical_light_units is true.
+PARAM_MAX = 21: Represents the size of the Param enum.
+
+enum BakeMode:
+BAKE_DISABLED = 0: Light is ignored when baking. This is the fastest mode, but the light will not be taken into account when baking global illumination. This mode should generally be used for dynamic lights that change quickly, as the effect of global illumination is less noticeable on those lights. Note: Hiding a light does not affect baking LightmapGI. Hiding a light will still affect baking VoxelGI and SDFGI (see Environment.sdfgi_enabled).
+BAKE_STATIC = 1: Light is taken into account in static baking (VoxelGI, LightmapGI, SDFGI (Environment.sdfgi_enabled)). The light can be moved around or modified, but its global illumination will not update in real-time. This is suitable for subtle changes (such as flickering torches), but generally not large changes such as toggling a light on and off. Note: The light is not baked in LightmapGI if editor_only is true.
+BAKE_DYNAMIC = 2: Light is taken into account in dynamic baking (VoxelGI and SDFGI (Environment.sdfgi_enabled) only). The light can be moved around or modified with global illumination updating in real-time. The light's global illumination appearance will be slightly different compared to BAKE_STATIC. This has a greater performance cost compared to BAKE_STATIC. When using SDFGI, the update speed of dynamic lights is affected by ProjectSettings.rendering/global_illumination/sdfgi/frames_to_update_lights.
+---CHUNK---
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: This section describes properties related to light fading, editor visibility, angular distance, and bake mode for Light3D.
+
+-   **distance_fade_begin** (float): The distance from the camera at which the light begins to fade away (in 3D units). Default: 40.0. Note: Only effective for OmniLight3D and SpotLight3D.
+-   **distance_fade_enabled** (bool): If true, the light will smoothly fade away when far from the active Camera3D starting at distance_fade_begin. This acts as a form of level of detail (LOD). The light will fade out over distance_fade_begin + distance_fade_length, after which it will be culled and not sent to the shader at all. Use this to reduce the number of active lights in a scene and thus improve performance. Default: false. Note: Only effective for OmniLight3D and SpotLight3D.
+-   **distance_fade_length** (float): Distance over which the light and its shadow fades. The light's energy and shadow's opacity is progressively reduced over this distance and is completely invisible at the end. Default: 10.0. Note: Only effective for OmniLight3D and SpotLight3D.
+-   **distance_fade_shadow** (float): The distance from the camera at which the light's shadow cuts off (in 3D units). Set this to a value lower than distance_fade_begin + distance_fade_length to further improve performance, as shadow rendering is often more expensive than light rendering itself. Default: 50.0. Note: Only effective for OmniLight3D and SpotLight3D, and only when shadow_enabled is true.
+-   **editor_only** (bool): If true, the light only appears in the editor and will not be visible at runtime. If true, the light will never be baked in LightmapGI regardless of its light_bake_mode. Default: false.
+-   **light_angular_distance** (float): The light's angular size in degrees. Increasing this will make shadows softer at greater distances (also called percentage-closer soft shadows, or PCSS). Only available for DirectionalLight3Ds. For reference, the Sun from the Earth is approximately 0.5. Increasing this value above 0.0 for lights with shadows enabled will have a noticeable performance cost due to PCSS. Default: 0.0. Note: light_angular_distance is not affected by Node3D.scale (the light's scale or its parent's scale). Note: PCSS for directional lights is only supported in the Forward+ rendering method, not Mobile or Compatibility.
+-   **light_bake_mode** (BakeMode): The light's bake mode. This will affect the global illumination techniques that have an effect on the light's rendering. Default: 2. Note: Meshes' global illumination mode will also affect the global illumination rendering. See GeometryInstance3D.gi_mode.
+---CHUNK---
+Document: Light3D
+Path: godot/classes/class_light3d.rst
+Summary: This chunk describes methods for retrieving correlated color and setting/getting light parameters.
+
+Method: get_correlated_color() → Color
+Returns the Color of an idealized blackbody at the given light_temperature. This value is calculated internally based on the light_temperature. This Color is multiplied by light_color before being sent to the RenderingServer.
+
+Method: get_param(param: Param) → float
+Returns the value of the specified Param parameter.
+
+Method: set_param(param: Param, value: float) → void
+Sets the value of the specified Param parameter.

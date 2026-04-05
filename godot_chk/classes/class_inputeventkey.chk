@@ -1,0 +1,320 @@
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: Represents a keyboard key press or release event.
+
+InputEventKey is a subclass of InputEvent.
+
+Inherits: InputEvent < RefCounted
+
+Description:
+Represents a keyboard key press or release event. This event is created by the engine when a key is pressed or released. You can check the state of the key and which key was pressed or released.
+
+Properties:
+event_type (InputEventKey.EventType): The type of the key event. Can be KEY_PRESSED or KEY_RELEASED.
+Key: int: The keycode of the key that was pressed or released. Use the KEY_* constants.
+Unicode: int: The Unicode value of the key that was pressed or released. This is only relevant for printable characters.
+Modifiers (int): A bitmask of the state of the modifier keys (Shift, Ctrl, Alt, Meta) when the event occurred. Use the MOUSE_MASK_* constants.
+Echo (bool): If true, the key event is an echo (auto-repeat).
+Device (int): The ID of the device that generated the event.
+
+Methods:
+is_pressed() → bool: Returns true if the key event is a key press.
+is_release_pmodifiers() → bool: Returns true if the key event is a key release and the key is a modifier key (Shift, Ctrl, Alt, Meta).
+
+Constants:
+EventType:
+KEY_PRESSED: 0
+KEY_RELEASED: 1
+
+Keycodes:
+KEY_LBUTTON: 0
+KEY_RBUTTON: 1
+KEY_CANCEL: 2
+KEY_MBUTTON: 3
+KEY_XBUTTON1: 4
+KEY_XBUTTON2: 5
+KEY_BACKSPACE: 8
+KEY_TAB: 9
+KEY_CLEAR: 12
+KEY_RETURN: 13
+KEY_ENTER: 13
+KEY_SHIFT: 16
+KEY_CONTROL: 17
+KEY_ALT: 18
+KEY_META: 19
+KEY_CAPSLOCK: 20
+KEY_ESCAPE: 27
+KEY_SPACE: 32
+KEY_PAGEUP: 33
+KEY_PAGEDOWN: 34
+KEY_END: 35
+KEY_HOME: 36
+KEY_LEFT: 16777217
+KEY_UP: 16777218
+KEY_RIGHT: 16777219
+KEY_DOWN: 16777220
+KEY_INSERT: 16777221
+KEY_DELETE: 16777223
+KEY_NP0: 16777224
+KEY_NP1: 16777225
+KEY_NP2: 16777226
+KEY_NP3: 16777227
+KEY_NP4: 16777228
+KEY_NP5: 16777229
+KEY_NP6: 16777230
+KEY_NP7: 16777231
+KEY_NP8: 16777232
+KEY_NP9: 16777233
+KEY_NP MULT: 16777234
+KEY_NP ADD: 16777235
+KEY_NP SEPARATOR: 16777236
+KEY_NP SUBTRACT: 16777237
+KEY_NP DECIMAL: 16777238
+KEY_NP DIVIDE: 16777239
+KEY_F1: 16777240
+KEY_F2: 16777241
+KEY_F3: 16777242
+KEY_F4: 16777243
+KEY_F5: 16777244
+KEY_F6: 16777245
+KEY_F7: 16777246
+KEY_F8: 16777247
+KEY_F9: 16777248
+KEY_F10: 16777249
+KEY_F11: 16777250
+KEY_F12: 16777251
+KEY_NUM_LOCK: 16777252
+KEY_SCROLL_LOCK: 16777253
+KEY_MAX: 16777254
+KEY_SUPER_L: 16777255
+KEY_SUPER_R: 16777256
+KEY_MENU: 16777257
+KEY_HYPER_L: 16777258
+KEY_HYPER_R: 16777259
+KEY_HELP: 16777260
+KEY_DIRECTION_MASK: 16777216
+KEY_MASK_SHIFT: 131072
+KEY_MASK_ALT: 262144
+KEY_MASK_CTRL: 524288
+KEY_MASK_META: 1048576
+KEY_MASK_CMD: 1048576
+KEY_MASK_SUPER: 1048576
+KEY_MASK_SCROLL_LOCK: 2097152
+KEY_MASK_NUM_LOCK: 4194304
+KEY_MASK_KANA_MODE: 8388608
+KEY_MASK_DEAD_KEY: 16777216
+KEY_MASK_NONE: 0
+KEY_MASK_ALL: 16777215
+
+Modifier Masks:
+MOUSE_MASK_SHIFT: 131072
+MOUSE_MASK_ALT: 262144
+MOUSE_MASK_CTRL: 524288
+MOUSE_MASK_META: 1048576
+MOUSE_MASK_CMD: 1048576
+MOUSE_MASK_SUPER: 1048576
+MOUSE_MASK_SCROLL_LOCK: 2097152
+MOUSE_MASK_NUM_LOCK: 4194304
+MOUSE_MASK_KANA_MODE: 8388608
+MOUSE_MASK_DEAD_KEY: 16777216
+MOUSE_MASK_NONE: 0
+MOUSE_MASK_ALL: 16777215
+---CHUNK---
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: Describes the InputEventKey class, which represents keyboard key presses and releases in Godot.
+InputEventKey
+Inherits: InputEventWithModifiers < InputEventFromWindow < InputEvent < Resource < RefCounted < Object
+
+Represents a key on a keyboard being pressed or released.
+---CHUNK---
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: Describes the InputEventKey class, which represents keyboard input events in Godot.
+InputEventKey is an input event for keys on a keyboard. It supports key presses, key releases, and echo events. It can also be received in Node._unhandled_key_input.
+
+Note: Events received from the keyboard usually have all properties set. Event mappings should have only one of the keycode, physical_keycode, or unicode set.
+
+When events are compared, properties are checked in the following priority - keycode, physical_keycode, and unicode. Events with the first matching value will be considered equal.
+---CHUNK---
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: This section provides an overview of the InputEventKey class, which represents keyboard input events in Godot.
+
+Inherits: InputEvent < Object
+
+InputEventKey is used to represent keyboard events. It stores information about which key was pressed or released, and whether modifier keys (like Shift, Ctrl, Alt) were held down.
+
+Properties:
+- `device` (int): The ID of the device that generated the event.
+- `keycode` (int): The physical keycode of the key that was pressed or released. This is a numerical representation of the key.
+- `physical_keycode` (int): The physical keycode of the key that was pressed or released, regardless of keyboard layout.
+- `unicode` (int): The Unicode value of the character generated by the key press, if applicable. This is useful for text input.
+- `echo` (bool): If true, this event is an echo event, meaning the key is being held down and the operating system is repeating the input.
+- `shift` (bool): If true, the Shift key was held down when the event occurred.
+- `alt` (bool): If true, the Alt key was held down when the event occurred.
+- `ctrl` (bool): If true, the Ctrl key was held down when the event occurred.
+- `meta` (bool): If true, the Meta key (e.g., Command on macOS, Windows key on Windows) was held down when the event occurred.
+- `pressed` (bool): If true, the key was pressed. If false, the key was released.
+
+Methods:
+- `is_match(event: InputEvent, section: int = 0) → bool`: Checks if this InputEventKey matches another InputEvent based on predefined sections. This is useful for input mapping.
+
+Key Rule: The `keycode` property represents the physical key, while `unicode` represents the character produced, which can vary based on keyboard layout and modifier keys.
+
+Example Usage:
+
+GDScript:
+```gdscript
+func _input(event):
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_SPACE:
+			print("Spacebar pressed!")
+		if event.pressed and event.shift and event.keycode == KEY_A:
+			print("Shift + A pressed!")
+```
+
+C#:
+```csharp
+public override void _Input(InputEvent @event)
+{
+	if (@event is InputEventKey keyEvent)
+	{
+		if (keyEvent.Pressed && keyEvent.Keycode == Key.Space)
+		{
+			GD.Print("Spacebar pressed!");
+		}
+		if (keyEvent.Pressed && keyEvent.Shift && keyEvent.Keycode == Key.A)
+		{
+			GD.Print("Shift + A pressed!");
+		}
+	}
+}
+```
+---CHUNK---
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: Properties of the InputEventKey class, which represents a key press or release event.
+
+Properties:
+- echo (bool): If true, the key is currently being held down and this is an auto-repeat event. Default: false.
+- key_label (Key): The localized label of the key, which is independent of the physical location of the key on the keyboard. Default: 0.
+- keycode (Key): The key identifier, which is dependent on the current keyboard layout. Default: 0.
+- location (KeyLocation): The physical location of the key on the keyboard (e.g., left or right shift). Default: 0.
+- physical_keycode (Key): The physical key identifier, which is independent of the current keyboard layout. Default: 0.
+- pressed (bool): If true, the key is pressed. Default: false.
+- unicode (int): The Unicode character generated by this key event. Default: 0.
+---CHUNK---
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: Provides methods for converting key codes and labels into human-readable strings, including modifier states.
+
+Methods
+* as_text_key_label() → String: Returns a human-readable string representation of the key label.
+* as_text_keycode() → String: Returns a human-readable string representation of the keycode.
+* as_text_location() → String: Returns a human-readable string representation of the key location.
+* as_text_physical_keycode() → String: Returns a human-readable string representation of the physical keycode.
+* get_key_label_with_modifiers() → Key: Returns the key label, considering active modifiers.
+* get_keycode_with_modifiers() → Key: Returns the keycode, considering active modifiers.
+* get_physical_keycode_with_modifiers() → Key: Returns the physical keycode, considering active modifiers.
+---CHUNK---
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: Describes the properties of the InputEventKey class, which represents keyboard input events in Godot.
+
+Property Descriptions
+Property: echo (bool)
+Default: false
+Setter: set_echo(value: bool)
+Getter: is_echo()
+If true, the key was already pressed before this event. An echo event is a repeated key event sent when the user is holding down the key.
+Note: The rate at which echo events are sent is typically around 20 events per second (after holding down the key for roughly half a second). However, the key repeat delay/speed can be changed by the user or disabled entirely in the operating system settings. To ensure your project works correctly on all configurations, do not assume the user has a specific key repeat configuration in your project's behavior.
+
+Property: key_label (Key)
+Default: 0
+Setter: set_key_label(value: Key)
+Getter: get_key_label()
+Represents the localized label printed on the key in the current keyboard layout, which corresponds to one of the Key constants or any valid Unicode character. Key labels are meant for key prompts.
+For keyboard layouts with a single label on the key, it is equivalent to keycode.
+To get a human-readable representation of the InputEventKey, use OS.get_keycode_string(event.key_label) where event is the InputEventKey.
+
+Property: keycode (Key)
+Default: 0
+Setter: set_keycode(value: Key)
+Getter: get_keycode()
+Latin label printed on the key in the current keyboard layout, which corresponds to one of the Key constants. Key codes are meant for shortcuts expressed with a standard Latin keyboard, such as Ctrl + S for a "Save" shortcut.
+To get a human-readable representation of the InputEventKey, use OS.get_keycode_string(event.keycode) where event is the InputEventKey.
+
+Property: location (KeyLocation)
+Default: 0
+Setter: set_location(value: KeyLocation)
+Getter: get_location()
+Represents the location of a key which has both left and right versions, such as Shift or Alt.
+
+Property: physical_keycode (Key)
+Default: 0
+Setter: set_physical_keycode(value: Key)
+Getter: get_physical_keycode()
+Represents the physical location of a key on the 101/102-key US QWERTY keyboard, which corresponds to one of the Key constants. Physical key codes meant for game input, such as WASD movement, where only the location of the keys is important.
+To get a human-readable representation of the InputEventKey, use OS.get_keycode_string in combination with DisplayServer.keyboard_get_keycode_from_physical or DisplayServer.keyboard_get_label_from_physical:
+
+GDScript:
+func _input(event):
+    if event is InputEventKey:
+        var keycode = DisplayServer.keyboard_get_keycode_from_physical(event.physical_keycode)
+        var label = DisplayServer.keyboard_get_label_from_physical(event.physical_keycode)
+        print(OS.get_keycode_string(keycode))
+        print(OS.get_keycode_string(label))
+
+C#:
+public override void _Input(InputEvent @event)
+{
+    if (@event is InputEventKey inputEventKey)
+    {
+        var keycode = DisplayServer.KeyboardGetKeycodeFromPhysical(inputEventKey.PhysicalKeycode);
+        var label = DisplayServer.KeyboardGetLabelFromPhysical(inputEventKey.PhysicalKeycode);
+        GD.Print(OS.GetKeycodeString(keycode));
+        GD.Print(OS.GetKeycodeString(label));
+    }
+}
+
+Property: pressed (bool)
+Default: false
+Setter: set_pressed(value: bool)
+Getter: is_pressed()
+If true, the key's state is pressed. If false, the key's state is released.
+
+Property: unicode (int)
+Default: 0
+Setter: set_unicode(value: int)
+Getter: get_unicode()
+The key Unicode character code (when relevant), shifted by modifier keys. Unicode character codes for composite characters and complex scripts may not be available unless IME input mode is active. See Window.set_ime_active for more information. Unicode character codes are meant for text input.
+Note: This property is set by the engine only for a pressed event. If the event is sent by an IME or a virtual keyboard, no corresponding key released event is sent.
+---CHUNK---
+Document: InputEventKey
+Path: godot/classes/class_inputeventkey.rst
+Summary: Provides methods to get string representations of key events and their modifiers.
+
+Method: as_text_key_label() → String
+Returns a String representation of the event's key_label and modifiers.
+
+Method: as_text_keycode() → String
+Returns a String representation of the event's keycode and modifiers.
+
+Method: as_text_location() → String
+Returns a String representation of the event's location. This will be a blank string if the event is not specific to a location.
+
+Method: as_text_physical_keycode() → String
+Returns a String representation of the event's physical_keycode and modifiers.
+
+Method: get_key_label_with_modifiers() → Key
+Returns the localized key label combined with modifier keys such as Shift or Alt. See also InputEventWithModifiers.
+To get a human-readable representation of the InputEventKey with modifiers, use OS.get_keycode_string(event.get_key_label_with_modifiers()) where event is the InputEventKey.
+
+Method: get_keycode_with_modifiers() → Key
+Returns the Latin keycode combined with modifier keys such as Shift or Alt. See also InputEventWithModifiers.
+To get a human-readable representation of the InputEventKey with modifiers, use OS.get_keycode_string(event.get_keycode_with_modifiers()) where event is the InputEventKey.
+
+Method: get_physical_keycode_with_modifiers() → Key
+Returns the physical keycode combined with modifier keys such as Shift or Alt. See also InputEventWithModifiers.
+To get a human-readable representation of the InputEventKey with modifiers, use OS.get_keycode_string(event.get_physical_keycode_with_modifiers()) where event is the InputEventKey.

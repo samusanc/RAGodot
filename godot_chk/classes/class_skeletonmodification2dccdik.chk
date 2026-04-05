@@ -1,0 +1,150 @@
+Document: SkeletonModification2DCCDIK
+Path: godot/classes/class_skeletonmodification2dccdik.rst
+Summary: Provides a 2D CCDIK modification for Skeleton2D.
+
+Inherits: SkeletonModification2D < SkeletonModification2D < Resource < Object
+
+This class implements a 2D CCDIK (Cyclic Coordinate Descent Inverse Kinematics) modification for Skeleton2D. It allows for procedural animation by solving inverse kinematics constraints on a bone chain.
+
+The CCDIK solver works by iteratively adjusting the joints in a bone chain to reach a target position. It's particularly useful for tasks like making a character's limb reach for an object or follow a path.
+
+Key Rule: The `target_node` property must be set to a Node2D that represents the desired end-effector position.
+
+Key Rule: The `chain_length` property determines how many bones from the end of the chain are affected by the IK solver. A value of 0 means the entire chain is affected.
+
+Properties:
+  - target_node (Node2D): The Node2D that the IK chain will try to reach.
+  - chain_length (int): The number of bones in the chain to affect. 0 means the entire chain.
+  - iteration_count (int): The number of iterations to perform for solving the IK. Higher values lead to more accuracy but can be more performance-intensive. Default: 4.
+  - follow_orientation (bool): If true, the solver will also try to match the orientation of the end-effector bone to the target's orientation. Default: false.
+  - use_magnetization (bool): If true, the solver will try to keep the bones from rotating too far away from their original rest pose. Default: false.
+  - magnet_force (float): The strength of the magnetization effect. Only used if `use_magnetization` is true. Default: 1.0.
+  - magnet_range (float): The maximum distance from the rest pose at which magnetization will have an effect. Only used if `use_magnetization` is true. Default: 0.0.
+---CHUNK---
+Document: SkeletonModification2DCCDIK
+Path: godot/classes/class_skeletonmodification2dccdik.rst
+Summary: Introduces the SkeletonModification2DCCDIK class, an experimental feature for 2D bone manipulation using CCDIK.
+
+Inherits: SkeletonModification2D < Resource < RefCounted < Object
+
+A modification that uses CCDIK to manipulate a series of bones to reach a target in 2D.
+---CHUNK---
+Document: SkeletonModification2DCCDIK
+Path: godot/classes/class_skeletonmodification2dccdik.rst
+Summary: Describes the Cyclic Coordinate Descent Inverse Kinematics (CCDIK) algorithm for manipulating bone chains in Skeleton2D nodes.
+Inherits: SkeletonModification2D < RefCounted
+
+This SkeletonModification2D uses an algorithm called Cyclic Coordinate Descent Inverse Kinematics, or CCDIK, to manipulate a chain of bones in a Skeleton2D so it reaches a defined target.
+
+CCDIK works by rotating a set of bones, typically called a "bone chain", on a single axis. Each bone is rotated to face the target from the tip (by default), which over a chain of bones allow it to rotate properly to reach the target. Because the bones only rotate on a single axis, CCDIK can look more robotic than other IK solvers.
+
+Note: The CCDIK modifier has ccdik_joints, which are the data objects that hold the data for each joint in the CCDIK chain. This is different from a bone! CCDIK joints hold the data needed for each bone in the bone chain used by CCDIK.
+
+CCDIK also fully supports angle constraints, allowing for more control over how a solution is met.
+---CHUNK---
+Document: SkeletonModification2DCCDIK
+Path: godot/classes/class_skeletonmodification2dccdik.rst
+Summary: This section details the properties of the SkeletonModification2DCCDIK class.
+
+Properties
+* ccdik_data_chain_length (int): The length of the CCDIK data chain. Default: 0.
+* target_nodepath (NodePath): The NodePath to the target node for the CCDIK solver. Default: NodePath("").
+* tip_nodepath (NodePath): The NodePath to the tip node for the CCDIK solver. Default: NodePath("").
+---CHUNK---
+Document: SkeletonModification2DCCDIK
+Path: godot/classes/class_skeletonmodification2dccdik.rst
+Summary: Provides methods for accessing and modifying the properties of CCDIK joints within a SkeletonModification2D node.
+
+Methods
+* Method: get_ccdik_joint_bone2d_node(joint_idx: int) → NodePath
+  Gets the Bone2D node associated with the specified joint index.
+* Method: get_ccdik_joint_bone_index(joint_idx: int) → int
+  Gets the bone index associated with the specified joint index.
+* Method: get_ccdik_joint_constraint_angle_invert(joint_idx: int) → bool
+  Gets whether the constraint angle is inverted for the specified joint.
+* Method: get_ccdik_joint_constraint_angle_max(joint_idx: int) → float
+  Gets the maximum constraint angle for the specified joint.
+* Method: get_ccdik_joint_constraint_angle_min(joint_idx: int) → float
+  Gets the minimum constraint angle for the specified joint.
+* Method: get_ccdik_joint_enable_constraint(joint_idx: int) → bool
+  Gets whether the constraint is enabled for the specified joint.
+* Method: get_ccdik_joint_rotate_from_joint(joint_idx: int) → bool
+  Gets whether the joint rotates from the previous joint for the specified joint.
+* Method: set_ccdik_joint_bone2d_node(joint_idx: int, bone2d_nodepath: NodePath)
+  Sets the Bone2D node for the specified joint index.
+* Method: set_ccdik_joint_bone_index(joint_idx: int, bone_idx: int)
+  Sets the bone index for the specified joint index.
+* Method: set_ccdik_joint_constraint_angle_invert(joint_idx: int, invert: bool)
+  Sets whether the constraint angle is inverted for the specified joint.
+* Method: set_ccdik_joint_constraint_angle_max(joint_idx: int, angle_max: float)
+  Sets the maximum constraint angle for the specified joint.
+* Method: set_ccdik_joint_constraint_angle_min(joint_idx: int, angle_min: float)
+  Sets the minimum constraint angle for the specified joint.
+* Method: set_ccdik_joint_enable_constraint(joint_idx: int, enable_constraint: bool)
+  Sets whether the constraint is enabled for the specified joint.
+* Method: set_ccdik_joint_rotate_from_joint(joint_idx: int, rotate_from_joint: bool)
+  Sets whether the joint rotates from the previous joint for the specified joint.
+---CHUNK---
+Document: SkeletonModification2DCCDIK
+Path: godot/classes/class_skeletonmodification2dccdik.rst
+Summary: Describes the properties of the SkeletonModification2DCCDIK class, including CCDIK chain length, target node, and tip node.
+
+Property Descriptions
+
+ccdik_data_chain_length (int): The number of CCDIK joints in the CCDIK modification. Default: 0
+  Method: set_ccdik_data_chain_length(value: int)
+  Method: get_ccdik_data_chain_length() -> int
+
+target_nodepath (NodePath): The NodePath to the node that is the target for the CCDIK modification. This node is what the CCDIK chain will attempt to rotate the bone chain to. Default: NodePath("")
+  Method: set_target_node(value: NodePath)
+  Method: get_target_node() -> NodePath
+
+tip_nodepath (NodePath): The end position of the CCDIK chain. Typically, this should be a child of a Bone2D node attached to the final Bone2D in the CCDIK chain. Default: NodePath("")
+  Method: set_tip_node(value: NodePath)
+  Method: get_tip_node() -> NodePath
+---CHUNK---
+Document: SkeletonModification2DCCDIK
+Path: godot/classes/class_skeletonmodification2dccdik.rst
+Summary: Provides methods for getting and setting properties of CCDIK joints within a SkeletonModification2D node.
+
+Method: get_ccdik_joint_bone2d_node(joint_idx: int) → NodePath
+Returns the Bone2D node assigned to the CCDIK joint at joint_idx.
+
+Method: get_ccdik_joint_bone_index(joint_idx: int) → int
+Returns the index of the Bone2D node assigned to the CCDIK joint at joint_idx.
+
+Method: get_ccdik_joint_constraint_angle_invert(joint_idx: int) → bool
+Returns whether the CCDIK joint at joint_idx uses an inverted joint constraint.
+
+Method: get_ccdik_joint_constraint_angle_max(joint_idx: int) → float
+Returns the maximum angle constraint for the joint at joint_idx.
+
+Method: get_ccdik_joint_constraint_angle_min(joint_idx: int) → float
+Returns the minimum angle constraint for the joint at joint_idx.
+
+Method: get_ccdik_joint_enable_constraint(joint_idx: int) → bool
+Returns whether angle constraints on the CCDIK joint at joint_idx are enabled.
+
+Method: get_ccdik_joint_rotate_from_joint(joint_idx: int) → bool
+Returns whether the joint at joint_idx is set to rotate from the joint (true) or to rotate from the tip (false).
+
+Method: set_ccdik_joint_bone2d_node(joint_idx: int, bone2d_nodepath: NodePath) → void
+Sets the Bone2D node assigned to the CCDIK joint at joint_idx.
+
+Method: set_ccdik_joint_bone_index(joint_idx: int, bone_idx: int) → void
+Sets the bone index, bone_idx, of the CCDIK joint at joint_idx. This may also update the bone2d_node based on the linked skeleton.
+
+Method: set_ccdik_joint_constraint_angle_invert(joint_idx: int, invert: bool) → void
+Sets whether the CCDIK joint at joint_idx uses an inverted joint constraint. An inverted joint constraint constrains the joint to angles *outside* of the specified minimum and maximum angles.
+
+Method: set_ccdik_joint_constraint_angle_max(joint_idx: int, angle_max: float) → void
+Sets the maximum angle constraint for the joint at joint_idx.
+
+Method: set_ccdik_joint_constraint_angle_min(joint_idx: int, angle_min: float) → void
+Sets the minimum angle constraint for the joint at joint_idx.
+
+Method: set_ccdik_joint_enable_constraint(joint_idx: int, enable_constraint: bool) → void
+Determines whether angle constraints on the CCDIK joint at joint_idx are enabled. When true, constraints are considered during solving.
+
+Method: set_ccdik_joint_rotate_from_joint(joint_idx: int, rotate_from_joint: bool) → void
+Sets whether the joint at joint_idx rotates from the joint (true) or from the tip (false). The default is to rotate from the tip.

@@ -1,0 +1,27 @@
+Document: RenderDataExtension
+Path: godot/classes/class_renderdataextension.rst
+Summary: Class RenderDataExtension in Godot Engine.
+---CHUNK---
+Document: RenderDataExtension
+Path: godot/classes/class_renderdataextension.rst
+Summary: This class enables creating a RenderData implementation using GDExtension.
+
+Inherits: RenderData < Object
+
+This class allows for a RenderData implementation to be made in GDExtension.
+---CHUNK---
+Document: RenderDataExtension
+Path: godot/classes/class_renderdataextension.rst
+Summary: This class allows for a RenderData implementation to be made in GDExtension.
+---CHUNK---
+Document: RenderDataExtension
+Path: godot/classes/class_renderdataextension.rst
+Summary: Private methods for retrieving camera attributes, environment, and render scene data objects in a GDExtension implementation.
+
+Method: _get_camera_attributes() → RID. Implement this in GDExtension to return the RID for the implementation's camera attributes object.
+
+Method: _get_environment() → RID. Implement this in GDExtension to return the RID of the implementation's environment object.
+
+Method: _get_render_scene_buffers() → RenderSceneBuffers. Implement this in GDExtension to return the implementation's RenderSceneBuffers object.
+
+Method: _get_render_scene_data() → RenderSceneDataExtension. Implement this in GDExtension to return the implementation's RenderSceneDataExtension object.

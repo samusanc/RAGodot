@@ -1,0 +1,188 @@
+Document: DirAccess
+Path: godot/classes/class_diraccess.rst
+Summary: Defines the DirAccess class.
+---CHUNK---
+Document: DirAccess
+Path: godot/classes/class_diraccess.rst
+Summary: Provides methods for managing directories and their content.
+
+Inherits: RefCounted < Object
+
+Provides methods for managing directories and their content.
+---CHUNK---
+Document: DirAccess
+Path: godot/classes/class_diraccess.rst
+Summary: This section describes the DirAccess class, its usage for directory management, and provides examples for opening directories and iterating through their contents.
+
+This class is used to manage directories and their content, even outside of the project folder.
+
+DirAccess can't be instantiated directly. Instead it is created with a static method that takes a path for which it will be opened.
+
+Most of the methods have a static alternative that can be used without creating a DirAccess. Static methods only support absolute paths (including res:// and user://).
+
+GDScript:
+    # Standard
+    var dir = DirAccess.open("user://levels")
+    dir.make_dir("world1")
+    # Static
+    DirAccess.make_dir_absolute("user://levels/world1")
+
+Note: Accessing project ("res://") directories once exported may behave unexpectedly as some files are converted to engine-specific formats and their original source files may not be present in the expected PCK package. Because of this, to access resources in an exported project, it is recommended to use ResourceLoader instead of FileAccess.
+
+Here is an example on how to iterate through the files of a directory:
+
+GDScript:
+    func dir_contents(path):
+        var dir = DirAccess.open(path)
+        if dir:
+            dir.list_dir_begin()
+            var file_name = dir.get_next()
+            while file_name != "":
+                if dir.current_is_dir():
+                    print("Found directory: " + file_name)
+                else:
+                    print("Found file: " + file_name)
+                file_name = dir.get_next()
+        else:
+            print("An error occurred when trying to access the path.")
+
+C#:
+    public void DirContents(string path)
+    {
+        using var dir = DirAccess.Open(path);
+        if (dir != null)
+        {
+            dir.ListDirBegin();
+            string fileName = dir.GetNext();
+            while (fileName != "")
+            {
+                if (dir.CurrentIsDir())
+                {
+                    GD.Print($"Found directory: {fileName}");
+                }
+                else
+                {
+                    GD.Print($"Found file: {fileName}");
+                }
+                fileName = dir.GetNext();
+            }
+        }
+        else
+        {
+            GD.Print("An error occurred when trying to access the path.");
+        }
+    }
+
+Keep in mind that file names may change or be remapped after export. If you want to see the actual resource file list as it appears in the editor, use ResourceLoader.list_directory() instead.
+---CHUNK---
+Document: File system
+Path: godot/classes/class_diraccess.rst
+Summary: This chunk lists related tutorials.
+
+Tutorials:
+- File system
+---CHUNK---
+Document: DirAccess
+Path: godot/classes/class_diraccess.rst
+Summary: Lists properties of the DirAccess class.
+
+Properties:
+* include_hidden (bool)
+* include_navigational (bool)
+---CHUNK---
+Document: DirAccess
+Path: godot/classes/class_diraccess.rst
+Summary: This section lists all available methods for the DirAccess class, including operations for directory and file manipulation.
+
+Method: change_dir(to_dir: String) -> Error
+Method: copy(from: String, to: String, chmod_flags: int = -1) -> Error
+Method: copy_absolute(from: String, to: String, chmod_flags: int = -1) -> Error (static)
+Method: create_link(source: String, target: String) -> Error
+Method: create_temp(prefix: String = "", keep: bool = false) -> DirAccess (static)
+Method: current_is_dir() -> bool (const)
+Method: dir_exists(path: String) -> bool
+Method: dir_exists_absolute(path: String) -> bool (static)
+Method: file_exists(path: String) -> bool
+Method: get_current_dir(include_drive: bool = true) -> String (const)
+Method: get_current_drive() -> int
+Method: get_directories() -> PackedStringArray
+Method: get_directories_at(path: String) -> PackedStringArray (static)
+Method: get_drive_count() -> int (static)
+Method: get_drive_name(idx: int) -> String (static)
+Method: get_files() -> PackedStringArray
+Method: get_files_at(path: String) -> PackedStringArray (static)
+Method: get_filesystem_type() -> String (const)
+Method: get_next() -> String
+Method: get_open_error() -> Error (static)
+Method: get_space_left() -> int
+Method: is_bundle(path: String) -> bool (const)
+Method: is_case_sensitive(path: String) -> bool (const)
+Method: is_equivalent(path_a: String, path_b: String) -> bool (const)
+Method: is_link(path: String) -> bool
+Method: list_dir_begin() -> Error
+Method: list_dir_end() -> void
+Method: make_dir(path: String) -> Error
+Method: make_dir_absolute(path: String) -> Error (static)
+Method: make_dir_recursive(path: String) -> Error
+Method: make_dir_recursive_absolute(path: String) -> Error (static)
+Method: open(path: String) -> DirAccess (static)
+Method: read_link(path: String) -> String
+Method: remove(path: String) -> Error
+Method: remove_absolute(path: String) -> Error (static)
+Method: rename(from: String, to: String) -> Error
+Method: rename_absolute(from: String, to: String) -> Error (static)
+---CHUNK---
+Document: DirAccess
+Path: godot/classes/class_diraccess.rst
+Summary: This section describes properties of the DirAccess class related to directory listing behavior.
+
+*   include_hidden (bool): If true, hidden files are included when navigating the directory. Affects list_dir_begin(), get_directories() and get_files().
+    Method: set_include_hidden(value: bool)
+    Method: get_include_hidden()
+
+*   include_navigational (bool): If true, . and .. are included when navigating the directory. Affects list_dir_begin() and get_directories().
+    Method: set_include_navigational(value: bool)
+    Method: get_include_navigational()
+---CHUNK---
+Document: DirAccess
+Path: godot/classes/class_diraccess.rst
+Summary: This section details methods for changing directories, copying files, creating links, managing temporary directories, checking directory contents, and retrieving directory information.
+
+Method: change_dir(to_dir: String) → Error
+Changes the currently opened directory to the one passed as an argument. The argument can be relative (e.g. newdir or ../newdir) or an absolute path (e.g. /tmp/newdir or res://somedir/newdir). Returns one of the Error code constants (OK on success). Note: The new directory must be within the same scope. For example, if you opened a directory inside res://, you cannot change it to user://. If you need to open a directory in another access scope, use open() to create a new instance instead.
+
+Method: copy(from: String, to: String, chmod_flags: int = -1) → Error
+Copies the from file to the to destination. Both arguments should be paths to files, either relative or absolute. If the destination file exists and is not access-protected, it will be overwritten. If chmod_flags is different than -1, the Unix permissions for the destination path will be set to the provided value, if available on the current operating system. Returns one of the Error code constants (OK on success).
+
+Method: copy_absolute(from: String, to: String, chmod_flags: int = -1) → Error
+Static version of copy(). Supports only absolute paths.
+
+Method: create_link(source: String, target: String) → Error
+Creates symbolic link between files or folders. Note: On Windows, this method works only if the application is running with elevated privileges or Developer Mode is enabled. Note: This method is implemented on macOS, Linux, and Windows.
+
+Method: create_temp(prefix: String = "", keep: bool = false) → DirAccess
+Static. Creates a temporary directory. This directory will be freed when the returned DirAccess is freed. If prefix is not empty, it will be prefixed to the directory name, separated by a -. If keep is true, the directory is not deleted when the returned DirAccess is freed. Returns null if opening the directory failed. You can use get_open_error() to check the error that occurred.
+
+Method: current_is_dir() → bool
+Returns whether the current item processed with the last get_next() call is a directory (. and .. are considered directories).
+
+Method: dir_exists(path: String) → bool
+Returns whether the target directory exists. The argument can be relative to the current directory, or an absolute path. Note: The returned bool in the editor and after exporting when used on a path in the res:// directory may be different. Some files are converted to engine-specific formats when exported, potentially changing the directory structure.
+
+Method: dir_exists_absolute(path: String) → bool
+Static version of dir_exists(). Supports only absolute paths. Note: The returned bool in the editor and after exporting when used on a path in the res:// directory may be different. Some files are converted to engine-specific formats when exported, potentially changing the directory structure.
+
+Method: file_exists(path: String) → bool
+Returns whether the target file exists. The argument can be relative to the current directory, or an absolute path. For a static equivalent, use FileAccess.file_exists(). Note: Many resources types are imported (e.g. textures or sound files), and their source asset will not be included in the exported game, as only the imported version is used. See ResourceLoader.exists() for an alternative approach that takes resource remapping into account.
+
+Method: get_current_dir(include_drive: bool = true) → String
+Returns the absolute path to the currently opened directory (e.g. res://folder or C:\tmp\folder).
+
+Method: get_current_drive() → int
+Returns the currently opened directory's drive index. See get_drive_name() to convert returned index to the name of the drive.
+
+Method: get_directories() → PackedStringArray
+Returns a PackedStringArray containing filenames of the directory contents, excluding files. The array is sorted alphabetically. Affected by include_hidden and include_navigational. Note: The returned directories in the editor and after exporting in the res:// directory may differ as some files are converted to engine-specific formats when exported.
+
+Method: get_directories_at(path: String) → PackedStringArray
+Static. Returns a PackedStringArray containing filenames of the directory contents, excluding files, at the given path. The array is sorted alphabetically. Use get_directories() if you want more control of what gets included. Note: The returned directories in the editor and after exporting in the res:// directory may differ as some files are converted to engine-specific formats when exported.

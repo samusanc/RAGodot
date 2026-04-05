@@ -1,0 +1,59 @@
+Document: LightOccluder2D  
+Path: godot/classes/class_lightoccluder2d.rst  
+Summary: LightOccluder2D is a 2D node used to define occluders that block light in Godot's rendering system.  
+
+LightOccluder2D is a specialized node for 2D light occlusion, allowing developers to create shapes that prevent light from passing through in the scene. It inherits from the base Node2D class and implements functionality specific to light occlusion. The node uses a shape (such as a polygon or a simple shape) to determine the area that blocks light, which is essential for creating realistic shadows in 2D environments.  
+
+Key properties include the occluder's shape, which can be edited via the editor, and settings that control how the occluder interacts with light sources. The occluder's effect is visible only when the scene uses a light that supports occlusion, such as the DirectionalLight2D or OmniLight2D nodes.  
+
+When added to a scene, the LightOccluder2D node must be positioned and shaped appropriately to cast shadows. It does not emit light itself but modifies how light is rendered by blocking it. This is particularly useful for creating complex shadow effects in 2D games without requiring manual shadow mapping.  
+
+The node's functionality is limited to 2D rendering and does not support 3D occlusion. It works in conjunction with the Godot's 2D lighting system, which uses a combination of light nodes and occluders to simulate realistic lighting and shadows. Developers can adjust the occluder's properties in the inspector, including its shape, layer, and other parameters that affect light interaction.  
+
+LightOccluder2D is a lightweight node with minimal performance impact, making it suitable for scenes with numerous occluders. However, complex shapes or excessive use of occluders may affect rendering performance, so optimization is recommended for large-scale projects.
+---CHUNK---
+Document: LightOccluder2D
+Path: godot/classes/class_lightoccluder2d.rst
+Summary: Occludes light cast by a Light2D, casting shadows in 2D scenes.
+
+Inherits: Node2D < CanvasItem < Node < Object
+Occludes light cast by a Light2D, casting shadows.
+---CHUNK---
+Document: LightOccluder2D
+Path: godot/classes/class_lightoccluder2d.rst
+Summary: Occludes light cast by a Light2D, requiring an OccluderPolygon2D to compute shadows.
+
+Occludes light cast by a Light2D, casting shadows. The LightOccluder2D must be provided with an OccluderPolygon2D in order for the shadow to be computed. Note: The OccluderPolygon2D defines the shape of the occluder and is essential for shadow calculation.
+---CHUNK---
+Document: LightOccluder2D
+Path: godot/classes/class_lightoccluder2d.rst
+Summary: This section links to the tutorial on 2D lights and shadows
+
+Tutorials: 2D lights and shadows
+---CHUNK---
+Document: LightOccluder2D  
+Path: godot/classes/class_lightoccluder2d.rst  
+Summary: Properties and their default values for the LightOccluder2D class.  
+
+- Property: occluder (OccluderPolygon2D): The occluder shape.  
+- Property: occluder_light_mask (int): Light mask for the occluder. Default: 1.  
+- Property: sdf_collision (bool): Enables SDF collision. Default: true.
+---CHUNK---
+Document: LightOccluder2D  
+Path: godot/classes/class_lightoccluder2d.rst  
+Summary: Properties and methods for configuring a 2D light occluder's shape, light mask, and collision behavior.  
+
+OccluderPolygon2D occluder  
+Method: set_occluder_polygon(value: OccluderPolygon2D) → void  
+Method: get_occluder_polygon() → OccluderPolygon2D  
+The OccluderPolygon2D used to compute the shadow.  
+
+int occluder_light_mask = 1  
+Method: set_occluder_light_mask(value: int) → void  
+Method: get_occluder_light_mask() → int  
+The LightOccluder2D's occluder light mask. The LightOccluder2D will cast shadows only from Light2D(s) that have the same light mask(s).  
+
+bool sdf_collision = true  
+Method: set_as_sdf_collision(value: bool) → void  
+Method: is_set_as_sdf_collision() → bool  
+If enabled, the occluder will be part of a real-time generated signed distance field that can be used in custom shaders.

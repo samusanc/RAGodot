@@ -1,0 +1,48 @@
+Document: WebRTCDataChannelExtension
+Path: godot/classes/class_webrtcdatachannelextension.rst
+Summary: Base class for custom WebRTC DataChannel implementations.
+
+Inherits: Object < WebRTCDataChannelExtension
+
+This class is a base for custom WebRTC DataChannel implementations. It is not intended to be used directly. Instead, you should extend this class and implement the virtual methods to create your own DataChannel.
+
+The WebRTCDataChannelExtension class provides a way to extend the functionality of the built-in WebRTC DataChannel. This is useful for scenarios where you need to implement custom behavior for sending and receiving data over a WebRTC connection.
+
+To create a custom DataChannel, you would typically:
+
+1.  Create a new script that inherits from WebRTCDataChannelExtension.
+2.  Implement the virtual methods such as _on_data_received, _on_state_changed, and _send_data.
+3.  Register your custom DataChannel with the WebRTC connection.
+
+This allows for advanced use cases such as custom serialization, encryption, or specialized data handling protocols on top of the standard WebRTC DataChannel.
+---CHUNK---
+Document: WebRTCDataChannelExtension
+Path: godot/classes/class_webrtcdatachannelextension.rst
+Summary: This document provides information about the WebRTCDataChannelExtension class, which inherits from WebRTCDataChannel.
+
+Inherits: WebRTCDataChannel < PacketPeer < RefCounted < Object
+
+There is currently no description for this class. Please help us by contributing one!
+---CHUNK---
+Document: WebRTCDataChannelExtension
+Path: godot/classes/class_webrtcdatachannelextension.rst
+Summary: This section details the methods available for the WebRTCDataChannelExtension class, which are primarily virtual methods intended for extension.
+
+Method: _close() → void
+Method: _get_available_packet_count() → int
+Method: _get_buffered_amount() → int
+Method: _get_id() → int
+Method: _get_label() → String
+Method: _get_max_packet_life_time() → int
+Method: _get_max_packet_size() → int
+Method: _get_max_retransmits() → int
+Method: _get_packet(r_buffer: const uint8_t**, r_buffer_size: int32_t*) → Error
+Method: _get_protocol() → String
+Method: _get_ready_state() → ChannelState
+Method: _get_write_mode() → WriteMode
+Method: _is_negotiated() → bool
+Method: _is_ordered() → bool
+Method: _poll() → Error
+Method: _put_packet(p_buffer: const uint8_t*, p_buffer_size: int) → Error
+Method: _set_write_mode(p_write_mode: WriteMode) → void
+Method: _was_string_packet() → bool

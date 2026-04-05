@@ -1,0 +1,34 @@
+Document: AudioStreamPlaybackPlaylist  
+Path: godot/classes/class_audiostreamplaybackplaylist.rst  
+Summary: Manages playback of audio streams using a playlist structure.  
+
+This class is used to control the playback of audio streams from a playlist, allowing for sequential or randomized playback of multiple audio files. It inherits from `AudioStreamPlayback` and provides additional functionality for managing a list of audio tracks.  
+
+Key properties include:  
+- `playlist` (Array): The list of audio streams to play.  
+- `shuffle` (bool): If `true`, plays tracks in random order.  
+- `loop` (bool): If `true`, repeats the playlist indefinitely.  
+- `current_track` (int): The index of the currently playing track.  
+- `volume_db` (float): The playback volume in decibels.  
+
+Methods include:  
+- `play()` → void: Starts playback.  
+- `stop()` → void: Stops playback.  
+- `seek(time: float) → void`: Seeks to a specific position in the current track.  
+- `add_track(stream: AudioStream, position: float = 0.0) → void`: Adds a new track to the playlist at the specified position.  
+- `remove_track(index: int) → void`: Removes the track at the specified index.  
+
+Note: This class is typically used in conjunction with `AudioStreamPlayer` to manage complex audio playback scenarios.
+---CHUNK---
+Document: AudioStreamPlaybackPlaylist
+Path: godot/classes/class_audiostreamplaybackplaylist.rst
+Summary: Playback class used for AudioStreamPlaylist.
+
+Inherits: AudioStreamPlayback < RefCounted < Object
+Playback class used for AudioStreamPlaylist.
+---CHUNK---
+Document: AudioStreamPlaybackPlaylist
+Path: godot/classes/class_audiostreamplaybackplaylist.rst
+Summary: Playback component for sequentially playing multiple audio streams from an AudioStreamPlaylist.
+
+Playback component of AudioStreamPlaylist. Handles the playback of multiple AudioStream s in sequence.

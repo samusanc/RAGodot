@@ -1,0 +1,144 @@
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: This document explains how to use GUI skinning in Godot to customize the appearance of UI elements.
+
+GUI skinning in Godot allows you to change the visual appearance of UI elements without altering their functionality. This is achieved by creating and applying `Theme` resources. A `Theme` resource is a collection of styles, fonts, colors, and constants that define the look of UI controls.
+
+You can create a new `Theme` resource by going to the FileSystem dock, right-clicking, and selecting "New Resource...". Then, search for "Theme" and click "Create". Double-click the created `theme.tres` file to open the Theme editor.
+
+The Theme editor has several tabs: Styles, Fonts, Colors, and Constants.
+
+**Styles:**
+This section allows you to define the visual appearance of control elements. You can assign textures or color rectangles to different states of a control, such as normal, hovered, pressed, disabled, and focused.
+
+For example, to change the background of a Button:
+1. Select the "Button" type in the Theme editor.
+2. Under "Styles", find the "normal" property.
+3. Click the empty slot next to "normal" and choose "New TextureRect" or "New ColorRect".
+4. Assign a texture or color to the newly created style.
+
+You can also define styles for other states like "hovered", "pressed", "disabled", and "focused" to create a visually rich button.
+
+**Fonts:**
+Here, you can assign `Font` resources to be used by UI elements. You can load font files (like `.ttf` or `.otf`) or use Godot's built-in `SystemFont`.
+
+**Colors:**
+This section lets you define custom colors that can be used by UI elements. These colors can then be referenced in the Styles section.
+
+**Constants:**
+Constants allow you to define numerical values that can be used for properties like margins, borders, and padding. This helps in maintaining consistent spacing across your UI.
+
+**Applying a Theme:**
+Once you have created and configured your `Theme` resource, you can apply it to your UI in several ways:
+
+1.  **Project-wide:** Go to Project -> Project Settings -> GUI -> Theme and assign your `Theme` resource to the "Custom Theme" property. This will apply the theme to all UI elements in your project by default.
+2.  **Per-Control:** You can assign a `Theme` resource directly to a specific control node by dragging the `theme.tres` file onto the "Theme" property in the Inspector. This will override the project-wide theme for that specific control and its children.
+3.  **Theme Overrides:** Individual controls also have "Theme Overrides" sections in the Inspector. These allow you to override specific styles, fonts, colors, or constants from the assigned theme without creating a whole new theme resource. This is useful for minor adjustments to individual elements.
+
+**Key Rule:** When overriding styles, ensure that the textures or color rectangles you use have appropriate import settings, especially for slicing if you are using 9-patch textures. This ensures that the UI elements scale correctly.
+
+By mastering GUI skinning, you can create unique and visually appealing user interfaces for your Godot projects.
+---CHUNK---
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: An introduction to the Godot GUI skinning and theming system, explaining its purpose for visual customization, accessibility, and gameplay-driven UI changes.
+
+Godot provides a GUI skinning and theming system that allows developers to customize the appearance of every Control node, including custom controls. While Control nodes are functional by default, this system enables unique visual styling and case-specific tuning.
+
+Beyond achieving a unique aesthetic, the theming system allows developers to provide customization options to end users, such as accessibility settings. UI themes are applied in a cascading manner, meaning they propagate from parent controls to their children. This allows font settings or color adjustments for accessibility to be applied in a single location and affect the entire UI tree.
+
+This system can also be used for gameplay purposes. For example, a hero-based game can change its UI style based on the selected player character, or different visual flavors can be applied to teams in a multiplayer project.
+---CHUNK---
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: Explains that the Theme resource drives the skinning system and how the default theme provides the base look for control nodes.
+The skinning system is driven by the Theme resource. Every Godot project has an inherent default theme that contains the settings used by the built-in control nodes. This is what gives the controls their distinct look out of the box. A theme only describes the configuration, however, and it is still the job of each individual control to use that configuration in the way it requires to display itself. This is important to remember when implementing your own custom controls. Note: Even the Godot editor itself relies on the default theme. But it doesn't look the same as a Godot project, because it applies its own heavily customized theme on top of the default one. In principle, this works exactly like it would in your game as explained below.
+---CHUNK---
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: This section describes the different types of theme items used in Godot's GUI skinning system.
+Theme items are the configurable elements within a theme, each identified by a unique name and belonging to a specific data type.
+
+The available theme item types are:
+
+*   **Color**: A Color value, used for text, backgrounds, and control/icon modulation.
+*   **Constant**: An integer value, used for numeric control properties (e.g., item separation in BoxContainer) or boolean flags (e.g., drawing relationship lines in Tree).
+*   **Font**: A Font resource, used by text-displaying controls. Fonts manage text rendering settings except size and color; alignment and text direction are controlled by individual controls.
+*   **Font size**: An integer value, used with a Font to set the text display size.
+*   **Icon**: A Texture2D resource, typically used for displaying icons on controls like Buttons.
+*   **StyleBox**: A StyleBox resource, which defines how a UI panel is displayed. StyleBoxes are used by various controls for backgrounds and overlays, not just Panel.
+
+Key Rule: Focus styleboxes are drawn as an overlay on top of other styleboxes (like normal or pressed), meaning they should be designed as outlines or translucent boxes to ensure the base stylebox remains visible.
+---CHUNK---
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: Explains how theme items are organized into types and how child classes inherit theme properties.
+
+Theme items are organized into types, and each item must belong to a single type. An item is defined by its name, data type, and theme type, and this combination must be unique within a theme. For instance, two color items named "font_color" cannot exist in the same "Label" type, but one can exist in a "LineEdit" type.
+
+The default Godot theme includes predefined theme types for every built-in control node that uses UI skinning. The specific items available for each control and its child classes can be found in the "Theme Properties" section of the class reference.
+
+Note: Child classes can utilize theme items defined for their parent classes. For example, "Button" and its derivatives can use parent-defined items. While any control can technically use any theme item, this is generally avoided for clarity. For child classes, this inheritance is automated: when a built-in control requests a theme item, it can omit the theme type, and its class name will be used instead. Parent class names are also checked in sequence, allowing changes to a parent class like "Button" to affect all derived classes without individual customization.
+
+Custom theme types can be defined, allowing customization of both built-in and custom controls. Since built-in controls are unaware of custom theme types, scripts are necessary for accessing these items. All control nodes provide methods to fetch theme items from their applied theme, accepting the theme type as an argument.
+
+GDScript:
+var accent_color = get_theme_color("accent_color", "MyType")
+label.add_theme_color_override("font_color", accent_color)
+
+C#:
+Color accentColor = GetThemeColor("accent_color", "MyType");
+label.AddThemeColorOverride("font_color", accentColor);
+
+Theme types can be linked as variations to offer more customization. For example, a "Header" type can be a variation of the "Label" type. If a "Label" control is set to use the "Header" variation, this variation will be prioritized when requesting theme items. This enables storing multiple presets of theme items for the same control node class within a single "Theme" resource.
+
+Warning: Only variations from the default theme or the custom project theme appear in the Inspector dock. Manually entering a variation name defined elsewhere is possible, but it is recommended to keep all variations within the project theme for consistency.
+
+Further details on creating and using theme type variations can be found in a dedicated article.
+---CHUNK---
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: Explains how to customize individual control nodes directly using local overrides, which bypasses theme settings for specific properties.
+
+Customizing a control
+Each control node can be customized directly without the use of themes. This is called local overrides. Every theme property from the control's class reference can be overridden directly on the control itself, using either the Inspector dock, or scripts. This allows to make granular changes to a particular part of the UI, while not affecting anything else in the project, including this control's children.
+
+Local overrides are less useful for the visual flair of your user interface, especially if you aim for consistency. However, for layout nodes these are essential. Nodes such as BoxContainer and GridContainer use theme constants for defining separation between their children, and MarginContainer stores its customizable margins in its theme items.
+
+Whenever a control has a local theme item override, this is the value that it uses. Values provided by the theme are ignored.
+---CHUNK---
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: This section explains how to customize the appearance of UI elements in Godot projects using custom themes, both project-wide and on a per-node basis.
+
+Customizing a project
+Out of the box each project adopts the default project theme provided by Godot. The default theme itself is constant and cannot be changed, but its items can be overridden with a custom theme. Custom themes can be applied in two ways: as a project setting, and as a node property throughout the tree of control nodes.
+
+There are two project settings that can be adjusted to affect your entire project: GUI > Theme > Custom allows you to set a custom project-wide theme, and GUI > Theme > Custom Font does the same to the default fallback font. When a theme item is requested by a control node the custom project theme, if present, is checked first. Only if it doesn't have the item the default theme is checked.
+
+This allows you to configure the default look of every Godot control with a single theme resource, but you can go more granular than that. Every control node also has a theme property, which allows you to set a custom theme for the branch of nodes starting with that control. This means that the control and all of its children, and their children in turn, would first check that custom theme resource before falling back on the project and the default themes.
+
+Note: Instead of changing the project setting you can set the custom theme resource to the root-most control node of your entire UI branch to almost the same effect. While in the running project it will behave as expected, individual scenes will still display using the default theme when previewing or running them directly. To fix that you can set the same theme resource to the root control of each individual scene.
+
+For example, you can have a certain style for buttons in your project theme, but want a different look for buttons inside of a popup dialog. You can set a custom theme resource to the root control of your popup and define a different style for buttons within that resource. As long as the chain of control nodes between the root of the popup and the buttons is uninterrupted, those buttons will use the styles defined in the theme resource that is closest to them. All other controls will still be styled using the project-wide theme and the default theme styles.
+
+To sum it up, for an arbitrary control its theme item lookup would look something like this:
+
+1. Check for local overrides of the same data type and name.
+2. Using control's type variation, class name and parent class names:
+   a. Check every control starting from itself and see if it has a theme property set;
+   b. If it does, check that theme for the matching item of the same name, data and theme type;
+   c. If there is no custom theme or it doesn't have the item, move to the parent control;
+   d. Repeat steps a-c. until the root of the tree is reached, or a non-control node is reached.
+3. Using control's type variation, class name and parent class names check the project-wide theme, if it's present.
+4. Using control's type variation, class name and parent class names check the default theme.
+
+Even if the item doesn't exist in any theme, a corresponding default value for that data type will be returned.
+---CHUNK---
+Document: GUI Skinning
+Path: godot/tutorials/ui/gui_skinning.rst
+Summary: Explains how themes can be used for nodes other than controls, providing an example of sprite modulation for different teams.
+
+Themes are an ideal type of resource for storing visual configuration. While theming support is built into control nodes, other nodes can also utilize themes as any other resource.
+
+An example of using themes beyond controls is modulating sprites for different teams in a strategy game. A theme resource can define a collection of colors. Scripts can then use these colors to draw sprite textures. This allows for creating different themes with the same theme items for red, blue, and green teams, and swapping them with a single resource change.

@@ -1,0 +1,222 @@
+Document: Your First 3D Shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This document introduces the creation of a basic 3D shader in Godot Engine.
+
+This tutorial will guide you through creating your first 3D shader in Godot. Shaders are small programs that run on the GPU to determine how objects are drawn on the screen. They are essential for creating custom visual effects, materials, and rendering techniques.
+
+We will start by creating a simple spatial shader, which is used for 3D objects.
+
+To begin, create a new Godot project or open an existing one. In the FileSystem dock, right-click on the folder where you want to save your shader and select "New..." -> "Resource...". In the dialog that appears, search for "Shader" and select it. Click "Create". Name the new resource `spatial_shader.gdshader` and save it.
+
+Double-click the newly created `spatial_shader.gdshader` file to open it in the shader editor. You will see a basic template for a spatial shader:
+
+```glsl
+shader_type spatial;
+
+void fragment() {
+  // Replace with your code
+}
+```
+
+The `shader_type spatial;` line declares that this is a spatial shader, meaning it's intended for 3D rendering. The `void fragment() { ... }` block is the fragment shader function. This function is called for every pixel (or fragment) of the object being rendered. The code inside this function determines the final color of that pixel.
+
+Let's add some basic functionality to our fragment shader. We'll set a uniform color that can be changed from the Inspector.
+
+```glsl
+shader_type spatial;
+
+uniform vec4 albedo : source_color = vec4(1.0);
+
+void fragment() {
+  ALBEDO = albedo.rgb;
+}
+```
+
+In this updated code:
+- `uniform vec4 albedo : source_color = vec4(1.0);` declares a uniform variable named `albedo`.
+  - `uniform` means this variable can be set from outside the shader, typically from the Godot editor.
+  - `vec4` indicates it's a 4-component vector, commonly used for colors (RGBA).
+  - `: source_color` is a hint to Godot that this uniform should be displayed as a color picker in the Inspector.
+  - `= vec4(1.0)` sets a default value of white.
+- `ALBEDO = albedo.rgb;` assigns the RGB components of our `albedo` uniform to the built-in `ALBEDO` output variable. `ALBEDO` controls the base color of the material.
+
+Now, to use this shader, we need to create a material that uses it. In the FileSystem dock, right-click and select "New..." -> "Resource...". Search for "ShaderMaterial" and create it. Save it as `spatial_material.tres`.
+
+Double-click `spatial_material.tres` to open it in the Inspector. In the "Shader" property, click the dropdown and select "Load". Navigate to and select your `spatial_shader.gdshader` file.
+
+You should now see the "Albedo" color property appear under the "Shader Parameters" section. You can change this color using the color picker.
+
+Finally, apply this material to a 3D mesh in your scene. Create a 3D scene, add a MeshInstance3D node, and assign a mesh resource to it (e.g., a CubeMesh). Then, in the Inspector for the MeshInstance3D, go to the "Material" property, click the dropdown, and select "New Material". Then, click the newly created material resource and select "Load". Navigate to and select your `spatial_material.tres` file.
+
+You should now see your 3D object rendered with the color you selected in the `spatial_material.tres` resource. This is the most basic form of a 3D shader in Godot.
+---CHUNK---
+Document: your_first_3d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This tutorial introduces how to write a custom 3D Spatial shader in Godot, focusing on vertex displacement using a heightmap.
+
+This tutorial will explain how to write a Spatial shader and will cover more topics than the CanvasItem shader tutorial. Spatial shaders have more built-in functionality than CanvasItem shaders. The expectation with spatial shaders is that Godot has already provided the functionality for common use cases and all the user needs to do in the shader is set the proper parameters. This is especially true for a PBR (physically based rendering) workflow.
+
+This is a two-part tutorial. In this first part we will create terrain using vertex displacement from a heightmap in the vertex function. In the second part we will take the concepts from this tutorial and set up custom materials in a fragment shader by writing an ocean water shader.
+
+Note: This tutorial assumes some basic shader knowledge such as types (vec2, float, sampler2D), and functions. If you are uncomfortable with these concepts it is best to get a gentle introduction from The Book of Shaders before completing this tutorial.
+---CHUNK---
+Document: your_first_3d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: Explains how to assign materials to 3D objects in Godot, focusing on MeshInstance3D and mesh surfaces.
+In 3D, objects are drawn using Meshes. Meshes are a resource type that store geometry (the shape of your object) and materials (the color and how the object reacts to light) in units called "surfaces". A Mesh can have multiple surfaces, or just one. Typically, you would import a mesh from another program (e.g. Blender). But Godot also has a few PrimitiveMeshes that allow you to add basic geometry to a scene without importing Meshes.
+
+There are multiple node types that you can use to draw a mesh. The main one is MeshInstance3D, but you can also use GPUParticles3D, MultiMeshes (with a MultiMeshInstance3D), or others.
+
+Typically, a material is associated with a given surface in a mesh, but some nodes, like MeshInstance3D, allow you to override the material for a specific surface, or for all surfaces.
+
+If you set a material on the surface or mesh itself, then all MeshInstance3Ds that share that mesh will share that material. However, if you want to reuse the same mesh across multiple mesh instances, but have different materials for each instance then you should set the material on the MeshInstance3D.
+
+For this tutorial we will set our material on the mesh itself rather than taking advantage of the MeshInstance3D's ability to override materials.
+---CHUNK---
+Document: your_first_3d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This section details the initial setup for creating a 3D shader in Godot, including adding a MeshInstance3D, configuring a PlaneMesh, and creating a new ShaderMaterial.
+Add a MeshInstance3D node to your scene. In the inspector, set its Mesh property to a new PlaneMesh resource. Expand the PlaneMesh resource. This adds a plane to the scene. In the viewport, click the Perspective button and select Display Wireframe to see the plane's triangles. Set the PlaneMesh's Subdivide Width and Subdivide Depth to 32. This increases the number of triangles and vertices for more detail. PrimitiveMeshes like PlaneMesh have a single surface. Set the Material to a new ShaderMaterial and expand it. Note: Materials inheriting from Material, such as StandardMaterial3D and ParticleProcessMaterial, can be converted to a ShaderMaterial, preserving their properties in a text shader. This conversion can be done by right-clicking the material in the FileSystem dock and choosing Convert to ShaderMaterial, or by right-clicking a property referencing the material in the inspector. Set the material's Shader to a new Shader. Leave default settings, name your shader, and click Create. Clicking the shader in the inspector opens the shader editor, ready for writing a Spatial shader.
+---CHUNK---
+Document: your_first_3d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This section explains the basic structure of a Godot spatial shader, including the `shader_type`, `vertex()`, and `fragment()` functions, and demonstrates how to modify vertex positions to create a terrain-like effect.
+
+The new shader is already generated with a `shader_type` variable, the `vertex()` function, and the `fragment()` function. The first thing Godot shaders need is a declaration of what type of shader they are. In this case the `shader_type` is set to `spatial` because this is a spatial shader.
+GDScript:
+shader_type spatial;
+
+The `vertex()` function determines where the vertices of your MeshInstance3D appear in the final scene. We will be using it to offset the height of each vertex and make our flat plane appear like a little terrain.
+
+With nothing in the `vertex()` function, Godot will use its default vertex shader. We can start to make changes by adding a single line:
+GDScript:
+void vertex() {
+  VERTEX.y += cos(VERTEX.x) * sin(VERTEX.z);
+}
+
+Adding this line, you should get an image like the one below.
+
+Okay, let's unpack this. The `y` value of the `VERTEX` is being increased. And we are passing the `x` and `z` components of the `VERTEX` as arguments to cos() and sin(); that gives us a wave-like appearance across the `x` and `z` axes.
+
+What we want to achieve is the look of little hills; after all. `cos()` and `sin()` already look kind of like hills. We do so by scaling the inputs to the `cos()` and `sin()` functions.
+GDScript:
+void vertex() {
+  VERTEX.y += cos(VERTEX.x * 4.0) * sin(VERTEX.z * 4.0);
+}
+
+This looks better, but it is still too spiky and repetitive, let's make it a little more interesting.
+---CHUNK---
+Document: your_first_3d_shader.rst
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This section explains how to use noise textures to generate procedural terrain heightmaps in Godot shaders.
+
+Noise is a popular tool for faking terrain, similar to cosine waves but with varied hill heights. Godot provides the NoiseTexture2D resource for generating noise textures accessible within shaders.
+
+To use a texture in a shader, declare it as a uniform variable at the top of the shader code, outside any function:
+GDScript:
+uniform sampler2D noise;
+
+This allows you to pass a noise texture to the shader. In the Inspector, under your material's Shader Parameters, you will find a "Noise" parameter. Assign a new NoiseTexture2D to this parameter. Within the NoiseTexture2D's properties, set its Noise property to a new FastNoiseLite resource, which the NoiseTexture2D uses to generate the heightmap.
+
+The vertex function can then access the noise texture using the texture() function:
+GDScript:
+void vertex() {
+  float height = texture(noise, VERTEX.xz / 2.0 + 0.5).x;
+  VERTEX.y += height;
+}
+
+The texture() function takes the texture sampler and a vec2 for the texture coordinates. VERTEX.xz is used to sample the texture, as PlaneMesh coordinates range from -1.0 to 1.0, while texture coordinates are 0.0 to 1.0. The expression VERTEX.xz / 2.0 + 0.5 remaps the vertex coordinates to the texture's coordinate space.
+
+The texture() function returns a vec4; since the noise texture is grayscale, all color channels (r, g, b, a) have the same value, so any channel (like .x or .r) can be used for the height.
+
+Note: In GLSL, 'xyzw' is equivalent to 'rgba'. Therefore, texture().x and texture().r refer to the same value.
+
+Implementing this code will create procedurally generated hills on the mesh. The next step is to soften these hills using a uniform variable.
+---CHUNK---
+Document: your_first_3d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This section explains how to use uniform variables in Godot shaders to pass data from GDScript and control shader effects, demonstrating with a height scaling example.
+Uniform variables allow data to be passed from the game into the shader, which is useful for controlling shader effects. Uniforms can be declared in a Shader using the keyword `uniform`.
+
+To change the height of the terrain, a uniform named `height_scale` can be declared:
+```glsl
+uniform float height_scale = 0.5;
+```
+This initializes `height_scale` to `0.5`. Uniforms can be set from GDScript using the `set_shader_parameter()` method on the material associated with the shader. The value set in GDScript overrides the initial value in the shader.
+
+```gdscript
+# called from the MeshInstance3D
+mesh.material.set_shader_parameter("height_scale", 0.5)
+```
+Note: Setting uniforms for Spatial-based nodes differs from CanvasItem-based nodes. For Spatial nodes, the material might be set within the mesh resource itself, or accessed via `surface_get_material()` or `material_override` on the MeshInstance3D.
+
+The string argument in `set_shader_parameter()` must exactly match the uniform variable name in the shader. This uniform can then be used within the shader code, for example, to modify the vertex height:
+```glsl
+VERTEX.y += height * height_scale;
+```
+Uniforms can also be updated every frame to animate shader effects, and can be combined with Tweens for animations.
+---CHUNK---
+Document: your_first_3d_shader.rst
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This section explains how to make a 3D shader interact with light by using normal maps generated from noise textures.
+
+To make a 3D shader interact with light, you first need to ensure lighting is enabled and visible. Turn off wireframe mode by selecting "Display Normal" from the "Perspective" menu and disable the preview sunlight in the 3D scene toolbar. This will reveal how the mesh color appears flat without proper lighting calculations.
+
+Adding an OmniLight3D to the scene will show light affecting the terrain, but it might look odd because the light is treating the mesh as a flat plane. This is due to the shader using the mesh's original normals, which are incorrect when the mesh's shape is modified in the shader. To fix this, you can either recalculate normals in the shader or use a normal texture.
+
+This tutorial focuses on using a normal texture. A second noise texture is passed into the shader as a uniform sampler2D named `normalmap`.
+
+```glsl
+uniform sampler2D normalmap;
+```
+
+This `normalmap` uniform should be set to another `NoiseTexture2D` resource, utilizing a `FastNoiseLite` generator. Crucially, ensure the "As Normal Map" option is checked for this noise texture.
+
+When dealing with normals derived from a texture, you use the `NORMAL_MAP` identifier within the `fragment()` function. This differs from setting `NORMAL` directly, which is used when normals are calculated per-vertex. Using `NORMAL_MAP` allows Godot to automatically handle the wrapping of the normal texture around the mesh.
+
+To ensure that the sampling positions are consistent between the main noise texture and the normal map texture, a `varying` variable is used. This variable, named `tex_position`, passes the `VERTEX.xz` coordinates from the `vertex()` function to the `fragment()` function.
+
+Define the `varying vec2` named `tex_position` above the `vertex()` function. Inside the `vertex()` function, assign the calculated `VERTEX.xz` coordinates to `tex_position`.
+
+```glsl
+varying vec2 tex_position;
+
+void vertex() {
+  tex_position = VERTEX.xz / 2.0 + 0.5;
+  float height = texture(noise, tex_position).x;
+  VERTEX.y += height * height_scale;
+}
+```
+
+The `tex_position` varying can then be accessed within the `fragment()` function to sample the normal map.
+
+```glsl
+void fragment() {
+  NORMAL_MAP = texture(normalmap, tex_position).xyz;
+}
+```
+
+With the normals correctly mapped using the normal texture, the light will now dynamically react to the mesh's height, creating more realistic lighting effects. You can test this by moving the light source around the scene, and the lighting will update in real-time.
+---CHUNK---
+Document: Your First 3D Shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_3d_shader.rst
+Summary: This section provides the complete GLSL code for a basic 3D spatial shader in Godot, demonstrating vertex manipulation and normal mapping.
+
+GDScript:
+shader_type spatial;
+
+uniform float height_scale = 0.5;
+uniform sampler2D noise;
+uniform sampler2D normalmap;
+
+varying vec2 tex_position;
+
+void vertex() {
+  tex_position = VERTEX.xz / 2.0 + 0.5;
+  float height = texture(noise, tex_position).x;
+  VERTEX.y += height * height_scale;
+}
+
+void fragment() {
+  NORMAL_MAP = texture(normalmap, tex_position).xyz;
+}

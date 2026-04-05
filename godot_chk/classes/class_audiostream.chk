@@ -1,0 +1,90 @@
+Document: AudioStream
+Path: godot/classes/class_audiostream.rst
+Summary: Base class for audio stream resources.
+
+Inherits: Resource < RefCounted < Object
+
+AudioStream is the base class for all audio stream resources. It defines the interface that audio playback classes like AudioStreamPlayer and AudioStreamPlayer2D use to play back audio data.
+
+Audio streams are resources that can be loaded and played back. They are typically used for playing music, sound effects, or voice lines. The specific implementation of an AudioStream resource determines how the audio data is stored and decoded. For example, AudioStreamWAV stores uncompressed audio data, while AudioStreamMP3 stores compressed MP3 data.
+
+Key Rule: All audio stream resources must implement the methods defined in the AudioStream class, allowing for a consistent playback interface across different audio formats.
+---CHUNK---
+Document: AudioStream
+Path: godot/classes/class_audiostream.rst
+Summary: Base class for audio streams.
+Inherits: Resource < RefCounted < Object
+Inherited By: AudioStreamGenerator, AudioStreamInteractive, AudioStreamMicrophone, AudioStreamMP3, AudioStreamOggVorbis, AudioStreamPlaylist, AudioStreamPolyphonic, AudioStreamRandomizer, AudioStreamSynchronized, AudioStreamWAV
+---CHUNK---
+Document: AudioStream
+Path: godot/classes/class_audiostream.rst
+Summary: Base class for audio streams used for sound effects and music playback.
+Base class for audio streams. Audio streams are used for sound effects and music playback, and support WAV (via AudioStreamWAV), Ogg (via AudioStreamOggVorbis), and MP3 (via AudioStreamMP3) file formats.
+---CHUNK---
+Document: AudioStream
+Path: godot/classes/class_audiostream.rst
+Summary: This section lists related tutorials and demos for AudioStream.
+GDScript:
+```gdscript
+# Example usage of AudioStream
+var audio_stream = AudioStream.new()
+```
+C#:
+```csharp
+// Example usage of AudioStream
+AudioStream audioStream = new AudioStream();
+```
+---CHUNK---
+Document: AudioStream
+Path: godot/classes/class_audiostream.rst
+Summary: Describes the methods available for the AudioStream class in Godot Engine.
+
+Method: _get_bar_beats() → int
+Description: Override this method to return the bar beats of this stream.
+
+Method: _get_beat_count() → int
+Description: Overridable method. Should return the total number of beats of this audio stream. Used by the engine to determine the position of every beat. Ideally, the returned value should be based off the stream's sample rate.
+
+Method: _get_bpm() → float
+Description: Overridable method. Should return the tempo of this audio stream, in beats per minute (BPM). Used by the engine to determine the position of every beat. Ideally, the returned value should be based off the stream's sample rate.
+
+Method: _get_length() → float
+Description: Override this method to customize the returned value of get_length(). Should return the length of this audio stream, in seconds.
+
+Method: _get_parameter_list() → Array[Dictionary]
+Description: Return the controllable parameters of this stream. This array contains dictionaries with a property info description format. Additionally, the default value for this parameter must be added to each dictionary in "default_value" field.
+
+Method: _get_stream_name() → String
+Description: Override this method to customize the name assigned to this audio stream. Unused by the engine.
+
+Method: _get_tags() → Dictionary
+Description: Override this method to customize the tags for this audio stream. Should return a Dictionary of strings with the tag as the key and its content as the value. Commonly used tags include title, artist, album, tracknumber, and date.
+
+Method: _has_loop() → bool
+Description: Override this method to return true if this stream has a loop.
+
+Method: _instantiate_playback() → AudioStreamPlayback
+Description: Override this method to customize the returned value of instantiate_playback(). Should return a new AudioStreamPlayback created when the stream is played.
+
+Method: _is_monophonic() → bool
+Description: Override this method to customize the returned value of is_monophonic(). Should return true if this audio stream only supports one channel.
+
+Method: can_be_sampled() → bool
+Experimental: This method may be changed or removed in future versions.
+Description: Returns if the current AudioStream can be used as a sample. Only static streams can be sampled.
+
+Method: generate_sample() → AudioSample
+Experimental: This method may be changed or removed in future versions.
+Description: Generates an AudioSample based on the current stream.
+
+Method: get_length() → float
+Description: Returns the length of the audio stream in seconds. If this stream is an AudioStreamRandomizer, returns the length of the last played stream. If this stream has an indefinite length, returns 0.0.
+
+Method: instantiate_playback() → AudioStreamPlayback
+Description: Returns a newly created AudioStreamPlayback intended to play this audio stream. Useful for when you want to extend _instantiate_playback() but call instantiate_playback() from an internally held AudioStream subresource.
+
+Method: is_meta_stream() → bool
+Description: Returns true if the stream is a collection of other streams, false otherwise.
+
+Method: is_monophonic() → bool
+Description: Returns true if this audio stream only supports one channel (monophony), or false if the audio stream supports two or more channels (polyphony).

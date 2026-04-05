@@ -1,0 +1,248 @@
+Document: TextParagraph
+Path: godot/classes/class_textparagraph.rst
+Summary: This section identifies the TextParagraph class.
+---CHUNK---
+Document: TextParagraph
+Path: godot/classes/class_textparagraph.rst
+Summary: Describes the TextParagraph class, which holds a paragraph of text.
+
+TextParagraph
+Inherits: RefCounted < Object
+
+Holds a paragraph of text.
+---CHUNK---
+Document: TextParagraph
+Path: godot/classes/class_textparagraph.rst
+Summary: Describes the TextParagraph class, an abstraction over TextServer for handling a single paragraph of text.
+
+Description
+Abstraction over TextServer for handling a single paragraph of text.
+---CHUNK---
+Document: TextParagraph
+Path: godot/classes/class_textparagraph.rst
+Summary: This section lists the properties available for configuring a TextParagraph object.
+
+* alignment (HorizontalAlignment). Default: 0.
+* break_flags (bitfield[LineBreakFlag]). Default: 3.
+* custom_punctuation (String). Default: "".
+* direction (Direction). Default: 0.
+* ellipsis_char (String). Default: "…".
+* justification_flags (bitfield[JustificationFlag]). Default: 163.
+* line_spacing (float). Default: 0.0.
+* max_lines_visible (int). Default: -1.
+* orientation (Orientation). Default: 0.
+* preserve_control (bool). Default: false.
+* preserve_invalid (bool). Default: true.
+* text_overrun_behavior (OverrunBehavior). Default: 0.
+* width (float). Default: -1.0.
+---CHUNK---
+Document: TextParagraph
+Path: godot/classes/class_textparagraph.rst
+Summary: This section lists all available methods for the TextParagraph class, including text manipulation, drawing, and information retrieval.
+
+Method: add_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, length: int = 1, baseline: float = 0.0) -> bool
+Method: add_string(text: String, font: Font, font_size: int, language: String = "", meta: Variant = null) -> bool
+Method: clear() -> void
+Method: clear_dropcap() -> void
+Method: draw(canvas: RID, pos: Vector2, color: Color = Color(1, 1, 1, 1), dc_color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Method: draw_dropcap(canvas: RID, pos: Vector2, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Method: draw_dropcap_outline(canvas: RID, pos: Vector2, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Method: draw_line(canvas: RID, pos: Vector2, line: int, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Method: draw_line_outline(canvas: RID, pos: Vector2, line: int, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Method: draw_outline(canvas: RID, pos: Vector2, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), dc_color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Method: duplicate() -> TextParagraph
+Method: get_dropcap_lines() -> int
+Method: get_dropcap_rid() -> RID
+Method: get_dropcap_size() -> Vector2
+Method: get_inferred_direction() -> Direction
+Method: get_line_ascent(line: int) -> float
+Method: get_line_count() -> int
+Method: get_line_descent(line: int) -> float
+Method: get_line_object_rect(line: int, key: Variant) -> Rect2
+Method: get_line_objects(line: int) -> Array
+Method: get_line_range(line: int) -> Vector2i
+Method: get_line_rid(line: int) -> RID
+Method: get_line_size(line: int) -> Vector2
+Method: get_line_underline_position(line: int) -> float
+Method: get_line_underline_thickness(line: int) -> float
+Method: get_line_width(line: int) -> float
+Method: get_non_wrapped_size() -> Vector2
+Method: get_range() -> Vector2i
+Method: get_rid() -> RID
+Method: get_size() -> Vector2
+Method: has_object(key: Variant) -> bool
+Method: hit_test(coords: Vector2) -> int
+Method: resize_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, baseline: float = 0.0) -> bool
+Method: set_bidi_override(override: Array) -> void
+Method: set_dropcap(text: String, font: Font, font_size: int, dropcap_margins: Rect2 = Rect2(0, 0, 0, 0), language: String = "") -> bool
+Method: tab_align(tab_stops: PackedFloat32Array) -> void
+---CHUNK---
+Document: TextParagraph
+Path: godot/classes/class_textparagraph.rst
+Summary: This section describes the properties available for configuring a TextParagraph, including text alignment, breaking rules, punctuation, direction, and visual display options.
+
+Property Descriptions:
+
+*   **alignment** (HorizontalAlignment): Paragraph horizontal alignment. Default: 0.
+    *   Method: set_alignment(value: HorizontalAlignment) → void
+    *   Method: get_alignment() → HorizontalAlignment
+
+*   **break_flags** (bitfield[LineBreakFlag]): Line breaking rules. For more info see TextServer. Default: 3.
+    *   Method: set_break_flags(value: bitfield[LineBreakFlag]) → void
+    *   Method: get_break_flags() → bitfield[LineBreakFlag]
+
+*   **custom_punctuation** (String): Custom punctuation character list, used for word breaking. If set to empty string, server defaults are used. Default: "".
+    *   Method: set_custom_punctuation(value: String) → void
+    *   Method: get_custom_punctuation() → String
+
+*   **direction** (Direction): Text writing direction. Default: 0.
+    *   Method: set_direction(value: Direction) → void
+    *   Method: get_direction() → Direction
+
+*   **ellipsis_char** (String): Ellipsis character used for text clipping. Default: "…".
+    *   Method: set_ellipsis_char(value: String) → void
+    *   Method: get_ellipsis_char() → String
+
+*   **justification_flags** (bitfield[JustificationFlag]): Line fill alignment rules. Default: 163.
+    *   Method: set_justification_flags(value: bitfield[JustificationFlag]) → void
+    *   Method: get_justification_flags() → bitfield[JustificationFlag]
+
+*   **line_spacing** (float): Additional vertical spacing between lines (in pixels), spacing is added to line descent. This value can be negative. Default: 0.0.
+    *   Method: set_line_spacing(value: float) → void
+    *   Method: get_line_spacing() → float
+
+*   **max_lines_visible** (int): Limits the lines of text shown. Default: -1.
+    *   Method: set_max_lines_visible(value: int) → void
+    *   Method: get_max_lines_visible() → int
+
+*   **orientation** (Orientation): Text orientation. Default: 0.
+    *   Method: set_orientation(value: Orientation) → void
+    *   Method: get_orientation() → Orientation
+
+*   **preserve_control** (bool): If set to true text will display control characters. Default: false.
+    *   Method: set_preserve_control(value: bool) → void
+    *   Method: get_preserve_control() → bool
+
+*   **preserve_invalid** (bool): If set to true text will display invalid characters. Default: true.
+    *   Method: set_preserve_invalid(value: bool) → void
+    *   Method: get_preserve_invalid() → bool
+
+*   **text_overrun_behavior** (OverrunBehavior): The clipping behavior when the text exceeds the paragraph's set width. Default: 0.
+    *   Method: set_text_overrun_behavior(value: OverrunBehavior) → void
+    *   Method: get_text_overrun_behavior() → OverrunBehavior
+
+*   **width** (float): Paragraph width. Default: -1.0.
+    *   Method: set_width(value: float) → void
+    *   Method: get_width() → float
+---CHUNK---
+Document: TextParagraph
+Path: godot/classes/class_textparagraph.rst
+Summary: This section describes methods available in the TextParagraph class for managing text, inline objects, drawing, and retrieving layout information.
+
+Method: add_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, length: int = 1, baseline: float = 0.0) -> bool
+Adds inline object to the text buffer, key must be unique. In the text, object is represented as length object replacement characters.
+
+Method: add_string(text: String, font: Font, font_size: int, language: String = "", meta: Variant = null) -> bool
+Adds text span and font to draw it.
+
+Method: clear() -> void
+Clears text paragraph (removes text and inline objects).
+
+Method: clear_dropcap() -> void
+Removes dropcap.
+
+Method: draw(canvas: RID, pos: Vector2, color: Color = Color(1, 1, 1, 1), dc_color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw all lines of the text and drop cap into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: draw_dropcap(canvas: RID, pos: Vector2, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw drop cap into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: draw_dropcap_outline(canvas: RID, pos: Vector2, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw drop cap outline into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: draw_line(canvas: RID, pos: Vector2, line: int, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw single line of text into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: draw_line_outline(canvas: RID, pos: Vector2, line: int, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw outline of the single line of text into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: draw_outline(canvas: RID, pos: Vector2, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), dc_color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw outlines of all lines of the text and drop cap into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: duplicate() -> TextParagraph
+Duplicates this TextParagraph.
+
+Method: get_dropcap_lines() -> int
+Returns number of lines used by dropcap.
+
+Method: get_dropcap_rid() -> RID
+Returns drop cap text buffer RID.
+
+Method: get_dropcap_size() -> Vector2
+Returns drop cap bounding box size.
+
+Method: get_inferred_direction() -> Direction
+Returns the text writing direction inferred by the BiDi algorithm.
+
+Method: get_line_ascent(line: int) -> float
+Returns the text line ascent (number of pixels above the baseline for horizontal layout or to the left of baseline for vertical).
+
+Method: get_line_count() -> int
+Returns number of lines in the paragraph.
+
+Method: get_line_descent(line: int) -> float
+Returns the text line descent (number of pixels below the baseline for horizontal layout or to the right of baseline for vertical).
+
+Method: get_line_object_rect(line: int, key: Variant) -> Rect2
+Returns bounding rectangle of the inline object.
+
+Method: get_line_objects(line: int) -> Array
+Returns array of inline objects in the line.
+
+Method: get_line_range(line: int) -> Vector2i
+Returns character range of the line.
+
+Method: get_line_rid(line: int) -> RID
+Returns TextServer line buffer RID.
+
+Method: get_line_size(line: int) -> Vector2
+Returns size of the bounding box of the line of text. Returned size is rounded up.
+
+Method: get_line_underline_position(line: int) -> float
+Returns pixel offset of the underline below the baseline.
+
+Method: get_line_underline_thickness(line: int) -> float
+Returns thickness of the underline.
+
+Method: get_line_width(line: int) -> float
+Returns width (for horizontal layout) or height (for vertical) of the line of text.
+
+Method: get_non_wrapped_size() -> Vector2
+Returns the size of the bounding box of the paragraph, without line breaks.
+
+Method: get_range() -> Vector2i
+Returns the character range of the paragraph.
+
+Method: get_rid() -> RID
+Returns TextServer full string buffer RID.
+
+Method: get_size() -> Vector2
+Returns the size of the bounding box of the paragraph.
+
+Method: has_object(key: Variant) -> bool
+Returns true if an object with key is embedded in this shaped text buffer.
+
+Method: hit_test(coords: Vector2) -> int
+Returns caret character offset at the specified coordinates. This function always returns a valid position.
+
+Method: resize_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, baseline: float = 0.0) -> bool
+Sets new size and alignment of embedded object.
+
+Method: set_bidi_override(override: Array) -> void
+Overrides BiDi for the structured text. Override ranges should cover full source text without overlaps. BiDi algorithm will be used on each range separately.
+
+Method: set_dropcap(text: String, font: Font, font_size: int, dropcap_margins: Rect2 = Rect2(0, 0, 0, 0), language: String = "") -> bool
+Sets drop cap, overrides previously set drop cap. Drop cap (dropped capital) is a decorative element at the beginning of a paragraph that is larger than the rest of the text.
+
+Method: tab_align(tab_stops: PackedFloat32Array) -> void
+Aligns paragraph to the given tab-stops.

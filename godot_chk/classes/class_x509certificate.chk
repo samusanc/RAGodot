@@ -1,0 +1,32 @@
+Document: X509Certificate
+Path: godot/classes/class_x509certificate.rst
+Summary: Represents an X.509 certificate used for secure communication in Godot.
+---CHUNK---
+Document: X509Certificate
+Path: godot/classes/class_x509certificate.rst
+Summary: Represents an X509 certificate used for TLS encryption.
+
+Inherits: Resource < RefCounted < Object
+---CHUNK---
+Document: X509Certificate  
+Path: godot/classes/class_x509certificate.rst  
+Summary: Represents an X509 certificate, supporting loading, saving, and use in TLS server authentication and client certificate validation.  
+
+The X509Certificate class represents an X509 certificate. Certificates can be loaded and saved like any other Resource. They can be used as the server certificate in StreamPeerTLS.accept_stream() (along with the proper CryptoKey), and to specify the only certificate that should be accepted when connecting to a TLS server via StreamPeerTLS.connect_to_stream().
+---CHUNK---
+Document: X509Certificate
+Path: godot/classes/class_x509certificate.rst
+Summary: Overview of the X509Certificate class and its use in handling SSL certificates in Godot.
+
+Tutorials: SSL certificates
+---CHUNK---
+Document: X509Certificate  
+Path: godot/classes/class_x509certificate.rst  
+Summary: Methods for loading, saving, and converting X.509 certificates between file paths and string representations.  
+
+- Error load(path: String): Loads a certificate from a file path (typically "*.crt" files).  
+- Error load_from_string(string: String): Loads a certificate from a provided string.  
+- Error save(path: String): Saves the certificate to a file path (must be a "*.crt" file).  
+- String save_to_string(): Returns the certificate as a string or an empty string if invalid.  
+
+load() reads certificate data from a file specified by the path parameter. The file must be in PEM format (commonly "*.crt" extensions). load_from_string() performs the same operation but uses an input string instead of a file. save() writes the certificate to a file at the given path, requiring the path to end with ".crt" for proper formatting. save_to_string() generates a PEM-formatted string representation of the certificate; if the certificate is invalid or not loaded, it returns an empty string. All methods return an Error enum value to indicate success or failure, with Error::OK for successful operations.

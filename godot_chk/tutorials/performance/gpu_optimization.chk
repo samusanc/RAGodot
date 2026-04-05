@@ -1,0 +1,152 @@
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This document provides an overview of GPU optimization techniques for Godot Engine.
+
+This document covers GPU optimization techniques for Godot Engine. It aims to help developers improve rendering performance by understanding and applying various strategies.
+
+Key areas of GPU optimization include:
+
+*   **Draw Calls:** Reducing the number of draw calls is crucial. This can be achieved through techniques like batching, instancing, and occlusion culling.
+*   **Shader Complexity:** Complex shaders can significantly impact GPU performance. Optimizing shader code, reducing texture lookups, and simplifying calculations are important.
+*   **Texture Usage:** Large or uncompressed textures consume memory and bandwidth. Using appropriate texture formats, mipmaps, and texture atlases can improve performance.
+*   **Overdraw:** Rendering the same pixel multiple times increases GPU load. Techniques like depth pre-passes and careful scene management can mitigate overdraw.
+*   **Vertex Processing:** The complexity of vertex data and vertex shaders affects performance. Optimizing mesh complexity and vertex shader operations is beneficial.
+*   **Fillrate:** The GPU's ability to fill pixels on the screen. Reducing screen-space effects, resolution, and overdraw can help.
+
+The document will delve into specific methods and best practices for each of these areas, providing actionable advice for developers to profile and optimize their Godot projects.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This document provides an overview of GPU optimization techniques for Godot Engine.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This section introduces GPU bottlenecks in game development, explaining their potential causes and the challenges in measuring and addressing them.
+The demand for new graphics features and progress almost guarantees that you will encounter graphics bottlenecks. Some of these can be on the CPU side, for instance in calculations inside the Godot engine to prepare objects for rendering. Bottlenecks can also occur on the CPU in the graphics driver, which sorts instructions to pass to the GPU, and in the transfer of these instructions. And finally, bottlenecks also occur on the GPU itself. Where bottlenecks occur in rendering is highly hardware-specific. Mobile GPUs in particular may struggle with scenes that run easily on desktop. Understanding and investigating GPU bottlenecks is slightly different to the situation on the CPU. This is because, often, you can only change performance indirectly by changing the instructions you give to the GPU. Also, it may be more difficult to take measurements. In many cases, the only way of measuring performance is by examining changes in the time spent rendering each frame.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This section explains how draw calls, state changes, and graphics APIs impact GPU performance, emphasizing the need to minimize instructions and group similar objects for rendering.
+Note: The following section is not relevant to end-users, but is useful to provide background information that is relevant in later sections.
+Godot sends instructions to the GPU via a graphics API (Vulkan, OpenGL, OpenGL ES or WebGL). The communication and driver activity involved can be quite costly, especially in OpenGL, OpenGL ES and WebGL. If we can provide these instructions in a way that is preferred by the driver and GPU, we can greatly increase performance.
+Nearly every API command in OpenGL requires a certain amount of validation to make sure the GPU is in the correct state. Even seemingly simple commands can lead to a flurry of behind-the-scenes housekeeping. Therefore, the goal is to reduce these instructions to a bare minimum and group together similar objects as much as possible so they can be rendered together, or with the minimum number of these expensive state changes.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: Explains the concept of 2D batching for rendering multiple similar items with a single draw call to reduce performance costs.
+
+2D batching
+In 2D, the costs of treating each item individually can be prohibitively high - there can easily be thousands of them on the screen. This is why 2D batching is used. Multiple similar items are grouped together and rendered in a batch, via a single draw call, rather than making a separate draw call for each item. In addition, this means state changes, material and texture changes can be kept to a minimum.
+---CHUNK---
+Document: 3D batching
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: Overview of 3D batching strategies, the trade-offs between draw calls and culling, and the recommendation to join static meshes.
+
+In 3D, the goal is to minimize draw calls and state changes. However, batching several objects into a single draw call is more difficult in 3D than in 2D. 3D meshes often consist of hundreds or thousands of triangles, and combining large meshes in real-time is prohibitively expensive. The cost of joining them quickly exceeds any performance benefits as the number of triangles per mesh grows.
+
+A much better alternative is to join meshes ahead of time for objects that are static in relation to each other. This can be performed by artists during the modeling process or programmatically within Godot using an add-on.
+
+There is a significant cost to batching objects in 3D. Several objects rendered as one cannot be individually culled. For example, an entire city that is off-screen will still be rendered if it is joined to a single blade of grass that is on-screen. Key Rule: Always take objects' locations and culling into account when attempting to batch 3D objects together. Despite this, the benefits of joining static objects often outweigh other considerations, especially for large numbers of distant or low-poly objects.
+
+For more information on 3D specific optimizations, see Optimizing 3D performance.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This section explains how reusing shaders and materials can significantly improve GPU rendering performance in Godot.
+
+Key Rule: Reusing Materials: The fewer different materials in the scene, the faster the rendering will be. If a scene has a huge amount of objects (in the hundreds or thousands), try reusing the materials. In the worst case, use atlases to decrease the amount of texture changes.
+Key Rule: Reusing Shaders: If materials can't be reused, at least try to reuse shaders. Note: shaders are automatically reused between StandardMaterial3Ds that share the same configuration (features that are enabled or disabled with a check box) even if they have different parameters.
+
+If a scene has, for example, 20,000 objects with 20,000 different materials each, rendering will be slow. If the same scene has 20,000 objects, but only uses 100 materials, rendering will be much faster.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: Explains the difference between pixel cost and vertex cost in GPU rendering, particularly highlighting the performance implications on mobile devices.
+
+Vertex cost versus pixel cost is a crucial concept in GPU optimization. While it's often assumed that fewer polygons mean faster rendering, this is relative and depends on the target hardware.
+
+On modern PCs and consoles, vertex processing is generally inexpensive. Historically, CPUs handled vertex transformations and clipping, and vertices were transferred from main RAM to GPU memory. However, modern GPUs now handle these tasks internally, significantly boosting performance. 3D artists may have a skewed perception of polygon count's impact due to modeling software requiring geometry to reside in CPU memory for editing, which is not representative of game engine performance. Game engines leverage the GPU's efficiency in rendering many triangles.
+
+Mobile devices present a different scenario. Their GPUs are designed for power efficiency due to limited battery life, unlike the power-hungry GPUs of PCs and consoles. Mobile GPUs prioritize avoiding *overdraw*, which is when the same screen pixel is rendered multiple times. For instance, rendering a house and then another house in front of it results in redundant pixel rendering. While PC GPUs can compensate for this with more pixel processors, increasing power consumption, mobile devices cannot.
+
+To achieve efficiency, mobile GPUs employ *tile-based rendering*. This technique divides the screen into a grid, and each cell processes triangles drawn to it, sorting them by depth to minimize overdraw. This improves performance and reduces power usage but can strain vertex performance. Consequently, fewer vertices and triangles can be processed.
+
+Tile-based rendering also struggles with small objects containing a high density of geometry within a small screen area. This concentrates the workload on a single screen tile, significantly slowing down performance as other cells must wait for it to complete.
+
+Key Rule: On mobile, avoid concentrating vertices in small screen areas. If an object appears tiny due to distance, use a lower level of detail (LOD) model. Even on desktop GPUs, it's advisable to avoid rendering triangles smaller than a single pixel on screen.
+
+Additional vertex processing is required for:
+- Skinning (skeletal animation)
+- Morphs (shape keys)
+- Vertex-lit objects (common on mobile)
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This section discusses the impact of fragment shaders and fill rate on GPU performance, offering methods to diagnose and mitigate these bottlenecks.
+
+Fragment shaders (per-pixel shading) have become a significant performance cost due to increased screen resolutions and shader complexity, such as that required for physically-based rendering.
+
+To test if a project is fill rate-limited:
+1. Disable V-Sync to remove the frame rate cap.
+2. Compare the frames per second (FPS) when running in a large window versus a very small window.
+3. If FPS significantly increases with a smaller window, the project is likely fill rate-limited.
+4. If there's little FPS increase, the bottleneck is elsewhere.
+5. Reducing shadow map size can also help if using shadows.
+
+To improve performance in fill rate-limited projects:
+* Simplify shaders (e.g., disable expensive options in StandardMaterial3D).
+* Reduce the number and size of textures.
+* For shaded particles, consider forcing vertex shading in their material.
+
+Note: On supported hardware, variable rate shading can reduce shading costs without affecting image sharpness.
+
+Key Rule: When targeting mobile devices, use the simplest possible shaders.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This section discusses the performance implications of texture reads in fragment shaders.
+
+Reading textures is an expensive operation in fragment shaders, particularly when multiple textures are accessed. Filtering, such as trilinear filtering and mipmapping, can further increase this cost. Texture reads also contribute significantly to power consumption, which is a critical concern for mobile devices.
+
+Key Rule: When using or writing shaders, prioritize algorithms that minimize the number of texture reads.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This section explains texture compression in Godot, its benefits for GPU performance, and considerations for 2D and 3D rendering, including transparency and pixel art.
+Texture compression
+By default, Godot compresses textures of 3D models when imported using video RAM (VRAM) compression. VRAM compression isn't as efficient in size as PNG or JPG when stored, but increases performance enormously when drawing large enough textures. This is because the main goal of texture compression is bandwidth reduction between memory and the GPU. In 3D, the shapes of objects depend more on the geometry than the texture, so compression is generally not noticeable. In 2D, compression depends more on shapes inside the textures, so the artifacts resulting from 2D compression are more noticeable. As a warning, most Android devices do not support texture compression of textures with transparency (only opaque), so keep this in mind. Note: Even in 3D, "pixel art" textures should have VRAM compression disabled as it will negatively affect their appearance, without improving performance significantly due to their low resolution.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: This section discusses performance considerations for post-processing effects and shadows in Godot.
+
+Post-processing effects and shadows can be expensive due to fragment shading activity. Always test their impact on different hardware. Reducing the size of shadowmaps can increase performance, both in terms of writing and reading them. The most effective way to improve shadow performance is to disable shadows for as many lights and objects as possible. Smaller or distant OmniLights and SpotLights can often have their shadows disabled with minimal visual impact.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: Explains the performance implications of transparency and blending in rendering.
+Transparency and blending present rendering efficiency challenges. Unlike opaque objects that can leverage the Z-buffer for order-independent rendering, transparent or blended objects often require back-to-front rendering (painter's order) to appear correctly, as they typically cannot rely on the Z-buffer.
+
+Transparent objects are also detrimental to fill rate because every transparent object must be drawn, even if subsequent transparent objects will obscure them. Opaque objects, conversely, can optimize by writing to the Z-buffer first and then only executing the fragment shader for the fragment that ultimately wins (the front-most object at a given pixel).
+
+The cost of transparency escalates significantly with overlapping transparent objects. Minimizing the size of transparent areas is crucial to reduce fill rate demands, especially on mobile devices where fill rate is a critical bottleneck. In many scenarios, rendering more complex opaque geometry can prove faster than using transparency as a visual shortcut.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: Provides advice for optimizing GPU performance across multiple platforms, emphasizing early testing and designing for the lowest common denominator.
+
+Multi-platform advice
+If you are aiming to release on multiple platforms, test early and test often on all your platforms, especially mobile. Developing a game on desktop but attempting to port it to mobile at the last minute is a recipe for disaster.
+
+In general, you should design your game for the lowest common denominator, then add optional enhancements for more powerful platforms. For example, you may want to use the Compatibility rendering method for both desktop and mobile platforms where you target both.
+---CHUNK---
+Document: GPU Optimization
+Path: godot/tutorials/performance/gpu_optimization.rst
+Summary: Overview of mobile tile-based rendering architectures and their performance implications for shaders and post-processing.
+
+Mobile/tiled renderers
+GPUs on mobile devices operate differently from desktop GPUs. Most mobile devices use tile renderers. Tile renderers split the screen into regular-sized tiles that fit into high-speed cache memory, which reduces the number of read/write operations to the main memory.
+
+There are some downsides to this approach. Tiled rendering can make certain techniques much more complicated and expensive to perform. Tiles that rely on the results of rendering in different tiles or on the results of earlier operations being preserved can be very slow.
+
+Key Rule: Be very careful to test the performance of shaders, viewport textures, and post-processing when targeting mobile devices.

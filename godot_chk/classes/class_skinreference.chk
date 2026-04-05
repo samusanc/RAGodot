@@ -1,0 +1,29 @@
+Document: SkinReference
+Path: godot/classes/class_skinreference.rst
+Summary: Class reference for SkinReference, a Godot class used to represent skin references in 3D character animation.
+---CHUNK---
+Document: SkinReference
+Path: godot/classes/class_skinreference.rst
+Summary: A reference-counted holder object for a skeleton RID used in the RenderingServer.
+
+Inherits: RefCounted < Object
+A reference-counted holder object for a skeleton RID used in the RenderingServer.
+---CHUNK---
+Document: class_skinreference
+Path: godot/classes/class_skinreference.rst
+Summary: An internal object mapping a Skin to a skeleton's RID in the RenderingServer for MeshInstance3D.
+
+An internal object containing a mapping from a Skin used within the context of a particular MeshInstance3D to refer to the skeleton's RID in the RenderingServer. See MeshInstance3D.get_skin_reference() and RenderingServer.instance_attach_skeleton() for related methods.
+
+Note: The skeleton RID used in the RenderingServer does not have a direct one-to-one correspondence to a Skeleton3D node. A Skeleton3D node with no MeshInstance3D children may be unknown to the RenderingServer. A Skeleton3D with multiple MeshInstance3D nodes using different skin objects may have multiple SkinReference instances and multiple skeleton RIDs.
+---CHUNK---
+Document: SkinReference
+Path: godot/classes/class_skinreference.rst
+Summary: Two read-only methods for retrieving skeleton and skin references in 3D mesh instances.
+
+Methods:
+- RID get_skeleton() 
+  Returns the RID owned by this SkinReference, as returned by RenderingServer.skeleton_create()
+
+- Skin get_skin() 
+  Returns the Skin connected to this SkinReference. If a MeshInstance3D has no skin assigned, this references an internal default Skin owned by that MeshInstance3D. Note that a single Skin may have multiple SkinReferences if shared across Skeleton3D nodes.

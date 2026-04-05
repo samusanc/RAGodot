@@ -1,0 +1,74 @@
+Document: EditorFeatureProfile
+Path: godot/classes/class_editorfeatureprofile.rst
+Summary: Defines a set of features that can be enabled or disabled for specific editor profiles.
+
+EditorFeatureProfile
+
+Inherits: Resource < Object
+
+A profile that defines a set of features that can be enabled or disabled for specific editor profiles. This is used to customize the editor's behavior and appearance based on the project's needs or the user's preferences. For example, you can disable certain features to simplify the interface or improve performance.
+---CHUNK---
+Document: EditorFeatureProfile
+Path: godot/classes/class_editorfeatureprofile.rst
+Summary: An editor feature profile used to disable specific features.
+
+EditorFeatureProfile
+Inherits: RefCounted < Object
+
+An editor feature profile which can be used to disable specific features.
+---CHUNK---
+Document: EditorFeatureProfile
+Path: godot/classes/class_editorfeatureprofile.rst
+Summary: Describes the purpose and usage of EditorFeatureProfile for disabling editor features.
+An editor feature profile can be used to disable specific features of the Godot editor. When disabled, the features won't appear in the editor, which makes the editor less cluttered. This is useful in education settings to reduce confusion or when working in a team. For example, artists and level designers could use a feature profile that disables the script editor to avoid accidentally making changes to files they aren't supposed to edit. To manage editor feature profiles visually, use Editor > Manage Feature Profiles... at the top of the editor window.
+---CHUNK---
+Document: EditorFeatureProfile
+Path: godot/classes/class_editorfeatureprofile.rst
+Summary: This chunk covers the methods and Feature enumeration used to manage and customize editor feature profiles in Godot.
+
+Enumeration: Feature
+- FEATURE_3D (0): The 3D editor. If disabled, the 3D editor won't display but 3D nodes will still display in the Create New Node dialog.
+- FEATURE_SCRIPT (1): The Script tab. If disabled, the Script tab won't display.
+- FEATURE_ASSET_LIB (2): The AssetLib tab. If disabled, the AssetLib tab won't display.
+- FEATURE_SCENE_TREE (3): Scene tree editing. If disabled, the Scene tree dock will be read-only.
+- FEATURE_NODE_DOCK (4): The Node dock. Deprecated: Replaced by the Signals and Groups docks. If disabled, signals and groups won't be visible or modifiable.
+- FEATURE_FILESYSTEM_DOCK (5): The FileSystem dock. If disabled, the FileSystem dock won't be visible.
+- FEATURE_IMPORT_DOCK (6): The Import dock. If disabled, the Import dock won't be visible.
+- FEATURE_HISTORY_DOCK (7): The History dock. If disabled, the History dock won't be visible.
+- FEATURE_GAME (8): The Game tab. If disabled, the Game tab won't display.
+- FEATURE_SIGNALS_DOCK (9): The Signals dock. If disabled, signals won't be visible or modifiable.
+- FEATURE_GROUPS_DOCK (10): The Groups dock. If disabled, groups won't be visible or modifiable.
+- FEATURE_MAX (11): Represents the size of the Feature enum.
+
+Method: get_feature_name(feature: Feature) → String
+Returns the specified feature's human-readable name.
+
+Method: is_class_disabled(class_name: StringName) → bool
+Returns true if the class specified by class_name is disabled. When disabled, the class won't appear in the Create New Node dialog.
+
+Method: is_class_editor_disabled(class_name: StringName) → bool
+Returns true if editing for the class specified by class_name is disabled. When disabled, the class will still appear in the Create New Node dialog but the Inspector will be read-only when selecting a node that extends the class.
+
+Method: is_class_property_disabled(class_name: StringName, property: StringName) → bool
+Returns true if property is disabled in the class specified by class_name. When a property is disabled, it won't appear in the Inspector when selecting a node that extends the class.
+
+Method: is_feature_disabled(feature: Feature) → bool
+Returns true if the feature is disabled. When a feature is disabled, it will disappear from the editor entirely.
+
+Method: load_from_file(path: String) → Error
+Loads an editor feature profile from a file. The file must follow the JSON format obtained by using the feature profile manager's Export button or the save_to_file method. Note: Feature profiles created via the user interface are loaded from the feature_profiles directory, as a file with the .profile extension. The editor configuration folder can be found by using EditorPaths.get_config_dir.
+
+Method: save_to_file(path: String) → Error
+Saves the editor feature profile to a file in JSON format. It can then be imported using the feature profile manager's Import button or the load_from_file method. Note: Feature profiles created via the user interface are saved in the feature_profiles directory, as a file with the .profile extension. The editor configuration folder can be found by using EditorPaths.get_config_dir.
+
+Method: set_disable_class(class_name: StringName, disable: bool) → void
+If disable is true, disables the class specified by class_name. When disabled, the class won't appear in the Create New Node dialog.
+
+Method: set_disable_class_editor(class_name: StringName, disable: bool) → void
+If disable is true, disables editing for the class specified by class_name. When disabled, the class will still appear in the Create New Node dialog but the Inspector will be read-only when selecting a node that extends the class.
+
+Method: set_disable_class_property(class_name: StringName, property: StringName, disable: bool) → void
+If disable is true, disables editing for property in the class specified by class_name. When a property is disabled, it won't appear in the Inspector when selecting a node that extends the class.
+
+Method: set_disable_feature(feature: Feature, disable: bool) → void
+If disable is true, disables the editor feature specified in feature. When a feature is disabled, it will disappear from the editor entirely.

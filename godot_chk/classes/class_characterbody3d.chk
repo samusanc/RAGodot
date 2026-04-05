@@ -1,0 +1,187 @@
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: This section identifies the CharacterBody3D class.
+---CHUNK---
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: A 3D physics body specialized for characters moved by script.
+
+Inherits: PhysicsBody3D < CollisionObject3D < Node3D < Node < Object
+
+A 3D physics body specialized for characters moved by script.
+---CHUNK---
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: CharacterBody3D is a specialized physics body for user-controlled objects, providing high-level movement and collision detection.
+
+Description
+CharacterBody3D is a specialized class for physics bodies that are meant to be user-controlled. They are not affected by physics at all, but they affect other physics bodies in their path. They are mainly used to provide high-level API to move objects with wall and slope detection (move_and_slide() method) in addition to the general collision detection provided by PhysicsBody3D.move_and_collide(). This makes it useful for highly configurable physics bodies that must move in specific ways and collide with the world, as is often the case with user-controlled characters.
+
+For game objects that don't require complex movement or collision detection, such as moving platforms, AnimatableBody3D is simpler to configure.
+---CHUNK---
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: Links to related physics tutorials and 3D character demos.
+
+Tutorials
+- Physics introduction
+- Troubleshooting physics issues
+- Kinematic character (2D)
+- 3D Kinematic Character Demo
+- 3D Platformer Demo
+- 3D Voxel Demo
+- Third Person Shooter (TPS) Demo
+---CHUNK---
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: This section lists and describes the properties of CharacterBody3D, including floor behavior, motion settings, and collision parameters.
+
+*   floor_block_on_wall (bool): Default: true
+*   floor_constant_speed (bool): Default: false
+*   floor_max_angle (float): Default: 0.7853982
+*   floor_snap_length (float): Default: 0.1
+*   floor_stop_on_slope (bool): Default: true
+*   max_slides (int): Default: 6
+*   motion_mode (MotionMode): Default: 0
+*   platform_floor_layers (int): Default: 4294967295
+*   platform_on_leave (PlatformOnLeave): Default: 0
+*   platform_wall_layers (int): Default: 0
+*   safe_margin (float): Default: 0.001
+*   slide_on_ceiling (bool): Default: true
+*   up_direction (Vector3): Default: Vector3(0, 1, 0)
+*   velocity (Vector3): Default: Vector3(0, 0, 0)
+*   wall_min_slide_angle (float): Default: 0.2617994
+---CHUNK---
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: This section details the methods available for CharacterBody3D and its associated enumerations for motion and platform interaction.
+
+Methods:
+*   apply_floor_snap(): void
+*   get_floor_angle(up_direction: Vector3 = Vector3(0, 1, 0)): float
+*   get_floor_normal(): Vector3
+*   get_last_motion(): Vector3
+*   get_last_slide_collision(): KinematicCollision3D
+*   get_platform_angular_velocity(): Vector3
+*   get_platform_velocity(): Vector3
+*   get_position_delta(): Vector3
+*   get_real_velocity(): Vector3
+*   get_slide_collision(slide_idx: int): KinematicCollision3D
+*   get_slide_collision_count(): int
+*   get_wall_normal(): Vector3
+*   is_on_ceiling(): bool
+*   is_on_ceiling_only(): bool
+*   is_on_floor(): bool
+*   is_on_floor_only(): bool
+*   is_on_wall(): bool
+*   is_on_wall_only(): bool
+*   move_and_slide(): bool
+
+Enumerations:
+enum MotionMode:
+*   MOTION_MODE_GROUNDED = 0: Apply when notions of walls, ceiling and floor are relevant. In this mode the body motion will react to slopes (acceleration/slowdown). This mode is suitable for grounded games like platformers.
+*   MOTION_MODE_FLOATING = 1: Apply when there is no notion of floor or ceiling. All collisions will be reported as on_wall. In this mode, when you slide, the speed will always be constant. This mode is suitable for games without ground like space games.
+
+enum PlatformOnLeave:
+*   PLATFORM_ON_LEAVE_ADD_VELOCITY = 0: Add the last platform velocity to the velocity when you leave a moving platform.
+*   PLATFORM_ON_LEAVE_ADD_UPWARD_VELOCITY = 1: Add the last platform velocity to the velocity when you leave a moving platform, but any downward motion is ignored. It's useful to keep full jump height even when the platform is moving down.
+*   PLATFORM_ON_LEAVE_DO_NOTHING = 2: Do nothing when leaving a platform.
+---CHUNK---
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: This section details the properties of CharacterBody3D, including settings for floor interaction, movement constraints, platform following, and collision behavior.
+
+Properties of CharacterBody3D:
+
+floor_block_on_wall (bool): If true, the body will be able to move on the floor only, preventing walking on walls but allowing sliding down them. Default: true. Set via set_floor_block_on_wall_enabled(value: bool), checked via is_floor_block_on_wall_enabled().
+
+floor_constant_speed (bool): If false (default), the body moves faster on downward slopes and slower on upward slopes. If true, the body moves at a constant speed on the ground regardless of slope. Note that floor_snap_length is needed to stick along a downward slope at constant speed. Default: false. Set via set_floor_constant_speed_enabled(value: bool), checked via is_floor_constant_speed_enabled().
+
+floor_max_angle (float): Maximum angle (in radians) where a slope is still considered a floor (or a ceiling) rather than a wall when calling move_and_slide(). The default value is 45 degrees (0.7853982 radians). Set via set_floor_max_angle(value: float), retrieved via get_floor_max_angle().
+
+floor_snap_length (float): Sets a snapping distance. When non-zero, the body is kept attached to slopes when calling move_and_slide(). The snapping vector is determined by this distance along the opposite direction of up_direction. The body remains attached as long as the snapping vector is in contact with the ground and the body moves against up_direction. Snapping is not applied if the body moves along up_direction (e.g., jumping). For unconditional snap, use apply_floor_snap(). Default: 0.1. Set via set_floor_snap_length(value: float), retrieved via get_floor_snap_length().
+
+floor_stop_on_slope (bool): If true, the body will not slide on slopes when calling move_and_slide() while standing still. If false, the body will slide on floor slopes when velocity applies a downward force. Default: true. Set via set_floor_stop_on_slope_enabled(value: bool), checked via is_floor_stop_on_slope_enabled().
+
+max_slides (int): Maximum number of times the body can change direction before stopping when calling move_and_slide(). Must be greater than zero. Default: 6. Set via set_max_slides(value: int), retrieved via get_max_slides().
+
+motion_mode (MotionMode): Sets the motion mode which defines the behavior of move_and_slide(). Default: 0. Set via set_motion_mode(value: MotionMode), retrieved via get_motion_mode().
+
+platform_floor_layers (int): Collision layers for detecting floor bodies that act as moving platforms for CharacterBody3D. By default, all floor bodies are detected and propagate their velocity. Default: 4294967295. Set via set_platform_floor_layers(value: int), retrieved via get_platform_floor_layers().
+
+platform_on_leave (PlatformOnLeave): Sets the behavior when leaving a moving platform. By default, the last platform's velocity is applied for physical accuracy. Default: 0. Set via set_platform_on_leave(value: PlatformOnLeave), retrieved via get_platform_on_leave().
+
+platform_wall_layers (int): Collision layers for detecting wall bodies that act as moving platforms for CharacterBody3D. By default, all wall bodies are ignored. Default: 0. Set via set_platform_wall_layers(value: int), retrieved via get_platform_wall_layers().
+
+safe_margin (float): Extra margin used for collision recovery during move_and_slide(). If the body is at least this close to another body, they are considered colliding and the body is pushed away before motion. A higher value is more flexible for collision detection, aiding consistent wall/floor detection. A lower value forces more exact detection for precision, e.g., to avoid jittering at low scales or for stability with stacked character bodies. Default: 0.001. Set via set_safe_margin(value: float), retrieved via get_safe_margin().
+
+slide_on_ceiling (bool): If true, the body will slide during a jump against the ceiling. If false, it will stop and fall vertically. Default: true. Set via set_slide_on_ceiling_enabled(value: bool), checked via is_slide_on_ceiling_enabled().
+
+up_direction (Vector3): Vector pointing upwards, used to determine what is a wall and what is a floor (or ceiling) when calling move_and_slide(). Defaults to Vector3.UP. The vector will be normalized and cannot be Vector3.ZERO. If all collisions should be reported as walls, consider using MOTION_MODE_FLOATING for motion_mode. Default: Vector3(0, 1, 0). Set via set_up_direction(value: Vector3), retrieved via get_up_direction().
+
+velocity (Vector3): Current velocity vector (typically meters per second), used and modified during calls to move_and_slide(). Note: A common mistake is setting this property to the desired velocity multiplied by delta, which produces a motion vector (typically in meters). Default: Vector3(0, 0, 0). Set via set_velocity(value: Vector3), retrieved via get_velocity().
+
+wall_min_slide_angle (float): Minimum angle (in radians) where the body is allowed to slide when encountering a wall. The default value is 15 degrees (0.2617994 radians). When motion_mode is MOTION_MODE_GROUNDED, it only affects movement if floor_block_on_wall is true. Default: 0.2617994. Set via set_wall_min_slide_angle(value: float), retrieved via get_wall_min_slide_angle().
+---CHUNK---
+Document: CharacterBody3D
+Path: godot/classes/class_characterbody3d.rst
+Summary: This section describes various methods of CharacterBody3D for collision detection, movement, and retrieving collision information.
+
+Method: void apply_floor_snap()
+Allows to manually apply a snap to the floor regardless of the body's velocity. This function does nothing when is_on_floor() returns `true`.
+
+Method: float get_floor_angle(up_direction: Vector3 = Vector3(0, 1, 0))
+Returns the floor's collision angle at the last collision point according to `up_direction`, which is Vector3.UP by default. This value is always positive and only valid after calling move_and_slide() and when is_on_floor() returns `true`.
+
+Method: Vector3 get_floor_normal()
+Returns the collision normal of the floor at the last collision point. Only valid after calling move_and_slide() and when is_on_floor() returns `true`.
+Warning: The collision normal is not always the same as the surface normal.
+
+Method: Vector3 get_last_motion()
+Returns the last motion applied to the CharacterBody3D during the last call to move_and_slide(). The movement can be split into multiple motions when sliding occurs, and this method return the last one, which is useful to retrieve the current direction of the movement.
+
+Method: KinematicCollision3D get_last_slide_collision()
+Returns a KinematicCollision3D if a collision occurred. The returned value contains information about the latest collision that occurred during the last call to move_and_slide(). Returns `null` if no collision occurred. See also get_slide_collision().
+
+Method: Vector3 get_platform_angular_velocity()
+Returns the angular velocity of the platform at the last collision point. Only valid after calling move_and_slide().
+
+Method: Vector3 get_platform_velocity()
+Returns the linear velocity of the platform at the last collision point. Only valid after calling move_and_slide().
+
+Method: Vector3 get_position_delta()
+Returns the travel (position delta) that occurred during the last call to move_and_slide().
+
+Method: Vector3 get_real_velocity()
+Returns the current real velocity since the last call to move_and_slide(). For example, when you climb a slope, you will move diagonally even though the velocity is horizontal. This method returns the diagonal movement, as opposed to velocity which returns the requested velocity.
+
+Method: KinematicCollision3D get_slide_collision(slide_idx: int)
+Returns a KinematicCollision3D, which contains information about a collision that occurred during the last call to move_and_slide(). Since the body can collide several times in a single call to move_and_slide(), you must specify the index of the collision in the range 0 to (get_slide_collision_count() - 1). See also get_last_slide_collision().
+
+Method: int get_slide_collision_count()
+Returns the number of times the body collided and changed direction during the last call to move_and_slide().
+
+Method: Vector3 get_wall_normal()
+Returns the collision normal of the wall at the last collision point. Only valid after calling move_and_slide() and when is_on_wall() returns `true`.
+Warning: The collision normal is not always the same as the surface normal.
+
+Method: bool is_on_ceiling()
+Returns `true` if the body collided with the ceiling on the last call of move_and_slide(). Otherwise, returns `false`. The up_direction and floor_max_angle are used to determine whether a surface is "ceiling" or not.
+
+Method: bool is_on_ceiling_only()
+Returns `true` if the body collided only with the ceiling on the last call of move_and_slide(). Otherwise, returns `false`. The up_direction and floor_max_angle are used to determine whether a surface is "ceiling" or not.
+
+Method: bool is_on_floor()
+Returns `true` if the body collided with the floor on the last call of move_and_slide(). Otherwise, returns `false`. The up_direction and floor_max_angle are used to determine whether a surface is "floor" or not.
+
+Method: bool is_on_floor_only()
+Returns `true` if the body collided only with the floor on the last call of move_and_slide(). Otherwise, returns `false`. The up_direction and floor_max_angle are used to determine whether a surface is "floor" or not.
+
+Method: bool is_on_wall()
+Returns `true` if the body collided with a wall on the last call of move_and_slide(). Otherwise, returns `false`. The up_direction and floor_max_angle are used to determine whether a surface is "wall" or not.
+
+Method: bool is_on_wall_only()
+Returns `true` if the body collided only with a wall on the last call of move_and_slide(). Otherwise, returns `false`. The up_direction and floor_max_angle are used to determine whether a surface is "wall" or not.
+
+Method: bool move_and_slide()
+Moves the body based on velocity. If the body collides with another, it will slide along the other body rather than stop immediately. If the other body is a CharacterBody3D or RigidBody3D, it will also be affected by the motion of the other body. You can use this to make moving and rotating platforms, or to make nodes push other nodes. This method should be used in Node._physics_process() (or in a method called by Node._physics_process()), as it uses the physics step's `delta` value automatically in calculations. Otherwise, the simulation will run at an incorrect speed. Modifies velocity if a slide collision occurred. To get the latest collision call get_last_slide_collision(), for more detailed information about collisions that occurred, use get_slide_collision(). When the body touches a moving platform, the platform's velocity is automatically added to the body motion. If a collision occurs due to the platform's motion, it will always be first in the slide collisions. Returns `true` if the body collided, otherwise, returns `false`.

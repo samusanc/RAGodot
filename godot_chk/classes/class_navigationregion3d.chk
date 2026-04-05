@@ -1,0 +1,152 @@
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: Defines a navigation region in 3D space for pathfinding.
+NavigationRegion3D
+
+Inherits: Node3D < CanvasItem < Node < Object
+
+A navigation region in 3D space.
+
+This node is used to define a navigation area in your scene. It can be used to bake navigation meshes for pathfinding. The navigation region is defined by its geometry, which can be provided by a NavigationMesh resource.
+
+Properties:
+navigation_mesh (NavigationMesh): The NavigationMesh resource used by this region.
+See also: NavigationMesh.
+
+Enabled:
+navigation_mesh_dirty (bool): If true, the navigation mesh needs to be baked.
+Key Rule: Setting this to true forces a bake.
+
+bake_navigation_mesh()
+Bakes the navigation mesh for this region.
+
+get_navigation_mesh()
+Returns the NavigationMesh resource used by this region.
+
+set_navigation_mesh(navigation_mesh: NavigationMesh)
+Sets the NavigationMesh resource used by this region.
+---CHUNK---
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: Introduces the NavigationRegion3D node, which defines traversable areas for NavigationAgent3D in 3D pathfinding.
+NavigationRegion3D
+Inherits: Node3D < Node < Object
+A traversable 3D region that NavigationAgent3D s can use for pathfinding.
+---CHUNK---
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: Describes a 3D navigation region in Godot, its purpose for pathfinding, and how regions connect and their associated costs.
+A traversable 3D region based on a NavigationMesh that NavigationAgent3D's can use for pathfinding.
+
+Two regions can be connected to each other if they share a similar edge. You can set the minimum distance between two vertices required to connect two edges by using NavigationServer3D.map_set_edge_connection_margin().
+
+Note: Overlapping two regions' navigation meshes is not enough for connecting two regions. They must share a similar edge.
+
+The cost of entering this region from another region can be controlled with the enter_cost value.
+
+Note: This value is not added to the path cost when the start position is already inside this region.
+
+The cost of traveling distances inside this region can be controlled with the travel_cost multiplier.
+
+Note: This node caches changes to its properties, so if you make changes to the underlying region RID in NavigationServer3D, they will not be reflected in this node's properties.
+---CHUNK---
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: This section provides links to tutorials related to NavigationRegion3D.
+
+Tutorials:
+* Using NavigationRegions
+---CHUNK---
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: Defines the properties available for a NavigationRegion3D node, which are used to configure navigation mesh generation and behavior.
+
+Properties
+* enabled (bool): If true, the navigation region is active and contributes to the navigation mesh. Default: true.
+* enter_cost (float): The cost multiplier for entering this navigation region. Default: 0.0.
+* navigation_layers (int): A bitmask representing the navigation layers this region belongs to. Default: 1.
+* navigation_mesh (NavigationMesh): The NavigationMesh resource used by this region.
+* travel_cost (float): The cost multiplier for traveling within this navigation region. Default: 1.0.
+* use_edge_connections (bool): If true, edge connections between navigation regions are automatically generated. Default: true.
+---CHUNK---
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: Provides methods for managing and interacting with a NavigationRegion3D node, including baking navigation meshes and querying navigation data.
+
+Methods
+* bake_navigation_mesh(on_thread: bool = true)
+* get_bounds() → AABB
+* get_navigation_layer_value(layer_number: int) → bool
+* get_navigation_map() → RID
+* get_region_rid() → RID
+* get_rid() → RID
+* is_baking() → bool
+* set_navigation_layer_value(layer_number: int, value: bool)
+* set_navigation_map(navigation_map: RID)
+
+Signals
+* bake_finished()
+  Notifies when the navigation mesh bake operation is completed.
+* navigation_mesh_changed()
+  Notifies when the NavigationMesh has changed.
+---CHUNK---
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: Describes the properties of the NavigationRegion3D node, which defines a navigation area for pathfinding.
+
+Property: enabled (bool)
+Default: true
+Setter: set_enabled(value: bool)
+Getter: is_enabled() -> bool
+Determines if the NavigationRegion3D is enabled or disabled.
+
+Property: enter_cost (float)
+Default: 0.0
+Setter: set_enter_cost(value: float)
+Getter: get_enter_cost() -> float
+When pathfinding enters this region's navigation mesh from another region's navigation mesh, the enter_cost value is added to the path distance for determining the shortest path.
+
+Property: navigation_layers (int)
+Default: 1
+Setter: set_navigation_layers(value: int)
+Getter: get_navigation_layers() -> int
+A bitfield determining all navigation layers the region belongs to. These navigation layers can be checked upon when requesting a path with NavigationServer3D.map_get_path().
+
+Property: navigation_mesh (NavigationMesh)
+Setter: set_navigation_mesh(value: NavigationMesh)
+Getter: get_navigation_mesh() -> NavigationMesh
+The NavigationMesh resource to use.
+
+Property: travel_cost (float)
+Default: 1.0
+Setter: set_travel_cost(value: float)
+Getter: get_travel_cost() -> float
+When pathfinding moves inside this region's navigation mesh, the traveled distances are multiplied with travel_cost for determining the shortest path.
+
+Property: use_edge_connections (bool)
+Default: true
+Setter: set_use_edge_connections(value: bool)
+Getter: get_use_edge_connections() -> bool
+If enabled, the navigation region will use edge connections to connect with other navigation regions within proximity of the navigation map edge connection margin.
+---CHUNK---
+Document: NavigationRegion3D
+Path: godot/classes/class_navigationregion3d.rst
+Summary: Provides methods for baking navigation meshes, retrieving region information, and managing navigation layers and maps.
+Method: bake_navigation_mesh(on_thread: bool = true)
+Bakes the NavigationMesh. If on_thread is set to true (default), the baking is done on a separate thread. Baking on a separate thread is useful because navigation baking is not a cheap operation. When it is completed, it automatically sets the new NavigationMesh. Note that baking on a separate thread may be very slow if geometry is parsed from meshes as async access to each mesh involves heavy synchronization. Also, note that baking on a separate thread is automatically disabled on operating systems that cannot use threads (such as Web with threads disabled).
+Method: get_bounds() → AABB
+Returns the axis-aligned bounding box for the region's transformed navigation mesh.
+Method: get_navigation_layer_value(layer_number: int) → bool
+Returns whether or not the specified layer of the navigation_layers bitmask is enabled, given a layer_number between 1 and 32.
+Method: get_navigation_map() → RID
+Returns the current navigation map RID used by this region.
+Method: get_region_rid() → RID
+Deprecated: Use get_rid() instead. Returns the RID of this region on the NavigationServer3D.
+Method: get_rid() → RID
+Returns the RID of this region on the NavigationServer3D. Combined with NavigationServer3D.map_get_closest_point_owner() can be used to identify the NavigationRegion3D closest to a point on the merged navigation map.
+Method: is_baking() → bool
+Returns true when the NavigationMesh is being baked on a background thread.
+Method: set_navigation_layer_value(layer_number: int, value: bool)
+Based on value, enables or disables the specified layer in the navigation_layers bitmask, given a layer_number between 1 and 32.
+Method: set_navigation_map(navigation_map: RID)
+Sets the RID of the navigation map this region should use. By default the region will automatically join the World3D default navigation map so this function is only required to override the default map.

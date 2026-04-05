@@ -1,0 +1,46 @@
+Document: VisualShaderNodeClamp
+Path: godot/classes/class_visualshadernodeclamp.rst
+Summary: A shader node that clamps input values to a specified range.
+---CHUNK---
+Document: VisualShaderNodeClamp
+Path: godot/classes/class_visualshadernodeclamp.rst
+Summary: Clamps a value within the visual shader graph to ensure it stays within specified bounds.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Clamps a value within the visual shader graph. This node restricts the output of a shader value to a defined range, preventing it from exceeding minimum or maximum thresholds. The clamping operation ensures that any input value is constrained between the specified lower and upper bounds, which is useful for controlling color intensity, texture coordinates, or other shader parameters that require range limitations.
+---CHUNK---
+Document: VisualShaderNodeClamp  
+Path: godot/classes/class_visualshadernodeclamp.rst  
+Summary: Clamps a value between specified minimum and maximum bounds.  
+
+Constrains a value to lie between min and max values.
+---CHUNK---
+Document: VisualShaderNodeClamp
+Path: godot/classes/class_visualshadernodeclamp.rst
+Summary: Properties of the VisualShaderNodeClamp class, including the op_type enumeration and its default value.
+
+op_type (OpType): Type of operation. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeClamp  
+Path: godot/classes/class_visualshadernodeclamp.rst  
+Summary: Enumeration values for VisualShaderNodeClamp's OpType, defining supported data types and their integer mappings.  
+
+enum OpType:  
+- OP_TYPE_FLOAT = 0: A floating-point scalar.  
+- OP_TYPE_INT = 1: An integer scalar.  
+- OP_TYPE_UINT = 2: An unsigned integer scalar.  
+- OP_TYPE_VECTOR_2D = 3: A 2D vector type.  
+- OP_TYPE_VECTOR_3D = 4: A 3D vector type.  
+- OP_TYPE_VECTOR_4D = 5: A 4D vector type.  
+- OP_TYPE_MAX = 6: Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeClamp
+Path: godot/classes/class_visualshadernodeclamp.rst
+Summary: The op_type property defining operand types and return value behavior for VisualShaderNodeClamp.
+
+OpType op_type = 0
+
+void set_op_type(OpType value)
+OpType get_op_type()
+
+A type of operands and returned value.

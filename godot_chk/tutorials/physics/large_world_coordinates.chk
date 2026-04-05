@@ -1,0 +1,170 @@
+Document: Large World Coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: This document explains how to handle large world coordinates in Godot to avoid physics precision issues.
+
+When working with very large game worlds, especially those that span vast distances, you might encounter precision issues with the physics engine. This is because floating-point numbers, which are used for all positional data, have limited precision, especially when dealing with very large or very small values. As coordinates get further from the origin (0,0,0), the gap between representable floating-point numbers increases, leading to inaccuracies in physics calculations.
+
+To mitigate these issues, Godot offers a solution by allowing you to use a "large world" coordinate system. This system effectively shifts the origin of the world to be closer to the player or the area of interest, reducing the magnitude of the coordinates the physics engine has to deal with.
+
+The primary mechanism for this is the `WorldEnvironment` node, specifically its `large_world_coordinates` property. However, this is not a direct toggle. Instead, the large world coordinate system is managed by the `Camera3D` node.
+
+When a `Camera3D` node is present in the scene and its `environment` property is set to a `WorldEnvironment` resource that has `large_world_coordinates` enabled, the camera will automatically handle the coordinate shifting.
+
+Here's how it works conceptually:
+- The scene's origin (0,0,0) is conceptually moved to the camera's position.
+- All nodes in the scene are then rendered and simulated relative to this new, dynamic origin.
+- As the camera moves, the world origin effectively follows it, ensuring that the camera's position is always close to (0,0,0) in the shifted coordinate system.
+
+This process is transparent to the user for the most part. You continue to place your scene objects at their world positions as you normally would. The `Camera3D` and the underlying physics engine handle the necessary transformations behind the scenes.
+
+To enable this feature:
+1. Add a `WorldEnvironment` node to your scene.
+2. Create a new `Environment` resource for it.
+3. In the Inspector for the `Environment` resource, find the `Large World Coordinates` property and enable it.
+4. Add a `Camera3D` node to your scene.
+5. Ensure the `Camera3D` node is set to use the `WorldEnvironment`'s `Environment` resource (either directly or via the scene's root environment settings).
+
+Key Rule: The `large_world_coordinates` property is part of the `Environment` resource, but the actual shifting is managed by the `Camera3D` node.
+
+GDScript:
+```gdscript
+# Example of setting up large world coordinates via script
+func _ready():
+    # Assuming you have a WorldEnvironment node named "WorldEnvironment"
+    var world_env = $WorldEnvironment
+    if world_env and world_env.environment:
+        world_env.environment.large_world_coordinates = true
+
+    # Assuming you have a Camera3D node named "Camera3D"
+    var camera = $Camera3D
+    if camera:
+        # The camera will automatically use the environment if it's set up correctly
+        # or if it's the default environment for the scene.
+        pass
+```
+
+C#:
+```csharp
+// Example of setting up large world coordinates via script
+public override void _Ready()
+{
+    // Assuming you have a WorldEnvironment node named "WorldEnvironment"
+    var worldEnv = GetNode<WorldEnvironment>("WorldEnvironment");
+    if (worldEnv != null && worldEnv.Environment != null)
+    {
+        worldEnv.Environment.LargeWorldCoordinates = true;
+    }
+
+    // Assuming you have a Camera3D node named "Camera3D"
+    var camera = GetNode<Camera3D>("Camera3D");
+    // The camera will automatically use the environment if it's set up correctly
+    // or if it's the default environment for the scene.
+}
+```
+
+This approach is crucial for games that aim for planetary-scale exploration or involve extremely large, procedurally generated worlds where maintaining precision across vast distances is paramount. Without it, objects at the far edges of the world might exhibit jittering, incorrect collision detection, or other physics anomalies due to floating-point inaccuracies.
+---CHUNK---
+Document: Large world coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: Explains the use case and limitations of large world coordinates in Godot.
+Note: Large world coordinates are mainly useful in 3D projects; they are rarely required in 2D projects. Also, unlike 3D rendering, 2D rendering currently doesn't benefit from increased precision when large world coordinates are enabled.
+---CHUNK---
+Document: large_world_coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: Explains the limitations of floating-point precision in game development and why large world coordinates are necessary for games with vast game worlds.
+
+In Godot, both physics simulation and rendering use floating-point numbers, which have limited precision and range. This limitation becomes problematic for games with very large worlds, such as space or planetary-scale simulation games.
+
+Precision is highest near 0.0 and decreases as values move further away. This loss of precision occurs when the floating-point number's exponent increases, typically when surpassing powers of 2. Each increase in the exponent raises the minimum step between representable values, leading to a loss of precision. Consequently, as a player moves away from the world origin (Vector2(0, 0) in 2D or Vector3(0, 0, 0) in 3D), precision diminishes.
+
+This precision loss can manifest as objects appearing to vibrate when far from the origin, as their positions snap to the nearest representable floating-point value. It can also cause physics glitches that only occur at large distances.
+
+While the range of floating-point numbers determines the minimum and maximum storable values, precision issues typically arise long before the range limit is reached. The theoretical range of single-precision floats allows for extremely high values, but with very low precision. In practice, a float type that cannot represent all integer values is not very useful. At extreme values, precision degrades to the point where the number cannot distinguish between separate integer values.
+
+The following ranges indicate where individual integer values can be represented in floating-point numbers:
+- Single-precision float range (represent all integers): Between -16,777,216 and 16,777,216
+- Double-precision float range (represent all integers): Between -9 quadrillion and 9 quadrillion
+
+The table below illustrates the step size between floating-point values in different ranges, showing how precision decreases as values increase. Double-precision floats maintain significantly higher precision than single-precision floats, especially at larger values.
+
+Range                | Single step           | Double step           | Comment
+[1; 2]               | ~0.0000001            | ~1e-15                | Precision becomes greater near 0.0 (this table is abbreviated).
+[2; 4]               | ~0.0000002            | ~1e-15                |
+[4; 8]               | ~0.0000005            | ~1e-15                |
+[8; 16]              | ~0.000001             | ~1e-14                |
+[16; 32]             | ~0.000002             | ~1e-14                |
+[32; 64]             | ~0.000004             | ~1e-14                |
+[64; 128]            | ~0.000008             | ~1e-13                |
+[128; 256]           | ~0.000015             | ~1e-13                |
+[256; 512]           | ~0.00003              | ~1e-13                |
+[512; 1024]          | ~0.00006              | ~1e-12                |
+[1024; 2048]         | ~0.0001               | ~1e-12                |
+[2048; 4096]         | ~0.0002               | ~1e-12                | Maximum *recommended* single-precision range for a first-person 3D game without rendering artifacts or physics glitches.
+[4096; 8192]         | ~0.0005               | ~1e-12                | Maximum *recommended* single-precision range for a third-person 3D game without rendering artifacts or physics glitches.
+[8192; 16384]        | ~0.001                | ~1e-12                |
+[16384; 32768]       | ~0.0019               | ~1e-11                | Maximum *recommended* single-precision range for a top-down 3D game without rendering artifacts or physics glitches.
+[32768; 65536]       | ~0.0039               | ~1e-11                | Maximum *recommended* single-precision range for any 3D game. Double precision (large world coordinates) is usually required past this point.
+[65536; 131072]      | ~0.0078               | ~1e-11                |
+[131072; 262144]     | ~0.0156               | ~1e-10                |
+> 262144             | > ~0.0313             | ~1e-10 (0.0000000001) | Double-precision remains far more precise than single-precision past this value.
+
+While it's possible to exceed the suggested ranges using single-precision floats, doing so will result in more noticeable visual artifacts and increased occurrences of physics glitches, such as objects not moving straight in certain directions.
+---CHUNK---
+Document: Large World Coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: Explains how large world coordinates improve floating-point precision in Godot's physics and rendering, along with performance considerations.
+Large world coordinates, also known as double-precision physics, increase the precision level of all floating-point computations within the engine. By default, float is 64-bit in GDScript, but Vector2, Vector3, and Vector4 are 32-bit. Enabling large world coordinates increases the number of bits used to represent a floating-point number in a Vector type, resulting in an exponential increase in precision and a greatly increased maximum representable value. Godot's 3D rendering engine also increases its precision for rendering operations when large world coordinates are enabled to avoid model snapping issues far from the world origin. Shaders emulate double precision using single-precision floats for performance.
+
+Note: Enabling large world coordinates incurs a performance and memory usage penalty, particularly on 32-bit CPUs. This feature is primarily for mid-range/high-end desktop platforms and may not perform well on low-end mobile devices without optimizations. An alternative for low-end platforms is origin shifting, which uses single-precision floats but adds complexity to game logic, especially in multiplayer scenarios.
+---CHUNK---
+Document: Large World Coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: This section explains when to use large world coordinates in Godot, focusing on 3D and planetary-scale simulations, and when they are generally not needed.
+
+Large world coordinates are typically required for 3D space or planetary-scale simulation games. This extends to games that require supporting very fast movement speeds, but also very slow and precise movements at times.
+
+On the other hand, it's important to only use large world coordinates when actually required for performance reasons. Large world coordinates are usually not required for:
+* 2D games, as precision issues are usually less noticeable.
+* Games with small-scale or medium-scale worlds.
+* Games with large worlds, but split into different levels with loading sequences in between. You can center each level portion around the world origin to avoid precision issues without a performance penalty.
+* Open world games with a playable on-foot area not exceeding 8192×8192 meters (centered around the world origin). As shown in the above table, the level of precision remains acceptable within that range, even for a first-person game.
+
+Key Rule: If in doubt, you probably don't need to use large world coordinates in your project. For reference, most modern AAA open world titles don't use a large world coordinates system and still rely on single-precision floats for both rendering and physics.
+---CHUNK---
+Document: Large World Coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: This section explains how to enable large world coordinates in Godot by recompiling the editor and export templates with double precision.
+Enabling large world coordinates
+This process requires recompiling the editor and all export template binaries you intend to use. If you only intend to export your project in release mode, you can skip the compilation of debug export templates. In any case, you'll need to compile an editor build so you can test your large precision world without having to export the project every time.
+
+See the Compiling section for compiling instructions for each target platform. You will need to add the precision=double SCons option when compiling the editor and export templates.
+
+The resulting binaries will be named with a .double suffix to distinguish them from single-precision binaries (which lack any precision suffix). You can then specify the binaries as custom export templates in your project's export presets in the Export dialog.
+---CHUNK---
+Document: Large World Coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: Explains how Godot handles compatibility between single-precision and double-precision builds when saving and loading binary resources.
+When saving a binary resource using the ResourceSaver singleton, a special flag is stored in the file if the resource was saved using a build that uses double-precision numbers. As a result, all binary resources will change on disk when you switch to a double-precision build and save over them. Both single-precision and double-precision builds support using the ResourceLoader singleton on resources that use this special flag. This means single-precision builds can load resources saved using double-precision builds and vice versa. Text-based resources don't store a double-precision flag, as they don't require such a flag for correct reading.
+---CHUNK---
+Document: Large World Coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: This section details known incompatibilities when using large world coordinates, particularly concerning networked games and GDExtensions.
+Known incompatibilities:
+- In a networked multiplayer game, the server and all clients should be using the same build type to ensure precision remains consistent across clients. Using different build types may work, but various issues can occur.
+- The GDExtension API changes in an incompatible way in double-precision builds. This means extensions must be rebuilt to work with double-precision builds. On the extension developer's end, the REAL_T_IS_DOUBLE define is enabled when building a GDExtension with precision=double. real_t can be used as an alias for float in single-precision builds, and double in double-precision builds.
+---CHUNK---
+Document: Large World Coordinates
+Path: godot/tutorials/physics/large_world_coordinates.rst
+Summary: This section details the limitations of large world coordinates in Godot's 3D and 2D rendering and physics.
+Limitations
+Since 3D rendering shaders don't actually use double-precision floats, there are some limitations when it comes to 3D rendering precision:
+- Triplanar mapping doesn't benefit from increased precision. Materials using triplanar mapping will exhibit visible jittering when far away from the world origin.
+- GPUParticles3D nodes with Local Coords disabled will not benefit from increased precision. This can cause visible particle snapping to occur when far away from the world origin. Nodes with Local Coords enabled, as well as CPUParticles3D nodes, will still benefit from increased precision.
+- Shaders using the skip_vertex_transform or world_vertex_coords render modes don't benefit from increased precision.
+- In double-precision builds, world space coordinates in a shader fragment() function can't be reconstructed from view space. Instead, calculate the world space coordinates in the vertex() function and pass them using a varying, for example:
+  GDScript:
+    varying vec3 world;
+    void vertex() {
+        world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz;
+    }
+2D rendering currently doesn't benefit from increased precision when large world coordinates are enabled. This can cause visible model snapping to occur when far away from the world origin (starting from a few million pixels at typical zoom levels). 2D physics calculations will still benefit from increased precision though.

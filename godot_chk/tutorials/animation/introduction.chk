@@ -1,0 +1,195 @@
+Document: Animation Introduction
+Path: godot/tutorials/animation/introduction.rst
+Summary: This document provides a basic introduction to the animation system in Godot Engine.
+
+This document provides a basic introduction to the animation system in Godot Engine. It covers the fundamental concepts and tools used for creating and managing animations within the engine. The animation system allows for the creation of complex visual sequences, character movements, UI animations, and more. Key components include the AnimationPlayer node, Animation resource, and the Animation panel. The AnimationPlayer node is responsible for playing back animations, while the Animation resource itself contains the actual animation data, such as keyframes for properties. The Animation panel in the editor provides a timeline-based interface for creating, editing, and previewing animations. Understanding these core elements is crucial for effectively utilizing Godot's animation capabilities.
+---CHUNK---
+Document: Introduction to the animation features
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section introduces the AnimationPlayer node and outlines what users will learn in the animation tutorial series.
+In this guide you learn to:
+* Work with the Animation Panel
+* Animate any property of any node
+* Create a simple animation
+In Godot, you can animate anything available in the Inspector, such as Node transforms, sprites, UI elements, particles, visibility and color of materials, and so on. You can also modify values of script variables and even call functions.
+---CHUNK---
+Document: AnimationPlayer node
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to create an AnimationPlayer node and introduces the basic components of the animation panel.
+Inherits: Node
+The AnimationPlayer node type is the data container for your animations. One AnimationPlayer node can hold multiple animations, which can automatically transition to one another.
+
+After you create an AnimationPlayer node, click on it to open the Animation Panel at the bottom of the viewport.
+
+The animation panel consists of four parts:
+- Animation controls (i.e. add, load, save, and delete animations)
+- The tracks listing
+- The timeline with keyframes
+- The timeline and track controls, where you can zoom the timeline and edit tracks, for example.
+---CHUNK---
+Document: Introduction to Animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains the fundamental concepts of keyframes, timelines, and animation tracks in Godot Engine.
+Computer animation relies on keyframes. A keyframe defines the value of a property at a point in time. Diamond shapes represent keyframes in the timeline. A line between two keyframes indicates that the value doesn't change between them. You set values of a node's properties and create animation keyframes for them. When the animation runs, the engine will interpolate the values between the keyframes, resulting in them gradually changing over time. The timeline defines how long the animation will take. You can insert keyframes at various points, and change their timing. Each line in the Animation Panel is an animation track that references a Normal or Transform property of a node. Each track stores a path to a node and its affected property. For example, the position track in the illustration refers to the position property of the Sprite2D node. Tip: If you animate the wrong property, you can edit a track's path at any time by double-clicking on it and typing the new path. Play the animation using the "Play from beginning" button (or pressing Shift + D on keyboard) to see the changes instantly.
+---CHUNK---
+Document: Creating a simple animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: This tutorial introduces the basics of creating simple animations in Godot Engine.
+
+This tutorial will guide you through the process of creating a simple animation in Godot. We will cover the essential steps to bring objects to life within your game.
+
+First, ensure you have a scene set up with the node you wish to animate. For this example, let's assume you have a Sprite2D node.
+
+1.  **Select the Node**: In the Scene dock, select the Sprite2D node.
+2.  **Add an AnimationPlayer**: In the Node dock, click the "Add Child Node" button and search for "AnimationPlayer". Add it as a child of your Sprite2D. The AnimationPlayer node is responsible for managing all animations for its parent and its children.
+3.  **Open the Animation Panel**: At the bottom of the Godot editor, you will see several tabs. Click on the "Animation" tab to open the animation panel. If you don't see it, you might need to select the AnimationPlayer node first.
+4.  **Create a New Animation**: In the animation panel, click the "Animation" button (it might say "Make New" if no animation exists) and select "New". A dialog will pop up asking you to name your animation. Let's name it "move".
+5.  **Set Animation Length**: You can set the length of your animation using the "Length" property in the animation panel. For this example, let's set it to 1.0 seconds.
+6.  **Set Keyframes**:
+    *   **Position Keyframe**: With the "move" animation selected, click the "Key" button next to the "Position" property of your Sprite2D node in the Inspector. Choose "Create Key" for the Position property. This will add a keyframe at the current time (0.0s) at the current position. Now, move the playhead in the animation panel to the end of the animation (1.0s). Select your Sprite2D node and move it to a new position in the 2D editor. With the Sprite2D selected, click the "Key" button next to "Position" again and select "Create Key". This records the new position at the end of the animation.
+    *   **Rotation Keyframe**: Repeat the process for the "Rotation Degrees" property. At 0.0s, add a keyframe. Move the playhead to 1.0s, rotate the Sprite2D, and add another keyframe for Rotation Degrees.
+    *   **Scale Keyframe**: Similarly, add keyframes for the "Scale" property. At 0.0s, add a keyframe. Move to 1.0s, scale the Sprite2D, and add another keyframe.
+7.  **Play the Animation**: You can now press the "Play" button in the animation panel to see your animation in action. The Sprite2D should move, rotate, and scale over the course of 1 second.
+
+This basic workflow allows you to animate any property of any node in Godot. You can add more keyframes, change interpolation modes, and create complex sequences.
+---CHUNK---
+Document: Introduction to Animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section describes the initial scene setup for an animation tutorial, including adding a Sprite2D and an AnimationPlayer, and explains a key rule regarding AnimationPlayer's inheritance.
+Scene setup
+For this tutorial, we'll create a Sprite node with an AnimationPlayer as its child. We will animate the sprite to move between two points on the screen.
+Note: AnimationPlayer inherits from Node instead of Node2D or Node3D, which means that the child nodes will not inherit the transform from the parent nodes due to a bare Node being present in the hierarchy.
+Key Rule: It is not recommended to add nodes that have a 2D/3D transform as a child of an AnimationPlayer node.
+The sprite holds an image texture. For this tutorial, select the Sprite2D node, click Texture in the Inspector, and then click Load. Select the default Godot icon for the sprite's texture.
+---CHUNK---
+Document: Animation tutorials
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to add a new animation to an AnimationPlayer node.
+
+To add a new animation, select the AnimationPlayer node. Click the "Animation" button in the animation editor. From the list, select "New" to add a new animation. Enter a name for the animation in the dialog box.
+---CHUNK---
+Document: Animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how animations are managed and registered within animation libraries in Godot.
+
+Animations are registered in a list within the animation library resource for reusability. When an animation is added to an AnimationPlayer without specific settings, it is registered in the default [Global] animation library. If multiple animation libraries exist and an animation is added, a dialog box will prompt the user to choose options for adding the new animation.
+---CHUNK---
+Document: Introduction to Animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to add a new animation track for a node's position in the Godot animation editor.
+
+To add a new track for a sprite, select the sprite node and examine the toolbar. Buttons and switches in the toolbar allow you to add keyframes for the selected node's location, rotation, and scale. For animating only the sprite's position, ensure only the location switch is selected. Selected switches appear blue.
+
+Click the key button to create the first keyframe. If a track for the Position property does not yet exist, Godot will prompt you to create it. Click **Create**. Godot will then create a new track and place the first keyframe at the beginning of the timeline.
+---CHUNK---
+Document: Animation Introduction
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to set the animation length and create a second keyframe for sprite movement.
+
+To set the animation length, change the animation length to 2 in the controls on the right side of the animation panel's timeline header.
+
+Move the sprite to its final position using the Move tool or by setting the Position's X value in the Inspector.
+
+Click on the timeline header near the two-second mark in the animation panel and then click the key button in the toolbar to create the second keyframe.
+---CHUNK---
+Document: Introduction to Animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section describes how to play an animation in the Godot editor.
+GDScript:
+# This is a placeholder for GDScript examples, if any were present.
+# No GDScript code was found in the provided RST.
+
+C#:
+# This is a placeholder for C# examples, if any were present.
+# No C# code was found in the provided RST.
+
+To play the animation, click the "Play from beginning" button. This will run the animation within the editor.
+---CHUNK---
+Document: AnimationPlayer
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to set an animation to autoplay when a scene loads.
+To make an animation play automatically when the AnimationPlayer node's scene starts or joins another scene, click the "Autoplay on load" button in the animation editor. This button is located next to the edit button. The icon for the autoplay animation will also appear in front of its name in the animation list, allowing for easy identification.
+---CHUNK---
+Document: Introduction to Animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: Explains how Godot's animation looping works when the end keyframe is not explicitly set, causing the animation to play forwards and backwards.
+When Animation Looping is enabled and no keyframe is specified at the end of an animation, the first keyframe also serves as the last. This allows the animation to play from the last keyframe back to the first, creating a back-and-forth motion. For example, an animation extended to four seconds with this setting will have Godot calculate frames moving the sprite back and forth. The behavior of animation looping can be modified by changing the track's loop mode, which is detailed in the subsequent chapter.
+---CHUNK---
+Document: Introduction to Animation Tracks
+Path: godot/tutorials/animation/introduction.rst
+Summary: Explains the settings for animation tracks, including update modes, interpolation types, and loop modes.
+
+Track settings have a panel at the end to configure update mode, track interpolation, and loop mode.
+
+The update mode determines when property values are updated.
+- Continuous: Updates the property on each frame.
+- Discrete: Updates the property only at keyframes.
+- Capture: If the first keyframe's time is greater than 0.0, the current property value is remembered and blended with the first animation key. This can be used to move a node from its current position to a specific location.
+
+"Continuous" mode is typically used. "Discrete" and "Capture" are for complex animations.
+
+Track interpolation defines how values between keyframes are calculated. Supported modes are:
+- Nearest: Uses the value of the nearest keyframe.
+- Linear: Calculates the value based on a linear function between keyframes.
+- Cubic: Calculates the value based on a cubic function between keyframes.
+- Linear Angle: Linear mode specifically for rotation, using the shortest path.
+- Cubic Angle: Cubic mode specifically for rotation, using the shortest path.
+
+Cubic interpolation results in slower animation at keyframes and faster movement between them, creating more natural motion, commonly used for character animation. Linear interpolation provides a fixed pace, resulting in a more robotic effect.
+
+Godot supports two loop modes for animations set to loop:
+- Clamp loop interpolation: The animation stops at the last keyframe for the track. When the first keyframe is reached again, the animation resets to its initial values.
+- Wrap loop interpolation: Godot calculates the animation after the last keyframe to smoothly transition back to the values of the first keyframe.
+---CHUNK---
+Document: introduction
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to animate any property of a node in Godot by using keyframes in the Inspector.
+
+You can animate any property of a node in Godot, not just position, rotation, and scale. When the animation panel is visible and a node is selected, a keyframe button appears in the Inspector next to each animatable property. Clicking this button adds a track and a keyframe to the current animation for that specific property.
+---CHUNK---
+Document: Animation Tutorials
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to edit keyframes in the animation timeline, including their values and easing curves.
+Edit keyframes
+You can click on a keyframe in the animation timeline to display and edit its value in the Inspector.
+You can also edit the easing value for a keyframe here by clicking and dragging its easing curve. This tells Godot how to interpolate the animated property when it reaches this keyframe.
+You can tweak your animations this way until the movement "looks right."
+---CHUNK---
+Document: Animation Tutorials
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to use RESET animations in Godot to define default poses for properties and how this affects saving and resetting tracks in the editor.
+Using RESET tracks
+You can set up a special RESET animation to contain the "default pose". This is used to ensure that the default pose is restored when you save the scene and open it again in the editor.
+
+For existing tracks, you can add an animation called "RESET" (case-sensitive), then add tracks for each property that you want to reset. The only keyframe should be at time 0, and give it the desired default value for each track.
+
+If AnimationPlayer's Reset On Save property is set to true, the scene will be saved with the effects of the reset animation applied (as if it had been seeked to time 0.0). This only affects the saved file – the property tracks in the editor stay where they were.
+
+If you want to reset the tracks in the editor, select the AnimationPlayer node, open the Animation bottom panel then choose Apply Reset in the animation editor's Edit dropdown menu.
+
+When using the keyframe icon next to a property in the inspector the editor will ask you to automatically create a RESET track.
+Note: RESET tracks are also used as reference values for blending. See also For better blending.
+---CHUNK---
+Document: Introduction to Animation
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to use the onion skinning feature in Godot's animation editor.
+The animation editor allows you to use onion skinning while creating an animation. To turn this feature on, click on the onion icon in the top right of the animation editor. Transparent red copies of the animated object's previous positions will then appear.
+
+The three dots button next to the onion skinning button opens a dropdown menu that lets you adjust how it works, including the ability to use onion skinning for future frames.
+---CHUNK---
+Document: Animation Markers
+Path: godot/tutorials/animation/introduction.rst
+Summary: This section explains how to use animation markers in Godot to play specific parts of an animation and how to preview these sections.
+Animation markers can be used to play a specific part of an animation rather than the whole thing. For example, if an animation file contains a character performing two distinct actions, and the project requires playing the whole animation as well as each action individually, markers can be placed on the timeline. This avoids the need to create additional animations for each action.
+
+To add a marker to an animation, right-click the space above the timeline and select **Insert Marker...**.
+
+All markers require a unique name within the animation. You can also set the color of the markers for improved organization.
+
+To play the part of the animation between two markers, use the play_section_with_markers() and play_section_with_markers_backwards() methods. If no start marker is specified, the beginning of the animation is used. If no end marker is specified, the end of the animation is used.
+
+If the end marker is placed after the end of the animation, the AnimationPlayer will clamp the end of the section so it does not go past the end of the animation.
+
+To preview the animation between two markers, use Shift + Click to select the markers. When two markers are selected, the space between them will be highlighted in red.
+
+When markers are selected for preview, the animation playback buttons will behave as if the selected area is the entire animation. Play Animation from Start will treat the first selected marker as the start of the animation, Play Animation Backwards from End will treat the second selected marker as the end, and so on.

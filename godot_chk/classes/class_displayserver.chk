@@ -1,0 +1,681 @@
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: The DisplayServer singleton provides an interface for screen and window management.
+---CHUNK---
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: A brief introduction to the DisplayServer class, which provides a server interface for low-level window management.
+
+Inherits: Object
+
+DisplayServer is a server interface for low-level window management.
+---CHUNK---
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: This chunk describes the DisplayServer class, its role in window management, and its behavior in headless mode.
+
+DisplayServer handles everything related to window management. It is separated from OS as a single operating system may support multiple display servers.
+
+Headless mode: Starting the engine with the `--headless` command line argument disables all rendering and window management functions. Most functions from DisplayServer will return dummy values in this case.
+---CHUNK---
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: A comprehensive list of methods for managing accessibility, windows, screens, input devices, clipboard, global menus, text-to-speech (TTS), and other platform-specific features.
+
+* Method: accessibility_create_element(window_id: int, role: AccessibilityRole) -> RID
+* Method: accessibility_create_sub_element(parent_rid: RID, role: AccessibilityRole, insert_pos: int = -1) -> RID
+* Method: accessibility_create_sub_text_edit_elements(parent_rid: RID, shaped_text: RID, min_height: float, insert_pos: int = -1, is_last_line: bool = false) -> RID
+* Method: accessibility_element_get_meta(id: RID) -> Variant
+* Method: accessibility_element_set_meta(id: RID, meta: Variant) -> void
+* Method: accessibility_free_element(id: RID) -> void
+* Method: accessibility_get_window_root(window_id: int) -> RID
+* Method: accessibility_has_element(id: RID) -> bool
+* Method: accessibility_screen_reader_active() -> int
+* Method: accessibility_set_window_focused(window_id: int, focused: bool) -> void
+* Method: accessibility_set_window_rect(window_id: int, rect_out: Rect2, rect_in: Rect2) -> void
+* Method: accessibility_should_increase_contrast() -> int
+* Method: accessibility_should_reduce_animation() -> int
+* Method: accessibility_should_reduce_transparency() -> int
+* Method: accessibility_update_add_action(id: RID, action: AccessibilityAction, callable: Callable) -> void
+* Method: accessibility_update_add_child(id: RID, child_id: RID) -> void
+* Method: accessibility_update_add_custom_action(id: RID, action_id: int, action_description: String) -> void
+* Method: accessibility_update_add_related_controls(id: RID, related_id: RID) -> void
+* Method: accessibility_update_add_related_described_by(id: RID, related_id: RID) -> void
+* Method: accessibility_update_add_related_details(id: RID, related_id: RID) -> void
+* Method: accessibility_update_add_related_flow_to(id: RID, related_id: RID) -> void
+* Method: accessibility_update_add_related_labeled_by(id: RID, related_id: RID) -> void
+* Method: accessibility_update_add_related_radio_group(id: RID, related_id: RID) -> void
+* Method: accessibility_update_set_active_descendant(id: RID, other_id: RID) -> void
+* Method: accessibility_update_set_background_color(id: RID, color: Color) -> void
+* Method: accessibility_update_set_bounds(id: RID, p_rect: Rect2) -> void
+* Method: accessibility_update_set_checked(id: RID, checekd: bool) -> void
+* Method: accessibility_update_set_classname(id: RID, classname: String) -> void
+* Method: accessibility_update_set_color_value(id: RID, color: Color) -> void
+* Method: accessibility_update_set_description(id: RID, description: String) -> void
+* Method: accessibility_update_set_error_message(id: RID, other_id: RID) -> void
+* Method: accessibility_update_set_extra_info(id: RID, name: String) -> void
+* Method: accessibility_update_set_flag(id: RID, flag: AccessibilityFlags, value: bool) -> void
+* Method: accessibility_update_set_focus(id: RID) -> void
+* Method: accessibility_update_set_foreground_color(id: RID, color: Color) -> void
+* Method: accessibility_update_set_in_page_link_target(id: RID, other_id: RID) -> void
+* Method: accessibility_update_set_language(id: RID, language: String) -> void
+* Method: accessibility_update_set_list_item_count(id: RID, size: int) -> void
+* Method: accessibility_update_set_list_item_expanded(id: RID, expanded: bool) -> void
+* Method: accessibility_update_set_list_item_index(id: RID, index: int) -> void
+* Method: accessibility_update_set_list_item_level(id: RID, level: int) -> void
+* Method: accessibility_update_set_list_item_selected(id: RID, selected: bool) -> void
+* Method: accessibility_update_set_list_orientation(id: RID, vertical: bool) -> void
+* Method: accessibility_update_set_live(id: RID, live: AccessibilityLiveMode) -> void
+* Method: accessibility_update_set_member_of(id: RID, group_id: RID) -> void
+* Method: accessibility_update_set_name(id: RID, name: String) -> void
+* Method: accessibility_update_set_next_on_line(id: RID, other_id: RID) -> void
+* Method: accessibility_update_set_num_jump(id: RID, jump: float) -> void
+* Method: accessibility_update_set_num_range(id: RID, min: float, max: float) -> void
+* Method: accessibility_update_set_num_step(id: RID, step: float) -> void
+* Method: accessibility_update_set_num_value(id: RID, position: float) -> void
+* Method: accessibility_update_set_placeholder(id: RID, placeholder: String) -> void
+* Method: accessibility_update_set_popup_type(id: RID, popup: AccessibilityPopupType) -> void
+* Method: accessibility_update_set_previous_on_line(id: RID, other_id: RID) -> void
+* Method: accessibility_update_set_role(id: RID, role: AccessibilityRole) -> void
+* Method: accessibility_update_set_role_description(id: RID, description: String) -> void
+* Method: accessibility_update_set_scroll_x(id: RID, position: float) -> void
+* Method: accessibility_update_set_scroll_x_range(id: RID, min: float, max: float) -> void
+* Method: accessibility_update_set_scroll_y(id: RID, position: float) -> void
+* Method: accessibility_update_set_scroll_y_range(id: RID, min: float, max: float) -> void
+* Method: accessibility_update_set_shortcut(id: RID, shortcut: String) -> void
+* Method: accessibility_update_set_state_description(id: RID, description: String) -> void
+* Method: accessibility_update_set_table_cell_position(id: RID, row_index: int, column_index: int) -> void
+* Method: accessibility_update_set_table_cell_span(id: RID, row_span: int, column_span: int) -> void
+* Method: accessibility_update_set_table_column_count(id: RID, count: int) -> void
+* Method: accessibility_update_set_table_column_index(id: RID, index: int) -> void
+* Method: accessibility_update_set_table_row_count(id: RID, count: int) -> void
+* Method: accessibility_update_set_table_row_index(id: RID, index: int) -> void
+* Method: accessibility_update_set_text_align(id: RID, align: HorizontalAlignment) -> void
+* Method: accessibility_update_set_text_decorations(id: RID, underline: bool, strikethrough: bool, overline: bool) -> void
+* Method: accessibility_update_set_text_orientation(id: RID, vertical: bool) -> void
+* Method: accessibility_update_set_text_selection(id: RID, text_start_id: RID, start_char: int, text_end_id: RID, end_char: int) -> void
+* Method: accessibility_update_set_tooltip(id: RID, tooltip: String) -> void
+* Method: accessibility_update_set_transform(id: RID, transform: Transform2D) -> void
+* Method: accessibility_update_set_url(id: RID, url: String) -> void
+* Method: accessibility_update_set_value(id: RID, value: String) -> void
+* Method: beep() -> void
+* Method: clipboard_get() -> String
+* Method: clipboard_get_image() -> Image
+* Method: clipboard_get_primary() -> String
+* Method: clipboard_has() -> bool
+* Method: clipboard_has_image() -> bool
+* Method: clipboard_set(clipboard: String) -> void
+* Method: clipboard_set_primary(clipboard_primary: String) -> void
+* Method: color_picker(callback: Callable) -> bool
+* Method: create_status_indicator(icon: Texture2D, tooltip: String, callback: Callable) -> int
+* Method: cursor_get_shape() -> CursorShape
+* Method: cursor_set_custom_image(cursor: Resource, shape: CursorShape = 0, hotspot: Vector2 = Vector2(0, 0)) -> void
+* Method: cursor_set_shape(shape: CursorShape) -> void
+* Method: delete_status_indicator(id: int) -> void
+* Method: dialog_input_text(title: String, description: String, existing_text: String, callback: Callable) -> Error
+* Method: dialog_show(title: String, description: String, buttons: PackedStringArray, callback: Callable) -> Error
+* Method: enable_for_stealing_focus(process_id: int) -> void
+* Method: file_dialog_show(title: String, current_directory: String, filename: String, show_hidden: bool, mode: FileDialogMode, filters: PackedStringArray, callback: Callable, parent_window_id: int = 0) -> Error
+* Method: file_dialog_with_options_show(title: String, current_directory: String, root: String, filename: String, show_hidden: bool, mode: FileDialogMode, filters: PackedStringArray, options: Array[Dictionary], callback: Callable, parent_window_id: int = 0) -> Error
+* Method: force_process_and_drop_events() -> void
+* Method: get_accent_color() -> Color
+* Method: get_base_color() -> Color
+* Method: get_display_cutouts() -> Array[Rect2]
+* Method: get_display_safe_area() -> Rect2i
+* Method: get_keyboard_focus_screen() -> int
+* Method: get_name() -> String
+* Method: get_primary_screen() -> int
+* Method: get_screen_count() -> int
+* Method: get_screen_from_rect(rect: Rect2) -> int
+* Method: get_swap_cancel_ok() -> bool
+* Method: get_window_at_screen_position(position: Vector2i) -> int
+* Method: get_window_list() -> PackedInt32Array
+* Method: global_menu_add_check_item(menu_root: String, label: String, callback: Callable = Callable(), key_callback: Callable = Callable(), tag: Variant = null, accelerator: Key = 0, index: int = -1) -> int
+* Method: global_menu_add_icon_check_item(menu_root: String, icon: Texture2D, label: String, callback: Callable = Callable(), key_callback: Callable = Callable(), tag: Variant = null, accelerator: Key = 0, index: int = -1) -> int
+* Method: global_menu_add_icon_item(menu_root: String, icon: Texture2D, label: String, callback: Callable = Callable(), key_callback: Callable = Callable(), tag: Variant = null, accelerator: Key = 0, index: int = -1) -> int
+* Method: global_menu_add_icon_radio_check_item(menu_root: String, icon: Texture2D, label: String, callback: Callable = Callable(), key_callback: Callable = Callable(), tag: Variant = null, accelerator: Key = 0, index: int = -1) -> int
+* Method: global_menu_add_item(menu_root: String, label: String, callback: Callable = Callable(), key_callback: Callable = Callable(), tag: Variant = null, accelerator: Key = 0, index: int = -1) -> int
+* Method: global_menu_add_multistate_item(menu_root: String, label: String, max_states: int, default_state: int, callback: Callable = Callable(), key_callback: Callable = Callable(), tag: Variant = null, accelerator: Key = 0, index: int = -1) -> int
+* Method: global_menu_add_radio_check_item(menu_root: String, label: String, callback: Callable = Callable(), key_callback: Callable = Callable(), tag: Variant = null, accelerator: Key = 0, index: int = -1) -> int
+* Method: global_menu_add_separator(menu_root: String, index: int = -1) -> int
+* Method: global_menu_add_submenu_item(menu_root: String, label: String, submenu: String, index: int = -1) -> int
+* Method: global_menu_clear(menu_root: String) -> void
+* Method: global_menu_get_item_accelerator(menu_root: String, idx: int) -> Key
+* Method: global_menu_get_item_callback(menu_root: String, idx: int) -> Callable
+* Method: global_menu_get_item_count(menu_root: String) -> int
+* Method: global_menu_get_item_icon(menu_root: String, idx: int) -> Texture2D
+* Method: global_menu_get_item_indentation_level(menu_root: String, idx: int) -> int
+* Method: global_menu_get_item_index_from_tag(menu_root: String, tag: Variant) -> int
+* Method: global_menu_get_item_index_from_text(menu_root: String, text: String) -> int
+* Method: global_menu_get_item_key_callback(menu_root: String, idx: int) -> Callable
+* Method: global_menu_get_item_max_states(menu_root: String, idx: int) -> int
+* Method: global_menu_get_item_state(menu_root: String, idx: int) -> int
+* Method: global_menu_get_item_submenu(menu_root: String, idx: int) -> String
+* Method: global_menu_get_item_tag(menu_root: String, idx: int) -> Variant
+* Method: global_menu_get_item_text(menu_root: String, idx: int) -> String
+* Method: global_menu_get_item_tooltip(menu_root: String, idx: int) -> String
+* Method: global_menu_get_system_menu_roots() -> Dictionary
+* Method: global_menu_is_item_checkable(menu_root: String, idx: int) -> bool
+* Method: global_menu_is_item_checked(menu_root: String, idx: int) -> bool
+* Method: global_menu_is_item_disabled(menu_root: String, idx: int) -> bool
+* Method: global_menu_is_item_hidden(menu_root: String, idx: int) -> bool
+* Method: global_menu_is_item_radio_checkable(menu_root: String, idx: int) -> bool
+* Method: global_menu_remove_item(menu_root: String, idx: int) -> void
+* Method: global_menu_set_item_accelerator(menu_root: String, idx: int, keycode: Key) -> void
+* Method: global_menu_set_item_callback(menu_root: String, idx: int, callback: Callable) -> void
+* Method: global_menu_set_item_checkable(menu_root: String, idx: int, checkable: bool) -> void
+* Method: global_menu_set_item_checked(menu_root: String, idx: int, checked: bool) -> void
+* Method: global_menu_set_item_disabled(menu_root: String, idx: int, disabled: bool) -> void
+* Method: global_menu_set_item_hidden(menu_root: String, idx: int, hidden: bool) -> void
+* Method: global_menu_set_item_hover_callbacks(menu_root: String, idx: int, callback: Callable) -> void
+* Method: global_menu_set_item_icon(menu_root: String, idx: int, icon: Texture2D) -> void
+* Method: global_menu_set_item_indentation_level(menu_root: String, idx: int, level: int) -> void
+* Method: global_menu_set_item_key_callback(menu_root: String, idx: int, key_callback: Callable) -> void
+* Method: global_menu_set_item_max_states(menu_root: String, idx: int, max_states: int) -> void
+* Method: global_menu_set_item_radio_checkable(menu_root: String, idx: int, checkable: bool) -> void
+* Method: global_menu_set_item_state(menu_root: String, idx: int, state: int) -> void
+* Method: global_menu_set_item_submenu(menu_root: String, idx: int, submenu: String) -> void
+* Method: global_menu_set_item_tag(menu_root: String, idx: int, tag: Variant) -> void
+* Method: global_menu_set_item_text(menu_root: String, idx: int, text: String) -> void
+* Method: global_menu_set_item_tooltip(menu_root: String, idx: int, tooltip: String) -> void
+* Method: global_menu_set_popup_callbacks(menu_root: String, open_callback: Callable, close_callback: Callable) -> void
+* Method: has_additional_outputs() -> bool
+* Method: has_feature(feature: Feature) -> bool
+* Method: has_hardware_keyboard() -> bool
+* Method: help_set_search_callbacks(search_callback: Callable, action_callback: Callable) -> void
+* Method: ime_get_selection() -> Vector2i
+* Method: ime_get_text() -> String
+* Method: is_dark_mode() -> bool
+* Method: is_dark_mode_supported() -> bool
+* Method: is_in_pip_mode(window_id: int = 0) -> bool
+* Method: is_touchscreen_available() -> bool
+* Method: is_window_transparency_available() -> bool
+* Method: keyboard_get_current_layout() -> int
+* Method: keyboard_get_keycode_from_physical(keycode: Key) -> Key
+* Method: keyboard_get_label_from_physical(keycode: Key) -> Key
+* Method: keyboard_get_layout_count() -> int
+* Method: keyboard_get_layout_language(index: int) -> String
+* Method: keyboard_get_layout_name(index: int) -> String
+* Method: keyboard_set_current_layout(index: int) -> void
+* Method: mouse_get_button_state() -> bitfield[MouseButtonMask]
+* Method: mouse_get_mode() -> MouseMode
+* Method: mouse_get_position() -> Vector2i
+* Method: mouse_set_mode(mouse_mode: MouseMode) -> void
+* Method: pip_mode_enter(window_id: int = 0) -> void
+* Method: pip_mode_set_aspect_ratio(numerator: int, denominator: int, window_id: int = 0) -> void
+* Method: pip_mode_set_auto_enter_on_background(auto_enter_on_background: bool, window_id: int = 0) -> void
+* Method: process_events() -> void
+* Method: register_additional_output(object: Object) -> void
+* Method: screen_get_dpi(screen: int = -1) -> int
+* Method: screen_get_image(screen: int = -1) -> Image
+* Method: screen_get_image_rect(rect: Rect2i) -> Image
+* Method: screen_get_max_scale() -> float
+* Method: screen_get_orientation(screen: int = -1) -> ScreenOrientation
+* Method: screen_get_pixel(position: Vector2i) -> Color
+* Method: screen_get_position(screen: int = -1) -> Vector2i
+* Method: screen_get_refresh_rate(screen: int = -1) -> float
+* Method: screen_get_scale(screen: int = -1) -> float
+* Method: screen_get_size(screen: int = -1) -> Vector2i
+* Method: screen_get_usable_rect(screen: int = -1) -> Rect2i
+* Method: screen_is_kept_on() -> bool
+* Method: screen_set_keep_on(enable: bool) -> void
+* Method: screen_set_orientation(orientation: ScreenOrientation, screen: int = -1) -> void
+* Method: set_hardware_keyboard_connection_change_callback(callable: Callable) -> void
+* Method: set_icon(image: Image) -> void
+* Method: set_native_icon(filename: String) -> void
+* Method: set_system_theme_change_callback(callable: Callable) -> void
+* Method: show_emoji_and_symbol_picker() -> void
+* Method: status_indicator_get_rect(id: int) -> Rect2
+* Method: status_indicator_set_callback(id: int, callback: Callable) -> void
+* Method: status_indicator_set_icon(id: int, icon: Texture2D) -> void
+* Method: status_indicator_set_menu(id: int, menu_rid: RID) -> void
+* Method: status_indicator_set_tooltip(id: int, tooltip: String) -> void
+* Method: tablet_get_current_driver() -> String
+* Method: tablet_get_driver_count() -> int
+* Method: tablet_get_driver_name(idx: int) -> String
+* Method: tablet_set_current_driver(name: String) -> void
+* Method: tts_get_voices() -> Array[Dictionary]
+* Method: tts_get_voices_for_language(language: String) -> PackedStringArray
+* Method: tts_is_paused() -> bool
+* Method: tts_is_speaking() -> bool
+* Method: tts_pause() -> void
+* Method: tts_resume() -> void
+* Method: tts_set_utterance_callback(event: TTSUtteranceEvent, callable: Callable) -> void
+* Method: tts_speak(text: String, voice: String, volume: int = 50, pitch: float = 1.0, rate: float = 1.0, utterance_id: int = 0, interrupt: bool = false) -> void
+* Method: tts_stop() -> void
+* Method: unregister_additional_output(object: Object) -> void
+* Method: virtual_keyboard_get_height() -> int
+* Method: virtual_keyboard_hide() -> void
+* Method: virtual_keyboard_show(existing_text: String, position: Rect2 = Rect2(0, 0, 0, 0), type: VirtualKeyboardType = 0, max_length: int = -1, cursor_start: int = -1, cursor_end: int = -1) -> void
+* Method: warp_mouse(position: Vector2i) -> void
+* Method: window_can_draw(window_id: int = 0) -> bool
+* Method: window_get_active_popup() -> int
+* Method: window_get_attached_instance_id(window_id: int = 0) -> int
+* Method: window_get_current_screen(window_id: int = 0) -> int
+* Method: window_get_flag(flag: WindowFlags, window_id: int = 0) -> bool
+* Method: window_get_hdr_output_current_max_luminance(window_id: int = 0) -> float
+* Method: window_get_hdr_output_current_reference_luminance(window_id: int = 0) -> float
+* Method: window_get_hdr_output_max_luminance(window_id: int = 0) -> float
+* Method: window_get_hdr_output_reference_luminance(window_id: int = 0) -> float
+* Method: window_get_max_size(window_id: int = 0) -> Vector2i
+* Method: window_get_min_size(window_id: int = 0) -> Vector2i
+* Method: window_get_mode(window_id: int = 0) -> WindowMode
+* Method: window_get_native_handle(handle_type: HandleType, window_id: int = 0) -> int
+* Method: window_get_output_max_linear_value(window_id: int = 0) -> float
+* Method: window_get_popup_safe_rect(window: int) -> Rect2i
+* Method: window_get_position(window_id: int = 0) -> Vector2i
+* Method: window_get_position_with_decorations(window_id: int = 0) -> Vector2i
+* Method: window_get_safe_title_margins(window_id: int = 0) -> Vector3i
+* Method: window_get_size(window_id: int = 0) -> Vector2i
+* Method: window_get_size_with_decorations(window_id: int = 0) -> Vector2i
+* Method: window_get_title_size(title: String, window_id: int = 0) -> Vector2i
+* Method: window_get_vsync_mode(window_id: int = 0) -> VSyncMode
+* Method: window_is_focused(window_id: int = 0) -> bool
+* Method: window_is_hdr_output_enabled(window_id: int = 0) -> bool
+* Method: window_is_hdr_output_requested(window_id: int = 0) -> bool
+* Method: window_is_hdr_output_supported(window_id: int = 0) -> bool
+* Method: window_is_maximize_allowed(window_id: int = 0) -> bool
+* Method: window_maximize_on_title_dbl_click() -> bool
+* Method: window_minimize_on_title_dbl_click() -> bool
+* Method: window_move_to_foreground(window_id: int = 0) -> void
+* Method: window_request_attention(window_id: int = 0) -> void
+* Method: window_request_hdr_output(enable: bool, window_id: int = 0) -> void
+* Method: window_set_color(color: Color) -> void
+* Method: window_set_current_screen(screen: int, window_id: int = 0) -> void
+* Method: window_set_drop_files_callback(callback: Callable, window_id: int = 0) -> void
+* Method: window_set_exclusive(window_id: int, exclusive: bool) -> void
+* Method: window_set_flag(flag: WindowFlags, enabled: bool, window_id: int = 0) -> void
+* Method: window_set_hdr_output_max_luminance(max_luminance: float, window_id: int = 0) -> void
+* Method: window_set_hdr_output_reference_luminance(reference_luminance: float, window_id: int = 0) -> void
+* Method: window_set_ime_active(active: bool, window_id: int = 0) -> void
+* Method: window_set_ime_position(position: Vector2i, window_id: int = 0) -> void
+* Method: window_set_input_event_callback(callback: Callable, window_id: int = 0) -> void
+* Method: window_set_input_text_callback(callback: Callable, window_id: int = 0) -> void
+* Method: window_set_max_size(max_size: Vector2i, window_id: int = 0) -> void
+* Method: window_set_min_size(min_size: Vector2i, window_id: int = 0) -> void
+* Method: window_set_mode(mode: WindowMode, window_id: int = 0) -> void
+* Method: window_set_mouse_passthrough(region: PackedVector2Array, window_id: int = 0) -> void
+* Method: window_set_popup_safe_rect(window: int, rect: Rect2i) -> void
+* Method: window_set_position(position: Vector2i, window_id: int = 0) -> void
+* Method: window_set_rect_changed_callback(callback: Callable, window_id: int = 0) -> void
+* Method: window_set_size(size: Vector2i, window_id: int = 0) -> void
+* Method: window_set_taskbar_progress_state(state: ProgressState, window_id: int = 0) -> void
+* Method: window_set_taskbar_progress_value(value: float, window_id: int = 0) -> void
+* Method: window_set_title(title: String, window_id: int = 0) -> void
+* Method: window_set_transient(window_id: int, parent_window_id: int) -> void
+* Method: window_set_vsync_mode(vsync_mode: VSyncMode, window_id: int = 0) -> void
+* Method: window_set_window_buttons_offset(offset: Vector2i, window_id: int = 0) -> void
+* Method: window_set_window_event_callback(callback: Callable, window_id: int = 0) -> void
+* Method: window_start_drag(window_id: int = 0) -> void
+* Method: window_start_resize(edge: WindowResizeEdge, window_id: int = 0) -> void
+---CHUNK---
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: This chunk describes the orientation_changed signal, which is emitted when the device's screen orientation changes on Android and iOS.
+
+Signal: orientation_changed(orientation: int)
+
+Emitted when the device orientation changes. The `orientation` parameter is the new orientation. The value is 1 for portrait, 2 for landscape, and 0 if the orientation is undefined. Note: This method is implemented on Android and iOS.
+---CHUNK---
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: This chunk details all enumerations available in the DisplayServer singleton, covering features, window management, input modes, accessibility, and platform-specific handles.
+
+Enumerations
+
+enum Feature:
+- FEATURE_GLOBAL_MENU = 0: Deprecated: Use NativeMenu or PopupMenu instead. Display server supports global menu. This allows the application to display its menu items in the operating system's top bar. (macOS)
+- FEATURE_SUBWINDOWS = 1: Display server supports multiple windows that can be moved outside of the main window. (Windows, macOS, Linux (X11))
+- FEATURE_TOUCHSCREEN = 2: Display server supports touchscreen input. (Windows, Linux (X11), Android, iOS, Web)
+- FEATURE_MOUSE = 3: Display server supports mouse input. (Windows, macOS, Linux (X11/Wayland), Android, Web)
+- FEATURE_MOUSE_WARP = 4: Display server supports warping mouse coordinates to keep the mouse cursor constrained within an area, but looping when one of the edges is reached. (Windows, macOS, Linux (X11/Wayland))
+- FEATURE_CLIPBOARD = 5: Display server supports setting and getting clipboard data. See also FEATURE_CLIPBOARD_PRIMARY. (Windows, macOS, Linux (X11/Wayland), Android, iOS, Web)
+- FEATURE_VIRTUAL_KEYBOARD = 6: Display server supports popping up a virtual keyboard when requested to input text without a physical keyboard. (Android, iOS, Web)
+- FEATURE_CURSOR_SHAPE = 7: Display server supports setting the mouse cursor shape to be different from the default. (Windows, macOS, Linux (X11/Wayland), Android, Web)
+- FEATURE_CUSTOM_CURSOR_SHAPE = 8: Display server supports setting the mouse cursor shape to a custom image. (Windows, macOS, Linux (X11/Wayland), Web)
+- FEATURE_NATIVE_DIALOG = 9: Display server supports spawning text dialogs using the operating system's native look-and-feel. See dialog_show(). (Windows, macOS)
+- FEATURE_IME = 10: Display server supports Input Method Editor, which is commonly used for inputting Chinese/Japanese/Korean text. This is handled by the operating system, rather than by Godot. (Windows, macOS, Linux (X11))
+- FEATURE_WINDOW_TRANSPARENCY = 11: Display server supports windows can use per-pixel transparency to make windows behind them partially or fully visible. (Windows, macOS, Linux (X11/Wayland), Android)
+- FEATURE_HIDPI = 12: Display server supports querying the operating system's display scale factor. This allows automatically detecting the hiDPI display reliably, instead of guessing based on the screen resolution and the display's reported DPI. (Windows, Linux (Wayland), macOS)
+- FEATURE_ICON = 13: Display server supports changing the window icon (usually displayed in the top-left corner). (Windows, macOS, Linux (X11/Wayland)). Note: Use on Wayland requires the compositor to implement the xdg_toplevel_icon_v1 protocol, which not all compositors do.
+- FEATURE_NATIVE_ICON = 14: Display server supports changing the window icon (usually displayed in the top-left corner). (Windows, macOS)
+- FEATURE_ORIENTATION = 15: Display server supports changing the screen orientation. (Android, iOS)
+- FEATURE_SWAP_BUFFERS = 16: Display server supports V-Sync status can be changed from the default. (Windows, macOS, Linux (X11/Wayland))
+- FEATURE_CLIPBOARD_PRIMARY = 18: Display server supports Primary clipboard can be used. This is a different clipboard from FEATURE_CLIPBOARD. (Linux (X11/Wayland))
+- FEATURE_TEXT_TO_SPEECH = 19: Display server supports text-to-speech. See tts_* methods. (Windows, macOS, Linux (X11/Wayland), Android, iOS, Web)
+- FEATURE_EXTEND_TO_TITLE = 20: Display server supports expanding window content to the title. See WINDOW_FLAG_EXTEND_TO_TITLE. (macOS)
+- FEATURE_SCREEN_CAPTURE = 21: Display server supports reading screen pixels. See screen_get_pixel().
+- FEATURE_STATUS_INDICATOR = 22: Display server supports application status indicators.
+- FEATURE_NATIVE_HELP = 23: Display server supports native help system search callbacks. See help_set_search_callbacks().
+- FEATURE_NATIVE_DIALOG_INPUT = 24: Display server supports spawning text input dialogs using the operating system's native look-and-feel. See dialog_input_text(). (Windows, macOS)
+- FEATURE_NATIVE_DIALOG_FILE = 25: Display server supports spawning dialogs for selecting files or directories using the operating system's native look-and-feel. See file_dialog_show(). (Windows, macOS, Linux (X11/Wayland), Android)
+- FEATURE_NATIVE_DIALOG_FILE_EXTRA = 26: The display server supports all features of FEATURE_NATIVE_DIALOG_FILE, with the added functionality of Options and native dialog file access to res:// and user:// paths. See file_dialog_show() and file_dialog_with_options_show(). (Windows, macOS, Linux (X11/Wayland))
+- FEATURE_WINDOW_DRAG = 27: The display server supports initiating window drag and resize operations on demand. See window_start_drag() and window_start_resize().
+- FEATURE_SCREEN_EXCLUDE_FROM_CAPTURE = 28: Display server supports WINDOW_FLAG_EXCLUDE_FROM_CAPTURE window flag. (Windows, macOS)
+- FEATURE_WINDOW_EMBEDDING = 29: Display server supports embedding a window from another process. (Windows, Linux (X11), macOS)
+- FEATURE_NATIVE_DIALOG_FILE_MIME = 30: Native file selection dialog supports MIME types as filters.
+- FEATURE_EMOJI_AND_SYMBOL_PICKER = 31: Display server supports system emoji and symbol picker. (Windows, macOS)
+- FEATURE_NATIVE_COLOR_PICKER = 32: Display server supports native color picker. (Linux (X11/Wayland))
+- FEATURE_SELF_FITTING_WINDOWS = 33: Display server automatically fits popups according to the screen boundaries. Window nodes should not attempt to do that themselves.
+- FEATURE_ACCESSIBILITY_SCREEN_READER = 34: Display server supports interaction with screen reader or Braille display. (Linux (X11/Wayland), macOS, Windows)
+- FEATURE_HDR_OUTPUT = 35: Display server supports HDR output. (Linux (Wayland), macOS, iOS, visionOS, Windows)
+- FEATURE_PIP_MODE = 36: Display server supports putting the application in picture-in-picture mode. (Android)
+
+enum AccessibilityRole:
+- ROLE_UNKNOWN = 0: Deprecated: Use AccessibilityServer instead. Unknown or custom role.
+- ROLE_DEFAULT_BUTTON = 1: Deprecated: Use AccessibilityServer instead. Default dialog button element.
+- ROLE_AUDIO = 2: Deprecated: Use AccessibilityServer instead. Audio player element.
+- ROLE_VIDEO = 3: Deprecated: Use AccessibilityServer instead. Video player element.
+- ROLE_STATIC_TEXT = 4: Deprecated: Use AccessibilityServer instead. Non-editable text label.
+- ROLE_CONTAINER = 5: Deprecated: Use AccessibilityServer instead. Container element. Elements with this role are used for internal structure and ignored by screen readers.
+- ROLE_PANEL = 6: Deprecated: Use AccessibilityServer instead. Panel container element.
+- ROLE_BUTTON = 7: Deprecated: Use AccessibilityServer instead. Button element.
+- ROLE_LINK = 8: Deprecated: Use AccessibilityServer instead. Link element.
+- ROLE_CHECK_BOX = 9: Deprecated: Use AccessibilityServer instead. Check box element.
+- ROLE_RADIO_BUTTON = 10: Deprecated: Use AccessibilityServer instead. Radio button element.
+- ROLE_CHECK_BUTTON = 11: Deprecated: Use AccessibilityServer instead. Check button element.
+- ROLE_SCROLL_BAR = 12: Deprecated: Use AccessibilityServer instead. Scroll bar element.
+- ROLE_SCROLL_VIEW = 13: Deprecated: Use AccessibilityServer instead. Scroll container element.
+- ROLE_SPLITTER = 14: Deprecated: Use AccessibilityServer instead. Container splitter handle element.
+- ROLE_SLIDER = 15: Deprecated: Use AccessibilityServer instead. Slider element.
+- ROLE_SPIN_BUTTON = 16: Deprecated: Use AccessibilityServer instead. Spin box element.
+- ROLE_PROGRESS_INDICATOR = 17: Deprecated: Use AccessibilityServer instead. Progress indicator element.
+- ROLE_TEXT_FIELD = 18: Deprecated: Use AccessibilityServer instead. Editable text field element.
+- ROLE_MULTILINE_TEXT_FIELD = 19: Deprecated: Use AccessibilityServer instead. Multiline editable text field element.
+- ROLE_COLOR_PICKER = 20: Deprecated: Use AccessibilityServer instead. Color picker element.
+- ROLE_TABLE = 21: Deprecated: Use AccessibilityServer instead. Table element.
+- ROLE_CELL = 22: Deprecated: Use AccessibilityServer instead. Table/tree cell element.
+- ROLE_ROW = 23: Deprecated: Use AccessibilityServer instead. Table/tree row element.
+- ROLE_ROW_GROUP = 24: Deprecated: Use AccessibilityServer instead. Table/tree row group element.
+- ROLE_ROW_HEADER = 25: Deprecated: Use AccessibilityServer instead. Table/tree row header element.
+- ROLE_COLUMN_HEADER = 26: Deprecated: Use AccessibilityServer instead. Table/tree column header element.
+- ROLE_TREE = 27: Deprecated: Use AccessibilityServer instead. Tree view element.
+- ROLE_TREE_ITEM = 28: Deprecated: Use AccessibilityServer instead. Tree view item element.
+- ROLE_LIST = 29: Deprecated: Use AccessibilityServer instead. List element.
+- ROLE_LIST_ITEM = 30: Deprecated: Use AccessibilityServer instead. List item element.
+- ROLE_LIST_BOX = 31: Deprecated: Use AccessibilityServer instead. List view element.
+- ROLE_LIST_BOX_OPTION = 32: Deprecated: Use AccessibilityServer instead. List view item element.
+- ROLE_TAB_BAR = 33: Deprecated: Use AccessibilityServer instead. Tab bar element.
+- ROLE_TAB = 34: Deprecated: Use AccessibilityServer instead. Tab bar item element.
+- ROLE_TAB_PANEL = 35: Deprecated: Use AccessibilityServer instead. Tab panel element.
+- ROLE_MENU_BAR = 36: Deprecated: Use AccessibilityServer instead. Menu bar element.
+- ROLE_MENU = 37: Deprecated: Use AccessibilityServer instead. Popup menu element.
+- ROLE_MENU_ITEM = 38: Deprecated: Use AccessibilityServer instead. Popup menu item element.
+- ROLE_MENU_ITEM_CHECK_BOX = 39: Deprecated: Use AccessibilityServer instead. Popup menu check button item element.
+- ROLE_MENU_ITEM_RADIO = 40: Deprecated: Use AccessibilityServer instead. Popup menu radio button item element.
+- ROLE_IMAGE = 41: Deprecated: Use AccessibilityServer instead. Image element.
+- ROLE_WINDOW = 42: Deprecated: Use AccessibilityServer instead. Window element.
+- ROLE_TITLE_BAR = 43: Deprecated: Use AccessibilityServer instead. Embedded window title bar element.
+- ROLE_DIALOG = 44: Deprecated: Use AccessibilityServer instead. Dialog window element.
+- ROLE_TOOLTIP = 45: Deprecated: Use AccessibilityServer instead. Tooltip element.
+- ROLE_REGION = 46: Deprecated: Use AccessibilityServer instead. Region/landmark element. Screen readers can navigate between regions using landmark navigation.
+- ROLE_TEXT_RUN = 47: Deprecated: Use AccessibilityServer instead. Uniform text run. Note: This role is used for internal text elements, and should not be assigned to nodes.
+
+enum AccessibilityPopupType:
+- POPUP_MENU = 0: Deprecated: Use AccessibilityServer instead. Popup menu.
+- POPUP_LIST = 1: Deprecated: Use AccessibilityServer instead. Popup list.
+- POPUP_TREE = 2: Deprecated: Use AccessibilityServer instead. Popup tree view.
+- POPUP_DIALOG = 3: Deprecated: Use AccessibilityServer instead. Popup dialog.
+
+enum AccessibilityFlags:
+- FLAG_HIDDEN = 0: Deprecated: Use AccessibilityServer instead. Element is hidden for accessibility tools.
+- FLAG_MULTISELECTABLE = 1: Deprecated: Use AccessibilityServer instead. Element supports multiple item selection.
+- FLAG_REQUIRED = 2: Deprecated: Use AccessibilityServer instead. Element require user input.
+- FLAG_VISITED = 3: Deprecated: Use AccessibilityServer instead. Element is a visited link.
+- FLAG_BUSY = 4: Deprecated: Use AccessibilityServer instead. Element content is not ready (e.g. loading).
+- FLAG_MODAL = 5: Deprecated: Use AccessibilityServer instead. Element is modal window.
+- FLAG_TOUCH_PASSTHROUGH = 6: Deprecated: Use AccessibilityServer instead. Element allows touches to be passed through when a screen reader is in touch exploration mode.
+- FLAG_READONLY = 7: Deprecated: Use AccessibilityServer instead. Element is text field with selectable but read-only text.
+- FLAG_DISABLED = 8: Deprecated: Use AccessibilityServer instead. Element is disabled.
+- FLAG_CLIPS_CHILDREN = 9: Deprecated: Use AccessibilityServer instead. Element clips children.
+
+enum AccessibilityAction:
+- ACTION_CLICK = 0: Deprecated: Use AccessibilityServer instead. Single click action, callback argument is not set.
+- ACTION_FOCUS = 1: Deprecated: Use AccessibilityServer instead. Focus action, callback argument is not set.
+- ACTION_BLUR = 2: Deprecated: Use AccessibilityServer instead. Blur action, callback argument is not set.
+- ACTION_COLLAPSE = 3: Deprecated: Use AccessibilityServer instead. Collapse action, callback argument is not set.
+- ACTION_EXPAND = 4: Deprecated: Use AccessibilityServer instead. Expand action, callback argument is not set.
+- ACTION_DECREMENT = 5: Deprecated: Use AccessibilityServer instead. Decrement action, callback argument is not set.
+- ACTION_INCREMENT = 6: Deprecated: Use AccessibilityServer instead. Increment action, callback argument is not set.
+- ACTION_HIDE_TOOLTIP = 7: Deprecated: Use AccessibilityServer instead. Hide tooltip action, callback argument is not set.
+- ACTION_SHOW_TOOLTIP = 8: Deprecated: Use AccessibilityServer instead. Show tooltip action, callback argument is not set.
+- ACTION_SET_TEXT_SELECTION = 9: Deprecated: Use AccessibilityServer instead. Set text selection action, callback argument is set to a Dictionary with keys: "start_element", "start_char", "end_element", "end_char".
+- ACTION_REPLACE_SELECTED_TEXT = 10: Deprecated: Use AccessibilityServer instead. Replace text action, callback argument is set to a String with the replacement text.
+- ACTION_SCROLL_BACKWARD = 11: Deprecated: Use AccessibilityServer instead. Scroll backward action, callback argument is not set.
+- ACTION_SCROLL_DOWN = 12: Deprecated: Use AccessibilityServer instead. Scroll down action, callback argument is set to AccessibilityScrollUnit.
+- ACTION_SCROLL_FORWARD = 13: Deprecated: Use AccessibilityServer instead. Scroll forward action, callback argument is not set.
+- ACTION_SCROLL_LEFT = 14: Deprecated: Use AccessibilityServer instead. Scroll left action, callback argument is set to AccessibilityScrollUnit.
+- ACTION_SCROLL_RIGHT = 15: Deprecated: Use AccessibilityServer instead. Scroll right action, callback argument is set to AccessibilityScrollUnit.
+- ACTION_SCROLL_UP = 16: Deprecated: Use AccessibilityServer instead. Scroll up action, callback argument is set to AccessibilityScrollUnit.
+- ACTION_SCROLL_INTO_VIEW = 17: Deprecated: Use AccessibilityServer instead. Scroll into view action, callback argument is set to AccessibilityScrollHint.
+- ACTION_SCROLL_TO_POINT = 18: Deprecated: Use AccessibilityServer instead. Scroll to point action, callback argument is set to a Vector2 with the relative point coordinates.
+- ACTION_SET_SCROLL_OFFSET = 19: Deprecated: Use AccessibilityServer instead. Set scroll offset action, callback argument is set to a Vector2 with the scroll offset.
+- ACTION_SET_VALUE = 20: Deprecated: Use AccessibilityServer instead. Set value action, callback argument is set to a String or number with the new value.
+- ACTION_SHOW_CONTEXT_MENU = 21: Deprecated: Use AccessibilityServer instead. Show context menu action, callback argument is not set.
+- ACTION_CUSTOM = 22: Deprecated: Use AccessibilityServer instead. Custom action, callback argument is set to the integer action ID.
+
+enum AccessibilityLiveMode:
+- LIVE_OFF = 0: Deprecated: Use AccessibilityServer instead. Indicates that updates to the live region should not be presented.
+- LIVE_POLITE = 1: Deprecated: Use AccessibilityServer instead. Indicates that updates to the live region should be presented at the next opportunity.
+- LIVE_ASSERTIVE = 2: Deprecated: Use AccessibilityServer instead. Indicates that updates to the live region have the highest priority and should be presented immediately.
+
+enum AccessibilityScrollUnit:
+- SCROLL_UNIT_ITEM = 0: Deprecated: Use AccessibilityServer instead. The amount by which to scroll. A single item of a list, line of text.
+- SCROLL_UNIT_PAGE = 1: Deprecated: Use AccessibilityServer instead. The amount by which to scroll. A single page.
+
+enum AccessibilityScrollHint:
+- SCROLL_HINT_TOP_LEFT = 0: Deprecated: Use AccessibilityServer instead. A preferred position for the node scrolled into view. Top-left edge of the scroll container.
+- SCROLL_HINT_BOTTOM_RIGHT = 1: Deprecated: Use AccessibilityServer instead. Bottom-right edge of the scroll container.
+- SCROLL_HINT_TOP_EDGE = 2: Deprecated: Use AccessibilityServer instead. Top edge of the scroll container.
+- SCROLL_HINT_BOTTOM_EDGE = 3: Deprecated: Use AccessibilityServer instead. Bottom edge of the scroll container.
+- SCROLL_HINT_LEFT_EDGE = 4: Deprecated: Use AccessibilityServer instead. Left edge of the scroll container.
+- SCROLL_HINT_RIGHT_EDGE = 5: Deprecated: Use AccessibilityServer instead. Right edge of the scroll container.
+
+enum MouseMode:
+- MOUSE_MODE_VISIBLE = 0: Makes the mouse cursor visible if it is hidden.
+- MOUSE_MODE_HIDDEN = 1: Makes the mouse cursor hidden if it is visible.
+- MOUSE_MODE_CAPTURED = 2: Captures the mouse. The mouse will be hidden and its position locked at the center of the window manager's window. Note: If you want to process the mouse's movement in this mode, you need to use InputEventMouseMotion.relative.
+- MOUSE_MODE_CONFINED = 3: Confines the mouse cursor to the game window, and make it visible.
+- MOUSE_MODE_CONFINED_HIDDEN = 4: Confines the mouse cursor to the game window, and make it hidden.
+- MOUSE_MODE_MAX = 5: Max value of the MouseMode.
+
+enum ScreenOrientation:
+- SCREEN_LANDSCAPE = 0: Default landscape orientation.
+- SCREEN_PORTRAIT = 1: Default portrait orientation.
+- SCREEN_REVERSE_LANDSCAPE = 2: Reverse landscape orientation (upside down).
+- SCREEN_REVERSE_PORTRAIT = 3: Reverse portrait orientation (upside down).
+- SCREEN_SENSOR_LANDSCAPE = 4: Automatic landscape orientation (default or reverse depending on sensor).
+- SCREEN_SENSOR_PORTRAIT = 5: Automatic portrait orientation (default or reverse depending on sensor).
+- SCREEN_SENSOR = 6: Automatic landscape or portrait orientation (default or reverse depending on sensor).
+
+enum VirtualKeyboardType:
+- KEYBOARD_TYPE_DEFAULT = 0: Default text virtual keyboard.
+- KEYBOARD_TYPE_MULTILINE = 1: Multiline virtual keyboard.
+- KEYBOARD_TYPE_NUMBER = 2: Virtual number keypad, useful for PIN entry.
+- KEYBOARD_TYPE_NUMBER_DECIMAL = 3: Virtual number keypad, useful for entering fractional numbers.
+- KEYBOARD_TYPE_PHONE = 4: Virtual phone number keypad.
+- KEYBOARD_TYPE_EMAIL_ADDRESS = 5: Virtual keyboard with additional keys to assist with typing email addresses.
+- KEYBOARD_TYPE_PASSWORD = 6: Virtual keyboard for entering a password. On most platforms, this should disable autocomplete and autocapitalization. Note: This is not supported on Web. Instead, this behaves identically to KEYBOARD_TYPE_DEFAULT.
+- KEYBOARD_TYPE_URL = 7: Virtual keyboard with additional keys to assist with typing URLs.
+
+enum CursorShape:
+- CURSOR_ARROW = 0: Arrow cursor shape. This is the default.
+- CURSOR_IBEAM = 1: I-beam cursor shape, used for text input controls.
+- CURSOR_POINTING_HAND = 2: Pointing hand cursor shape, used for links.
+- CURSOR_CROSS = 3: Crosshair cursor, for precise aiming.
+- CURSOR_WAIT = 4: Wait cursor (spinning icon besides arrow) for non-blocking operations.
+- CURSOR_BUSY = 5: Busy cursor (spinning icon replaces arrow) for blocking operations.
+- CURSOR_DRAG = 6: Dragging hand cursor for drag-and-drop operations.
+- CURSOR_CAN_DROP = 7: "Can drop" cursor, shown when hovering a valid drop target.
+- CURSOR_FORBIDDEN = 8: Forbidden cursor, shown when hovering an invalid drop target.
+- CURSOR_VSIZE = 9: Vertical resize cursor.
+- CURSOR_HSIZE = 10: Horizontal resize cursor.
+- CURSOR_BDIAGSIZE = 11: Secondary diagonal resize cursor (top-right/bottom-left).
+- CURSOR_FDIAGSIZE = 12: Main diagonal resize cursor (top-left/bottom-right).
+- CURSOR_MOVE = 13: Move cursor.
+- CURSOR_VSPLIT = 14: Vertical split cursor, for controls like VSplitContainer.
+- CURSOR_HSPLIT = 15: Horizontal split cursor, for controls like HSplitContainer.
+- CURSOR_HELP = 16: Help cursor (question mark icon).
+- CURSOR_MAX = 17: Represents the size of the CursorShape enum.
+
+enum FileDialogMode:
+- FILE_DIALOG_MODE_OPEN_FILE = 0: The native file dialog allows selecting one, and only one file.
+- FILE_DIALOG_MODE_OPEN_FILES = 1: The native file dialog allows selecting multiple files.
+- FILE_DIALOG_MODE_OPEN_DIR = 2: The native file dialog only allows selecting a directory.
+- FILE_DIALOG_MODE_OPEN_ANY = 3: The native file dialog allows selecting one file or directory.
+- FILE_DIALOG_MODE_SAVE_FILE = 4: The native file dialog will warn when a file exists.
+
+enum WindowMode:
+- WINDOW_MODE_WINDOWED = 0: Windowed mode, doesn't occupy the whole screen.
+- WINDOW_MODE_MINIMIZED = 1: Minimized window mode, not visible but on the window list.
+- WINDOW_MODE_MAXIMIZED = 2: Maximized window mode, occupies the screen area except for the task bar.
+- WINDOW_MODE_FULLSCREEN = 3: Full screen mode with full multi-window support. The display's video mode is not changed. On Android, this enables immersive mode. On macOS, a new desktop is used. Note: Enabling full screen will change the window size to match the monitor's size, so ensure your project supports multiple resolutions.
+- WINDOW_MODE_EXCLUSIVE_FULLSCREEN = 4: A single window full screen mode with less overhead. Only one window can be open on a screen. The display's video mode is not changed. This mode might not work with screen recording software. On Android, this enables immersive mode. On Windows, it might cause a brief black screen. On macOS, it prevents the Dock and Menu from appearing. On Linux (X11), it bypasses the compositor. On Linux (Wayland), it is equivalent to WINDOW_MODE_FULLSCREEN. Note: Enabling full screen will change the window size to match the monitor's size, so ensure your project supports multiple resolutions.
+
+enum ProgressState:
+- PROGRESS_STATE_NOPROGRESS = 0: Stops displaying progress and returns the button to its normal state.
+- PROGRESS_STATE_INDETERMINATE = 1: The progress indicator shows an indeterminate progress. On Windows, it cycles repeatedly.
+- PROGRESS_STATE_NORMAL = 2: The progress indicator shows progress normally.
+- PROGRESS_STATE_ERROR = 3: The progress indicator shows that an error has occurred. On Windows, it turns red.
+- PROGRESS_STATE_PAUSED = 4: The progress indicator shows it was paused. On Windows, it turns yellow.
+
+enum WindowFlags:
+- WINDOW_FLAG_RESIZE_DISABLED = 0: The window can't be resized by dragging its grip.
+- WINDOW_FLAG_BORDERLESS = 1: The window does not have a native title bar and decorations.
+- WINDOW_FLAG_ALWAYS_ON_TOP = 2: The window is floating on top of all other windows.
+- WINDOW_FLAG_TRANSPARENT = 3: The window background can be transparent. Note: This has no effect if is_window_transparency_available() is false. Transparency support is implemented on Linux, macOS, and Windows, but availability varies. On Android, it must be enabled via project settings.
+- WINDOW_FLAG_NO_FOCUS = 4: The window can't be focused and will ignore all input except mouse clicks.
+- WINDOW_FLAG_POPUP = 5: Window is part of a menu or dropdown. It exclusively receives input and closes on outside clicks. Must have a transient parent set.
+- WINDOW_FLAG_EXTEND_TO_TITLE = 6: Window content is expanded to the full size of the window, with a transparent title bar but visible buttons. Note: This is implemented only on macOS.
+- WINDOW_FLAG_MOUSE_PASSTHROUGH = 7: All mouse events are passed to the underlying window of the same application.
+- WINDOW_FLAG_SHARP_CORNERS = 8: Window style is overridden, forcing sharp corners. Note: This is implemented only on Windows 11.
+- WINDOW_FLAG_EXCLUDE_FROM_CAPTURE = 9: Window is excluded from screenshots taken by screen_get_image() and similar methods. Note: This is implemented on macOS and Windows 10 (20H1+). This is not a security measure and does not guarantee other apps can't capture the screen.
+- WINDOW_FLAG_POPUP_WM_HINT = 10: Signals the window manager that this window is a "popup" (floating, borderless, etc.).
+- WINDOW_FLAG_MINIMIZE_DISABLED = 11: Window minimize button is disabled. Note: Implemented on macOS and Windows.
+- WINDOW_FLAG_MAXIMIZE_DISABLED = 12: Window maximize button is disabled. Note: Implemented on macOS and Windows.
+- WINDOW_FLAG_MAX = 13: Represents the size of the WindowFlags enum.
+
+enum WindowEvent:
+- WINDOW_EVENT_MOUSE_ENTER = 0: Sent when the mouse pointer enters the window.
+- WINDOW_EVENT_MOUSE_EXIT = 1: Sent when the mouse pointer exits the window.
+- WINDOW_EVENT_FOCUS_IN = 2: Sent when the window grabs focus.
+- WINDOW_EVENT_FOCUS_OUT = 3: Sent when the window loses focus.
+- WINDOW_EVENT_CLOSE_REQUEST = 4: Sent when the user has attempted to close the window.
+- WINDOW_EVENT_GO_BACK_REQUEST = 5: Sent when the device "Back" button is pressed. Note: This event is implemented only on Android.
+- WINDOW_EVENT_DPI_CHANGE = 6: Sent when the window is moved to a display with different DPI. Note: Implemented only on macOS and Linux (Wayland).
+- WINDOW_EVENT_TITLEBAR_CHANGE = 7: Sent when the window title bar decoration is changed. Note: Implemented only on macOS.
+- WINDOW_EVENT_FORCE_CLOSE = 8: Sent when the window has been forcibly closed by the display server. Note: Implemented only on Linux (Wayland).
+
+enum WindowResizeEdge:
+- WINDOW_EDGE_TOP_LEFT = 0: Top-left edge of a window.
+- WINDOW_EDGE_TOP = 1: Top edge of a window.
+- WINDOW_EDGE_TOP_RIGHT = 2: Top-right edge of a window.
+- WINDOW_EDGE_LEFT = 3: Left edge of a window.
+- WINDOW_EDGE_RIGHT = 4: Right edge of a window.
+- WINDOW_EDGE_BOTTOM_LEFT = 5: Bottom-left edge of a window.
+- WINDOW_EDGE_BOTTOM = 6: Bottom edge of a window.
+- WINDOW_EDGE_BOTTOM_RIGHT = 7: Bottom-right edge of a window.
+- WINDOW_EDGE_MAX = 8: Represents the size of the WindowResizeEdge enum.
+
+enum VSyncMode:
+- VSYNC_DISABLED = 0: No V-Sync, frames are displayed as fast as possible (tearing may occur).
+- VSYNC_ENABLED = 1: Default V-Sync, image is displayed on vertical blanking intervals (no tearing). Framerate is limited by monitor refresh rate.
+- VSYNC_ADAPTIVE = 2: Disables V-Sync when framerate drops below refresh rate to reduce stuttering.
+- VSYNC_MAILBOX = 3: Displays the most recent rendered image on V-blank, allowing for unlimited framerate without tearing (also called "Fast" V-Sync).
+
+enum HandleType:
+- DISPLAY_HANDLE = 0: Display handle (e.g., X11::Display*, wl_display, EGLDisplay).
+- WINDOW_HANDLE = 1: Window handle (e.g., HWND, X11::Window*, NSWindow*, jObject).
+- WINDOW_VIEW = 2: Window view (e.g., HDC, NSView*, UIView*).
+- OPENGL_CONTEXT = 3: OpenGL context (e.g., HGLRC, GLXContext*, EGLContext). Only with the Compatibility renderer.
+- EGL_DISPLAY = 4: EGLDisplay for the window (ANGLE on Windows/macOS, Wayland).
+- EGL_CONFIG = 5: EGLConfig for the window (ANGLE on Windows/macOS, Wayland).
+- GLX_VISUALID = 6: The GLX VisualID for the window. Note: Only available on Linux when using X11.
+- GLX_FBCONFIG = 7: The GLXFBConfig for the window. Note: Only available on Linux when using X11.
+
+enum TTSUtteranceEvent:
+- TTS_UTTERANCE_STARTED = 0: Utterance has begun to be spoken.
+- TTS_UTTERANCE_ENDED = 1: Utterance was successfully finished.
+- TTS_UTTERANCE_CANCELED = 2: Utterance was canceled or could not be processed.
+- TTS_UTTERANCE_BOUNDARY = 3: Utterance reached a word or sentence boundary.
+---CHUNK---
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: This chunk defines constants for identifying screens and windows, such as the primary screen, main window, and special or invalid IDs.
+
+Constants:
+*   INVALID_SCREEN = -1: The ID that refers to a screen that does not exist. This is returned by some DisplayServer methods if no screen matches the requested result.
+*   SCREEN_WITH_MOUSE_FOCUS = -4: Represents the screen containing the mouse pointer. Note: On Android, iOS, Web, and Linux (Wayland), this constant always represents the screen at index 0.
+*   SCREEN_WITH_KEYBOARD_FOCUS = -3: Represents the screen containing the window with the keyboard focus. Note: On Android, iOS, Web, and Linux (Wayland), this constant always represents the screen at index 0.
+*   SCREEN_PRIMARY = -2: Represents the primary screen. Note: On Android, iOS, Web, and Linux (Wayland), this constant always represents the screen at index 0.
+*   SCREEN_OF_MAIN_WINDOW = -1: Represents the screen where the main window is located. This is usually the default value in functions that allow specifying one of several screens. Note: On Android, iOS, Web, and Linux (Wayland), this constant always represents the screen at index 0.
+*   MAIN_WINDOW_ID = 0: The ID of the main window spawned by the engine, which can be passed to methods expecting a window_id.
+*   INVALID_WINDOW_ID = -1: The ID that refers to a nonexistent window. This is returned by some DisplayServer methods if no window matches the requested result.
+*   INVALID_INDICATOR_ID = -1: The ID that refers to a nonexistent application status indicator.
+---CHUNK---
+Document: DisplayServer
+Path: godot/classes/class_displayserver.rst
+Summary: This chunk covers deprecated accessibility methods for creating and managing accessibility elements, as well as methods for querying OS-level accessibility settings like screen reader status and contrast preferences.
+
+Method: accessibility_create_element(window_id: int, role: AccessibilityRole) -> RID
+Deprecated: Use AccessibilityServer instead.
+Creates a new, empty accessibility element resource.
+Note: An accessibility element is created and freed automatically for each Node. In general, this function should not be called manually.
+
+Method: accessibility_create_sub_element(parent_rid: RID, role: AccessibilityRole, insert_pos: int = -1) -> RID
+Deprecated: Use AccessibilityServer instead.
+Creates a new, empty accessibility sub-element resource. Sub-elements can be used to provide accessibility information for objects which are not Nodes, such as list items, table cells, or menu items. Sub-elements are freed automatically when the parent element is freed, or can be freed early using the accessibility_free_element() method.
+
+Method: accessibility_create_sub_text_edit_elements(parent_rid: RID, shaped_text: RID, min_height: float, insert_pos: int = -1, is_last_line: bool = false) -> RID
+Deprecated: Use AccessibilityServer instead.
+Creates a new, empty accessibility sub-element from the shaped text buffer. Sub-elements are freed automatically when the parent element is freed, or can be freed early using the accessibility_free_element() method.
+If `is_last_line` is `true`, no trailing newline is appended to the text content. Set to `true` for the last line in multi-line text fields and for single-line text fields.
+
+Method: accessibility_element_get_meta(id: RID) -> Variant
+Deprecated: Use AccessibilityServer instead.
+Returns the metadata of the accessibility element `id`.
+
+Method: accessibility_element_set_meta(id: RID, meta: Variant) -> void
+Deprecated: Use AccessibilityServer instead.
+Sets the metadata of the accessibility element `id` to `meta`.
+
+Method: accessibility_free_element(id: RID) -> void
+Deprecated: Use AccessibilityServer instead.
+Frees the accessibility element `id` created by accessibility_create_element(), accessibility_create_sub_element(), or accessibility_create_sub_text_edit_elements().
+
+Method: accessibility_get_window_root(window_id: int) -> RID
+Deprecated: Use AccessibilityServer instead.
+Returns the main accessibility element of the OS native window.
+
+Method: accessibility_has_element(id: RID) -> bool
+Deprecated: Use AccessibilityServer instead.
+Returns `true` if `id` is a valid accessibility element.
+
+Method: accessibility_screen_reader_active() -> int
+Returns `1` if a screen reader, Braille display or other assistive app is active, `0` otherwise. Returns `-1` if status is unknown.
+Note: This method is implemented on Linux, macOS, and Windows.
+Note: Accessibility debugging tools, such as Accessibility Insights for Windows, Accessibility Inspector (macOS), or AT-SPI Browser (Linux/BSD), do not count as assistive apps and will not affect this value. To test your project with these tools, set ProjectSettings.accessibility/general/accessibility_support to `1`.
+
+Method: accessibility_set_window_focused(window_id: int, focused: bool) -> void
+Deprecated: Use AccessibilityServer instead.
+Sets the window focused state for assistive apps.
+Note: This method is implemented on Linux, macOS, and Windows.
+Note: Advanced users only! Window objects call this method automatically.
+
+Method: accessibility_set_window_rect(window_id: int, rect_out: Rect2, rect_in: Rect2) -> void
+Deprecated: Use AccessibilityServer instead.
+Sets window outer (with decorations) and inner (without decorations) bounds for assistive apps.
+Note: This method is implemented on Linux, macOS, and Windows.
+Note: Advanced users only! Window objects call this method automatically.
+
+Method: accessibility_should_increase_contrast() -> int
+Returns `1` if a high-contrast user interface theme should be used, `0` otherwise. Returns `-1` if status is unknown.
+Note: This method is implemented on Linux (X11/Wayland, GNOME), macOS, and Windows.
+
+Method: accessibility_should_reduce_animation() -> int
+Returns `1` if flashing, blinking, and other moving content that can cause seizures in users with photosensitive epilepsy should be disabled, `0` otherwise. Returns `-1` if status is unknown.
+Note: This method is implemented on macOS and Windows.
+
+Method: accessibility_should_reduce_transparency() -> int
+Returns `1` if background images, transparency, and other features that can reduce the contrast between the foreground and background should be disabled, `0` otherwise. Returns `-1` if status is unknown.
+Note: This method is implemented on macOS and Windows.

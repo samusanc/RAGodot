@@ -1,0 +1,149 @@
+Document: Range
+Path: godot/classes/class_range.rst
+Summary: Base class for nodes that represent a range of values.
+
+Inherits: Control < CanvasItem < Node < Object
+
+The Range class is the base class for nodes that represent a range of values. This includes nodes like Slider, ProgressBar, and SpinBox. It provides common functionality for managing a value within a minimum and maximum boundary, including methods for setting and getting the value, and signals for when the value changes.
+
+Properties:
+allow_greater (bool): If true, the value can exceed the max value. Default: false.
+allow_lesser (bool): If true, the value can be less than the min value. Default: false.
+editable (bool): If true, the value can be edited by the user. Default: true.
+exp_ratio (float): If greater than 0, the value changes exponentially. Default: 1.0.
+focus_mode (int): Determines if the control can receive focus. Default: 2.
+is_visible_in_tree (bool): Returns true if this node and all its ancestors are visible.
+max_value (float): The maximum value of the range. Default: 1.0.
+min_value (float): The minimum value of the range. Default: 0.0.
+page (float): The size of a "page" for navigating the range. Default: 0.0.
+step (float): The smallest unit the value can change by. Default: 0.0.
+value (float): The current value of the range. Default: 0.0.
+
+Signals:
+value_changed(value: float)
+value_is_zero()
+value_changed_with_user_input(value: float, user_input: bool)
+---CHUNK---
+Document: Range
+Path: godot/classes/class_range.rst
+Summary: Abstract base class for controls that represent a number within a range.
+
+Inherits: Control < CanvasItem < Node < Object
+Inherited By: EditorSpinSlider, ProgressBar, ScrollBar, Slider, SpinBox, TextureProgressBar
+---CHUNK---
+Document: Range
+Path: godot/classes/class_range.rst
+Summary: Defines the abstract base class for controls representing a number within a configurable range.
+Range is an abstract base class for controls that represent a number within a range, using a configured step and page size. See e.g. ScrollBar and Slider for examples of higher-level nodes using Range.
+---CHUNK---
+Document: Range
+Path: godot/classes/class_range.rst
+Summary: Defines the properties available for the Range class in Godot Engine.
+
+Properties:
+- allow_greater (bool): If true, the value can be greater than max_value. Default: false.
+- allow_lesser (bool): If true, the value can be less than min_value. Default: false.
+- exp_edit (bool): If true, the value is edited using an exponential scale. Default: false.
+- max_value (float): The maximum allowed value. Default: 100.0.
+- min_value (float): The minimum allowed value. Default: 0.0.
+- page (float): The amount to change the value by when using the page up/down keys. Default: 0.0.
+- ratio (float): The current value represented as a ratio between min_value and max_value.
+- rounded (bool): If true, the value will always be rounded to the nearest integer. Default: false.
+- size_flags_vertical (int): Overrides Control.size_flags_vertical. Default: 0.
+- step (float): The smallest unit of change for the value. Default: 0.01.
+- value (float): The current value. Default: 0.0.
+---CHUNK---
+Document: Range
+Path: godot/classes/class_range.rst
+Summary: Describes the methods and signals available for the Range class in Godot Engine.
+
+Method: _value_changed(new_value: float) → void
+Method: set_value_no_signal(value: float) → void
+Method: share(with: Node) → void
+Method: unshare() → void
+
+Signal: changed()
+Emitted when min_value, max_value, page, or step change.
+
+Signal: value_changed(value: float)
+Emitted when value changes. When used on a Slider, this is called continuously while dragging (potentially every frame). If you are performing an expensive operation in a function connected to value_changed, consider using a debouncing Timer to call the function less often.
+Note: Unlike signals such as LineEdit.text_changed, value_changed is also emitted when value is set directly via code.
+---CHUNK---
+Document: Range
+Path: godot/classes/class_range.rst
+Summary: Properties that control the behavior and limits of a Range node.
+
+Property: allow_greater (bool)
+Default: false
+Setter: set_allow_greater
+Getter: is_greater_allowed
+If true, the value may be greater than max_value.
+
+Property: allow_lesser (bool)
+Default: false
+Setter: set_allow_lesser
+Getter: is_lesser_allowed
+If true, the value may be less than min_value.
+
+Property: exp_edit (bool)
+Default: false
+Setter: set_exp_ratio
+Getter: is_ratio_exp
+If true, and min_value is greater or equal to 0, value will be represented exponentially rather than linearly.
+
+Property: max_value (float)
+Default: 100.0
+Setter: set_max
+Getter: get_max
+Maximum value. Range is clamped if value is greater than max_value.
+
+Property: min_value (float)
+Default: 0.0
+Setter: set_min
+Getter: get_min
+Minimum value. Range is clamped if value is less than min_value.
+
+Property: page (float)
+Default: 0.0
+Setter: set_page
+Getter: get_page
+Page size. Used mainly for ScrollBar. A ScrollBar's grabber length is the ScrollBar's size multiplied by page over the difference between min_value and max_value.
+
+Property: ratio (float)
+Setter: set_as_ratio
+Getter: get_as_ratio
+The value mapped between 0 and 1.
+
+Property: rounded (bool)
+Default: false
+Setter: set_use_rounded_values
+Getter: is_using_rounded_values
+If true, value will always be rounded to the nearest integer.
+
+Property: step (float)
+Default: 0.01
+Setter: set_step
+Getter: get_step
+If greater than 0.0, value will always be rounded to a multiple of this property's value above min_value. For example, if min_value is 0.1 and step is 0.2, then value is limited to 0.1, 0.3, 0.5, and so on. If rounded is also true, value will first be rounded to a multiple of this property's value, then rounded to the nearest integer.
+
+Property: value (float)
+Default: 0.0
+Setter: set_value
+Getter: get_value
+Range's current value. Changing this property (even via code) will trigger value_changed signal. Use set_value_no_signal if you want to avoid it.
+---CHUNK---
+Document: Range
+Path: godot/classes/class_range.rst
+Summary: Describes methods for managing the value and sharing behavior of a Range node.
+
+Method: _value_changed(new_value: float) → void
+Called when the Range's value is changed (following the same conditions as value_changed signal).
+
+Method: set_value_no_signal(value: float) → void
+Sets the Range's current value to the specified value, without emitting the value_changed signal.
+
+Method: share(with: Node) → void
+Binds two Range's together along with any ranges previously grouped with either of them. When any of range's member variables change, it will share the new value with all other ranges in its group.
+
+Method: unshare() → void
+Stops the Range from sharing its member variables with any other.

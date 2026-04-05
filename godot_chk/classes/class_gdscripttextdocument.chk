@@ -1,0 +1,85 @@
+Document: GDScriptTextDocument
+Path: godot/classes/class_gdscripttextdocument.rst
+Summary: Represents a text document for GDScript code, providing methods for manipulation and analysis.
+
+Inherits: TextDocument < RefCounted
+
+A text document specifically for GDScript code. It extends the base TextDocument class with GDScript-specific features.
+---CHUNK---
+Document: GDScriptTextDocument
+Path: godot/classes/class_gdscripttextdocument.rst
+Summary: Provides language server functionality for GDScript documents.
+Deprecated: This class may be changed or removed in future versions.
+Inherits: RefCounted < Object
+---CHUNK---
+Document: GDScriptTextDocument
+Path: godot/classes/class_gdscripttextdocument.rst
+Summary: Provides language server functionality related to documents.
+Inherits: RefCounted < Object
+---CHUNK---
+Document: GDScriptTextDocument
+Path: godot/classes/class_gdscripttextdocument.rst
+Summary: This section details the methods available in the GDScriptTextDocument class, primarily related to Language Server Protocol (LSP) interactions, all of which are deprecated.
+
+Method: codeLens(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: colorPresentation(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: completion(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: declaration(params: Dictionary) → Variant
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: definition(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: didChange(params: Variant) → void
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: didClose(params: Variant) → void
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: didOpen(params: Variant) → void
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: didSave(params: Variant) → void
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: documentLink(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: documentSymbol(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: foldingRange(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: hover(params: Dictionary) → Variant
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: nativeSymbol(params: Dictionary) → Variant
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: prepareRename(params: Dictionary) → Variant
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: references(params: Dictionary) → Array
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: rename(params: Dictionary) → Dictionary
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: resolve(params: Dictionary) → Dictionary
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: show_native_symbol_in_editor(symbol_id: String) → void
+Deprecated: Use ScriptEditor.goto_help() instead.
+
+Method: signatureHelp(params: Dictionary) → Variant
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.
+
+Method: willSaveWaitUntil(params: Variant) → void
+Deprecated: Accessing LSP endpoints directly might lead to unwanted side effects. Connect to the server via TCP, like a regular language server client.

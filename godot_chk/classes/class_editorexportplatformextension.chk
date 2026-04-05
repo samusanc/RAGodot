@@ -1,0 +1,178 @@
+Document: EditorExportPlatformExtension
+Path: godot/classes/class_editorexportplatformextension.rst
+Summary: This document provides a reference to the EditorExportPlatformExtension class.
+---CHUNK---
+Document: EditorExportPlatformExtension
+Path: godot/classes/class_editorexportplatformextension.rst
+Summary: Base class for custom EditorExportPlatform implementations (plugins).
+
+Inherits: EditorExportPlatform < RefCounted < Object
+
+Base class for custom EditorExportPlatform implementations (plugins).
+---CHUNK---
+Document: EditorExportPlatformExtension
+Path: godot/classes/class_editorexportplatformextension.rst
+Summary: Describes the EditorExportPlatformExtension class, which external export platform implementations should inherit from.
+
+Description
+External EditorExportPlatform implementations should inherit from this class.
+
+To use EditorExportPlatform, register it using the EditorPlugin.add_export_platform() method first.
+---CHUNK---
+Document: EditorExportPlatformExtension
+Path: godot/classes/class_editorexportplatformextension.rst
+Summary: This section lists and describes the virtual and public methods available in the EditorExportPlatformExtension class for custom export platform implementations.
+
+- Method: _can_export(preset: EditorExportPreset, debug: bool) -> bool (virtual, const)
+- Method: _cleanup() -> void (virtual)
+- Method: _export_pack(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags]) -> Error (virtual)
+- Method: _export_pack_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray, flags: bitfield[DebugFlags]) -> Error (virtual)
+- Method: _export_project(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags]) -> Error (virtual, required)
+- Method: _export_zip(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags]) -> Error (virtual)
+- Method: _export_zip_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray, flags: bitfield[DebugFlags]) -> Error (virtual)
+- Method: _get_binary_extensions(preset: EditorExportPreset) -> PackedStringArray (virtual, required, const)
+- Method: _get_debug_protocol() -> String (virtual, const)
+- Method: _get_device_architecture(device: int) -> String (virtual, const)
+- Method: _get_export_option_visibility(preset: EditorExportPreset, option: String) -> bool (virtual, const)
+- Method: _get_export_option_warning(preset: EditorExportPreset, option: StringName) -> String (virtual, const)
+- Method: _get_export_options() -> Array[Dictionary] (virtual, const)
+- Method: _get_logo() -> Texture2D (virtual, required, const)
+- Method: _get_name() -> String (virtual, required, const)
+- Method: _get_option_icon(device: int) -> Texture2D (virtual, const)
+- Method: _get_option_label(device: int) -> String (virtual, const)
+- Method: _get_option_tooltip(device: int) -> String (virtual, const)
+- Method: _get_options_count() -> int (virtual, const)
+- Method: _get_options_tooltip() -> String (virtual, const)
+- Method: _get_os_name() -> String (virtual, required, const)
+- Method: _get_platform_features() -> PackedStringArray (virtual, required, const)
+- Method: _get_preset_features(preset: EditorExportPreset) -> PackedStringArray (virtual, required, const)
+- Method: _get_run_icon() -> Texture2D (virtual, const)
+- Method: _has_valid_export_configuration(preset: EditorExportPreset, debug: bool) -> bool (virtual, required, const)
+- Method: _has_valid_project_configuration(preset: EditorExportPreset) -> bool (virtual, required, const)
+- Method: _initialize() -> void (virtual)
+- Method: _is_executable(path: String) -> bool (virtual, const)
+- Method: _poll_export() -> bool (virtual)
+- Method: _run(preset: EditorExportPreset, device: int, debug_flags: bitfield[DebugFlags]) -> Error (virtual)
+- Method: _should_update_export_options() -> bool (virtual)
+- Method: get_config_error() -> String (const)
+- Method: get_config_missing_templates() -> bool (const)
+- Method: set_config_error(error_text: String) -> void (const)
+- Method: set_config_missing_templates(missing_templates: bool) -> void (const)
+---CHUNK---
+Document: EditorExportPlatformExtension
+Path: godot/classes/class_editorexportplatformextension.rst
+Summary: This section describes virtual and public methods for the EditorExportPlatformExtension class, covering export configuration, project export, and one-click deploy functionalities.
+
+Method: _can_export(preset: EditorExportPreset, debug: bool) → bool
+Returns `true` if the specified `preset` is valid and can be exported. Use set_config_error() and set_config_missing_templates() to set error details. Usual implementations call _has_valid_export_configuration() and _has_valid_project_configuration() to determine if exporting is possible.
+
+Method: _cleanup() → void
+Called by the editor before platform is unregistered.
+
+Method: _export_pack(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags]) → Error
+Creates a PCK archive at `path` for the specified `preset`. This method is called when "Export PCK/ZIP" button is pressed in the export dialog, with "Export as Patch" disabled, and PCK is selected as a file type.
+
+Method: _export_pack_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray, flags: bitfield[DebugFlags]) → Error
+Creates a patch PCK archive at `path` for the specified `preset`, containing only the files that have changed since the last patch. This method is called when "Export PCK/ZIP" button is pressed in the export dialog, with "Export as Patch" enabled, and PCK is selected as a file type. Note: The patches provided in `patches` have already been loaded when this method is called and are merely provided as context. When empty the patches defined in the export preset have been loaded instead.
+
+Method: _export_project(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags]) → Error
+Creates a full project at `path` for the specified `preset`. This method is called when "Export" button is pressed in the export dialog. This method implementation can call EditorExportPlatform.save_pack() or EditorExportPlatform.save_zip() to use default PCK/ZIP export process, or calls EditorExportPlatform.export_project_files() and implement custom callback for processing each exported file.
+
+Method: _export_zip(preset: EditorExportPreset, debug: bool, path: String, flags: bitfield[DebugFlags]) → Error
+Create a ZIP archive at `path` for the specified `preset`. This method is called when "Export PCK/ZIP" button is pressed in the export dialog, with "Export as Patch" disabled, and ZIP is selected as a file type.
+
+Method: _export_zip_patch(preset: EditorExportPreset, debug: bool, path: String, patches: PackedStringArray, flags: bitfield[DebugFlags]) → Error
+Create a ZIP archive at `path` for the specified `preset`, containing only the files that have changed since the last patch. This method is called when "Export PCK/ZIP" button is pressed in the export dialog, with "Export as Patch" enabled, and ZIP is selected as a file type. Note: The patches provided in `patches` have already been loaded when this method is called and are merely provided as context. When empty the patches defined in the export preset have been loaded instead.
+
+Method: _get_binary_extensions(preset: EditorExportPreset) → PackedStringArray
+Returns array of supported binary extensions for the full project export.
+
+Method: _get_debug_protocol() → String
+Returns protocol used for remote debugging. Default implementation return `tcp://`.
+
+Method: _get_device_architecture(device: int) → String
+Returns device architecture for one-click deploy.
+
+Method: _get_export_option_visibility(preset: EditorExportPreset, option: String) → bool
+Validates `option` and returns visibility for the specified `preset`. Default implementation return `true` for all options.
+
+Method: _get_export_option_warning(preset: EditorExportPreset, option: StringName) → String
+Validates `option` and returns warning message for the specified `preset`. Default implementation return empty string for all options.
+
+Method: _get_export_options() → Array[Dictionary]
+Returns a property list, as an Array of dictionaries. Each Dictionary must at least contain the `name: StringName` and `type: Variant.Type` entries.
+Additionally, the following keys are supported:
+- `hint: PropertyHint`
+- `hint_string: String`
+- `usage: PropertyUsageFlags`
+- `class_name: StringName`
+- `default_value: Variant`, default value of the property.
+- `update_visibility: bool`, if set to `true`, _get_export_option_visibility() is called for each property when this property is changed.
+- `required: bool`, if set to `true`, this property warnings are critical, and should be resolved to make export possible. This value is a hint for the _has_valid_export_configuration() implementation, and not used by the engine directly.
+See also Object._get_property_list().
+
+Method: _get_logo() → Texture2D
+Returns the platform logo displayed in the export dialog. The logo should be 32×32 pixels, adjusted for the current editor scale (see EditorInterface.get_editor_scale()).
+
+Method: _get_name() → String
+Returns export platform name.
+
+Method: _get_option_icon(device: int) → Texture2D
+Returns the item icon for the specified `device` in the one-click deploy menu. The icon should be 16×16 pixels, adjusted for the current editor scale (see EditorInterface.get_editor_scale()).
+
+Method: _get_option_label(device: int) → String
+Returns one-click deploy menu item label for the specified `device`.
+
+Method: _get_option_tooltip(device: int) → String
+Returns one-click deploy menu item tooltip for the specified `device`.
+
+Method: _get_options_count() → int
+Returns the number of devices (or other options) available in the one-click deploy menu.
+
+Method: _get_options_tooltip() → String
+Returns tooltip of the one-click deploy menu button.
+
+Method: _get_os_name() → String
+Returns target OS name.
+
+Method: _get_platform_features() → PackedStringArray
+Returns array of platform specific features.
+
+Method: _get_preset_features(preset: EditorExportPreset) → PackedStringArray
+Returns array of platform specific features for the specified `preset`.
+
+Method: _get_run_icon() → Texture2D
+Returns the icon of the one-click deploy menu button. The icon should be 16×16 pixels, adjusted for the current editor scale (see EditorInterface.get_editor_scale()).
+
+Method: _has_valid_export_configuration(preset: EditorExportPreset, debug: bool) → bool
+Returns `true` if export configuration is valid.
+
+Method: _has_valid_project_configuration(preset: EditorExportPreset) → bool
+Returns `true` if project configuration is valid.
+
+Method: _initialize() → void
+Initializes the plugin. Called by the editor when platform is registered.
+
+Method: _is_executable(path: String) → bool
+Returns `true` if specified file is a valid executable (native executable or script) for the target platform.
+
+Method: _poll_export() → bool
+Returns `true` if one-click deploy options are changed and editor interface should be updated.
+
+Method: _run(preset: EditorExportPreset, device: int, debug_flags: bitfield[DebugFlags]) → Error
+This method is called when `device` one-click deploy menu option is selected. Implementation should export project to a temporary location, upload and run it on the specific `device`, or perform another action associated with the menu item.
+
+Method: _should_update_export_options() → bool
+Returns `true` if export options list is changed and presets should be updated.
+
+Method: get_config_error() → String
+Returns current configuration error message text. This method should be called only from the _can_export(), _has_valid_export_configuration(), or _has_valid_project_configuration() implementations.
+
+Method: get_config_missing_templates() → bool
+Returns `true` is export templates are missing from the current configuration. This method should be called only from the _can_export(), _has_valid_export_configuration(), or _has_valid_project_configuration() implementations.
+
+Method: set_config_error(error_text: String) → void
+Sets current configuration error message text. This method should be called only from the _can_export(), _has_valid_export_configuration(), or _has_valid_project_configuration() implementations.
+
+Method: set_config_missing_templates(missing_templates: bool) → void
+Set to `true` is export templates are missing from the current configuration. This method should be called only from the _can_export(), _has_valid_export_configuration(), or _has_valid_project_configuration() implementations.

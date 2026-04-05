@@ -1,0 +1,438 @@
+Document: Using Multiple Threads
+Path: godot/tutorials/performance/using_multiple_threads.rst
+Summary: This document explains how to use multiple threads in Godot for performance improvements.
+
+Using multiple threads in Godot can significantly improve performance by allowing tasks to run in parallel. This is particularly useful for CPU-intensive operations that would otherwise block the main thread and cause frame drops.
+
+Godot provides the Thread class for creating and managing threads. You can spawn new threads to execute specific functions, offloading work from the main game loop.
+
+GDScript:
+```gdscript
+var thread = Thread.new()
+thread.start(self, "_my_thread_function", "some_data")
+
+func _my_thread_function(data):
+    # Perform intensive task here
+    print("Thread received: ", data)
+    # ...
+    return "result_from_thread"
+
+func _ready():
+    var result = thread.join() # Wait for the thread to finish and get its return value
+    print("Thread finished with result: ", result)
+```
+
+C#:
+```csharp
+var thread = new Godot.Threading.Thread();
+thread.Start(this, nameof(_MyThreadFunction), "some_data");
+
+public Godot.Variant _MyThreadFunction(Godot.Variant data)
+{
+    // Perform intensive task here
+    GD.Print($"Thread received: {data}");
+    // ...
+    return "result_from_thread";
+}
+
+public override void _Ready()
+{
+    var result = thread.Join(); // Wait for the thread to finish and get its return value
+    GD.Print($"Thread finished with result: {result}");
+}
+```
+
+When using threads, it's crucial to manage shared data carefully to avoid race conditions. Accessing the same data from multiple threads simultaneously without proper synchronization can lead to unpredictable behavior and bugs.
+
+Key Rule: Always use synchronization primitives like Mutex or Semaphore when multiple threads need to access or modify shared resources. This ensures that only one thread can access the critical section of code at a time.
+
+The Thread class offers methods like `is_alive()` to check if a thread is still running and `wait_to_finish()` (which is equivalent to `join()`) to pause the current thread until the target thread completes its execution.
+
+Consider the following when designing your multithreaded applications:
+
+*   **Task Granularity**: Break down large tasks into smaller, manageable chunks that can be processed independently.
+*   **Data Dependencies**: Minimize dependencies between threads. If threads rely heavily on each other's results, the benefits of multithreading might be diminished due to waiting times.
+*   **Thread Safety**: Ensure that all code executed in threads is thread-safe. Avoid accessing Godot API functions that are not thread-safe from background threads. Most of the Godot API is not thread-safe.
+
+Warning: Accessing most Godot API functions from threads other than the main thread is not allowed and can lead to crashes or unpredictable behavior. Only use thread-safe classes or pass data back to the main thread for processing.
+---CHUNK---
+Document: Using multiple threads
+Path: godot/tutorials/performance/using_multiple_threads.rst
+Summary: This document explains how to use multiple threads in Godot for performance optimization.
+For a list of multithreading primitives in C++, see core concurrency types.
+---CHUNK---
+Document: Using Multiple Threads
+Path: godot/tutorials/performance/using_multiple_threads.rst
+Summary: This section introduces the concept of threads in Godot for parallel execution and warns about thread safety.
+Threads allow simultaneous execution of code, enabling off-loading work from the main thread. Godot provides functions to support thread usage. Note: If using other languages like C# or C++, it may be easier to use their native threading classes. Warning: Before using a built-in class in a thread, check the thread-safe APIs documentation to ensure it can be safely used.
+---CHUNK---
+Document: Using Multiple Threads
+Path: godot/tutorials/performance/using_multiple_threads.rst
+Summary: This section explains how to create and manage threads in Godot using GDScript and C++.
+
+To create a thread, use the following code:
+
+GDScript:
+```gdscript
+var thread: Thread
+
+# The thread will start here.
+func _ready():
+    thread = Thread.new()
+    # You can bind multiple arguments to a function Callable.
+    thread.start(_thread_function.bind("Wafflecopter"))
+
+
+# Run here and exit.
+# The argument is the bound data passed from start().
+func _thread_function(userdata):
+    # Print the userdata ("Wafflecopter")
+    print("I'm a thread! Userdata is: ", userdata)
+
+
+# Thread must be disposed (or "joined"), for portability.
+func _exit_tree():
+    thread.wait_to_finish()
+```
+
+C#:
+```csharp
+// .H File
+#pragma once
+
+#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/thread.hpp>
+
+namespace godot {
+    class MultithreadingDemo : public Node {
+        GDCLASS(MultithreadingDemo, Node);
+
+    private:
+        Ref<Thread> worker;
+
+    protected:
+        static void _bind_methods();
+        void _notification(int p_what);
+
+    public:
+        MultithreadingDemo();
+        ~MultithreadingDemo();
+
+        void demo_threaded_function();
+    };
+} // namespace godot
+
+// .CPP File
+#include "multithreading_demo.h"
+
+#include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/classes/os.hpp>
+#include <godot_cpp/classes/time.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
+
+using namespace godot;
+
+void MultithreadingDemo::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("threaded_function"), &MultithreadingDemo::demo_threaded_function);
+}
+
+void MultithreadingDemo::_notification(int p_what) {
+    // Prevents this from running in the editor, only during game mode. In Godot 4.3+ use Runtime classes.
+    if (Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
+
+    switch (p_what) {
+        case NOTIFICATION_READY: {
+            worker.instantiate();
+            worker->start(callable_mp(this, &MultithreadingDemo::demo_threaded_function), Thread::PRIORITY_NORMAL);
+        } break;
+        case NOTIFICATION_EXIT_TREE: { // Thread must be disposed (or "joined"), for portability.
+            // Wait until it exits.
+            if (worker.is_valid()) {
+                worker->wait_to_finish();
+            }
+
+            worker.unref();
+        } break;
+    }
+}
+
+MultithreadingDemo::MultithreadingDemo() {
+    // Initialize any variables here.
+}
+
+MultithreadingDemo::~MultithreadingDemo() {
+    // Add your cleanup here.
+}
+
+void MultithreadingDemo::demo_threaded_function() {
+    UtilityFunctions::print("demo_threaded_function started!");
+    int i = 0;
+    uint64_t start = Time::get_singleton()->get_ticks_msec();
+    while (Time::get_singleton()->get_ticks_msec() - start < 5000) {
+        OS::get_singleton()->delay_msec(10);
+        i++;
+    }
+
+    UtilityFunctions::print("demo_threaded_function counted to: ", i, ".");
+}
+```
+
+Your function will run in a separate thread until it returns. Even if the function has returned, the thread must be collected, so call Thread.wait_to_finish(), which waits until the thread is done (if not done yet) and then properly disposes of it.
+
+Warning: Creating threads is a slow operation, especially on Windows. To avoid unnecessary performance overhead, create threads before heavy processing is needed instead of creating them just-in-time. For example, if multiple threads are needed during gameplay, create them while the level is loading and only start processing with them later. Additionally, locking and unlocking mutexes can be expensive. Lock carefully and avoid locking too often or for too long.
+---CHUNK---
+Document: Using Multiple Threads - Mutexes
+Path: godot/tutorials/performance/using_multiple_threads.rst
+Summary: Explanation of using Mutex objects to synchronize data access across multiple threads in Godot.
+
+Accessing objects or data from multiple threads is not always supported and can cause unexpected behaviors or crashes. Consult the Thread Safe APIs documentation to understand which engine APIs support multiple thread access.
+
+When processing your own data or calling your own functions, avoid accessing the same data directly from different threads. You may run into synchronization problems, as the data is not always updated between CPU cores when modified. Always use a Mutex when accessing a piece of data from different threads.
+
+Key Rule: When calling Mutex.lock(), a thread ensures that all other threads will be blocked (put in a suspended state) if they try to lock the same mutex. When the mutex is unlocked by calling Mutex.unlock(), the other threads will be allowed to proceed with the lock, but only one at a time.
+
+GDScript:
+    var counter := 0
+    var mutex: Mutex
+    var thread: Thread
+
+    func _ready():
+        mutex = Mutex.new()
+        thread = Thread.new()
+        thread.start(_thread_function)
+
+        mutex.lock()
+        counter += 1
+        mutex.unlock()
+
+    func _thread_function():
+        mutex.lock()
+        counter += 1
+        mutex.unlock()
+
+    func _exit_tree():
+        thread.wait_to_finish()
+        print("Counter is: ", counter)
+
+C++:
+    void MutexDemo::thread_function() {
+        mutex->lock();
+        counter += 1;
+        mutex->unlock();
+    }
+
+    // In the notification handler:
+    case NOTIFICATION_READY: {
+        mutex.instantiate();
+        thread.instantiate();
+        thread->start(callable_mp(this, &MutexDemo::thread_function), Thread::PRIORITY_NORMAL);
+
+        mutex->lock();
+        counter += 1;
+        mutex->unlock();
+    } break;
+    case NOTIFICATION_EXIT_TREE: {
+        if (thread.is_valid()) {
+            thread->wait_to_finish();
+        }
+        thread.unref();
+    } break;
+---CHUNK---
+Document: Using multiple threads
+Path: godot/tutorials/performance/using_multiple_threads.rst
+Summary: This section explains how to use Semaphores to signal threads for on-demand processing and synchronization.
+
+Semaphores are used when a thread needs to work only when signaled, suspending itself otherwise. The `Semaphore.wait()` method is called within the worker thread to pause execution until a signal is received. The main thread uses `Semaphore.post()` to signal that data is ready for processing.
+
+GDScript:
+```gdscript
+    var counter := 0
+    var mutex: Mutex
+    var semaphore: Semaphore
+    var thread: Thread
+    var exit_thread := false
+
+
+    # The thread will start here.
+    func _ready():
+        mutex = Mutex.new()
+        semaphore = Semaphore.new()
+        exit_thread = false
+
+        thread = Thread.new()
+        thread.start(_thread_function)
+
+
+    func _thread_function():
+        while true:
+            semaphore.wait() # Wait until posted.
+
+            mutex.lock()
+            var should_exit = exit_thread # Protect with Mutex.
+            mutex.unlock()
+
+            if should_exit:
+                break
+
+            mutex.lock()
+            counter += 1 # Increment counter, protect with Mutex.
+            mutex.unlock()
+
+
+    func increment_counter():
+        semaphore.post() # Make the thread process.
+
+
+    func get_counter():
+        mutex.lock()
+        # Copy counter, protect with Mutex.
+        var counter_value = counter
+        mutex.unlock()
+        return counter_value
+
+
+    # Thread must be disposed (or "joined"), for portability.
+    func _exit_tree():
+        # Set exit condition to true.
+        mutex.lock()
+        exit_thread = true # Protect with Mutex.
+        mutex.unlock()
+
+        # Unblock by posting.
+        semaphore.post()
+
+        # Wait until it exits.
+        thread.wait_to_finish()
+
+        # Print the counter.
+        print("Counter is: ", counter)
+```
+
+C#:
+```c++
+#pragma once
+
+#include <godot_cpp/classes/mutex.hpp>
+#include <godot_cpp/classes/node.hpp>
+#include <godot_cpp/classes/semaphore.hpp>
+#include <godot_cpp/classes/thread.hpp>
+
+namespace godot {
+    class SemaphoreDemo : public Node {
+        GDCLASS(SemaphoreDemo, Node);
+
+    private:
+        int counter = 0;
+        Ref<Mutex> mutex;
+        Ref<Semaphore> semaphore;
+        Ref<Thread> thread;
+        bool exit_thread = false;
+
+    protected:
+        static void _bind_methods();
+        void _notification(int p_what);
+
+    public:
+        SemaphoreDemo();
+        ~SemaphoreDemo();
+
+        void thread_function();
+        void increment_counter();
+        int get_counter();
+    };
+} // namespace godot
+```
+```c++
+#include "semaphore_demo.h"
+
+#include <godot_cpp/classes/engine.hpp>
+#include <godot_cpp/classes/time.hpp>
+#include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/utility_functions.hpp>
+
+using namespace godot;
+
+void SemaphoreDemo::_bind_methods() {
+    ClassDB::bind_method(D_METHOD("thread_function"), &SemaphoreDemo::thread_function);
+}
+
+void SemaphoreDemo::_notification(int p_what) {
+    // Prevents this from running in the editor, only during game mode.
+    if (Engine::get_singleton()->is_editor_hint()) {
+        return;
+    }
+
+    switch (p_what) {
+        case NOTIFICATION_READY: {
+            UtilityFunctions::print("Semaphore Demo Counter is starting at: ", counter);
+            mutex.instantiate();
+            semaphore.instantiate();
+            exit_thread = false;
+
+            thread.instantiate();
+            thread->start(callable_mp(this, &SemaphoreDemo::thread_function), Thread::PRIORITY_NORMAL);
+
+            increment_counter(); // Call increment counter to test.
+        } break;
+        case NOTIFICATION_EXIT_TREE: { // Thread must be disposed (or "joined"), for portability.
+            // Set exit condition to true.
+            mutex->lock();
+            exit_thread = true; // Protect with Mutex.
+            mutex->unlock();
+
+            // Unblock by posting.
+            semaphore->post();
+
+            // Wait until it exits.
+            if (thread.is_valid()) {
+                thread->wait_to_finish();
+            }
+            thread.unref();
+
+            // Print the counter.
+            UtilityFunctions::print("Semaphore Demo Counter is ", get_counter(),  " at EXIT_TREE.");
+        } break;
+    }
+}
+
+SemaphoreDemo::SemaphoreDemo() {
+    // Initialize any variables here.
+}
+
+SemaphoreDemo::~SemaphoreDemo() {
+    // Add your cleanup here.
+}
+
+// Increment the value from the thread, too.
+void SemaphoreDemo::thread_function() {
+    while (true) {
+        semaphore->wait(); // Wait until posted.
+
+        mutex->lock();
+        bool should_exit = exit_thread; // Protect with Mutex.
+        mutex->unlock();
+
+        if (should_exit) {
+            break;
+        }
+
+        mutex->lock();
+        counter += 1; // Increment counter, protect with Mutex.
+        mutex->unlock();
+    }
+}
+
+void SemaphoreDemo::increment_counter() {
+    semaphore->post(); // Make the thread process.
+}
+
+int SemaphoreDemo::get_counter() {
+    mutex->lock();
+    // Copy counter, protect with Mutex.
+    int counter_value = counter;
+    mutex->unlock();
+    return counter_value;
+}

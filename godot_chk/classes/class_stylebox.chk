@@ -1,0 +1,194 @@
+Document: StyleBox
+Path: godot/classes/class_stylebox.rst
+Summary: Base class for all stylebox types used for drawing UI elements.
+
+Inherits: Resource < RefCounted < Object
+
+Inherited by: StyleBoxEmpty, StyleBoxFlat, StyleBoxLine, StyleBoxTexture
+
+Description: StyleBox is an abstract base class for drawing styles of UI elements. A StyleBox defines how a rectangular area should be drawn, including borders, margins, and background colors. It is used by various UI controls to define their appearance.
+
+Properties:
+
+content_margin_bottom (float): The bottom margin for the content. Default: 0.0.
+content_margin_left (float): The left margin for the content. Default: 0.0.
+content_margin_right (float): The right margin for the content. Default: 0.0.
+content_margin_top (float): The top margin for the content. Default: 0.0.
+
+Methods:
+
+Method: get_content_margin(margin: Side) → float
+Returns the content margin for the specified side.
+
+Method: get_draw_rect(rect: Rect2) → Rect2
+Returns the rectangle that should be used to draw the stylebox, adjusted for margins.
+
+Method: get_minimum_size() → Vector2
+Returns the minimum size that this stylebox requires.
+
+Method: get_margin(margin: Side) → float
+Returns the margin for the specified side.
+
+Method: draw(canvas_item: RID, rect: Rect2) → void
+Draws the stylebox using the provided canvas item and rectangle.
+
+Method: test_mask(point: Vector2, rect: Rect2) → bool
+Tests if a point is within the stylebox's drawing area.
+
+Key Rule: StyleBox is an abstract class and cannot be instantiated directly. Use one of its subclasses like StyleBoxFlat or StyleBoxTexture instead.
+
+Key Rule: Content margins define the area inside the stylebox where child controls or text are placed. These margins are automatically respected by container controls.
+---CHUNK---
+Document: StyleBox
+Path: godot/classes/class_stylebox.rst
+Summary: Abstract base class for defining stylized boxes for UI elements.
+Inherits: Resource < RefCounted < Object
+Inherited By: StyleBoxEmpty, StyleBoxFlat, StyleBoxLine, StyleBoxTexture
+---CHUNK---
+Document: StyleBox
+Path: godot/classes/class_stylebox.rst
+Summary: Defines the base class for drawing stylized boxes for UI elements in Godot.
+StyleBox is an abstract base class for drawing stylized boxes for UI elements. It is used for panels, buttons, LineEdit backgrounds, Tree backgrounds, etc. and also for testing a transparency mask for pointer signals. If mask test fails on a StyleBox assigned as mask to a control, clicks and motion signals will go through it to the one below.
+Note: For control nodes that have Theme Properties, the focus StyleBox is displayed over the normal, hover or pressed StyleBox. This makes the focus StyleBox more reusable across different nodes.
+---CHUNK---
+Document: StyleBox
+Path: godot/classes/class_stylebox.rst
+Summary: Defines properties for controlling the content margins of a StyleBox.
+
+Properties
+content_margin_bottom (float): The bottom margin of the content area. Default: -1.0.
+content_margin_left (float): The left margin of the content area. Default: -1.0.
+content_margin_right (float): The right margin of the content area. Default: -1.0.
+content_margin_top (float): The top margin of the content area. Default: -1.0.
+---CHUNK---
+Document: StyleBox
+Path: godot/classes/class_stylebox.rst
+Summary: Defines methods for drawing and querying properties of a StyleBox.
+
+Method: _draw(to_canvas_item: RID, rect: Rect2) → void
+virtual
+required
+const
+This method is called when the StyleBox needs to be drawn. It should draw the StyleBox onto the given CanvasItem at the specified rectangle.
+
+Method: _get_draw_rect(rect: Rect2) → Rect2
+virtual
+const
+This method is called to determine the rectangle that the StyleBox should be drawn within. It takes the current rectangle as input and should return the adjusted rectangle.
+
+Method: _get_minimum_size() → Vector2
+virtual
+const
+This method is called to get the minimum size that the StyleBox requires. It should return a Vector2 representing the minimum width and height.
+
+Method: _test_mask(point: Vector2, rect: Rect2) → bool
+virtual
+const
+This method is called to test if a given point is inside the StyleBox's mask. It takes the point and the rectangle as input and should return true if the point is inside, false otherwise.
+
+Method: draw(canvas_item: RID, rect: Rect2) → void
+const
+Draws the StyleBox onto the given CanvasItem at the specified rectangle.
+
+Method: get_content_margin(margin: Side) → float
+const
+Returns the content margin for the specified side.
+
+Method: get_current_item_drawn() → CanvasItem
+const
+Returns the CanvasItem that is currently being drawn.
+
+Method: get_margin(margin: Side) → float
+const
+Returns the margin for the specified side.
+
+Method: get_minimum_size() → Vector2
+const
+Returns the minimum size that the StyleBox requires.
+
+Method: get_offset() → Vector2
+const
+Returns the offset of the StyleBox.
+
+Method: set_content_margin(margin: Side, offset: float) → void
+Sets the content margin for the specified side.
+
+Method: set_content_margin_all(offset: float) → void
+Sets the content margin for all sides to the specified offset.
+
+Method: test_mask(point: Vector2, rect: Rect2) → bool
+const
+Tests if a given point is inside the StyleBox's mask.
+---CHUNK---
+Document: StyleBox
+Path: godot/classes/class_stylebox.rst
+Summary: Defines the content margins for a StyleBox, controlling the space between the style box's border and its content.
+
+Property: content_margin_bottom
+Type: float
+Description: The bottom margin for the contents of this style box. Increasing this value reduces the space available to the contents from the bottom.
+Default: -1.0
+Note: If this value is negative, it is ignored and a child-specific margin is used instead. For example, for StyleBoxFlat, the border thickness (if any) is used instead. It is up to the code using this style box to decide what these contents are: for example, a Button respects this content margin for the textual contents of the button. get_margin() should be used to fetch this value as consumer instead of reading these properties directly. This is because it correctly respects negative values and the fallback mentioned above.
+
+Property: content_margin_left
+Type: float
+Description: The left margin for the contents of this style box. Increasing this value reduces the space available to the contents from the left.
+Default: -1.0
+Note: Refer to content_margin_bottom for extra considerations.
+
+Property: content_margin_right
+Type: float
+Description: The right margin for the contents of this style box. Increasing this value reduces the space available to the contents from the right.
+Default: -1.0
+Note: Refer to content_margin_bottom for extra considerations.
+
+Property: content_margin_top
+Type: float
+Description: The top margin for the contents of this style box. Increasing this value reduces the space available to the contents from the top.
+Default: -1.0
+Note: Refer to content_margin_bottom for extra considerations.
+---CHUNK---
+Document: StyleBox
+Path: godot/classes/class_stylebox.rst
+Summary: This section details the methods available for the StyleBox class in Godot Engine, including drawing, margin manipulation, and size calculation.
+
+Method: _draw(to_canvas_item: RID, rect: Rect2) → void |virtual| |required| |const|
+There is currently no description for this method. Please help us by contributing one!
+
+Method: _get_draw_rect(rect: Rect2) → Rect2 |virtual| |const|
+There is currently no description for this method. Please help us by contributing one!
+
+Method: _get_minimum_size() → Vector2 |virtual| |const|
+Virtual method to be implemented by the user. Returns a custom minimum size that the stylebox must respect when drawing. By default get_minimum_size() only takes content margins into account. This method can be overridden to add another size restriction. A combination of the default behavior and the output of this method will be used, to account for both sizes.
+
+Method: _test_mask(point: Vector2, rect: Rect2) → bool |virtual| |const|
+There is currently no description for this method. Please help us by contributing one!
+
+Method: draw(canvas_item: RID, rect: Rect2) → void |const|
+Draws this stylebox using a canvas item identified by the given RID.
+The RID value can either be the result of CanvasItem.get_canvas_item() called on an existing CanvasItem-derived node, or directly from creating a canvas item in the RenderingServer with RenderingServer.canvas_item_create().
+
+Method: get_content_margin(margin: Side) → float |const|
+Returns the default margin of the specified Side.
+
+Method: get_current_item_drawn() → CanvasItem |const|
+Returns the CanvasItem that handles its CanvasItem.NOTIFICATION_DRAW or CanvasItem._draw() callback at this moment.
+
+Method: get_margin(margin: Side) → float |const|
+Returns the content margin offset for the specified Side.
+Positive values reduce size inwards, unlike Control's margin values.
+
+Method: get_minimum_size() → Vector2 |const|
+Returns the minimum size that this stylebox can be shrunk to.
+
+Method: get_offset() → Vector2 |const|
+Returns the "offset" of a stylebox. This helper function returns a value equivalent to Vector2(style.get_margin(MARGIN_LEFT), style.get_margin(MARGIN_TOP)).
+
+Method: set_content_margin(margin: Side, offset: float) → void
+Sets the default value of the specified Side to offset pixels.
+
+Method: set_content_margin_all(offset: float) → void
+Sets the default margin to offset pixels for all sides.
+
+Method: test_mask(point: Vector2, rect: Rect2) → bool |const|
+Test a position in a rectangle, return whether it passes the mask test.

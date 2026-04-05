@@ -1,0 +1,181 @@
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This tutorial introduces the concept of cutout animation in Godot, explaining how to set it up and use it.
+
+Cutout animation is a technique where a character or object is composed of separate pieces, and animation is achieved by moving and rotating these pieces. This is commonly used in 2D games for character sprites.
+
+To create a cutout animation in Godot, you typically follow these steps:
+
+1.  **Prepare your assets:** Create your character or object in an image editor, ensuring each distinct part (e.g., head, torso, arms, legs) is on a separate layer or saved as a separate image file.
+2.  **Import into Godot:** Import these individual image files into your Godot project.
+3.  **Set up the scene:** Create a new scene and add a root node, usually a `Node2D` or `Sprite2D`. Then, add `Sprite2D` nodes for each part of your character. Position and parent these sprites appropriately to form the complete character. For example, an arm sprite would be a child of the torso sprite, allowing it to rotate around the torso's pivot point.
+4.  **Create an AnimationPlayer:** Add an `AnimationPlayer` node to your scene. This node will manage all your animations.
+5.  **Animate:** Select the `AnimationPlayer` node and create a new animation. Then, select the `Sprite2D` nodes for each part and animate their properties (position, rotation, scale, visibility, etc.) over time. You can keyframe these properties to create movement and transformations for each piece.
+6.  **Playback:** Use the `AnimationPlayer` node to play, stop, and control your animations.
+
+This method allows for flexible and efficient animation, especially for characters with many moving parts.
+---CHUNK---
+Document: Cutout Animation Tutorial
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This document introduces the concept of cutout animation in Godot Engine.
+---CHUNK---
+Document: Cutout Animation Tutorial
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section defines cutout animation as a traditional animation technique and its modern digital and video game applications.
+---CHUNK---
+Document: Cutout animation in Godot
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section introduces cutout animation in Godot, highlighting its integrated animation system, ability to combine animation styles, support for custom shapes, particle systems, custom colliders, and the AnimationTree for complex blending.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section introduces the GBot character assets used in the cutout animation tutorial.
+For this tutorial, we will use as demo content the pieces of the GBot character, created by Andreas Esau.
+
+Get your assets: cutout_animation_assets.zip.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section covers the initial setup of a skeletal rig for cutout animation in Godot, starting with the root node and adding the hip and torso sprites.
+
+Create an empty Node2D as root of the scene.
+
+The first node of the model is the hip. Generally, both in 2D and 3D, the hip is the root of the skeleton. This makes it easier to animate.
+
+Next will be the torso. The torso needs to be a child of the hip. Create a child sprite and load the torso texture, then accommodate it properly.
+
+To test the hierarchy, press E to enter rotate mode and drag with the left mouse button to rotate the torso. Press ESC to exit rotate mode.
+
+The rotation pivot is wrong and needs to be adjusted. This small cross in the middle of the Sprite2D is the rotation pivot.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to adjust the pivot point of a Sprite2D and introduces a common problem with 2D node depth ordering, hinting at a solution using RemoteTransform2D.
+
+The pivot of a Sprite2D can be adjusted by changing its *offset* property. Alternatively, you can visually adjust the pivot by hovering over the desired pivot point and pressing V. A toolbar tool also offers similar functionality.
+
+When constructing a character, add body pieces sequentially, starting with the right arm. Ensure each sprite is placed correctly within the scene hierarchy so its transformations are relative to its parent.
+
+A common issue arises with child nodes in 2D: they appear in front of their parents. For instance, if the left arm is a child of the hip, it will render in front of the hip and torso. While moving the left arm nodes above the hip in the hierarchy would visually place it behind, this breaks the intended hierarchical relationship, preventing it from being affected by the torso's movement. This depth ordering problem can be resolved using RemoteTransform2D nodes.
+
+Note: Depth ordering issues can also be addressed by modifying the Z property of any Node2D-derived node.
+---CHUNK---
+Document: Cutout Animation Tutorial
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to use the RemoteTransform2D node to control the position and animation of nodes in a cutout animation setup.
+RemoteTransform2D node
+The RemoteTransform2D node transforms nodes somewhere else in the hierarchy. This node applies its own transform (including any transformation it inherits from its parents) to the remote node it targets.
+
+This allows us to correct the visibility order of our elements, independently of the locations of those parts in the cutout hierarchy.
+
+Create a RemoteTransform2D node as a child of the torso. Call it remote_arm_l.
+Create another RemoteTransform2D node inside the first and call it remote_hand_l.
+Use the Remote Path property of the two new nodes to target the arm_l and hand_l sprites respectively.
+
+Moving the RemoteTransform2D nodes now moves the sprites. So we can create animations by adjusting the RemoteTransform2D transforms.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to complete a cutout rig and discusses its limitations, setting the stage for introducing Godot's skeletons.
+
+The resulting rig will be easy to animate. By selecting the nodes and rotating them you can animate forward kinematics (FK) efficiently.
+
+For simple objects and rigs this is fine, but there are limitations:
+- Selecting sprites in the main viewport can become difficult in complex rigs. The scene tree ends up being used to select parts instead, which can be slower.
+- Inverse Kinematics (IK) is useful for animating extremities like hands and feet, and can't be used with our rig in its current state.
+
+To solve these problems we'll use Godot's skeletons.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to create skeletons and bones in Godot for cutout animation, including how to add endpoint nodes and clear unwanted bones.
+Skeletons
+In Godot, a helper is available to create "bones" between nodes. The nodes linked by bones are called skeletons.
+
+To create a skeleton, select a chain of nodes from top to bottom. Then, click on the Skeleton menu and select "Make Bones".
+
+This action adds bones to the selected chain. A bone connects a node with its parent. If a node has no child, the bone generation might stop unexpectedly, leaving a gap.
+
+To ensure proper bone orientation and connection, create an endpoint node. A Marker2D node is recommended as it is visible in the editor. This endpoint node will serve as the child for the last bone in the chain.
+
+After creating the endpoint node, select the entire chain, from the endpoint to the starting node, and create bones using the Skeleton menu.
+
+The resulting skeleton will more closely resemble a proper rigging, allowing for animation of articulated parts.
+
+It is advisable to create endpoints for all important extremities and generate bones for all articultable parts of the cutout, with the hip serving as the primary connection point for all chains.
+
+If an extra bone is created when connecting the hip and torso (connecting the hip node to the scene root), select the root and hip node, open the Skeleton menu, and click "Clear Bones" to remove it.
+
+The final skeleton should have bones connecting all articulated parts. The presence of additional endpoint nodes in extremities will be relevant for subsequent steps like setting up IK chains.
+
+IK chains are a feature that allows for more natural control of extremities.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to set up and use Inverse Kinematics (IK) chains in Godot for animating character extremities.
+IK stands for inverse kinematics. It's a convenient technique for animating the position of hands, feet and other extremities of rigs. Without IK chains, each motion of the foot would require rotating and positioning several other bones (the shin and the thigh at least), which would be complex and imprecise. IK allows moving the foot directly while the shin and thigh self-adjust.
+Note: IK chains in Godot currently work in the editor only, not at runtime. They are intended to ease the process of setting keyframes and are not currently useful for techniques like procedural animation.
+To create an IK chain, select a chain of bones from endpoint to the base for the chain. For example, to create an IK chain for the right leg, select the following bones:
+Then enable this chain for IK by going to Edit > Make IK Chain.
+As a result, the base of the chain will turn yellow.
+Once the IK chain is set up, grab any child or grandchild of the base of the chain (e.g., a foot) and move it. You'll see the rest of the chain adjust as you move its position.
+---CHUNK---
+Document: Cutout Animation Tutorial
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: Provides a collection of tips for creating animation for cutout rigs.
+Animation tips
+The following section will be a collection of tips for creating animation for your cutout rigs. For more information on how the animation system in Godot works, see Introduction to Animation.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to set keyframes and exclude properties in the animation editor.
+
+The key button inserts location, rotation, and scale keyframes for the selected objects or bones at the current playhead position.
+
+The "loc", "rot", and "scl" toggle buttons to the left of the key button modify its function, allowing you to specify which of the three properties keyframes will be created for.
+
+This can be useful when you have existing keyframes and want to add new animations without affecting them. For example, if a node already has keyframes animating its scale, and you want to add an overlapping rotation movement that starts and ends at different times, you can use the toggle buttons. By selecting only the "rot" toggle, you can ensure that only rotation information is added when you create a new keyframe. This prevents the creation of unwanted scale keyframes that could interfere with the existing scale animation.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to create a rest pose for a cutout animation rig in Godot.
+
+Creating a rest pose
+Think of a rest pose as a default pose that your cutout rig should be set to when no other pose is active in your game. Create a rest pose as follows:
+1. Make sure the rig parts are positioned in what looks like a "resting" arrangement.
+2. Create a new animation, rename it "rest".
+3. Select all nodes in your rig (box selection should work fine).
+4. Make sure the "loc", "rot", and "scl" toggle buttons are all active in the toolbar.
+5. Press the key button. Keys will be inserted for all selected parts storing their current arrangement. This pose can now be recalled when necessary in your game by playing the "rest" animation you've created.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to optimize keyframe insertion for cutout animations by focusing only on rotation.
+When animating a cutout rig, often it's only the rotation of the nodes that needs to change. Location and scale are rarely used. So when inserting keys, you might find it convenient to have only the "rot" toggle active most of the time. This will avoid the creation of unwanted animation tracks for position and scale.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to keyframe IK chains in Godot's animation system.
+Keyframing IK chains
+When editing IK chains, it's not necessary to select the whole chain to add keyframes. Selecting the endpoint of the chain and inserting a keyframe will automatically insert keyframes for all other parts of the chain too.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to use the "Behind Parent" property in Node2D to control visual depth during animations.
+This section explains how to use the "Behind Parent" property in Node2D to control visual depth during animations. Sometimes it is necessary to have a node change its visual depth relative to its parent node during an animation. An example is a character facing the camera, who pulls something out from behind his back and holds it out in front of him. During this animation, the whole arm and the object in his hand would need to change their visual depth relative to the body of the character.
+
+To help with this, there's a keyframable "Behind Parent" property on all Node2D-inheriting nodes. When planning your rig, think about the movements it will need to perform and give some thought to how you'll use "Behind Parent" and/or RemoteTransform2D nodes. They provide overlapping functionality.
+---CHUNK---
+Document: Cutout Animation Tutorial
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: This section explains how to apply easing curves to multiple keyframes simultaneously in the animation editor.
+
+To apply the same easing curve to multiple keyframes at once:
+1. Select the relevant keys.
+2. Click on the pencil icon in the bottom right of the animation panel. This will open the transition editor.
+3. In the transition editor, click on the desired curve to apply it.
+---CHUNK---
+Document: Cutout Animation
+Path: godot/tutorials/animation/cutout_animation.rst
+Summary: Explains how skeletal deformation can be used to enhance cutout rigs for organic movement.
+Skeletal deform can be used to augment a cutout rig, allowing single pieces to deform organically (e.g. antennae that wobble as an insect character walks). This process is described in a separate tutorial.

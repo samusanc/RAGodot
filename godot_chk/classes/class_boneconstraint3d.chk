@@ -1,0 +1,108 @@
+Document: BoneConstraint3D
+Path: godot/classes/class_boneconstraint3d.rst
+Summary: A 3D bone constraint that allows for the manipulation of bone transforms in a skeleton.
+
+Inherits: Node3D < Node < Object
+
+A 3D bone constraint that allows for the manipulation of bone transforms in a skeleton.
+
+This node is a base class for all 3D bone constraints. Constraints are used to drive bone transforms in a skeleton. They can be used for various purposes, such as IK, aiming, or other procedural animation techniques.
+
+Bone constraints work by reading the current pose of the skeleton and then applying modifications to the bone transforms based on the constraint's properties. The modifications are applied in a specific order, determined by the order of the constraints in the skeleton's node tree.
+
+To use a bone constraint, you typically need to:
+
+1. Add a BoneConstraint3D node as a child of the Skeleton3D node you want to control.
+2. Configure the constraint's properties to define its behavior.
+3. Ensure the constraint is placed correctly in the node tree relative to the bones it affects.
+
+The specific behavior of a bone constraint is determined by its derived class. For example, a FABRIKConstraint3D would implement the FABRIK inverse kinematics algorithm, while an AimConstraint3D would implement aiming logic.
+
+Key Rule: Bone constraints are processed in the order they appear in the scene tree. Constraints higher up in the tree are processed first.
+
+Key Rule: Bone constraints only affect bones that are descendants of the constraint's parent node in the scene tree.
+---CHUNK---
+Document: BoneConstraint3D
+Path: godot/classes/class_boneconstraint3d.rst
+Summary: Introduces the BoneConstraint3D node, which modifies a Skeleton3D's bones by associating two bones.
+
+BoneConstraint3D
+Inherits: SkeletonModifier3D < Node3D < Node < Object
+
+Inherited By: AimModifier3D, ConvertTransformModifier3D, CopyTransformModifier3D
+
+A node that may modify Skeleton3D's bone with associating the two bones.
+---CHUNK---
+Document: BoneConstraint3D
+Path: godot/classes/class_boneconstraint3d.rst
+Summary: Describes the BoneConstraint3D class, a base class for skeleton modifiers that adjust bone transforms based on a reference bone.
+
+Inherits: SkeletonModifier3D < Node3D < Node < Object
+
+BoneConstraint3D is the base class for SkeletonModifier3D that modifies the bone set in set_apply_bone() based on the transform of the bone retrieved by get_reference_bone().
+
+Note: Most methods in this class take an index parameter. This parameter specifies which setting list entry to return if the IK has multiple entries (e.g. settings/<index>/amount).
+---CHUNK---
+Document: BoneConstraint3D
+Path: godot/classes/class_boneconstraint3d.rst
+Summary: This section details the methods available for the BoneConstraint3D class, including functions for managing settings, applying bones, and referencing other bones or nodes.
+
+Enumerations:
+enum ReferenceType:
+  REFERENCE_TYPE_BONE = 0
+    The reference target is a bone. In this case, the reference target spaces is local space.
+  REFERENCE_TYPE_NODE = 1
+    The reference target is a Node3D. In this case, the reference target spaces is model space.
+    In other words, the reference target's coordinates are treated as if it were placed directly under Skeleton3D which parent of the BoneConstraint3D.
+
+Method Descriptions:
+Method: clear_setting()
+  Clear all settings.
+
+Method: get_amount(index: int) -> float
+  Returns the apply amount of the setting at index.
+
+Method: get_apply_bone(index: int) -> int
+  Returns the apply bone of the setting at index. This bone will be modified.
+
+Method: get_apply_bone_name(index: int) -> String
+  Returns the apply bone name of the setting at index. This bone will be modified.
+
+Method: get_reference_bone(index: int) -> int
+  Returns the reference bone of the setting at index. This bone will be only referenced and not modified by this modifier.
+
+Method: get_reference_bone_name(index: int) -> String
+  Returns the reference bone name of the setting at index. This bone will be only referenced and not modified by this modifier.
+
+Method: get_reference_node(index: int) -> NodePath
+  Returns the reference node path of the setting at index. This node will be only referenced and not modified by this modifier.
+
+Method: get_reference_type(index: int) -> ReferenceType
+  Returns the reference target type of the setting at index. See also ReferenceType.
+
+Method: get_setting_count() -> int
+  Returns the number of settings in the modifier.
+
+Method: set_amount(index: int, amount: float) -> void
+  Sets the apply amount of the setting at index to amount.
+
+Method: set_apply_bone(index: int, bone: int) -> void
+  Sets the apply bone of the setting at index to bone. This bone will be modified.
+
+Method: set_apply_bone_name(index: int, bone_name: String) -> void
+  Sets the apply bone of the setting at index to bone_name. This bone will be modified.
+
+Method: set_reference_bone(index: int, bone: int) -> void
+  Sets the reference bone of the setting at index to bone. This bone will be only referenced and not modified by this modifier.
+
+Method: set_reference_bone_name(index: int, bone_name: String) -> void
+  Sets the reference bone of the setting at index to bone_name. This bone will be only referenced and not modified by this modifier.
+
+Method: set_reference_node(index: int, node: NodePath) -> void
+  Sets the reference node path of the setting at index to node. This node will be only referenced and not modified by this modifier.
+
+Method: set_reference_type(index: int, type: ReferenceType) -> void
+  Sets the reference target type of the setting at index to type. See also ReferenceType.
+
+Method: set_setting_count(count: int) -> void
+  Sets the number of settings in the modifier.

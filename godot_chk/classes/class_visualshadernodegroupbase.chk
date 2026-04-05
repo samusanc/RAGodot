@@ -1,0 +1,91 @@
+Document: VisualShaderNodeGroupBase
+Path: godot/classes/class_visualshadernodegroupbase.rst
+Summary: Base class for all visual shader node groups.
+
+Inherits: VisualShaderNode < Resource
+
+This is the base class for all visual shader node groups. It provides basic functionality for managing nodes within a group, such as adding, removing, and querying them. It also handles the serialization and deserialization of the group's contents.
+
+Key Rule: Node groups are used to organize and encapsulate complex shader logic into reusable components. They allow for a more modular and maintainable visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeGroupBase
+Path: godot/classes/class_visualshadernodegroupbase.rst
+Summary: Base class for visual shader nodes that support variable input and output ports.
+VisualShaderNodeGroupBase
+Inherits: VisualShaderNodeResizableBase < VisualShaderNode < Resource < RefCounted < Object
+
+Inherited By: VisualShaderNodeExpression
+
+Base class for a family of nodes with variable number of input and output ports within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeGroupBase
+Path: godot/classes/class_visualshadernodegroupbase.rst
+Summary: Base class for visual shader node groups, which are containers for other visual shader nodes.
+Currently, has no direct usage, use the derived classes instead.
+---CHUNK---
+Document: VisualShaderNodeGroupBase
+Path: godot/classes/class_visualshadernodegroupbase.rst
+Summary: This section details the methods available for managing input and output ports of a VisualShaderNodeGroupBase.
+
+Method: add_input_port(id: int, type: int, name: String)
+Adds an input port with the specified type (see PortType) and name.
+
+Method: add_output_port(id: int, type: int, name: String)
+Adds an output port with the specified type (see PortType) and name.
+
+Method: clear_input_ports()
+Removes all previously specified input ports.
+
+Method: clear_output_ports()
+Removes all previously specified output ports.
+
+Method: get_free_input_port_id() → int |const|
+Returns a free input port ID which can be used in add_input_port().
+
+Method: get_free_output_port_id() → int |const|
+Returns a free output port ID which can be used in add_output_port().
+
+Method: get_input_port_count() → int |const|
+Returns the number of input ports in use. Alternative for get_free_input_port_id().
+
+Method: get_inputs() → String |const|
+Returns a String description of the input ports as a colon-separated list using the format "id,type,name;" (see add_input_port()).
+
+Method: get_output_port_count() → int |const|
+Returns the number of output ports in use. Alternative for get_free_output_port_id().
+
+Method: get_outputs() → String |const|
+Returns a String description of the output ports as a colon-separated list using the format "id,type,name;" (see add_output_port()).
+
+Method: has_input_port(id: int) → bool |const|
+Returns true if the specified input port exists.
+
+Method: has_output_port(id: int) → bool |const|
+Returns true if the specified output port exists.
+
+Method: is_valid_port_name(name: String) → bool |const|
+Returns true if the specified port name does not override an existed port name and is valid within the shader.
+
+Method: remove_input_port(id: int)
+Removes the specified input port.
+
+Method: remove_output_port(id: int)
+Removes the specified output port.
+
+Method: set_input_port_name(id: int, name: String)
+Renames the specified input port.
+
+Method: set_input_port_type(id: int, type: int)
+Sets the specified input port's type (see PortType).
+
+Method: set_inputs(inputs: String)
+Defines all input ports using a String formatted as a colon-separated list: "id,type,name;" (see add_input_port()).
+
+Method: set_output_port_name(id: int, name: String)
+Renames the specified output port.
+
+Method: set_output_port_type(id: int, type: int)
+Sets the specified output port's type (see PortType).
+
+Method: set_outputs(outputs: String)
+Defines all output ports using a String formatted as a colon-separated list: "id,type,name;" (see add_output_port()).

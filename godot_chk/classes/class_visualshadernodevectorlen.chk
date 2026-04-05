@@ -1,0 +1,16 @@
+Document: VisualShaderNodeVectorLen
+Path: godot/classes/class_visualshadernodevectorlen.rst
+Summary: Class for calculating the length of a vector in a visual shader.
+---CHUNK---
+Document: VisualShaderNodeVectorLen
+Path: godot/classes/class_visualshadernodevectorlen.rst
+Summary: Returns the length of a Vector3 within the visual shader graph.
+
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+Returns the length of a Vector3 within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorLen
+Path: godot/classes/class_visualshadernodevectorlen.rst
+Summary: Represents the vector length calculation in shaders, translated to 'length(p0)'.
+
+Translated to length(p0) in the shader language.

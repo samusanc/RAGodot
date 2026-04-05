@@ -1,0 +1,235 @@
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: Defines a 2D light source that affects other 2D nodes.
+
+Light2D
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A 2D light source. Affects all child CanvasItem nodes within its range.
+
+Properties:
+
+color (Color): The light's color.
+energy (float): The light's energy (brightness). Default: 1.0.
+offset (Vector2): The light's offset from its origin.
+radius (float): The light's radius. Default: 0.0.
+scale (Vector2): The light's scale. Default: (1, 1).
+texture (Texture2D): The light's texture.
+texture_filter (int): The texture filtering mode. Default: 0.
+texture_repeat (int): The texture repeat mode. Default: 0.
+visible_in_all_rooms (bool): If true, the light will be visible in all rooms. Default: false.
+Shadow:
+
+shadow_buffer_size (int): The size of the shadow buffer. Default: 1024.
+shadow_color (Color): The shadow's color.
+shadow_cpu_cast_bias (float): The bias for CPU shadow casting. Default: 0.0.
+shadow_enable (bool): Enable shadows. Default: false.
+shadow_filter (int): The shadow filter mode. Default: 0.
+shadow_filter_smooth (float): The smoothness of the shadow filter. Default: 0.0.
+shadow_gradient_length (float): The length of the shadow gradient. Default: 0.0.
+shadow_item_cull_mask (int): The cull mask for shadow items. Default: 1.
+shadow_item_shadow_color (Color): The shadow color for items.
+shadow_item_shadow_mode (int): The shadow mode for items. Default: 0.
+shadow_mode (int): The shadow mode. Default: 0.
+shadow_normal_bias (float): The bias for shadow normals. Default: 0.0.
+shadow_only (bool): If true, the light will only cast shadows. Default: false.
+shadow_reverse_cull_face (bool): If true, the shadow will be reversed. Default: false.
+shadow_texture_bias (float): The bias for shadow textures. Default: 0.0.
+shadow_texture_offset (Vector2): The offset for shadow textures. Default: (0, 0).
+shadow_texture_scale (Vector2): The scale for shadow textures. Default: (1, 1).
+shadow_texture_rotation (float): The rotation for shadow textures. Default: 0.0.
+shadow_transparent (bool): If true, the shadow will be transparent. Default: false.
+shadow_wait_for_gpu_sync (bool): If true, the light will wait for GPU synchronization. Default: true.
+Blend Mode:
+
+blend_mode (int): The blend mode for the light. Default: 0.
+
+Methods:
+
+get_light_color() → Color
+get_light_energy() → float
+get_light_offset() → Vector2
+get_light_radius() → float
+get_light_scale() → Vector2
+get_light_texture() → Texture2D
+get_light_texture_filter() → int
+get_light_texture_repeat() → int
+get_shadow_buffer_size() → int
+get_shadow_color() → Color
+get_shadow_cpu_cast_bias() → float
+get_shadow_enable() → bool
+get_shadow_filter() → int
+get_shadow_filter_smooth() → float
+get_shadow_gradient_length() → float
+get_shadow_item_cull_mask() → int
+get_shadow_item_shadow_color() → Color
+get_shadow_item_shadow_mode() → int
+get_shadow_mode() → int
+get_shadow_normal_bias() → float
+get_shadow_only() → bool
+get_shadow_reverse_cull_face() → bool
+get_shadow_texture_bias() → float
+get_shadow_texture_offset() → Vector2
+get_shadow_texture_scale() → Vector2
+get_shadow_texture_rotation() → float
+get_shadow_transparent() → bool
+get_shadow_wait_for_gpu_sync() → bool
+get_blend_mode() → int
+set_light_color(color: Color)
+set_light_energy(energy: float)
+set_light_offset(offset: Vector2)
+set_light_radius(radius: float)
+set_light_scale(scale: Vector2)
+set_light_texture(texture: Texture2D)
+set_light_texture_filter(mode: int)
+set_light_texture_repeat(mode: int)
+set_shadow_buffer_size(size: int)
+set_shadow_color(color: Color)
+set_shadow_cpu_cast_bias(bias: float)
+set_shadow_enable(enable: bool)
+set_shadow_filter(mode: int)
+set_shadow_filter_smooth(smooth: float)
+set_shadow_gradient_length(length: float)
+set_shadow_item_cull_mask(mask: int)
+set_shadow_item_shadow_color(color: Color)
+set_shadow_item_shadow_mode(mode: int)
+set_shadow_mode(mode: int)
+set_shadow_normal_bias(bias: float)
+set_shadow_only(only: bool)
+set_shadow_reverse_cull_face(reverse_cull_face: bool)
+set_shadow_texture_bias(bias: float)
+set_shadow_texture_offset(offset: Vector2)
+set_shadow_texture_scale(scale: Vector2)
+set_shadow_texture_rotation(rotation: float)
+set_shadow_transparent(transparent: bool)
+set_shadow_wait_for_gpu_sync(wait_for_gpu_sync: bool)
+set_blend_mode(mode: int)
+---CHUNK---
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: Introduces the Light2D node, which casts light in a 2D environment.
+Inherits: Node2D < CanvasItem < Node < Object
+Inherited By: DirectionalLight2D, PointLight2D
+
+Light2D
+Casts light in a 2D environment.
+---CHUNK---
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: Describes the Light2D node, which casts light in a 2D environment with configurable color, energy, mode, range, and shadow properties.
+
+Light2D
+Casts light in a 2D environment. A light is defined as a color, an energy value, a mode (see constants), and various other parameters (range and shadows-related).
+---CHUNK---
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: This section provides a link to a tutorial on 2D lights and shadows in Godot.
+---CHUNK---
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: This section details the properties of the Light2D node in Godot Engine.
+
+Properties
+* blend_mode (BlendMode): Controls how the light's color is blended with the existing colors on the screen. Default: 0.
+* color (Color): The light's color. Default: Color(1, 1, 1, 1).
+* editor_only (bool): If true, the light will only be visible in the editor. Default: false.
+* enabled (bool): If true, the light is active. Default: true.
+* energy (float): The strength of the light. Default: 1.0.
+* range_item_cull_mask (int): Specifies which items this light should affect based on their cull mask. Default: 1.
+* range_layer_max (int): The maximum layer index this light affects. Default: 0.
+* range_layer_min (int): The minimum layer index this light affects. Default: 0.
+* range_z_max (int): The maximum Z coordinate this light affects. Default: 1024.
+* range_z_min (int): The minimum Z coordinate this light affects. Default: -1024.
+* shadow_color (Color): The color of the light's shadow. Default: Color(0, 0, 0, 0).
+* shadow_enabled (bool): If true, shadows are cast by this light. Default: false.
+* shadow_filter (ShadowFilter): The filter mode for the shadow. Default: 0.
+* shadow_filter_smooth (float): The smoothness of the shadow filter. Default: 0.0.
+* shadow_item_cull_mask (int): Specifies which items casting shadows this light should consider based on their cull mask. Default: 1.
+---CHUNK---
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: This section details the methods and enumerations available for the Light2D class in Godot Engine.
+
+Methods
+Method: get_height() → float
+Method: set_height(height: float)
+
+Enumerations
+enum ShadowFilter:
+  SHADOW_FILTER_NONE = 0
+    No filter applies to the shadow map. This provides hard shadow edges and is the fastest to render.
+  SHADOW_FILTER_PCF5 = 1
+    Percentage closer filtering (5 samples) applies to the shadow map. This is slower compared to hard shadow rendering.
+  SHADOW_FILTER_PCF13 = 2
+    Percentage closer filtering (13 samples) applies to the shadow map. This is the slowest shadow filtering mode, and should be used sparingly.
+
+enum BlendMode:
+  BLEND_MODE_ADD = 0
+    Adds the value of pixels corresponding to the Light2D to the values of pixels under it. This is the common behavior of a light.
+  BLEND_MODE_SUB = 1
+    Subtracts the value of pixels corresponding to the Light2D to the values of pixels under it, resulting in inversed light effect.
+  BLEND_MODE_MIX = 2
+    Mix the value of pixels corresponding to the Light2D to the values of pixels under it by linear interpolation.
+---CHUNK---
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: Describes the properties of the Light2D node, controlling its appearance, behavior, and interaction with other nodes.
+
+Inherits: CanvasItem
+
+Properties:
+- blend_mode (BlendMode): The Light2D's blend mode. Default: 0.
+  - Setters: set_blend_mode(value: BlendMode)
+  - Getters: get_blend_mode() -> BlendMode
+- color (Color): The Light2D's color. Default: Color(1, 1, 1, 1).
+  - Setters: set_color(value: Color)
+  - Getters: get_color() -> Color
+- editor_only (bool): If true, Light2D will only appear when editing the scene. Default: false.
+  - Setters: set_editor_only(value: bool)
+  - Getters: is_editor_only() -> bool
+- enabled (bool): If true, Light2D will emit light. Default: true.
+  - Setters: set_enabled(value: bool)
+  - Getters: is_enabled() -> bool
+- energy (float): The Light2D's energy value. The larger the value, the stronger the light. Default: 1.0.
+  - Setters: set_energy(value: float)
+  - Getters: get_energy() -> float
+- range_item_cull_mask (int): The layer mask. Only objects with a matching CanvasItem.light_mask will be affected by the Light2D. See also shadow_item_cull_mask, which affects which objects can cast shadows. Default: 1.
+  - Note: range_item_cull_mask is ignored by DirectionalLight2D, which will always light a 2D node regardless of the 2D node's CanvasItem.light_mask.
+  - Setters: set_item_cull_mask(value: int)
+  - Getters: get_item_cull_mask() -> int
+- range_layer_max (int): Maximum layer value of objects that are affected by the Light2D. Default: 0.
+  - Setters: set_layer_range_max(value: int)
+  - Getters: get_layer_range_max() -> int
+- range_layer_min (int): Minimum layer value of objects that are affected by the Light2D. Default: 0.
+  - Setters: set_layer_range_min(value: int)
+  - Getters: get_layer_range_min() -> int
+- range_z_max (int): Maximum z value of objects that are affected by the Light2D. Default: 1024.
+  - Setters: set_z_range_max(value: int)
+  - Getters: get_z_range_max() -> int
+- range_z_min (int): Minimum z value of objects that are affected by the Light2D. Default: -1024.
+  - Setters: set_z_range_min(value: int)
+  - Getters: get_z_range_min() -> int
+- shadow_color (Color): Color of shadows cast by the Light2D. Default: Color(0, 0, 0, 0).
+  - Setters: set_shadow_color(value: Color)
+  - Getters: get_shadow_color() -> Color
+- shadow_enabled (bool): If true, the Light2D will cast shadows. Default: false.
+  - Setters: set_shadow_enabled(value: bool)
+  - Getters: is_shadow_enabled() -> bool
+- shadow_filter (ShadowFilter): Shadow filter type. Default: 0.
+  - Setters: set_shadow_filter(value: ShadowFilter)
+  - Getters: get_shadow_filter() -> ShadowFilter
+- shadow_filter_smooth (float): Smoothing value for shadows. Higher values will result in softer shadows, at the cost of visible streaks that can appear in shadow rendering. shadow_filter_smooth only has an effect if shadow_filter is SHADOW_FILTER_PCF5 or SHADOW_FILTER_PCF13. Default: 0.0.
+  - Setters: set_shadow_smooth(value: float)
+  - Getters: get_shadow_smooth() -> float
+- shadow_item_cull_mask (int): The shadow mask. Used with LightOccluder2D to cast shadows. Only occluders with a matching CanvasItem.light_mask will cast shadows. See also range_item_cull_mask, which affects which objects can receive the light. Default: 1.
+  - Setters: set_item_shadow_cull_mask(value: int)
+  - Getters: get_item_shadow_cull_mask() -> int
+---CHUNK---
+Document: Light2D
+Path: godot/classes/class_light2d.rst
+Summary: Provides methods for getting and setting the height property of a Light2D node, which affects 2D normal mapping.
+Method: get_height() → float
+Returns the light's height, which is used in 2D normal mapping. See PointLight2D.height and DirectionalLight2D.height.
+Method: set_height(height: float) → void
+Sets the light's height, which is used in 2D normal mapping. See PointLight2D.height and DirectionalLight2D.height.

@@ -1,0 +1,154 @@
+Document: AnimationNodeStateMachineTransition
+Path: godot/classes/class_animationnodestatemachinetransition.rst
+Summary: Defines the properties and behavior of a transition between states in an AnimationNodeStateMachine.
+
+Inherits: Resource < Object
+
+This class represents a transition between two states in an AnimationNodeStateMachine. It defines the conditions under which the transition occurs, such as by input, by time, or by a custom condition.
+
+Properties:
+- advance_condition (StringName): The name of the AnimationNodeStateMachine's input port that must be active to trigger this transition. If empty, the transition is triggered by time.
+- advance_mode (int): The mode used to determine when the transition should occur. Possible values:
+    - 0: Transition on time (default).
+    - 1: Transition on input.
+    - 2: Transition on condition.
+- advance_wait_time (float): The time in seconds to wait before automatically transitioning to the next state when advance_mode is set to Transition on Time. Default: 0.0.
+- delete_on_exit (bool): If true, the transition will be deleted from the state machine when it is no longer needed. Default: true.
+- xfade_time (float): The time in seconds for the crossfade between the current animation and the next animation. Default: 0.0.
+
+Methods:
+- get_advance_condition() → StringName: Returns the name of the AnimationNodeStateMachine's input port that must be active to trigger this transition.
+- set_advance_condition(condition: StringName) → void: Sets the name of the AnimationNodeStateMachine's input port that must be active to trigger this transition.
+- get_advance_mode() → int: Returns the advance mode of the transition.
+- set_advance_mode(mode: int) → void: Sets the advance mode of the transition.
+- get_advance_wait_time() → float: Returns the time in seconds to wait before automatically transitioning to the next state.
+- set_advance_wait_time(time: float) → void: Sets the time in seconds to wait before automatically transitioning to the next state.
+- get_xfade_time() → float: Returns the crossfade time in seconds.
+- set_xfade_time(time: float) → void: Sets the crossfade time in seconds.
+- is_delete_on_exit() → bool: Returns true if the transition will be deleted when it is no longer needed.
+- set_delete_on_exit(enable: bool) → void: Sets whether the transition will be deleted when it is no longer needed.
+---CHUNK---
+Document: AnimationNodeStateMachineTransition
+Path: godot/classes/class_animationnodestatemachinetransition.rst
+Summary: Describes an AnimationNodeStateMachineTransition, which represents a connection between two animation states in an AnimationNodeStateMachine.
+Inherits: Resource < RefCounted < Object
+
+A transition within an AnimationNodeStateMachine connecting two AnimationRootNodes.
+---CHUNK---
+Document: AnimationNodeStateMachineTransition
+Path: godot/classes/class_animationnodestatemachinetransition.rst
+Summary: Describes the AnimationNodeStateMachineTransition class, which defines transitions between states in an AnimationTree state machine.
+Inherits: AnimationNode (AnimationNode)
+---CHUNK---
+Document: AnimationNodeStateMachineTransition
+Path: godot/classes/class_animationnodestatemachinetransition.rst
+Summary: This document describes the AnimationNodeStateMachineTransition class, which is used to define transitions between states in an AnimationTree state machine.
+
+Inherits: Resource < RefCounted < Object
+
+This class represents a transition between two states in an AnimationNodeStateMachine. It defines how the animation should blend from one state to another, including properties like the transition's fade duration, timing, and potential conditions.
+
+Properties:
+- advance_condition (StringName, default: ""): The name of the condition that must be met for this transition to be taken. If empty, the transition is taken immediately when the source state is exited.
+-xfade_time (float, default: 0.0): The duration of the cross-fade between the two states in seconds. A value of 0 means an instant switch.
+-xfade_curve (Curve, default: null): A Curve resource that defines the easing curve for the cross-fade. This allows for non-linear blending between states.
+-priority (int, default: 0): The priority of the transition. Higher values mean higher priority. If multiple transitions are possible from a state, the one with the highest priority will be chosen.
+-immediate_mode (int, default: 0): Controls when the transition is evaluated.
+    - IMMEDIATE_MODE_IMMEDIATE (0): The transition is taken as soon as the source state is exited and the condition (if any) is met.
+    - IMMEDIATE_MODE_ROOT (1): The transition is taken when the root node of the state machine is evaluated.
+-switch_mode (int, default: 0): Controls how the animation playback is handled when switching states.
+    - SWITCH_MODE_STOP (0): The incoming animation will stop at its current frame.
+    - SWITCH_MODE_SYNC (1): The incoming animation will synchronize its playback time with the outgoing animation.
+    - SWITCH_MODE_AT_END (2): The incoming animation will wait until its end before starting playback.
+
+Methods:
+- get_advance_condition() → StringName: Returns the name of the advance condition for this transition.
+- set_advance_condition(advance_condition: StringName) → void: Sets the name of the advance condition for this transition.
+- get_xfade_time() → float: Returns the cross-fade time for this transition.
+- set_xfade_time(xfade_time: float) → void: Sets the cross-fade time for this transition.
+- get_xfade_curve() → Curve: Returns the cross-fade curve for this transition.
+- set_xfade_curve(xfade_curve: Curve) → void: Sets the cross-fade curve for this transition.
+- get_priority() → int: Returns the priority of this transition.
+- set_priority(priority: int) → void: Sets the priority of this transition.
+- get_immediate_mode() → int: Returns the immediate mode of this transition.
+- set_immediate_mode(immediate_mode: int) → void: Sets the immediate mode of this transition.
+- get_switch_mode() → int: Returns the switch mode of this transition.
+- set_switch_mode(switch_mode: int) → void: Sets the switch mode of this transition.
+---CHUNK---
+Document: AnimationNodeStateMachineTransition
+Path: godot/classes/class_animationnodestatemachinetransition.rst
+Summary: Properties of the AnimationNodeStateMachineTransition class.
+
+Properties:
+- advance_condition (StringName): The condition that must be met for the transition to advance. Default: ""
+- advance_expression (String): The expression that must evaluate to true for the transition to advance. Default: ""
+- advance_mode (AdvanceMode): The mode used for advancing the transition. Default: 1
+- break_loop_at_end (bool): If true, the transition will break the loop at the end of the animation. Default: false
+- priority (int): The priority of the transition. Higher values mean higher priority. Default: 1
+- reset (bool): If true, the transition will reset the animation to its beginning. Default: true
+- switch_mode (SwitchMode): The mode used for switching animations. Default: 0
+- xfade_curve (Curve): The curve used for crossfading between animations.
+- xfade_time (float): The time it takes to crossfade between animations. Default: 0.0
+---CHUNK---
+Document: AnimationNodeStateMachineTransition
+Path: godot/classes/class_animationnodestatemachinetransition.rst
+Summary: Defines the properties and enumerations for controlling transitions between states in an AnimationStateMachine.
+
+Inherits: AnimationNode (AnimationNode)
+
+Signals
+advance_condition_changed()
+Emitted when advance_condition is changed.
+
+Enumerations
+enum SwitchMode:
+SWITCH_MODE_IMMEDIATE (0): Switch to the next state immediately. The current state will end and blend into the beginning of the new one.
+SWITCH_MODE_SYNC (1): Switch to the next state immediately, but will seek the new state to the playback position of the old state.
+SWITCH_MODE_AT_END (2): Wait for the current state playback to end, then switch to the beginning of the next state animation.
+
+enum AdvanceMode:
+ADVANCE_MODE_DISABLED (0): Don't use this transition.
+ADVANCE_MODE_ENABLED (1): Only use this transition during AnimationNodeStateMachinePlayback.travel().
+ADVANCE_MODE_AUTO (2): Automatically use this transition if the advance_condition and advance_expression checks are true (if assigned).
+---CHUNK---
+Document: AnimationNodeStateMachineTransition
+Path: godot/classes/class_animationnodestatemachinetransition.rst
+Summary: Describes the properties of an AnimationNodeStateMachineTransition, which controls how transitions between states in an AnimationStateMachine occur.
+
+Property Descriptions
+advance_condition (StringName): Controls when a transition automatically occurs. When set, this string becomes a boolean parameter on the AnimationTree that can be controlled from code.
+Method: set_advance_condition(value: StringName)
+Method: get_advance_condition() -> StringName
+
+advance_expression (String): Allows for complex, script-driven conditions for state machine transitions, offering greater flexibility.
+Method: set_advance_expression(value: String)
+Method: get_advance_expression() -> String
+
+advance_mode (AdvanceMode): Determines how a transition is triggered. Options include disabled, enabled via travel(), or automatic traversal if conditions are met.
+Method: set_advance_mode(value: AdvanceMode)
+Method: get_advance_mode() -> AdvanceMode
+
+break_loop_at_end (bool): If true, the transition will break the animation loop at the end of its cycle, even if the animation is set to loop. Default is false.
+Method: set_break_loop_at_end(value: bool)
+Method: is_loop_broken_at_end() -> bool
+
+priority (int): Determines the preference for this transition when multiple transitions are possible. Lower priority values are preferred. Default is 1.
+Method: set_priority(value: int)
+Method: get_priority() -> int
+
+reset (bool): If true, the destination animation will play from its beginning when this transition is made. Default is true.
+Method: set_reset(value: bool)
+Method: is_reset() -> bool
+
+switch_mode (SwitchMode): Defines the type of transition.
+Method: set_switch_mode(value: SwitchMode)
+Method: get_switch_mode() -> SwitchMode
+
+xfade_curve (Curve): A Curve resource used to control the easing of the cross-fade between animations. It should be a unit curve.
+Method: set_xfade_curve(value: Curve)
+Method: get_xfade_curve() -> Curve
+
+xfade_time (float): The duration of the cross-fade between the current and next animation. Default is 0.0.
+Note: The AnimationStateMachine transitions the current state immediately after fading begins. The exact remaining time depends on the main animation. The xfade_time is not scaled by downstream delta.
+Method: set_xfade_time(value: float)
+Method: get_xfade_time() -> float

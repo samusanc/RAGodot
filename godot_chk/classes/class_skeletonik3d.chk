@@ -1,0 +1,155 @@
+Document: SkeletonIK3D
+Path: godot/classes/class_skeletonik3d.rst
+Summary: Provides IK (Inverse Kinematics) functionality for a Skeleton3D node.
+
+Inherits: Node3D < Node < Object
+
+SkeletonIK3D is a Node3D that allows you to apply Inverse Kinematics (IK) to a Skeleton3D. IK is a technique used in 3D animation to control the position and orientation of a chain of bones by manipulating the end effector (e.g., a hand or foot). Instead of manually posing each bone in the chain, you can simply move the end effector to the desired location, and the IK solver will calculate the necessary poses for the intermediate bones.
+
+To use SkeletonIK3D, you typically add it as a child of a Skeleton3D node. You then configure the IK chain by specifying the root bone and the tip bone. The SkeletonIK3D node will then automatically manage the IK calculations for that chain.
+
+Key features and properties of SkeletonIK3D include:
+
+*   **Target Node:** You can specify a Node3D to act as the target for the IK solver. The IK chain will attempt to reach this target.
+*   **Root Bone:** The starting bone of the IK chain.
+*   **Tip Bone:** The end bone of the IK chain.
+*   **Interpolation:** Controls how smoothly the IK solution is applied over time.
+*   **Strength:** Adjusts the influence of the IK solver on the bone chain.
+*   **Update Mode:** Determines when the IK solver is updated (e.g., every frame, on demand).
+
+SkeletonIK3D is particularly useful for procedural animation, character control, and creating dynamic interactions where bone chains need to react realistically to external forces or targets.
+---CHUNK---
+Document: SkeletonIK3D
+Path: godot/classes/class_skeletonik3d.rst
+Summary: A node used to rotate a Skeleton3D bone chain to place the end bone at a desired 3D position.
+
+Inherits: SkeletonModifier3D < Node3D < Node < Object
+
+SkeletonIK3D is a node used to rotate all bones of a Skeleton3D bone chain in a way that places the end bone at a desired 3D position.
+---CHUNK---
+Document: SkeletonIK3D
+Path: godot/classes/class_skeletonik3d.rst
+Summary: SkeletonIK3D is a node used to position the end bone of a Skeleton3D bone chain at a desired 3D location using Inverse Kinematics.
+
+SkeletonIK3D is used to rotate all bones of a Skeleton3D bone chain a way that places the end bone at a desired 3D position. A typical scenario for IK in games is to place a character's feet on the ground or a character's hands on a currently held object. SkeletonIK uses FabrikInverseKinematic internally to solve the bone chain and applies the results to the Skeleton3D bones_global_pose_override property for all affected bones in the chain. If fully applied, this overwrites any bone transform from Animations or bone custom poses set by users. The applied amount can be controlled with the SkeletonModifier3D.influence property.
+
+GDScript:
+    # Apply IK effect automatically on every new frame (not the current)
+    skeleton_ik_node.start()
+
+    # Apply IK effect only on the current frame
+    skeleton_ik_node.start(true)
+
+    # Stop IK effect and reset bones_global_pose_override on Skeleton
+    skeleton_ik_node.stop()
+
+    # Apply full IK effect
+    skeleton_ik_node.set_influence(1.0)
+
+    # Apply half IK effect
+    skeleton_ik_node.set_influence(0.5)
+
+    # Apply zero IK effect (a value at or below 0.01 also removes bones_global_pose_override on Skeleton)
+    skeleton_ik_node.set_influence(0.0)
+---CHUNK---
+Document: SkeletonIK3D
+Path: godot/classes/class_skeletonik3d.rst
+Summary: Defines the properties available for the SkeletonIK3D node, which controls Inverse Kinematics for 3D skeletons.
+
+Properties:
+* interpolation (float): Controls how quickly the IK target is reached. Higher values mean faster interpolation. Default: 1.0.
+* magnet (Vector3): A position in 3D space that attracts the IK chain. Default: Vector3(0, 0, 0).
+* max_iterations (int): The maximum number of iterations the IK solver will perform. Default: 10.
+* min_distance (float): The minimum distance threshold to consider the IK target reached. Default: 0.01.
+* override_tip_basis (bool): If true, the tip bone's transform will be directly controlled by the target. Default: true.
+* root_bone (StringName): The name of the root bone in the skeleton for the IK chain. Default: "".
+* target (Transform3D): The target transform for the end of the IK chain. Default: Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0).
+* target_node (NodePath): The NodePath to a Node3D that will serve as the IK target. Default: NodePath("").
+* tip_bone (StringName): The name of the tip bone (end effector) in the skeleton for the IK chain. Default: "".
+* use_magnet (bool): If true, the magnet position will influence the IK chain. Default: false.
+---CHUNK---
+Document: SkeletonIK3D
+Path: godot/classes/class_skeletonik3d.rst
+Summary: This section details the methods available for the SkeletonIK3D class in Godot Engine.
+
+Methods
+* get_parent_skeleton() → Skeleton3D: Returns the parent Skeleton3D node.
+* is_running() → bool: Checks if the IK solver is currently active.
+* start(one_time: bool = false) → void: Starts the IK solver. If one_time is true, the IK will only be applied once.
+* stop() → void: Stops the IK solver.
+---CHUNK---
+Document: SkeletonIK3D
+Path: godot/classes/class_skeletonik3d.rst
+Summary: Describes the properties of the SkeletonIK3D node, which controls inverse kinematics for 3D skeletons.
+
+Property: interpolation (float)
+Method: set_interpolation(value: float)
+Method: get_interpolation() -> float
+Deprecated: Use SkeletonModifier3D.influence instead.
+Interpolation value for how much the IK results are applied to the current skeleton bone chain. A value of 1.0 will overwrite all skeleton bone transforms completely while a value of 0.0 will visually disable the SkeletonIK.
+
+Property: magnet (Vector3)
+Default: Vector3(0, 0, 0)
+Method: set_magnet_position(value: Vector3)
+Method: get_magnet_position() -> Vector3
+Secondary target position (first is target property or target_node) for the IK chain. Use magnet position (pole target) to control the bending of the IK chain. Only works if the bone chain has more than 2 bones. The middle chain bone position will be linearly interpolated with the magnet position.
+
+Property: max_iterations (int)
+Default: 10
+Method: set_max_iterations(value: int)
+Method: get_max_iterations() -> int
+Number of iteration loops used by the IK solver to produce more accurate (and elegant) bone chain results.
+
+Property: min_distance (float)
+Default: 0.01
+Method: set_min_distance(value: float)
+Method: get_min_distance() -> float
+The minimum distance between bone and goal target. If the distance is below this value, the IK solver stops further iterations.
+
+Property: override_tip_basis (bool)
+Default: true
+Method: set_override_tip_basis(value: bool)
+Method: is_override_tip_basis() -> bool
+If true overwrites the rotation of the tip bone with the rotation of the target (or target_node if defined).
+
+Property: root_bone (StringName)
+Default: ""
+Method: set_root_bone(value: StringName)
+Method: get_root_bone() -> StringName
+The name of the current root bone, the first bone in the IK chain.
+
+Property: target (Transform3D)
+Default: Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+Method: set_target_transform(value: Transform3D)
+Method: get_target_transform() -> Transform3D
+First target of the IK chain where the tip bone is placed and, if override_tip_basis is true, how the tip bone is rotated. If a target_node path is available the nodes transform is used instead and this property is ignored.
+
+Property: target_node (NodePath)
+Default: NodePath("")
+Method: set_target_node(value: NodePath)
+Method: get_target_node() -> NodePath
+Target node NodePath for the IK chain. If available, the node's current Transform3D is used instead of the target property.
+
+Property: tip_bone (StringName)
+Default: ""
+Method: set_tip_bone(value: StringName)
+Method: get_tip_bone() -> StringName
+The name of the current tip bone, the last bone in the IK chain placed at the target transform (or target_node if defined).
+
+Property: use_magnet (bool)
+Default: false
+Method: set_use_magnet(value: bool)
+Method: is_using_magnet() -> bool
+If true, instructs the IK solver to consider the secondary magnet target (pole target) when calculating the bone chain. Use the magnet position (pole target) to control the bending of the IK chain.
+---CHUNK---
+Document: SkeletonIK3D
+Path: godot/classes/class_skeletonik3d.rst
+Summary: Describes the methods available for controlling and querying the SkeletonIK3D node's behavior.
+Method: get_parent_skeleton() → Skeleton3D
+Returns the parent Skeleton3D node that was present when SkeletonIK entered the scene tree. Returns null if the parent node was not a Skeleton3D node when SkeletonIK3D entered the scene tree.
+Method: is_running() → bool
+Returns true if SkeletonIK is applying IK effects on continues frames to the Skeleton3D bones. Returns false if SkeletonIK is stopped or start() was used with the one_time parameter set to true.
+Method: start(one_time: bool = false) → void
+Starts applying IK effects on each frame to the Skeleton3D bones but will only take effect starting on the next frame. If one_time is true, this will take effect immediately but also reset on the next frame.
+Method: stop() → void
+Stops applying IK effects on each frame to the Skeleton3D bones and also calls Skeleton3D.clear_bones_global_pose_override() to remove existing overrides on all bones.

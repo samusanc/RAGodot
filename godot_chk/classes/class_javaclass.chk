@@ -1,0 +1,28 @@
+Document: JavaClass
+Path: godot/classes/class_javaclass.rst
+Summary: This class reference section is incomplete and contains no detailed information about JavaClass.
+---CHUNK---
+Document: JavaClass
+Path: godot/classes/class_javaclass.rst
+Summary: Represents a class from the Java Native Interface.
+
+Inherits: RefCounted < Object
+---CHUNK---
+Document: JavaClass  
+Path: godot/classes/class_javaclass.rst  
+Summary: Represents a Java Native Interface class returned from JavaClassWrapper.wrap()  
+
+Note: This class only works on Android. On any other platform, this class does nothing.  
+Note: This class is not to be confused with JavaScriptObject.
+---CHUNK---
+Document: JavaClass
+Path: godot/classes/class_javaclass.rst
+Summary: JavaClass method definitions and their functionality in Godot Engine.
+
+Method: get_java_class_name() → String. Const. Returns the Java class name.
+
+Method: get_java_method_list() → Array[Dictionary]. Const. Returns the object's Java methods and their signatures as an Array of dictionaries, in the same format as Object.get_method_list().
+
+Method: get_java_parent_class() → JavaClass. Const. Returns a JavaClass representing the Java parent class of this class.
+
+Method: has_java_method(method: StringName) → bool. Const. Returns true if the given method name exists in the object's Java methods.

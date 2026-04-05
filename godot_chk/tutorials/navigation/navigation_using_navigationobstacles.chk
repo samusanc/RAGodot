@@ -1,0 +1,286 @@
+Document: Navigation using NavigationObstacles
+Path: godot/tutorials/navigation/navigation_using_navigationobstacles.rst
+Summary: This tutorial explains how to use NavigationObstacles to dynamically block navigation paths in Godot.
+
+NavigationObstacles are a powerful tool for dynamically blocking navigation paths in Godot. They are useful for scenarios where you need to temporarily prevent agents from moving through certain areas, such as when a door is closed or a character is blocking a path.
+
+NavigationObstacles work by adding "holes" to the NavigationMesh. When an agent tries to navigate around an obstacle, the NavigationServer will recalculate the path to avoid the blocked area.
+
+To use NavigationObstacles, you need to:
+
+1. Add a NavigationObstacle node to your scene.
+2. Configure its properties, such as its radius and height, to match the size of the obstacle.
+3. Ensure that the NavigationObstacle is a child of a Navigation node or a NavigationRegion.
+
+Properties of NavigationObstacle:
+
+*   **Radius (float):** The radius of the obstacle. This determines the area around the obstacle that will be blocked.
+*   **Height (float):** The height of the obstacle. This is used for 3D navigation.
+*   **Enabled (bool):** Whether the obstacle is currently active.
+*   **Owner (NodePath):** The node that owns this obstacle. This is typically the Navigation node or NavigationRegion.
+
+Example Usage:
+
+Let's say you have a door that opens and closes. You can use a NavigationObstacle to block the path when the door is closed.
+
+GDScript:
+```gdscript
+extends Node2D
+
+@onready var door_obstacle = $NavigationObstacle
+
+func _ready():
+    # Initially, the door is closed, so the obstacle is enabled.
+    door_obstacle.enabled = true
+
+func open_door():
+    # When the door opens, disable the obstacle.
+    door_obstacle.enabled = false
+
+func close_door():
+    # When the door closes, enable the obstacle.
+    door_obstacle.enabled = true
+```
+
+In this example, the `NavigationObstacle` node is named `DoorObstacle`. When the door is closed, `door_obstacle.enabled` is set to `true`, blocking the navigation path. When the door opens, `door_obstacle.enabled` is set to `false`, allowing agents to pass through.
+
+NavigationObstacles can also be used in 3D environments. The `height` property is used to define the vertical extent of the obstacle.
+
+Key Rule: NavigationObstacles are added to the NavigationMesh as "holes" and dynamically affect pathfinding.
+
+By using NavigationObstacles, you can create more dynamic and interactive navigation systems in your Godot projects.
+---CHUNK---
+Document: NavigationObstacles Tutorial
+Path: godot/tutorials/navigation/navigation_using_navigationobstacles.rst
+Summary: This section explains how to use NavigationObstacles in Godot for both navigation mesh baking and agent avoidance.
+Navigation obstacles are available as NavigationObstacle2D and NavigationObstacle3D nodes. They serve a dual purpose: affecting navigation mesh baking and influencing agent avoidance.
+
+When `affect_navigation_mesh` is enabled, the obstacle will modify the navigation mesh during the baking process.
+When `avoidance_enabled` is enabled, the obstacle will influence the avoidance behavior of agents.
+
+Tip: Avoidance is enabled by default. To optimize performance, disable `enabled_avoidance` if the obstacle is not intended for avoidance.
+---CHUNK---
+Document: Navigation Obstacles
+Path: godot/tutorials/navigation/navigation_using_navigationobstacles.rst
+Summary: This document explains how to use NavigationObstacles to modify the navigation mesh baking process by discarding geometry.
+
+Navigation obstacles can be used to discard parts of source geometry during navigation mesh baking. This is useful for preventing navigation meshes from being generated in unwanted areas, such as inside thick walls or on surfaces like roofs that should not be part of the gameplay navigation.
+
+An obstacle does not add geometry; it only removes it by nullifying voxel cells containing rasterized source geometry within the obstacle's shape. The detail of the obstacle's effect is limited by the cell resolution used during baking. For more details on navigation mesh baking, refer to the documentation on navigation meshes.
+
+The `affect_navigation_mesh` property enables the obstacle to contribute to the navigation mesh baking process, similar to other node objects.
+
+The `carve_navigation_mesh` property ensures the obstacle's shape is unaffected by offsets applied during baking, such as the `agent_radius`. It acts as a stencil, cutting into the already offset navigation mesh surface, though it can still be affected by post-processing steps like edge simplification.
+
+The obstacle's shape and position are defined by its `height`, `vertices` properties, and its `global_position`. The y-axis value of any `Vector3` used for vertices is disregarded, as the obstacle is projected onto a flat horizontal plane.
+
+Obstacles can also be added procedurally in scripts as projected obstructions. Since obstacles are not involved in the source geometry parsing, they only need to be added before the baking process begins.
+
+GDScript:
+    var obstacle_outline = PackedVector2Array([
+        Vector2(-50, -50),
+        Vector2(50, -50),
+        Vector2(50, 50),
+        Vector2(-50, 50)
+    ])
+
+    var navigation_mesh = NavigationPolygon.new()
+    var source_geometry = NavigationMeshSourceGeometryData2D.new()
+
+    NavigationServer2D.parse_source_geometry_data(navigation_mesh, source_geometry, $MyTestRootNode)
+
+    var obstacle_carve: bool = true
+
+    source_geometry.add_projected_obstruction(obstacle_outline, obstacle_carve)
+
+    NavigationServer2D.bake_from_source_geometry_data(navigation_mesh, source_geometry)
+
+C#:
+    Vector2[] obstacleOutline
+    [
+        new Vector2(-50, -50),
+        new Vector2(50, -50),
+        new Vector2(50, 50),
+        new Vector2(-50, 50),
+    ];
+
+    var navigationMesh = new NavigationPolygon();
+    var sourceGeometry = new NavigationMeshSourceGeometryData2D();
+
+    NavigationServer2D.ParseSourceGeometryData(navigationMesh, sourceGeometry, GetNode<Node2D>("MyTestRootNode"));
+
+    bool obstacleCarve = true;
+
+    sourceGeometry.AddProjectedObstruction(obstacleOutline, obstacleCarve);
+    NavigationServer2D.BakeFromSourceGeometryData(navigationMesh, sourceGeometry);
+
+GDScript:
+    var obstacle_outline = PackedVector3Array([
+        Vector3(-5, 0, -5),
+        Vector3(5, 0, -5),
+        Vector3(5, 0, 5),
+        Vector3(-5, 0, 5)
+    ])
+
+    var navigation_mesh = NavigationMesh.new()
+    var source_geometry = NavigationMeshSourceGeometryData3D.new()
+
+    NavigationServer3D.parse_source_geometry_data(navigation_mesh, source_geometry, $MyTestRootNode)
+
+    var obstacle_elevation: float = $MyTestObstacleNode.global_position.y
+    var obstacle_height: float = 50.0
+    var obstacle_carve: bool = true
+
+    source_geometry.add_projected_obstruction(obstacle_outline, obstacle_elevation, obstacle_height, obstacle_carve)
+
+    NavigationServer3D.bake_from_source_geometry_data(navigation_mesh, source_geometry)
+
+C#:
+    Vector3[] obstacleOutline =
+    [
+        new Vector3(-5, 0, -5),
+        new Vector3(5, 0, -5),
+        new Vector3(5, 0, 5),
+        new Vector3(-5, 0, 5),
+    ];
+
+    var navigationMesh = new NavigationMesh();
+    var sourceGeometry = new NavigationMeshSourceGeometryData3D();
+
+    NavigationServer3D.ParseSourceGeometryData(navigationMesh, sourceGeometry, GetNode<Node3D>("MyTestRootNode"));
+
+    float obstacleElevation = GetNode<Node3D>("MyTestObstacleNode").GlobalPosition.Y;
+    float obstacleHeight = 50.0f;
+    bool obstacleCarve = true;
+
+    sourceGeometry.AddProjectedObstruction(obstacleOutline, obstacleElevation, obstacleHeight, obstacleCarve);
+    NavigationServer3D.BakeFromSourceGeometryData(navigationMesh, sourceGeometry);
+---CHUNK---
+Document: Navigation using NavigationObstacles
+Path: godot/tutorials/navigation/navigation_using_navigationobstacles.rst
+Summary: This section explains how NavigationObstacles can be used to affect avoidance-controlled agents, either statically or dynamically.
+
+Obstacles and agent avoidance
+For avoidance navigation obstacles can be used either as static or dynamic obstacles to affect avoidance controlled agents.
+
+- When used statically NavigationObstacles constrain avoidance controlled agents outside or inside a polygon defined area.
+- When used dynamically NavigationObstacles push away avoidance controlled agents in a radius around them.
+---CHUNK---
+Document: Navigation using NavigationObstacles
+Path: godot/tutorials/navigation/navigation_using_navigationobstacles.rst
+Summary: This section explains how to use static avoidance obstacles in Godot's navigation system to define boundaries for navigation agents.
+
+Static avoidance obstacles are defined by populating their ``vertices`` property with an array of positions that form a polygon. These obstacles act as hard boundaries for navigation agents using avoidance, similar to physics collisions but specifically for avoidance behavior.
+
+Key characteristics of static obstacles:
+*   They define their boundaries using an array of outline ``vertices`` (positions). In 3D, an additional ``height`` property is used.
+*   Static obstacles are only effective for navigation agents configured to use the 2D avoidance mode.
+*   The winding order of the vertices determines whether agents are pushed away from or pulled towards the obstacle.
+*   Static obstacles cannot change their position dynamically. If their position needs to change, they must be warped to a new location and rebuilt from scratch. This makes them unsuitable for scenarios requiring frequent position updates every frame due to the high performance cost of rebuilding.
+*   Agents cannot predict the movement of static obstacles that have been warped. This can lead to agents getting stuck if a static obstacle is warped directly on top of them.
+
+When 2D avoidance is employed in a 3D environment, the y-axis of ``Vector3`` vertices is disregarded. Instead, the obstacle's global y-axis position dictates its elevation level. Navigation agents will ignore static obstacles in 3D that are positioned either below or above them. This elevation check is automatically performed by comparing the global y-axis positions of both the obstacle and the agent, along with their respective ``height`` properties.
+---CHUNK---
+Document: Navigation using NavigationObstacles
+Path: godot/tutorials/navigation/navigation_using_navigationobstacles.rst
+Summary: This section describes dynamic avoidance obstacles in Godot's navigation system, explaining their properties, behavior, and recommended usage patterns.
+
+Dynamic avoidance obstacles are characterized by a ``radius`` property greater than zero. These obstacles function as "please move away from me" objects for avoidance agents, similar to how agents avoid each other. They define their boundaries using a single ``radius``, representing a 2D circle or a 3D sphere. Dynamic obstacles can update their position each frame without incurring significant performance overhead. Agents can predict the movement of dynamic obstacles that have a set velocity. However, dynamic obstacles are not considered a reliable method for constraining agents in crowded or narrow environments.
+
+While both static and dynamic properties can be active simultaneously on a single obstacle, this is not recommended for performance reasons. The ideal approach is to remove static vertices and activate the radius when an obstacle is moving. Once the obstacle reaches its new final position, it should gradually increase its radius to push other agents away. After sufficient safe space has been created around the obstacle, static vertices should be added back, and the radius removed. This strategy helps prevent agents from getting stuck in the obstacle when the rebuilt static boundary is completed.
+
+Similar to agents, obstacles can utilize the ``avoidance_layers`` bitmask. Agents that have a matching bit set in their own avoidance mask will actively avoid such obstacles.
+---CHUNK---
+Document: Navigation using NavigationObstacles
+Path: godot/tutorials/navigation/navigation_using_navigationobstacles.rst
+Summary: This section explains how to create navigation obstacles directly from scripts using the NavigationServer.
+
+Procedural obstacles can be created in a script without a Node by using the NavigationServer directly. Obstacles created with scripts require at least a map and a position. For dynamic use, a radius is required. For static use, an array of vertices is required.
+
+GDScript:
+# create a new "obstacle" and place it on the default navigation map.
+var new_obstacle_rid: RID = NavigationServer2D.obstacle_create()
+var default_map_rid: RID = get_world_2d().get_navigation_map()
+
+NavigationServer2D.obstacle_set_map(new_obstacle_rid, default_map_rid)
+NavigationServer2D.obstacle_set_position(new_obstacle_rid, global_position)
+
+# Use obstacle dynamic by increasing radius above zero.
+NavigationServer2D.obstacle_set_radius(new_obstacle_rid, 5.0)
+
+# Use obstacle static by adding a square that pushes agents out.
+var outline = PackedVector2Array([Vector2(-100, -100), Vector2(100, -100), Vector2(100, 100), Vector2(-100, 100)])
+NavigationServer2D.obstacle_set_vertices(new_obstacle_rid, outline)
+
+# Enable the obstacle.
+NavigationServer2D.obstacle_set_avoidance_enabled(new_obstacle_rid, true)
+
+C#:
+// Create a new "obstacle" and place it on the default navigation map.
+Rid newObstacleRid = NavigationServer2D.ObstacleCreate();
+Rid defaultMapRid = GetWorld2D().NavigationMap;
+
+NavigationServer2D.ObstacleSetMap(newObstacleRid, defaultMapRid);
+NavigationServer2D.ObstacleSetPosition(newObstacleRid, GlobalPosition);
+
+// Use obstacle dynamic by increasing radius above zero.
+NavigationServer2D.ObstacleSetRadius(newObstacleRid, 5.0f);
+
+// Use obstacle static by adding a square that pushes agents out.
+Vector2[] outline =
+[
+    new Vector2(-100, -100),
+    new Vector2(100, -100),
+    new Vector2(100, 100),
+    new Vector2(-100, 100),
+];
+NavigationServer2D.ObstacleSetVertices(newObstacleRid, outline);
+
+// Enable the obstacle.
+NavigationServer2D.ObstacleSetAvoidanceEnabled(newObstacleRid, true);
+
+GDScript:
+# Create a new "obstacle" and place it on the default navigation map.
+var new_obstacle_rid: RID = NavigationServer3D.obstacle_create()
+var default_map_rid: RID = get_world_3d().get_navigation_map()
+
+NavigationServer3D.obstacle_set_map(new_obstacle_rid, default_map_rid)
+NavigationServer3D.obstacle_set_position(new_obstacle_rid, global_position)
+
+# Use obstacle dynamic by increasing radius above zero.
+NavigationServer3D.obstacle_set_radius(new_obstacle_rid, 0.5)
+
+# Use obstacle static by adding a square that pushes agents out.
+var outline = PackedVector3Array([Vector3(-5, 0, -5), Vector3(5, 0, -5), Vector3(5, 0, 5), Vector3(-5, 0, 5)])
+NavigationServer3D.obstacle_set_vertices(new_obstacle_rid, outline)
+# Set the obstacle height on the y-axis.
+NavigationServer3D.obstacle_set_height(new_obstacle_rid, 1.0)
+
+# Enable the obstacle.
+NavigationServer3D.obstacle_set_avoidance_enabled(new_obstacle_rid, true)
+
+C#:
+// Create a new "obstacle" and place it on the default navigation map.
+Rid newObstacleRid = NavigationServer3D.ObstacleCreate();
+Rid defaultMapRid = GetWorld3D().NavigationMap;
+
+NavigationServer3D.ObstacleSetMap(newObstacleRid, defaultMapRid);
+NavigationServer3D.ObstacleSetPosition(newObstacleRid, GlobalPosition);
+
+// Use obstacle dynamic by increasing radius above zero.
+NavigationServer3D.ObstacleSetRadius(newObstacleRid, 5.0f);
+
+// Use obstacle static by adding a square that pushes agents out.
+Vector3[] outline =
+[
+    new Vector3(-5, 0, -5),
+    new Vector3(5, 0, -5),
+    new Vector3(5, 0, 5),
+    new Vector3(-5, 0, 5),
+];
+NavigationServer3D.ObstacleSetVertices(newObstacleRid, outline);
+// Set the obstacle height on the y-axis.
+NavigationServer3D.ObstacleSetHeight(newObstacleRid, 1.0f);
+
+// Enable the obstacle.
+NavigationServer3D.ObstacleSetAvoidanceEnabled(newObstacleRid, true);

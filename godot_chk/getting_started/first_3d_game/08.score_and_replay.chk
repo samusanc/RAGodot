@@ -1,0 +1,248 @@
+Document: Score and Replay
+Path: godot/getting_started/first_3d_game/08.score_and_replay.rst
+Summary: This section covers implementing score tracking and replay functionality in the first 3D game tutorial.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/08.score_and_replay.rst
+Summary: This section covers adding a score display, UI elements, and basic theme overrides for a Godot game.
+
+Add a Control node named "UserInterface" as a child of the "Main" node.
+Add a Label node named "ScoreLabel" as a child of "UserInterface".
+In the Inspector, set the Text property of ScoreLabel to "Score: 0".
+To change the font color, go to the Theme Overrides section in the Inspector, expand Colors, and enable Font Color. Set the font color to black.
+Position the ScoreLabel in the viewport by clicking and dragging it away from the top-left corner.
+The UserInterface node is used to group UI elements and apply themes.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/08.score_and_replay.rst
+Summary: This section explains how to create and customize a UI theme for the game, focusing on setting default font and font size.
+Creating a UI theme
+Select the UserInterface node. In the Inspector, create a new theme resource in Theme -> Theme.
+Click on the theme resource to open the theme editor in the bottom panel. This panel shows a preview of how built-in UI widgets will appear with the current theme resource.
+By default, a theme has the following properties: Default Base Scale, Default Font, and Default Font Size.
+You can add more properties to the theme resource for designing complex user interfaces. For more information on creating and editing themes, see the documentation on GUI skinning.
+The Default Font property accepts a font file, such as TTF or OTF formats.
+In the FileSystem dock, expand the fonts directory. Drag and drop the Montserrat-Medium.ttf file from the project onto the Default Font property in the theme editor. The text in the preview will update.
+To increase the text size, set the Default Font Size property to 22 pixels.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/08.score_and_replay.rst
+Summary: This section explains how to implement a score system in the game by connecting signals and updating a label.
+
+GDScript:
+extends Label
+
+var score = 0
+GDScript:
+func _on_mob_squashed():
+    score += 1
+    text = "Score: %s" % score
+
+C#:
+using Godot;
+
+public partial class ScoreLabel : Label
+{
+    private int _score = 0;
+}
+C#:
+public void OnMobSquashed()
+{
+    _score += 1;
+    Text = $"Score: {_score}";
+}
+
+The score should increase by 1 every time a monster is squashed. This is achieved by connecting the monster's `squashed` signal to the `ScoreLabel`. Since monsters are instantiated from code, the signal connection must also be made in code.
+
+In the `main.gd` script, within the `_on_mob_timer_timeout()` function, add the following line to connect the signal:
+
+GDScript:
+func _on_mob_timer_timeout():
+    #...
+    # We connect the mob to the score label to update the score upon squashing one.
+    mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
+
+C#:
+private void OnMobTimerTimeout()
+{
+    // ...
+    // We connect the mob to the score label to update the score upon squashing one.
+    mob.Squashed += GetNode<ScoreLabel>("UserInterface/ScoreLabel").OnMobSquashed;
+}
+
+This connection ensures that when a mob emits the `squashed` signal, the `ScoreLabel` node receives it and calls its `_on_mob_squashed()` function.
+
+The `_on_mob_squashed()` function in `score_label.gd` increments the score variable and updates the label's text to display the current score. The `%s` placeholder is automatically replaced by the integer value of the score, converted to a string.
+
+Note: For more complex games, it's recommended to separate UI logic from game world logic by using a dedicated object for scorekeeping. However, for simpler projects and prototyping, keeping the score logic within the label is acceptable.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/08.score_and_replay.rst
+Summary: This section describes how to add a retry mechanism to the game, including displaying a message and darkening the screen.
+
+We'll now add the ability to play again after dying. When the player dies, we'll display a message on the screen and wait for input.
+
+Head back to the main.tscn scene, select the UserInterface node, add a child node ColorRect, and name it Retry. This node fills a rectangle with a uniform color and will serve as an overlay to darken the screen.
+
+To make it span over the whole viewport, you can use the Anchor Preset menu in the toolbar. Open it and apply the Full Rect command.
+
+This is because UI nodes (all the ones with a green icon) work with anchors and margins relative to their parent's bounding box. Here, the UserInterface node has a small size and the Retry one is limited by it.
+
+Select the UserInterface and apply Anchor Preset -> Full Rect to it as well. The Retry node should now span the whole viewport.
+
+Let's change its color so it darkens the game area. Select Retry and in the Inspector, set its Color to something both dark and transparent. To do so, in the color picker, drag the A slider to the left. It controls the color's Alpha channel, that is to say, its opacity/transparency.
+
+Next, add a Label as a child of Retry and give it the Text "Press Enter to retry." To move it and anchor it in the center of the screen, apply Anchor Preset -> Center to it.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/08.score_and_replay.rst
+Summary: This section explains how to implement a retry option in a Godot game by showing and hiding a UI element and handling player input to restart the scene.
+
+GDScript:
+func _ready():
+    $UserInterface/Retry.hide()
+
+C#:
+public override void _Ready()
+{
+    GetNode<Control>("UserInterface/Retry").Hide();
+}
+
+GDScript:
+func _on_player_hit():
+    #...
+    $UserInterface/Retry.show()
+
+C#:
+private void OnPlayerHit()
+{
+    //...
+    GetNode<Control>("UserInterface/Retry").Show();
+}
+
+GDScript:
+func _unhandled_input(event):
+    if event.is_action_pressed("ui_accept") and $UserInterface/Retry.visible:
+        # This restarts the current scene.
+        get_tree().reload_current_scene()
+
+C#:
+public override void _UnhandledInput(InputEvent @event)
+{
+    if (@event.IsActionPressed("ui_accept") && GetNode<Control>("UserInterface/Retry").Visible)
+    {
+        // This restarts the current scene.
+        GetTree().ReloadCurrentScene();
+    }
+}
+
+The function get_tree() gives us access to the global SceneTree object, which allows us to reload and restart the current scene.
+---CHUNK---
+Document: score_and_replay
+Path: godot/getting_started/first_3d_game/08.score_and_replay.rst
+Summary: This section explains how to add continuous background music using Godot's autoload feature.
+
+To add music that plays continuously in the background, use Godot's autoloads feature. To play audio, add an AudioStreamPlayer node to your scene and attach an audio file to it. When you start the scene, it can play automatically. However, when you reload the scene, the audio nodes are also reset, and the music starts back from the beginning.
+
+You can use the autoload feature to have Godot load a node or a scene automatically at the start of the game, outside the current scene. You can also use it to create globally accessible objects.
+
+Create a new scene by going to the *Scene* menu and clicking *New Scene* or by using the *+* icon next to your currently opened scene. Click the *Other Node* button to create an AudioStreamPlayer and rename it to `MusicPlayer`.
+
+We included a music soundtrack in the `art/` directory, `House In a Forest Loop.ogg`. Click and drag it onto the *Stream* property in the *Inspector*. Also, turn on *Autoplay* so the music plays automatically at the start of the game.
+
+Save the scene as `music_player.tscn`.
+
+Register it as an autoload by heading to the *Project -> Project Settings…* menu and clicking on the *Globals -> Autoload* tab. In the *Path* field, enter the path to your scene. Click the folder icon to open the file browser and double-click on `music_player.tscn`. Then, click the *Add* button on the right to register the node.
+
+`music_player.tscn` now loads into any scene you open or play. If you run the game now, the music will play automatically in any scene.
+
+When you run the game, your *Scene* dock changes to give you two tabs: *Remote* and *Local*. The *Remote* tab allows you to visualize the node tree of your running game. There, you will see the *Main* node and everything the scene contains and the instantiated mobs at the bottom. At the top are the autoloaded `MusicPlayer` and a *root* node, which is your game's viewport.
+
+Here is the complete `main.gd` script for reference.
+
+GDScript:
+extends Node
+
+@export var mob_scene: PackedScene
+
+func _ready():
+    $UserInterface/Retry.hide()
+
+
+func _on_mob_timer_timeout():
+    # Create a new instance of the Mob scene.
+    var mob = mob_scene.instantiate()
+
+    # Choose a random location on the SpawnPath.
+    # We store the reference to the SpawnLocation node.
+    var mob_spawn_location = get_node("SpawnPath/SpawnLocation")
+    # And give it a random offset.
+    mob_spawn_location.progress_ratio = randf()
+
+    var player_position = $Player.position
+    mob.initialize(mob_spawn_location.position, player_position)
+
+    # Spawn the mob by adding it to the Main scene.
+    add_child(mob)
+
+    # We connect the mob to the score label to update the score upon squashing one.
+    mob.squashed.connect($UserInterface/ScoreLabel._on_mob_squashed.bind())
+
+func _on_player_hit():
+    $MobTimer.stop()
+    $UserInterface/Retry.show()
+
+func _unhandled_input(event):
+    if event.is_action_pressed("ui_accept") and $UserInterface/Retry.visible:
+        # This restarts the current scene.
+        get_tree().reload_current_scene()
+
+C#:
+using Godot;
+
+public partial class Main : Node
+{
+    [Export]
+    public PackedScene MobScene { get; set; }
+
+    public override void _Ready()
+    {
+        GetNode<Control>("UserInterface/Retry").Hide();
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_accept") && GetNode<Control>("UserInterface/Retry").Visible)
+        {
+            // This restarts the current scene.
+            GetTree().ReloadCurrentScene();
+        }
+    }
+
+    private void OnMobTimerTimeout()
+    {
+        // Create a new instance of the Mob scene.
+        Mob mob = MobScene.Instantiate<Mob>();
+
+        // Choose a random location on the SpawnPath.
+        // We store the reference to the SpawnLocation node.
+        var mobSpawnLocation = GetNode<PathFollow3D>("SpawnPath/SpawnLocation");
+        // And give it a random offset.
+        mobSpawnLocation.ProgressRatio = GD.Randf();
+
+        Vector3 playerPosition = GetNode<Player>("Player").position;
+        mob.Initialize(mobSpawnLocation.Position, playerPosition);
+
+        // Spawn the mob by adding it to the Main scene.
+        AddChild(mob);
+
+        // We connect the mob to the score label to update the score upon squashing one.
+        mob.Squashed += GetNode<ScoreLabel>("UserInterface/ScoreLabel").OnMobSquashed;
+    }
+
+    private void OnPlayerHit()
+    {
+        GetNode<Timer>("MobTimer").Stop();
+        GetNode<Control>("UserInterface/Retry").Show();
+    }
+}

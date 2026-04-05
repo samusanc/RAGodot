@@ -1,0 +1,214 @@
+Document: TileData
+Path: godot/classes/class_tiledata.rst
+Summary: This document defines the TileData class.
+---CHUNK---
+Document: TileData
+Path: godot/classes/class_tiledata.rst
+Summary: Settings for a single tile in a TileSet.
+
+TileData
+Inherits: Object
+
+Settings for a single tile in a TileSet.
+---CHUNK---
+Document: TileData
+Path: godot/classes/class_tiledata.rst
+Summary: Describes the TileData object, its purpose, and how it's used and modified.
+
+TileData object represents a single tile in a TileSet. It is usually edited using the tileset editor, but it can be modified at runtime using TileMapLayer._tile_data_runtime_update().
+---CHUNK---
+Document: TileData
+Path: godot/classes/class_tiledata.rst
+Summary: Lists the properties available for TileData objects.
+
+Properties:
+* flip_h (bool): Default: false.
+* flip_v (bool): Default: false.
+* material (Material).
+* modulate (Color): Default: Color(1, 1, 1, 1).
+* probability (float): Default: 1.0.
+* terrain (int): Default: -1.
+* terrain_set (int): Default: -1.
+* texture_origin (Vector2i): Default: Vector2i(0, 0).
+* transpose (bool): Default: false.
+* y_sort_origin (int): Default: 0.
+* z_index (int): Default: 0.
+---CHUNK---
+Document: TileData
+Path: godot/classes/class_tiledata.rst
+Summary: This section describes the methods and signals available in the TileData class for managing collision, occluder, navigation, custom data, and terrain peering properties.
+
+Method: add_collision_polygon(layer_id: int) -> void
+Method: add_occluder_polygon(layer_id: int) -> void
+Method: get_collision_polygon_one_way_margin(layer_id: int, polygon_index: int) -> float const
+Method: get_collision_polygon_points(layer_id: int, polygon_index: int) -> PackedVector2Array const
+Method: get_collision_polygons_count(layer_id: int) -> int const
+Method: get_constant_angular_velocity(layer_id: int) -> float const
+Method: get_constant_linear_velocity(layer_id: int) -> Vector2 const
+Method: get_custom_data(layer_name: String) -> Variant const
+Method: get_custom_data_by_layer_id(layer_id: int) -> Variant const
+Method: get_navigation_polygon(layer_id: int, flip_h: bool = false, flip_v: bool = false, transpose: bool = false) -> NavigationPolygon const
+Method: get_occluder(layer_id: int, flip_h: bool = false, flip_v: bool = false, transpose: bool = false) -> OccluderPolygon2D const
+Method: get_occluder_polygon(layer_id: int, polygon_index: int, flip_h: bool = false, flip_v: bool = false, transpose: bool = false) -> OccluderPolygon2D const
+Method: get_occluder_polygons_count(layer_id: int) -> int const
+Method: get_terrain_peering_bit(peering_bit: CellNeighbor) -> int const
+Method: has_custom_data(layer_name: String) -> bool const
+Method: is_collision_polygon_one_way(layer_id: int, polygon_index: int) -> bool const
+Method: is_valid_terrain_peering_bit(peering_bit: CellNeighbor) -> bool const
+Method: remove_collision_polygon(layer_id: int, polygon_index: int) -> void
+Method: remove_occluder_polygon(layer_id: int, polygon_index: int) -> void
+Method: set_collision_polygon_one_way(layer_id: int, polygon_index: int, one_way: bool) -> void
+Method: set_collision_polygon_one_way_margin(layer_id: int, polygon_index: int, one_way_margin: float) -> void
+Method: set_collision_polygon_points(layer_id: int, polygon_index: int, polygon: PackedVector2Array) -> void
+Method: set_collision_polygons_count(layer_id: int, polygons_count: int) -> void
+Method: set_constant_angular_velocity(layer_id: int, velocity: float) -> void
+Method: set_constant_linear_velocity(layer_id: int, velocity: Vector2) -> void
+Method: set_custom_data(layer_name: String, value: Variant) -> void
+Method: set_custom_data_by_layer_id(layer_id: int, value: Variant) -> void
+Method: set_navigation_polygon(layer_id: int, navigation_polygon: NavigationPolygon) -> void
+Method: set_occluder(layer_id: int, occluder_polygon: OccluderPolygon2D) -> void
+Method: set_occluder_polygon(layer_id: int, polygon_index: int, polygon: OccluderPolygon2D) -> void
+Method: set_occluder_polygons_count(layer_id: int, polygons_count: int) -> void
+Method: set_terrain_peering_bit(peering_bit: CellNeighbor, terrain: int) -> void
+
+Signal: changed()
+Emitted when any of the properties are changed.
+---CHUNK---
+Document: TileData
+Path: godot/classes/class_tiledata.rst
+Summary: This section describes the properties available for configuring individual tiles within a TileMap, including visual transformations, materials, modulation, probability, terrain data, texture origin, and sorting order.
+
+Properties:
+*   **flip_h** (bool): If `true`, the tile will have its texture flipped horizontally. Default: `false`.
+    *   Method: set_flip_h(value: bool)
+    *   Method: get_flip_h()
+*   **flip_v** (bool): If `true`, the tile will have its texture flipped vertically. Default: `false`.
+    *   Method: set_flip_v(value: bool)
+    *   Method: get_flip_v()
+*   **material** (Material): The Material to use for this TileData. This can be a CanvasItemMaterial to use the default shader, or a ShaderMaterial to use a custom shader.
+    *   Method: set_material(value: Material)
+    *   Method: get_material()
+*   **modulate** (Color): Color modulation of the tile. Default: `Color(1, 1, 1, 1)`.
+    *   Method: set_modulate(value: Color)
+    *   Method: get_modulate()
+*   **probability** (float): Relative probability of this tile being selected when drawing a pattern of random tiles. Default: `1.0`.
+    *   Method: set_probability(value: float)
+    *   Method: get_probability()
+*   **terrain** (int): ID of the terrain from the terrain set that the tile uses. Default: `-1`.
+    *   Method: set_terrain(value: int)
+    *   Method: get_terrain()
+*   **terrain_set** (int): ID of the terrain set that the tile uses. Default: `-1`.
+    *   Method: set_terrain_set(value: int)
+    *   Method: get_terrain_set()
+*   **texture_origin** (Vector2i): Offsets the position of where the tile is drawn. Default: `Vector2i(0, 0)`.
+    *   Method: set_texture_origin(value: Vector2i)
+    *   Method: get_texture_origin()
+*   **transpose** (bool): If `true`, the tile will display transposed, i.e. with horizontal and vertical texture UVs swapped. Default: `false`.
+    *   Method: set_transpose(value: bool)
+    *   Method: get_transpose()
+*   **y_sort_origin** (int): Vertical point of the tile used for determining y-sorted order. Default: `0`.
+    *   Method: set_y_sort_origin(value: int)
+    *   Method: get_y_sort_origin()
+*   **z_index** (int): Ordering index of this tile, relative to TileMapLayer. Default: `0`.
+    *   Method: set_z_index(value: int)
+    *   Method: get_z_index()
+---CHUNK---
+Document: TileData
+Path: godot/classes/class_tiledata.rst
+Summary: This section describes methods for managing collision polygons, occluder polygons, custom data, navigation polygons, and terrain peering bits for a TileData object.
+
+Method: add_collision_polygon(layer_id: int) → void
+Adds a collision polygon to the tile on the given TileSet physics layer.
+
+Method: add_occluder_polygon(layer_id: int) → void
+Adds an occlusion polygon to the tile on the TileSet occlusion layer with index layer_id.
+
+Method: get_collision_polygon_one_way_margin(layer_id: int, polygon_index: int) → float
+Returns the one-way margin (for one-way platforms) of the polygon at index polygon_index for TileSet physics layer with index layer_id.
+
+Method: get_collision_polygon_points(layer_id: int, polygon_index: int) → PackedVector2Array
+Returns the points of the polygon at index polygon_index for TileSet physics layer with index layer_id.
+
+Method: get_collision_polygons_count(layer_id: int) → int
+Returns how many polygons the tile has for TileSet physics layer with index layer_id.
+
+Method: get_constant_angular_velocity(layer_id: int) → float
+Returns the constant angular velocity applied to objects colliding with this tile.
+
+Method: get_constant_linear_velocity(layer_id: int) → Vector2
+Returns the constant linear velocity applied to objects colliding with this tile.
+
+Method: get_custom_data(layer_name: String) → Variant
+Returns the custom data value for custom data layer named layer_name. To check if a custom data layer exists, use has_custom_data().
+
+Method: get_custom_data_by_layer_id(layer_id: int) → Variant
+Returns the custom data value for custom data layer with index layer_id.
+
+Method: get_navigation_polygon(layer_id: int, flip_h: bool = false, flip_v: bool = false, transpose: bool = false) → NavigationPolygon
+Returns the navigation polygon of the tile for the TileSet navigation layer with index layer_id. flip_h, flip_v, and transpose allow transforming the returned polygon.
+
+Method: get_occluder(layer_id: int, flip_h: bool = false, flip_v: bool = false, transpose: bool = false) → OccluderPolygon2D
+Deprecated: Use get_occluder_polygon() instead. Returns the occluder polygon of the tile for the TileSet occlusion layer with index layer_id. flip_h, flip_v, and transpose allow transforming the returned polygon.
+
+Method: get_occluder_polygon(layer_id: int, polygon_index: int, flip_h: bool = false, flip_v: bool = false, transpose: bool = false) → OccluderPolygon2D
+Returns the occluder polygon at index polygon_index from the TileSet occlusion layer with index layer_id. The flip_h, flip_v, and transpose parameters can be true to transform the returned polygon.
+
+Method: get_occluder_polygons_count(layer_id: int) → int
+Returns the number of occluder polygons of the tile in the TileSet occlusion layer with index layer_id.
+
+Method: get_terrain_peering_bit(peering_bit: CellNeighbor) → int
+Returns the tile's terrain bit for the given peering_bit direction. To check that a direction is valid, use is_valid_terrain_peering_bit().
+
+Method: has_custom_data(layer_name: String) → bool
+Returns whether there exists a custom data layer named layer_name.
+
+Method: is_collision_polygon_one_way(layer_id: int, polygon_index: int) → bool
+Returns whether one-way collisions are enabled for the polygon at index polygon_index for TileSet physics layer with index layer_id.
+
+Method: is_valid_terrain_peering_bit(peering_bit: CellNeighbor) → bool
+Returns whether the given peering_bit direction is valid for this tile.
+
+Method: remove_collision_polygon(layer_id: int, polygon_index: int) → void
+Removes the polygon at index polygon_index for TileSet physics layer with index layer_id.
+
+Method: remove_occluder_polygon(layer_id: int, polygon_index: int) → void
+Removes the polygon at index polygon_index for TileSet occlusion layer with index layer_id.
+
+Method: set_collision_polygon_one_way(layer_id: int, polygon_index: int, one_way: bool) → void
+Enables/disables one-way collisions on the polygon at index polygon_index for TileSet physics layer with index layer_id.
+
+Method: set_collision_polygon_one_way_margin(layer_id: int, polygon_index: int, one_way_margin: float) → void
+Sets the one-way margin (for one-way platforms) of the polygon at index polygon_index for TileSet physics layer with index layer_id.
+
+Method: set_collision_polygon_points(layer_id: int, polygon_index: int, polygon: PackedVector2Array) → void
+Sets the points of the polygon at index polygon_index for TileSet physics layer with index layer_id.
+
+Method: set_collision_polygons_count(layer_id: int, polygons_count: int) → void
+Sets the polygons count for TileSet physics layer with index layer_id.
+
+Method: set_constant_angular_velocity(layer_id: int, velocity: float) → void
+Sets the constant angular velocity. This does not rotate the tile. This angular velocity is applied to objects colliding with this tile.
+
+Method: set_constant_linear_velocity(layer_id: int, velocity: Vector2) → void
+Sets the constant linear velocity. This does not move the tile. This linear velocity is applied to objects colliding with this tile. This is useful to create conveyor belts.
+
+Method: set_custom_data(layer_name: String, value: Variant) → void
+Sets the tile's custom data value for the TileSet custom data layer with name layer_name.
+
+Method: set_custom_data_by_layer_id(layer_id: int, value: Variant) → void
+Sets the tile's custom data value for the TileSet custom data layer with index layer_id.
+
+Method: set_navigation_polygon(layer_id: int, navigation_polygon: NavigationPolygon) → void
+Sets the navigation polygon for the TileSet navigation layer with index layer_id.
+
+Method: set_occluder(layer_id: int, occluder_polygon: OccluderPolygon2D) → void
+Deprecated: Use set_occluder_polygon() instead. Sets the occluder for the TileSet occlusion layer with index layer_id.
+
+Method: set_occluder_polygon(layer_id: int, polygon_index: int, polygon: OccluderPolygon2D) → void
+Sets the occluder for polygon with index polygon_index in the TileSet occlusion layer with index layer_id.
+
+Method: set_occluder_polygons_count(layer_id: int, polygons_count: int) → void
+Sets the occluder polygon count in the TileSet occlusion layer with index layer_id.
+
+Method: set_terrain_peering_bit(peering_bit: CellNeighbor, terrain: int) → void
+Sets the tile's terrain bit for the given peering_bit direction. To check that a direction is valid, use is_valid_terrain_peering_bit().

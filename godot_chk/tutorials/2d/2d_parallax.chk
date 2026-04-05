@@ -1,0 +1,206 @@
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This document explains how to create parallax scrolling effects in Godot Engine for 2D games.
+
+Parallax scrolling is a technique used in 2D graphics to simulate depth by moving background layers at different speeds. Layers closer to the viewer move faster, while layers further away move slower. This creates a sense of immersion and realism.
+
+To implement parallax scrolling in Godot, you typically use multiple `ParallaxLayer` nodes, each containing a visual element (like a `Sprite2D` or `TextureRect`). These `ParallaxLayer` nodes are children of a `ParallaxBackground` node.
+
+The `ParallaxBackground` node handles the overall parallax effect. Its `scroll_offset` property determines the current scroll position. The `ParallaxLayer` nodes, in turn, have a `motion_scale` property that dictates how much they move relative to the `ParallaxBackground`'s scroll offset.
+
+A `motion_scale` of (1, 1) means the layer moves at the same speed as the `ParallaxBackground`. A `motion_scale` of (0, 0) means the layer does not move at all (useful for a fixed sky or distant mountains). A `motion_scale` between 0 and 1 (e.g., (0.5, 0.5)) means the layer moves at half the speed, creating the illusion of being further away. Values greater than 1 would make the layer appear closer than the foreground.
+
+You can also set `motion_mirror` on `ParallaxLayer` nodes to make the background repeat seamlessly as it scrolls. This is achieved by setting the `motion_mirror` property to a Vector2 where each component is 1 or -1. For example, `motion_mirror = Vector2(1, 0)` would mirror the layer horizontally, causing it to repeat side-to-side.
+
+The `ParallaxBackground` node itself can be controlled by various input methods. Often, it's linked to the camera's movement or player input. You can update its `scroll_offset` directly in a script based on the player's position or camera viewport.
+
+Example setup in the Godot editor:
+
+*   Add a `ParallaxBackground` node to your scene.
+*   Add several `ParallaxLayer` nodes as children of `ParallaxBackground`.
+*   For each `ParallaxLayer`, add a `Sprite2D` or `TextureRect` as its child to display the background image.
+*   Adjust the `motion_scale` property for each `ParallaxLayer` to control its scrolling speed and perceived distance.
+*   Optionally, set `motion_mirror` for repeating backgrounds.
+*   In a script, update the `scroll_offset` of the `ParallaxBackground` node to achieve the scrolling effect.
+
+GDScript:
+```gdscript
+extends Node2D
+
+@onready var parallax_bg = $ParallaxBackground
+
+func _process(delta):
+	# Example: Scroll based on player's horizontal movement
+	var player_x_position = get_node("Player").position.x
+	parallax_bg.scroll_offset.x = player_x_position * 0.5 # Adjust multiplier for desired effect
+```
+
+This setup allows for dynamic and visually appealing background scrolling, enhancing the depth and atmosphere of your 2D game.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This document explains how to implement 2D parallax scrolling in Godot Engine.
+
+Parallax scrolling is a technique used in 2D games to simulate depth by moving background layers at different speeds. Layers closer to the viewer move faster, while layers further away move slower. This creates a sense of immersion and makes the game world feel more dynamic.
+
+To implement parallax scrolling in Godot, you typically use a `ParallaxBackground` node. This node acts as a container for multiple `ParallaxLayer` nodes, each representing a different layer of the background.
+
+Here's a breakdown of the key nodes involved:
+
+*   `ParallaxBackground`: The root node for parallax effects. It handles the overall scrolling behavior and positions its children.
+*   `ParallaxLayer`: Represents a single scrolling layer. You can add textures, sprites, or other nodes as children of a `ParallaxLayer`. The `ParallaxLayer`'s `motion_scale` property determines how much it scrolls relative to the camera's movement. A `motion_scale` of (1, 1) means the layer scrolls at the same speed as the camera, while a `motion_scale` of (0, 0) means it stays fixed. Values between 0 and 1 create the parallax effect.
+
+**Setting up Parallax Layers:**
+
+1.  Add a `ParallaxBackground` node to your scene.
+2.  Add one or more `ParallaxLayer` nodes as children of the `ParallaxBackground`.
+3.  For each `ParallaxLayer`, set its `motion_scale` property. For example:
+    *   A distant background layer might have `motion_scale` set to (0.1, 0.1).
+    *   A mid-ground layer might have `motion_scale` set to (0.5, 0.5).
+    *   A foreground layer that moves with the camera might have `motion_scale` set to (1, 1) or even greater if you want it to move faster than the camera.
+4.  Add the visual elements (like `TextureRect` or `Sprite2D` nodes) to each `ParallaxLayer`. Ensure these elements are large enough to cover the screen or tile appropriately.
+
+**Tiling Textures:**
+
+For repeating backgrounds, you can use `TextureRect` nodes within your `ParallaxLayer` and set their `texture` property. To make the texture tile seamlessly, ensure the texture itself has the "Repeat" import setting enabled in the Import tab. Then, set the `TextureRect`'s `Layout` to "Full Rect" or manually adjust its size and position to cover the desired area.
+
+**Example Scene Structure:**
+
+```
+- ParallaxBackground
+    - ParallaxLayer (motion_scale: 0.1, 0.1)
+        - TextureRect (distant_stars.png)
+    - ParallaxLayer (motion_scale: 0.5, 0.5)
+        - TextureRect (distant_mountains.png)
+    - ParallaxLayer (motion_scale: 0.8, 0.8)
+        - TextureRect (midground_trees.png)
+```
+
+When the camera moves, the `ParallaxBackground` node automatically adjusts the positions of its `ParallaxLayer` children based on their `motion_scale` values, creating the parallax effect. You don't need to write custom scripts for basic parallax scrolling.
+
+**Important Considerations:**
+
+*   **`motion_offset`**: This property can be used to manually offset the position of a `ParallaxLayer`. It's useful for initial positioning or for creating specific visual effects.
+*   **`scale`**: The `scale` property of `ParallaxLayer` affects the scaling of its children. This can be used in conjunction with `motion_scale` for more complex effects.
+*   **`mirroring`**: For infinite scrolling backgrounds, you can set the `mirroring` property on the `ParallaxLayer`. This requires the texture to be designed for mirroring (e.g., the left edge seamlessly connects to the right edge). The `mirroring` property takes a `Vector2` value indicating which axes to mirror. For example, `(1, 0)` mirrors horizontally.
+
+By adjusting the `motion_scale` and `mirroring` properties of `ParallaxLayer` nodes, you can achieve a wide variety of parallax effects, from subtle depth to dynamic, fast-paced scrolling backgrounds.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section introduces the Parallax2D node for simulating depth in 2D scenes by moving textures at different speeds relative to the camera.
+
+Note: This page covers how to use Parallax2D, which is recommended to use over the ParallaxLayer and ParallaxBackground nodes.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: Explains how to set up layers for 2D parallax scrolling by making nodes children of parallax nodes and positioning textures correctly.
+
+To get started with 2D parallax, add nodes that will render as children to the parallax node. You can use one or multiple nodes to create each layer. Place each node or group of nodes that you want to scroll independently as a child of its own parallax node. Ensure the top-left corner of the textures used is at the (0, 0) coordinate. This is important for correct positioning.
+
+The example scene uses a single texture for the upper clouds within a Sprite2D node. Alternatively, you could use multiple Sprite2D nodes spaced out to form the same layer.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: Explains the scroll_scale property of Parallax2D nodes for creating parallax scrolling effects.
+The backbone of the parallax effect is the scroll_scale property. It works as a scroll-speed multiplier, allowing layers to move at a different speed than the camera for each axis set. A value of 1 makes the parallax node scroll at the same speed as the camera. If you want your image to look further away when scrolling, use a value lower than 1, with 0 bringing it to a complete stop. If you want something to appear closer to the camera, use a value higher than 1, making it scroll faster.
+
+The scene above is comprised of five layers. Some good scroll_scale values might be:
+
+- Forest: (0.7, 1)
+- Hills: (0.5, 1)
+- Lower Clouds: (0.3, 1)
+- Higher Clouds: (0.2, 1)
+- Sky: (0.1, 1)
+
+The video below displays how these values affect scrolling while in-game.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section explains how to achieve infinite repeating textures using Parallax2D and its repeat_size property, and addresses common setup issues.
+
+Parallax2D provides a bonus effect that gives textures the illusion of repeating infinitely. The repeat_size property tells the node to snap its position forward or back when the camera scrolls by the set value. This effect is achieved by adding a single repeat to all the child canvas items offset by the value. While the camera scrolls between the image and its repeat, it invisibly snaps back giving the appearance of a looping image.
+
+Being a delicate effect, it's easy for unfamiliar users to make mistakes with their setup. Let's go over the "how" and "why" of a few common problems users encounter.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: Explains how to handle image sizing issues for parallax backgrounds in Godot.
+The infinite repeat effect is easiest to work with when you have an image designed to repeat seamlessly and is the same size or larger than your viewport before setting the repeat_size property. If you aren't able to obtain assets that are designed for this task, there are some other things you can do to better prepare your image in regards to size.
+
+Here is an example of a texture that is too small for its viewport:
+
+We can see that the viewport size is 500x300 but the texture is 288x208. If we set the repeat_size to the size of our image, the infinite repeat effect doesn't scroll properly because the original texture doesn't cover the viewport. If we set the repeat_size to the size of the viewport, we have a large gap. What can we do?
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section explains how to adjust viewport size to match background textures for 2D parallax effects.
+Make the viewport smaller. The simplest answer is to make the viewport the same size or smaller than your textures. In Project Settings > Display > Window, change the Viewport Width and Viewport Height settings to match your background.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section explains how to scale Parallax2D layers to adjust their size.
+To scale the Parallax2D layers, you can adjust the scale property of the Parallax2D node itself. This will scale all child textures proportionally. This method is suitable if you do not require a pixel-perfect look and can tolerate some blurriness.
+Key Rule: Adjust the scale property of the Parallax2D node to scale all child textures.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: Explains how to scale child nodes within a Parallax2D background.
+When creating a Parallax2D background, you can scale the child Sprite2D nodes to ensure they are large enough to cover the screen. It is important to note that certain properties, such as Parallax2D.repeat_size and Sprite2D.region_rect, do not automatically account for scaling. Therefore, you must manually adjust these values to match the applied scale of the Sprite2D nodes.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section explains how to repeat a Sprite2D texture to cover the viewport.
+
+To repeat a Sprite2D texture, follow these steps:
+- Set texture_repeat to CanvasItem.TEXTURE_REPEAT_ENABLED.
+- Set region_enabled to true.
+- Set the region_rect to a multiple of the texture's size, large enough to cover the viewport.
+
+For example, repeating the image twice can make it large enough to cover the screen.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: Explains why centering parallax textures at (0,0) causes issues with the infinite repeat effect.
+The "infinite repeat canvas" starts at (0,0) and expands down and to the right to the size of the repeat_size value. If textures are centered on the (0,0) crossing, the infinite repeat canvas is only partly covered, so it only partly repeats. This creates problems with the infinite repeat effect and should be avoided.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: Explains how to correctly set up Parallax2D textures for infinite scrolling by ensuring they fit within the repeat canvas.
+Parallax2D.repeat_size is used to define the area where the texture repeats. The texture should be placed within this area, starting at (0,0), and be the same size or larger than the viewport to achieve an infinite scrolling effect. If the texture is not positioned correctly within the repeat canvas, parts of it may be cut off during scrolling, breaking the illusion of infinite repetition.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section explains how to use the scroll_offset property to adjust the starting position of parallax textures.
+Parallax2D comes with a scroll_offset property used to offset where the infinite repeat canvas starts. As an example, if your image is 288x208, setting the scroll_offset to (-144,0) or (144,0) allows it to begin halfway across the image.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section explains how to use the `repeat_times` property to ensure parallax textures cover the screen even when zoomed out.
+
+When zooming out the camera, parallax textures may become smaller than the viewport, breaking the infinite repeat effect. The `repeat_times` property can solve this. Setting `repeat_times` to `3` (one extra repeat behind and in front) ensures the texture is large enough to accommodate the infinite repeat effect even when zoomed out.
+
+If textures were meant to be repeated vertically, the `repeat_size` property would be used with a `y` value. The `repeat_times` property would then automatically add repeats above and below as well. For horizontal parallax, if there is empty space above and below the image, creative solutions like stretching the sky higher and grass sprite lower can be employed to ensure textures support normal zoom levels and zooming out.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section explains how to implement a split-screen parallax effect in Godot by managing visibility layers and cull masks.
+
+When creating a split-screen game in Godot, a common approach involves sharing the `world_2d` of the first SubViewport with subsequent SubViewports. A challenge arises when implementing parallax effects, as these effects rely on moving textures at different rates to simulate perspective, which becomes complicated with multiple cameras.
+
+To achieve a split-screen parallax effect, you can clone the parallax nodes into each SubViewport. The key to making each parallax effect appear only in its corresponding viewport lies in managing the `visibility_layer` and `canvas_cull_mask` properties.
+
+Here's a breakdown of the setup for a two-player game:
+
+1.  **Default Visibility Layer:** Ensure all parallax nodes retain their default `visibility_layer` of 1.
+2.  **First SubViewport Cull Mask:** Set the `canvas_cull_mask` of the first SubViewport to include only layers 1 and 2.
+3.  **Second SubViewport Cull Mask:** Configure the `canvas_cull_mask` of the second SubViewport to include only layers 1 and 3.
+4.  **First SubViewport Parallax Parent:** Group the parallax nodes intended for the first SubViewport under a common parent node. Set this parent's `visibility_layer` to 2.
+5.  **Second SubViewport Parallax Parent:** Similarly, group the parallax nodes for the second SubViewport under a common parent. Set this parent's `visibility_layer` to 3.
+
+This configuration works because a SubViewport will hide any canvas item whose `visibility_layer` does not match its `canvas_cull_mask`. By assigning specific visibility layers to the parent nodes of the parallax groups, you effectively control which parallax elements are rendered within each respective SubViewport. This allows the SubViewports to selectively render parallax nodes based on their parent's visibility layer, even if the individual parallax nodes themselves are set to layer 1.
+---CHUNK---
+Document: 2D Parallax
+Path: godot/tutorials/2d/2d_parallax.rst
+Summary: This section discusses previewing 2D parallax effects in the Godot editor, referencing older methods and an addon.
+Note: Another recommendation is KoBeWi's "Parallax2D Preview" addon. It provides a few different preview modes and is very handy!

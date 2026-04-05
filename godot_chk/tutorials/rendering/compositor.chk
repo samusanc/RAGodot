@@ -1,0 +1,67 @@
+Document: Compositor
+Path: godot/tutorials/rendering/compositor.rst
+Summary: This document explains the compositor in Godot Engine.
+
+The compositor is a system that allows for advanced rendering techniques by combining multiple rendering passes. It is particularly useful for implementing effects like screen-space ambient occlusion, depth of field, and bloom.
+
+The compositor works by rendering the scene multiple times, each time with a different shader or rendering target. These intermediate results are then combined in a final pass to produce the desired effect.
+
+Key components of the compositor include:
+
+*   **Render Targets:** These are textures that store the output of individual rendering passes.
+*   **Shaders:** Custom shaders are used to perform specific operations on the render targets.
+*   **Composition Passes:** These define the order and method of combining render targets.
+
+The compositor is accessed through the `Compositor` class in Godot. It provides methods for setting up render targets, loading shaders, and defining the composition pipeline.
+
+Example usage might involve creating a series of render targets, rendering the scene to each with different post-processing effects applied, and then combining them in a final pass.
+
+The compositor is a powerful tool for achieving high-quality visual effects in Godot Engine.
+---CHUNK---
+Document: Compositor
+Path: godot/tutorials/rendering/compositor.rst
+Summary: Introduces the Compositor feature in Godot 4, explaining its purpose and configuration options.
+The compositor is a new feature in Godot 4 that allows control over the rendering pipeline when rendering the contents of a Viewport. It can be configured on a WorldEnvironment node where it applies to all Viewports, or it can be configured on a Camera3D and apply only to the Viewport using that camera. The Compositor resource is used to configure the compositor. To get started, create a new compositor on the appropriate node. Note: The compositor is currently a feature that is only supported by the Mobile and Forward+ renderers.
+---CHUNK---
+Document: Compositor effects
+Path: godot/tutorials/rendering/compositor.rst
+Summary: This tutorial explains how to implement custom post-processing effects in Godot using the CompositorEffect class and compute shaders.
+
+Compositor effects allow you to insert custom logic into the rendering pipeline. Because this logic executes within the rendering thread, developers must manage threading carefully to avoid conflicts.
+
+To create a compositor effect, extend the CompositorEffect class. Use a tool script to enable previewing in the editor.
+
+GDScript:
+    @tool
+    extends CompositorEffect
+    class_name PostProcessShader
+
+The effect requires a compute shader. A template string is used to define the boilerplate, including the image binding and push constants. The #COMPUTE_CODE placeholder is replaced by user-defined shader code at runtime.
+
+Use a Mutex to protect data shared between the main thread and the rendering thread, specifically when updating shader code or flags.
+
+Initialization:
+In the _init() method, set the effect_callback_type to define when the effect runs. Currently, only 3D rendering pipeline stages are supported. Retrieve the RenderingDevice via RenderingServer.get_rendering_device().
+
+Cleanup:
+React to the NOTIFICATION_PREDELETE notification to free the shader RID. The RenderingDevice handles dependency tracking, so the compute pipeline will be freed automatically when the shader is destroyed.
+
+Shader Compilation:
+The _check_shader() helper function manages compilation. It checks if the shader is "dirty," replaces the template placeholder with user code, and compiles the GLSL source into SPIR-V using rd.shader_compile_spirv_from_source().
+
+Warning: Compiling shaders at runtime is excellent for prototyping but may prevent precompilation and caching on platforms like consoles. For production, consider using external .glsl files.
+
+Rendering Callback:
+The _render_callback() method is called by the rendering thread every frame.
+1. Access render buffers via p_render_data.get_render_scene_buffers(), cast to RenderSceneBuffersRD.
+2. Calculate group sizes based on the internal render resolution.
+3. Populate push constants using a PackedFloat32Array. Note: Data must be 16-byte aligned (array length must be a multiple of 4).
+4. Iterate through views to support stereo/multiview rendering.
+5. Retrieve the color buffer using get_color_layer(view).
+6. Create a uniform set using UniformSetCacheRD to ensure memory safety and efficient caching.
+7. Execute the compute shader using rd.compute_list_begin(), bind the pipeline and uniform set, dispatch the work, and end the list.
+
+Integration:
+To use the effect, add it to the CompositorEffects array in the Compositor resource. You can then input custom GLSL code into the exported shader_code property to modify the rendered output, such as applying a grayscale filter.
+
+Note: The effect_callback_type check in the render callback is a safety mechanism, as users can modify this property in the inspector.

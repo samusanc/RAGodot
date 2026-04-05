@@ -1,0 +1,150 @@
+Document: DirectionalLight3D
+Path: godot/classes/class_directionallight3d.rst
+Summary: Represents a directional light source, simulating a distant light like the sun.
+
+DirectionalLight3D
+
+Inherits: Light3D < GeometryInstance3D < Node3D < Node
+
+A directional light simulates a distant light source, such as the sun. It emits light in a specific direction, and all rays are parallel. This makes it suitable for simulating outdoor lighting conditions.
+
+Properties:
+	shadow_bias (float): The bias value for shadow mapping. This helps to avoid self-shadowing artifacts. Default: 0.0.
+	shadow_normal_bias (float): The normal bias value for shadow mapping. This helps to avoid self-shadowing artifacts when surfaces are nearly parallel to the light rays. Default: 0.0.
+	shadow_reverse_cull_face (bool): If true, the shadow rendering will reverse the culling face. This can be useful in certain scenarios to ensure correct shadow rendering. Default: false.
+	shadow_split_horizontal_offset (float): The horizontal offset for shadow splits. This affects how the shadow map is divided for cascaded shadow maps. Default: 0.0.
+	shadow_split_vertical_offset (float): The vertical offset for shadow splits. This affects how the shadow map is divided for cascaded shadow maps. Default: 0.0.
+	orographic_shadow_offset (float): The offset for orographic shadows. This is used to adjust the position of shadows cast by terrain or other elevated surfaces. Default: 0.0.
+	sky_only (bool): If true, the light will only affect the sky. This is useful for simulating ambient lighting without affecting scene objects. Default: false.
+	distance_fade_start (float): The distance at which the light starts to fade out. Default: 0.0.
+	distance_fade_length (float): The length of the fade-out distance. Default: 0.0.
+	distance_fade_mode (int): The mode for distance fading. Default: 0.
+
+Methods:
+	_get_visibility_range(): Returns the visibility range of the light.
+	_set_visibility_range(range: float): Sets the visibility range of the light.
+---CHUNK---
+Document: DirectionalLight3D
+Path: godot/classes/class_directionallight3d.rst
+Summary: Introduces the DirectionalLight3D node, which simulates light originating from a distant source like the Sun.
+
+DirectionalLight3D
+Inherits: Light3D < VisualInstance3D < Node3D < Node < Object
+
+Directional light from a distance, as from the Sun.
+---CHUNK---
+Document: DirectionalLight3D
+Path: godot/classes/class_directionallight3d.rst
+Summary: Describes the DirectionalLight3D node, which simulates distant light sources like the sun or moon with parallel rays.
+A directional light is a type of Light3D node that models an infinite number of parallel rays covering the entire scene. It is used for lights with strong intensity that are located far away from the scene to model sunlight or moonlight. Light is emitted in the -Z direction of the node's global basis. For an unrotated light, this means that the light is emitted forwards, illuminating the front side of a 3D model. The position of the node is ignored; only the basis is used to determine light direction.
+---CHUNK---
+Document: DirectionalLight3D
+Path: godot/classes/class_directionallight3d.rst
+Summary: This document provides links to related tutorials about 3D lights and shadows, and faking global illumination.
+
+Tutorials:
+* 3D lights and shadows
+* Faking global illumination
+---CHUNK---
+Document: DirectionalLight3D
+Path: godot/classes/class_directionallight3d.rst
+Summary: This section details the properties of the DirectionalLight3D node, which simulates a distant light source like the sun.
+
+Properties
+* directional_shadow_blend_splits (bool): Controls whether shadow splits blend smoothly. Default: false.
+* directional_shadow_fade_start (float): The distance from the camera where shadows start to fade out. Default: 0.8.
+* directional_shadow_max_distance (float): The maximum distance at which shadows are rendered. Default: 100.0.
+* directional_shadow_mode (ShadowMode): The mode used for rendering directional shadows. Default: 2.
+* directional_shadow_pancake_size (float): Adjusts the size of the shadow "pancakes" for directional lights. Default: 20.0.
+* directional_shadow_split_1 (float): The distance for the first shadow split. Default: 0.1.
+* directional_shadow_split_2 (float): The distance for the second shadow split. Default: 0.2.
+* directional_shadow_split_3 (float): The distance for the third shadow split. Default: 0.5.
+* sky_mode (SkyMode): Determines how the directional light interacts with the sky. Default: 0.
+---CHUNK---
+Document: DirectionalLight3D
+Path: godot/classes/class_directionallight3d.rst
+Summary: Defines shadow rendering modes and sky interaction modes for DirectionalLight3D.
+
+Enumerations
+enum ShadowMode:
+  SHADOW_ORTHOGONAL = 0
+    Renders the entire scene's shadow map from an orthogonal point of view. This is the fastest directional shadow mode. May result in blurrier shadows on close objects.
+  SHADOW_PARALLEL_2_SPLITS = 1
+    Splits the view frustum in 2 areas, each with its own shadow map. This shadow mode is a compromise between SHADOW_ORTHOGONAL and SHADOW_PARALLEL_4_SPLITS in terms of performance.
+  SHADOW_PARALLEL_4_SPLITS = 2
+    Splits the view frustum in 4 areas, each with its own shadow map. This is the slowest directional shadow mode.
+
+enum SkyMode:
+  SKY_MODE_LIGHT_AND_SKY = 0
+    Makes the light visible in both scene lighting and sky rendering.
+  SKY_MODE_LIGHT_ONLY = 1
+    Makes the light visible in scene lighting only (including direct lighting and global illumination). When using this mode, the light will not be visible from sky shaders.
+  SKY_MODE_SKY_ONLY = 2
+    Makes the light visible to sky shaders only. When using this mode the light will not cast light into the scene (either through direct lighting or through global illumination), but can be accessed through sky shaders. This can be useful, for example, when you want to control sky effects without illuminating the scene (during a night cycle, for example).
+---CHUNK---
+Document: DirectionalLight3D
+Path: godot/classes/class_directionallight3d.rst
+Summary: Describes the properties related to shadow rendering and sky visibility for the DirectionalLight3D node.
+
+Property: directional_shadow_blend_splits
+Type: bool
+Default: false
+Description: If true, shadow detail is sacrificed for smoother transitions between shadow splits. Enabling this has a moderate performance cost and is ignored when directional_shadow_mode is SHADOW_ORTHOGONAL.
+Method: set_blend_splits(value: bool)
+Method: is_blend_splits_enabled()
+
+Property: directional_shadow_fade_start
+Type: float
+Default: 0.8
+Description: Proportion of directional_shadow_max_distance at which shadows begin to fade. At directional_shadow_max_distance, shadows will disappear. Lowering this value can make shadow transitions less noticeable if the camera moves fast or directional_shadow_max_distance is low. Setting it to 1.0 prevents fading, causing shadows to cut off suddenly.
+Method: set_param(value: float)
+Method: get_param()
+
+Property: directional_shadow_max_distance
+Type: float
+Default: 100.0
+Description: The maximum distance for shadow splits. Increasing this value makes shadows visible from further away but reduces overall shadow detail and performance.
+Method: set_param(value: float)
+Method: get_param()
+
+Property: directional_shadow_mode
+Type: ShadowMode
+Default: 2
+Description: The light's shadow rendering algorithm.
+Method: set_shadow_mode(value: ShadowMode)
+Method: get_shadow_mode()
+
+Property: directional_shadow_pancake_size
+Type: float
+Default: 20.0
+Description: Sets the size of the directional shadow pancake, which offsets the shadow camera frustum for higher depth resolution. A high pancake size can cause artifacts on large objects near the frustum edge. Reducing the size can help. Setting to 0 disables the effect.
+Method: set_param(value: float)
+Method: get_param()
+
+Property: directional_shadow_split_1
+Type: float
+Default: 0.1
+Description: The distance from the camera to shadow split 1, relative to directional_shadow_max_distance. Used only when directional_shadow_mode is SHADOW_PARALLEL_2_SPLITS or SHADOW_PARALLEL_4_SPLITS.
+Method: set_param(value: float)
+Method: get_param()
+
+Property: directional_shadow_split_2
+Type: float
+Default: 0.2
+Description: The distance from shadow split 1 to split 2, relative to directional_shadow_max_distance. Used only when directional_shadow_mode is SHADOW_PARALLEL_4_SPLITS.
+Method: set_param(value: float)
+Method: get_param()
+
+Property: directional_shadow_split_3
+Type: float
+Default: 0.5
+Description: The distance from shadow split 2 to split 3, relative to directional_shadow_max_distance. Used only when directional_shadow_mode is SHADOW_PARALLEL_4_SPLITS.
+Method: set_param(value: float)
+Method: get_param()
+
+Property: sky_mode
+Type: SkyMode
+Default: 0
+Description: Determines whether this DirectionalLight3D is visible in the sky, in the scene, or both.
+Method: set_sky_mode(value: SkyMode)
+Method: get_sky_mode()

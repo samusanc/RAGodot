@@ -1,0 +1,181 @@
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: A 2D node that displays a texture.
+
+Sprite2D is a 2D node that displays a texture. It is commonly used for 2D sprites, characters, and other visual elements in a 2D game.
+
+Inherits: Node2D < CanvasItem < Node
+
+This is the base class for 2D nodes that display a texture.
+---CHUNK---
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: Introduces the Sprite2D node, a general-purpose sprite node in Godot.
+Sprite2D
+Inherits: Node2D < CanvasItem < Node < Object
+
+General-purpose sprite node.
+---CHUNK---
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: Describes the Sprite2D node, which is used to display 2D textures in Godot.
+
+Sprite2D is a node that displays a 2D texture. The texture displayed can be a region from a larger atlas texture, or a frame from a sprite sheet animation.
+---CHUNK---
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: This section provides a link to an instancing demo for Sprite2D.
+
+Instancing Demo: https://godotengine.org/asset-library/asset/2716
+---CHUNK---
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: This section details the properties of the Sprite2D node in Godot Engine.
+
+Properties:
+- centered (bool): If true, the sprite's origin is placed at its center. Default: true.
+- flip_h (bool): If true, the sprite is flipped horizontally. Default: false.
+- flip_v (bool): If true, the sprite is flipped vertically. Default: false.
+- frame (int): The current frame of the sprite sheet to display. Default: 0.
+- frame_coords (Vector2i): The coordinates of the current frame in the sprite sheet, using `hframes` and `vframes`. Default: Vector2i(0, 0).
+- hframes (int): The number of horizontal frames in the sprite sheet. Default: 1.
+- offset (Vector2): The offset of the sprite in pixels. Default: Vector2(0, 0).
+- region_enabled (bool): If true, the sprite will only display a portion of the texture defined by `region_rect`. Default: false.
+- region_filter_clip_enabled (bool): If true, the sprite will clip its texture to the `region_rect` when `region_enabled` is true. Default: false.
+- region_rect (Rect2): The rectangle that defines the portion of the texture to display when `region_enabled` is true. Default: Rect2(0, 0, 0, 0).
+- texture (Texture2D): The texture to display for the sprite.
+- vframes (int): The number of vertical frames in the sprite sheet. Default: 1.
+---CHUNK---
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: Describes the methods and signals available for the Sprite2D node in Godot Engine.
+
+Methods
+* get_rect() → Rect2: Returns the bounding rectangle of the sprite in local coordinates.
+* is_pixel_opaque(pos: Vector2) → bool: Checks if the pixel at the given local position is opaque.
+
+Signals
+* frame_changed(): Emitted when the frame property changes.
+* texture_changed(): Emitted when the texture property changes.
+---CHUNK---
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: Describes the properties and member variables of the Sprite2D node in Godot Engine.
+
+Property: centered
+Type: bool
+Default: true
+Description: If true, texture is centered.
+Note: For games with a pixel art aesthetic, textures may appear deformed when centered. This is caused by their position being between pixels. To prevent this, set this property to false, or consider enabling ProjectSettings.rendering/2d/snap/snap_2d_vertices_to_pixel and ProjectSettings.rendering/2d/snap/snap_2d_transforms_to_pixel.
+Method: set_centered(value: bool)
+Method: is_centered() -> bool
+
+Property: flip_h
+Type: bool
+Default: false
+Description: If true, texture is flipped horizontally.
+Method: set_flip_h(value: bool)
+Method: is_flipped_h() -> bool
+
+Property: flip_v
+Type: bool
+Default: false
+Description: If true, texture is flipped vertically.
+Method: set_flip_v(value: bool)
+Method: is_flipped_v() -> bool
+
+Property: frame
+Type: int
+Default: 0
+Description: Current frame to display from sprite sheet. hframes or vframes must be greater than 1. This property is automatically adjusted when hframes or vframes are changed to keep pointing to the same visual frame (same column and row). If that's impossible, this value is reset to 0.
+Method: set_frame(value: int)
+Method: get_frame() -> int
+
+Property: frame_coords
+Type: Vector2i
+Default: Vector2i(0, 0)
+Description: Coordinates of the frame to display from sprite sheet. This is as an alias for the frame property. hframes or vframes must be greater than 1.
+Method: set_frame_coords(value: Vector2i)
+Method: get_frame_coords() -> Vector2i
+
+Property: hframes
+Type: int
+Default: 1
+Description: The number of columns in the sprite sheet. When this property is changed, frame is adjusted so that the same visual frame is maintained (same row and column). If that's impossible, frame is reset to 0.
+Method: set_hframes(value: int)
+Method: get_hframes() -> int
+
+Property: offset
+Type: Vector2
+Default: Vector2(0, 0)
+Description: The texture's drawing offset.
+Note: When you increase offset.y in Sprite2D, the sprite moves downward on screen (i.e., +Y is down).
+Method: set_offset(value: Vector2)
+Method: get_offset() -> Vector2
+
+Property: region_enabled
+Type: bool
+Default: false
+Description: If true, texture is cut from a larger atlas texture. See region_rect.
+Note: When using a custom Shader on a Sprite2D, the UV shader built-in will refer to the entire texture space. Use the REGION_RECT built-in to get the currently visible region defined in region_rect instead. See CanvasItem shaders for details.
+Method: set_region_enabled(value: bool)
+Method: is_region_enabled() -> bool
+
+Property: region_filter_clip_enabled
+Type: bool
+Default: false
+Description: If true, the area outside of the region_rect is clipped to avoid bleeding of the surrounding texture pixels. region_enabled must be true.
+Method: set_region_filter_clip_enabled(value: bool)
+Method: is_region_filter_clip_enabled() -> bool
+
+Property: region_rect
+Type: Rect2
+Default: Rect2(0, 0, 0, 0)
+Description: The region of the atlas texture to display. region_enabled must be true.
+Method: set_region_rect(value: Rect2)
+Method: get_region_rect() -> Rect2
+
+Property: texture
+Type: Texture2D
+Description: Texture2D object to draw.
+Method: set_texture(value: Texture2D)
+Method: get_texture() -> Texture2D
+
+Property: vframes
+Type: int
+Default: 1
+Description: The number of rows in the sprite sheet. When this property is changed, frame is adjusted so that the same visual frame is maintained (same row and column). If that's impossible, frame is reset to 0.
+Method: set_vframes(value: int)
+Method: get_vframes() -> int
+---CHUNK---
+Document: Sprite2D
+Path: godot/classes/class_sprite2d.rst
+Summary: Provides descriptions for the Sprite2D class methods get_rect and is_pixel_opaque.
+Method: get_rect() → Rect2
+Returns a Rect2 representing the Sprite2D's boundary in local coordinates.
+
+Example: Detect if the Sprite2D was clicked:
+
+GDScript:
+func _input(event):
+    if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+        if get_rect().has_point(to_local(event.position)):
+            print("A click!")
+
+C#:
+public override void _Input(InputEvent @event)
+{
+    if (@event is InputEventMouseButton inputEventMouse)
+    {
+        if (inputEventMouse.Pressed && inputEventMouse.ButtonIndex == MouseButton.Left)
+        {
+            if (GetRect().HasPoint(ToLocal(inputEventMouse.Position)))
+            {
+                GD.Print("A click!");
+            }
+        }
+    }
+}
+
+Method: is_pixel_opaque(pos: Vector2) → bool
+Returns true if the pixel at the given position is opaque, false otherwise. Also returns false if the given position is out of bounds or this sprite's texture is null. pos is in local coordinates.

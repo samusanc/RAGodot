@@ -1,0 +1,207 @@
+Document: Script
+Path: godot/classes/class_script.rst
+Summary: Base class for all script objects, providing the foundation for GDScript, C#, and other scripting languages to extend Object functionality.
+
+Inherits: Resource < RefCounted < Object
+Inherited By: CSharpScript, GDScript, ScriptExtension
+
+Description:
+A class stored as a resource. A script extends the functionality of all objects that instance it. The new method of a script creates a new instance. Object.set_script extends an existing object, if that object's class matches one of the script's base classes.
+
+Properties:
+source_code (String): The script source code or an empty string if source code is not available. With the setter, the script is compiled from the source.
+
+Methods:
+Method: can_instantiate() -> bool
+Returns true if the script can be instantiated.
+
+Method: get_base_script() -> Script
+Returns the script directly inherited by this script.
+
+Method: get_global_name() -> StringName
+Returns the script's global name, or an empty StringName if the script has no global name.
+
+Method: get_instance_base_type() -> StringName
+Returns the script's base type.
+
+Method: has_script_signal(signal: StringName) -> bool
+Returns true if the script, or a base class, defines a signal with the given name.
+
+Method: has_source_code() -> bool
+Returns true if the script contains valid source code.
+
+Method: instance_has(base_object: Object) -> bool
+Returns true if base_object is an instance of this script.
+
+Method: is_abstract() -> bool
+Returns true if the script is an abstract script. An abstract script cannot be instantiated and is only used for inheritance.
+
+Method: is_tool() -> bool
+Returns true if the script is a tool script. A tool script can run in the editor.
+
+Method: reload(keep_state: bool = false) -> Error
+Reloads the script's implementation. If keep_state is true, the current state is saved and restored. Note: This only applies to GDScript.
+---CHUNK---
+Document: Script
+Path: godot/classes/class_script.rst
+Summary: Describes the Script class in Godot, which serves as a base resource for storing scripts.
+Script
+Inherits: Resource < RefCounted < Object
+Inherited By: CSharpScript, GDScript, ScriptExtension
+
+A class stored as a resource.
+---CHUNK---
+Document: Script
+Path: godot/classes/class_script.rst
+Summary: Describes the base Script class in Godot, which serves as the foundation for all scripts and extends object functionality.
+Inherits: Resource < Reference < Object
+A class stored as a resource. A script extends the functionality of all objects that instantiate it.
+
+This is the base class for all scripts and should not be used directly. Trying to create a new script with this class will result in an error.
+
+The `new` method of a script subclass creates a new instance. Object.set_script() extends an existing object, if that object's class matches one of the script's base classes.
+---CHUNK---
+Document: Script
+Path: godot/classes/class_script.rst
+Summary: This section provides a link to the scripting documentation index.
+
+Scripting documentation index
+---CHUNK---
+Document: Script
+Path: godot/classes/class_script.rst
+Summary: Properties of the Script class.
+
+Properties
+source_code (String): The source code of the script.
+---CHUNK---
+Document: Script
+Path: godot/classes/class_script.rst
+Summary: Provides methods for inspecting and interacting with script properties and behavior.
+
+Method: can_instantiate() → bool
+Returns true if the script can be instantiated.
+
+Method: get_base_script() → Script
+Returns the base script if this script extends another one.
+
+Method: get_global_name() → StringName
+Returns the global name of the script.
+
+Method: get_instance_base_type() → StringName
+Returns the base type of the instances created from this script.
+
+Method: get_property_default_value(property: StringName) → Variant
+Returns the default value of a property.
+
+Method: get_rpc_config() → Variant
+Returns the RPC configuration for the script.
+
+Method: get_script_constant_map() → Dictionary
+Returns a dictionary mapping script constants to their values.
+
+Method: get_script_method_list() → Array[Dictionary]
+Returns an array of dictionaries, each describing a method in the script.
+
+Method: get_script_property_list() → Array[Dictionary]
+Returns an array of dictionaries, each describing a property in the script.
+
+Method: get_script_signal_list() → Array[Dictionary]
+Returns an array of dictionaries, each describing a signal in the script.
+
+Method: has_script_method(method_name: StringName) → bool
+Returns true if the script has a method with the given name.
+
+Method: has_script_signal(signal_name: StringName) → bool
+Returns true if the script has a signal with the given name.
+
+Method: has_source_code() → bool
+Returns true if the script has source code.
+
+Method: instance_has(base_object: Object) → bool
+Returns true if the given object is an instance of this script or a script that inherits from it.
+
+Method: is_abstract() → bool
+Returns true if the script is abstract and cannot be instantiated directly.
+
+Method: is_tool() → bool
+Returns true if the script is a tool script, meaning it runs in the editor.
+
+Method: reload(keep_state: bool = false) → Error
+Reloads the script. If `keep_state` is true, attempts to preserve the state of existing instances.
+---CHUNK---
+Document: Script
+Path: godot/classes/class_script.rst
+Summary: Provides the source code of the script and methods to set and get it.
+Property: source_code (String)
+The script source code or an empty string if source code is not available. When set, does not reload the class implementation automatically.
+Method: set_source_code(value: String) → void
+Method: get_source_code() → String
+---CHUNK---
+Document: class_Script
+Path: godot/classes/class_script.rst
+Summary: Provides methods for inspecting and interacting with Godot scripts, including checking instantiation capabilities, retrieving base types, accessing property and method lists, and managing script reloading.
+
+Method: can_instantiate() → bool
+Returns true if the script can be instantiated.
+
+Method: get_base_script() → Script
+Returns the script directly inherited by this script.
+
+Method: get_global_name() → StringName
+Returns the class name associated with the script, if there is one. Returns an empty string otherwise. To give the script a global name, you can use the class_name keyword in GDScript and the [GlobalClass] attribute in C#.
+GDScript:
+class_name MyNode
+extends Node
+C#:
+using Godot;
+
+[GlobalClass]
+public partial class MyNode : Node
+{
+}
+
+Method: get_instance_base_type() → StringName
+Returns the script's base type.
+
+Method: get_property_default_value(property: StringName) → Variant
+Returns the default value of the specified property.
+
+Method: get_rpc_config() → Variant
+Returns a Dictionary mapping method names to their RPC configuration defined by this script.
+
+Method: get_script_constant_map() → Dictionary
+Returns a dictionary containing constant names and their values.
+
+Method: get_script_method_list() → Array[Dictionary]
+Returns the list of methods in this Script.
+Note: The dictionaries returned by this method are formatted identically to those returned by Object.get_method_list().
+
+Method: get_script_property_list() → Array[Dictionary]
+Returns the list of properties in this Script.
+Note: The dictionaries returned by this method are formatted identically to those returned by Object.get_property_list().
+
+Method: get_script_signal_list() → Array[Dictionary]
+Returns the list of signals defined in this Script.
+Note: The dictionaries returned by this method are formatted identically to those returned by Object.get_signal_list().
+
+Method: has_script_method(method_name: StringName) → bool
+Returns true if the script, or a base class, defines a method with the given name.
+
+Method: has_script_signal(signal_name: StringName) → bool
+Returns true if the script, or a base class, defines a signal with the given name.
+
+Method: has_source_code() → bool
+Returns true if the script contains non-empty source code.
+Note: If a script does not have source code, this does not mean that it is invalid or unusable. For example, a GDScript that was exported with binary tokenization has no source code, but still behaves as expected and could be instantiated. This can be checked with can_instantiate().
+
+Method: instance_has(base_object: Object) → bool
+Returns true if base_object is an instance of this script.
+
+Method: is_abstract() → bool
+Returns true if the script is an abstract script. An abstract script does not have a constructor and cannot be instantiated.
+
+Method: is_tool() → bool
+Returns true if the script is a tool script. A tool script can run in the editor.
+
+Method: reload(keep_state: bool = false) → Error
+Reloads the script's class implementation. Returns an error code.

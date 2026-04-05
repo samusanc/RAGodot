@@ -1,0 +1,76 @@
+Document: GLTFDocumentExtension
+Path: godot/classes/class_gltfdocumentextension.rst
+Summary: This document describes the GLTFDocumentExtension class.
+---CHUNK---
+Document: GLTFDocumentExtension
+Path: godot/classes/class_gltfdocumentextension.rst
+Summary: This class represents an extension for GLTFDocument.
+Inherits: Resource < RefCounted < Object
+Inherited By: GLTFDocumentExtensionConvertImporterMesh
+GLTFDocument extension class.
+---CHUNK---
+Document: GLTFDocumentExtension
+Path: godot/classes/class_gltfdocumentextension.rst
+Summary: Describes the GLTFDocumentExtension class for extending glTF import/export functionality.
+
+Extends the functionality of the GLTFDocument class by allowing you to run arbitrary code at various stages of glTF import or export. To use, make a new class extending GLTFDocumentExtension, override any methods you need, make an instance of your class, and register it using GLTFDocument.register_gltf_document_extension(). Note: All GLTFDocumentExtension classes are duplicated when beginning the import or export process. Except for configuration values, these classes must be stateless in order to function properly. If you need to store data, use the `set_additional_data` and `get_additional_data` methods in GLTFState or GLTFNode.
+---CHUNK---
+Document: GLTFDocumentExtension
+Path: godot/classes/class_gltfdocumentextension.rst
+Summary: Lists related tutorials for GLTFDocumentExtension.
+
+Tutorials
+- Runtime file loading and saving
+---CHUNK---
+Document: GLTFDocumentExtension
+Path: godot/classes/class_gltfdocumentextension.rst
+Summary: This section lists the virtual methods available for extending GLTF document import and export functionality.
+
+Method: _convert_scene_node(state: GLTFState, gltf_node: GLTFNode, scene_node: Node) → void
+Method: _export_node(state: GLTFState, gltf_node: GLTFNode, json: Dictionary, node: Node) → Error
+Method: _export_object_model_property(state: GLTFState, node_path: NodePath, godot_node: Node, gltf_node_index: int, target_object: Object, target_depth: int) → GLTFObjectModelProperty
+Method: _export_post(state: GLTFState) → Error
+Method: _export_post_convert(state: GLTFState, root: Node) → Error
+Method: _export_preflight(state: GLTFState, root: Node) → Error
+Method: _export_preserialize(state: GLTFState) → Error
+Method: _generate_scene_node(state: GLTFState, gltf_node: GLTFNode, scene_parent: Node) → Node3D
+Method: _get_image_file_extension() → String
+Method: _get_saveable_image_formats() → PackedStringArray
+Method: _get_supported_extensions() → PackedStringArray
+Method: _import_node(state: GLTFState, gltf_node: GLTFNode, json: Dictionary, node: Node) → Error
+Method: _import_object_model_property(state: GLTFState, split_json_pointer: PackedStringArray, partial_paths: Array[NodePath]) → GLTFObjectModelProperty
+Method: _import_post(state: GLTFState, root: Node) → Error
+Method: _import_post_parse(state: GLTFState) → Error
+Method: _import_pre_generate(state: GLTFState) → Error
+Method: _import_preflight(state: GLTFState, extensions: PackedStringArray) → Error
+Method: _parse_image_data(state: GLTFState, image_data: PackedByteArray, mime_type: String, ret_image: Image) → Error
+Method: _parse_node_extensions(state: GLTFState, gltf_node: GLTFNode, extensions: Dictionary) → Error
+Method: _parse_texture_json(state: GLTFState, texture_json: Dictionary, ret_gltf_texture: GLTFTexture) → Error
+Method: _save_image_at_path(state: GLTFState, image: Image, file_path: String, image_format: String, lossy_quality: float) → Error
+Method: _serialize_image_to_bytes(state: GLTFState, image: Image, image_dict: Dictionary, image_format: String, lossy_quality: float) → PackedByteArray
+Method: _serialize_texture_json(state: GLTFState, texture_json: Dictionary, gltf_texture: GLTFTexture, image_format: String) → Error
+---CHUNK---
+Document: GLTFDocumentExtension
+Path: godot/classes/class_gltfdocumentextension.rst
+Summary: This chunk describes several virtual methods for extending glTF export functionality, including converting scene nodes, exporting node JSON, mapping object model properties, and various post-processing and pre-flight steps.
+
+Method: _convert_scene_node(state: GLTFState, gltf_node: GLTFNode, scene_node: Node) → void
+Part of the export process. This method is run after _export_preflight() and before _export_post_convert(). Runs when converting the data from a Godot scene node. This method can be used to process the Godot scene node data into a format that can be used by _export_node().
+
+Method: _export_node(state: GLTFState, gltf_node: GLTFNode, json: Dictionary, node: Node) → Error
+Part of the export process. This method is run after _get_saveable_image_formats() and before _export_post(). If this GLTFDocumentExtension is used for exporting images, this runs after _serialize_texture_json(). This method can be used to modify the final JSON of each node. Data should be primarily stored in gltf_node prior to serializing the JSON, but the original Godot Node is also provided if available. node may be null if not available, such as when exporting glTF data not generated from a Godot scene.
+
+Method: _export_object_model_property(state: GLTFState, node_path: NodePath, godot_node: Node, gltf_node_index: int, target_object: Object, target_depth: int) → GLTFObjectModelProperty
+Part of the export process. Allows GLTFDocumentExtension classes to provide mappings for properties of nodes in the Godot scene tree, to JSON pointers to glTF properties, as defined by the glTF object model. Returns a GLTFObjectModelProperty instance that defines how the property should be mapped. If your extension can't handle the property, return null or an instance without any JSON pointers (see GLTFObjectModelProperty.has_json_pointers()). You should use GLTFObjectModelProperty.set_types() to set the types, and set the JSON pointer(s) using the GLTFObjectModelProperty.json_pointers property. The parameters provide context for the property, including the NodePath, the Godot node, the GLTF node index, and the target object. The target_object will be equal to godot_node if no sub-object can be found, otherwise it will point to a sub-object. For example, if the path is "A/B/C/MeshInstance3D:mesh:surface_0/material:emission_intensity", it will get the node, then the mesh, and then the material, so target_object will be the Material resource, and target_depth will be 2 because 2 levels were traversed to get to the target.
+
+Method: _export_post(state: GLTFState) → Error
+Part of the export process. This method is run last, after all other parts of the export process. This method can be used to modify the final JSON of the generated glTF file.
+
+Method: _export_post_convert(state: GLTFState, root: Node) → Error
+Part of the export process. This method is run after _convert_scene_node() and before _export_preserialize(). This method can be used to modify the converted node data structures before serialization with any additional data from the scene tree.
+
+Method: _export_preflight(state: GLTFState, root: Node) → Error
+Part of the export process. This method is run first, before all other parts of the export process. The return value is used to determine if this GLTFDocumentExtension instance should be used for exporting a given glTF file. If @GlobalScope.OK, the export will use this GLTFDocumentExtension instance. If not overridden, @GlobalScope.OK is returned.
+
+Method: _export_preserialize(state: GLTFState) → Error
+Part of the export process. This method is run after _export_post_convert() and before _get_saveable_image_formats(). This method can be used to alter the state before performing serialization. It runs every time when generating a buffer with GLTFDocument.generate_buffer() or writing to the file system with GLTFDocument.write_to_filesystem().

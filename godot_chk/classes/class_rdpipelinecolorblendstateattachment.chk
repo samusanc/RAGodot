@@ -1,0 +1,245 @@
+Document: RDPipelineColorBlendStateAttachment
+Path: godot/classes/class_rdpipelinecolorblendstateattachment.rst
+Summary: Describes the color blend state for a single render target attachment in a render pipeline.
+
+Inherits: RefCounted
+
+This class describes the color blend state for a single render target attachment in a render pipeline. It is used within RDPipelineColorBlendState.
+
+Properties:
+blend_mode (int): The blend mode to use. Possible values:
+- BLEND_MODE_DISABLED (0): Blending is disabled.
+- BLEND_MODE_ADD (1): Additive blending.
+- BLEND_MODE_SUBTRACT (2): Subtractive blending.
+- BLEND_MODE_MULTIPLY (3): Multiplicative blending.
+- BLEND_MODE_MIN (4): Minimum blending.
+- BLEND_MODE_MAX (5): Maximum blending.
+- BLEND_MODE_ALPHA (6): Alpha blending. Default: BLEND_MODE_DISABLED.
+
+blend_equation_rgb (int): The blend equation for RGB components. Possible values:
+- BLEND_EQUATION_ADD (0): Adds the source and destination colors.
+- BLEND_EQUATION_SUBTRACT (1): Subtracts the destination color from the source color.
+- BLEND_EQUATION_REVERSE_SUBTRACT (2): Subtracts the source color from the destination color.
+- BLEND_EQUATION_MIN (3): Takes the minimum of the source and destination colors.
+- BLEND_EQUATION_MAX (4): Takes the maximum of the source and destination colors. Default: BLEND_EQUATION_ADD.
+
+blend_equation_alpha (int): The blend equation for the alpha component. Possible values:
+- BLEND_EQUATION_ADD (0): Adds the source and destination colors.
+- BLEND_EQUATION_SUBTRACT (1): Subtracts the destination color from the source color.
+- BLEND_EQUATION_REVERSE_SUBTRACT (2): Subtracts the source color from the destination color.
+- BLEND_EQUATION_MIN (3): Takes the minimum of the source and destination colors.
+- BLEND_EQUATION_MAX (4): Takes the maximum of the source and destination colors. Default: BLEND_EQUATION_ADD.
+
+src_color_blend_factor (int): The source color blend factor. Possible values:
+- BLEND_FACTOR_ZERO (0): Zero.
+- BLEND_FACTOR_ONE (1): One.
+- BLEND_FACTOR_SRC_COLOR (2): Source color.
+- BLEND_FACTOR_ONE_MINUS_SRC_COLOR (3): One minus source color.
+- BLEND_FACTOR_SRC_ALPHA (4): Source alpha.
+- BLEND_FACTOR_ONE_MINUS_SRC_ALPHA (5): One minus source alpha.
+- BLEND_FACTOR_DST_ALPHA (6): Destination alpha.
+- BLEND_FACTOR_ONE_MINUS_DST_ALPHA (7): One minus destination alpha.
+- BLEND_FACTOR_DST_COLOR (8): Destination color.
+- BLEND_FACTOR_ONE_MINUS_DST_COLOR (9): One minus destination color.
+- BLEND_FACTOR_SRC_ALPHA_SATURATED (10): Source alpha saturated. Default: BLEND_FACTOR_ONE.
+
+dst_color_blend_factor (int): The destination color blend factor. Possible values:
+- BLEND_FACTOR_ZERO (0): Zero.
+- BLEND_FACTOR_ONE (1): One.
+- BLEND_FACTOR_SRC_COLOR (2): Source color.
+- BLEND_FACTOR_ONE_MINUS_SRC_COLOR (3): One minus source color.
+- BLEND_FACTOR_SRC_ALPHA (4): Source alpha.
+- BLEND_FACTOR_ONE_MINUS_SRC_ALPHA (5): One minus source alpha.
+- BLEND_FACTOR_DST_ALPHA (6): Destination alpha.
+- BLEND_FACTOR_ONE_MINUS_DST_ALPHA (7): One minus destination alpha.
+- BLEND_FACTOR_DST_COLOR (8): Destination color.
+- BLEND_FACTOR_ONE_MINUS_DST_COLOR (9): One minus destination color.
+- BLEND_FACTOR_SRC_ALPHA_SATURATED (10): Source alpha saturated. Default: BLEND_FACTOR_ZERO.
+
+src_alpha_blend_factor (int): The source alpha blend factor. Possible values:
+- BLEND_FACTOR_ZERO (0): Zero.
+- BLEND_FACTOR_ONE (1): One.
+- BLEND_FACTOR_SRC_COLOR (2): Source color.
+- BLEND_FACTOR_ONE_MINUS_SRC_COLOR (3): One minus source color.
+- BLEND_FACTOR_SRC_ALPHA (4): Source alpha.
+- BLEND_FACTOR_ONE_MINUS_SRC_ALPHA (5): One minus source alpha.
+- BLEND_FACTOR_DST_ALPHA (6): Destination alpha.
+- BLEND_FACTOR_ONE_MINUS_DST_ALPHA (7): One minus destination alpha.
+- BLEND_FACTOR_DST_COLOR (8): Destination color.
+- BLEND_FACTOR_ONE_MINUS_DST_COLOR (9): One minus destination color.
+- BLEND_FACTOR_SRC_ALPHA_SATURATED (10): Source alpha saturated. Default: BLEND_FACTOR_ONE.
+
+dst_alpha_blend_factor (int): The destination alpha blend factor. Possible values:
+- BLEND_FACTOR_ZERO (0): Zero.
+- BLEND_FACTOR_ONE (1): One.
+- BLEND_FACTOR_SRC_COLOR (2): Source color.
+- BLEND_FACTOR_ONE_MINUS_SRC_COLOR (3): One minus source color.
+- BLEND_FACTOR_SRC_ALPHA (4): Source alpha.
+- BLEND_FACTOR_ONE_MINUS_SRC_ALPHA (5): One minus source alpha.
+- BLEND_FACTOR_DST_ALPHA (6): Destination alpha.
+- BLEND_FACTOR_ONE_MINUS_DST_ALPHA (7): One minus destination alpha.
+- BLEND_FACTOR_DST_COLOR (8): Destination color.
+- BLEND_FACTOR_ONE_MINUS_DST_COLOR (9): One minus destination color.
+- BLEND_FACTOR_SRC_ALPHA_SATURATED (10): Source alpha saturated. Default: BLEND_FACTOR_ZERO.
+
+color_write_enable (bool): Whether color writing is enabled for this attachment. Default: true.
+---CHUNK---
+Document: RDPipelineColorBlendStateAttachment
+Path: godot/classes/class_rdpipelinecolorblendstateattachment.rst
+Summary: Defines the color blend state for a single render target attachment in a rendering pipeline.
+Inherits: RefCounted < Object
+
+Pipeline color blend state attachment (used by RenderingDevice).
+---CHUNK---
+Document: RDPipelineColorBlendStateAttachment
+Path: godot/classes/class_rdpipelinecolorblendstateattachment.rst
+Summary: Configures color blending operations for rendering pipelines in Godot's RenderingDevice.
+
+Inherits: Object
+
+This class controls how blending between source and destination fragments is performed when using RenderingDevice.
+
+GDScript:
+    # Mix blend mode
+    var attachment = RDPipelineColorBlendStateAttachment.new()
+    attachment.enable_blend = true
+    attachment.color_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.src_color_blend_factor = RenderingDevice.BLEND_FACTOR_SRC_ALPHA
+    attachment.dst_color_blend_factor = RenderingDevice.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA
+    attachment.alpha_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.src_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_ONE
+    attachment.dst_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA
+
+GDScript:
+    # Add blend mode
+    var attachment = RDPipelineColorBlendStateAttachment.new()
+    attachment.enable_blend = true
+    attachment.alpha_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.color_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.src_color_blend_factor = RenderingDevice.BLEND_FACTOR_SRC_ALPHA
+    attachment.dst_color_blend_factor = RenderingDevice.BLEND_FACTOR_ONE
+    attachment.src_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_SRC_ALPHA
+    attachment.dst_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_ONE
+
+GDScript:
+    # Subtract blend mode
+    var attachment = RDPipelineColorBlendStateAttachment.new()
+    attachment.enable_blend = true
+    attachment.alpha_blend_op = RenderingDevice.BLEND_OP_REVERSE_SUBTRACT
+    attachment.color_blend_op = RenderingDevice.BLEND_OP_REVERSE_SUBTRACT
+    attachment.src_color_blend_factor = RenderingDevice.BLEND_FACTOR_SRC_ALPHA
+    attachment.dst_color_blend_factor = RenderingDevice.BLEND_FACTOR_ONE
+    attachment.src_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_SRC_ALPHA
+    attachment.dst_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_ONE
+
+GDScript:
+    # Multiply blend mode
+    var attachment = RDPipelineColorBlendStateAttachment.new()
+    attachment.enable_blend = true
+    attachment.alpha_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.color_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.src_color_blend_factor = RenderingDevice.BLEND_FACTOR_DST_COLOR
+    attachment.dst_color_blend_factor = RenderingDevice.BLEND_FACTOR_ZERO
+    attachment.src_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_DST_ALPHA
+    attachment.dst_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_ZERO
+
+GDScript:
+    # Pre-multiplied alpha blend mode
+    var attachment = RDPipelineColorBlendStateAttachment.new()
+    attachment.enable_blend = true
+    attachment.alpha_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.color_blend_op = RenderingDevice.BLEND_OP_ADD
+    attachment.src_color_blend_factor = RenderingDevice.BLEND_FACTOR_ONE
+    attachment.dst_color_blend_factor = RenderingDevice.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA
+    attachment.src_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_ONE
+    attachment.dst_alpha_blend_factor = RenderingDevice.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA
+---CHUNK---
+Document: RDPipelineColorBlendStateAttachment
+Path: godot/classes/class_rdpipelinecolorblendstateattachment.rst
+Summary: Defines the properties for color blending in a rendering pipeline attachment.
+
+Properties:
+* alpha_blend_op (BlendOperation): The blend operation for the alpha channel. Default: 0.
+* color_blend_op (BlendOperation): The blend operation for the color channels. Default: 0.
+* dst_alpha_blend_factor (BlendFactor): The destination blend factor for the alpha channel. Default: 0.
+* dst_color_blend_factor (BlendFactor): The destination blend factor for the color channels. Default: 0.
+* enable_blend (bool): Enables or disables color blending. Default: false.
+* src_alpha_blend_factor (BlendFactor): The source blend factor for the alpha channel. Default: 0.
+* src_color_blend_factor (BlendFactor): The source blend factor for the color channels. Default: 0.
+* write_a (bool): Enables or disables writing to the alpha channel. Default: true.
+* write_b (bool): Enables or disables writing to the blue channel. Default: true.
+* write_g (bool): Enables or disables writing to the green channel. Default: true.
+* write_r (bool): Enables or disables writing to the red channel. Default: true.
+---CHUNK---
+Document: RDPipelineColorBlendStateAttachment
+Path: godot/classes/class_rdpipelinecolorblendstateattachment.rst
+Summary: Provides methods for configuring color blend state attachments in RDPipeline.
+
+Method: set_as_mix() → void
+This method is used to set the blend state attachment as a mix.
+---CHUNK---
+Document: RDPipelineColorBlendStateAttachment
+Path: godot/classes/class_rdpipelinecolorblendstateattachment.rst
+Summary: Defines the properties for color blending operations in a rendering pipeline attachment.
+
+Property: alpha_blend_op
+Type: BlendOperation
+Description: The blend mode to use for the alpha channel.
+Default: 0
+
+Property: color_blend_op
+Type: BlendOperation
+Description: The blend mode to use for the red/green/blue color channels.
+Default: 0
+
+Property: dst_alpha_blend_factor
+Type: BlendFactor
+Description: Controls how the blend factor for the alpha channel is determined based on the destination's fragments.
+Default: 0
+
+Property: dst_color_blend_factor
+Type: BlendFactor
+Description: Controls how the blend factor for the color channels is determined based on the destination's fragments.
+Default: 0
+
+Property: enable_blend
+Type: bool
+Description: If true, performs blending between the source and destination according to the factors defined in src_color_blend_factor, dst_color_blend_factor, src_alpha_blend_factor and dst_alpha_blend_factor. The blend modes color_blend_op and alpha_blend_op are also taken into account, with write_r, write_g, write_b and write_a controlling the output.
+Default: false
+
+Property: src_alpha_blend_factor
+Type: BlendFactor
+Description: Controls how the blend factor for the alpha channel is determined based on the source's fragments.
+Default: 0
+
+Property: src_color_blend_factor
+Type: BlendFactor
+Description: Controls how the blend factor for the color channels is determined based on the source's fragments.
+Default: 0
+
+Property: write_a
+Type: bool
+Description: If true, writes the new alpha channel to the final result.
+Default: true
+
+Property: write_b
+Type: bool
+Description: If true, writes the new blue color channel to the final result.
+Default: true
+
+Property: write_g
+Type: bool
+Description: If true, writes the new green color channel to the final result.
+Default: true
+
+Property: write_r
+Type: bool
+Description: If true, writes the new red color channel to the final result.
+Default: true
+---CHUNK---
+Document: RDPipelineColorBlendStateAttachment
+Path: godot/classes/class_rdpipelinecolorblendstateattachment.rst
+Summary: Configures a single color blend state attachment for a render pipeline.
+
+Method: set_as_mix() → void
+Convenience method to perform standard mix blending with straight (non-premultiplied) alpha. This sets enable_blend to true, src_color_blend_factor to RenderingDevice.BLEND_FACTOR_SRC_ALPHA, dst_color_blend_factor to RenderingDevice.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA, src_alpha_blend_factor to RenderingDevice.BLEND_FACTOR_SRC_ALPHA and dst_alpha_blend_factor to RenderingDevice.BLEND_FACTOR_ONE_MINUS_SRC_ALPHA.

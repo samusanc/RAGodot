@@ -1,0 +1,178 @@
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: Defines a 2D navigation link that connects two points in navigation space.
+
+NavigationLink2D
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A NavigationLink2D is a Node2D that allows you to define custom navigation paths between two points in navigation space. These links can be used to create shortcuts or special paths for navigation agents. For example, you could use a NavigationLink2D to create a jump pad or a teleporter.
+
+Properties:
+
+*   `bidirectional` (bool): If `true`, the link can be traversed in both directions. Default: `false`.
+*   `enabled` (bool): If `true`, the link is active and can be used by navigation agents. Default: `true`.
+*   `exclude_from_navigation` (bool): If `true`, this link will not be considered by navigation agents. Default: `false`.
+*   `link_cost` (float): The cost of traversing this link. Higher values make the link less desirable for navigation agents. Default: `1.0`.
+*   `one_way` (bool): If `true`, the link can only be traversed in the direction from the link's origin to its target. Default: `false`.
+*   `target_position` (Vector2): The target position of the link in the navigation space. Default: `Vector2(0, 0)`.
+
+Methods:
+
+*   `get_link_cost()` → float: Returns the cost of traversing this link.
+*   `get_target_position()` → Vector2: Returns the target position of the link.
+*   `is_bidirectional()` → bool: Returns `true` if the link is bidirectional.
+*   `is_enabled()` → bool: Returns `true` if the link is enabled.
+*   `is_one_way()` → bool: Returns `true` if the link is one-way.
+*   `set_bidirectional(value: bool)`: Sets whether the link is bidirectional.
+*   `set_enabled(value: bool)`: Sets whether the link is enabled.
+*   `set_link_cost(value: float)`: Sets the cost of traversing this link.
+*   `set_one_way(value: bool)`: Sets whether the link is one-way.
+*   `set_target_position(value: Vector2)`: Sets the target position of the link.
+---CHUNK---
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: Defines a link between two NavigationRegion2D areas for agent routing.
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A link between two positions on NavigationRegion2D s that agents can be routed through.
+---CHUNK---
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: Describes the NavigationLink2D node, which creates a connection between two points on NavigationRegion2D nodes for agent routing.
+A link between two positions on NavigationRegion2D s that agents can be routed through. These positions can be on the same NavigationRegion2D or on two different ones. Links are useful to express navigation methods other than traveling along the surface of the navigation polygon, such as ziplines, teleporters, or gaps that can be jumped across.
+---CHUNK---
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: This document describes the NavigationLink2D class, which allows for custom navigation paths in Godot.
+
+NavigationLink2D
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+This node allows you to create custom navigation paths for the NavigationServer. You can use it to define shortcuts or specific paths that the navigation agent should follow.
+
+Properties
+- path (NavigationPath): The navigation path resource.
+- enabled (bool): Whether the navigation link is enabled. Default: true.
+
+Methods
+- get_path() → NavigationPath: Returns the navigation path resource.
+- set_path(value: NavigationPath): Sets the navigation path resource.
+- is_enabled() → bool: Returns whether the navigation link is enabled.
+- set_enabled(value: bool): Sets whether the navigation link is enabled.
+
+Example Usage
+GDScript:
+```gdscript
+var nav_link = NavigationLink2D.new()
+nav_link.path = load("res://my_custom_path.navpath")
+nav_link.enabled = true
+add_child(nav_link)
+```
+
+C#:
+```csharp
+var navLink = new NavigationLink2D();
+navLink.Path = ResourceLoader.Load<NavigationPath>("res://my_custom_path.navpath");
+navLink.Enabled = true;
+AddChild(navLink);
+```
+
+Note: The `NavigationLink2D` node must be a direct or indirect child of a `NavigationRegion2D` node for it to be used by the `NavigationServer`.
+
+Key Rule: NavigationLink2D nodes are only active when they are children of a NavigationRegion2D.
+---CHUNK---
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: Defines the properties of a NavigationLink2D node, which allows for custom connections between navigation regions.
+
+Properties:
+* bidirectional (bool): If true, the link can be traversed in both directions. Default: true.
+* enabled (bool): If true, the link is active and can be used for navigation. Default: true.
+* end_position (Vector2): The position of the end point of the link. Default: Vector2(0, 0).
+* enter_cost (float): The cost to enter this link. This value is used by the navigation system to determine the shortest path. Default: 0.0.
+* navigation_layers (int): The navigation layers this link belongs to. Default: 1.
+* start_position (Vector2): The position of the start point of the link. Default: Vector2(0, 0).
+* travel_cost (float): The cost to travel along this link. This value is used by the navigation system to determine the shortest path. Default: 1.0.
+---CHUNK---
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: Provides methods for accessing and modifying the properties of a NavigationLink2D node.
+Method: get_global_end_position() → Vector2
+Returns the global position of the link's end point.
+Method: get_global_start_position() → Vector2
+Returns the global position of the link's start point.
+Method: get_navigation_layer_value(layer_number: int) → bool
+Returns whether the navigation layer bitmask is set for the given layer number.
+Method: get_navigation_map() → RID
+Returns the RID of the NavigationMap this link is currently using.
+Method: get_rid() → RID
+Returns the RID of the NavigationLink2D.
+Method: set_global_end_position(position: Vector2) → void
+Sets the global position of the link's end point.
+Method: set_global_start_position(position: Vector2) → void
+Sets the global position of the link's start point.
+Method: set_navigation_layer_value(layer_number: int, value: bool) → void
+Sets or unsets the navigation layer bitmask for the given layer number.
+Method: set_navigation_map(navigation_map: RID) → void
+Sets the NavigationMap for this link to use.
+---CHUNK---
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: Describes the properties of the NavigationLink2D node, which allows defining custom connections between navigation meshes.
+
+Property Descriptions
+- bidirectional (bool): If true, the link can be traversed in both directions. If false, it can only be traversed from start_position to end_position. Default: true.
+  - Method: set_bidirectional(value: bool)
+  - Method: is_bidirectional() -> bool
+- enabled (bool): If true, the link is active and will be considered by pathfinding. If false, it is ignored. Default: true.
+  - Method: set_enabled(value: bool)
+  - Method: is_enabled() -> bool
+- end_position (Vector2): The ending position of the navigation link. This position snaps to the nearest polygon in the navigation mesh. The search distance is controlled by NavigationServer2D.map_set_link_connection_radius(). Default: Vector2(0, 0).
+  - Method: set_end_position(value: Vector2)
+  - Method: get_end_position() -> Vector2
+- enter_cost (float): A cost added to the path distance when pathfinding enters this link from another navigation mesh region. Default: 0.0.
+  - Method: set_enter_cost(value: float)
+  - Method: get_enter_cost() -> float
+- navigation_layers (int): A bitfield that determines which navigation layers this link belongs to. These layers are checked during pathfinding requests. Default: 1.
+  - Method: set_navigation_layers(value: int)
+  - Method: get_navigation_layers() -> int
+- start_position (Vector2): The starting position of the navigation link. This position snaps to the nearest polygon in the navigation mesh. The search distance is controlled by NavigationServer2D.map_set_link_connection_radius(). Default: Vector2(0, 0).
+  - Method: set_start_position(value: Vector2)
+  - Method: get_start_position() -> Vector2
+- travel_cost (float): A multiplier applied to the distance traveled along the link when calculating the shortest path. Default: 1.0.
+  - Method: set_travel_cost(value: float)
+  - Method: get_travel_cost() -> float
+---CHUNK---
+Document: NavigationLink2D
+Path: godot/classes/class_navigationlink2d.rst
+Summary: Describes the methods available for interacting with NavigationLink2D nodes, including getting and setting global positions, managing navigation layers, and accessing the navigation map and RID.
+
+Method: get_global_end_position() → Vector2
+Returns the end_position that is relative to the link as a global position.
+
+Method: get_global_start_position() → Vector2
+Returns the start_position that is relative to the link as a global position.
+
+Method: get_navigation_layer_value(layer_number: int) → bool
+Returns whether or not the specified layer of the navigation_layers bitmask is enabled, given a layer_number between 1 and 32.
+
+Method: get_navigation_map() → RID
+Returns the current navigation map RID used by this link.
+
+Method: get_rid() → RID
+Returns the RID of this link on the NavigationServer2D.
+
+Method: set_global_end_position(position: Vector2) → void
+Sets the end_position that is relative to the link from a global position.
+
+Method: set_global_start_position(position: Vector2) → void
+Sets the start_position that is relative to the link from a global position.
+
+Method: set_navigation_layer_value(layer_number: int, value: bool) → void
+Based on value, enables or disables the specified layer in the navigation_layers bitmask, given a layer_number between 1 and 32.
+
+Method: set_navigation_map(navigation_map: RID) → void
+Sets the RID of the navigation map this link should use. By default the link will automatically join the World2D default navigation map so this function is only required to override the default map.

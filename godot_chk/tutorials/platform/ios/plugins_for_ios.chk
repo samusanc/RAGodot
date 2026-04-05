@@ -1,0 +1,427 @@
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This document explains how to use plugins for iOS development in Godot.
+
+This document is outdated.
+
+This document explains how to use plugins for iOS development in Godot. It covers the process of integrating third-party libraries and custom code into your Godot project for iOS deployment. The focus is on how to structure your plugin, handle native code compilation, and ensure compatibility with the Godot build system for iOS.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the available plugins for iOS development in Godot, including their purpose and where to find more information.
+
+Godot provides plugins for various iOS services, including StoreKit, GameCenter, and iCloud. These plugins utilize an asynchronous call model. ARKit and camera access are also available as plugins. The latest updates, documentation, and source code for these plugins can be found at the Godot iOS plugins repository.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section explains how to access plugin singletons in Godot for iOS development.
+
+To access plugin functionality, you first need to check that the plugin is exported and available by calling the `Engine.has_singleton()` function, which returns a registered singleton.
+
+GDScript:
+    var in_app_store
+    var game_center
+
+    func _ready():
+        if Engine.has_singleton("InAppStore"):
+            in_app_store = Engine.get_singleton("InAppStore")
+        else:
+            print("iOS IAP plugin is not available on this platform.")
+
+        if Engine.has_singleton("GameCenter"):
+            game_center = Engine.get_singleton("GameCenter")
+        else:
+            print("iOS Game Center plugin is not available on this platform.")
+---CHUNK---
+Document: plugins_for_ios
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Explains how to handle asynchronous operations in iOS plugins, focusing on the event-driven response mechanism.
+Asynchronous methods are used for operations that don't complete immediately. When you call an asynchronous method, it returns an Error value. If the error is not OK, the operation failed locally. If the error is OK, a response event will be generated and added to a 'pending events' queue.
+
+GDScript:
+func on_purchase_pressed():
+    var result = in_app_store.purchase({ "product_id": "my_product" })
+    if result == OK:
+        animation.play("busy") # show the "waiting for response" animation
+    else:
+        show_error()
+
+# put this on a 1 second timer or something
+func check_events():
+    while in_app_store.get_pending_event_count() > 0:
+        var event = in_app_store.pop_pending_event()
+        if event.type == "purchase":
+            if event.result == "ok":
+                show_success(event.product_id)
+            else:
+                show_error()
+
+When a call returns OK, the API is guaranteed to produce an event through the pending_event interface, even if it's an error or a network timeout. This means you can safely wait for a reply from the server. If an API does not follow this behavior, it should be considered a bug.
+
+The pending event interface provides two methods:
+
+- get_pending_event_count(): Returns the number of pending events in the queue.
+- pop_pending_event(): Removes and returns the first event from the queue.
+---CHUNK---
+Document: iOS Plugins
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the Store Kit API for in-app purchases in Godot on iOS.
+
+The Store Kit API is accessible through the InAppStore singleton, which is initialized automatically.
+
+The following methods are available:
+
+Method: purchase(params) → Error
+Method: request_product_info(params) → Error
+Method: restore_purchases() → Error
+Method: set_auto_finish_transaction(enable: bool) → void
+Method: finish_transaction(product_id: String) → void
+
+The pending events interface includes:
+
+Method: get_pending_event_count() → int
+Method: pop_pending_event() → Variant
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the `purchase` method for handling in-app purchases in iOS plugins.
+purchase Purchases a product ID through the Store Kit API. You have to call finish_transaction(product_id) once you receive a successful response or call set_auto_finish_transaction(true) prior to calling purchase(). These two methods ensure the transaction is completed.
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes how to pass parameters to the in-app purchase purchase method.
+Parameters
+Takes a dictionary as a parameter, with one field, product_id, a string with your product ID. Example:
+
+GDScript:
+    var result = in_app_store.purchase({ "product_id": "my_product" })
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for in-app purchases in iOS plugins.
+The response event will be a dictionary with the following fields:
+
+On error:
+GDScript:
+    {
+      "type": "purchase",
+      "result": "error",
+      "product_id": "the product ID requested",
+    }
+
+On success:
+GDScript:
+    {
+      "type": "purchase",
+      "result": "ok",
+      "product_id": "the product ID requested",
+    }
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the request_product_info method for iOS plugins.
+Method: request_product_info(product_ids: Array)
+Requests the product info on a list of product IDs.
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes how to pass product IDs to the in-app store for requesting product information.
+Parameters
+Takes a dictionary as a parameter, with a single product_ids key to which a string array of product IDs is assigned. Example:
+GDScript:
+    var result = in_app_store.request_product_info({ "product_ids": ["my_product1", "my_product2"] })
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of the response event dictionary for product information requests in iOS plugins.
+The response event will be a dictionary with the following fields:
+{
+  "type": "product_info",
+  "result": "ok",
+  "invalid_ids": [ list of requested IDs that were invalid ],
+  "ids": [ list of IDs that were valid ],
+  "titles": [ list of valid product titles (corresponds with list of valid IDs) ],
+  "descriptions": [ list of valid product descriptions ],
+  "prices": [ list of valid product prices ],
+  "localized_prices": [ list of valid product localized prices ],
+}
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the restore_purchases method for restoring in-app purchases.
+Method: restore_purchases()
+Restores previously made purchases on user's account. This will create response events for each previously purchased product ID.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for iOS plugins.
+Response event
+The response events will be dictionaries with the following fields:
+{
+  "type": "restore",
+  "result": "ok",
+  "product_id": "product ID of restored purchase",
+}
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the set_auto_finish_transaction method for handling in-app purchases on iOS.
+Method: set_auto_finish_transaction(auto_finish: bool)
+If set to true, once a purchase is successful, your purchase will be finalized automatically. Call this method prior to calling purchase().
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes how to set the auto-finish transaction property for in-app purchases.
+Parameters
+Takes a boolean as a parameter which specifies if purchases should be automatically finalized.
+GDScript:
+    in_app_store.set_auto_finish_transaction(true)
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Explains how to manually finalize in-app purchase transactions in iOS.
+Method: finish_transaction()
+If you don't want transactions to be automatically finalized, call this method after you receive a successful purchase response.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes how to finalize a purchase in the In-App Store.
+Parameters
+Takes a string `product_id` as an argument. `product_id` specifies what product to finalize the purchase on. Example:
+
+GDScript:
+    in_app_store.finish_transaction("my_product1")
+---CHUNK---
+Document: iOS Plugins
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the Game Center plugin for iOS, detailing its available methods and pending event interface.
+
+The Game Center API is available through the GameCenter singleton. It has the following methods:
+
+Method: authenticate() → Error
+Method: is_authenticated() → bool
+Method: post_score(score: Variant) → Error
+Method: award_achievement(params: Variant) → Error
+Method: reset_achievements() → void
+Method: request_achievements() → void
+Method: request_achievement_descriptions() → void
+Method: show_game_center(params: Variant) → Error
+Method: request_identity_verification_signature() → Error
+
+And the pending events interface:
+
+Method: get_pending_event_count() → int
+Method: pop_pending_event() → Variant
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the authenticate method for Game Center authentication.
+Method: authenticate() → void
+Authenticates a user in Game Center.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for authentication callbacks in iOS plugins.
+The response event will be a dictionary with the following fields:
+
+On error:
+GDScript:
+    {
+      "type": "authentication",
+      "result": "error",
+      "error_code": the value from NSError::code,
+      "error_description": the value from NSError::localizedDescription,
+    }
+
+On success:
+GDScript:
+    {
+      "type": "authentication",
+      "result": "ok",
+      "player_id": the value from GKLocalPlayer::playerID,
+    }
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the `post_score` method for interacting with Game Center leaderboards.
+Method: post_score()
+Posts a score to a Game Center leaderboard.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes how to pass parameters to iOS plugins, specifically a dictionary containing score and category.
+GDScript:
+    var result = game_center.post_score({ "score": 100, "category": "my_leaderboard", })
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for iOS plugin interactions, detailing error and success cases.
+Response event
+The response event will be a dictionary with the following fields:
+
+On error:
+GDScript:
+    {
+      "type": "post_score",
+      "result": "error",
+      "error_code": the value from NSError::code,
+      "error_description": the value from NSError::localizedDescription,
+    }
+
+On success:
+GDScript:
+    {
+      "type": "post_score",
+      "result": "ok",
+    }
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes how to modify the progress of a Game Center achievement.
+
+award_achievement
+Modifies the progress of a Game Center achievement.
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the parameters for awarding achievements in iOS plugins.
+Parameters: Takes a Dictionary as a parameter, with 3 fields:
+- name (string): the achievement name
+- progress (float): the achievement progress from 0.0 to 100.0 (passed to GKAchievement::percentComplete)
+- show_completion_banner (bool): whether Game Center should display an achievement banner at the top of the screen
+
+Example:
+GDScript:
+    var result = award_achievement({ "name": "hard_mode_completed", "progress": 6.1 })
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for iOS plugin interactions, detailing success and error cases.
+GDScript:
+    {
+      "type": "award_achievement",
+      "result": "error",
+      "error_code": the error code taken from NSError::code,
+    }
+
+    {
+      "type": "award_achievement",
+      "result": "ok",
+    }
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the reset_achievements function for clearing Game Center achievements.
+
+Method: reset_achievements() → void
+Clears all Game Center achievements. The function takes no parameters.
+---CHUNK---
+Document: plugins_for_ios.rst
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for iOS plugin interactions, detailing fields for both error and success scenarios.
+The response event will be a dictionary with the following fields:
+
+On error:
+GDScript:
+    {
+      "type": "reset_achievements",
+      "result": "error",
+      "error_code": the value from NSError::code,
+    }
+
+On success:
+GDScript:
+    {
+      "type": "reset_achievements",
+      "result": "ok",
+    }
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the request_achievements function for iOS plugins.
+Method: request_achievements() → void
+Request all the Game Center achievements the player has made progress on. The function takes no parameters.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for iOS plugins, detailing error and success cases for achievements.
+The response event will be a dictionary with the following fields:
+
+On error:
+GDScript:
+    {
+      "type": "achievements",
+      "result": "error",
+      "error_code": the value from NSError::code,
+    }
+
+On success:
+GDScript:
+    {
+      "type": "achievements",
+      "result": "ok",
+      "names": [ list of the name of each achievement ],
+      "progress": [ list of the progress made on each achievement ],
+    }
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: This section describes the request_achievement_descriptions function for iOS Game Center integration.
+Method: request_achievement_descriptions() → void
+Request the descriptions of all existing Game Center achievements regardless of progress. The function takes no parameters.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of response events for achievement-related plugin callbacks in iOS.
+The response event will be a dictionary with the following fields:
+
+On error:
+GDScript:
+    {
+      "type": "achievement_descriptions",
+      "result": "error",
+      "error_code": the value from NSError::code,
+    }
+
+On success:
+GDScript:
+    {
+      "type": "achievement_descriptions",
+      "result": "ok",
+      "names": [ list of the name of each achievement ],
+      "titles": [ list of the title of each achievement ],
+      "unachieved_descriptions": [ list of the description of each achievement when it is unachieved ],
+      "achieved_descriptions": [ list of the description of each achievement when it is achieved ],
+      "maximum_points": [ list of the points earned by completing each achievement ],
+      "hidden": [ list of booleans indicating whether each achievement is initially visible ],
+      "replayable": [ list of booleans indicating whether each achievement can be earned more than once ],
+    }
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the show_game_center property for displaying the Game Center overlay.
+Property: show_game_center
+Displays the built-in Game Center overlay showing leaderboards, achievements, and challenges.
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the parameters and provides examples for the show_game_center function in iOS plugins.
+Parameters:
+- view (string, optional): The name of the view to present. Accepts "default", "leaderboards", "achievements", or "challenges". Defaults to "default".
+- leaderboard_name (string, optional): The name of the leaderboard to present. Only used when "view" is "leaderboards" (or "default" is configured to show leaderboards). If not specified, Game Center will display the aggregate leaderboard.
+
+Examples:
+GDScript:
+    var result = show_game_center({ "view": "leaderboards", "leaderboard_name": "best_time_leaderboard" })
+    var result = show_game_center({ "view": "achievements" })
+---CHUNK---
+Document: Plugins for iOS
+Path: godot/tutorials/platform/ios/plugins_for_ios.rst
+Summary: Describes the structure of the response event dictionary for iOS plugins.
+Response event:
+The response event is a dictionary with the following fields:
+On close:
+{
+  "type": "show_game_center",
+  "result": "ok",
+}

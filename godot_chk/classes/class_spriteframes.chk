@@ -1,0 +1,139 @@
+Document: SpriteFrames
+Path: godot/classes/class_spriteframes.rst
+Summary: Manages animations for 2D sprite-based games.
+
+SpriteFrames is a resource that stores animations for 2D sprite-based games. It is commonly used with the AnimationPlayer node to control sprite animations.
+
+Inherits: Resource < Object
+
+Properties:
+- animation_speed (float): The default speed for all animations. Default: 1.0.
+- autokey_mode (int): The default autokey mode for all animations. Default: 0.
+- default_animation (StringName): The default animation to play when the node starts. Default: "".
+
+Methods:
+- add_animation(anim: StringName)
+  Adds a new animation with the given name.
+
+- add_frame(anim: StringName, texture: Texture2D, duration: float = 1.0, atlas_coords: Vector2 = Vector2(0, 0), offset: Rect2 = Rect2(0, 0))
+  Adds a frame to the specified animation.
+
+- animation_exists(anim: StringName) → bool
+  Returns true if an animation with the given name exists.
+
+- animation_get_frame_count(anim: StringName) → int
+  Returns the number of frames in the specified animation.
+
+- animation_get_frame_duration(anim: StringName, frame_idx: int) → float
+  Returns the duration of a specific frame in the specified animation.
+
+- animation_get_frame_texture(anim: StringName, frame_idx: int) → Texture2D
+  Returns the texture of a specific frame in the specified animation.
+
+- animation_get_frame_texture_offset(anim: StringName, frame_idx: int) → Rect2
+  Returns the texture offset of a specific frame in the specified animation.
+
+- animation_remove(anim: StringName)
+  Removes the specified animation.
+
+- animation_rename(anim: StringName, newname: StringName)
+  Renames the specified animation.
+
+- animation_set_frame_duration(anim: StringName, frame_idx: int, duration: float)
+  Sets the duration of a specific frame in the specified animation.
+
+- animation_set_frame_texture(anim: StringName, frame_idx: int, texture: Texture2D)
+  Sets the texture of a specific frame in the specified animation.
+
+- animation_set_frame_texture_offset(anim: StringName, frame_idx: int, offset: Rect2)
+  Sets the texture offset of a specific frame in the specified animation.
+
+- clear()
+  Removes all animations.
+
+- get_animation_list() → PackedStringArray
+  Returns a list of all animation names.
+
+- has_animation(anim: StringName) → bool
+  Returns true if an animation with the given name exists.
+
+- remove_frame(anim: StringName, frame_idx: int)
+  Removes a frame from the specified animation.
+
+- set_animation_speed(anim: StringName, speed: float)
+  Sets the speed for a specific animation.
+
+- set_autokey_mode(anim: StringName, mode: int)
+  Sets the autokey mode for a specific animation.
+---CHUNK---
+Document: SpriteFrames
+Path: godot/classes/class_spriteframes.rst
+Summary: Sprite frame library for AnimatedSprite2D and AnimatedSprite3D.
+SpriteFrames
+Inherits: Resource < RefCounted < Object
+
+Sprite frame library for AnimatedSprite2D and AnimatedSprite3D.
+---CHUNK---
+Document: SpriteFrames
+Path: godot/classes/class_spriteframes.rst
+Summary: Provides a library of sprite frames and animation data for AnimatedSprite2D and AnimatedSprite3D nodes.
+
+Sprite frame library for an AnimatedSprite2D or AnimatedSprite3D node. Contains frames and animation data for playback.
+---CHUNK---
+Document: SpriteFrames
+Path: godot/classes/class_spriteframes.rst
+Summary: Provides methods for managing animations and frames within a SpriteFrames resource, including adding, removing, modifying, and querying animation and frame properties.
+
+Method: add_animation(anim: StringName)
+Adds a new animation to the library.
+
+Method: add_frame(anim: StringName, texture: Texture2D, duration: float = 1.0, at_position: int = -1)
+Adds a frame to the specified animation. If at_position is -1, the frame is added to the end. duration specifies the relative duration.
+
+Method: clear(anim: StringName)
+Removes all frames from the specified animation.
+
+Method: clear_all()
+Removes all animations. An empty "default" animation will be created.
+
+Method: duplicate_animation(anim_from: StringName, anim_to: StringName)
+Duplicates an existing animation to a new animation name. Fails if the target animation name already exists or the source animation does not exist.
+
+Method: get_animation_loop(anim: StringName) → bool
+Returns true if the animation is configured to loop, false otherwise.
+
+Method: get_animation_names() → PackedStringArray
+Returns an array containing the names of all animations, sorted alphabetically.
+
+Method: get_animation_speed(anim: StringName) → float
+Returns the speed of the specified animation in frames per second.
+
+Method: get_frame_count(anim: StringName) → int
+Returns the number of frames in the specified animation.
+
+Method: get_frame_duration(anim: StringName, idx: int) → float
+Returns the relative duration of a specific frame within an animation. The absolute duration in seconds can be calculated using the formula: absolute_duration = relative_duration / (animation_fps * abs(playing_speed)).
+
+Method: get_frame_texture(anim: StringName, idx: int) → Texture2D
+Returns the texture of a specific frame within an animation.
+
+Method: has_animation(anim: StringName) → bool
+Returns true if an animation with the given name exists.
+
+Method: remove_animation(anim: StringName)
+Removes the specified animation.
+
+Method: remove_frame(anim: StringName, idx: int)
+Removes a specific frame from an animation.
+
+Method: rename_animation(anim: StringName, newname: StringName)
+Changes the name of an existing animation.
+
+Method: set_animation_loop(anim: StringName, loop: bool)
+Sets whether the specified animation should loop when it finishes playing.
+
+Method: set_animation_speed(anim: StringName, fps: float)
+Sets the speed of the specified animation in frames per second.
+
+Method: set_frame(anim: StringName, idx: int, texture: Texture2D, duration: float = 1.0)
+Sets the texture and relative duration for a specific frame within an animation.

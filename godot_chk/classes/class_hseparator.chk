@@ -1,0 +1,16 @@
+Document: HSeparator
+Path: godot/classes/class_hseparator.rst
+Summary: Class documentation for HSeparator.
+---CHUNK---
+Document: HSeparator
+Path: godot/classes/class_hseparator.rst
+Summary: A horizontal line used for separating other controls in the UI.
+
+Inherits: Separator < Control < CanvasItem < Node < Object
+A horizontal line used for separating other controls.
+---CHUNK---
+Document: HSeparator
+Path: godot/classes/class_hseparator.rst
+Summary: A horizontal separator used to visually divide controls arranged vertically, rendered as a StyleBoxLine.
+
+A horizontal separator used for separating other controls that are arranged vertically. HSeparator is purely visual and normally drawn as a StyleBoxLine.

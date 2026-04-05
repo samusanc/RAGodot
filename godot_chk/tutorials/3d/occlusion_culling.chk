@@ -1,0 +1,199 @@
+Document: Occlusion Culling Tutorial
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This tutorial introduces the concept and implementation of occlusion culling in Godot Engine.
+
+Occlusion culling is a technique used in 3D graphics to improve rendering performance by not drawing objects that are completely hidden behind other objects from the camera's perspective. This prevents the GPU from wasting resources on rendering pixels that will never be seen.
+
+Godot's occlusion culling system relies on a spatial partitioning structure, typically a scene tree or a specialized occlusion culling data structure, to determine visibility. When a camera renders a scene, it queries this structure to identify which objects are potentially visible.
+
+The process generally involves:
+
+1.  **Baking Occlusion Data:** For static scenes, occlusion data can be pre-calculated and stored. This involves rendering the scene from various viewpoints or using a specialized algorithm to build a representation of occluders (objects that block visibility) and potentially visible areas.
+2.  **Runtime Culling:** During gameplay, the engine uses the baked data or dynamically generated information to determine which objects are occluded. Objects identified as occluded are then skipped during the rendering process.
+
+Key Rule: Occlusion culling is most effective in scenes with many overlapping objects where a significant portion of the scene can be hidden from view. It may not provide substantial benefits in open-world environments with few occluding elements.
+
+Implementing occlusion culling typically involves:
+
+*   **Setting up Occluders:** Marking specific objects in the scene as occluders. These are objects that will be used to block the view of other objects.
+*   **Configuring the Occlusion Culling System:** Adjusting parameters for the culling system, such as the resolution of the occlusion data or the frequency of updates for dynamic scenes.
+*   **Integrating with the Renderer:** Ensuring that the rendering pipeline correctly utilizes the occlusion culling results to skip drawing occluded objects.
+
+Performance gains from occlusion culling depend heavily on the scene complexity, the number of occluders, and the efficiency of the culling algorithm. Profiling is essential to determine if and how much occlusion culling benefits a specific project.
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section introduces occlusion culling in 3D rendering, outlining its purpose and the topics covered in the tutorial.
+Occlusion culling is the process of performing hidden geometry removal in a 3D rendering engine. This tutorial will cover the advantages and pitfalls of occlusion culling, how to set it up in Godot, and troubleshooting common issues.
+---CHUNK---
+Document: Occlusion Culling Tutorial
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: Explains the benefits of occlusion culling in 3D scenes, particularly for indoor environments, and how it reduces rendering workload.
+
+Occlusion culling is a technique used to optimize rendering performance by preventing the engine from drawing objects that are hidden behind other objects. In a scene with many stacked rooms, if occlusion culling is disabled, all rooms, even those not visible to the camera, will be rendered. This includes any dynamic objects within those occluded areas.
+
+When occlusion culling is enabled, the engine only renders the geometry that is actually visible to the camera. If an object or a room is behind a wall or another object, it will not be rendered, significantly reducing the workload for the GPU. This leads to performance increases, especially in scenes with numerous occlusion opportunities, such as complex indoor environments with many rooms.
+
+The effectiveness of occlusion culling is maximized in indoor scenes with many smaller rooms compared to scenes with fewer large rooms. For further performance improvements, it can be combined with mesh LOD (Level of Detail) and visibility ranges.
+
+Note: The Forward+ renderer already includes a depth prepass, which renders a depth-only version of the scene to minimize overdraw. While occlusion culling still provides benefits even with a depth prepass, the most significant performance gains are observed with the Mobile renderer, which does not have a depth prepass. In the Mobile renderer, occlusion culling directly reduces shading overdraw. However, in scenes with limited occlusion opportunities, the overhead of setting up and running occlusion culling might outweigh the performance benefits.
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: Explains the fundamental principles of how occlusion culling functions within the Godot Engine.
+Note: "occluder" refers to the shape blocking the view, while "occludee" refers to the object being hidden.
+In Godot, occlusion culling works by rasterizing the scene's occluder geometry to a low-resolution buffer on the CPU. This is done using the software raytracing library Embree. The engine then uses this low-resolution buffer to test the occludee's Axis-Aligned Bounding Box against the occluder shapes. The occludee's Axis-Aligned Bounding Box must be fully occluded by the occluder shape to be culled. As a result, smaller objects are more likely to be effectively culled than larger objects. Larger occluders (such as walls) also tend to be much more effective than smaller ones (such as decoration props).
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section describes how to enable and set up occlusion culling in a Godot project.
+To use occlusion culling, first enable the "Use Occlusion Culling" project setting under Rendering > Occlusion Culling. This setting takes effect immediately. After enabling the setting, you must create occluders. The engine does not automatically use all visible geometry for occlusion culling; instead, it requires a simplified representation of the scene with only static objects to be baked. There are two methods for setting up occluders in a scene.
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section explains how to automatically bake occluders for occlusion culling in Godot 3D projects.
+
+Note: Only MeshInstance3D nodes are currently considered for occluder baking. MultiMeshInstance3D, GPUParticles3D, CPUParticles3D, and CSG nodes are not included by default. To include them, manual occluder shapes matching their geometry must be created. Since Godot 4.4, CSG nodes can be included if converted to MeshInstance3D before baking. This restriction does not apply to occludees; any node inheriting from GeometryInstance3D can be occluded.
+
+To enable automatic occluder baking, first enable the occlusion culling project setting. Then, add an OccluderInstance3D node to your 3D scene. Select this node and click "Bake Occluders" in the 3D editor viewport. This process generates an Occluder3D resource within the OccluderInstance3D node, containing a simplified representation of your level's geometry. This baked geometry is visualized as purple wireframe lines in the 3D view when View Gizmos are enabled. This simplified geometry is then used for occlusion culling of both static and dynamic occludees.
+
+If dynamic objects like the player or enemies are inadvertently included in the baked mesh, you can prevent this by adjusting the "Bake > Cull Mask" property on the OccluderInstance3D node. This mask allows you to exclude specific visual layers from the baking process. For instance, if you disable layer 2 in the cull mask, you can then assign your dynamic objects' MeshInstance3D nodes to visual layer 2 (instead of the default layer 1). To do this, select the MeshInstance3D node, navigate to the "VisualInstance3D > Layers" property, uncheck layer 1, and check layer 2. After making these adjustments, rebake the occluders by repeating the baking process.
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section explains how to manually place occluders in a Godot 3D scene to control occlusion culling.
+
+To manually place occluders, first enable the occlusion culling project setting. Then, add an OccluderInstance3D node to your scene. In the Inspector, under the Occluder property, select the desired occluder type: QuadOccluder3D (a plane), BoxOccluder3D (a cuboid), SphereOccluder3D (a sphere), or PolygonOccluder3D (a 2D polygon). ArrayOccluder3D is also available, but its points are not editable in the editor and are best suited for procedural generation. This manual placement method is particularly useful for specific scenarios like occluding MultiMeshInstance3D or CSG nodes.
+---CHUNK---
+Document: Occlusion Culling Tutorial
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section explains how to preview and toggle occlusion culling in the Godot editor and at runtime.
+
+You can enable a debug draw mode to preview what the occlusion culling is actually "seeing". In the top-left corner of the 3D editor viewport, click the Perspective button (or Orthogonal depending on your current camera mode), then choose Display Advanced… > Occlusion Culling Buffer. This will display the low-resolution buffer that is used by the engine for occlusion culling.
+
+In the same menu, you can also enable View Information and View Frame Time to view the number of draw calls and rendered primitives (vertices + indices) in the bottom-right corner, along with the number of frames per second rendered in the top-right corner.
+
+If you toggle occlusion culling in the project settings while this information is displayed, you can see how much occlusion culling improves performance in your scene. Note that the performance benefit highly depends on the 3D editor camera's view angle, as occlusion culling is only effective if there are occluders in front of the camera.
+
+To toggle occlusion culling at runtime, set use_occlusion_culling on the root viewport as follows:
+
+GDScript:
+```gdscript
+get_tree().root.use_occlusion_culling = true
+```
+
+C#:
+```csharp
+GetTree().Root.UseOcclusionCulling = true;
+```
+
+Toggling occlusion culling at runtime is useful to compare performance on a running project.
+---CHUNK---
+Document: Occlusion Culling Tutorial
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section discusses performance considerations related to occlusion culling in Godot.
+
+Occlusion culling is a technique used to improve rendering performance by not drawing objects that are hidden behind other objects from the camera's perspective. While it can significantly boost frame rates in complex scenes, there are performance considerations to keep in mind.
+
+The primary cost of occlusion culling comes from the process of determining which objects are occluded. This typically involves rendering the scene from the camera's viewpoint into a depth buffer (often called an occlusion buffer or visibility buffer). This buffer is then used to test other objects against. The complexity of this process depends on the number of objects, the complexity of the geometry, and the resolution of the occlusion buffer.
+
+For very large and complex scenes, the overhead of generating and querying the occlusion buffer can sometimes outweigh the benefits of not rendering occluded objects. In such cases, it might be more performant to:
+
+*   **Simplify geometry:** Reduce the polygon count of objects, especially those that are likely to cause occlusion.
+*   **Use Level of Detail (LOD):** Employ simpler versions of models when they are further away or likely to be occluded.
+*   **Optimize scene structure:** Group objects logically and ensure efficient culling of large areas.
+*   **Adjust occlusion buffer settings:** If the engine allows, experiment with the resolution or sampling methods of the occlusion buffer. A lower resolution might be faster but less accurate.
+
+It's also important to consider the type of occlusion culling being used. Different algorithms have different performance characteristics. For example, hardware-based occlusion queries are generally faster than software-based methods.
+
+Furthermore, dynamic objects that move frequently can add significant overhead. The occlusion system needs to be updated frequently to account for their new positions, which can be computationally expensive. Strategies for handling dynamic objects include:
+
+*   **Batching dynamic objects:** If multiple dynamic objects are close together, they might be treated as a single unit for culling purposes.
+*   **Simplified bounding volumes:** Use simpler shapes (like spheres or boxes) for culling dynamic objects instead of their full geometry.
+*   **Predictive culling:** Attempt to predict where dynamic objects will be in the next frame to perform culling in advance.
+
+Ultimately, the effectiveness of occlusion culling and its performance impact are highly scene-dependent. It's crucial to profile your specific scene in Godot to determine if occlusion culling is beneficial and to fine-tune its settings for optimal results. Use the engine's built-in profiling tools to identify bottlenecks and measure the impact of occlusion culling on your frame rate.
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: Guidelines for designing levels to maximize the effectiveness of occlusion culling.
+Design your levels to take advantage of occlusion culling. This is the most important guideline. A good level design is not just about what the gameplay demands; it should also be built with occlusion in mind.
+
+For indoor environments, add opaque walls to "break" the line of sight at regular intervals and ensure not too much of the scene can be seen at once.
+
+For large open scenes, use a pyramid-like structure for the terrain's elevation when possible. This provides the greatest culling opportunities compared to any other terrain shape.
+---CHUNK---
+Document: Occlusion Culling Tutorial
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section explains how to optimize occlusion culling by avoiding movement of OccluderInstance3D nodes during gameplay.
+
+Avoid moving OccluderInstance3D nodes during gameplay. This includes moving the parents of OccluderInstance3D nodes, as this will cause the nodes themselves to move in global space, therefore requiring the BVH (Bounding Volume Hierarchy) to be rebuilt. Toggling an OccluderInstance3D's visibility (or one of its parents' visibility) is not as expensive, as the update only needs to happen once rather than continuously. For example, if you have a sliding or rotating door, you can make the OccluderInstance3D node not be a child of the door itself (so that the occluder never moves), but you can hide the OccluderInstance3D visibility once the door starts opening. You can then reshow the OccluderInstance3D once the door is fully closed. If you absolutely have to move an OccluderInstance3D node during gameplay, use a primitive Occluder3D shape for it instead of a complex baked shape.
+---CHUNK---
+Document: Occlusion Culling Tutorial
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section provides tips for optimizing occlusion culling performance by simplifying occluder shapes and adjusting project settings.
+Use the simplest possible occluder shapes. If you notice low performance or stuttering in complex 3D scenes, it may mean that the CPU is overloaded as a result of rendering detailed occluders. Select the OccluderInstance3D node, increase the Bake > Simplification property then bake occluders again.
+
+Remember to keep the simplification value reasonable. Values that are too high for the level's geometry may cause incorrect occlusion culling to occur, as in occlusion_culling_troubleshooting_false_negative.
+
+If this still doesn't lead to low enough CPU usage, you can try adjusting the Rendering > Occlusion Culling > BVH Build Quality project setting and/or decreasing Rendering > Occlusion Culling > Occlusion Rays Per Thread. You'll need to enable the Advanced toggle in the Project Settings dialog to see those settings.
+---CHUNK---
+Document: Occlusion Culling Tutorial
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: Troubleshooting common issues encountered when setting up and using occlusion culling in Godot.
+
+Troubleshooting
+==============
+
+If occlusion culling is not working as expected, here are some common issues and their solutions:
+
+*   **Objects are not being culled:**
+    *   Ensure that the `OccluderInstance3D` nodes are correctly placed and cover the areas where you expect objects to be hidden.
+    *   Verify that the `OccluderInstance3D` nodes have their `Resource` property set to a valid occluder shape (e.g., `BoxOccluder3D`, `SphereOccluder3D`, `ConcavePolygonOccluder3D`).
+    *   Check that the objects you expect to be culled are within the frustum of the camera and are not being culled by other means (e.g., distance culling).
+    *   Make sure the `occlusion_culling_enabled` project setting is turned on.
+
+*   **Performance issues:**
+    *   Occlusion culling itself has a performance cost. If you are experiencing slowdowns, consider simplifying your occluder geometry.
+    *   `ConcavePolygonOccluder3D` can be expensive. Use simpler shapes like `BoxOccluder3D` or `SphereOccluder3D` whenever possible.
+    *   The number of occluders and the complexity of the scene can impact performance. Profile your scene to identify bottlenecks.
+    *   Ensure that your occluders are not unnecessarily large or overlapping in ways that increase computation.
+
+*   **Visual artifacts or incorrect culling:**
+    *   Ensure that the `OccluderInstance3D` nodes are not intersecting with the geometry they are meant to occlude in a way that confuses the algorithm.
+    *   For `ConcavePolygonOccluder3D`, ensure the polygon is watertight and does not have self-intersections.
+    *   The `OccluderInstance3D` nodes should be placed in a way that accurately represents the blocking geometry. Sometimes, slight adjustments in position or scale can resolve issues.
+    *   If using dynamic objects that should act as occluders, ensure they are marked as such and that their bounding boxes are accurate.
+
+*   **Objects are culled when they should not be:**
+    *   This can happen if occluders are too large or placed incorrectly, blocking the view of objects that should be visible. Review the placement and size of your `OccluderInstance3D` nodes.
+    *   Ensure that objects intended to be visible are not accidentally placed behind or within the volume of an `OccluderInstance3D`.
+
+*   **Project Settings:**
+    *   Double-check the `rendering/occlusion_culling/enabled` project setting. It must be true for occlusion culling to function.
+    *   The `rendering/occlusion_culling/quality` setting can affect performance and accuracy. Experiment with different values if needed, though the default is usually a good starting point.
+
+If you continue to experience issues, consider simplifying your scene to isolate the problem or consult the Godot community forums for further assistance.
+---CHUNK---
+Document: Occlusion Culling Troubleshooting
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: This section provides troubleshooting steps for when occlusion culling is not working as expected, covering both occluder and occludee configurations.
+
+**Occluder Configuration:**
+
+Ensure the **Bake > Cull Mask** property of the OccluderInstance3D includes the visibility layers of the MeshInstance3D nodes you want to be culled. Occluder baking only considers meshes with opaque materials; transparent materials are excluded even if their textures are opaque. MultiMeshInstance3D, GPUParticles3D, CPUParticles3D, and CSG nodes are not included in baking. For these, manually add OccluderInstance3D nodes as a workaround.
+
+**Occludee Configuration:**
+
+Set **Extra Cull Margin** to the lowest possible value, ideally ``0.0``. Disable **Ignore Occlusion Culling** in the GeometryInstance3D section of the object. The object's Axis-Aligned Bounding Box (AABB), visualized as an orange box, must be completely hidden by occluder shapes for the occludee to be culled.
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/tutorials/3d/occlusion_culling.rst
+Summary: Troubleshooting common issues with occlusion culling in Godot Engine.
+If an occludee is being culled when it should not be, the most common reason is that objects included in the occluder bake have been moved after the bake. This can happen if the level geometry or layout is rearranged. To resolve this, select the OccluderInstance3D node and rebake the occluders.
+
+Another potential cause is the inclusion of dynamic objects in the bake, which should not be there. Use the occlusion culling debug draw mode to identify incorrect occluder shapes and adjust the bake cull mask accordingly.
+
+A less common cause is overly aggressive mesh simplification during the occluder baking process. To fix this, select the OccluderInstance3D node, reduce the Bake > Simplification property, and then rebake the occluders.
+
+As a final option, you can enable the Ignore Occlusion Culling property on the occludee. This will disable occlusion culling for that specific object, sacrificing performance gains but ensuring it is never culled. This is a viable solution for objects that are unlikely to be culled, such as a first-person camera model.

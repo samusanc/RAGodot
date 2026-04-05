@@ -1,0 +1,178 @@
+Document: FontVariation
+Path: godot/classes/class_fontvariation.rst
+Summary: Represents a specific variation of a font, such as a different weight, style, or stretch.
+
+FontVariation
+
+Inherits: Resource < RefCounted < Object
+
+A FontVariation is a specific variation of a font, such as a different weight, style, or stretch. It is used to select a particular font face from a font file that supports multiple variations.
+
+For example, a font file might contain regular, bold, italic, and condensed variations. A FontVariation resource can be created to represent one of these specific variations, allowing you to use it in your project.
+
+This resource is typically used internally by the Font resource to manage different font faces. You usually do not need to create or manipulate FontVariation resources directly. Instead, you would load a Font resource, and it would handle the selection and management of appropriate FontVariations based on the properties you set (like font weight and italic style).
+---CHUNK---
+Document: FontVariation
+Path: godot/classes/class_fontvariation.rst
+Summary: Defines a font variation with additional settings, inheriting from Font, Resource, RefCounted, and Object.
+FontVariation
+Inherits: Font < Resource < RefCounted < Object
+
+A variation of a font with additional settings.
+---CHUNK---
+Document: FontVariation
+Path: godot/classes/class_fontvariation.rst
+Summary: Provides OpenType variations, simulated bold/slant, and additional font settings like OpenType features and extra spacing.
+
+FontVariation provides OpenType variations, simulated bold/slant, and additional font settings like OpenType features and extra spacing.
+
+To use simulated bold font variant:
+GDScript:
+    var fv = FontVariation.new()
+    fv.base_font = load("res://BarlowCondensed-Regular.ttf")
+    fv.variation_embolden = 1.2
+    $Label.add_theme_font_override("font", fv)
+    $Label.add_theme_font_size_override("font_size", 64)
+C#:
+    var fv = new FontVariation();
+    fv.SetBaseFont(ResourceLoader.Load<FontFile>("res://BarlowCondensed-Regular.ttf"));
+    fv.SetVariationEmbolden(1.2);
+    GetNode("Label").AddThemeFontOverride("font", fv);
+    GetNode("Label").AddThemeFontSizeOverride("font_size", 64);
+
+To set the coordinate of multiple variation axes:
+GDScript:
+    var fv = FontVariation.new();
+    var ts = TextServerManager.get_primary_interface()
+    fv.base_font = load("res://BarlowCondensed-Regular.ttf")
+    fv.variation_opentype = { ts.name_to_tag("wght"): 900, ts.name_to_tag("custom_hght"): 900 }
+---CHUNK---
+Document: FontVariation
+Path: godot/classes/class_fontvariation.rst
+Summary: List of properties for the FontVariation class, including font settings, spacing, and OpenType features.
+
+Properties:
+- base_font (Font): The base font used for this variation. Default: null.
+- baseline_offset (float): The baseline offset of the font. Default: 0.0.
+- opentype_features (Dictionary): A dictionary of OpenType feature tags and their values. Default: {}.
+- palette_custom_colors (PackedColorArray): Custom colors for the font palette. Default: PackedColorArray().
+- palette_index (int): The index of the font palette to use. Default: 0.
+- spacing_bottom (int): Extra spacing added to the bottom of the glyphs. Default: 0.
+- spacing_glyph (int): Extra spacing added between glyphs. Default: 0.
+- spacing_space (int): Extra spacing added to the space character. Default: 0.
+- spacing_top (int): Extra spacing added to the top of the glyphs. Default: 0.
+- variation_embolden (float): The embolden strength of the font. Default: 0.0.
+- variation_face_index (int): The face index of the font variation. Default: 0.
+- variation_opentype (Dictionary): A dictionary of OpenType variation axis tags and their values. Default: {}.
+- variation_transform (Transform2D): The transformation applied to the font glyphs. Default: Transform2D(1, 0, 0, 1, 0, 0).
+---CHUNK---
+Document: FontVariation
+Path: godot/classes/class_fontvariation.rst
+Summary: Methods for manipulating font variations.
+Method: set_spacing(spacing: SpacingType, value: int)
+  Sets the spacing for the given SpacingType.
+---CHUNK---
+Document: FontVariation
+Path: godot/classes/class_fontvariation.rst
+Summary: Describes the properties of a FontVariation resource in Godot Engine, including base font, offsets, OpenType features, palette customization, and variation settings.
+
+Property: base_font
+Type: Font
+Description: Base font used to create a variation. If not set, default Theme font is used.
+Setter: set_base_font(value: Font)
+Getter: get_base_font() -> Font
+
+Property: baseline_offset
+Type: float
+Description: Extra baseline offset (as a fraction of font height).
+Default: 0.0
+Setter: set_baseline_offset(value: float)
+Getter: get_baseline_offset() -> float
+
+Property: opentype_features
+Type: Dictionary
+Description: A set of OpenType feature tags.
+Default: {}
+Setter: set_opentype_features(value: Dictionary)
+Getter: get_opentype_features() -> Dictionary
+
+Property: palette_custom_colors
+Type: PackedColorArray
+Description: An array of colors to override predefined palette. Use Color(0, 0, 0, 0) to keep predefined palette color at specific position.
+Note: The returned array is copied and any changes to it will not update the original property value.
+Default: PackedColorArray()
+Setter: set_palette_custom_colors(value: PackedColorArray)
+Getter: get_palette_custom_colors() -> PackedColorArray
+
+Property: palette_index
+Type: int
+Description: A palette index.
+Default: 0
+Setter: set_palette_index(value: int)
+Getter: get_palette_index() -> int
+
+Property: spacing_bottom
+Type: int
+Description: Extra spacing at the bottom of the line in pixels.
+Default: 0
+Setter: set_spacing(spacing: SpacingType, value: int)
+Getter: get_spacing() -> int
+
+Property: spacing_glyph
+Type: int
+Description: Extra spacing between graphical glyphs.
+Default: 0
+Setter: set_spacing(spacing: SpacingType, value: int)
+Getter: get_spacing() -> int
+
+Property: spacing_space
+Type: int
+Description: Extra width of the space glyphs.
+Default: 0
+Setter: set_spacing(spacing: SpacingType, value: int)
+Getter: get_spacing() -> int
+
+Property: spacing_top
+Type: int
+Description: Extra spacing at the top of the line in pixels.
+Default: 0
+Setter: set_spacing(spacing: SpacingType, value: int)
+Getter: get_spacing() -> int
+
+Property: variation_embolden
+Type: float
+Description: If not equal to zero, emboldens the font outlines. Negative values reduce the outline thickness.
+Note: Emboldened fonts might have self-intersecting outlines, which will prevent MSDF fonts and TextMesh from working correctly.
+Default: 0.0
+Setter: set_variation_embolden(value: float)
+Getter: get_variation_embolden() -> float
+
+Property: variation_face_index
+Type: int
+Description: Active face index in the TrueType / OpenType collection file.
+Default: 0
+Setter: set_variation_face_index(value: int)
+Getter: get_variation_face_index() -> int
+
+Property: variation_opentype
+Type: Dictionary
+Description: Font OpenType variation coordinates.
+Note: This Dictionary uses OpenType tags as keys. Variation axes can be identified both by tags (int, e.g. 0x77678674) and names (String, e.g. 'wght'). Some axes might be accessible by multiple names. For example, 'wght' refers to the same axis as 'weight'. Tags on the other hand are unique. To convert between names and tags, use TextServer.name_to_tag() and TextServer.tag_to_name().
+Note: To get available variation axes of a font, use Font.get_supported_variation_list().
+Default: {}
+Setter: set_variation_opentype(value: Dictionary)
+Getter: get_variation_opentype() -> Dictionary
+
+Property: variation_transform
+Type: Transform2D
+Description: 2D transform, applied to the font outlines, can be used for slanting, flipping and rotating glyphs. For example, to simulate italic typeface by slanting, apply the following transform Transform2D(1.0, slant, 0.0, 1.0, 0.0, 0.0).
+Default: Transform2D(1, 0, 0, 1, 0, 0)
+Setter: set_variation_transform(value: Transform2D)
+Getter: get_variation_transform() -> Transform2D
+---CHUNK---
+Document: FontVariation
+Path: godot/classes/class_fontvariation.rst
+Summary: Sets the spacing for a FontVariation to a specific value.
+
+Method: set_spacing(spacing: SpacingType, value: int) → void
+Sets the spacing for the given SpacingType to the specified integer value in pixels. This value is not relative to the font size.

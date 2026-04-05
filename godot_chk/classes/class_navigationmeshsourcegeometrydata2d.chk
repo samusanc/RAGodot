@@ -1,0 +1,88 @@
+Document: NavigationMeshSourceGeometryData2D
+Path: godot/classes/class_navigationmeshsourcegeometrydata2d.rst
+Summary: Stores geometry data for NavigationMesh generation in 2D.
+
+NavigationMeshSourceGeometryData2D
+
+Inherits: Resource < RefCounted < Object
+
+This class stores geometry data for NavigationMesh generation in 2D. It allows you to define obstacles and walkable areas for navigation purposes.
+
+This class is primarily used internally by the NavigationServer2D to generate navigation meshes. You typically don't need to interact with it directly unless you are implementing custom navigation generation logic.
+
+Properties:
+
+*   `geometry_data` (Array[Vector3]): An array of vertices that define the geometry. These vertices are expected to be in a format suitable for triangulation.
+
+Methods:
+
+*   `add_mesh(mesh: Mesh, transform: Transform2D, color: Color)`: Adds a Mesh resource to the geometry data. The mesh will be transformed by the given transform and can be assigned a specific color.
+*   `add_polygon(polygon: PackedVector2Array, color: Color)`: Adds a polygon defined by a list of 2D vertices to the geometry data. The polygon will be assigned the specified color.
+*   `clear()`: Clears all geometry data stored in this object.
+
+Key Rule: The `geometry_data` property stores vertices in a format that is ready for triangulation. Ensure that any custom geometry you add is properly formatted.
+---CHUNK---
+Document: NavigationMeshSourceGeometryData2D
+Path: godot/classes/class_navigationmeshsourcegeometrydata2d.rst
+Summary: Container for parsed source geometry data used in navigation mesh baking.
+
+NavigationMeshSourceGeometryData2D
+Container for parsed source geometry data used in navigation mesh baking.
+Inherits: Resource < RefCounted < Object
+---CHUNK---
+Document: NavigationMeshSourceGeometryData2D
+Path: godot/classes/class_navigationmeshsourcegeometrydata2d.rst
+Summary: Container for parsed source geometry data used in navigation mesh baking.
+NavigationMeshSourceGeometryData2D is a container for parsed source geometry data used in navigation mesh baking.
+---CHUNK---
+Document: NavigationMeshSourceGeometryData2D
+Path: godot/classes/class_navigationmeshsourcegeometrydata2d.rst
+Summary: Provides methods for managing 2D navigation mesh source geometry data, including adding, retrieving, and clearing obstruction and traversable outlines, as well as projected obstructions.
+
+Method: add_obstruction_outline(shape_outline: PackedVector2Array)
+Adds the outline points of a shape as an obstructed area.
+
+Method: add_projected_obstruction(vertices: PackedVector2Array, carve: bool)
+Adds a projected obstruction shape. If `carve` is true, the carved shape will not be affected by additional offsets (e.g., agent radius) during navigation mesh baking.
+
+Method: add_traversable_outline(shape_outline: PackedVector2Array)
+Adds the outline points of a shape as a traversable area.
+
+Method: append_obstruction_outlines(obstruction_outlines: Array[PackedVector2Array])
+Appends another array of obstruction outlines to the existing ones.
+
+Method: append_traversable_outlines(traversable_outlines: Array[PackedVector2Array])
+Appends another array of traversable outlines to the existing ones.
+
+Method: clear()
+Clears all internal geometry data.
+
+Method: clear_projected_obstructions()
+Clears all projected obstructions.
+
+Method: get_bounds() → Rect2
+Returns an axis-aligned bounding box encompassing all stored geometry data. The bounds are cached and updated only when geometry changes.
+
+Method: get_obstruction_outlines() → Array[PackedVector2Array]
+Returns all stored obstruction area outlines.
+
+Method: get_projected_obstructions() → Array
+Returns the projected obstructions. Each element in the array is a dictionary with "vertices" (PackedFloat32Array) and "carve" (bool) keys.
+
+Method: get_traversable_outlines() → Array[PackedVector2Array]
+Returns all stored traversable area outlines.
+
+Method: has_data() → bool
+Returns true if any source geometry data has been parsed.
+
+Method: merge(other_geometry: NavigationMeshSourceGeometryData2D)
+Adds the geometry data from another NavigationMeshSourceGeometryData2D instance to this one.
+
+Method: set_obstruction_outlines(obstruction_outlines: Array[PackedVector2Array])
+Sets all obstruction area outlines, replacing any existing data.
+
+Method: set_projected_obstructions(projected_obstructions: Array)
+Sets the projected obstructions. The input is an Array of Dictionaries, where each dictionary must contain "vertices" (PackedFloat32Array) and "carve" (bool).
+
+Method: set_traversable_outlines(traversable_outlines: Array[PackedVector2Array])
+Sets all traversable area outlines, replacing any existing data.

@@ -1,0 +1,212 @@
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: This document describes the NavigationMesh class.
+---CHUNK---
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: A navigation mesh resource that defines traversable areas and obstacles for navigation.
+Key Rule: This class may be changed or removed in future versions.
+Inherits: Resource < RefCounted < Object
+
+A navigation mesh that defines traversable areas and obstacles.
+---CHUNK---
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: A navigation mesh defines traversable areas for pathfinding.
+
+A navigation mesh is a collection of polygons that define which areas of an environment are traversable to aid agents in pathfinding through complicated spaces.
+---CHUNK---
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: This section lists tutorials related to NavigationMeshes.
+
+Tutorials
+- Using NavigationMeshes
+- 3D Navigation Demo
+---CHUNK---
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: This section describes the properties available for configuring a NavigationMesh, including agent dimensions, baking parameters, and geometry filtering options.
+
+*   agent_height (float): Default: 1.5
+*   agent_max_climb (float): Default: 0.25
+*   agent_max_slope (float): Default: 45.0
+*   agent_radius (float): Default: 0.5
+*   border_size (float): Default: 0.0
+*   cell_height (float): Default: 0.25
+*   cell_size (float): Default: 0.25
+*   detail_sample_distance (float): Default: 6.0
+*   detail_sample_max_error (float): Default: 1.0
+*   edge_max_error (float): Default: 1.3
+*   edge_max_length (float): Default: 0.0
+*   filter_baking_aabb (AABB): Default: AABB(0, 0, 0, 0, 0, 0)
+*   filter_baking_aabb_offset (Vector3): Default: Vector3(0, 0, 0)
+*   filter_ledge_spans (bool): Default: false
+*   filter_low_hanging_obstacles (bool): Default: false
+*   filter_walkable_low_height_spans (bool): Default: false
+*   geometry_collision_mask (int): Default: 4294967295
+*   geometry_parsed_geometry_type (ParsedGeometryType): Default: 2
+*   geometry_source_geometry_mode (SourceGeometryMode): Default: 0
+*   geometry_source_group_name (StringName): Default: &"navigation_mesh_source_group"
+*   region_merge_size (float): Default: 20.0
+*   region_min_size (float): Default: 2.0
+*   sample_partition_type (SamplePartitionType): Default: 0
+*   vertices_per_polygon (float): Default: 6.0
+---CHUNK---
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: This section details the methods and enumerations available for the NavigationMesh class, including polygon management, collision mask handling, and geometry parsing options.
+
+Methods
+Method: add_polygon(polygon: PackedInt32Array)
+Method: clear()
+Method: clear_polygons()
+Method: create_from_mesh(mesh: Mesh)
+Method: get_collision_mask_value(layer_number: int) -> bool
+Method: get_polygon(idx: int) -> PackedInt32Array
+Method: get_polygon_count() -> int
+Method: get_vertices() -> PackedVector3Array
+Method: set_collision_mask_value(layer_number: int, value: bool)
+Method: set_vertices(vertices: PackedVector3Array)
+
+Enumerations
+enum SamplePartitionType:
+    SAMPLE_PARTITION_WATERSHED = 0: Watershed partitioning. Generally the best choice if you precompute the navigation mesh, use this if you have large open areas.
+    SAMPLE_PARTITION_MONOTONE = 1: Monotone partitioning. Use this if you want fast navigation mesh generation.
+    SAMPLE_PARTITION_LAYERS = 2: Layer partitioning. Good choice to use for tiled navigation mesh with medium and small sized tiles.
+    SAMPLE_PARTITION_MAX = 3: Represents the size of the SamplePartitionType enum.
+
+enum ParsedGeometryType:
+    PARSED_GEOMETRY_MESH_INSTANCES = 0: Parses mesh instances as geometry. This includes MeshInstance3D, CSGShape3D, and GridMap nodes.
+    PARSED_GEOMETRY_STATIC_COLLIDERS = 1: Parses StaticBody3D colliders as geometry. The collider should be in any of the layers specified by geometry_collision_mask.
+    PARSED_GEOMETRY_BOTH = 2: Both PARSED_GEOMETRY_MESH_INSTANCES and PARSED_GEOMETRY_STATIC_COLLIDERS.
+    PARSED_GEOMETRY_MAX = 3: Represents the size of the ParsedGeometryType enum.
+
+enum SourceGeometryMode:
+    SOURCE_GEOMETRY_ROOT_NODE_CHILDREN = 0: Scans the child nodes of the root node recursively for geometry.
+    SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN = 1: Scans nodes in a group and their child nodes recursively for geometry. The group is specified by geometry_source_group_name.
+    SOURCE_GEOMETRY_GROUPS_EXPLICIT = 2: Uses nodes in a group for geometry. The group is specified by geometry_source_group_name.
+    SOURCE_GEOMETRY_MAX = 3: Represents the size of the SourceGeometryMode enum.
+---CHUNK---
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: This section describes the properties of the NavigationMesh class, including parameters for agent dimensions, mesh generation, filtering, and geometry sources.
+
+*   agent_height (float): The minimum floor to ceiling height that will still allow the floor area to be considered walkable. Default: 1.5.
+    Method: set_agent_height(value: float)
+    Method: get_agent_height()
+    Note: While baking, this value will be rounded up to the nearest multiple of cell_height.
+*   agent_max_climb (float): The minimum ledge height that is considered to still be traversable. Default: 0.25.
+    Method: set_agent_max_climb(value: float)
+    Method: get_agent_max_climb()
+    Note: While baking, this value will be rounded down to the nearest multiple of cell_height.
+*   agent_max_slope (float): The maximum slope that is considered walkable, in degrees. Default: 45.0.
+    Method: set_agent_max_slope(value: float)
+    Method: get_agent_max_slope()
+*   agent_radius (float): The distance to erode/shrink the walkable area of the heightfield away from obstructions. Default: 0.5.
+    Method: set_agent_radius(value: float)
+    Method: get_agent_radius()
+    Note: While baking, this value will be rounded up to the nearest multiple of cell_size.
+    Note: The radius must be equal or higher than 0.0. If the radius is 0.0, it won't be possible to fix invalid outline overlaps and other precision errors during the baking process. As a result, some obstacles may be excluded incorrectly from the final navigation mesh, or may delete the navigation mesh's polygons.
+*   border_size (float): The size of the non-navigable border around the bake bounding area. Default: 0.0.
+    Method: set_border_size(value: float)
+    Method: get_border_size()
+    In conjunction with the filter_baking_aabb and an edge_max_error value at 1.0 or below the border size can be used to bake tile aligned navigation meshes without the tile edges being shrunk by agent_radius.
+    Note: If this value is not 0.0, it will be rounded up to the nearest multiple of cell_size during baking.
+*   cell_height (float): The cell height used to rasterize the navigation mesh vertices on the Y axis. Must match with the cell height on the navigation map. Default: 0.25.
+    Method: set_cell_height(value: float)
+    Method: get_cell_height()
+*   cell_size (float): The cell size used to rasterize the navigation mesh vertices on the XZ plane. Must match with the cell size on the navigation map. Default: 0.25.
+    Method: set_cell_size(value: float)
+    Method: get_cell_size()
+*   detail_sample_distance (float): The sampling distance to use when generating the detail mesh, in cell unit. Default: 6.0.
+    Method: set_detail_sample_distance(value: float)
+    Method: get_detail_sample_distance()
+*   detail_sample_max_error (float): The maximum distance the detail mesh surface should deviate from heightfield, in cell unit. Default: 1.0.
+    Method: set_detail_sample_max_error(value: float)
+    Method: get_detail_sample_max_error()
+*   edge_max_error (float): The maximum distance a simplified contour's border edges should deviate the original raw contour. Default: 1.3.
+    Method: set_edge_max_error(value: float)
+    Method: get_edge_max_error()
+*   edge_max_length (float): The maximum allowed length for contour edges along the border of the mesh. A value of 0.0 disables this feature. Default: 0.0.
+    Method: set_edge_max_length(value: float)
+    Method: get_edge_max_length()
+    Note: While baking, this value will be rounded up to the nearest multiple of cell_size.
+*   filter_baking_aabb (AABB): If the baking AABB has a volume the navigation mesh baking will be restricted to its enclosing area. Default: AABB(0, 0, 0, 0, 0, 0).
+    Method: set_filter_baking_aabb(value: AABB)
+    Method: get_filter_baking_aabb()
+*   filter_baking_aabb_offset (Vector3): The position offset applied to the filter_baking_aabb AABB. Default: Vector3(0, 0, 0).
+    Method: set_filter_baking_aabb_offset(value: Vector3)
+    Method: get_filter_baking_aabb_offset()
+*   filter_ledge_spans (bool): If true, marks spans that are ledges as non-walkable. Default: false.
+    Method: set_filter_ledge_spans(value: bool)
+    Method: get_filter_ledge_spans()
+*   filter_low_hanging_obstacles (bool): If true, marks non-walkable spans as walkable if their maximum is within agent_max_climb of a walkable neighbor. Default: false.
+    Method: set_filter_low_hanging_obstacles(value: bool)
+    Method: get_filter_low_hanging_obstacles()
+*   filter_walkable_low_height_spans (bool): If true, marks walkable spans as not walkable if the clearance above the span is less than agent_height. Default: false.
+    Method: set_filter_walkable_low_height_spans(value: bool)
+    Method: get_filter_walkable_low_height_spans()
+*   geometry_collision_mask (int): The physics layers to scan for static colliders. Default: 4294967295.
+    Method: set_collision_mask(value: int)
+    Method: get_collision_mask()
+    Only used when geometry_parsed_geometry_type is PARSED_GEOMETRY_STATIC_COLLIDERS or PARSED_GEOMETRY_BOTH.
+*   geometry_parsed_geometry_type (ParsedGeometryType): Determines which type of nodes will be parsed as geometry. Default: 2.
+    Method: set_parsed_geometry_type(value: ParsedGeometryType)
+    Method: get_parsed_geometry_type()
+*   geometry_source_geometry_mode (SourceGeometryMode): The source of the geometry used when baking. Default: 0.
+    Method: set_source_geometry_mode(value: SourceGeometryMode)
+    Method: get_source_geometry_mode()
+*   geometry_source_group_name (StringName): The name of the group to scan for geometry. Default: "navigation_mesh_source_group".
+    Method: set_source_group_name(value: StringName)
+    Method: get_source_group_name()
+    Only used when geometry_source_geometry_mode is SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN or SOURCE_GEOMETRY_GROUPS_EXPLICIT.
+*   region_merge_size (float): Any regions with a size smaller than this will be merged with larger regions if possible. Default: 20.0.
+    Method: set_region_merge_size(value: float)
+    Method: get_region_merge_size()
+    Note: This value will be squared to calculate the number of cells. For example, a value of 20 will set the number of cells to 400.
+*   region_min_size (float): The minimum size of a region for it to be created. Default: 2.0.
+    Method: set_region_min_size(value: float)
+    Method: get_region_min_size()
+    Note: This value will be squared to calculate the minimum number of cells allowed to form isolated island areas. For example, a value of 8 will set the number of cells to 64.
+*   sample_partition_type (SamplePartitionType): Partitioning algorithm for creating the navigation mesh polys. Default: 0.
+    Method: set_sample_partition_type(value: SamplePartitionType)
+    Method: get_sample_partition_type()
+*   vertices_per_polygon (float): The maximum number of vertices allowed for polygons generated during the contour to polygon conversion process. Default: 6.0.
+    Method: set_vertices_per_polygon(value: float)
+    Method: get_vertices_per_polygon()
+---CHUNK---
+Document: NavigationMesh
+Path: godot/classes/class_navigationmesh.rst
+Summary: This section describes methods for managing polygons, vertices, and collision masks within a NavigationMesh.
+
+Method: add_polygon(polygon: PackedInt32Array) -> void
+Adds a polygon using the indices of the vertices you get when calling get_vertices().
+
+Method: clear() -> void
+Clears the internal arrays for vertices and polygon indices.
+
+Method: clear_polygons() -> void
+Clears the array of polygons, but it doesn't clear the array of vertices.
+
+Method: create_from_mesh(mesh: Mesh) -> void
+Initializes the navigation mesh by setting the vertices and indices according to a Mesh.
+Note: The given mesh must be of type Mesh.PRIMITIVE_TRIANGLES and have an index array.
+
+Method: get_collision_mask_value(layer_number: int) -> bool
+Returns whether or not the specified layer of the geometry_collision_mask is enabled, given a layer_number between 1 and 32.
+
+Method: get_polygon(idx: int) -> PackedInt32Array
+Returns a PackedInt32Array containing the indices of the vertices of a created polygon.
+
+Method: get_polygon_count() -> int
+Returns the number of polygons in the navigation mesh.
+
+Method: get_vertices() -> PackedVector3Array
+Returns a PackedVector3Array containing all the vertices being used to create the polygons.
+
+Method: set_collision_mask_value(layer_number: int, value: bool) -> void
+Based on value, enables or disables the specified layer in the geometry_collision_mask, given a layer_number between 1 and 32.
+
+Method: set_vertices(vertices: PackedVector3Array) -> void
+Sets the vertices that can be then indexed to create polygons with the add_polygon() method.

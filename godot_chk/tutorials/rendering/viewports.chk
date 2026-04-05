@@ -1,0 +1,279 @@
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This document explains the concept and usage of Viewports in Godot Engine for rendering.
+
+Viewports are a fundamental concept in Godot's rendering system. They represent a rendering target, allowing you to render the scene to a texture instead of directly to the screen. This opens up a wide range of possibilities for advanced rendering techniques.
+
+Key Concepts:
+
+*   **Rendering Target:** A Viewport acts as a canvas onto which a scene is rendered. This rendered output can then be used in various ways.
+*   **Texture Output:** The primary output of a Viewport is a texture. This texture can be applied to materials, used in other Viewports, or manipulated further.
+*   **Independent Rendering:** Each Viewport renders its own scene tree independently. This means you can have multiple Viewports rendering different parts of your game simultaneously.
+
+Common Use Cases:
+
+*   **Mini-maps:** Render a smaller, top-down view of the game world to a texture and display it on the UI.
+*   **Render Targets:** Use a Viewport to render specific objects or effects to a texture, which can then be applied as a material to other objects (e.g., a security camera feed, a magical portal).
+*   **Post-processing Effects:** Render the main scene to a Viewport, then apply post-processing shaders (like bloom, color correction, or depth of field) to the resulting texture in another Viewport.
+*   **2D in 3D / 3D in 2D:** Embed a 2D scene within a 3D world or vice-versa by rendering one into a Viewport and displaying that Viewport's texture in the other context.
+*   **Multiple Cameras:** Render different camera perspectives to separate Viewports, allowing for split-screen multiplayer or picture-in-picture views.
+
+Creating and Using Viewports:
+
+You can create Viewports in two main ways:
+
+1.  **Using the `Viewport` Node:** Add a `Viewport` node to your scene tree. Any nodes added as children to this `Viewport` node will be rendered by it. You can then access the Viewport's texture using the `get_texture()` method.
+
+    GDScript:
+        var viewport = get_node("MyViewport") # Assuming you have a Viewport node named "MyViewport"
+        var texture = viewport.get_texture()
+        # Now you can use 'texture' for various purposes, e.g., apply it to a Sprite or MeshInstance
+
+2.  **Using the `SubViewport` Container:** For UI-related scenarios, the `SubViewportContainer` node is often more convenient. It automatically creates a `SubViewport` and handles its sizing and display within the UI layout.
+
+    GDScript:
+        var sub_viewport_container = get_node("MySubViewportContainer")
+        # Nodes added as children to the SubViewportContainer will be rendered by its internal SubViewport.
+        # The output is automatically displayed within the container.
+
+Viewport Properties:
+
+The `Viewport` node has several important properties that control its behavior:
+
+*   **`size`:** The resolution of the Viewport in pixels.
+*   **`update_mode`:** Determines when the Viewport is rendered. Options include `UPDATE_ONCE`, `UPDATE_WHEN_VISIBLE`, `UPDATE_WHEN_PARENT_VISIBLE`, and `UPDATE_ALWAYS`.
+*   **`render_target_update_mode`:** Similar to `update_mode` but specifically for render targets.
+*   **`transparent_bg`:** If enabled, the Viewport will have a transparent background, allowing whatever is behind it to show through.
+*   **`msaa`:** Multi-Sample Anti-Aliasing settings for smoother edges.
+*   **`usage`:** Specifies how the Viewport's texture will be used (`USAGE_2D_IMAGE`, `USAGE_3D_IMAGE`, `USAGE_3D_NO_EFFECTS`).
+
+Important Considerations:
+
+*   **Performance:** Rendering to Viewports can be performance-intensive, especially at higher resolutions or with complex scenes. Optimize your Viewport usage carefully.
+*   **`ViewportContainer` vs. `SubViewportContainer`:** `ViewportContainer` is a general-purpose container that can hold any `Viewport`. `SubViewportContainer` is specifically designed to host a `SubViewport` and automatically manages its size and rendering within the UI.
+*   **`get_tree().root.add_child(viewport)`:** When creating a Viewport programmatically, you often need to add it to the scene tree, typically as a child of the root node, to ensure it gets rendered.
+
+By mastering Viewports, you can unlock advanced rendering capabilities and create more sophisticated visual effects in your Godot projects.
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This document explains how to use Viewports in Godot for advanced rendering techniques.
+
+Viewports are powerful tools in Godot that allow for advanced rendering control. They essentially act as mini-cameras and rendering targets within your scene. This enables a variety of effects, such as rendering to textures, creating split-screen effects, or implementing custom rendering pipelines.
+
+A Viewport node renders its children into a texture. This texture can then be used by other nodes, such as a Sprite or a MeshInstance, to display the rendered content.
+
+Key features of Viewports:
+*   **Rendering Target**: Viewports render their children into a texture.
+*   **Independent Camera**: Each Viewport can have its own camera, controlling what is rendered.
+*   **Texture Output**: The rendered output can be accessed as a texture.
+*   **Scene Composition**: Allows for complex scene compositions and effects.
+
+To use a Viewport, you typically:
+1.  Add a Viewport node to your scene.
+2.  Add other nodes (like 3D scenes, 2D scenes, or UI elements) as children of the Viewport. These will be rendered by the Viewport.
+3.  Add a Camera node as a child of the Viewport to define the viewpoint.
+4.  Create a ViewportTexture by creating a new TextureRect or Sprite node and setting its texture to a ViewportTexture. Then, select the Viewport node from the dropdown menu in the Inspector.
+
+This setup allows the content of the Viewport to be displayed on the texture of the Sprite or TextureRect.
+
+Common use cases include:
+*   **Render to Texture**: Displaying a 3D scene within a 2D game, or vice-versa.
+*   **Split Screen**: Rendering different parts of the screen with separate cameras and Viewports.
+*   **Mini-maps**: Rendering a small overview of the game world.
+*   **UI Elements**: Rendering complex UI elements that might benefit from their own rendering context.
+*   **Post-processing effects**: Applying custom shaders to the output of a Viewport.
+
+When a Viewport is used as a rendering target, its size determines the resolution of the texture it produces. This size can be set in the Inspector.
+
+Key Rule: Viewports render their children into a texture. This texture can then be used by other nodes.
+
+The Viewport node has several properties that control its behavior, including `size`, `update_mode`, and `render_target_update_mode`. The `update_mode` property determines how often the Viewport's content is updated. Options include `always`, `once`, and `when_visible`. The `render_target_update_mode` offers similar control specifically for the render target texture.
+
+GDScript:
+```gdscript
+# Example of accessing a Viewport's texture
+var viewport_node = get_node("MyViewport")
+var viewport_texture = viewport_node.get_texture()
+# You can then assign this texture to a Sprite or TextureRect
+```
+
+C#:
+```csharp
+// Example of accessing a Viewport's texture
+var viewportNode = GetNode<Viewport>("MyViewport");
+var viewportTexture = viewportNode.GetTexture();
+// You can then assign this texture to a Sprite or TextureRect
+```
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This section introduces Viewports in Godot, explaining their role as rendering surfaces and differentiating between the Root Viewport and SubViewports.
+
+Think of a Viewport as a screen onto which the game is projected. In order to see the game, we need to have a surface on which to draw it. That surface is the Root Viewport.
+
+SubViewports are a kind of Viewport that can be added to the scene so that there are multiple surfaces to draw on. When we are drawing to a SubViewport, we call it a render target. We can access the contents of a render target by accessing its corresponding texture. By using a SubViewport as render target, we can either render multiple scenes simultaneously or we can render to a ViewportTexture which is applied to an object in the scene, for example a dynamic skybox.
+
+SubViewports have a variety of use cases, including:
+- Rendering 3D objects within a 2D game
+- Rendering 2D elements in a 3D game
+- Rendering dynamic textures
+- Generating procedural textures at runtime
+- Rendering multiple cameras in the same scene
+
+What all these use cases have in common is that you are given the ability to draw objects to a texture as if it were another screen and can then choose what to do with the resulting texture.
+
+Another kind of Viewports in Godot are Windows. They allow their content to be projected onto a window. While the Root Viewport is a Window, they are less flexible. If you want to use the texture of a Viewport, you'll be working with SubViewports most of the time.
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This section explains how Viewports handle input events for their child nodes, including SubViewports and SubViewportContainers.
+Viewports are also responsible for delivering properly adjusted and scaled input events to their children nodes. By default SubViewports don't automatically receive input, unless they receive it from their direct SubViewportContainer parent node. In this case, input can be disabled with the Gui Disable Input property.
+
+For more information on how Godot handles input, please read the Input Event Tutorial.
+---CHUNK---
+Document: Viewports Tutorial
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This section explains how to enable a Viewport as a listener for 3D sound.
+A Viewport needs to be enabled as a listener for 3D sound to be audible. This applies to both 2D and 3D nodes. If a SubViewport is used to display a World3D or World2D, ensure the listener is enabled for it.
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: Explains how cameras interact with Viewports and how to control rendering layers.
+When using a Camera3D or Camera2D, it will always display on the closest parent Viewport (going towards the root). For example, in the following hierarchy:
+
+CameraA will display on the Root Viewport and it will draw MeshA. CameraB will be captured by the SubViewport along with MeshB. Even though MeshB is in the scene hierarchy, it will still not be drawn to the Root Viewport. Similarly, MeshA will not be visible from the SubViewport because SubViewports only capture nodes below them in the hierarchy.
+
+There can only be one active camera per Viewport, so if there is more than one, make sure that the desired one has the current property set, or make it the current camera by calling:
+
+GDScript:
+camera.make_current()
+
+C#:
+camera.MakeCurrent();
+
+By default, cameras will render all objects in their world. In 3D, cameras can use their cull_mask property combined with the VisualInstance3D's layer property to restrict which objects are rendered.
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This section explains how to control the size and scaling of SubViewport nodes, particularly when they are not children of SubViewportContainers.
+SubViewports have a `size` property that defines their resolution in pixels. For SubViewports that are direct children of SubViewportContainers, this `size` property is overridden. However, for other SubViewports, the `size` property directly sets their resolution.
+
+It is also possible to scale the 2D content within a SubViewport and set its resolution independently of the `size` property. This is achieved by using the `set_size_2d_override` method and `set_size_2d_override_stretch` property.
+
+GDScript:
+sub_viewport.set_size_2d_override(Vector2i(width, height)) # Custom size for 2D.
+sub_viewport.set_size_2d_override_stretch(true) # Enable stretch for custom size.
+
+C#:
+subViewport.Size2DOverride = new Vector2I(width, height); # Custom size for 2D.
+subViewport.Size2DOverrideStretch = true; # Enable stretch for custom size.
+
+For details on scaling and stretching the Root Viewport, refer to the Multiple Resolutions Tutorial.
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: Explains how Viewports manage 3D and 2D worlds for rendering and physics.
+In 3D, a Viewport contains a World3D, which links physics and rendering. Node3D-based nodes register with the closest Viewport's World3D. By default, new Viewports use their parent's World3D, with the Root Viewport having the primary World3D.
+
+The World3D property of a Viewport can be set to a specific World3D, isolating its child nodes from the parent Viewport's World3D. This is useful for displaying separate 3D elements, like a character overlay.
+
+For instancing single 3D objects without needing a full World3D, Viewports offer the Own World3D property. This is particularly helpful when integrating 3D characters or objects into a World2D context.
+
+In 2D, each Viewport inherently possesses its own World2D. While this is usually sufficient, sharing World2D instances between Viewports is possible by programmatically setting the world_2d property.
+
+Demo projects illustrating these concepts are available for "3D in 2D" and "2D in 3D".
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This section explains how to capture the contents of a Viewport as an image and the timing considerations for doing so.
+
+You can capture the contents of a Viewport, which for the root Viewport is equivalent to a screen capture. This is achieved using the `get_image()` method on the Viewport's texture.
+
+GDScript:
+```gdscript
+# Retrieve the captured Image using get_image().
+var img = get_viewport().get_texture().get_image()
+# Convert Image to ImageTexture.
+var tex = ImageTexture.create_from_image(img)
+# Set sprite texture.
+sprite.texture = tex
+```
+
+C#:
+```csharp
+// Retrieve the captured Image using get_image().
+var img = GetViewport().GetTexture().GetImage();
+// Convert Image to ImageTexture.
+var tex = ImageTexture.CreateFromImage(img);
+// Set sprite texture.
+sprite.Texture = tex;
+```
+
+Key Rule: If you attempt to capture the Viewport's image in `_ready()` or during the first frame of the Viewport's initialization, you will receive an empty texture because no content has been rendered yet. To avoid this, you must wait until the frame has finished rendering.
+
+GDScript:
+```gdscript
+# Wait until the frame has finished before getting the texture.
+await RenderingServer.frame_post_draw
+# You can get the image after this.
+```
+
+C#:
+```csharp
+// Wait until the frame has finished before getting the texture.
+await ToSignal(RenderingServer.Singleton, RenderingServer.SignalName.FramePostDraw);
+// You can get the image after this.
+```
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: Explains how SubViewportContainer activates and displays SubViewport content, including stretch behavior and size constraints.
+SubViewport Container
+If the SubViewport is a child of a SubViewportContainer, it will become active and display anything it has inside. The layout looks like this:
+
+The SubViewport will cover the area of its parent SubViewportContainer completely if Stretch is set to true in the SubViewportContainer.
+Note: The size of the SubViewportContainer cannot be smaller than the size of the SubViewport.
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This section explains how to configure rendering properties for Viewports, including MSAA, disabling 3D rendering, and using Debug Draw modes.
+
+Viewports expose rendering properties that can differ from project settings. You can set a different level of MSAA for each Viewport, with the default being Disabled.
+
+If a Viewport is only used for 2D, you can disable 3D rendering. This is slightly faster and uses less memory.
+
+Note: To render 3D shadows in a Viewport, set the positional_shadow_atlas_size property to a value greater than 0. The default project setting is 4096 for desktop and 2048 for mobile.
+
+Viewports also allow customization of how scenes are drawn using Debug Draw modes. Debug Draw is Disabled by default. Other options include Unshaded, Overdraw, and Wireframe.
+
+- Debug Draw = Disabled (default): The scene is drawn normally.
+- Debug Draw = Unshaded: The scene is drawn without lighting, making objects appear flatly colored.
+- Debug Draw = Overdraw: Meshes are drawn semi-transparent with an additive blend to visualize overlaps.
+- Debug Draw = Wireframe: The scene is drawn using only the edges of triangles in the meshes.
+
+Note: Debug Draw modes are not supported with the Compatibility rendering method and will appear as regular draw modes.
+---CHUNK---
+Document: Viewports
+Path: godot/tutorials/rendering/viewports.rst
+Summary: This section explains how to render content to a SubViewport and display it using a ViewportTexture, covering texture clearing and update modes.
+
+When rendering to a SubViewport, its contents are not visible in the scene editor. To display these contents, you must draw the SubViewport's ViewportTexture somewhere. This can be done via code:
+
+GDScript:
+    # This gives us the ViewportTexture.
+    var tex = viewport.get_texture()
+    sprite.texture = tex
+
+C#:
+    // This gives us the ViewportTexture.
+    var tex = viewport.GetTexture();
+    sprite.Texture = tex;
+
+Alternatively, in the editor, you can assign a "New ViewportTexture" and select the desired Viewport.
+
+Each frame, the Viewport's texture is cleared with the default clear color, or a transparent color if Transparent BG is set to true. This clearing behavior can be modified by setting the Render Target Clear Mode to Never or Next Frame. "Never" prevents the texture from being cleared, while "Next Frame" clears it on the subsequent frame and then reverts to "Never".
+
+By default, a SubViewport re-renders only when its ViewportTexture has been drawn in a frame. If it's visible, it renders; otherwise, it does not. This can be altered by setting the Render Target Update Mode to Never, Once, Always, or When Parent Visible. "Never" and "Always" will prevent or force re-rendering, respectively. "Once" will re-render the next frame and then switch to "Never", enabling manual updates. This provides flexibility to render an image once and reuse the texture without the overhead of per-frame rendering.
+
+Note: The Viewport demos are available in the viewport folder of the demos archive or on GitHub.

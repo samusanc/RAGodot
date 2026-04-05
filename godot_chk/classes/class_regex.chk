@@ -1,0 +1,108 @@
+Document: RegEx
+Path: godot/classes/class_regex.rst
+Summary: Provides functionality for matching and manipulating strings using regular expressions.
+
+RegEx
+
+The RegEx class provides functionality for matching and manipulating strings using regular expressions.
+
+Inherits: Object < RegEx
+---CHUNK---
+Document: RegEx
+Path: godot/classes/class_regex.rst
+Summary: Provides a class for searching text using regular expressions.
+
+RegEx
+Inherits: RefCounted < Object
+
+Class for searching text for patterns using regular expressions.
+---CHUNK---
+Document: RegEx
+Path: godot/classes/class_regex.rst
+Summary: Provides functionality for working with regular expressions, including compiling patterns, searching for matches, and extracting captured groups.
+
+Inherits: Object
+
+A regular expression (or regex) is a compact language that can be used to recognize strings that follow a specific pattern. The RegEx object needs to be compiled with the search pattern using compile() before it can be used. Alternatively, the static method create_from_string() can be used to create and compile a RegEx object in a single method call.
+
+GDScript:
+var regex = RegEx.new()
+regex.compile("\\w-(\\d+)")
+# Shorthand to create and compile a regex (used in the examples below):
+var regex2 = RegEx.create_from_string("\\w-(\\d+)")
+
+The search pattern must be escaped first for GDScript before it is escaped for the expression. For example, compile("\\d+") would be read by RegEx as \d+. Similarly, compile("\"(?:\\\\.|[^\"])*\"") would be read as "(?:\\.|[^"])*". In GDScript, you can also use raw string literals (r-strings). For example, compile(r'"(?:\\.|[^"])*"') would be read the same.
+
+Using search(), you can find the pattern within the given text. If a pattern is found, RegExMatch is returned and you can retrieve details of the results using methods such as RegExMatch.get_string() and RegExMatch.get_start().
+
+GDScript:
+var regex = RegEx.create_from_string("\\w-(\\d+)")
+var result = regex.search("abc n-0123")
+if result:
+    print(result.get_string()) # Prints "n-0123"
+
+The results of capturing groups () can be retrieved by passing the group number to the various methods in RegExMatch. Group 0 is the default and will always refer to the entire pattern. In the above example, calling result.get_string(1) would give you "0123".
+
+This version of RegEx also supports named capturing groups, and the names can be used to retrieve the results. If two or more groups have the same name, the name would only refer to the first one with a match.
+
+GDScript:
+var regex = RegEx.create_from_string("d(?<digit>[0-9]+)|x(?<digit>[0-9a-f]+)")
+var result = regex.search("the number is x2f")
+if result:
+    print(result.get_string("digit")) # Prints "2f"
+
+If you need to process multiple results, search_all() generates a list of all non-overlapping results. This can be combined with a for loop for convenience.
+
+GDScript:
+# Prints "01 03 0 3f 42"
+for result in regex.search_all("d01, d03, d0c, x3f and x42"):
+    print(result.get_string("digit"))
+
+Example: Split a string using a RegEx:
+
+GDScript:
+var regex = RegEx.create_from_string("\\S+") # Negated whitespace character class.
+var results = []
+for result in regex.search_all("One  Two \n\tThree"):
+    results.push_back(result.get_string())
+print(results) # Prints ["One", "Two", "Three"]
+
+Note: Godot's regex implementation is based on the PCRE2 library. You can view the full pattern reference here.
+Tip: You can use Regexr to test regular expressions online.
+---CHUNK---
+Document: RegEx
+Path: godot/classes/class_regex.rst
+Summary: This section details the methods available for the RegEx class in Godot Engine, covering compilation, searching, and substitution operations.
+
+Method: clear() → void
+This method resets the state of the object, as if it was freshly created. Namely, it unassigns the regular expression of this object.
+
+Method: compile(pattern: String, show_error: bool = true) → Error
+Compiles and assign the search pattern to use. Returns @GlobalScope.OK if the compilation is successful. If compilation fails, returns @GlobalScope.FAILED and when show_error is true, details are printed to standard output.
+
+Method: create_from_string(pattern: String, show_error: bool = true) → RegEx (static)
+Creates and compiles a new RegEx object. See also compile().
+
+Method: get_group_count() → int (const)
+Returns the number of capturing groups in compiled pattern.
+
+Method: get_names() → PackedStringArray (const)
+Returns an array of names of named capturing groups in the compiled pattern. They are ordered by appearance.
+
+Method: get_pattern() → String (const)
+Returns the original search pattern that was compiled.
+
+Method: is_valid() → bool (const)
+Returns whether this object has a valid search pattern assigned.
+
+Method: search(subject: String, offset: int = 0, end: int = -1) → RegExMatch (const)
+Searches the text for the compiled pattern. Returns a RegExMatch container of the first matching result if found, otherwise null.
+The region to search within can be specified with offset and end. This is useful when searching for another match in the same subject by calling this method again after a previous success. Note that setting these parameters differs from passing over a shortened string. For example, the start anchor ^ is not affected by offset, and the character before offset will be checked for the word boundary \b.
+
+Method: search_all(subject: String, offset: int = 0, end: int = -1) → Array[RegExMatch] (const)
+Searches the text for the compiled pattern. Returns an array of RegExMatch containers for each non-overlapping result. If no results were found, an empty array is returned instead.
+The region to search within can be specified with offset and end. This is useful when searching for another match in the same subject by calling this method again after a previous success. Note that setting these parameters differs from passing over a shortened string. For example, the start anchor ^ is not affected by offset, and the character before offset will be checked for the word boundary \b.
+
+Method: sub(subject: String, replacement: String, all: bool = false, offset: int = 0, end: int = -1) → String (const)
+Searches the text for the compiled pattern and replaces it with the specified string. Escapes and backreferences such as $1 and $name are expanded and resolved. By default, only the first instance is replaced, but it can be changed for all instances (global replacement).
+The region to search within can be specified with offset and end. This is useful when searching for another match in the same subject by calling this method again after a previous success. Note that setting these parameters differs from passing over a shortened string. For example, the start anchor ^ is not affected by offset, and the character before offset will be checked for the word boundary \b.

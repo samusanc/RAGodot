@@ -1,0 +1,22 @@
+Document: VisualShaderNodeTextureSDFNormal  
+Path: godot/classes/class_visualshadernodetexturesdfnormal.rst  
+Summary: Class for using Texture SDF Normal in Visual Shaders  
+
+VisualShaderNodeTextureSDFNormal is a shader node that samples a texture to generate Signed Distance Field (SDF) normal data. It inherits from VisualShaderNodeTexture and implements the functionality required for SDF-based surface normals in visual shaders. This node is specifically designed for use in the Visual Shader Graph system, where it provides a way to calculate surface normals from a texture map, enabling advanced lighting and shading effects.  
+
+Key Rule: This node requires a texture with SDF data in its RGB channels, where red represents the X-axis, green the Y-axis, and blue the Z-axis of the normal vector. The texture should be in the range [-1, 1] to ensure correct normal mapping.  
+
+The node's output is a vector representing the surface normal, which can be connected to other shader nodes for lighting calculations. It supports standard texture sampling operations and can be configured with parameters such as texture sampling mode and filtering options. When used in a shader graph, this node contributes to realistic surface shading by providing accurate normal information derived from the texture.  
+
+Note: The SDF normal data must be precomputed in the texture to function correctly. This node does not generate SDF data itself but relies on external texture inputs.
+---CHUNK---
+Document: VisualShaderNodeTextureSDFNormal
+Path: godot/classes/class_visualshadernodetexturesdfnormal.rst
+Summary: A visual shader graph node that performs SDF normal texture lookups.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Performs an SDF (signed-distance field) normal texture lookup within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTextureSDFNormal
+Path: godot/classes/class_visualshadernodetexturesdfnormal.rst
+Summary: Represents the texture_sdf_normal(sdf_pos) function in shaders for SDF normal mapping.

@@ -1,0 +1,29 @@
+Document: OpenXRSpatialComponentPlaneAlignmentList  
+Path: godot/classes/class_openxrspatialcomponentplanealignmentlist.rst  
+Summary: A list of plane alignment settings for OpenXR spatial components.
+---CHUNK---
+Document: OpenXRSpatialComponentPlaneAlignmentList
+Path: godot/classes/class_openxrspatialcomponentplanealignmentlist.rst
+Summary: Class for storing queries plane alignment result data.
+
+Key Rule: This class may be changed or removed in future versions. Inherits: OpenXRSpatialComponentData < RefCounted < Object. Object for storing the queries plane alignment result data.
+---CHUNK---
+Document: OpenXRSpatialComponentPlaneAlignmentList
+Path: godot/classes/class_openxrspatialcomponentplanealignmentlist.rst
+Summary: Class for storing plane alignment results from OpenXRSpatialEntityExtension queries.
+
+Object for storing the queries plane alignment result data when calling OpenXRSpatialEntityExtension.query_snapshot().
+---CHUNK---
+Document: OpenXRSpatialComponentPlaneAlignmentList  
+Path: godot/classes/class_openxrspatialcomponentplanealignmentlist.rst  
+Summary: Enumerations and methods for managing plane alignment configurations in OpenXR spatial components.  
+
+Enumerations:  
+PlaneAlignment (int):  
+- PLANE_ALIGNMENT_HORIZONTAL_UPWARD = 0: Plane is facing upward.  
+- PLANE_ALIGNMENT_HORIZONTAL_DOWNWARD = 1: Plane is facing downwards.  
+- PLANE_ALIGNMENT_VERTICAL = 2: Plane is vertically aligned.  
+- PLANE_ALIGNMENT_ARBITRARY = 3: Plane has an arbitrary alignment.  
+
+Method: get_plane_alignment(index: int) → PlaneAlignment (const):  
+Returns the plane alignment for the parent entity at this index.

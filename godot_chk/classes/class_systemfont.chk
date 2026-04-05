@@ -1,0 +1,197 @@
+Document: SystemFont
+Path: godot/classes/class_systemfont.rst
+Summary: SystemFont is a Font resource that uses fonts installed on the user's operating system.
+
+Inherits: Font < Resource < RefCounted < Object
+
+SystemFont is a Font resource that allows using fonts installed on the user's operating system. It supports font fallback, which means if a glyph is not found in the primary font, the system will search for it in the fallback fonts.
+
+Properties:
+- font_names (PackedStringArray): Array of font family names to search for.
+- font_italic (bool): If true, the system will prefer italic variants of the font. Default: false.
+- font_weight (int): Preferred font weight. Range: 0 to 999. Default: 400.
+- font_stretch (int): Preferred font stretch amount. Range: 50 to 200. Default: 100.
+- antialiasing (TextServer.FontAntialiasing): Font antialiasing mode. Default: TextServer.FONT_ANTIALIASING_GRAY.
+- generate_mipmaps (bool): If true, generate mipmaps for font textures. Default: false.
+- allow_system_fallback (bool): If true, allows the system to use fallback fonts if the requested font is not found. Default: true.
+- force_autohinter (bool): If true, forces the use of the autohinter. Default: false.
+- hinting (TextServer.Hinting): Font hinting mode. Default: TextServer.HINTING_LIGHT.
+- subpixel_positioning (TextServer.SubpixelPositioning): Subpixel positioning mode. Default: TextServer.SUBPIXEL_POSITIONING_AUTO.
+- msdf_pixel_range (int): The pixel range used for MSDF font generation. Default: 16.
+- msdf_size (int): The size of the MSDF font texture. Default: 128.
+- oversampling (float): Oversampling factor for the font. Default: 0.0.
+
+Key Rule: SystemFont does not bundle font files with the project; it relies on the host OS environment. If a font is missing on the user's system, the engine will attempt to find a suitable replacement based on the fallback settings.
+
+GDScript:
+    var my_font = SystemFont.new()
+    my_font.font_names = ["Arial", "Sans-Serif"]
+    my_font.font_weight = 700
+    label.add_theme_font_override("font", my_font)
+
+C#:
+    var myFont = new SystemFont();
+    myFont.FontNames = new string[] { "Arial", "Sans-Serif" };
+    myFont.FontWeight = 700;
+    label.AddThemeFontOverride("font", myFont);
+---CHUNK---
+Document: SystemFont
+Path: godot/classes/class_systemfont.rst
+Summary: Describes the SystemFont class, which loads fonts from the operating system and inherits from Font, Resource, RefCounted, and Object.
+SystemFont
+Inherits: Font < Resource < RefCounted < Object
+
+A font loaded from a system font. Falls back to a default theme font if not implemented on the host OS.
+---CHUNK---
+Document: SystemFont
+Path: godot/classes/class_systemfont.rst
+Summary: Loads a font from the system using a list of preferred font names and styles.
+Inherits: Font < Resource < RefCounted < Object
+Description: SystemFont loads a font from a system font with the first matching name from font_names. It will attempt to match font style, but it's not guaranteed. The returned font might be part of a font collection or be a variable font with OpenType "weight", "width" and/or "italic" features set. You can create FontVariation of the system font for precise control over its features. Note: This class is implemented on iOS, Linux, macOS and Windows, on other platforms it will fallback to default theme font.
+---CHUNK---
+Document: SystemFont
+Path: godot/classes/class_systemfont.rst
+Summary: Defines the properties available for the SystemFont class in Godot Engine.
+
+Properties
+- allow_system_fallback (bool): If true, allows the font to fall back to a system font if the specified font is not found. Default: true.
+- antialiasing (FontAntialiasing): Controls the antialiasing mode for the font. Default: 1.
+- disable_embedded_bitmaps (bool): If true, disables the use of embedded bitmaps within the font file. Default: true.
+- font_italic (bool): If true, uses the italic variant of the font if available. Default: false.
+- font_names (PackedStringArray): An array of font names to try loading. The first available font in the list will be used. Default: PackedStringArray().
+- font_stretch (int): Controls the horizontal stretching of the font. Default: 100.
+- font_weight (int): Controls the weight (boldness) of the font. Default: 400.
+- force_autohinter (bool): If true, forces the use of an autohinter for font rendering. Default: false.
+- generate_mipmaps (bool): If true, generates mipmaps for the font texture. Default: false.
+- hinting (Hinting): Controls the hinting mode for font rendering. Default: 1.
+- keep_rounding_remainders (bool): If true, preserves rounding remainders for potentially more accurate glyph positioning. Default: true.
+- modulate_color_glyphs (bool): If true, allows color glyphs to be modulated by the font's color. Default: false.
+- msdf_pixel_range (int): The pixel range used for Multi-channel Signed Distance Field (MSDF) rendering. Default: 16.
+- msdf_size (int): The size of the MSDF texture atlas. Default: 48.
+- multichannel_signed_distance_field (bool): If true, enables multichannel signed distance field rendering for the font. Default: false.
+- oversampling (float): Controls the oversampling factor for font rendering, improving sharpness at the cost of performance. Default: 0.0.
+- subpixel_positioning (SubpixelPositioning): Controls the subpixel positioning mode for font rendering. Default: 1.
+---CHUNK---
+Document: SystemFont
+Path: godot/classes/class_systemfont.rst
+Summary: Describes the properties and member variables of the SystemFont class in Godot Engine.
+
+Property: allow_system_fallback
+Type: bool
+Description: If set to true, system fonts can be automatically used as fallbacks.
+Default: true
+Method: set_allow_system_fallback(value: bool)
+Method: is_allow_system_fallback() -> bool
+
+Property: antialiasing
+Type: FontAntialiasing
+Description: Font anti-aliasing mode.
+Default: 1
+Method: set_antialiasing(value: FontAntialiasing)
+Method: get_antialiasing() -> FontAntialiasing
+
+Property: disable_embedded_bitmaps
+Type: bool
+Description: If set to true, embedded font bitmap loading is disabled (bitmap-only and color fonts ignore this property).
+Default: true
+Method: set_disable_embedded_bitmaps(value: bool)
+Method: get_disable_embedded_bitmaps() -> bool
+
+Property: font_italic
+Type: bool
+Description: If set to true, italic or oblique font is preferred.
+Default: false
+Method: set_font_italic(value: bool)
+Method: get_font_italic() -> bool
+
+Property: font_names
+Type: PackedStringArray
+Description: Array of font family names to search, first matching font found is used.
+Default: PackedStringArray()
+Method: set_font_names(value: PackedStringArray)
+Method: get_font_names() -> PackedStringArray
+Note: The returned array is copied and any changes to it will not update the original property value.
+
+Property: font_stretch
+Type: int
+Description: Preferred font stretch amount, compared to a normal width. A percentage value between 50% and 200%.
+Default: 100
+Method: set_font_stretch(value: int)
+Method: get_font_stretch() -> int
+
+Property: font_weight
+Type: int
+Description: Preferred weight (boldness) of the font. A value in the 100...999 range, normal font weight is 400, bold font weight is 700.
+Default: 400
+Method: set_font_weight(value: int)
+Method: get_font_weight() -> int
+
+Property: force_autohinter
+Type: bool
+Description: If set to true, auto-hinting is supported and preferred over font built-in hinting.
+Default: false
+Method: set_force_autohinter(value: bool)
+Method: is_force_autohinter() -> bool
+
+Property: generate_mipmaps
+Type: bool
+Description: If set to true, generate mipmaps for the font textures.
+Default: false
+Method: set_generate_mipmaps(value: bool)
+Method: get_generate_mipmaps() -> bool
+
+Property: hinting
+Type: Hinting
+Description: Font hinting mode.
+Default: 1
+Method: set_hinting(value: Hinting)
+Method: get_hinting() -> Hinting
+
+Property: keep_rounding_remainders
+Type: bool
+Description: If set to true, when aligning glyphs to the pixel boundaries rounding remainders are accumulated to ensure more uniform glyph distribution. This setting has no effect if subpixel positioning is enabled.
+Default: true
+Method: set_keep_rounding_remainders(value: bool)
+Method: get_keep_rounding_remainders() -> bool
+
+Property: modulate_color_glyphs
+Type: bool
+Description: If set to true, color modulation is applied when drawing colored glyphs, otherwise it's applied to the monochrome glyphs only.
+Default: false
+Method: set_modulate_color_glyphs(value: bool)
+Method: is_modulate_color_glyphs() -> bool
+
+Property: msdf_pixel_range
+Type: int
+Description: The width of the range around the shape between the minimum and maximum representable signed distance. If using font outlines, msdf_pixel_range must be set to at least twice the size of the largest font outline. The default msdf_pixel_range value of 16 allows outline sizes up to 8 to look correct.
+Default: 16
+Method: set_msdf_pixel_range(value: int)
+Method: get_msdf_pixel_range() -> int
+
+Property: msdf_size
+Type: int
+Description: Source font size used to generate MSDF textures. Higher values allow for more precision, but are slower to render and require more memory. Only increase this value if you notice a visible lack of precision in glyph rendering.
+Default: 48
+Method: set_msdf_size(value: int)
+Method: get_msdf_size() -> int
+
+Property: multichannel_signed_distance_field
+Type: bool
+Description: If set to true, glyphs of all sizes are rendered using single multichannel signed distance field generated from the dynamic font vector data.
+Default: false
+Method: set_multichannel_signed_distance_field(value: bool)
+Method: is_multichannel_signed_distance_field() -> bool
+
+Property: oversampling
+Type: float
+Description: If set to a positive value, overrides the oversampling factor of the viewport this font is used in. See Viewport.oversampling. This value doesn't override the oversampling parameter of draw_* methods.
+Default: 0.0
+Method: set_oversampling(value: float)
+Method: get_oversampling() -> float
+
+Property: subpixel_positioning
+Type: SubpixelPositioning
+Description: Font glyph subpixel positioning mode. Subpixel positioning provides shaper text and better kerning for smaller font sizes, at the cost of memory usage and font rasterization speed. Use TextServer.SUBPIXEL_POSITIONING_AUTO to automatically enable it based on the font size.
+Default: 1
+Method: set_subpixel_positioning(value: SubpixelPositioning)
+Method: get_subpixel_positioning() -> SubpixelPositioning

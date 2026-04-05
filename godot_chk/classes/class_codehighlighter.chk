@@ -1,0 +1,180 @@
+Document: CodeHighlighter
+Path: godot/classes/class_codehighlighter.rst
+Summary: Provides syntax highlighting for code.
+
+Inherits: RichTextEffect < Node < Object
+
+This class is an abstract base class for creating custom syntax highlighters for the CodeEdit and RichTextLabel nodes. It provides a framework for defining how code should be parsed and styled based on its syntax.
+
+To create a custom highlighter, you need to inherit from CodeHighlighter and implement the _process_code method. This method receives the text to be highlighted and should return a list of CodeHighlighter.Style objects, each defining a range of text and its corresponding style.
+
+Key Rule: CodeHighlighter is an abstract base class and cannot be used directly. You must create a derived class to implement custom highlighting logic.
+---CHUNK---
+Document: CodeHighlighter
+Path: godot/classes/class_codehighlighter.rst
+Summary: A syntax highlighter specifically designed for code.
+
+Inherits: SyntaxHighlighter < Resource < RefCounted < Object
+
+A syntax highlighter intended for code.
+---CHUNK---
+Document: CodeHighlighter
+Path: godot/classes/class_codehighlighter.rst
+Summary: This resource allows customization of text coloring within a TextEdit control by adjusting properties for different text patterns.
+
+Inherits: Resource < Object
+---CHUNK---
+Document: CodeHighlighter
+Path: godot/classes/class_codehighlighter.rst
+Summary: Defines the properties for customizing the appearance of code highlighting.
+
+Properties:
+* color_regions (Dictionary): A dictionary mapping region names to their color definitions. Default: {}
+* function_color (Color): The color used for function names. Default: Color(0, 0, 0, 1)
+* keyword_colors (Dictionary): A dictionary mapping keywords to their specific colors. Default: {}
+* member_keyword_colors (Dictionary): A dictionary mapping member keywords to their specific colors. Default: {}
+* member_variable_color (Color): The color used for member variable names. Default: Color(0, 0, 0, 1)
+* number_color (Color): The color used for numbers. Default: Color(0, 0, 0, 1)
+* symbol_color (Color): The color used for symbols. Default: Color(0, 0, 0, 1)
+---CHUNK---
+Document: CodeHighlighter
+Path: godot/classes/class_codehighlighter.rst
+Summary: Defines methods for managing color regions, keywords, and member keywords within the CodeHighlighter class.
+
+Method: add_color_region(start_key: String, end_key: String, color: Color, line_only: bool = false)
+Adds a color region that spans from start_key to end_key, applying the specified color. If line_only is true, the region only applies to the current line.
+
+Method: add_keyword_color(keyword: String, color: Color)
+Adds a keyword and assigns it a specific color.
+
+Method: add_member_keyword_color(member_keyword: String, color: Color)
+Adds a member keyword and assigns it a specific color.
+
+Method: clear_color_regions()
+Removes all defined color regions.
+
+Method: clear_keyword_colors()
+Removes all defined keyword colors.
+
+Method: clear_member_keyword_colors()
+Removes all defined member keyword colors.
+
+Method: get_keyword_color(keyword: String) → Color
+Returns the color associated with the given keyword.
+
+Method: get_member_keyword_color(member_keyword: String) → Color
+Returns the color associated with the given member keyword.
+
+Method: has_color_region(start_key: String) → bool
+Checks if a color region starting with the specified key exists.
+
+Method: has_keyword_color(keyword: String) → bool
+Checks if a keyword with the specified name exists.
+
+Method: has_member_keyword_color(member_keyword: String) → bool
+Checks if a member keyword with the specified name exists.
+
+Method: remove_color_region(start_key: String)
+Removes a color region based on its starting key.
+
+Method: remove_keyword_color(keyword: String)
+Removes a keyword and its associated color.
+
+Method: remove_member_keyword_color(member_keyword: String)
+Removes a member keyword and its associated color.
+---CHUNK---
+Document: CodeHighlighter
+Path: godot/classes/class_codehighlighter.rst
+Summary: Describes the properties and their corresponding setter/getter methods for the CodeHighlighter class in Godot Engine.
+
+Property: color_regions (Dictionary)
+Default: {}
+Setter: set_color_regions(value: Dictionary)
+Getter: get_color_regions() → Dictionary
+Description: Sets the color regions. All existing regions will be removed. The Dictionary key is the region start and end key, separated by a space. The value is the region color.
+
+Property: function_color (Color)
+Default: Color(0, 0, 0, 1)
+Setter: set_function_color(value: Color)
+Getter: get_function_color() → Color
+Description: Sets color for functions. A function is a non-keyword string followed by a '('.
+
+Property: keyword_colors (Dictionary)
+Default: {}
+Setter: set_keyword_colors(value: Dictionary)
+Getter: get_keyword_colors() → Dictionary
+Description: Sets the keyword colors. All existing keywords will be removed. The Dictionary key is the keyword. The value is the keyword color.
+
+Property: member_keyword_colors (Dictionary)
+Default: {}
+Setter: set_member_keyword_colors(value: Dictionary)
+Getter: get_member_keyword_colors() → Dictionary
+Description: Sets the member keyword colors. All existing member keyword will be removed. The Dictionary key is the member keyword. The value is the member keyword color.
+
+Property: member_variable_color (Color)
+Default: Color(0, 0, 0, 1)
+Setter: set_member_variable_color(value: Color)
+Getter: get_member_variable_color() → Color
+Description: Sets color for member variables. A member variable is non-keyword, non-function string proceeded with a '.'.
+
+Property: number_color (Color)
+Default: Color(0, 0, 0, 1)
+Setter: set_number_color(value: Color)
+Getter: get_number_color() → Color
+Description: Sets the color for numbers.
+
+Property: symbol_color (Color)
+Default: Color(0, 0, 0, 1)
+Setter: set_symbol_color(value: Color)
+Getter: get_symbol_color() → Color
+Description: Sets the color for symbols.
+---CHUNK---
+Document: CodeHighlighter
+Path: godot/classes/class_codehighlighter.rst
+Summary: Methods for managing color regions, keywords, and member keywords in the CodeHighlighter class.
+
+Method: add_color_region(start_key: String, end_key: String, color: Color, line_only: bool = false)
+Adds a color region (such as for comments or strings) from start_key to end_key. Both keys should be symbols, and start_key must not be shared with other delimiters.
+If line_only is true or end_key is an empty String, the region does not carry over to the next line.
+
+Method: add_keyword_color(keyword: String, color: Color)
+Sets the color for a keyword.
+The keyword cannot contain any symbols except '_'.
+
+Method: add_member_keyword_color(member_keyword: String, color: Color)
+Sets the color for a member keyword.
+The member keyword cannot contain any symbols except '_'.
+It will not be highlighted if preceded by a '.'.
+
+Method: clear_color_regions()
+Removes all color regions.
+
+Method: clear_keyword_colors()
+Removes all keywords.
+
+Method: clear_member_keyword_colors()
+Removes all member keywords.
+
+Method: get_keyword_color(keyword: String) → Color
+Returns the color for a keyword.
+
+Method: get_member_keyword_color(member_keyword: String) → Color
+Returns the color for a member keyword.
+
+Method: has_color_region(start_key: String) → bool
+Returns true if the start key exists, else false.
+
+Method: has_keyword_color(keyword: String) → bool
+Returns true if the keyword exists, else false.
+
+Method: has_member_keyword_color(member_keyword: String) → bool
+Returns true if the member keyword exists, else false.
+
+Method: remove_color_region(start_key: String)
+Removes the color region that uses that start key.
+
+Method: remove_keyword_color(keyword: String)
+Removes the keyword.
+
+Method: remove_member_keyword_color(member_keyword: String)
+Removes the member keyword.

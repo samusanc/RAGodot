@@ -1,0 +1,152 @@
+Document: Importing 3D Scenes
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section details advanced import settings for 3D scenes in Godot.
+
+When importing 3D scenes into Godot, several advanced settings allow for fine-tuning the import process. These settings are accessible through the Import dock in the Godot editor.
+
+**General Settings:**
+
+*   **Model:** This section contains general settings for the 3D model.
+    *   **Mesh Compression:** Controls the level of compression applied to mesh data. Higher compression reduces file size but may slightly impact visual quality.
+    *   **Use Placeholders:** If enabled, placeholders are used for imported meshes, which can speed up initial loading and iteration.
+    *   **Invert Tangents:** Some 3D modeling software export tangents with different winding orders. This option allows you to correct for that.
+    *   **Optimize Meshes:** This option attempts to optimize the mesh data for better performance.
+    *   **Optimize Surfaces:** Similar to optimizing meshes, this optimizes individual surfaces within the mesh.
+    *   **LOD Settings:** Allows configuration of Level of Detail (LOD) for the imported model, enabling different mesh versions to be displayed based on camera distance.
+
+**Scene Settings:**
+
+*   **Scene:** This section deals with settings related to the scene structure.
+    *   **Generate Lightmap UVs:** If enabled, Godot will attempt to generate UV coordinates suitable for lightmapping. This is crucial for baked lighting.
+    *   **Lightmap Tiling:** Controls the tiling of lightmap textures.
+    *   **Lightmap Resolution:** Sets the resolution for generated lightmap UVs.
+    *   **Lightmap Shrink:** Adjusts the margin between UV islands in the lightmap.
+    *   **Scene Root Node:** Allows specifying a custom root node for the imported scene.
+
+**Animation Settings:**
+
+*   **Animation:** This section is for configuring imported animations.
+    *   **Animation Compression:** Controls the compression applied to animation data.
+    *   **Looping:** Enables or disables looping for imported animations.
+    *   **Loop Start/End:** Defines the start and end frames for animation looping.
+    *   **Root Motion:** If enabled, root motion data from the animation will be used for character movement.
+    *   **Animation FPS:** Sets the frames per second for imported animations.
+
+**Material Settings:**
+
+*   **Material:** This section manages material import options.
+    *   **Default Material:** Allows specifying a default material to be used if imported materials are missing or problematic.
+    *   **Import Materials:** Enables or disables the import of materials from the source file.
+    *   **Material Search/Override:** Options to control how Godot searches for and overrides materials.
+
+**Texture Settings:**
+
+*   **Texture:** This section pertains to imported textures.
+    *   **Texture Compression:** Controls the compression method used for imported textures.
+    *   **Mipmaps:** Enables or disables the generation of mipmaps for textures.
+    *   **Texture Filter:** Sets the filtering mode for textures (e.g., nearest, linear).
+    *   **Anisotropic Filtering:** Enables or disables anisotropic filtering for textures.
+
+**Node Settings:**
+
+*   **Node:** This section allows for specific node import configurations.
+    *   **Node Conversion:** Options to convert specific node types during import.
+    *   **Node Renaming:** Rules for renaming nodes during the import process.
+
+By adjusting these advanced import settings, users can significantly optimize the performance, visual fidelity, and workflow of their 3D assets within the Godot Engine.
+---CHUNK---
+Document: Advanced Import Settings
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section describes the advanced import settings for 3D models in Godot, focusing on per-object options, model previews, and animation previews.
+
+The advanced import settings provide per-object options, model previews, and animation previews. To access these settings, select the Advanced... button at the bottom of the import dock. This functionality is available for 3D models imported as scenes and for animation libraries.
+
+Note: This page focuses exclusively on options within the advanced import settings and does not cover general import dock options or other related topics. For information on those subjects, please refer to the Import Configuration page.
+---CHUNK---
+Document: Importing 3D Scenes
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section describes the Scene tab in the Advanced Import Settings dialog, highlighting its 3D preview functionality.
+The first tab you'll see is the Scene tab. The options available in the panel on the right are identical to the Import dock, but you have access to a 3D preview. The 3D preview can be rotated by holding down the left mouse button then dragging the mouse. Zoom can be adjusted using the mouse wheel.
+---CHUNK---
+Document: Importing 3D Scenes
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section details advanced import settings for individual nodes within a 3D scene, focusing on physics, navigation, and occlusion generation.
+
+You can select individual nodes in the **Scene** tab of the import settings to configure per-node import options.
+
+- **Skip Import:** If checked, the node will not be included in the final imported scene. This option disables all other settings for the selected node.
+- **Generate > Physics:** If checked, a PhysicsBody3D parent node will be created, with collision shapes as siblings to the MeshInstance3D node.
+- **Generate > NavMesh:** If checked, a NavigationRegion3D child node will be generated for navigation.
+    - **Mesh + NavMesh:** Keeps the original mesh visible along with the navigation mesh.
+    - **NavMesh Only:** Imports only the navigation mesh, without a visual representation. This is useful when a manually authored simplified mesh is used for navigation.
+- **Generate > Occluder:** If checked, an OccluderInstance3D sibling node will be generated for occlusion culling, using the mesh's geometry as a basis.
+    - **Mesh + Occluder:** Keeps the original mesh visible along with the occluder.
+    - **Occluder Only:** Imports only the occluder, without a visual representation. This is useful when a manually authored simplified mesh is used for occlusion culling.
+
+The following options are visible only when specific generation options are enabled:
+
+- **Physics > Body Type:** (Visible if **Generate > Physics** is enabled) Determines the type of PhysicsBody3D to create:
+    - **Static:** Creates a StaticBody3D.
+    - **Dynamic:** Creates a RigidBody3D.
+    - **Area:** Creates an Area3D.
+- **Physics > Shape Type:** (Visible if **Generate > Physics** is enabled) Determines the collision shape type:
+    - **Trimesh:** Provides precise per-triangle collision but can only be used with a Static body type. Recommended for static level geometry.
+    - Other types: Less precise, may require manual configuration, and can be used with any body type. For dynamic geometry, use primitive shapes for better performance or convex decomposition for large, complex shapes.
+- **Decomposition > Advanced:** (Visible if **Physics > Shape Type** is **Decompose Convex**) If checked, allows adjustment of advanced decomposition options. If disabled, only a preset **Precision** can be adjusted.
+- **Decomposition > Precision:** (Visible if **Physics > Shape Type** is **Decompose Convex**) Controls the precision for convex decomposition. Higher values increase collision detail but also increase generation time and physics simulation CPU usage. Keep this value as low as possible for your use case to improve performance.
+- **Occluder > Simplification Distance:** (Visible if **Generate > Occluder** is **Mesh + Occluder** or **Occluder Only**) Higher values reduce the occluder mesh's vertex count, decreasing CPU usage but potentially causing more occlusion culling issues (false positives/negatives). If objects disappear unexpectedly, try decreasing this value.
+---CHUNK---
+Document: Importing 3D Scenes
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This document details the advanced import settings for meshes and materials in Godot, explaining how to configure specific import options for individual assets.
+
+Configuring mesh and material import options
+In the Advanced Import Settings dialog, you can select individual meshes or materials by switching to the **Meshes** or **Materials** tab, or by unfolding options in the **Scene** tab's tree view.
+
+Mesh Import Options:
+- Save to File: Saves the Mesh resource to an external file (e.g., .res or .tres). This is useful for specific nodes like MeshInstance3D, MultiMeshInstance3D, GPUParticles3D, or CPUParticles3D, but not typically needed for instancing scenes. Using the .res extension is recommended for smaller file sizes and faster loading.
+- Generate > Shadow Meshes: Overrides the scene-wide "Create Shadow Meshes" option. Options are Default, Enable, or Disable.
+- Generate > Lightmap UV: Overrides the scene-wide "Light Baking" option. Options are Default, Enable, or Disable. Enabling this with "Static" light baking mode is equivalent to using "Static Lightmaps" for the mesh, and disabling it with "Static Lightmaps" is equivalent to using "Static" mode.
+- Generate > LODs: Overrides the scene-wide "Generate LODs" option. Options are Default, Enable, or Disable.
+- LODs > Normal Merge Angle: The minimum angle difference between vertices to preserve a geometry edge during LOD generation. Decreasing this value can help with visual issues but may reduce LOD generation efficiency.
+
+Material Import Options:
+- Use External: When checked and an output path is specified, this allows the use of an external material instead of the one included in the original 3D scene file.
+---CHUNK---
+Document: Importing 3D Scenes
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section explains how to extract and modify materials from imported 3D scenes in Godot.
+
+To modify materials authored in 3D modeling software within the Godot editor, you need to use external material resources. This is useful when you want to configure material features not supported by your 3D application, use different texture filtering modes, or replace existing materials with custom ones, such as those using a custom shader.
+
+To extract materials, open the Advanced Import Settings dialog for your 3D scene. In the top-left corner, select Actions… > Extract Materials. You will then be prompted to choose a folder to save the extracted material `.tres` files. After confirming the extraction, Godot automatically configures the 3D scene to use these external material references.
+
+Note: After extracting materials, the 3D scene automatically uses external material references, so you do not need to manually enable "Use External" on each material for the `.tres` file to be effective.
+
+When "Use External" is enabled, the Advanced Import Settings dialog will continue to display the mesh's original materials from the 3D modeling software. Customizations made to the extracted materials will not be visible in this dialog. To preview your modified materials, you must place the imported 3D scene into another scene within the Godot editor.
+
+Godot will not overwrite changes made to extracted materials upon reimporting the source 3D scene. However, if a material's name is changed in the source 3D file, the link between the original material and the extracted material will be broken. In such cases, you will need to use the Advanced Import Settings dialog to re-associate the renamed material with the existing extracted material. This can be done in the dialog's Materials tab by selecting the material, enabling "Save to File," and then specifying the save path using the "Path" option.
+---CHUNK---
+Document: Importing 3D Scenes
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section describes advanced import settings for 3D scenes in Godot.
+Animation options
+Several extra options are available for the generated AnimationPlayer nodes, as well as their individual animations when they're selected in the Scene tab.
+---CHUNK---
+Document: Importing 3D Scenes - Advanced Import Settings
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section describes the animation optimizer used during 3D scene import.
+Optimizer
+When animations are imported, an optimizer is run, which reduces the size of the animation considerably. In general, this should always be turned on unless you suspect that an animation might be broken due to it being enabled.
+---CHUNK---
+Document: advanced_import_settings
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section explains how to save animations to a separate file during the import process.
+
+By default, animations are saved as built-in. It is possible to save them to a file instead. This allows adding custom tracks to the animations and keeping them after a reimport.
+---CHUNK---
+Document: Importing 3D Scenes - Advanced Import Settings
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/advanced_import_settings.rst
+Summary: This section explains how to use animation slicing to define multiple animations from a single timeline in imported 3D models.
+
+Animation slicing allows you to define multiple animations from a single timeline within an imported 3D model. For this feature to work, the model must contain only one animation, and it must be named "default". To enable slicing, increase the "Slice" amount to a value greater than zero. Once slicing is enabled, you can name each slice, specify its start and end frames, and configure whether the animation should loop.

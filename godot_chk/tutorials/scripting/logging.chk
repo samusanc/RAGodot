@@ -1,0 +1,228 @@
+Document: Logging
+Path: godot/tutorials/scripting/logging.rst
+Summary: Overview of how to use the print and push_error/warning functions for debugging in Godot.
+
+Godot provides several functions for logging information to the console during development. These are essential for debugging and monitoring the state of your application.
+
+The primary function for outputting text to the console is print(). This function accepts any number of arguments and converts them to strings, printing them to the standard output.
+
+GDScript:
+    print("Hello, world!")
+    var score = 100
+    print("Current score: ", score)
+
+C#:
+    GD.Print("Hello, world!");
+    int score = 100;
+    GD.Print("Current score: ", score);
+
+For more specific diagnostic information, Godot provides functions that categorize messages. These messages appear in the Debugger tab's Errors panel and are often highlighted in different colors.
+
+push_warning(message: String)
+This function logs a warning message. Warnings do not stop the execution of the game but indicate that something might be wrong or unexpected.
+
+push_error(message: String)
+This function logs an error message. Errors indicate a failure in the application logic. When an error is pushed, Godot will also print a stack trace to help identify where the error occurred.
+
+GDScript:
+    if player_health < 0:
+        push_warning("Player health is negative!")
+
+    if not file.is_open():
+        push_error("Failed to open file.")
+
+C#:
+    if (playerHealth < 0)
+    {
+        GD.PushWarning("Player health is negative!");
+    }
+
+    if (!file.IsOpen())
+    {
+        GD.PushError("Failed to open file.");
+    }
+
+Key Rule: Use print() for general information, push_warning() for non-critical issues that should be addressed, and push_error() for critical failures that prevent expected behavior.
+
+When running the project from the editor, these logs appear in the Output panel at the bottom of the screen. You can filter these logs by type (Errors, Warnings, or Standard Output) using the buttons provided in the Debugger interface. Note: In exported projects, these logs are typically redirected to a file or the system console depending on the platform and project settings.
+---CHUNK---
+Document: Logging
+Path: godot/tutorials/scripting/logging.rst
+Summary: This section introduces the logging capabilities within Godot.
+Godot comes with several ways to organize and collect log messages.
+---CHUNK---
+Document: Logging
+Path: godot/tutorials/scripting/logging.rst
+Summary: This section explains how to print messages to the output panel in Godot.
+
+Printing messages
+When running a project from the editor, the editor will display logged text in the output panel. The printed output is generally identical to the logged output.
+---CHUNK---
+Document: Logging
+Path: godot/tutorials/scripting/logging.rst
+Summary: This section details project settings and command-line arguments that control logging behavior in Godot.
+Project settings control logging behavior in Godot:
+
+*   **Application > Run > Disable stdout:** Disables logging to standard output entirely. This also affects what custom loggers receive. This can be controlled at runtime by setting Engine.print_to_stdout.
+*   **Application > Run > Disable stderr:** Disables logging to standard error entirely. This also affects what custom loggers receive. This can be controlled at runtime by setting Engine.print_error_messages.
+*   **Debug > Settings > stdout > Verbose stdout:** Enables verbose logging to standard output. Prints from print_verbose() are only visible if verbose mode is enabled.
+*   **Debug > Settings > stdout > Print FPS:** Prints the frames per second every second, as well as the V-Sync status on startup.
+*   **Debug > Settings > stdout > Print GPU Profile:** Prints a report of GPU utilization every second, using the same data source as the debugger panel visual profiler.
+
+Some of these project settings can also be overridden using command line arguments such as --quiet, --verbose, and --print-fps.
+
+The engine's own file logging is also configurable.
+---CHUNK---
+Document: Logging
+Path: godot/tutorials/scripting/logging.rst
+Summary: This section explains how Godot handles built-in file logging, including log file location, rotation, and crash log generation.
+
+By default, Godot writes log files to `user://logs/godot.log` on desktop platforms. The location can be changed via the `debug/file_logging/log_path` project setting. Logs are rotated, with each session creating a new file and renaming the old one with a date. Up to 5 log files are kept by default, adjustable with `debug/file_logging/max_log_files`. File logging can be disabled entirely using `debug/file_logging/enable_file_logging`.
+
+When a project crashes, crash logs are written to the same file as the regular log file. A usable backtrace in the crash log requires the binary to have debugging symbols or a matching debug symbols file. Official binaries lack these symbols, necessitating a custom build. Refer to the documentation on debugging symbols for compiling binaries with this feature enabled.
+
+Note: Log files for `print()` statements are updated when standard output is flushed by the engine. Flushing occurs on every print in debug builds. In release builds, standard output is only flushed upon project exit or crash to enhance performance. Conversely, the standard error stream (used by `printerr()`, `push_error()`, and `push_warning()`) is always flushed on every print, even in release builds. For specific use cases like dedicated servers, enabling `application/run/flush_stdout_on_print` in Project Settings ensures release builds always flush stdout on print, allowing services like journald to collect logs during runtime.
+---CHUNK---
+Document: Logging
+Path: godot/tutorials/scripting/logging.rst
+Summary: Explains how script backtraces work in Godot 4.5 and later, including how to enable them in release builds.
+Script backtraces are automatically logged when GDScript code encounters an error, showing the origin and call stack. This is always enabled in the editor and debug exports. For release exports, backtraces are disabled by default for performance. To enable them in release builds, navigate to Project Settings and check "Debug > Settings > GDScript > Always Track Call Stacks". Enabling this is recommended if you use a custom logging system to report exceptions remotely, as it makes reported errors more actionable.
+---CHUNK---
+Document: godot/tutorials/scripting/logging.rst
+Path: godot/tutorials/scripting/logging.rst
+Summary: Explains how to interpret and utilize crash backtraces in Godot Engine, including the importance of debug symbols and how to access logs after a crash.
+
+Warning: Crash backtraces are only useful if they were recorded in a build that contains debugging symbols. Official Godot binaries do not contain debugging symbols, so you must compile a custom editor or export template binary to get useful crash backtraces.
+
+When a project crashes, a backtrace is printed to the standard error stream. With debug symbols, this backtrace includes detailed C++ call stacks and GDScript call stacks, showing the exact lines of code where the crash occurred.
+
+Example backtrace with debug symbols:
+```none
+================================================================
+handle_crash: Program crashed with signal 4
+Engine version: Godot Engine v4.5.beta.custom_build (6c9aa4c7d3b9b91cd50714c40eeb234874df7075)
+Dumping the backtrace. Please include this when reporting the bug to the project developer.
+[1] /lib64/libc.so.6(+0x1a070) [0x7f6e5e277070] (??:0)
+[2] godot() [0x4da3358] (/path/to/godot/core/core_bind.cpp:336 (discriminator 2))
+[3] godot() [0xdf5f2f] (/path/to/godot/modules/gdscript/gdscript.h:591)
+[4] godot() [0xbffd46] (/path/to/godot/modules/gdscript/gdscript.cpp:2065 (discriminator 1))
+[5] godot() [0x30f2ea4] (/path/to/godot/core/variant/variant.h:870)
+[6] godot() [0x550d4e1] (/path/to/godot/core/object/object.cpp:933)
+[7] godot() [0x30d996a] (/path/to/godot/scene/main/node.cpp:318 (discriminator 1))
+[8] godot() [0x3131a7f] (/path/to/godot/core/templates/hash_map.h:465)
+[9] godot() [0x424589] (/path/to/godot/platform/linuxbsd/os_linuxbsd.cpp:970)
+[10] /lib64/libc.so.6(+0x3575) [0x7f6e5e260575] (??:0)
+[11] /lib64/libc.so.6(__libc_start_main+0x88) [0x7f6e5e260628] (??:0)
+[12] godot() [0x464df5] (??:?)
+-- END OF C++ BACKTRACE --
+================================================================
+GDScript backtrace (most recent call first):
+    [0] _ready (res://test.gd:5)
+-- END OF GDSCRIPT BACKTRACE --
+================================================================
+```
+
+Without debug symbols, the C++ call stack entries will show "(??:0)" instead of file paths and line numbers, making them less informative.
+
+Example backtrace without debug symbols:
+```none
+================================================================
+handle_crash: Program crashed with signal 4
+Engine version: Godot Engine v4.5.beta.custom_build (6c9aa4c7d3b9b91cd50714c40eeb234874df7075)
+Dumping the backtrace. Please include this when reporting the bug to the project developer.
+[1] /lib64/libc.so.6(+0x1a070) [0x7fdfaf666070] (??:0)
+[2] godot() [0x4da3358] (??:0)
+[3] godot() [0xdf5f2f] (??:0)
+[4] godot() [0xbffd46] (??:0)
+[5] godot() [0x30f2ea4] (??:0)
+[6] godot() [0x550d4e1] (??:0)
+[7] godot() [0x30d996a] (??:0)
+[8] godot() [0x3131a7f] (??:0)
+[9] godot() [0x424589] (??:0)
+[10] /lib64/libc.so.6(+0x3575) [0x7fdfaf64f575] (??:0)
+[11] /lib64/libc.so.6(__libc_start_main+0x88) [0x7fdfaf64f628] (??:0)
+[12] godot() [0x464df5] (??:0)
+-- END OF C++ BACKTRACE --
+================================================================
+GDScript backtrace (most recent call first):
+    [0] _ready (res://test.gd:5)
+-- END OF GDSCRIPT BACKTRACE --
+================================================================
+```
+
+The crash backtrace is also logged to a file for the current session, but it's not visible in the editor's Output panel. Since the scripting system is not running during a crash, it cannot be accessed from scripting in the same session. However, the backtrace can be accessed in the next session by reading log files and searching for "Program crashed with signal" using FileAccess. This requires file logging to be enabled.
+
+GDScript example to read the last crash backtrace:
+```gdscript
+# This script can be made an autoload, so that it runs when the project starts.
+extends Node
+
+func _ready() -> void:
+  var log_dir: String = String(ProjectSettings.get_setting("debug/file_logging/log_path")).get_base_dir()
+  # Get the last log file by alphabetical order.
+  # Since the timestamp is featured in the file name, it should always be the most recent
+  # log file that was rotated. The non-timestamped log file is for the current session,
+  # so we don't want to read that one.
+  var last_log_file: String = log_dir.path_join(DirAccess.get_files_at(log_dir)[-1])
+  var last_long_contents: String = FileAccess.get_file_as_string(last_log_file)
+
+  var crash_begin_idx: int = last_long_contents.find("Program crashed with signal")
+  if crash_begin_idx != -1:
+      print("The previous session has crashed with the following backtrace:\n")
+      print(last_long_contents.substr(crash_begin_idx))
+```
+
+The message at the top of the backtrace can be customized via the **Debug > Settings > Crash Handler > Message** project setting, allowing you to direct users to a URL or email for reporting issues.
+---CHUNK---
+Document: Logging
+Path: godot/tutorials/scripting/logging.rst
+Summary: This section explains how to create and register custom loggers in Godot 4.5 and later.
+
+Custom loggers can be used for various purposes, such as displaying an in-game console, reporting errors to a remote server, or integrating with monitoring platforms.
+
+To create a custom logger, you need to define a class that inherits from the Logger class. This class must implement two methods: `_log_message(message: String, error: bool) -> void` and `_log_error(...) -> void`.
+
+The `_log_message` method is called for general messages. The `error` parameter indicates if the message was printed to the standard error stream.
+Note that this method can be called from multiple threads concurrently, so thread-safety mechanisms like Mutex should be considered.
+
+The `_log_error` method is called for specific error conditions and receives detailed information about the error, including function name, file, line number, error code, rationale, and script backtraces. The error text is available in the `rationale` parameter.
+Note that this method can also be called from multiple threads concurrently, requiring thread-safety measures.
+
+To register a custom logger, create an instance of your custom logger class and add it to the OS using `OS.add_logger()`. This is typically done in the `_init()` method of an autoload (singleton) script to ensure it's initialized as early as possible. However, engine initialization messages are not accessible this way.
+
+Key Rule: To prevent infinite recursion, avoid using `print()` and related methods within `_log_message()`, and `push_error()` or `push_warning()` within `_log_error()`. Doing so will result in a message indicating the recursion attempt, which is not captured by the custom logger.
+
+GDScript:
+extends Node
+
+class CustomLogger extends Logger:
+	# Note that this method is not called for messages that use
+	# `push_error()` and `push_warning()`, even though these are printed to stderr.
+	func _log_message(message: String, error: bool) -> void:
+		# Do something with `message`.
+		# `error` is `true` for messages printed to the standard error stream (stderr) with `print_error()`.
+		# Note that this method will be called from threads other than the main thread, possibly at the same
+		# time, so you will need to have some kind of thread-safety as part of it, like a Mutex.
+		pass
+
+	func _log_error(
+			function: String,
+			file: String,
+			line: int,
+			code: String,
+			rationale: String,
+			editor_notify: bool,
+			error_type: int,
+			script_backtraces: Array[ScriptBacktrace]
+	) -> void:
+		# Do something with the error. The error text is in `rationale`.
+		# See the Logger class reference for details on other parameters.
+		# Note that this method will be called from threads other than the main thread, possibly at the same
+		# time, so you will need to have some kind of thread-safety as part of it, like a Mutex.
+		pass
+
+# Use `_init()` to initialize the logger as early as possible, which ensures that messages
+# printed early are taken into account. However, even when using `_init()`, the engine's own
+# initialization messages are not accessible.
+func _init() -> void:
+	OS.add_logger(CustomLogger.new())

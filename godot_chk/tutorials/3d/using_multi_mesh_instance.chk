@@ -1,0 +1,74 @@
+Document: Using MultiMeshInstance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: This document is outdated and references a specific section.
+:article_outdated: True
+---CHUNK---
+Document: Using MultiMeshInstance3D
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: Explains how to use MultiMeshInstance3D for efficient rendering of multiple instances of a 3D mesh.
+---CHUNK---
+Document: using_multi_mesh_instance  
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst  
+Summary: Explains how to use MultiMeshInstance3D to efficiently create multiple mesh instances in a 3D scene.  
+
+In a normal scenario, you would use a MeshInstance3D node to display a 3D mesh like a human model for the main character, but in some cases, you would like to create multiple instances of the same mesh in a scene. You could duplicate the same node multiple times and adjust the transforms manually. This may be a tedious process and the result may look mechanical. Also, this method is not conducive to rapid iterations. MultiMeshInstance3D is one of the possible solutions to this problem. MultiMeshInstance3D, as the name suggests, creates multiple copies of a MeshInstance over a surface of a specific mesh. An example would be having a tree mesh populate a landscape mesh with trees of random scales and orientations.
+---CHUNK---
+Document: using_multi_mesh_instance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: The basic setup for using MultiMeshInstance3D requires three nodes and explains how to populate the surface with meshes.
+
+The basic setup requires three nodes: the MultiMeshInstance3D node and two MeshInstance3D nodes. One node is used as the target, the surface mesh that you want to place multiple meshes on. In the tree example, this would be the landscape. The other node is used as the source, the mesh that you want to have duplicated. In the tree case, this would be the tree itself. In our example, we would use a Node3D node as the root node of the scene. Your scene tree would look like this. Note: For simplicity's sake, this tutorial uses built-in primitives. Now you have everything ready. Select the MultiMeshInstance3D node and look at the toolbar, you should see an extra button called MultiMesh next to View. Click it and select Populate surface in the dropdown menu. A new window titled Populate MultiMesh will pop up.
+---CHUNK---
+Document: using_multi_mesh_instance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: Describes the settings and options available for configuring a MultiMesh instance in Godot.
+
+MultiMesh settings Below are descriptions of the options.
+---CHUNK---
+Document: using_multi_mesh_instance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: Describes the target surface mesh used to position copies of the source mesh in a MultiMeshInstance
+
+Target Surface
+The mesh used as the target surface on which to place copies of your
+source mesh.
+---CHUNK---
+Document: Using MultiMeshInstance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: Explains the concept of a source mesh in MultiMeshInstance, which is the mesh to be duplicated onto a target surface.
+
+Source Mesh: The mesh you want duplicated on the target surface.
+---CHUNK---
+Document: Using MultiMeshInstance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: Describes the Mesh Up Axis property and its role in determining the orientation of the source mesh.
+
+Mesh Up Axis: The axis used as the up axis of the source mesh.
+---CHUNK---
+Document: Using MultiMeshInstance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: This section explains how to randomize the rotation around the up axis of a source mesh using MultiMeshInstance.
+
+Randomizing the rotation around the up axis of the source mesh. This technique allows for creating variations in mesh orientation while maintaining alignment along the vertical axis, useful for generating natural-looking distributions of objects like grass, rocks, or trees in 3D scenes. The implementation typically involves modifying the rotation values in the MultiMeshInstance's transformation data, ensuring that the Y-axis (up vector) remains consistent across all instances. This approach preserves the integrity of the mesh's vertical alignment while introducing randomness in horizontal rotation, creating visually diverse arrangements without disrupting the overall structure.
+---CHUNK---
+Document: Using MultiMeshInstance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: This section explains how to randomize the overall rotation of the source mesh using the Random Tilt feature.
+
+Random Tilt Randomizing the overall rotation of the source mesh.
+---CHUNK---
+Document: Using MultiMeshInstance  
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst  
+Summary: This section explains how to randomize the scale of the source mesh using the MultiMeshInstance node in Godot.  
+Random Scale Randomizing the scale of the source mesh.
+---CHUNK---
+Document: using_multi_mesh_instance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: Describes the scale parameter for the source mesh when placed over a target surface.
+Scale: The scale of the source mesh that will be placed over the target surface.
+---CHUNK---
+Document: Using MultiMeshInstance
+Path: godot/tutorials/3d/using_multi_mesh_instance.rst
+Summary: How to use MultiMeshInstance to place multiple mesh copies on a target surface in Godot 3D.
+
+Amount controls how many mesh instances are placed over the target surface. Select the target surface in the scene tree (e.g., a landscape node). Set the source mesh to the object you want to duplicate. Adjust parameters like density, rotation, and scale as needed. Click "Populate" to generate multiple copies of the source mesh across the target surface. If satisfied with the distribution, delete the original source mesh instance. Note: The final visual result depends on parameter settings and surface geometry. To refine the placement, repeat the process with adjusted values.

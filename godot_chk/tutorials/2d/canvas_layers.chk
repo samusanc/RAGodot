@@ -1,0 +1,32 @@
+Document: Canvas Layers
+Path: godot/tutorials/2d/canvas_layers.rst
+Summary: This section explains how to use Canvas Layers for organizing 2D UI elements in Godot.
+
+Canvas Layers allow you to organize 2D UI elements into separate layers for better management. Each CanvasLayer node acts as a container that can be positioned independently of other layers. This is particularly useful for separating UI elements like menus, HUDs, and overlays. To create a Canvas Layer, add a CanvasLayer node as a child of the CanvasItem node. You can adjust the layer's position, scale, and rotation independently of other layers. Multiple CanvasLayer nodes can be used to group related UI elements together. This system helps maintain clean scene hierarchies and simplifies transformations for complex UI layouts.
+---CHUNK---
+Document: Canvas layers
+Path: godot/tutorials/2d/canvas_layers.rst
+Summary: Explains how to use canvas layers in Godot for 2D projects to manage rendering order and visibility.
+---CHUNK---
+Document: Canvas Layers  
+Path: godot/tutorials/2d/canvas_layers.rst  
+Summary: Explains how CanvasItem nodes are organized under Viewports and how canvas_transform enables effects like parallax backgrounds and fixed UI elements.  
+
+CanvasItem is the base class for all 2D nodes, including Node2D and Control. Both inherit from CanvasItem. CanvasItem nodes are arranged in trees, inheriting their parent's transform. When a parent moves, its children move with it. All CanvasItem nodes are direct or indirect children of a Viewport, which displays them. The Viewport's canvas_transform property allows applying a custom Transform2D to the CanvasItem hierarchy it contains. Nodes like Camera2D manipulate this transform to achieve effects such as scrolling.  
+
+Manipulating the canvas_transform property is more efficient than moving the root CanvasItem and entire scene. However, not all elements should be affected by the canvas transform. For example:  
+- Parallax Backgrounds: Backgrounds that move slower than the rest of the stage.  
+- UI: User interfaces (life counters, score displays) need fixed screen positions regardless of the game world's view.  
+- Transitions: Visual effects (fades, blends) should remain at fixed screen locations.  
+
+These requirements necessitate solutions that isolate specific elements from the canvas transform while allowing others to respond to it. The challenge is achieving this within a single scene tree.
+---CHUNK---
+Document: CanvasLayers
+Path: godot/tutorials/2d/canvas_layers.rst
+Summary: CanvasLayer is a node that creates separate 2D rendering layers with customizable draw order and transforms.
+
+CanvasLayer is a node that adds a separate 2D rendering layer for all its children and grandchildren. Viewport children draw by default at layer "0", while CanvasLayer nodes draw at any numeric layer. Higher layer numbers appear above lower ones. CanvasLayers have independent transforms that don't depend on other layers, allowing UI elements to remain fixed in screen-space while the game world view changes.
+
+An example use case is creating a parallax background with a CanvasLayer at layer "-1". A UI layer containing score displays and pause buttons can be created at layer "1". CanvasLayers operate independently of their position in the scene tree, relying only on their assigned layer number for rendering order.
+
+Note: CanvasLayers aren't necessary to control drawing order. The standard method is to adjust node order in the scene panel (topmost nodes draw behind lower ones) or use the CanvasItem.z_index property for fine-grained control.

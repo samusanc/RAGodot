@@ -1,0 +1,107 @@
+Document: Geometry2D
+Path: godot/classes/class_geometry2d.rst
+Summary: This document provides an overview of the Geometry2D class.
+---CHUNK---
+Document: Geometry2D
+Path: godot/classes/class_geometry2d.rst
+Summary: Provides methods for common 2D geometric operations.
+Geometry2D
+Inherits: Object
+Provides methods for some common 2D geometric operations.
+---CHUNK---
+Document: Geometry2D
+Path: godot/classes/class_geometry2d.rst
+Summary: Describes the Geometry2D class, which provides helper functions for 2D geometric operations.
+
+Provides a set of helper functions to create geometric shapes, compute intersections between shapes, and process various other geometric operations in 2D.
+---CHUNK---
+Document: Geometry2D
+Path: godot/classes/class_geometry2d.rst
+Summary: This section details various 2D geometry utility methods and related enumeration types for polygon and polyline operations.
+
+Methods:
+- Method: bresenham_line(from: Vector2i, to: Vector2i) → Array[Vector2i]
+- Method: clip_polygons(polygon_a: PackedVector2Array, polygon_b: PackedVector2Array) → Array[PackedVector2Array]
+- Method: clip_polyline_with_polygon(polyline: PackedVector2Array, polygon: PackedVector2Array) → Array[PackedVector2Array]
+- Method: convex_hull(points: PackedVector2Array) → PackedVector2Array
+- Method: decompose_polygon_in_convex(polygon: PackedVector2Array) → Array[PackedVector2Array]
+- Method: exclude_polygons(polygon_a: PackedVector2Array, polygon_b: PackedVector2Array) → Array[PackedVector2Array]
+- Method: get_closest_point_to_segment(point: Vector2, s1: Vector2, s2: Vector2) → Vector2
+- Method: get_closest_point_to_segment_uncapped(point: Vector2, s1: Vector2, s2: Vector2) → Vector2
+- Method: get_closest_points_between_segments(p1: Vector2, q1: Vector2, p2: Vector2, q2: Vector2) → PackedVector2Array
+- Method: intersect_polygons(polygon_a: PackedVector2Array, polygon_b: PackedVector2Array) → Array[PackedVector2Array]
+- Method: intersect_polyline_with_polygon(polyline: PackedVector2Array, polygon: PackedVector2Array) → Array[PackedVector2Array]
+- Method: is_point_in_circle(point: Vector2, circle_position: Vector2, circle_radius: float) → bool
+- Method: is_point_in_polygon(point: Vector2, polygon: PackedVector2Array) → bool
+- Method: is_polygon_clockwise(polygon: PackedVector2Array) → bool
+- Method: line_intersects_line(from_a: Vector2, dir_a: Vector2, from_b: Vector2, dir_b: Vector2) → Variant
+- Method: make_atlas(sizes: PackedVector2Array) → Dictionary
+- Method: merge_polygons(polygon_a: PackedVector2Array, polygon_b: PackedVector2Array) → Array[PackedVector2Array]
+- Method: offset_polygon(polygon: PackedVector2Array, delta: float, join_type: PolyJoinType = 0) → Array[PackedVector2Array]
+- Method: offset_polyline(polyline: PackedVector2Array, delta: float, join_type: PolyJoinType = 0, end_type: PolyEndType = 3) → Array[PackedVector2Array]
+- Method: point_is_inside_triangle(point: Vector2, a: Vector2, b: Vector2, c: Vector2) → bool
+- Method: segment_intersects_circle(segment_from: Vector2, segment_to: Vector2, circle_position: Vector2, circle_radius: float) → float
+- Method: segment_intersects_segment(from_a: Vector2, to_a: Vector2, from_b: Vector2, to_b: Vector2) → Variant
+- Method: triangulate_delaunay(points: PackedVector2Array) → PackedInt32Array
+- Method: triangulate_polygon(polygon: PackedVector2Array) → PackedInt32Array
+
+Enumerations:
+enum PolyBooleanOperation:
+- OPERATION_UNION = 0: Create regions where either subject or clip polygons (or both) are filled.
+- OPERATION_DIFFERENCE = 1: Create regions where subject polygons are filled except where clip polygons are filled.
+- OPERATION_INTERSECTION = 2: Create regions where both subject and clip polygons are filled.
+- OPERATION_XOR = 3: Create regions where either subject or clip polygons are filled but not where both are filled.
+
+enum PolyJoinType:
+- JOIN_SQUARE = 0: Squaring is applied uniformally at all convex edge joins at 1 * delta.
+- JOIN_ROUND = 1: While flattened paths can never perfectly trace an arc, they are approximated by a series of arc chords.
+- JOIN_MITER = 2: There's a necessary limit to mitered joins since offsetting edges that join at very acute angles will produce excessively long and narrow "spikes". For any given edge join, when miter offsetting would exceed that maximum distance, "square" joining is applied.
+
+enum PolyEndType:
+- END_POLYGON = 0: Endpoints are joined using the PolyJoinType value and the path filled as a polygon.
+- END_JOINED = 1: Endpoints are joined using the PolyJoinType value and the path filled as a polyline.
+- END_BUTT = 2: Endpoints are squared off with no extension.
+- END_SQUARE = 3: Endpoints are squared off and extended by delta units.
+- END_ROUND = 4: Endpoints are rounded off and extended by delta units.
+---CHUNK---
+Document: Geometry2D
+Path: godot/classes/class_geometry2d.rst
+Summary: This section describes methods for 2D geometry operations including line drawing, polygon clipping, convex hulls, and finding closest points.
+
+Method: bresenham_line(from: Vector2i, to: Vector2i) -> Array[Vector2i]
+Returns the Bresenham line between the `from` and `to` points. A Bresenham line is a series of pixels that draws a line and is always 1-pixel thick on every row and column of the drawing (never more, never less).
+Example code to draw a line between two Marker2D nodes using a series of CanvasItem.draw_rect() calls:
+GDScript:
+    func _draw():
+        for pixel in Geometry2D.bresenham_line($MarkerA.position, $MarkerB.position):
+            draw_rect(Rect2(pixel, Vector2.ONE), Color.WHITE)
+
+Method: clip_polygons(polygon_a: PackedVector2Array, polygon_b: PackedVector2Array) -> Array[PackedVector2Array]
+Clips `polygon_a` against `polygon_b` and returns an array of clipped polygons. This performs OPERATION_DIFFERENCE between polygons. Returns an empty array if `polygon_b` completely overlaps `polygon_a`.
+If `polygon_b` is enclosed by `polygon_a`, returns an outer polygon (boundary) and inner polygon (hole) which could be distinguished by calling is_polygon_clockwise().
+
+Method: clip_polyline_with_polygon(polyline: PackedVector2Array, polygon: PackedVector2Array) -> Array[PackedVector2Array]
+Clips `polyline` against `polygon` and returns an array of clipped polylines. This performs OPERATION_DIFFERENCE between the polyline and the polygon. This operation can be thought of as cutting a line with a closed shape.
+
+Method: convex_hull(points: PackedVector2Array) -> PackedVector2Array
+Given an array of Vector2s, returns the convex hull as a list of points in counterclockwise order. The last point is the same as the first one.
+
+Method: decompose_polygon_in_convex(polygon: PackedVector2Array) -> Array[PackedVector2Array]
+Decomposes the `polygon` into multiple convex hulls and returns an array of PackedVector2Array.
+
+Method: exclude_polygons(polygon_a: PackedVector2Array, polygon_b: PackedVector2Array) -> Array[PackedVector2Array]
+Mutually excludes common area defined by intersection of `polygon_a` and `polygon_b` (see intersect_polygons()) and returns an array of excluded polygons. This performs OPERATION_XOR between polygons. In other words, returns all but common area between polygons.
+The operation may result in an outer polygon (boundary) and inner polygon (hole) produced which could be distinguished by calling is_polygon_clockwise().
+
+Method: get_closest_point_to_segment(point: Vector2, s1: Vector2, s2: Vector2) -> Vector2
+Returns the 2D point on the 2D segment (`s1`, `s2`) that is closest to `point`. The returned point will always be inside the specified segment.
+
+Method: get_closest_point_to_segment_uncapped(point: Vector2, s1: Vector2, s2: Vector2) -> Vector2
+Returns the 2D point on the 2D line defined by (`s1`, `s2`) that is closest to `point`. The returned point can be inside the segment (`s1`, `s2`) or outside of it, i.e. somewhere on the line extending from the segment.
+
+Method: get_closest_points_between_segments(p1: Vector2, q1: Vector2, p2: Vector2, q2: Vector2) -> PackedVector2Array
+Given the two 2D segments (`p1`, `q1`) and (`p2`, `q2`), finds those two points on the two segments that are closest to each other. Returns a PackedVector2Array that contains this point on (`p1`, `q1`) as well the accompanying point on (`p2`, `q2`).
+
+Method: intersect_polygons(polygon_a: PackedVector2Array, polygon_b: PackedVector2Array) -> Array[PackedVector2Array]
+Intersects `polygon_a` with `polygon_b` and returns an array of intersected polygons. This performs OPERATION_INTERSECTION between polygons. In other words, returns common area shared by polygons. Returns an empty array if no intersection occurs.
+The operation may result in an outer polygon (boundary) and inner polygon (hole) produced which could be distinguished by calling is_polygon_clockwise().

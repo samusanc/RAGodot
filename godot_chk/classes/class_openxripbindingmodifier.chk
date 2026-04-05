@@ -1,0 +1,15 @@
+Document: OpenXRIPBindingModifier
+Path: godot/classes/class_openxripbindingmodifier.rst
+Summary: Modifies IP binding configurations for OpenXR interactions.
+---CHUNK---
+Document: OpenXRIPBindingModifier
+Path: godot/classes/class_openxripbindingmodifier.rst
+Summary: A binding modifier that applies directly to an interaction profile, inheriting from OpenXRBindingModifier
+
+Inherits: OpenXRBindingModifier < Resource < RefCounted < Object
+Inherited By: OpenXRDpadBindingModifier
+Binding modifier that applies directly on an interaction profile.
+---CHUNK---
+Document: OpenXRBindingModifier
+Path: godot/classes/class_openxripbindingmodifier.rst
+Summary: Binding modifier that applies directly on an interaction profile.

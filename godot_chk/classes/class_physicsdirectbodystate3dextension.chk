@@ -1,0 +1,129 @@
+Document: PhysicsDirectBodyState3DExtension
+Path: godot/classes/class_physicsdirectbodystate3dextension.rst
+Summary: This document describes the PhysicsDirectBodyState3DExtension class.
+---CHUNK---
+Document: PhysicsDirectBodyState3DExtension
+Path: godot/classes/class_physicsdirectbodystate3dextension.rst
+Summary: Provides virtual methods for custom PhysicsDirectBodyState3D implementations.
+
+Inherits: PhysicsDirectBodyState3D < Object
+
+Provides virtual methods that can be overridden to create custom PhysicsDirectBodyState3D implementations.
+---CHUNK---
+Document: PhysicsDirectBodyState3DExtension
+Path: godot/classes/class_physicsdirectbodystate3dextension.rst
+Summary: Describes PhysicsDirectBodyState3DExtension, which extends PhysicsDirectBodyState3D with overridable virtual methods for custom physics implementations.
+
+This class extends PhysicsDirectBodyState3D by providing additional virtual methods that can be overridden. When these methods are overridden, they will be called instead of the internal methods of the physics server.
+
+Intended for use with GDExtension to create custom implementations of PhysicsDirectBodyState3D.
+---CHUNK---
+Document: PhysicsDirectBodyState3DExtension
+Path: godot/classes/class_physicsdirectbodystate3dextension.rst
+Summary: This section lists the virtual methods available for extending PhysicsDirectBodyState3D.
+
+Method: _add_constant_central_force(force: Vector3) -> void
+Method: _add_constant_force(force: Vector3, position: Vector3) -> void
+Method: _add_constant_torque(torque: Vector3) -> void
+Method: _apply_central_force(force: Vector3) -> void
+Method: _apply_central_impulse(impulse: Vector3) -> void
+Method: _apply_force(force: Vector3, position: Vector3) -> void
+Method: _apply_impulse(impulse: Vector3, position: Vector3) -> void
+Method: _apply_torque(torque: Vector3) -> void
+Method: _apply_torque_impulse(impulse: Vector3) -> void
+Method: _get_angular_velocity() -> Vector3
+Method: _get_center_of_mass() -> Vector3
+Method: _get_center_of_mass_local() -> Vector3
+Method: _get_collision_layer() -> int
+Method: _get_collision_mask() -> int
+Method: _get_constant_force() -> Vector3
+Method: _get_constant_torque() -> Vector3
+Method: _get_contact_collider(contact_idx: int) -> RID
+Method: _get_contact_collider_id(contact_idx: int) -> int
+Method: _get_contact_collider_object(contact_idx: int) -> Object
+Method: _get_contact_collider_position(contact_idx: int) -> Vector3
+Method: _get_contact_collider_shape(contact_idx: int) -> int
+Method: _get_contact_collider_velocity_at_position(contact_idx: int) -> Vector3
+Method: _get_contact_count() -> int
+Method: _get_contact_impulse(contact_idx: int) -> Vector3
+Method: _get_contact_local_normal(contact_idx: int) -> Vector3
+Method: _get_contact_local_position(contact_idx: int) -> Vector3
+Method: _get_contact_local_shape(contact_idx: int) -> int
+Method: _get_contact_local_velocity_at_position(contact_idx: int) -> Vector3
+Method: _get_inverse_inertia() -> Vector3
+Method: _get_inverse_inertia_tensor() -> Basis
+Method: _get_inverse_mass() -> float
+Method: _get_linear_velocity() -> Vector3
+Method: _get_principal_inertia_axes() -> Basis
+Method: _get_space_state() -> PhysicsDirectSpaceState3D
+Method: _get_step() -> float
+Method: _get_total_angular_damp() -> float
+Method: _get_total_gravity() -> Vector3
+Method: _get_total_linear_damp() -> float
+Method: _get_transform() -> Transform3D
+Method: _get_velocity_at_local_position(local_position: Vector3) -> Vector3
+Method: _integrate_forces() -> void
+Method: _is_sleeping() -> bool
+Method: _set_angular_velocity(velocity: Vector3) -> void
+Method: _set_collision_layer(layer: int) -> void
+Method: _set_collision_mask(mask: int) -> void
+Method: _set_constant_force(force: Vector3) -> void
+Method: _set_constant_torque(torque: Vector3) -> void
+Method: _set_linear_velocity(velocity: Vector3) -> void
+Method: _set_sleep_state(enabled: bool) -> void
+Method: _set_transform(transform: Transform3D) -> void
+---CHUNK---
+Document: PhysicsDirectBodyState3DExtension
+Path: godot/classes/class_physicsdirectbodystate3dextension.rst
+Summary: This section lists virtual methods for PhysicsDirectBodyState3DExtension, primarily related to applying forces, impulses, and retrieving body state information.
+
+Method: _add_constant_central_force(force: Vector3) → void
+Method: _add_constant_force(force: Vector3, position: Vector3) → void
+Method: _add_constant_torque(torque: Vector3) → void
+Method: _apply_central_force(force: Vector3) → void
+Method: _apply_central_impulse(impulse: Vector3) → void
+Method: _apply_force(force: Vector3, position: Vector3) → void
+Method: _apply_impulse(impulse: Vector3, position: Vector3) → void
+Method: _apply_torque(torque: Vector3) → void
+Method: _apply_torque_impulse(impulse: Vector3) → void
+Method: _get_angular_velocity() → Vector3
+Method: _get_center_of_mass() → Vector3
+Method: _get_center_of_mass_local() → Vector3
+Method: _get_collision_layer() → int
+Method: _get_collision_mask() → int
+Method: _get_constant_force() → Vector3
+Method: _get_constant_torque() → Vector3
+Method: _get_contact_collider(contact_idx: int) → RID
+Method: _get_contact_collider_id(contact_idx: int) → int
+Method: _get_contact_collider_object(contact_idx: int) → Object
+Method: _get_contact_collider_position(contact_idx: int) → Vector3
+Method: _get_contact_collider_shape(contact_idx: int) → int
+Method: _get_contact_collider_velocity_at_position(contact_idx: int) → Vector3
+Method: _get_contact_count() → int
+Method: _get_contact_impulse(contact_idx: int) → Vector3
+Method: _get_contact_local_normal(contact_idx: int) → Vector3
+Method: _get_contact_local_position(contact_idx: int) → Vector3
+Method: _get_contact_local_shape(contact_idx: int) → int
+Method: _get_contact_local_velocity_at_position(contact_idx: int) → Vector3
+Method: _get_inverse_inertia() → Vector3
+Method: _get_inverse_inertia_tensor() → Basis
+Method: _get_inverse_mass() → float
+Method: _get_linear_velocity() → Vector3
+Method: _get_principal_inertia_axes() → Basis
+Method: _get_space_state() → PhysicsDirectSpaceState3D
+Method: _get_step() → float
+Method: _get_total_angular_damp() → float
+Method: _get_total_gravity() → Vector3
+Method: _get_total_linear_damp() → float
+Method: _get_transform() → Transform3D
+Method: _get_velocity_at_local_position(local_position: Vector3) → Vector3
+Method: _integrate_forces() → void
+Method: _is_sleeping() → bool
+Method: _set_angular_velocity(velocity: Vector3) → void
+Method: _set_collision_layer(layer: int) → void
+Method: _set_collision_mask(mask: int) → void
+Method: _set_constant_force(force: Vector3) → void
+Method: _set_constant_torque(torque: Vector3) → void
+Method: _set_linear_velocity(velocity: Vector3) → void
+Method: _set_sleep_state(enabled: bool) → void
+Method: _set_transform(transform: Transform3D) → void

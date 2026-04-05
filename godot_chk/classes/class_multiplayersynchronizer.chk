@@ -1,0 +1,125 @@
+Document: MultiplayerSynchronizer
+Path: godot/classes/class_multiplayersynchronizer.rst
+Summary: Synchronizes properties of a Node to other peers in a multiplayer game.
+
+Inherits: Node < Object
+
+The MultiplayerSynchronizer node synchronizes properties of a Node to other peers in a multiplayer game. It can synchronize properties from the Node it is a child of, or from any other Node in the scene tree.
+
+To synchronize properties, add a MultiplayerSynchronizer node as a child of the Node whose properties you want to synchronize. Then, in the Inspector, add the properties you want to synchronize to the "Sync Properties" list.
+
+The MultiplayerSynchronizer can synchronize properties in two ways:
+
+*   **Peer to Peer:** Properties are synchronized directly between peers. This is the default behavior.
+*   **Server to Clients:** Properties are synchronized from the server to clients. This is useful for authoritative server setups.
+
+You can configure the synchronization process by setting the following properties:
+
+*   **Sync To:** Specifies which peers the properties should be synchronized to. Can be set to "All Peers", "Server Only", or "Clients Only".
+*   **Sync Interval:** The interval in seconds between synchronization updates. A lower value means more frequent updates but higher network traffic.
+*   **Replication Mode:** Determines how properties are replicated. Can be "Sync", "Watch", or "Disabled". "Sync" replicates properties continuously. "Watch" replicates properties only when they change. "Disabled" stops replication for that property.
+
+Key Rule: When using "Server to Clients" replication mode, the server is authoritative, meaning clients cannot directly change synchronized properties. Changes must originate from the server.
+---CHUNK---
+Document: MultiplayerSynchronizer
+Path: godot/classes/class_multiplayersynchronizer.rst
+Summary: Synchronizes properties from the multiplayer authority to the remote peers.
+
+MultiplayerSynchronizer
+Inherits: Node < Object
+
+Synchronizes properties from the multiplayer authority to the remote peers.
+---CHUNK---
+Document: MultiplayerSynchronizer
+Path: godot/classes/class_multiplayersynchronizer.rst
+Summary: Describes the functionality of the MultiplayerSynchronizer node for synchronizing properties across network peers.
+
+Inherits: Node < CanvasItem < Control < Window < Viewport < Node < Object
+
+By default, MultiplayerSynchronizer synchronizes configured properties to all peers. Visibility can be handled directly with set_visibility_for or as-needed with add_visibility_filter and update_visibility. MultiplayerSpawner nodes will handle nodes according to visibility of synchronizers as long as the node at root_path was spawned by one.
+
+Internally, MultiplayerSynchronizer uses MultiplayerAPI.object_configuration_add to notify synchronization start passing the Node at root_path as the object and itself as the configuration, and uses MultiplayerAPI.object_configuration_remove to notify synchronization end in a similar way.
+
+Note: Synchronization is not supported for Object type properties, like Resource. Properties that are unique to each peer, like the instance IDs of Objects (see Object.get_instance_id) or RIDs, will also not work in synchronization.
+---CHUNK---
+Document: MultiplayerSynchronizer
+Path: godot/classes/class_multiplayersynchronizer.rst
+Summary: Defines the properties for the MultiplayerSynchronizer node, controlling replication intervals, visibility, and root path.
+
+Properties
+* delta_interval (float): The interval in seconds between network updates for properties that are not explicitly configured in the replication config. Default: 0.0
+* public_visibility (bool): If true, the node is visible to all peers. If false, visibility is determined by the replication config. Default: true
+* replication_config (SceneReplicationConfig): The configuration for scene replication.
+* replication_interval (float): The interval in seconds between network updates for properties that are explicitly configured in the replication config. Default: 0.0
+* root_path (NodePath): The path to the root node for replication. Default: NodePath("..")
+* visibility_update_mode (VisibilityUpdateMode): Controls how visibility updates are handled. Default: 0
+---CHUNK---
+Document: MultiplayerSynchronizer
+Path: godot/classes/class_multiplayersynchronizer.rst
+Summary: This section details the methods, signals, and enumerations available for the MultiplayerSynchronizer class in Godot Engine.
+
+Methods
+*   add_visibility_filter(filter: Callable) → void
+*   get_visibility_for(peer: int) → bool
+*   remove_visibility_filter(filter: Callable) → void
+*   set_visibility_for(peer: int, visible: bool) → void
+*   update_visibility(for_peer: int = 0) → void
+
+Signals
+*   delta_synchronized() - Emitted when a new delta synchronization state is received by this synchronizer after the properties have been updated.
+*   synchronized() - Emitted when a new synchronization state is received by this synchronizer after the properties have been updated.
+*   visibility_changed(for_peer: int) - Emitted when visibility of for_peer is updated. See update_visibility.
+
+Enumerations
+enum VisibilityUpdateMode:
+*   VISIBILITY_PROCESS_IDLE = 0 - Visibility filters are updated during process frames (see Node.NOTIFICATION_INTERNAL_PROCESS).
+*   VISIBILITY_PROCESS_PHYSICS = 1 - Visibility filters are updated during physics frames (see Node.NOTIFICATION_INTERNAL_PHYSICS_PROCESS).
+*   VISIBILITY_PROCESS_NONE = 2 - Visibility filters are not updated automatically, and must be updated manually by calling update_visibility.
+---CHUNK---
+Document: MultiplayerSynchronizer
+Path: godot/classes/class_multiplayersynchronizer.rst
+Summary: Describes the properties of the MultiplayerSynchronizer node, which controls network synchronization of properties.
+
+Property Descriptions:
+delta_interval (float): Time interval between delta synchronizations. Used when the replication is set to SceneReplicationConfig.REPLICATION_MODE_ON_CHANGE. If set to 0.0 (the default), delta synchronizations happen every network process frame.
+  Method: set_delta_interval(value: float)
+  Method: get_delta_interval() → float
+
+public_visibility (bool): Whether synchronization should be visible to all peers by default. See set_visibility_for and add_visibility_filter for ways of configuring fine-grained visibility options. Default: true
+  Method: set_visibility_public(value: bool)
+  Method: is_visibility_public() → bool
+
+replication_config (SceneReplicationConfig): Resource containing which properties to synchronize.
+  Method: set_replication_config(value: SceneReplicationConfig)
+  Method: get_replication_config() → SceneReplicationConfig
+
+replication_interval (float): Time interval between synchronizations. Used when the replication is set to SceneReplicationConfig.REPLICATION_MODE_ALWAYS. If set to 0.0 (the default), synchronizations happen every network process frame.
+  Method: set_replication_interval(value: float)
+  Method: get_replication_interval() → float
+
+root_path (NodePath): Node path that replicated properties are relative to. If root_path was spawned by a MultiplayerSpawner, the node will be also be spawned and despawned based on this synchronizer visibility options. Default: NodePath("..")
+  Method: set_root_path(value: NodePath)
+  Method: get_root_path() → NodePath
+
+visibility_update_mode (VisibilityUpdateMode): Specifies when visibility filters are updated. Default: 0
+  Method: set_visibility_update_mode(value: VisibilityUpdateMode)
+  Method: get_visibility_update_mode() → VisibilityUpdateMode
+---CHUNK---
+Document: MultiplayerSynchronizer
+Path: godot/classes/class_multiplayersynchronizer.rst
+Summary: This section details the methods available for managing peer visibility within a MultiplayerSynchronizer node.
+
+Method: add_visibility_filter(filter: Callable)
+Adds a peer visibility filter for this synchronizer. The filter should take a peer ID (int) and return a bool.
+
+Method: get_visibility_for(peer: int) -> bool
+Queries the current visibility for peer.
+
+Method: remove_visibility_filter(filter: Callable)
+Removes a peer visibility filter from this synchronizer.
+
+Method: set_visibility_for(peer: int, visible: bool)
+Sets the visibility of peer to visible. If peer is 0, the value of public_visibility will be updated instead.
+
+Method: update_visibility(for_peer: int = 0)
+Updates the visibility of for_peer according to visibility filters. If for_peer is 0 (the default), all peers' visibilties are updated.

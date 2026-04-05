@@ -1,0 +1,142 @@
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: Defines a 2D navigation region for pathfinding.
+
+NavigationRegion2D
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A 2D navigation region for pathfinding.
+
+This node defines a navigation region that can be used by NavigationServer2D to calculate paths. It is a subclass of Node2D, so it can be transformed in the 2D space.
+
+The navigation region is defined by a NavigationMesh resource. This resource contains the walkable areas and obstacles for pathfinding.
+
+Properties:
+enabled (bool): If true, the navigation region is active and will be used by NavigationServer2D. Default: true
+get_navigation_mesh() → NavigationMesh: Returns the NavigationMesh resource assigned to this region.
+set_navigation_mesh(nav_mesh: NavigationMesh) → void: Sets the NavigationMesh resource for this region.
+
+Methods:
+get_navigation_polygon() → NavigationPolygon: Returns the NavigationPolygon resource assigned to this region.
+set_navigation_polygon(nav_polygon: NavigationPolygon) → void: Sets the NavigationPolygon resource for this region.
+
+Note: The NavigationRegion2D node is used to define walkable areas in a 2D scene for AI agents. It works in conjunction with the NavigationServer2D to provide pathfinding capabilities. The NavigationMesh resource is crucial for defining the geometry of these walkable areas.
+---CHUNK---
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: Defines a traversable 2D region for NavigationAgent2D pathfinding.
+Inherits: Node2D < CanvasItem < Node < Object
+---CHUNK---
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: Describes a 2D navigation region used for pathfinding with NavigationAgent2D.
+A traversable 2D region based on a NavigationPolygon that NavigationAgent2D's can use for pathfinding.
+
+Two regions can be connected to each other if they share a similar edge. You can set the minimum distance between two vertices required to connect two edges by using NavigationServer2D.map_set_edge_connection_margin().
+
+Note: Overlapping two regions' navigation polygons is not enough for connecting two regions. They must share a similar edge.
+
+The pathfinding cost of entering a region from another region can be controlled with the enter_cost value.
+
+Note: This value is not added to the path cost when the start position is already inside this region.
+
+The pathfinding cost of traveling distances inside this region can be controlled with the travel_cost multiplier.
+
+Note: This node caches changes to its properties, so if you make changes to the underlying region RID in NavigationServer2D, they will not be reflected in this node's properties.
+---CHUNK---
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: This document provides an overview of the NavigationRegion2D class in Godot Engine, detailing its purpose and related tutorials.
+
+NavigationRegion2D is a node that defines a navigation area in 2D space. It is used to bake navigation meshes for pathfinding.
+
+Tutorials:
+* Using NavigationRegions
+---CHUNK---
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: Defines the properties available for a 2D NavigationRegion node, including its enabled state, costs, navigation layers, navigation polygon resource, and edge connection usage.
+
+Properties:
+* enabled (bool): If true, the region is active and affects navigation. Default: true.
+* enter_cost (float): The cost to enter this region. Default: 0.0.
+* navigation_layers (int): The navigation layers this region belongs to. Default: 1.
+* navigation_polygon (NavigationPolygon): The NavigationPolygon resource used by this region.
+* travel_cost (float): The cost to travel through this region. Default: 1.0.
+* use_edge_connections (bool): If true, the region will attempt to connect to other regions via edges. Default: true.
+---CHUNK---
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: This section describes the methods and signals available for the NavigationRegion2D class.
+
+Methods:
+*   Method: bake_navigation_polygon(on_thread: bool = true) -> void
+*   Method: get_bounds() -> Rect2
+*   Method: get_navigation_layer_value(layer_number: int) -> bool
+*   Method: get_navigation_map() -> RID
+*   Method: get_region_rid() -> RID
+*   Method: get_rid() -> RID
+*   Method: is_baking() -> bool
+*   Method: set_navigation_layer_value(layer_number: int, value: bool) -> void
+*   Method: set_navigation_map(navigation_map: RID) -> void
+
+Signals:
+*   bake_finished(): Emitted when a navigation polygon bake operation is completed.
+*   navigation_polygon_changed(): Emitted when the used navigation polygon is replaced or changes to the internals of the current navigation polygon are committed.
+---CHUNK---
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: Describes the properties of the NavigationRegion2D node, which defines a navigation area in 2D space.
+
+Property: enabled (bool)
+Description: Determines if the NavigationRegion2D is enabled or disabled.
+Default: true
+Setget: set_enabled, is_enabled
+
+Property: enter_cost (float)
+Description: When pathfinding enters this region's navigation mesh from another region's navigation mesh, this value is added to the path distance for determining the shortest path.
+Default: 0.0
+Setget: set_enter_cost, get_enter_cost
+
+Property: navigation_layers (int)
+Description: A bitfield determining all navigation layers the region belongs to. These navigation layers can be checked upon when requesting a path with NavigationServer2D.map_get_path.
+Default: 1
+Setget: set_navigation_layers, get_navigation_layers
+
+Property: navigation_polygon (NavigationPolygon)
+Description: The NavigationPolygon resource to use.
+Setget: set_navigation_polygon, get_navigation_polygon
+
+Property: travel_cost (float)
+Description: When pathfinding moves inside this region's navigation mesh, the traveled distances are multiplied with this value for determining the shortest path.
+Default: 1.0
+Setget: set_travel_cost, get_travel_cost
+
+Property: use_edge_connections (bool)
+Description: If enabled, the navigation region will use edge connections to connect with other navigation regions within proximity of the navigation map edge connection margin.
+Default: true
+Setget: set_use_edge_connections, get_use_edge_connections
+---CHUNK---
+Document: NavigationRegion2D
+Path: godot/classes/class_navigationregion2d.rst
+Summary: Provides methods for baking, retrieving information about, and managing the navigation map and layers of a NavigationRegion2D.
+Method: bake_navigation_polygon(on_thread: bool = true) → void
+Bakes the NavigationPolygon. If on_thread is set to true (default), the baking is done on a separate thread.
+Method: get_bounds() → Rect2
+Returns the axis-aligned rectangle for the region's transformed navigation mesh.
+Method: get_navigation_layer_value(layer_number: int) → bool
+Returns whether or not the specified layer of the navigation_layers bitmask is enabled, given a layer_number between 1 and 32.
+Method: get_navigation_map() → RID
+Returns the current navigation map RID used by this region.
+Method: get_region_rid() → RID
+Deprecated: Use get_rid() instead.
+Returns the RID of this region on the NavigationServer2D.
+Method: get_rid() → RID
+Returns the RID of this region on the NavigationServer2D. Combined with NavigationServer2D.map_get_closest_point_owner() can be used to identify the NavigationRegion2D closest to a point on the merged navigation map.
+Method: is_baking() → bool
+Returns true when the NavigationPolygon is being baked on a background thread.
+Method: set_navigation_layer_value(layer_number: int, value: bool) → void
+Based on value, enables or disables the specified layer in the navigation_layers bitmask, given a layer_number between 1 and 32.
+Method: set_navigation_map(navigation_map: RID) → void
+Sets the RID of the navigation map this region should use. By default the region will automatically join the World2D default navigation map so this function is only required to override the default map.

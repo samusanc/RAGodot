@@ -1,0 +1,196 @@
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: NavigationLink3D is a node that creates a link between two points on a navigation mesh, allowing agents to traverse between disconnected navigation regions.
+
+Inherits: Node3D < Node < Object
+
+NavigationLink3D is a node that creates a link between two points on a navigation mesh. It is used to connect two navigation regions that are otherwise disconnected, allowing navigation agents to move between them. The link can be bidirectional or unidirectional.
+
+Properties:
+- enabled (bool): If true, the navigation link is active and will be used by navigation agents. Default: true.
+- bidirectional (bool): If true, the link can be traversed in both directions. If false, the link can only be traversed from the start position to the end position. Default: true.
+- navigation_layers (int): A bitmask that determines which navigation layers this link belongs to. Navigation agents can be configured to only use links that match their navigation layers. Default: 1.
+- start_position (Vector3): The starting point of the link in local coordinates. Default: Vector3(0, 0, 0).
+- end_position (Vector3): The ending point of the link in local coordinates. Default: Vector3(0, 0, 0).
+- enter_cost (float): When pathfinding, this value is added to the path distance when entering this link. This can be used to discourage agents from using certain links. Default: 0.0.
+- travel_cost (float): When pathfinding, this value is multiplied by the distance of the link. This can be used to make certain links more or less attractive to agents. Default: 1.0.
+
+Methods:
+Method: set_global_start_position(position: Vector3) → void
+Sets the starting position of the link in global coordinates.
+
+Method: get_global_start_position() → Vector3
+Returns the starting position of the link in global coordinates.
+
+Method: set_global_end_position(position: Vector3) → void
+Sets the ending position of the link in global coordinates.
+
+Method: get_global_end_position() → Vector3
+Returns the ending position of the link in global coordinates.
+
+Key Rule: NavigationLink3D must be a child of a NavigationRegion3D or be added to a NavigationServer3D map to be functional. Changes to properties like start_position or end_position at runtime require the navigation map to be updated to reflect the change in connectivity.
+
+GDScript:
+    var link = NavigationLink3D.new()
+    link.start_position = Vector3(0, 0, 0)
+    link.end_position = Vector3(10, 0, 0)
+    add_child(link)
+
+C#:
+    NavigationLink3D link = new NavigationLink3D();
+    link.StartPosition = new Vector3(0, 0, 0);
+    link.EndPosition = new Vector3(10, 0, 0);
+    AddChild(link);
+---CHUNK---
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: Defines a link between two NavigationRegion3D nodes for agent routing.
+
+NavigationLink3D
+Inherits: Node3D < Node < Object
+
+A link between two positions on NavigationRegion3D s that agents can be routed through.
+---CHUNK---
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: Overview of the NavigationLink3D class and its purpose in connecting navigation regions for agent pathfinding.
+
+Inherits: Node3D < Node < Object
+
+Description:
+A link between two positions on NavigationRegion3D that agents can be routed through. These positions can be on the same NavigationRegion3D or on two different ones. Links are useful to express navigation methods other than traveling along the surface of the navigation mesh, such as ziplines, teleporters, or gaps that can be jumped across.
+---CHUNK---
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: This document describes the NavigationLink3D class in Godot Engine.
+
+NavigationLink3D is a node that allows you to create custom connections between NavigationRegions. These connections can be used to define shortcuts or specific paths that the navigation agent should consider.
+
+Inherits: Node3D < Node < Object
+
+Properties:
+
+*   `enabled` (bool): If `true`, the NavigationLink3D is active and will be considered by navigation agents. If `false`, it is ignored. Default: `true`
+*   `one_way` (bool): If `true`, the NavigationLink3D can only be traversed in one direction (from the link's origin to its target). If `false`, it can be traversed in both directions. Default: `false`
+*   `target_position` (Vector3): The position in 3D space that this NavigationLink3D connects to. This position should ideally be within another NavigationRegion.
+*   `up_direction` (Vector3): The up direction of the link. This is used to determine the orientation of the link when it's traversed. Default: `Vector3(0, 1, 0)`
+*   `distance` (float): The distance of the link. This is used to calculate the cost of traversing the link. Default: `0.0`
+*   `cost_multiplier` (float): A multiplier for the cost of traversing the link. A higher value makes the link more expensive to use. Default: `1.0`
+
+Methods:
+
+*   `get_path_point_count()` → int: Returns the number of points in the path generated by this NavigationLink3D.
+*   `get_path_point(index: int)` → Vector3: Returns a specific point in the path generated by this NavigationLink3D.
+*   `get_closest_point_to_point(point: Vector3)` → Vector3: Returns the closest point on the NavigationLink3D to the given point.
+*   `get_closest_point_to_segment(p_start: Vector3, p_end: Vector3)` → Vector3: Returns the closest point on the NavigationLink3D to the given line segment.
+*   `is_point_inside(point: Vector3)` → bool: Returns `true` if the given point is inside the NavigationLink3D's area of influence.
+*   `is_point_on_link(point: Vector3)` → bool: Returns `true` if the given point lies on the NavigationLink3D itself.
+
+Key Rule: NavigationLink3D connections are visualized as lines in the 3D editor, showing the connection from the link's origin to its `target_position`. Ensure that the `target_position` is within a valid NavigationRegion for the link to be effective.
+---CHUNK---
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: Defines the properties of a NavigationLink3D node, which allows for custom connections between navigation meshes.
+
+Properties:
+* bidirectional (bool): If true, the link can be traversed in both directions. Default: true.
+* enabled (bool): If true, the link is active and can be used by agents. Default: true.
+* end_position (Vector3): The global position of the end point of the link. Default: Vector3(0, 0, 0).
+* enter_cost (float): The cost to enter this link. This value is multiplied by the agent's `navigation_cost` property. Default: 0.0.
+* navigation_layers (int): The navigation layers this link belongs to. Agents can only use links on layers they are also on. Default: 1.
+* start_position (Vector3): The global position of the start point of the link. Default: Vector3(0, 0, 0).
+* travel_cost (float): The cost to travel along this link. This value is multiplied by the agent's `navigation_cost` property. Default: 1.0.
+---CHUNK---
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: This section details the methods available for the NavigationLink3D class in Godot Engine.
+
+Methods
+Method: get_global_end_position() → Vector3
+Returns the global end position of the link.
+Method: get_global_start_position() → Vector3
+Returns the global start position of the link.
+Method: get_navigation_layer_value(layer_number: int) → bool
+Returns whether the navigation layer bitmask is set for the given layer number.
+Method: get_navigation_map() → RID
+Returns the navigation map this link is currently using.
+Method: get_rid() → RID
+Returns the RID of the NavigationLink3D.
+Method: set_global_end_position(position: Vector3)
+Sets the global end position of the link.
+Method: set_global_start_position(position: Vector3)
+Sets the global start position of the link.
+Method: set_navigation_layer_value(layer_number: int, value: bool)
+Sets or unsets the navigation layer bitmask for the given layer number.
+Method: set_navigation_map(navigation_map: RID)
+Sets the navigation map for this link to use.
+---CHUNK---
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: Describes the properties of the NavigationLink3D node, which allows for custom connections between navigation meshes.
+
+Property Descriptions
+Property: bidirectional (bool)
+Default: true
+Setget: set_bidirectional, is_bidirectional
+Whether this link can be traveled in both directions or only from start_position to end_position.
+
+Property: enabled (bool)
+Default: true
+Setget: set_enabled, is_enabled
+Whether this link is currently active. If false, NavigationServer3D.map_get_path will ignore this link.
+
+Property: end_position (Vector3)
+Default: Vector3(0, 0, 0)
+Setget: set_end_position, get_end_position
+Ending position of the link. This position will search out the nearest polygon in the navigation mesh to attach to. The distance the link will search is controlled by NavigationServer3D.map_set_link_connection_radius.
+
+Property: enter_cost (float)
+Default: 0.0
+Setget: set_enter_cost, get_enter_cost
+When pathfinding enters this link from another regions navigation mesh the enter_cost value is added to the path distance for determining the shortest path.
+
+Property: navigation_layers (int)
+Default: 1
+Setget: set_navigation_layers, get_navigation_layers
+A bitfield determining all navigation layers the link belongs to. These navigation layers will be checked when requesting a path with NavigationServer3D.map_get_path.
+
+Property: start_position (Vector3)
+Default: Vector3(0, 0, 0)
+Setget: set_start_position, get_start_position
+Starting position of the link. This position will search out the nearest polygon in the navigation mesh to attach to. The distance the link will search is controlled by NavigationServer3D.map_set_link_connection_radius.
+
+Property: travel_cost (float)
+Default: 1.0
+Setget: set_travel_cost, get_travel_cost
+When pathfinding moves along the link the traveled distance is multiplied with travel_cost for determining the shortest path.
+---CHUNK---
+Document: NavigationLink3D
+Path: godot/classes/class_navigationlink3d.rst
+Summary: Provides methods for getting and setting global positions, navigation layer values, and the navigation map RID for a NavigationLink3D node.
+Method: get_global_end_position() → Vector3
+Returns the end_position that is relative to the link as a global position.
+
+Method: get_global_start_position() → Vector3
+Returns the start_position that is relative to the link as a global position.
+
+Method: get_navigation_layer_value(layer_number: int) → bool
+Returns whether or not the specified layer of the navigation_layers bitmask is enabled, given a layer_number between 1 and 32.
+
+Method: get_navigation_map() → RID
+Returns the current navigation map RID used by this link.
+
+Method: get_rid() → RID
+Returns the RID of this link on the NavigationServer3D.
+
+Method: set_global_end_position(position: Vector3) → void
+Sets the end_position that is relative to the link from a global position.
+
+Method: set_global_start_position(position: Vector3) → void
+Sets the start_position that is relative to the link from a global position.
+
+Method: set_navigation_layer_value(layer_number: int, value: bool) → void
+Based on value, enables or disables the specified layer in the navigation_layers bitmask, given a layer_number between 1 and 32.
+
+Method: set_navigation_map(navigation_map: RID) → void
+Sets the RID of the navigation map this link should use. By default the link will automatically join the World3D default navigation map so this function is only required to override the default map.

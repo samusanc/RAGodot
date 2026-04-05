@@ -1,0 +1,268 @@
+Document: First 3D Game: Jumping and Squashing Monsters
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: This section explains how to implement jumping mechanics and squash enemies in a 3D game using Godot.
+
+Inherits: KinematicBody (PhysicsBody, CollisionObject, Spatial, Node, Object)
+
+This section covers adding jumping and enemy squashing mechanics to your 3D game.
+
+Jumping Mechanics
+To implement jumping, we'll modify the player's movement script.
+
+Key Rule: The player should only be able to jump when they are on the floor.
+
+We will use the `is_on_floor()` method to check if the player is grounded.
+
+GDScript:
+func _physics_process(delta):
+	# Add the gravity.
+	if not is_on_floor():
+		velocity.y -= gravity * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed("jump") and is_on_floor():
+		velocity.y = jump_velocity
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var direction = Vector3.ZERO
+	if Input.is_action_pressed("move_forward"):
+		direction.z -= 1
+	if Input.is_action_pressed("move_backward"):
+		direction.z += 1
+	if Input.is_action_pressed("move_left"):
+		direction.x -= 1
+	if Input.is_action_pressed("move_right"):
+		direction.x += 1
+
+	velocity.x = direction.x * SPEED
+	velocity.z = direction.z * SPEED
+
+	move_and_slide()
+
+Enemy Squashing
+To make the player squash enemies when jumping on them, we need to detect when the player collides with an enemy from above.
+
+We can achieve this by checking the relative position of the player and the enemy during a collision.
+
+GDScript:
+func _on_Player_body_entered(body):
+	if body.is_in_group("enemies"):
+		# Check if the player is moving downwards and is above the enemy
+		if velocity.y < 0 and global_transform.origin.y > body.global_transform.origin.y:
+			body.queue_free() # Remove the enemy
+			velocity.y = jump_velocity # Give the player a small boost upwards
+		else:
+			# Player hit the enemy from the side or below, take damage or lose
+			pass # Implement player damage or game over logic here
+
+This setup allows for a common platformer mechanic where players can defeat enemies by jumping on their heads.
+
+Note: Ensure your enemy nodes are added to the "enemies" group in the Godot editor for this script to work correctly.
+
+Tip: You can adjust the `jump_velocity` and the downward velocity check to fine-tune the feel of the jump and squash interaction.
+---CHUNK---
+Document: Jumping and squashing monsters
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: Introduction to implementing player jumping mechanics and monster squashing logic in the 3D game tutorial.
+
+In this part, we will add the ability to jump and squash the monsters. In the next lesson, we will make the player die when a monster hits them on the ground. First, we have to change a few settings related to physics interactions. Enter the world of physics layers.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: Explains how physics layers and masks work in Godot to control collision detection and physics interactions.
+Physics bodies have access to two complementary properties: layers and masks. Layers define on which physics layer(s) an object is. Masks control the layers that a body will listen to and detect, affecting collision detection. For two bodies to interact, at least one must have a mask corresponding to the other's layer. Layers and masks can be used to filter physics interactions, control performance, and reduce the need for extra code conditions. By default, all physics bodies and areas are set to both layer and mask 1, meaning they collide with each other. Physics layers are represented by numbers, but can be given names for better organization.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: This section explains how to set up and name physics layers in Godot's Project Settings for use in a 3D game.
+
+To set up physics layers, navigate to Project -> Project Settings. In the left menu, go to Layer Names -> 3D Physics. This section allows you to name the physics layers. Name the first three layers as follows:
+* Layer 1: player
+* Layer 2: enemies
+* Layer 3: world
+
+After naming the layers, you can assign them to your physics nodes.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: This section explains how to configure collision layers and masks for the Ground, Player, and Mob nodes in a Godot 3D game.
+
+In the *Main* scene, select the ``Ground`` node. In the *Inspector*, expand the *Collision* section. There, you can see the node's layers and masks as a grid of buttons. The ground is part of the world, so we want it to be part of the third layer. Click the lit button to toggle off the first *Layer* and toggle on the third one. Then, toggle off the *Mask* by clicking on it. The *Mask* property allows a node to listen to interaction with other physics objects, but we don't need it to have collisions. ``Ground`` doesn't need to listen to anything; it's just there to prevent creatures from falling. Note that you can click the "..." button on the right side of the properties to see a list of named checkboxes.
+
+Next up are the ``Player`` and the ``Mob``. Open ``player.tscn`` by double-clicking the file in the *FileSystem* dock. Select the *Player* node and set its *Collision -> Mask* to both "enemies" and "world". You can leave the default *Layer* property as it is, because the first layer is the "player" layer.
+
+Then, open the *Mob* scene by double-clicking on ``mob.tscn`` and select the ``Mob`` node. Set its *Collision -> Layer* to "enemies" and unset its *Collision -> Mask*, leaving the mask empty. These settings mean the monsters will move through one another. If you want the monsters to collide with and slide against each other, turn on the "enemies" mask. Note: The mobs don't need to mask the "world" layer because they only move on the XZ plane. We don't apply any gravity to them by design.
+---CHUNK---
+Document: First 3D Game - Jump and Squash
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: This section explains how to implement a jumping mechanic for a 3D character in Godot, including adding a jump impulse variable and handling input for jumping.
+
+Jumping
+The jumping mechanic itself requires only two lines of code. Open the *Player* script. We need a value to control the jump's strength and update ``_physics_process()`` to code the jump.
+
+After the line that defines ``fall_acceleration``, at the top of the script, add the ``jump_impulse``.
+
+GDScript:
+   # Vertical impulse applied to the character upon jumping in meters per second.
+   @export var jump_impulse = 20
+
+C#:
+    // Don't forget to rebuild the project so the editor knows about the new export variable.
+
+    // Vertical impulse applied to the character upon jumping in meters per second.
+    [Export]
+    public int JumpImpulse { get; set; } = 20;
+
+Inside ``_physics_process()``, add the following code before the ``move_and_slide()`` codeblock.
+
+GDScript:
+   func _physics_process(delta):
+       #...
+
+       # Jumping.
+       if is_on_floor() and Input.is_action_just_pressed("jump"):
+           target_velocity.y = jump_impulse
+
+       #...
+
+C#:
+    public override void _PhysicsProcess(double delta)
+    {
+        // ...
+
+        // Jumping.
+        if (IsOnFloor() && Input.IsActionJustPressed("jump"))
+        {
+            _targetVelocity.Y = JumpImpulse;
+        }
+
+        // ...
+    }
+
+That's all you need to jump!
+
+The ``is_on_floor()`` method is a tool from the ``CharacterBody3D`` class. It returns ``true`` if the body collided with the floor in this frame. That's why we apply gravity to the *Player*: so we collide with the floor instead of floating over it like the monsters.
+
+If the character is on the floor and the player presses "jump", we instantly give them a lot of vertical speed. In games, you really want controls to be responsive and giving instant speed boosts like these, while unrealistic, feels great.
+
+Notice that the Y axis is positive upwards. That's unlike 2D, where the Y axis is positive downwards.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: This section explains how to add a squash mechanic to the player character in Godot by using the group tagging feature to differentiate monster collisions from floor collisions.
+
+To implement the squash mechanic, where the player bounces over and kills monsters, we need to detect collisions with monsters and distinguish them from floor collisions. This can be achieved using Godot's group tagging feature.
+
+To assign a group to the *Mob* node:
+1. Open the ``mob.tscn`` scene.
+2. Select the *Mob* node.
+3. Navigate to the *Groups* dock on the right side of the editor.
+4. Click the *+* button to open the *Create new Group* dialog.
+5. Enter "mob" in the *Name* field.
+6. Click the *Ok* button.
+
+The "mob" group will now appear under the *Scene Groups* section, and an icon will be displayed in the *Scene* dock indicating that the node belongs to a group. This group can then be referenced in code to differentiate collisions with monsters from other types of collisions, such as with the floor.
+---CHUNK---
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/06.jump_and_squash.rst
+Summary: This section details how to implement the squash and bounce mechanic for the player character in Godot, allowing it to defeat enemies by jumping on them.
+
+GDScript:
+@export var bounce_impulse = 16
+
+func _physics_process(delta):
+    # ...
+
+    # Iterate through all collisions that occurred this frame
+    for index in range(get_slide_collision_count()):
+        # We get one of the collisions with the player
+        var collision = get_slide_collision(index)
+
+        # If there are duplicate collisions with a mob in a single frame
+        # the mob will be deleted after the first collision, and a second call to
+        # get_collider will return null, leading to a null pointer when calling
+        # collision.get_collider().is_in_group("mob").
+        # This block of code prevents processing duplicate collisions.
+        if collision.get_collider() == null:
+            continue
+
+        # If the collider is with a mob
+        if collision.get_collider().is_in_group("mob"):
+            var mob = collision.get_collider()
+            # we check that we are hitting it from above.
+            if Vector3.UP.dot(collision.get_normal()) > 0.1:
+                # If so, we squash it and bounce.
+                mob.squash()
+                target_velocity.y = bounce_impulse
+                # Prevent further duplicate calls.
+                break
+
+C#:
+// Vertical impulse applied to the character upon bouncing over a mob in meters per second.
+[Export]
+public int BounceImpulse { get; set; } = 16;
+
+public override void _PhysicsProcess(double delta)
+{
+    // ...
+
+    // Iterate through all collisions that occurred this frame.
+    for (int index = 0; index < GetSlideCollisionCount(); index++)
+    {
+        // We get one of the collisions with the player.
+        KinematicCollision3D collision = GetSlideCollision(index);
+
+        // If the collision is with a mob.
+        // With C# we leverage typing and pattern-matching
+        // instead of checking for the group we created.
+        if (collision.GetCollider() is Mob mob)
+        {
+            // We check that we are hitting it from above.
+            if (Vector3.Up.Dot(collision.GetNormal()) > 0.1f)
+            {
+                // If so, we squash it and bounce.
+                mob.Squash();
+                _targetVelocity.Y = BounceImpulse;
+                // Prevent further duplicate calls.
+                break;
+            }
+        }
+    }
+}
+
+The functions get_slide_collision_count() and get_slide_collision() both come from the CharacterBody3D class and are related to move_and_slide().
+get_slide_collision() returns a KinematicCollision3D object that holds information about where and how the collision occurred. For example, we use its get_collider property to check if we collided with a "mob" by calling is_in_group() on it: collision.get_collider().is_in_group("mob").
+Note: The method is_in_group() is available on every Node.
+To check that we are landing on the monster, we use the vector dot product: Vector3.UP.dot(collision.get_normal()) > 0.1. The collision normal is a 3D vector that is perpendicular to the plane where the collision occurred. The dot product allows us to compare it to the up direction.
+With dot products, when the result is greater than 0, the two vectors are at an angle of fewer than 90 degrees. A value higher than 0.1 tells us that we are roughly above the monster.
+After handling the squash and bounce logic, we terminate the loop early via the break statement to prevent further duplicate calls to mob.squash(), which may otherwise result in unintended bugs such as counting the score multiple times for one kill.
+
+GDScript:
+# Emitted when the player jumped on the mob.
+signal squashed
+
+# ...
+
+
+func squash():
+    squashed.emit()
+    queue_free()
+
+C#:
+// Emitted when the player jumped on the mob.
+[Signal]
+public delegate void SquashedEventHandler();
+
+// ...
+
+public void Squash()
+{
+    EmitSignal(SignalName.Squashed);
+    QueueFree();
+}
+
+Note: When using C#, Godot will create the appropriate events automatically for all Signals ending with EventHandler.
+We will use the signal to add points to the score in the next lesson.
+With that, you should be able to kill monsters by jumping on them. You can press F5 to try the game and set main.tscn as your project's main scene.
+However, the player won't die yet. We'll work on that in the next part.

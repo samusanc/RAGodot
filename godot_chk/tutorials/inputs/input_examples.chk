@@ -1,0 +1,477 @@
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This document provides examples of how to handle input events in Godot.
+
+This document provides examples of how to handle input events in Godot.
+
+Input events are the core of user interaction in Godot. They can come from various sources, including keyboard presses, mouse movements, joystick inputs, and touch screen gestures. Understanding how to process these events is crucial for creating interactive games and applications.
+
+Godot's input system is based on an event-driven model. When an input occurs, Godot generates an InputEvent object that is then passed to the relevant nodes in the scene tree. The most common way to handle these events is by overriding the `_input(event)` or `_unhandled_input(event)` virtual methods in your scripts.
+
+The `_input(event)` method is called for all input events, regardless of whether they have been handled by other nodes. This means it has a higher priority and is suitable for actions that should always be processed, such as pausing the game or opening a menu.
+
+The `_unhandled_input(event)` method is called only if the input event has not been consumed by any other node. This is useful for game-specific actions that should not interfere with UI elements or other game systems. For example, you might use this for player movement or actions that should only happen when the game is active and not when a UI panel is open.
+
+Key Rule: The order in which nodes process input events matters. Nodes higher up in the scene tree generally receive events before nodes lower down.
+
+Here's a basic example of how to use `_input()` to detect a key press:
+
+GDScript:
+```gdscript
+extends Node2D
+
+func _input(event):
+	if event is InputEventKey:
+		if event.pressed and event.keycode == KEY_SPACE:
+			print("Space bar pressed!")
+```
+
+This script will print "Space bar pressed!" to the output console whenever the space bar is pressed down.
+
+For mouse events, you can check the event type and its properties:
+
+GDScript:
+```gdscript
+extends Node2D
+
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			print("Left mouse button clicked at: ", event.position)
+```
+
+This example detects a left mouse button click and prints the position where the click occurred.
+
+You can also check for mouse motion:
+
+GDScript:
+```gdscript
+extends Node2D
+
+func _input(event):
+	if event is InputEventMouseMotion:
+		print("Mouse moved to: ", event.position)
+```
+
+Handling joystick input involves checking for `InputEventJoypadButton` and `InputEventJoypadMotion` events. You can map physical buttons and axes to abstract input actions in the Project Settings under "Input Map".
+
+GDScript:
+```gdscript
+extends Node2D
+
+func _input(event):
+	if event is InputEventJoypadButton:
+		if event.button_index == JOY_BUTTON_A and event.pressed:
+			print("Joypad A button pressed!")
+	if event is InputEventJoypadMotion:
+		if event.axis == JOY_AXIS_LEFT_X and event.value > 0.5:
+			print("Moving right on left stick")
+```
+
+This demonstrates detecting a press on the 'A' button and a significant movement on the left analog stick to the right.
+
+It's important to manage input events effectively to avoid conflicts and ensure a smooth user experience. By using `_input()` and `_unhandled_input()` appropriately, and by leveraging Godot's Input Map, you can create robust and responsive control schemes for your projects.
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section provides examples of how to handle user input in Godot.
+
+Input handling in Godot is done through the Input singleton. It provides methods to check for key presses, mouse button clicks, and joystick/gamepad input.
+
+Key presses can be checked using the `is_key_pressed()` method, which takes a `KEY` enum value as an argument. For example, to check if the spacebar is pressed:
+
+GDScript:
+```gdscript
+if Input.is_key_pressed(KEY_SPACE):
+    print("Spacebar is pressed!")
+```
+
+Mouse button clicks can be checked using `is_mouse_button_pressed()`, which takes a `MOUSE_BUTTON` enum value.
+
+GDScript:
+```gdscript
+if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+    print("Left mouse button is pressed!")
+```
+
+Joystick and gamepad input can be accessed through `Input.get_joy_axis()` and `Input.is_joy_button_pressed()`. These methods take a device ID (usually 0 for the first gamepad) and an axis or button index, respectively.
+
+GDScript:
+```gdscript
+# Check if the left analog stick on the first gamepad is pushed forward
+if Input.get_joy_axis(0, JOY_AXIS_LEFT_Y) < -0.5:
+    print("Left stick pushed forward!")
+
+# Check if the A button on the first gamepad is pressed
+if Input.is_joy_button_pressed(0, JOY_BUTTON_A):
+    print("A button pressed!")
+```
+
+Input events are also processed through the `_input(event)` virtual method in `Node` and its derivatives. This method receives an `InputEvent` object, which can be a `InputEventKey`, `InputEventMouseMotion`, `InputEventMouseButton`, `InputEventJoypadMotion`, `InputEventJoypadButton`, and others.
+
+GDScript:
+```gdscript
+func _input(event):
+    if event is InputEventKey:
+        if event.pressed and event.keycode == KEY_ENTER:
+            print("Enter key was pressed!")
+    if event is InputEventMouseButton:
+        if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+            print("Right mouse button was clicked!")
+```
+
+This `_input` function is called for all input events, regardless of whether they were handled by the game or not. If you want to consume an input event so that it's not processed further, you can call `get_viewport().set_input_as_handled()`.
+
+GDScript:
+```gdscript
+func _input(event):
+    if event.is_action_pressed("ui_accept"):
+        print("UI Accept action was pressed.")
+        get_viewport().set_input_as_handled()
+```
+
+Input actions provide a way to abstract physical inputs into logical actions. These actions are defined in the Project Settings under "Input Map". For example, you can define an action named "move_forward" and map it to the "W" key and the "Up" arrow key. Then, you can check for this action in your scripts.
+
+GDScript:
+```gdscript
+func _process(delta):
+    if Input.is_action_pressed("move_forward"):
+        print("Moving forward!")
+```
+
+You can also check if an action was just pressed or just released using `is_action_just_pressed()` and `is_action_just_released()`.
+
+GDScript:
+```gdscript
+func _unhandled_input(event):
+    if event.is_action_just_pressed("jump"):
+        print("Jump action was just pressed!")
+```
+
+The `_unhandled_input(event)` function is called after `_input()` and is intended for handling input that was not consumed by other nodes. This is often used for game-specific input handling.
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This tutorial introduces Godot's InputEvent system for capturing player input from various devices like keyboards, gamepads, and mice.
+
+Note: For a detailed overview of how Godot's input event system works, see the InputEvent documentation.
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains the difference between event-driven input handling using _input() and state-polling input handling using the Input singleton, providing examples for both.
+
+Events versus polling
+Sometimes you want your game to respond to a certain input event - pressing the "jump" button, for example. For other situations, you might want something to happen as long as a key is pressed, such as movement. In the first case, you can use the _input() function, which will be called whenever an input event occurs. In the second case, Godot provides the Input singleton, which you can use to query the state of an input.
+
+Examples:
+
+GDScript:
+    func _input(event):
+        if event.is_action_pressed("jump"):
+            jump()
+
+
+    func _physics_process(delta):
+        if Input.is_action_pressed("move_right"):
+            # Move as long as the key/button is pressed.
+            position.x += speed * delta
+
+C#:
+    public override void _Input(InputEvent @event)
+    {
+        if (@event.IsActionPressed("jump"))
+        {
+            Jump();
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Input.IsActionPressed("move_right"))
+        {
+            // Move as long as the key/button is pressed.
+            position.X += speed * (float)delta;
+        }
+    }
+
+This gives you the flexibility to mix-and-match the type of input processing you do.
+
+For the remainder of this tutorial, we'll focus on capturing individual events in _input().
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains how to handle input events in Godot, including how to print event details and check event types.
+
+Input events are objects that inherit from InputEvent. Depending on the event type, the object will contain specific properties related to that event. To see what events actually look like, add a Node and attach the following script:
+
+GDScript:
+```gdscript
+extends Node
+
+func _input(event):
+    print(event.as_text())
+```
+
+C#:
+```csharp
+using Godot;
+
+public partial class Node : Godot.Node
+{
+    public override void _Input(InputEvent @event)
+    {
+        GD.Print(@event.AsText());
+    }
+}
+```
+
+As you press keys, move the mouse, and perform other inputs, you'll see each event scroll by in the output window. Here's an example of the output:
+
+A
+Mouse motion at position ((971, 5)) with velocity ((0, 0))
+Right Mouse Button
+Mouse motion at position ((870, 243)) with velocity ((0.454937, -0.454937))
+Left Mouse Button
+Mouse Wheel Up
+A
+B
+Shift
+Alt+Shift
+Alt
+Shift+T
+Mouse motion at position ((868, 242)) with velocity ((-2.134768, 2.134768))
+
+As you can see, the results are very different for the different types of input. Key events are even printed as their key symbols. For example, let's consider InputEventMouseButton. It inherits from the following classes:
+- InputEvent - the base class for all input events
+- InputEventWithModifiers - adds the ability to check if modifiers are pressed, such as Shift or Alt.
+- InputEventMouse - adds mouse event properties, such as position
+- InputEventMouseButton - contains the index of the button that was pressed, whether it was a double-click, etc.
+
+Tip: It's a good idea to keep the class reference open while you're working with events so you can check the event type's available properties and methods.
+
+You can encounter errors if you try to access a property on an input type that doesn't contain it - calling position on InputEventKey for example. To avoid this, make sure to test the event type first:
+
+GDScript:
+```gdscript
+func _input(event):
+    if event is InputEventMouseButton:
+        print("mouse button event at ", event.position)
+```
+
+C#:
+```csharp
+public override void _Input(InputEvent @event)
+{
+    if (@event is InputEventMouseButton mouseEvent)
+    {
+        GD.Print("mouse button event at ", mouseEvent.Position);
+    }
+}
+```
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section introduces the InputMap for handling custom input actions in Godot.
+Tip: A new Godot project includes a number of default actions already defined. To see them, turn on Show Built-in Actions in the InputMap dialog. While not strictly required, it's recommended to use the snake_case naming convention for input action names.
+
+The InputMap is the most flexible way to handle a variety of inputs. You use this by creating named input actions, to which you can assign any number of input events, such as keypresses or mouse clicks. To see them, and to add your own, open Project -> Project Settings and select the InputMap tab.
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains how to capture input actions in GDScript and C# using `is_action_pressed()`.
+
+GDScript:
+```gdscript
+func _input(event):
+    if event.is_action_pressed("my_action"):
+        print("my_action occurred!")
+```
+
+C#:
+```csharp
+public override void _Input(InputEvent @event)
+{
+    if (@event.IsActionPressed("my_action"))
+    {
+        GD.Print("my_action occurred!");
+    }
+}
+```
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains how to detect and handle keyboard key press events in Godot using InputEventKey.
+
+Keyboard events are captured in InputEventKey.
+While it's recommended to use input actions instead, there may be cases where you want to specifically look at key events. For this example, let's check for the T key.
+
+GDScript:
+```gdscript
+func _input(event):
+    if event is InputEventKey and event.pressed:
+        if event.keycode == KEY_T:
+            print("T was pressed")
+```
+
+C#:
+```csharp
+public override void _Input(InputEvent @event)
+{
+    if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+    {
+        if (keyEvent.Keycode == Key.T)
+        {
+            GD.Print("T was pressed");
+        }
+    }
+}
+```
+Tip: See @GlobalScope_Key for a list of keycode constants.
+Warning: Due to keyboard ghosting, not all key inputs may be registered at a given time if you press too many keys at once. Due to their location on the keyboard, certain keys are more prone to ghosting than others. Some keyboards feature antighosting at a hardware level, but this feature is generally not present on low-end keyboards and laptop keyboards. As a result, it's recommended to use a default keyboard layout that is designed to work well on a keyboard without antighosting.
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains how to detect keyboard modifier key presses like Shift in Godot.
+Keyboard modifiers
+Modifier properties are inherited from InputEventWithModifiers. This allows you to check for modifier combinations using boolean properties. Let's imagine you want one thing to happen when the T is pressed, but something different when it's Shift + T:
+
+GDScript:
+    func _input(event):
+        if event is InputEventKey and event.pressed:
+            if event.keycode == KEY_T:
+                if event.shift_pressed:
+                    print("Shift+T was pressed")
+                else:
+                    print("T was pressed")
+
+C#:
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventKey keyEvent && keyEvent.Pressed)
+        {
+            switch (keyEvent.Keycode)
+            {
+                case Key.T:
+                    GD.Print(keyEvent.ShiftPressed ? "Shift+T was pressed" : "T was pressed");
+                    break;
+            }
+        }
+    }
+Tip: See @GlobalScope_Key for a list of keycode constants.
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section describes mouse events in Godot, including their types and common properties.
+
+Mouse events stem from the InputEventMouse class, and are separated into two types: InputEventMouseButton and InputEventMouseMotion. Note that this means that all mouse events will contain a position property.
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains how to capture mouse button input events in Godot, including standard buttons and the mouse wheel.
+
+Mouse buttons
+Capturing mouse buttons is very similar to handling key events. MOUSE_BUTTON_* contains a list of constants for each possible button, which will be reported in the event's button_index property. Note that the scrollwheel also counts as a button - two buttons, to be precise, with both MOUSE_BUTTON_WHEEL_UP and MOUSE_BUTTON_WHEEL_DOWN being separate events.
+
+GDScript:
+    func _input(event):
+        if event is InputEventMouseButton:
+            if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+                print("Left button was clicked at ", event.position)
+            if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+                print("Wheel up")
+
+C#:
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.Pressed)
+        {
+            switch (mouseEvent.ButtonIndex)
+            {
+                case MouseButton.Left:
+                    GD.Print($"Left button was clicked at {mouseEvent.Position}");
+                    break;
+                case MouseButton.WheelUp:
+                    GD.Print("Wheel up");
+                    break;
+            }
+        }
+    }
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains how to handle mouse motion events in Godot, specifically demonstrating how to implement a drag-and-drop functionality for a Sprite2D node.
+
+Mouse motion InputEventMouseMotion events occur whenever the mouse moves. You can find the move's distance with the ``relative`` property.
+
+Here's an example using mouse events to drag-and-drop a Sprite2D node:
+
+GDScript:
+extends Node
+
+var dragging = false
+var click_radius = 32 # Size of the sprite.
+
+func _input(event):
+    if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+        if (event.position - $Sprite2D.position).length() < click_radius:
+            # Start dragging if the click is on the sprite.
+            if not dragging and event.pressed:
+                dragging = true
+        # Stop dragging if the button is released.
+        if dragging and not event.pressed:
+            dragging = false
+
+    if event is InputEventMouseMotion and dragging:
+        # While dragging, move the sprite with the mouse.
+        $Sprite2D.position = event.position
+
+C#:
+using Godot;
+
+public partial class MyNode2D : Node2D
+{
+    private bool _dragging = false;
+    private int _clickRadius = 32; // Size of the sprite.
+
+    public override void _Input(InputEvent @event)
+    {
+        Sprite2D sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+        if (sprite == null)
+        {
+            return; # No suitable node was found.
+        }
+
+        if (@event is InputEventMouseButton mouseEvent && mouseEvent.ButtonIndex == MouseButton.Left)
+        {
+            if ((mouseEvent.Position - sprite.Position).Length() < _clickRadius)
+            {
+                # Start dragging if the click is on the sprite.
+                if (!_dragging && mouseEvent.Pressed)
+                {
+                    _dragging = true;
+                }
+            }
+            # Stop dragging if the button is released.
+            if (_dragging && !mouseEvent.Pressed)
+            {
+                _dragging = false;
+            }
+        }
+        else
+        {
+            if (@event is InputEventMouseMotion motionEvent && _dragging)
+            {
+                # While dragging, move the sprite with the mouse.
+                sprite.Position = motionEvent.Position;
+            }
+        }
+    }
+}
+---CHUNK---
+Document: Input Examples
+Path: godot/tutorials/inputs/input_examples.rst
+Summary: This section explains how to handle touch events in Godot, including emulation for non-touchscreen devices.
+
+Touch events can be handled using InputEventScreenTouch, which is similar to mouse clicks, and InputEventScreenDrag, which functions like mouse motion.
+
+Tip: To test touch events on a device without a touchscreen, enable "Emulate Touch From Mouse" in the Project Settings under "Input Devices/Pointing". This will make the project interpret mouse clicks and motion as touch events.

@@ -1,0 +1,125 @@
+Document: ProceduralSkyMaterial
+Path: godot/classes/class_proceduralskymaterial.rst
+Summary: Defines a sky material that procedurally generates a sky based on physical parameters.
+
+ProceduralSkyMaterial
+
+Inherits: SkyMaterial < Material < Resource < RefCounted
+
+A sky material that procedurally generates a sky based on physical parameters. This is useful for creating realistic or stylized skies without needing to use a skybox texture.
+
+Properties:
+sun_angle_max (float): The maximum angle of the sun disk. Larger values make the sun disk appear larger. Default: 0.05
+sun_disc (bool): Whether to draw the sun disc. Default: true
+ground_color (Color): The color of the ground. Default: Color(0.3, 0.4, 0.5, 1)
+sky_color (Color): The color of the sky at the zenith. Default: Color(0.4, 0.6, 0.8, 1)
+horizon_color (Color): The color of the horizon. Default: Color(0.6, 0.7, 0.8, 1)
+scatter_horizon_factor (float): Controls how much the horizon color scatters. Higher values make the horizon more prominent. Default: 1.0
+scatter_horizon_power (float): Controls the falloff of the horizon scattering. Higher values create a sharper transition. Default: 1.0
+rayleigh_coefficient (Color): The Rayleigh scattering coefficient. This affects the blue color of the sky. Default: Color(0.001, 0.001, 0.001, 1)
+mie_coefficient (Color): The Mie scattering coefficient. This affects the white haze and sun disk color. Default: Color(0.001, 0.001, 0.001, 1)
+mie_direction (float): The direction of Mie scattering. Controls the forward/backward scattering of light. Default: 0.76
+mie_azimuth (float): The azimuth of Mie scattering. Default: 0.0
+mie_elevation (float): The elevation of Mie scattering. Default: 0.0
+mie_scale (float): The scale of Mie scattering. Default: 0.001
+luminance_multiplier (float): Multiplies the sky's luminance. Default: 1.0
+energy_multiplier (float): Multiplies the sky's energy. Default: 1.0
+---CHUNK---
+Document: ProceduralSkyMaterial
+Path: godot/classes/class_proceduralskymaterial.rst
+Summary: Defines a simple sky material for the Sky resource.
+
+ProceduralSkyMaterial
+Inherits: Material < Resource < RefCounted < Object
+
+A material that defines a simple sky for a Sky resource.
+---CHUNK---
+Document: ProceduralSkyMaterial
+Path: godot/classes/class_proceduralskymaterial.rst
+Summary: Defines a procedural sky material with parameters for sun, sky, and ground colors, and sun angles.
+ProceduralSkyMaterial provides a way to create an effective background quickly by defining procedural parameters for the sun, the sky and the ground. The sky and ground are defined by a main color, a color at the horizon, and an easing curve to interpolate between them. Suns are described by a position in the sky, a color, and a max angle from the sun at which the easing curve ends. The max angle therefore defines the size of the sun in the sky.
+
+ProceduralSkyMaterial supports up to 4 suns, using the color, and energy, direction, and angular distance of the first four DirectionalLight3D nodes in the scene. This means that the suns are defined individually by the properties of their corresponding DirectionalLight3D s and globally by sun_angle_max and sun_curve.
+
+ProceduralSkyMaterial uses a lightweight shader to draw the sky and is therefore suited for real-time updates. This makes it a great option for a sky that is simple and computationally cheap, but unrealistic. If you need a more realistic procedural option, use PhysicalSkyMaterial.
+---CHUNK---
+Document: ProceduralSkyMaterial
+Path: godot/classes/class_proceduralskymaterial.rst
+Summary: Defines the properties for the ProceduralSkyMaterial, controlling its visual appearance.
+
+Properties:
+* energy_multiplier (float): Controls the overall brightness of the sky. Default: 1.0
+* ground_bottom_color (Color): The color of the ground at the bottom of the sky. Default: Color(0.2, 0.169, 0.133, 1)
+* ground_curve (float): Controls the falloff of the ground color towards the horizon. Default: 0.02
+* ground_energy_multiplier (float): Controls the brightness of the ground. Default: 1.0
+* ground_horizon_color (Color): The color of the ground at the horizon. Default: Color(0.6463, 0.6558, 0.6708, 1)
+* sky_cover (Texture2D): A texture to overlay on the sky, affecting its appearance.
+* sky_cover_modulate (Color): Modulates the color of the sky_cover texture. Default: Color(1, 1, 1, 1)
+* sky_curve (float): Controls the falloff of the sky color towards the horizon. Default: 0.15
+* sky_energy_multiplier (float): Controls the brightness of the sky. Default: 1.0
+* sky_horizon_color (Color): The color of the sky at the horizon. Default: Color(0.6463, 0.6558, 0.6708, 1)
+* sky_top_color (Color): The color of the sky at the zenith (top). Default: Color(0.385, 0.454, 0.55, 1)
+* sun_angle_max (float): The maximum angle of the sun from the horizon. Default: 30.0
+* sun_curve (float): Controls the falloff of the sun's brightness. Default: 0.15
+* use_debanding (bool): Enables or disables debanding to reduce color banding artifacts. Default: true
+---CHUNK---
+Document: ProceduralSkyMaterial
+Path: godot/classes/class_proceduralskymaterial.rst
+Summary: Describes the properties of the ProceduralSkyMaterial class, including brightness, ground and sky colors, and sun-related settings.
+
+Property Descriptions
+energy_multiplier (float): The sky's overall brightness multiplier. Higher values result in a brighter sky. Default: 1.0
+Method: set_energy_multiplier(value: float)
+Method: get_energy_multiplier() -> float
+
+ground_bottom_color (Color): Color of the ground at the bottom. Blends with ground_horizon_color. Default: Color(0.2, 0.169, 0.133, 1)
+Method: set_ground_bottom_color(value: Color)
+Method: get_ground_bottom_color() -> Color
+
+ground_curve (float): How quickly the ground_horizon_color fades into the ground_bottom_color. Default: 0.02
+Method: set_ground_curve(value: float)
+Method: get_ground_curve() -> float
+
+ground_energy_multiplier (float): Multiplier for ground color. A higher value will make the ground brighter. Default: 1.0
+Method: set_ground_energy_multiplier(value: float)
+Method: get_ground_energy_multiplier() -> float
+
+ground_horizon_color (Color): Color of the ground at the horizon. Blends with ground_bottom_color. Default: Color(0.6463, 0.6558, 0.6708, 1)
+Method: set_ground_horizon_color(value: Color)
+Method: get_ground_horizon_color() -> Color
+
+sky_cover (Texture2D): The sky cover texture to use. This texture must use an equirectangular projection. The texture's colors will be added to the existing sky color, and will be multiplied by sky_energy_multiplier and sky_cover_modulate. This is mainly suited to displaying stars at night, but it can also be used to display clouds at day or night (with a non-physically-accurate look).
+Method: set_sky_cover(value: Texture2D)
+Method: get_sky_cover() -> Texture2D
+
+sky_cover_modulate (Color): The tint to apply to the sky_cover texture. This can be used to change the sky cover's colors or opacity independently of the sky energy, which is useful for day/night or weather transitions. Only effective if a texture is defined in sky_cover. Default: Color(1, 1, 1, 1)
+Method: set_sky_cover_modulate(value: Color)
+Method: get_sky_cover_modulate() -> Color
+
+sky_curve (float): How quickly the sky_horizon_color fades into the sky_top_color. Default: 0.15
+Method: set_sky_curve(value: float)
+Method: get_sky_curve() -> float
+
+sky_energy_multiplier (float): Multiplier for sky color. A higher value will make the sky brighter. Default: 1.0
+Method: set_sky_energy_multiplier(value: float)
+Method: get_sky_energy_multiplier() -> float
+
+sky_horizon_color (Color): Color of the sky at the horizon. Blends with sky_top_color. Default: Color(0.6463, 0.6558, 0.6708, 1)
+Method: set_sky_horizon_color(value: Color)
+Method: get_sky_horizon_color() -> Color
+
+sky_top_color (Color): Color of the sky at the top. Blends with sky_horizon_color. Default: Color(0.385, 0.454, 0.55, 1)
+Method: set_sky_top_color(value: Color)
+Method: get_sky_top_color() -> Color
+
+sun_angle_max (float): Distance from center of sun where it fades out completely. Default: 30.0
+Method: set_sun_angle_max(value: float)
+Method: get_sun_angle_max() -> float
+
+sun_curve (float): How quickly the sun fades away between the edge of the sun disk and sun_angle_max. Default: 0.15
+Method: set_sun_curve(value: float)
+Method: get_sun_curve() -> float
+
+use_debanding (bool): If true, enables debanding. Debanding adds a small amount of noise which helps reduce banding that appears from the smooth changes in color in the sky. Default: true
+Method: set_use_debanding(value: bool)
+Method: get_use_debanding() -> bool

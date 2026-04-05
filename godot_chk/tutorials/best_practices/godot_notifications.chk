@@ -1,0 +1,363 @@
+Document: Godot Notifications
+Path: godot/tutorials/best_practices/godot_notifications.rst
+Summary: This document explains how to use notifications in Godot to optimize performance and manage node behavior.
+
+Notifications are special messages sent by the engine to nodes to inform them about various events. Nodes can react to these notifications by overriding specific virtual methods. This allows for fine-grained control over node behavior and can be used to optimize performance by avoiding unnecessary updates.
+
+Key Rule: Nodes receive notifications for events that occur during their lifecycle.
+
+Common Notifications:
+
+*   NOTIFICATION_PROCESS: Sent every frame if the node is set to process.
+*   NOTIFICATION_PHYSICS_PROCESS: Sent every physics frame if the node is set to physics process.
+*   NOTIFICATION_ENTER_TREE: Sent when the node enters the scene tree.
+*   NOTIFICATION_EXIT_TREE: Sent when the node exits the scene tree.
+*   NOTIFICATION_READY: Sent when the node and all its children are ready.
+*   NOTIFICATION_VISIBILITY_CHANGED: Sent when the node's visibility changes.
+*   NOTIFICATION_WM_SIZE_CHANGED: Sent when the window size changes.
+
+Overriding Notification Methods:
+
+To handle a notification, you override the corresponding virtual method in your script. For example, to handle `NOTIFICATION_PROCESS`, you would override the `_process(delta)` method.
+
+GDScript:
+```gdscript
+func _process(delta):
+    # Code to execute every frame
+    pass
+```
+
+C#:
+```csharp
+public override void _Process(double delta)
+{
+    // Code to execute every frame
+}
+```
+
+The `_notification(what)` method is a general-purpose handler for all notifications. You can use it to catch specific notifications by checking the `what` parameter.
+
+GDScript:
+```gdscript
+func _notification(what):
+    if what == NOTIFICATION_ENTER_TREE:
+        print("Node entered the scene tree!")
+    elif what == NOTIFICATION_READY:
+        print("Node is ready!")
+```
+
+C#:
+```csharp
+public override void _Notification(int what)
+{
+    if (what == NotificationEnterTree)
+    {
+        GD.Print("Node entered the scene tree!");
+    }
+    else if (what == NotificationReady)
+    {
+        GD.Print("Node is ready!");
+    }
+}
+```
+
+Performance Considerations:
+
+*   Avoid processing in `_process` or `_physics_process` if not strictly necessary.
+*   Use `NOTIFICATION_ENTER_TREE` and `NOTIFICATION_EXIT_TREE` for setup and cleanup that depends on the node being in the scene tree.
+*   `NOTIFICATION_READY` is a good place for initialization that requires child nodes to be ready.
+
+By understanding and utilizing notifications effectively, you can write more efficient and well-structured Godot applications.
+---CHUNK---
+Document: godot_notifications
+Path: godot/tutorials/best_practices/godot_notifications.rst
+Summary: Explains Godot's notification system and how to use the _notification method and dedicated virtual functions to respond to engine callbacks.
+Every Object in Godot implements the _notification method, which allows it to respond to engine-level callbacks. For instance, when a CanvasItem is told to draw, _notification(NOTIFICATION_DRAW) is called.
+
+Godot provides dedicated functions for many common notifications:
+_ready(): Corresponds to NOTIFICATION_READY.
+_enter_tree(): Corresponds to NOTIFICATION_ENTER_TREE.
+_exit_tree(): Corresponds to NOTIFICATION_EXIT_TREE.
+_process(delta): Corresponds to NOTIFICATION_PROCESS.
+_physics_process(delta): Corresponds to NOTIFICATION_PHYSICS_PROCESS.
+_draw(): Corresponds to NOTIFICATION_DRAW.
+
+Beyond Node-specific callbacks, other Object notifications exist:
+NOTIFICATION_POSTINITIALIZE: Triggers during object initialization. Not accessible to scripts.
+NOTIFICATION_PREDELETE: Triggers before an Object is deleted by the engine, acting as a destructor.
+
+Additionally, several Node notifications lack dedicated methods but are useful:
+NOTIFICATION_PARENTED: Triggers when a child node is added to another node.
+NOTIFICATION_UNPARENTED: Triggers when a child node is removed from another node.
+
+All these custom notifications can be accessed via the universal _notification() method.
+Note: Methods in the documentation labeled "virtual" are also intended for script overriding. A common example is the _init method in Object, which functions as a constructor in most languages (excluding C#), even without a direct NOTIFICATION_* equivalent. The question remains: when should one use each of these notifications or virtual functions?
+---CHUNK---
+Document: Godot Notifications: _process vs. _physics_process vs. _input
+Path: godot/tutorials/best_practices/godot_notifications.rst
+Summary: This guide explains the differences between _process, _physics_process, and input callbacks, and when to use each for optimal performance.
+
+Use _process() when you need framerate-dependent delta time between frames. This is the appropriate place for code that must update as often as possible, such as recurring logic checks or data caching. If logic does not need to execute every frame, consider using a Timer-timeout loop instead.
+
+Key Rule: Use a Timer node for recurring operations that do not need to trigger every frame to save performance.
+
+GDScript:
+    func _ready():
+        var timer = Timer.new()
+        timer.autostart = true
+        timer.wait_time = 0.5
+        add_child(timer)
+        timer.timeout.connect(func():
+            print("This block runs every 0.5 seconds")
+        )
+
+C#:
+    public override void _Ready()
+    {
+        var timer = new Timer();
+        timer.Autostart = true;
+        timer.WaitTime = 0.5;
+        AddChild(timer);
+        timer.Timeout += () => GD.Print("This block runs every 0.5 seconds");
+    }
+
+C++:
+    virtual void _ready() override {
+        Timer *timer = memnew(Timer);
+        timer->set_autostart(true);
+        timer->set_wait_time(0.5);
+        add_child(timer);
+        timer->connect("timeout", callable_mp(this, &MyNode::run));
+    }
+    void run() {
+        UtilityFunctions::print("This block runs every 0.5 seconds.");
+    }
+
+Use _physics_process() when you need framerate-independent delta time. This is the correct place for code requiring consistent updates over time, regardless of framerate, such as kinematic and object transform operations.
+
+For optimal performance, avoid checking for input inside _process() or _physics_process() because these methods trigger every frame. Instead, use *_input() callbacks, which only trigger when the engine detects actual input. You can still check for input actions within these callbacks and fetch delta time using engine methods if needed.
+
+GDScript:
+    func _process(delta):
+        if Input.is_action_just_pressed("ui_select"):
+            print(delta)
+    func _unhandled_input(event):
+        match event.get_class():
+            "InputEventKey":
+                if Input.is_action_just_pressed("ui_accept"):
+                    print(get_process_delta_time())
+
+C#:
+    public void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("ui_select"))
+        {
+            GD.Print(delta);
+        }
+    }
+    public void _UnhandledInput(InputEvent @event)
+    {
+        switch (@event)
+        {
+            case InputEventKey:
+                if (Input.IsActionJustPressed("ui_accept"))
+                {
+                    GD.Print(GetProcessDeltaTime());
+                }
+                break;
+        }
+    }
+
+C++:
+    virtual void _process(double p_delta) override {
+        if (Input::get_singleton->is_action_just_pressed("ui_select")) {
+            UtilityFunctions::print(p_delta);
+        }
+    }
+    virtual void _unhandled_input(const Ref<InputEvent> &p_event) override {
+        Ref<InputEventKey> key_event = event;
+        if (key_event.is_valid() && Input::get_singleton->is_action_just_pressed("ui_accept")) {
+            UtilityFunctions::print(get_process_delta_time());
+        }
+    }
+---CHUNK---
+Document: Godot Notifications
+Path: godot/tutorials/best_practices/godot_notifications.rst
+Summary: Explains the initialization order of properties and methods like _init() in Godot, contrasting GDScript, C#, and C++.
+
+The _init() method in GDScript is used for initializing a script's own node subtree without a scene, or for other SceneTree-independent initializations. The C# equivalent is the constructor.
+
+_init() is called before _enter_tree() or _ready(), but after a script's properties have been initialized. When instantiating a scene, property values are set in the following sequence:
+1. Initial value assignment: Properties are assigned their initial or default values. Setters are not triggered at this stage.
+2. _init() assignment: Property values are updated by assignments within _init(), which triggers the setter.
+3. Exported value assignment: For exported properties, values set in the Inspector further update the property, again triggering the setter.
+
+GDScript:
+# test is initialized to "one", without triggering the setter.
+@export var test: String = "one":
+    set(value):
+        test = value + "!"
+
+func _init():
+    # Triggers the setter, changing test's value from "one" to "two!".
+    test = "two"
+
+# If someone sets test to "three" from the Inspector, it would trigger
+# the setter, changing test's value from "two!" to "three!".
+
+C#:
+using Godot;
+
+public partial class MyNode : Node
+{
+    private string _test = "one";
+
+    [Export]
+    public string Test
+    {
+        get { return _test; }
+        set { _test = $"{value}!"; }
+    }
+
+    public MyNode()
+    {
+        // Triggers the setter, changing _test's value from "one" to "two!".
+        Test = "two";
+    }
+
+    // If someone sets Test to "three" in the Inspector, it would trigger
+    // the setter, changing _test's value from "two!" to "three!".
+}
+
+C++:
+using namespace godot;
+
+class MyNode : public Node {
+    GDCLASS(MyNode, Node)
+
+    String test = "one";
+
+protected:
+    static void _bind_methods() {
+        ClassDB::bind_method(D_METHOD("get_test"), &MyNode::get_test);
+        ClassDB::bind_method(D_METHOD("set_test", "test"), &MyNode::set_test);
+        ADD_PROPERTY(PropertyInfo(Variant::STRING, "test"), "set_test", "get_test");
+    }
+
+public:
+    String get_test() { return test; }
+    void set_test(String p_test) { test = p_test + "!"; }
+
+    MyNode() {
+        // Triggers the setter, changing _test's value from "one" to "two!".
+        set_test("two");
+    }
+
+    // If someone sets test to "three" in the Inspector, it would trigger
+    // the setter, changing test's value from "two!" to "three!".
+};
+
+The order of initialization and the number of times setters are called can differ depending on whether a script is instantiated directly or as part of a scene.
+---CHUNK---
+Document: godot_notifications
+Path: godot/tutorials/best_practices/godot_notifications.rst
+Summary: Explains the differences between _ready, _enter_tree, and the PARENTED notification for handling node initialization and parent-child relationships.
+
+When instantiating a scene that is connected to the first executed scene, Godot instantiates nodes down the tree, triggering `_init()` calls. This process builds the tree from the root downwards, causing `_enter_tree()` calls to cascade down. Once the tree is fully constructed, leaf nodes call `_ready()`. A node's `_ready()` method is invoked only after all of its child nodes have finished calling their respective `_ready()` methods. This then initiates a reverse cascade, propagating the calls back up to the root of the tree.
+
+When a script or a standalone scene is instantiated, nodes are not immediately added to the SceneTree. Consequently, no `_enter_tree()` callbacks are triggered; only the `_init()` call occurs. The `_enter_tree()` and `_ready()` calls are deferred until the scene is subsequently added to the SceneTree.
+
+To trigger behavior that occurs specifically when nodes become parented to another, irrespective of whether this happens within the main scene or during runtime instantiation, the PARENTED notification can be utilized. This is particularly useful for data-centric nodes that might be created dynamically.
+
+GDScript:
+extends Node
+
+var parent_cache
+
+func connection_check():
+    return parent_cache.has_user_signal("interacted_with")
+
+func _notification(what):
+    match what:
+        NOTIFICATION_PARENTED:
+            parent_cache = get_parent()
+            if connection_check():
+                parent_cache.interacted_with.connect(_on_parent_interacted_with)
+        NOTIFICATION_UNPARENTED:
+            if connection_check():
+                parent_cache.interacted_with.disconnect(_on_parent_interacted_with)
+
+func _on_parent_interacted_with():
+    print("I'm reacting to my parent's interaction!")
+
+C#:
+using Godot;
+
+public partial class MyNode : Node
+{
+    private Node _parentCache;
+
+    public bool ConnectionCheck()
+    {
+        return _parentCache.HasUserSignal("InteractedWith");
+    }
+
+    public override void _Notification(int what)
+    {
+        switch ((long)what)
+        {
+            case NotificationParented:
+                _parentCache = GetParent();
+                if (ConnectionCheck())
+                {
+                    _parentCache.Connect("InteractedWith", Callable.From(OnParentInteractedWith));
+                }
+                break;
+            case NotificationUnparented:
+                if (ConnectionCheck())
+                {
+                    _parentCache.Disconnect("InteractedWith", Callable.From(OnParentInteractedWith));
+                }
+                break;
+        }
+    }
+
+    private void OnParentInteractedWith()
+    {
+        GD.Print("I'm reacting to my parent's interaction!");
+    }
+}
+
+C++:
+using namespace godot;
+
+class MyNode : public Node {
+    GDCLASS(MyNode, Node)
+
+    Node *parent_cache = nullptr;
+
+    void on_parent_interacted_with() {
+        UtilityFunctions::print("I'm reacting to my parent's interaction!");
+    }
+
+public:
+    void connection_check() {
+        return parent_cache->has_user_signal("interacted_with");
+    }
+
+    void _notification(int p_what) {
+        switch (p_what) {
+            case NOTIFICATION_PARENTED:
+                parent_cache = get_parent();
+                if (connection_check()) {
+                    parent_cache->connect("interacted_with", callable_mp(this, &MyNode::on_parent_interacted_with));
+                }
+                break;
+            case NOTIFICATION_UNPARENTED:
+                if (connection_check()) {
+                    parent_cache->disconnect("interacted_with", callable_mp(this, &MyNode::on_parent_interacted_with));
+                }
+                break;
+        }
+    }
+};

@@ -1,0 +1,166 @@
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: This document introduces the TileSetAtlasSource class.
+---CHUNK---
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: Exposes a 2D atlas texture as a set of tiles for a TileSet resource.
+
+Inherits: TileSetSource < Resource < RefCounted < Object
+
+Exposes a 2D atlas texture as a set of tiles for a TileSet resource.
+---CHUNK---
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: Describes the TileSetAtlasSource class, its purpose, and how it manages tiles and their properties.
+
+An atlas is a grid of tiles laid out on a texture. Each tile in the grid must be exposed using create_tile(). Those tiles are then indexed using their coordinates in the grid.
+
+Each tile can also have a size in the grid coordinates, making it more or less cells in the atlas.
+
+Alternatives version of a tile can be created using create_alternative_tile(), which are then indexed using an alternative ID. The main tile (the one in the grid), is accessed with an alternative ID equal to 0.
+
+Each tile alternate has a set of properties that is defined by the source's TileSet layers. Those properties are stored in a TileData object that can be accessed and modified using get_tile_data().
+
+As TileData properties are stored directly in the TileSetAtlasSource resource, their properties might also be set using `TileSetAtlasSource.set("<coords_x>:<coords_y>/<alternative_id>/<tile_data_property>")`.
+---CHUNK---
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: This section lists the properties available for configuring a TileSetAtlasSource.
+
+*   margins (Vector2i): Default: Vector2i(0, 0)
+*   separation (Vector2i): Default: Vector2i(0, 0)
+*   texture (Texture2D)
+*   texture_region_size (Vector2i): Default: Vector2i(16, 16)
+*   use_texture_padding (bool): Default: true
+---CHUNK---
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: This section details the methods and enumerations available for managing tiles and their animations within a TileSetAtlasSource.
+
+Methods
+Method: clear_tiles_outside_texture() -> void
+Method: create_alternative_tile(atlas_coords: Vector2i, alternative_id_override: int = -1) -> int
+Method: create_tile(atlas_coords: Vector2i, size: Vector2i = Vector2i(1, 1)) -> void
+Method: get_atlas_grid_size() -> Vector2i
+Method: get_next_alternative_tile_id(atlas_coords: Vector2i) -> int
+Method: get_runtime_texture() -> Texture2D
+Method: get_runtime_tile_texture_region(atlas_coords: Vector2i, frame: int) -> Rect2i
+Method: get_tile_animation_columns(atlas_coords: Vector2i) -> int
+Method: get_tile_animation_frame_duration(atlas_coords: Vector2i, frame_index: int) -> float
+Method: get_tile_animation_frames_count(atlas_coords: Vector2i) -> int
+Method: get_tile_animation_mode(atlas_coords: Vector2i) -> TileAnimationMode
+Method: get_tile_animation_separation(atlas_coords: Vector2i) -> Vector2i
+Method: get_tile_animation_speed(atlas_coords: Vector2i) -> float
+Method: get_tile_animation_total_duration(atlas_coords: Vector2i) -> float
+Method: get_tile_at_coords(atlas_coords: Vector2i) -> Vector2i
+Method: get_tile_data(atlas_coords: Vector2i, alternative_tile: int) -> TileData
+Method: get_tile_size_in_atlas(atlas_coords: Vector2i) -> Vector2i
+Method: get_tile_texture_region(atlas_coords: Vector2i, frame: int = 0) -> Rect2i
+Method: get_tiles_to_be_removed_on_change(texture: Texture2D, margins: Vector2i, separation: Vector2i, texture_region_size: Vector2i) -> PackedVector2Array
+Method: has_room_for_tile(atlas_coords: Vector2i, size: Vector2i, animation_columns: int, animation_separation: Vector2i, frames_count: int, ignored_tile: Vector2i = Vector2i(-1, -1)) -> bool
+Method: has_tiles_outside_texture() -> bool
+Method: move_tile_in_atlas(atlas_coords: Vector2i, new_atlas_coords: Vector2i = Vector2i(-1, -1), new_size: Vector2i = Vector2i(-1, -1)) -> void
+Method: remove_alternative_tile(atlas_coords: Vector2i, alternative_tile: int) -> void
+Method: remove_tile(atlas_coords: Vector2i) -> void
+Method: set_alternative_tile_id(atlas_coords: Vector2i, alternative_tile: int, new_id: int) -> void
+Method: set_tile_animation_columns(atlas_coords: Vector2i, frame_columns: int) -> void
+Method: set_tile_animation_frame_duration(atlas_coords: Vector2i, frame_index: int, duration: float) -> void
+Method: set_tile_animation_frames_count(atlas_coords: Vector2i, frames_count: int) -> void
+Method: set_tile_animation_mode(atlas_coords: Vector2i, mode: TileAnimationMode) -> void
+Method: set_tile_animation_separation(atlas_coords: Vector2i, separation: Vector2i) -> void
+Method: set_tile_animation_speed(atlas_coords: Vector2i, speed: float) -> void
+
+Enumerations
+enum TileAnimationMode:
+TILE_ANIMATION_MODE_DEFAULT = 0: Tile animations start at same time, looking identical.
+TILE_ANIMATION_MODE_RANDOM_START_TIMES = 1: Tile animations start at random times, looking varied.
+TILE_ANIMATION_MODE_MAX = 2: Represents the size of the TileAnimationMode enum.
+---CHUNK---
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: Describes constants for tile transformations, including horizontal/vertical flips and transpose, and how to combine them for rotations.
+
+Constants
+
+TRANSFORM_FLIP_H = 4096
+Represents cell's horizontal flip flag. Should be used directly with TileMapLayer to flip placed tiles by altering their alternative IDs.
+
+GDScript:
+    var alternate_id = $TileMapLayer.get_cell_alternative_tile(Vector2i(2, 2))
+    if not alternate_id & TileSetAtlasSource.TRANSFORM_FLIP_H:
+        # If tile is not already flipped, flip it.
+        $TileMapLayer.set_cell(Vector2i(2, 2), source_id, atlas_coords, alternate_id | TileSetAtlasSource.TRANSFORM_FLIP_H)
+
+Note: These transformations can be combined to do the equivalent of 0, 90, 180, and 270 degree rotations, as shown below:
+
+GDScript:
+    enum TileTransform {
+        ROTATE_0 = 0,
+        ROTATE_90 = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_H,
+        ROTATE_180 = TileSetAtlasSource.TRANSFORM_FLIP_H | TileSetAtlasSource.TRANSFORM_FLIP_V,
+        ROTATE_270 = TileSetAtlasSource.TRANSFORM_TRANSPOSE | TileSetAtlasSource.TRANSFORM_FLIP_V,
+    }
+
+TRANSFORM_FLIP_V = 8192
+Represents cell's vertical flip flag. See TRANSFORM_FLIP_H for usage.
+
+TRANSFORM_TRANSPOSE = 16384
+Represents cell's transposed flag. See TRANSFORM_FLIP_H for usage.
+---CHUNK---
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: This section describes the properties of the TileSetAtlasSource class, including texture settings, margins, separation, and padding.
+
+Properties:
+*   `margins` (Vector2i): Margins, in pixels, to offset the origin of the grid in the texture. Default: Vector2i(0, 0).
+*   `separation` (Vector2i): Separation, in pixels, between each tile texture region of the grid. Default: Vector2i(0, 0).
+*   `texture` (Texture2D): The atlas texture.
+*   `texture_region_size` (Vector2i): The base tile size in the texture (in pixel). This size must be bigger than or equal to the TileSet's `tile_size` value. Default: Vector2i(16, 16).
+*   `use_texture_padding` (bool): If `true`, generates an internal texture with an additional one pixel padding around each tile. Texture padding avoids a common artifact where lines appear between tiles. Disabling this setting might lead a small performance improvement, as generating the internal texture requires both memory and processing time when the TileSetAtlasSource resource is modified. Default: true.
+---CHUNK---
+Document: TileSetAtlasSource
+Path: godot/classes/class_tilesetatlassource.rst
+Summary: This section details methods for managing tiles, alternative tiles, and animation properties within a TileSetAtlasSource.
+
+Method: clear_tiles_outside_texture() → void
+Removes all tiles that don't fit the available texture area. This method iterates over all the source's tiles, so it's advised to use has_tiles_outside_texture() beforehand.
+
+Method: create_alternative_tile(atlas_coords: Vector2i, alternative_id_override: int = -1) → int
+Creates an alternative tile for the tile at coordinates `atlas_coords`. If `alternative_id_override` is -1, give it an automatically generated unique ID, or assigns it the given ID otherwise. Returns the new alternative identifier, or -1 if the alternative could not be created with a provided `alternative_id_override`.
+
+Method: create_tile(atlas_coords: Vector2i, size: Vector2i = Vector2i(1, 1)) → void
+Creates a new tile at coordinates `atlas_coords` with the given `size`.
+
+Method: get_atlas_grid_size() → Vector2i
+Returns the atlas grid size, which depends on how many tiles can fit in the texture. It thus depends on the texture's size, the atlas margins, and the tiles' texture_region_size.
+
+Method: get_next_alternative_tile_id(atlas_coords: Vector2i) → int
+Returns the alternative ID a following call to create_alternative_tile() would return.
+
+Method: get_runtime_texture() → Texture2D
+If use_texture_padding is `false`, returns texture. Otherwise, returns an internal ImageTexture created that includes the padding.
+
+Method: get_runtime_tile_texture_region(atlas_coords: Vector2i, frame: int) → Rect2i
+Returns the region of the tile at coordinates `atlas_coords` for the given `frame` inside the texture returned by get_runtime_texture(). Note: If use_texture_padding is `false`, returns the same as get_tile_texture_region().
+
+Method: get_tile_animation_columns(atlas_coords: Vector2i) → int
+Returns how many columns the tile at `atlas_coords` has in its animation layout.
+
+Method: get_tile_animation_frame_duration(atlas_coords: Vector2i, frame_index: int) → float
+Returns the animation frame duration of frame `frame_index` for the tile at coordinates `atlas_coords`.
+
+Method: get_tile_animation_frames_count(atlas_coords: Vector2i) → int
+Returns how many animation frames has the tile at coordinates `atlas_coords`.
+
+Method: get_tile_animation_mode(atlas_coords: Vector2i) → TileAnimationMode
+Returns the tile animation mode of the tile at `atlas_coords`. See also set_tile_animation_mode().
+
+Method: get_tile_animation_separation(atlas_coords: Vector2i) → Vector2i
+Returns the separation (as in the atlas grid) between each frame of an animated tile at coordinates `atlas_coords`.
+
+Method: get_tile_animation_speed(atlas_coords: Vector2i) → float
+Returns the animation speed of the tile at coordinates `atlas_coords`.
+
+Method: get_tile_animation_total_duration(atlas_coords: Vector2i) → float
+Returns the sum of the sum of the frame durations of the tile at coordinates `atlas_coords`. This value needs to be divided by the animation speed to get the actual animation loop duration.

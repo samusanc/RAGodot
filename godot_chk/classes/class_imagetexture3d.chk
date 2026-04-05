@@ -1,0 +1,26 @@
+Document: ImageTexture3D
+Path: godot/classes/class_imagetexture3d.rst
+Summary: 3D texture class for image-based textures in Godot.
+---CHUNK---
+Document: ImageTexture3D
+Path: godot/classes/class_imagetexture3d.rst
+Summary: A 3D texture resource for volumetric data storage and rendering.
+
+Inherits: Texture3D < Texture < Resource < RefCounted < Object
+Texture with 3 dimensions.
+---CHUNK---
+Document: ImageTexture3D
+Path: godot/classes/class_imagetexture3d.rst
+Summary: A 3D texture used for density maps, color correction LUTs, vector fields, and collision maps in Godot.
+
+ImageTexture3D is a 3-dimensional ImageTexture that has a width, height, and depth. See also ImageTextureLayered. 3D textures are typically used to store density maps for FogMaterial, color correction LUTs for Environment, vector fields for GPUParticlesAttractorVectorField3D and collision maps for GPUParticlesCollisionSDF3D. 3D textures can also be used in custom shaders. Inherits: ImageTexture.
+---CHUNK---
+Document: ImageTexture3D
+Path: godot/classes/class_imagetexture3d.rst
+Summary: Methods for creating and updating 3D image textures with format, dimensions, and data parameters.
+
+Method: create(Format format, int width, int height, int depth, bool use_mipmaps, Array[Image] data) → Error
+Creates the ImageTexture3D with specified format, width, height, and depth. If use_mipmaps is true, generates mipmaps for the ImageTexture3D. Note: Mipmap generation affects texture quality but increases memory usage.
+
+Method: update(Array[Image] data) → void
+Replaces the texture's existing data with the layers specified in data. The size of data must match the parameters used for create(). Note: Update cannot resize the texture or change its format. Warning: Data array must exactly match original creation parameters to avoid corruption.

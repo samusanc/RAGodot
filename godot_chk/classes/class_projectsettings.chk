@@ -1,0 +1,318 @@
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: Provides access to the project's configuration settings.
+---CHUNK---
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: This chunk provides the basic definition and inheritance of the ProjectSettings singleton, which stores globally-accessible project variables.
+
+Inherits: Object
+
+Stores globally-accessible variables.
+---CHUNK---
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: This chunk describes the ProjectSettings singleton, which stores global variables accessible via methods like get_setting, and explains how to name, override, and use feature tags with project settings.
+
+ProjectSettings stores variables that can be accessed from everywhere. Use get_setting, set_setting, or has_setting to access them. Variables stored in `project.godot` are also loaded into ProjectSettings, making this object very useful for reading custom game configuration options.
+
+When naming a Project Settings property, use the full path to the setting including the category. For example, "application/config/name" for the project name. Category and property names can be viewed in the Project Settings dialog.
+
+Feature tags: Project settings can be overridden for specific platforms and configurations (debug, release, etc.) using feature tags.
+
+Overriding: Any project setting can be overridden by creating a file named `override.cfg` in the project's root directory. This can also be used in exported projects by placing this file in the same directory as the project binary. Overriding will still take the base project settings' feature tags into account. Therefore, make sure to also override the setting with the desired feature tags if you want them to override base project settings on all platforms and configurations.
+---CHUNK---
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: A list of related tutorials and demos for understanding project settings.
+
+Tutorials
+- Project Settings
+- 3D Physics Tests Demo
+- 3D Platformer Demo
+- Operating System Testing Demo
+---CHUNK---
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: A list of project settings properties and their default values, covering accessibility, animations, application configuration, audio, Collada import, and compression.
+
+Properties:
+* accessibility/general/accessibility_driver (String): Default: "accesskit"
+* accessibility/general/accessibility_support (int): Default: 0
+* accessibility/general/updates_per_second (int): Default: 60
+* animation/compatibility/default_parent_skeleton_in_mesh_instance_3d (bool): Default: false
+* animation/warnings/check_angle_interpolation_type_conflicting (bool): Default: true
+* animation/warnings/check_invalid_skeleton_modifier_node_paths (bool): Default: true
+* animation/warnings/check_invalid_track_paths (bool): Default: true
+* application/boot_splash/bg_color (Color): Default: Color(0.14, 0.14, 0.14, 1)
+* application/boot_splash/image (String): Default: ""
+* application/boot_splash/minimum_display_time (int): Default: 0
+* application/boot_splash/show_image (bool): Default: true
+* application/boot_splash/stretch_mode (int): Default: 1
+* application/boot_splash/use_filter (bool): Default: true
+* application/config/auto_accept_quit (bool): Default: true
+* application/config/custom_user_dir_name (String): Default: ""
+* application/config/description (String): Default: ""
+* application/config/disable_project_settings_override (bool): Default: false
+* application/config/icon (String): Default: ""
+* application/config/macos_native_icon (String): Default: ""
+* application/config/name (String): Default: ""
+* application/config/name_localized (Dictionary): Default: {}
+* application/config/project_settings_override (String): Default: ""
+* application/config/quit_on_go_back (bool): Default: true
+* application/config/use_custom_user_dir (bool): Default: false
+* application/config/use_hidden_project_data_directory (bool): Default: true
+* application/config/version (String): Default: ""
+* application/config/windows_native_icon (String): Default: ""
+* application/run/delta_smoothing (bool): Default: true
+* application/run/disable_stderr (bool): Default: false
+* application/run/disable_stdout (bool): Default: false
+* application/run/enable_alt_space_menu (bool): Default: false
+* application/run/flush_stdout_on_print (bool): Default: false
+* application/run/flush_stdout_on_print.debug (bool): Default: true
+* application/run/frame_delay_msec (int): Default: 0
+* application/run/load_shell_environment (bool): Default: false
+* application/run/low_processor_mode (bool): Default: false
+* application/run/low_processor_mode_sleep_usec (int): Default: 6900
+* application/run/main_loop_type (String): Default: "SceneTree"
+* application/run/main_scene (String): Default: ""
+* application/run/max_fps (int): Default: 0
+* application/run/print_header (bool): Default: true
+* audio/buses/channel_disable_threshold_db (float): Default: -60.0
+* audio/buses/channel_disable_time (float): Default: 2.0
+* audio/buses/default_bus_layout (String): Default: "res://default_bus_layout.tres"
+* audio/driver/driver (String): Default: (empty)
+* audio/driver/enable_input (bool): Default: false
+* audio/driver/mix_rate (int): Default: 44100
+* audio/driver/mix_rate.web (int): Default: 0
+* audio/driver/output_latency (int): Default: 15
+* audio/driver/output_latency.web (int): Default: 50
+* audio/general/2d_panning_strength (float): Default: 0.5
+* audio/general/3d_panning_strength (float): Default: 0.5
+* audio/general/default_playback_type (int): Default: 0
+* audio/general/default_playback_type.web (int): Default: 1
+* audio/general/ios/mix_with_others (bool): Default: false
+* audio/general/ios/session_category (int): Default: 0
+* audio/general/text_to_speech (bool): Default: false
+* audio/video/video_delay_compensation_ms (int): Default: 0
+* collada/use_ambient (bool): Default: false
+* compression/formats/gzip/compression_level (int): Default: -1
+* compression/formats/zlib/compression_level (int): Default: -1
+* compression/formats/zstd/compression_level (int): Default: 3
+* compression/formats/zstd/long_distance_matching (bool): Default: false
+* compression/formats/zstd/window_log_size (int): Default: 27
+---CHUNK---
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: This chunk lists the methods for managing project settings, such as getting, setting, saving, and checking for changes, and includes the signal emitted when a setting is modified.
+
+Methods:
+* add_property_info(hint: Dictionary) -> void
+* check_changed_settings_in_group(setting_prefix: String) -> bool
+* clear(name: String) -> void
+* get_changed_settings() -> PackedStringArray
+* get_global_class_list() -> Array[Dictionary]
+* get_order(name: String) -> int
+* get_setting(name: String, default_value: Variant = null) -> Variant
+* get_setting_with_override(name: StringName) -> Variant
+* get_setting_with_override_and_custom_features(name: StringName, features: PackedStringArray) -> Variant
+* globalize_path(path: String) -> String
+* has_setting(name: String) -> bool
+* load_resource_pack(pack: String, replace_files: bool = true, offset: int = 0) -> bool
+* localize_path(path: String) -> String
+* save() -> Error
+* save_custom(file: String) -> Error
+* set_as_basic(name: String, basic: bool) -> void
+* set_as_internal(name: String, internal: bool) -> void
+* set_initial_value(name: String, value: Variant) -> void
+* set_order(name: String, position: int) -> void
+* set_restart_if_changed(name: String, restart: bool) -> void
+* set_setting(name: String, value: Variant) -> void
+
+Signals:
+* settings_changed(): Emitted when any setting is changed, up to once per process frame.
+---CHUNK---
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: This chunk covers project settings for accessibility, animation, boot splash screens, and core application configuration like icons and naming.
+
+Property Descriptions
+- accessibility/general/accessibility_driver (String): The accessibility driver to use. Can be "accesskit" (default) for the AccessKit driver, or "dummy" to disable screen reader support. Default: "accesskit".
+- accessibility/general/accessibility_support (int): Sets the accessibility support mode. Default: 0.
+  - Auto (0): Accessibility support is enabled, but updates are processed only if an assistive app like a screen reader is active. This is the default.
+  - Always Active (1): Accessibility support is enabled, and updates are always processed, regardless of assistive app status.
+  - Disabled (2): Accessibility support is fully disabled.
+  Note: To test your project with accessibility debugging tools like Accessibility Insights, use "Always Active" as these tools do not count as assistive apps.
+- accessibility/general/updates_per_second (int): The number of accessibility information updates per second. Default: 60.
+- animation/compatibility/default_parent_skeleton_in_mesh_instance_3d (bool): If true, MeshInstance3D.skeleton will point to the parent node ("..") by default, which was the behavior before Godot 4.6. It's recommended to keep this disabled unless needed for compatibility. Default: false. Note: If you disable this option in an existing project, it's strongly recommended to use the "Project > Tools > Upgrade Project Files..." option to ensure existing scenes do not break.
+- animation/warnings/check_angle_interpolation_type_conflicting (bool): If true, AnimationMixer prints a warning if interpolation is forced to choose the shortest rotation path due to multiple angle interpolation types being mixed in the cache. Default: true.
+- animation/warnings/check_invalid_skeleton_modifier_node_paths (bool): If true, SkeletonModifier3D prints a warning if there's no matching object for the track path in the scene when assigning. Default: true.
+- animation/warnings/check_invalid_track_paths (bool): If true, AnimationMixer prints a warning if there is no matching object for a track path in the scene. Default: true.
+- application/boot_splash/bg_color (Color): Background color for the boot splash. Default: Color(0.14, 0.14, 0.14, 1).
+- application/boot_splash/image (String): Path to an image used as the boot splash. If empty, the default Godot Engine splash is displayed. Default: "". Note: This is only effective if application/boot_splash/show_image is true. The only supported format is PNG; other formats will cause an error. The image will also show when opening the project in the editor. To display the default splash in the editor, add an empty override for the "editor_hint" feature.
+- application/boot_splash/minimum_display_time (int): Minimum boot splash display time in milliseconds. Setting high values is not recommended. Default: 0.
+- application/boot_splash/show_image (bool): If true, displays the image specified in application/boot_splash/image. If false, only the plain color from application/boot_splash/bg_color is shown. Default: true.
+- application/boot_splash/stretch_mode (int): Specifies how the splash image will be stretched. See SplashStretchMode constants for more information. To use the original size, set to disabled. Default: 1.
+- application/boot_splash/use_filter (bool): If true, applies linear filtering when scaling the image (recommended for high-resolution artwork). If false, uses nearest-neighbor interpolation (recommended for pixel art). Default: true.
+- application/config/auto_accept_quit (bool): If true, the application automatically accepts quitting requests. Default: true.
+- application/config/custom_user_dir_name (String): Defines a custom user directory name for storing persistent data (user:// filesystem). This name is appended to the system-specific user data directory. This setting requires application/config/use_custom_user_dir to be enabled. Default: "". Note: Trailing periods will be stripped as they are not allowed in folder names on Windows.
+- application/config/description (String): The project's description, displayed as a tooltip in the Project Manager. Default: "".
+- application/config/disable_project_settings_override (bool): If true, disables loading of project settings overrides from the file defined in application/config/project_settings_override and from res://override.cfg, as well as related CLI arguments. Default: false.
+- application/config/icon (String): The icon used for the project, which is set when the project loads. Exporters also use this as a fallback. Default: "".
+- application/config/macos_native_icon (String): An icon in .icns format used on macOS to set the game's icon. This is applied automatically on start by calling DisplayServer.set_native_icon(). Default: "".
+- application/config/name (String): The project's name, used by the Project Manager and exporters. The window title is automatically set to this name on startup. It can be translated using localization files. Default: "". Note: Changing this value also changes the user data folder's path if application/config/use_custom_user_dir is false. After renaming, you must rename the old user data folder to match the new project name to access existing data.
+---CHUNK---
+Document: ProjectSettings
+Path: godot/classes/class_projectsettings.rst
+Summary: This chunk covers methods for managing project settings, including adding property info, getting and setting values with feature overrides, handling path conversions, loading resource packs, and saving configurations.
+
+Method: add_property_info(hint: Dictionary) -> void
+Adds a custom property info to a property. The dictionary must contain:
+- "name" (String): The property's name.
+- "type" (int): See Variant.Type.
+- optionally "hint" (int): See PropertyHint.
+- optionally "hint_string" (String).
+
+GDScript:
+    ProjectSettings.set("category/property_name", 0)
+
+    var property_info = {
+        "name": "category/property_name",
+        "type": TYPE_INT,
+        "hint": PROPERTY_HINT_ENUM,
+        "hint_string": "one,two,three"
+    }
+
+    ProjectSettings.add_property_info(property_info)
+
+C#:
+    ProjectSettings.Singleton.Set("category/property_name", 0);
+
+    var propertyInfo = new Godot.Collections.Dictionary
+    {
+        { "name", "category/propertyName" },
+        { "type", (int)Variant.Type.Int },
+        { "hint", (int)PropertyHint.Enum },
+        { "hint_string", "one,two,three" },
+    };
+
+    ProjectSettings.AddPropertyInfo(propertyInfo);
+
+Note: Setting "usage" for the property is not supported. Use set_as_basic(), set_restart_if_changed(), and set_as_internal() to modify usage flags.
+
+Method: check_changed_settings_in_group(setting_prefix: String) -> bool
+Checks if any settings with the prefix `setting_prefix` exist in the set of changed settings. See also get_changed_settings().
+
+Method: clear(name: String) -> void
+Clears the whole configuration (not recommended, may break things).
+
+Method: get_changed_settings() -> PackedStringArray
+Gets an array of the settings which have been changed since the last save. Note that internally `changed_settings` is cleared after a successful save, so generally the most appropriate place to use this method is when processing the settings_changed signal.
+
+Method: get_global_class_list() -> Array[Dictionary]
+Returns an Array of registered global classes. Each global class is represented as a Dictionary that contains the following entries:
+- `base` is a name of the base class;
+- `class` is a name of the registered global class;
+- `icon` is a path to a custom icon of the global class, if it has any;
+- `language` is a name of a programming language in which the global class is written;
+- `path` is a path to a file containing the global class.
+Note: Both the script and the icon paths are local to the project filesystem, i.e. they start with `res://`.
+
+Method: get_order(name: String) -> int
+Returns the order of a configuration value (influences when saved to the config file).
+
+Method: get_setting(name: String, default_value: Variant = null) -> Variant
+Returns the value of the setting identified by `name`. If the setting doesn't exist and `default_value` is specified, the value of `default_value` is returned. Otherwise, `null` is returned.
+
+GDScript:
+    print(ProjectSettings.get_setting("application/config/name"))
+    print(ProjectSettings.get_setting("application/config/custom_description", "No description specified."))
+
+C#:
+    GD.Print(ProjectSettings.GetSetting("application/config/name"));
+    GD.Print(ProjectSettings.GetSetting("application/config/custom_description", "No description specified."));
+
+Note: This method doesn't take potential feature overrides into account automatically. Use get_setting_with_override() to handle seamlessly. See also has_setting() to check whether a setting exists.
+
+Method: get_setting_with_override(name: StringName) -> Variant
+Similar to get_setting(), but applies feature tag overrides if any exists and is valid. For example, if the setting override "application/config/name.windows" exists, and the following code is executed on a Windows operating system, the overridden setting is printed instead:
+
+GDScript:
+    print(ProjectSettings.get_setting_with_override("application/config/name"))
+
+C#:
+    GD.Print(ProjectSettings.GetSettingWithOverride("application/config/name"));
+
+Method: get_setting_with_override_and_custom_features(name: StringName, features: PackedStringArray) -> Variant
+Similar to get_setting_with_override(), but applies feature tag overrides instead of current OS features.
+
+Method: globalize_path(path: String) -> String
+Returns the absolute, native OS path corresponding to the localized `path` (starting with `res://` or `user://`). The returned path will vary depending on the operating system and user preferences. See also localize_path().
+Note: globalize_path() with `res://` will not work in an exported project. Instead, prepend the executable's base directory to the path when running from an exported project:
+
+GDScript:
+    var path = ""
+    if OS.has_feature("editor"):
+        # Running from an editor binary.
+        # `path` will contain the absolute path to `hello.txt` located in the project root.
+        path = ProjectSettings.globalize_path("res://hello.txt")
+    else:
+        # Running from an exported project.
+        # `path` will contain the absolute path to `hello.txt` next to the executable.
+        # This is *not* identical to using `ProjectSettings.globalize_path()` with a `res://` path,
+        # but is close enough in spirit.
+        path = OS.get_executable_path().get_base_dir().path_join("hello.txt")
+
+Method: has_setting(name: String) -> bool
+Returns `true` if a configuration value is present. Note: In order to be be detected, custom settings have to be either defined with set_setting(), or exist in the `project.godot` file. This is especially relevant when using set_initial_value().
+
+Method: load_resource_pack(pack: String, replace_files: bool = true, offset: int = 0) -> bool
+Loads the contents of the .pck or .zip file specified by `pack` into the resource filesystem (`res://`). Returns `true` on success.
+Note: If a file from `pack` shares the same path as a file already in the resource filesystem, any attempts to load that file will use the file from `pack` unless `replace_files` is set to `false`.
+Note: The optional `offset` parameter can be used to specify the offset in bytes to the start of the resource pack. This is only supported for .pck files.
+Note: DirAccess will not show changes made to the contents of `res://` after calling this function.
+
+Method: localize_path(path: String) -> String
+Returns the localized path (starting with `res://`) corresponding to the absolute, native OS `path`. See also globalize_path().
+
+Method: save() -> Error
+Saves the configuration to the `project.godot` file. Note: This method is intended to be used by editor plugins, as modified ProjectSettings can't be loaded back in the running app. If you want to change project settings in exported projects, use save_custom() to save `override.cfg` file.
+
+Method: save_custom(file: String) -> Error
+Saves the configuration to a custom file. The file extension must be `.godot` (to save in text-based ConfigFile format) or `.binary` (to save in binary format). You can also save `override.cfg` file, which is also text, but can be used in exported projects unlike other formats.
+
+Method: set_as_basic(name: String, basic: bool) -> void
+Defines if the specified setting is considered basic or advanced. Basic settings will always be shown in the project settings. Advanced settings will only be shown if the user enables the "Advanced Settings" option.
+
+Method: set_as_internal(name: String, internal: bool) -> void
+Defines if the specified setting is considered internal. An internal setting won't show up in the Project Settings dialog. This is mostly useful for addons that need to store their own internal settings without exposing them directly to the user.
+
+Method: set_initial_value(name: String, value: Variant) -> void
+Sets the specified setting's initial value. This is the value the setting reverts to. The setting should already exist before calling this method. Note that project settings equal to their default value are not saved, so your code needs to account for that. If you have a project setting defined by an EditorPlugin, but want to use it in a running project, you will need a similar code at runtime.
+
+GDScript:
+    extends EditorPlugin
+
+    const SETTING_NAME = "addons/my_setting"
+    const SETTING_DEFAULT = 10.0
+
+    func _enter_tree():
+        if not ProjectSettings.has_setting(SETTING_NAME):
+            ProjectSettings.set_setting(SETTING_NAME, SETTING_DEFAULT)
+
+        ProjectSettings.set_initial_value(SETTING_NAME, SETTING_DEFAULT)
+
+Method: set_order(name: String, position: int) -> void
+Sets the order of a configuration value (influences when saved to the config file).
+
+Method: set_restart_if_changed(name: String, restart: bool) -> void
+Sets whether a setting requires restarting the editor to properly take effect. Note: This is just a hint to display to the user that the editor must be restarted for changes to take effect. Enabling set_restart_if_changed() does not delay the setting being set when changed.
+
+Method: set_setting(name: String, value: Variant) -> void
+Sets the value of a setting. This can also be used to erase custom project settings. To do this change the setting value to `null`.
+
+GDScript:
+    ProjectSettings.set_setting("application/config/name", "Example")
+
+C#:
+    ProjectSettings.SetSetting("application/config/name", "Example");

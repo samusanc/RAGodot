@@ -1,0 +1,289 @@
+Document: Using Servers
+Path: godot/tutorials/performance/using_servers.rst
+Summary: This document explains how to use Godot's servers for performance-critical tasks.
+
+Godot Engine provides several low-level servers that can be used for performance-critical tasks. These servers offer direct access to engine functionalities, bypassing some of the higher-level abstractions. This can lead to significant performance gains when used correctly.
+
+The main servers available are:
+
+*   **Physics Server:** Handles all physics calculations, including collision detection, rigid body simulation, and raycasting.
+*   **Rendering Server:** Manages the rendering pipeline, allowing for fine-grained control over how objects are drawn to the screen.
+*   **Navigation Server:** Deals with pathfinding and navigation mesh generation for AI agents.
+*   **Audio Server:** Controls audio playback, mixing, and effects.
+
+Using these servers directly requires a deeper understanding of the engine's internals. However, for tasks that demand maximum performance, they are invaluable tools.
+
+For example, instead of creating many `RigidBody` nodes, you could potentially manage physics bodies directly through the Physics Server. This would involve creating physics bodies, shapes, and joints via the server's API and then updating their state manually. Similarly, the Rendering Server allows you to create and manage visual elements like meshes, materials, and lights directly, which can be more efficient than using `MeshInstance` nodes for certain scenarios.
+
+It is important to note that using servers directly often means you are responsible for managing the lifecycle of the objects you create. You will need to ensure that resources are freed properly to avoid memory leaks.
+
+The documentation for each server provides detailed information on its API and usage. It is highly recommended to consult these specific sections before attempting to use the servers directly.
+
+GDScript:
+```gdscript
+# Example of accessing the Physics Server (conceptual)
+var space = PhysicsServer3D.space_create()
+var body = PhysicsServer3D.body_create()
+PhysicsServer3D.body_add_shape(body, shape_rid)
+PhysicsServer3D.body_set_space(body, space)
+# ... manage body state and free resources later
+```
+
+C#:
+```csharp
+// Example of accessing the Physics Server (conceptual)
+var space = PhysicsServer3D.SpaceCreate();
+var body = PhysicsServer3D.BodyCreate();
+PhysicsServer3D.BodyAddShape(body, shapeRid);
+PhysicsServer3D.BodySetSpace(body, space);
+// ... manage body state and free resources later
+```
+---CHUNK---
+Document: Using Servers
+Path: godot/tutorials/performance/using_servers.rst
+Summary: Explains the performance trade-offs of using Godot's high-level scene system and introduces the concept of using low-level servers for optimization.
+
+Godot's high-level constructs, primarily accessed via the scene system, offer ease of use but come with drawbacks: increased complexity, lower performance compared to direct API usage, inability to use multiple threads for control, and higher memory consumption. While generally not an issue due to Godot's optimizations and signal-based operations, situations involving tens of thousands of instances requiring per-frame processing can become performance bottlenecks. In such cases, developers might wish for a more low-level implementation. Godot is designed to address this by allowing direct access to its low-level servers.
+
+A practical example of using low-level servers can be found in the Bullet Shower demo project.
+---CHUNK---
+Document: Using Servers
+Path: godot/tutorials/performance/using_servers.rst
+Summary: Explains Godot's core server architecture and lists the main servers available.
+
+Servers
+One of the most interesting design decisions for Godot is the fact that the whole scene system is optional. While it is not possible to compile it out, it can be completely bypassed.
+
+At the core, Godot uses the concept of Servers. They are low-level APIs to control rendering, physics, sound, etc. The scene system is built on top of them and uses them directly. The most common servers are:
+
+* RenderingServer: Handles everything related to graphics.
+* PhysicsServer3D: Handles everything related to 3D physics.
+* PhysicsServer2D: Handles everything related to 2D physics.
+* AudioServer: Handles everything related to audio.
+
+Explore their APIs, and you will realize that all the functions provided are low-level implementations of everything Godot allows you to do using nodes.
+---CHUNK---
+Document: using_servers
+Path: godot/tutorials/performance/using_servers.rst
+Summary: This section explains Resource IDs (RIDs) and how they are used to interact with Godot's servers, detailing how to obtain RIDs for various node types and resources.
+
+RIDs are opaque handles to the server implementation that must be allocated and freed manually. Most server functions require RIDs to access resources. Many Godot nodes and resources contain RIDs internally, which can be obtained using specific functions. Any object inheriting Resource can be cast to an RID, though not all resources contain one.
+
+Warning: Resources are reference-counted, but references to a resource's RID are not counted towards its usage. It is crucial to maintain an external reference to the resource itself to prevent both the resource and its RID from being erased when the server no longer needs it.
+
+For nodes, RIDs can be obtained as follows:
+- CanvasItem: Use `get_canvas_item()` to get the canvas item RID.
+- CanvasLayer: Use `get_canvas()` to get the canvas RID.
+- Viewport: Use `get_viewport_rid()` to get the viewport RID.
+- World2D: Obtainable from Viewport and CanvasItem nodes, this resource provides functions to get the RenderingServer Canvas and the PhysicsServer2D Space, allowing direct creation and use of 2D objects with the server API.
+- World3D: Obtainable from Viewport and Node3D nodes, this resource provides functions to get the RenderingServer Scenario and the PhysicsServer Space, allowing direct creation and use of 3D objects with the server API.
+- VisualInstance3D: Use `get_instance()` and `get_base()` to get the scenario instance and instance base RIDs, respectively.
+
+It is generally not advised to control RIDs from objects that already have an associated node. Server functions are best used for creating and managing new RIDs and interacting with existing ones.
+---CHUNK---
+Document: Using Servers
+Path: godot/tutorials/performance/using_servers.rst
+Summary: This section demonstrates how to create and manipulate a sprite using the low-level RenderingServer API in Godot.
+
+This is an example of how to create a sprite from code and move it using the low-level CanvasItem API.
+Note: When creating canvas items using the RenderingServer, you should reset physics interpolation on the first frame using RenderingServer.canvas_item_reset_physics_interpolation(). This ensures proper synchronization between the rendering and physics systems. If this is not done, the canvas item may appear to teleport in when the scene is loaded, rather than appearing directly at its intended location.
+
+GDScript:
+extends Node2D
+
+# RenderingServer expects references to be kept around.
+var texture
+
+func _ready():
+    # Create a canvas item, child of this node.
+    var ci_rid = RenderingServer.canvas_item_create()
+    # Make this node the parent.
+    RenderingServer.canvas_item_set_parent(ci_rid, get_canvas_item())
+    # Draw a texture on it.
+    # Remember to keep this reference.
+    texture = load("res://my_texture.png")
+    # Add it, centered.
+    RenderingServer.canvas_item_add_texture_rect(ci_rid, Rect2(-texture.get_size() / 2, texture.get_size()), texture)
+    # Add the item, rotated 45 degrees and translated.
+    var xform = Transform2D().rotated(deg_to_rad(45)).translated(Vector2(20, 30))
+    RenderingServer.canvas_item_set_transform(ci_rid, xform)
+    # Reset physics interpolation for this item.
+    RenderingServer.canvas_item_reset_physics_interpolation(ci_rid)
+
+C#:
+public partial class MyNode2D : Node2D
+{
+    // RenderingServer expects references to be kept around.
+    private Texture2D _texture;
+
+    public override void _Ready()
+    {
+        // Create a canvas item, child of this node.
+        Rid ciRid = RenderingServer.CanvasItemCreate();
+        // Make this node the parent.
+        RenderingServer.CanvasItemSetParent(ciRid, GetCanvasItem());
+        // Draw a texture on it.
+        // Remember to keep this reference.
+        _texture = ResourceLoader.Load<Texture2D>("res://my_texture.png");
+        // Add it, centered.
+        RenderingServer.CanvasItemAddTextureRect(ciRid, new Rect2(-_texture.GetSize() / 2, _texture.GetSize()), _texture.GetRid());
+        // Add the item, rotated 45 degrees and translated.
+        Transform2D xform = Transform2D.Identity.Rotated(Mathf.DegToRad(45)).Translated(new Vector2(20, 30));
+        RenderingServer.CanvasItemSetTransform(ciRid, xform);
+        // Reset physics interpolation for this item.
+        RenderingServer.CanvasItemResetPhysicsInterpolation(ciRid);
+    }
+}
+
+The Canvas Item API in the server allows you to add draw primitives to it. Once added, they can't be modified. The Item needs to be cleared and the primitives re-added. This is not the case for setting the transform, which can be done as many times as desired.
+
+Primitives are cleared this way:
+
+GDScript:
+RenderingServer.canvas_item_clear(ci_rid)
+
+C#:
+RenderingServer.CanvasItemClear(ciRid);
+---CHUNK---
+Document: Using Servers
+Path: godot/tutorials/performance/using_servers.rst
+Summary: This section explains how to instantiate a mesh into 3D space using the RenderingServer API in Godot.
+
+GDScript:
+```gdscript
+extends Node3D
+
+
+# RenderingServer expects references to be kept around.
+var mesh
+
+
+func _ready():
+    # Create a visual instance (for 3D).
+    var instance = RenderingServer.instance_create()
+    # Set the scenario from the world. This ensures it
+    # appears with the same objects as the scene.
+    var scenario = get_world_3d().scenario
+    RenderingServer.instance_set_scenario(instance, scenario)
+    # Add a mesh to it.
+    # Remember to keep this reference.
+    mesh = load("res://my_mesh.obj")
+    RenderingServer.instance_set_base(instance, mesh)
+    # Move the mesh around.
+    var xform = Transform3D(Basis(), Vector3(2, 3, 0))
+    RenderingServer.instance_set_transform(instance, xform)
+```
+
+C#:
+```csharp
+public partial class MyNode3D : Node3D
+{
+    // RenderingServer expects references to be kept around.
+    private Mesh _mesh;
+
+    public override void _Ready()
+    {
+        // Create a visual instance (for 3D).
+        Rid instance = RenderingServer.InstanceCreate();
+        // Set the scenario from the world. This ensures it
+        // appears with the same objects as the scene.
+        Rid scenario = GetWorld3D().Scenario;
+        RenderingServer.InstanceSetScenario(instance, scenario);
+        // Add a mesh to it.
+        // Remember to keep this reference.
+        _mesh = ResourceLoader.Load<Mesh>("res://my_mesh.obj");
+        RenderingServer.InstanceSetBase(instance, _mesh.GetRid());
+        // Move the mesh around.
+        Transform3D xform = new Transform3D(Basis.Identity, new Vector3(2, 3, 0));
+        RenderingServer.InstanceSetTransform(instance, xform);
+    }
+}
+```
+---CHUNK---
+Document: using_servers.rst
+Path: godot/tutorials/performance/using_servers.rst
+Summary: This section demonstrates how to create a 2D RigidBody using the PhysicsServer2D API and link its movement to a CanvasItem.
+
+GDScript:
+# PhysicsServer2D expects references to be kept around.
+var body
+var shape
+
+
+func _body_moved(state, index):
+    # Created your own canvas item; use it here.
+    # `ci_rid` from the sprite example above needs to be moved to a
+    # member variable (instead of within `_ready()`) so it can be referenced here.
+    RenderingServer.canvas_item_set_transform(ci_rid, state.transform)
+
+
+func _ready():
+    # Create the body.
+    body = PhysicsServer2D.body_create()
+    PhysicsServer2D.body_set_mode(body, PhysicsServer2D.BODY_MODE_RIGID)
+    # Add a shape.
+    shape = PhysicsServer2D.rectangle_shape_create()
+    # Set rectangle extents.
+    PhysicsServer2D.shape_set_data(shape, Vector2(10, 10))
+    # Make sure to keep the shape reference!
+    PhysicsServer2D.body_add_shape(body, shape)
+    # Set space, so it collides in the same space as current scene.
+    PhysicsServer2D.body_set_space(body, get_world_2d().space)
+    # Move initial position.
+    PhysicsServer2D.body_set_state(body, PhysicsServer2D.BODY_STATE_TRANSFORM, Transform2D(0, Vector2(10, 20)))
+    # Add the transform callback, when body moves
+    # The last parameter is optional, can be used as index
+    # if you have many bodies and a single callback.
+    PhysicsServer2D.body_set_force_integration_callback(body, self, "_body_moved", 0)
+
+    # Also create a sprite using RenderingServer here.
+    # See the section above on creating a sprite.
+    # ...
+
+C#:
+using Godot;
+
+public partial class MyNode2D : Node2D
+{
+    private Rid _canvasItem;
+
+    private void BodyMoved(PhysicsDirectBodyState2D state, int index)
+    {
+        // Created your own canvas item; use it here.
+        // `ciRid` from the sprite example above needs to be moved to a
+        // member variable (instead of within `_Ready()`) so it can be referenced here.
+        RenderingServer.CanvasItemSetTransform(_canvasItem, state.Transform);
+    }
+
+    public override void _Ready()
+    {
+        // Create the body.
+        var body = PhysicsServer2D.BodyCreate();
+        PhysicsServer2D.BodySetMode(body, PhysicsServer2D.BodyMode.Rigid);
+        // Add a shape.
+        var shape = PhysicsServer2D.RectangleShapeCreate();
+        // Set rectangle extents.
+        PhysicsServer2D.ShapeSetData(shape, new Vector2(10, 10));
+        // Make sure to keep the shape reference!
+        PhysicsServer2D.BodyAddShape(body, shape);
+        // Set space, so it collides in the same space as current scene.
+        PhysicsServer2D.BodySetSpace(body, GetWorld2D().Space);
+        // Move initial position.
+        PhysicsServer2D.BodySetState(body, PhysicsServer2D.BodyState.Transform, new Transform2D(0, new Vector2(10, 20)));
+        // Add the transform callback, when body moves
+        // The last parameter is optional, can be used as index
+        // if you have many bodies and a single callback.
+        PhysicsServer2D.BodySetForceIntegrationCallback(body, new Callable(this, MethodName.BodyMoved), 0);
+
+        // Also create a sprite using RenderingServer here.
+        // See the section above on creating a sprite.
+        // ...
+    }
+}
+
+The 3D version should be very similar, as the 2D and 3D physics servers are identical (using RigidBody3D and PhysicsServer3D respectively).
+---CHUNK---
+Document: Using Servers
+Path: godot/tutorials/performance/using_servers.rst
+Summary: Explains why direct calls to RenderingServer and PhysicsServer functions can negatively impact performance.
+When using servers like RenderingServer, PhysicsServer2D, or PhysicsServer3D, avoid calling functions that return values unless absolutely necessary. These servers often operate asynchronously for performance reasons. Any function call that requires a return value will force the server to halt its current operations and process pending tasks until the requested data is available. This synchronous behavior can significantly degrade performance, especially if these calls are made frequently, such as every frame, and the cause of the slowdown may not be immediately apparent. To mitigate this, many APIs within these servers are designed to prevent direct data retrieval, only allowing access to data that has already been finalized and saved.

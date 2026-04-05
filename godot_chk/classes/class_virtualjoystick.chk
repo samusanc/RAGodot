@@ -1,0 +1,155 @@
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: A virtual joystick that can be used for input in games.
+
+Inherits: Control < CanvasItem < Node < Object
+
+A virtual joystick that can be used for input in games. It provides a visual representation of a joystick that the user can interact with by dragging their finger or mouse. The joystick's position and movement are translated into input events that can be used to control game characters or other game elements.
+---CHUNK---
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: Introduces the VirtualJoystick control, a node for implementing virtual joysticks on touchscreen devices.
+
+VirtualJoystick
+Inherits: Control < CanvasItem < Node < Object
+
+A virtual joystick control for touchscreen devices.
+---CHUNK---
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: Describes the VirtualJoystick control, an on-screen joystick for touchscreens that simulates directional actions.
+Inherits: Control < CanvasItem < Node < Object
+---CHUNK---
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: Defines the properties for the VirtualJoystick node, including input actions, zone ratios, sizes, and visibility modes.
+
+Properties
+* action_down (StringName): The input action mapped to the "down" direction. Default: "ui_down".
+* action_left (StringName): The input action mapped to the "left" direction. Default: "ui_left".
+* action_right (StringName): The input action mapped to the "right" direction. Default: "ui_right".
+* action_up (StringName): The input action mapped to the "up" direction. Default: "ui_up".
+* clampzone_ratio (float): The ratio of the joystick's clamp zone. Default: 1.0.
+* deadzone_ratio (float): The ratio of the joystick's deadzone. Default: 0.0.
+* initial_offset_ratio (Vector2): The initial offset of the joystick's center, relative to the joystick's size. Default: Vector2(0.5, 0.5).
+* joystick_mode (JoystickMode): The mode of the joystick. Default: 0.
+* joystick_size (float): The size of the joystick's base. Default: 100.0.
+* tip_size (float): The size of the joystick's handle. Default: 50.0.
+* visibility_mode (VisibilityMode): The visibility mode of the joystick. Default: 0.
+---CHUNK---
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: Defines theme properties for styling the VirtualJoystick.
+
+Theme Properties:
+* normal_joystick (StyleBox): The StyleBox for the joystick's normal state.
+* normal_tip (StyleBox): The StyleBox for the joystick's tip in its normal state.
+* pressed_joystick (StyleBox): The StyleBox for the joystick's pressed state.
+* pressed_tip (StyleBox): The StyleBox for the joystick's tip in its pressed state.
+---CHUNK---
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: This section describes the signals and enumerations available for the VirtualJoystick class in Godot Engine.
+
+Signals
+flick_canceled()
+Emitted when the tip enters the deadzone after being outside of it.
+
+flicked(input_vector: Vector2)
+Emitted when the tip moved outside the deadzone and the joystick is released. The input_vector contains the last input direction and strength before release. Its length is between 0.0 and 1.0.
+
+pressed()
+Emitted when the joystick is pressed.
+
+released(input_vector: Vector2)
+Emitted when the joystick is released. The input_vector is the final input direction and strength, with a length between 0.0 and 1.0.
+
+tapped()
+Emitted when the joystick is released without moving the tip.
+
+Enumerations
+enum JoystickMode:
+JOYSTICK_FIXED = 0
+The joystick doesn't move.
+
+JOYSTICK_DYNAMIC = 1
+The joystick is moved to the initial touch position as long as it's within the joystick's bounds. It moves back to its original position when released.
+
+JOYSTICK_FOLLOWING = 2
+The joystick is moved to the initial touch position as long as it's within the joystick's bounds. It will follow the touch input if it goes outside the joystick's range. It moves back to its original position when released.
+
+enum VisibilityMode:
+VISIBILITY_ALWAYS = 0
+The joystick is always visible.
+
+VISIBILITY_WHEN_TOUCHED = 1
+The joystick is only visible when being touched.
+---CHUNK---
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: This chunk describes the properties of the VirtualJoystick class, including action mapping, sizing, deadzones, and operational modes.
+
+Property: action_down (StringName). Default: &"ui_down".
+Method: set_action_down(value: StringName) → void
+Method: get_action_down() → StringName
+The action to trigger when the joystick is moved down.
+
+Property: action_left (StringName). Default: &"ui_left".
+Method: set_action_left(value: StringName) → void
+Method: get_action_left() → StringName
+The action to trigger when the joystick is moved left.
+
+Property: action_right (StringName). Default: &"ui_right".
+Method: set_action_right(value: StringName) → void
+Method: get_action_right() → StringName
+The action to trigger when the joystick is moved right.
+
+Property: action_up (StringName). Default: &"ui_up".
+Method: set_action_up(value: StringName) → void
+Method: get_action_up() → StringName
+The action to trigger when the joystick is moved up.
+
+Property: clampzone_ratio (float). Default: 1.0.
+Method: set_clampzone_ratio(value: float) → void
+Method: get_clampzone_ratio() → float
+The multiplier applied to the joystick's radius that defines the clamp zone. This zone limits how far the joystick tip can move from its center before being clamped. A value of 1.0 means the tip can move up to the edge of the joystick's visual size. In JOYSTICK_FOLLOWING mode, this radius also determines how far the finger can move before the joystick base starts following the touch input.
+
+Property: deadzone_ratio (float). Default: 0.0.
+Method: set_deadzone_ratio(value: float) → void
+Method: get_deadzone_ratio() → float
+The ratio of the joystick size that defines the joystick deadzone. The joystick tip must move beyond this ratio before being considered active. This deadzone is applied before triggering input actions and affects the joystick's input vector and all related signals. Note: Input actions may also define their own deadzones in the InputMap. If both are set, the joystick deadzone is applied first, followed by the action's deadzone. By default, this value is 0.0, meaning the joystick does not apply its own deadzone and relies entirely on the InputMap action deadzones.
+
+Property: initial_offset_ratio (Vector2). Default: Vector2(0.5, 0.5).
+Method: set_initial_offset_ratio(value: Vector2) → void
+Method: get_initial_offset_ratio() → Vector2
+The initial position of the joystick as a ratio of the control's size. (0, 0) is top-left and (1, 1) is bottom-right.
+
+Property: joystick_mode (JoystickMode). Default: 0.
+Method: set_joystick_mode(value: JoystickMode) → void
+Method: get_joystick_mode() → JoystickMode
+The joystick mode to use.
+
+Property: joystick_size (float). Default: 100.0.
+Method: set_joystick_size(value: float) → void
+Method: get_joystick_size() → float
+The size of the joystick in pixels.
+
+Property: tip_size (float). Default: 50.0.
+Method: set_tip_size(value: float) → void
+Method: get_tip_size() → float
+The size of the joystick tip in pixels.
+
+Property: visibility_mode (VisibilityMode). Default: 0.
+Method: set_visibility_mode(value: VisibilityMode) → void
+Method: get_visibility_mode() → VisibilityMode
+The visibility mode to use.
+---CHUNK---
+Document: VirtualJoystick
+Path: godot/classes/class_virtualjoystick.rst
+Summary: Defines the theme properties for the VirtualJoystick, specifying the StyleBoxes for the joystick base and tip in both normal and pressed states.
+
+Theme Property Descriptions
+normal_joystick (StyleBox): Base joystick StyleBox.
+normal_tip (StyleBox): Tip joystick StyleBox.
+pressed_joystick (StyleBox): Base joystick StyleBox when pressed.
+pressed_tip (StyleBox): Tip joystick StyleBox when pressed.
