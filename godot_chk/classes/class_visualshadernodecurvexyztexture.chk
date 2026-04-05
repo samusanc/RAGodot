@@ -1,0 +1,33 @@
+Document: VisualShaderNodeCurveXYZTexture
+Path: godot/classes/class_visualshadernodecurvexyztexture.rst
+Summary: This class represents a VisualShaderNode for applying curve XYZ texture operations in Godot.
+---CHUNK---
+Document: VisualShaderNodeCurveXYZTexture
+Path: godot/classes/class_visualshadernodecurvexyztexture.rst
+Summary: A visual shader node that performs a CurveXYZTexture lookup in the shader graph.
+
+Inherits: VisualShaderNodeResizableBase < VisualShaderNode < Resource < RefCounted < Object
+Performs a CurveXYZTexture lookup within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeCurveXYZTexture
+Path: godot/classes/class_visualshadernodecurvexyztexture.rst
+Summary: A class providing a built-in editor for texture curves in visual shaders.
+
+Description
+Comes with a built-in editor for texture's curves.
+---CHUNK---
+Document: VisualShaderNodeCurveXYZTexture
+Path: godot/classes/class_visualshadernodecurvexyztexture.rst
+Summary: Properties and member variables for the VisualShaderNodeCurveXYZTexture class.
+
+- texture (CurveXYZTexture):
+---CHUNK---
+Document: VisualShaderNodeCurveXYZTexture
+Path: godot/classes/class_visualshadernodecurvexyztexture.rst
+Summary: The texture property and its setter/getter methods for the VisualShaderNodeCurveXYZTexture class.
+
+CurveXYZTexture texture
+The source texture.
+
+Method: set_texture(value: CurveXYZTexture) → void
+Method: get_texture() → CurveXYZTexture

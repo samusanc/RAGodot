@@ -1,0 +1,33 @@
+Document: CanvasModulate  
+Path: godot/classes/class_canvasmodulate.rst  
+Summary: A class for modulating the canvas color in Godot.
+---CHUNK---
+Document: CanvasModulate
+Path: godot/classes/class_canvasmodulate.rst
+Summary: A node that applies a color tint to a canvas.
+Inherits: Node2D < CanvasItem < Node < Object
+
+A node that applies a color tint to a canvas.
+---CHUNK---
+Document: CanvasModulate
+Path: godot/classes/class_canvasmodulate.rst
+Summary: CanvasModulate applies a color tint to all nodes on a canvas and enforces single usage per canvas while allowing CanvasLayer for independent rendering.
+
+CanvasModulate applies a color tint to all nodes on a canvas. Only one can be used to tint a canvas, but CanvasLayer's can be used to render things independently. This node modifies the color of all subsequent nodes in the same canvas layer by multiplying their colors with the CanvasModulate's tint color. The effect is applied to all visible nodes in the canvas layer, including 2D nodes, sprites, and other visual elements. The tint color is specified through the "modulate" property, which accepts a Color value. When multiple CanvasModulate nodes are present in the same canvas, only the last one in the scene tree takes effect. For independent rendering without shared tinting, CanvasLayer nodes can be used to isolate different visual elements into separate layers. This allows for more complex visual effects while maintaining control over individual layers' color modulation. The node does not affect the rendering order or spatial relationships between objects, only the color appearance of all visible nodes in its canvas layer.
+---CHUNK---
+Document: 2D lights and shadows  
+Path: godot/classes/class_canvasmodulate.rst  
+Summary: Lists tutorials related to 2D lights and shadows in Godot.  
+- 2D lights and shadows
+---CHUNK---
+Document: CanvasModulate
+Path: godot/classes/class_canvasmodulate.rst
+Summary: Overview of the CanvasModulate class properties and their default values.
+
+- color (Color): The color used to modulate the canvas. Default: Color(1, 1, 1, 1)
+---CHUNK---
+Document: CanvasModulate
+Path: godot/classes/class_canvasmodulate.rst
+Summary: The 'color' property defines the tint color applied to the canvas.
+
+Color (Color): Color(1, 1, 1, 1). The tint color to apply. Default: Color(1, 1, 1, 1). Methods: void set_color(value: Color), Color get_color()

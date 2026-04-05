@@ -1,0 +1,34 @@
+Document: CenterContainer
+Path: godot/classes/class_centercontainer.rst
+Summary: This chunk covers the CenterContainer class identity, description, and inheritance chain.
+---CHUNK---
+Document: CenterContainer
+Path: godot/classes/class_centercontainer.rst
+Summary: A container that keeps child controls in its center.
+
+CenterContainer
+Inherits: Container < Control < CanvasItem < Node < Object
+A container that keeps child controls in its center.
+---CHUNK---
+Document: CenterContainer
+Path: godot/classes/class_centercontainer.rst
+Summary: A container that centers its child controls at their minimum size.
+
+CenterContainer is a container that keeps all of its child controls in its center at their minimum size.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_centercontainer.rst
+Summary: Links to the 'Using Containers' tutorial for UI layout in Godot.
+- Using Containers
+---CHUNK---
+Document: CenterContainer
+Path: godot/classes/class_centercontainer.rst
+Summary: The use_top_left property and its default value.
+
+- use_top_left (bool): Default: false.
+---CHUNK---
+Document: CenterContainer  
+Path: godot/classes/class_centercontainer.rst  
+Summary: Describes the `use_top_left` property and its associated methods for controlling child positioning in a CenterContainer.  
+
+The `use_top_left` property is a bool with a default value of false. When set to true, it centers children relative to the CenterContainer's top-left corner instead of the default centering behavior. This property is controlled via two methods: `set_use_top_left(value: bool)` and `is_using_top_left() -> bool`. The `set_use_top_left` method accepts a boolean parameter to enable or disable the top-left alignment, while `is_using_top_left` returns the current state of the property. This setting affects how child nodes are positioned within the container, altering their alignment point from the center to the top-left corner.
