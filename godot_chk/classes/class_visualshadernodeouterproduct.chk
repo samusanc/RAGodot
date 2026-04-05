@@ -1,0 +1,26 @@
+Document: VisualShaderNodeOuterProduct  
+Path: godot/classes/class_visualshadernodeouterproduct.rst  
+Summary: Class representing an outer product operation node in a visual shader graph.  
+
+Inherits: VisualShaderNode < VisualShaderNodeTexture < VisualShaderNodeBase  
+
+This node computes the outer product of two vectors, producing a matrix output. It is used in visual shaders to perform mathematical operations on vector inputs. The outer product is calculated as the tensor product of the input vectors, resulting in a matrix where each element is the product of corresponding elements from the input vectors.  
+
+The node has two vector input ports (A and B) and one matrix output port (RESULT). The operation is performed in the shader's computation stage, and the resulting matrix can be used for further transformations or calculations within the shader.  
+
+No additional parameters or properties are exposed in the Godot editor for this node, as its behavior is fully determined by its input vectors. The node is part of Godot's visual shader graph system, which allows for creating complex shaders using a node-based interface without writing code.  
+
+The outer product is mathematically equivalent to multiplying a column vector by a row vector, resulting in a matrix. This operation is commonly used in linear algebra for tasks such as creating projection matrices or transforming coordinate systems.
+---CHUNK---
+Document: VisualShaderNodeOuterProduct
+Path: godot/classes/class_visualshadernodeouterproduct.rst
+Summary: Calculates an outer product of two vectors within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Calculates an outer product of two vectors within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeOuterProduct
+Path: godot/classes/class_visualshadernodeouterproduct.rst
+Summary: Performs a matrix multiplication of a column vector and a row vector to produce a matrix.
+
+The OuterProduct node treats the first parameter c as a column vector (matrix with one column) and the second parameter r as a row vector (matrix with one row) and does a linear algebraic matrix multiply c * r, yielding a matrix whose number of rows is the number of components in c and whose number of columns is the number of components in r.

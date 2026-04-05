@@ -1,0 +1,53 @@
+Document: OccluderPolygon2D  
+Path: godot/classes/class_occluderpolygon2d.rst  
+Summary: This section describes the OccluderPolygon2D class, its purpose, and inheritance chain in Godot Engine.
+---CHUNK---
+Document: OccluderPolygon2D
+Path: godot/classes/class_occluderpolygon2d.rst
+Summary: Defines a 2D polygon used by LightOccluder2D for occlusion calculations.
+
+Inherits: Resource < RefCounted < Object
+Defines a 2D polygon for LightOccluder2D.
+---CHUNK---
+Document: OCcluderPolygon2D
+Path: godot/classes/class_occluderpolygon2d.rst
+Summary: A tool for creating 2D polygons used as occluders in 2D lighting.
+
+Description
+Editor facility that helps you draw a 2D polygon used as resource for LightOccluder2D.
+---CHUNK---
+Document: OccluderPolygon2D  
+Path: godot/classes/class_occluderpolygon2d.rst  
+Summary: Properties of the OccluderPolygon2D class, including their types, default values, and descriptions.  
+
+Property: closed (Type: bool). Default: true.  
+Property: cull_mode (Type: CullMode). Default: 0.  
+Property: polygon (Type: PackedVector2Array). Default: PackedVector2Array().
+---CHUNK---
+Document: OccluderPolygon2D
+Path: godot/classes/class_occluderpolygon2d.rst
+Summary: Defines the CullMode enumeration and its three possible values for controlling culling direction in 2D occlusion.
+
+enum CullMode:
+- CULL_DISABLED (int): 0. Culling is disabled. See cull_mode property.
+- CULL_CLOCKWISE (int): 1. Culling is performed in the clockwise direction. See cull_mode property.
+- CULL_COUNTER_CLOCKWISE (int): 2. Culling is performed in the counterclockwise direction. See cull_mode property.
+---CHUNK---
+Document: OccluderPolygon2D  
+Path: godot/classes/class_occluderpolygon2d.rst  
+Summary: Properties and methods for configuring occlusion behavior in a 2D polygon.  
+
+bool closed = true  
+- set_closed(value: bool)  
+- is_closed() → bool  
+If true, closes the polygon. A closed OccluderPolygon2D occludes light from any direction. An opened polygon only occludes light at its outline's direction. Note: The polygon's closure affects how light is blocked in the scene.  
+
+CullMode cull_mode = 0  
+- set_cull_mode(value: CullMode)  
+- get_cull_mode() → CullMode  
+The culling mode to use. Determines which sides of the polygon are considered for occlusion calculations.  
+
+PackedVector2Array polygon = PackedVector2Array()  
+- set_polygon(value: PackedVector2Array)  
+- get_polygon() → PackedVector2Array  
+A Vector2 array containing the polygon's vertex positions. Note: The returned array is copied, and changes to it will not update the original property value. The array must be properly formatted with sequential vertex coordinates to define the polygon shape.

@@ -1,0 +1,42 @@
+Document: CSGSphere3D
+Path: godot/classes/class_csgsphere3d.rst
+Summary: Class CSGSphere3D reference, including identity, description, and inheritance information.
+---CHUNK---
+Document: CSGSphere3D
+Path: godot/classes/class_csgsphere3d.rst
+Summary: A CSG Sphere shape used in 3D collision and visual representations.
+
+Inherits: CSGPrimitive3D < CSGShape3D < GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+A CSG Sphere shape.
+---CHUNK---
+Document: CSGSphere3D
+Path: godot/classes/class_csgsphere3d.rst
+Summary: This node creates a sphere for use with the CSG system, intended for level prototyping with notable CPU cost considerations.
+
+This node allows you to create a sphere for use with the CSG system. Note: CSG nodes are intended to be used for level prototyping. Creating CSG nodes has a significant CPU cost compared to creating a MeshInstance3D with a PrimitiveMesh. Moving a CSG node within another CSG node also has a significant CPU cost, so it should be avoided during gameplay.
+---CHUNK---
+Document: CSGSphere3D
+Path: godot/classes/class_csgsphere3d.rst
+Summary: Lists a tutorial on prototyping levels using CSG tools in Godot.
+
+Tutorials: Prototyping levels with CSG
+---CHUNK---
+Document: CSGSphere3D
+Path: godot/classes/class_csgsphere3d.rst
+Summary: Properties and their default values for the CSGSphere3D class.
+
+Property: material (Material): The material applied to the sphere. Default: none.
+Property: radial_segments (int): Number of segments around the sphere's circumference. Default: 12.
+Property: radius (float): The radius of the sphere. Default: 0.5.
+Property: rings (int): Number of horizontal segments dividing the sphere. Default: 6.
+Property: smooth_faces (bool): Enables smooth shading for the sphere's surface. Default: true.
+---CHUNK---
+Document: CSGSphere3D  
+Path: godot/classes/class_csgsphere3d.rst  
+Summary: Properties and their descriptions for the CSGSphere3D class, including material, radial segments, radius, rings, and smooth faces settings.  
+
+Material: material. Default: none. Set via set_material(Material), get via get_material(). The material used to render the sphere.  
+radial_segments (int): Number of vertical slices for the sphere. Default: 12. Set via set_radial_segments(int), get via get_radial_segments().  
+radius (float): Radius of the sphere. Default: 0.5. Set via set_radius(float), get via get_radius().  
+rings (int): Number of horizontal slices for the sphere. Default: 6. Set via set_rings(int), get via get_rings().  
+smooth_faces (bool): If true the normals of the sphere are set to give a smooth effect making the sphere seem rounded. If false the sphere will have a flat shaded look. Default: true. Set via set_smooth_faces(bool), get via get_smooth_faces().

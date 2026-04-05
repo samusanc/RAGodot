@@ -1,0 +1,48 @@
+Document: Introducing XR Tools
+Path: godot/tutorials/xr/introducing_xr_tools.rst
+Summary: This section introduces the XR tools available in the Godot Engine.
+---CHUNK---
+Document: Introducing XR tools  
+Path: godot/tutorials/xr/introducing_xr_tools.rst  
+Summary: Godot provides foundational XR support and introduces the Godot XR Tools toolkit for implementing common XR mechanics.  
+
+Godot provides out-of-the-box support for setting up an XR project, but developers must implement XR-specific game mechanics themselves. While Godot simplifies this process, it can still be challenging for newcomers. To address this, Godot developed the Godot XR Tools toolkit, which implements common XR mechanics such as locomotion, object interaction, and UI interaction. This toolkit is compatible with both OpenXR and WebXR runtimes and serves as the foundation for this documentation. It enables developers to quickly start building XR experiences but does not prevent custom implementations for specific use cases. For such scenarios, the toolkit can still provide inspiration and reference points for developers.
+---CHUNK---
+Document: Introducing XR Tools
+Path: godot/tutorials/xr/introducing_xr_tools.rst
+Summary: Instructions for installing and configuring the Godot XR Tools library in a project
+
+To add the Godot XR Tools library to your project, download it from the Godot XR Tools releases page. Find the latest release for Godot 4 and download the godot-xr-tools.zip file from the Assets section. The zip file contains a godot-xr-tools subfolder with an addons folder that must be copied entirely into your Godot project folder.
+
+After extracting the files, open your project in Godot. The editor will import all plugin resources. If prompted for a Blender path, disable Blender import and restart the editor. During import, you may see "failed to load script" messages - this is normal as the plugin needs to be enabled in project settings.
+
+Open Project Settings and go to the Plugins tab. Enable the plugin, then close and re-open your project to activate it properly. The plugin will now be available for use in your XR development workflow.
+---CHUNK---
+Document: introducing_xr_tools
+Path: godot/tutorials/xr/introducing_xr_tools.rst
+Summary: Adding rigged hand scenes to an XR player setup with configuration options for polycount and glove types.
+
+Basic hands
+Just to get a feel of things we're going to add a few standard components that dress up our scene starting with hands for our player.
+
+OpenXR supports full hand tracking however there currently are significant differences in capabilities between the different XR Runtimes.
+
+As a reliable alternative Godot XR Tools comes with a number of rigged hand scenes that react on trigger and grip inputs of your controller. These hands come in low and high poly versions, come in a few configurations, a number of animation files to control finger positions and a number of different textures.
+
+In your scene tree select your left hand XRController3D node. Now click on the instantiate Child Scene button to add a child scene. Click the addons toggle so the addons folder can be searched. Then search for left_hand_low.tscn and select it.
+
+As you can see from the path of this scene, low poly models are in the lowpoly subfolder while high poly models are in the highpoly subfolder. You will want to use the low poly versions if you plan to release your game on mobile devices.
+
+The default hand we chose is just a hand. The other options are:
+  * tac_glove - the hand is wearing a glove with fingers exposed
+  * full_glove - the hand is wearing a glove that covers the entire hand
+
+Finally each hand comes in a physics version. This exposes all the bones. We'll look at how that can be used in another tutorial.
+
+We repeat the same for the right hand.
+---CHUNK---
+Document: introducing_xr_tools
+Path: godot/tutorials/xr/introducing_xr_tools.rst
+Summary: This section introduces the Godot XR tools and directs to additional documentation resources.
+
+More information about the Godot XR tools and their features will be covered in subsequent tutorial pages. For detailed information about the toolkit, refer to the toolkits help pages.

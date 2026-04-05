@@ -1,0 +1,79 @@
+Document: Groups Tutorial
+Path: godot/tutorials/scripting/groups.rst
+Summary: This section defines a link target for the Groups tutorial but contains no actual content.
+
+Note: The provided RST content only includes a hyperlink target reference with no instructional text or code examples.
+---CHUNK---
+Document: Groups
+Path: godot/tutorials/scripting/groups.rst
+Summary: Groups in Godot function as tags for organizing nodes and enabling bulk operations via the SceneTree.
+
+Groups in Godot work like tags in other software. You can add a node to as many groups as you want. Then, in code, you can use the SceneTree to:
+- Get a list of nodes in a group
+- Call a method on all nodes in a group
+- Send a notification to all nodes in a group
+
+This is a useful feature to organize large scenes and decouple code.
+---CHUNK---
+Document: Managing groups  
+Path: godot/tutorials/scripting/groups.rst  
+Summary: Explains how to create, add to, and remove nodes from groups in Godot using both the editor and runtime methods.  
+
+Groups are created by adding a node to a new group name, and likewise they are removed by removing all nodes from a given group. There are two ways to add/remove nodes to groups:  
+
+- During design, by using the Groups dock in the editor, or the Groups tab in the Globals dock in project settings.  
+- During execution, by calling `Node.add_to_group()` or `Node.remove_from_group()`.  
+
+Tip: While not strictly required, it's recommended to use the `snake_case` naming convention for group names.
+---CHUNK---
+Document: Using the Groups dock
+Path: godot/tutorials/scripting/groups.rst
+Summary: How to create, manage, and organize groups in Godot using the Groups dock
+
+Select a node in the Scene dock then click the add button with the + symbol. You should now see the Create New Group modal appear. Write the group name in the field. You can optionally mark the option "Global", which will make the group visible project-wide and able to be reused in any project scene. This will also allow you to give it a description. When done, press Ok to create it.
+
+You should see the new groups appear in the Groups dock under Scene Groups if the Global option was unmarked, or under Global Groups if that option was marked. A selected Node from the Scene dock can be added into groups by marking the checkbox on the left side of the groups in the Groups dock. The node you had selected when creating a new group will be automatically checked.
+
+All groups present in the project that were marked as Global, created from any scene, will be visible under Global Groups. Any other group derived from nodes in the current scene will appear under Scene Groups. Warning: The same underlying logic is used for both Global and Scene groups. Groups with the same name are considered one and the same. This feature is purely organizational.
+
+You can manage Global Groups in the Groups tab of the Globals dock, inside Project Settings. There, you will be able to add new global groups, or change existing groups' names and descriptions.
+---CHUNK---
+Document: Groups
+Path: godot/tutorials/scripting/groups.rst
+Summary: Managing groups in Godot using scripts and SceneTree methods.
+
+You can also manage groups from scripts. The following code adds the node to which you attach the script to the "guards" group as soon as it enters the scene tree.
+
+GDScript:
+    func _ready():
+        add_to_group("guards")
+
+C#:
+    public override void _Ready()
+    {
+        base._Ready();
+
+        AddToGroup("guards");
+    }
+
+Imagine creating an infiltration game where enemies spot the player. When this happens, all guards and robots should enter alert mode. The example below uses SceneTree.call_group() to trigger this:
+
+GDScript:
+    func _on_player_spotted():
+        get_tree().call_group("guards", "enter_alert_mode")
+
+C#:
+    public void _OnPlayerDiscovered()
+    {
+        GetTree().CallGroup("guards", "enter_alert_mode");
+    }
+
+This code calls the function enter_alert_mode on every member of the "guards" group. To retrieve all nodes in the "guards" group as an array, use SceneTree.get_nodes_in_group():
+
+GDScript:
+    var guards = get_tree().get_nodes_in_group("guards")
+
+C#:
+    var guards = GetTree().GetNodesInGroup("guards");
+
+The SceneTree class provides additional methods for scene management, including switching scenes, reloading them, quitting the game, pausing/unpausing, and handling signals.

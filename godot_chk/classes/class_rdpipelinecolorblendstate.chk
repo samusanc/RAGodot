@@ -1,0 +1,37 @@
+Document: RDPipelineColorBlendState
+Path: godot/classes/class_rdpipelinecolorblendstate.rst
+Summary: Represents a color blend state configuration for a rendering pipeline in Godot.
+---CHUNK---
+Document: RDPipelineColorBlendState
+Path: godot/classes/class_rdpipelinecolorblendstate.rst
+Summary: Represents a pipeline color blend state used by the RenderingDevice.
+
+Inherits: RefCounted < Object
+Pipeline color blend state (used by RenderingDevice). This class defines how color blending operations are performed during rendering, including source and destination blend factors, blend operations, and whether blending is enabled for specific color channels. It is part of the low-level rendering pipeline configuration system in Godot, allowing precise control over how colors are combined when rendering 3D objects.
+---CHUNK---
+Document: RDPipelineColorBlendState
+Path: godot/classes/class_rdpipelinecolorblendstate.rst
+Summary: This class represents a color blend state object used by the RenderingDevice class.
+
+This object is used by RenderingDevice.
+---CHUNK---
+Document: RDPipelineColorBlendState  
+Path: godot/classes/class_rdpipelinecolorblendstate.rst  
+Summary: Properties and member variables of the RDPipelineColorBlendState class, including their types, descriptions, and default values.  
+
+attachments (Array<RDPipelineColorBlendStateAttachment>): Array of color blend state attachments. Default: [].  
+blend_constant (Color): Color value used for blending operations. Default: Color(0, 0, 0, 1).  
+enable_logic_op (bool): Enables or disables logic operations for blending. Default: false.  
+logic_op (LogicOperation): Specifies the logic operation to apply. Default: 0 (equivalent to LogicOperation::CLEAR).
+---CHUNK---
+Document: RDPipelineColorBlendState
+Path: godot/classes/class_rdpipelinecolorblendstate.rst
+Summary: Properties defining color blending behavior for a render pipeline, including attachments, blend constants, and logic operations.
+
+attachments (Array<RDPipelineColorBlendStateAttachment>): The attachments that are blended together. Default: empty array. Set via set_attachments(value: Array<RDPipelineColorBlendStateAttachment>), retrieved via get_attachments().
+
+blend_constant (Color): The constant color to blend with. Default: Color(0, 0, 0, 1). Set via set_blend_constant(value: Color), retrieved via get_blend_constant(). See also RenderingDevice.draw_list_set_blend_constants().
+
+enable_logic_op (bool): If true, performs the logic operation defined in logic_op. Default: false. Set via set_enable_logic_op(value: bool), retrieved via get_enable_logic_op().
+
+logic_op (LogicOperation): The logic operation to perform for blending. Only effective if enable_logic_op is true. Default: 0 (LogicOperation::CLEAR). Set via set_logic_op(value: LogicOperation), retrieved via get_logic_op(). LogicOperation enum values: 0 (CLEAR), 1 (SET), 2 (COPY), 3 (COPY_INVERTED), 4 (INVERT), 5 (AND), 6 (AND_INVERTED), 7 (AND_REVERSE), 8 (AND_INVERTED_REVERSE), 9 (OR), 10 (OR_INVERTED), 11 (OR_REVERSE), 12 (OR_INVERTED_REVERSE), 13 (NAND), 14 (NAND_INVERTED), 15 (NAND_REVERSE), 16 (NAND_INVERTED_REVERSE), 17 (NOR), 18 (NOR_INVERTED), 19 (NOR_REVERSE), 20 (NOR_INVERTED_REVERSE), 21 (XOR), 22 (XOR_INVERTED), 23 (XOR_REVERSE), 24 (XOR_INVERTED_REVERSE), 25 (EQUIV), 26 (EQUIV_INVERTED), 27 (EQUIV_REVERSE), 28 (EQUIV_INVERTED_REVERSE), 29 (AND_NAND), 30 (AND_NAND_INVERTED), 31 (AND_NAND_REVERSE), 32 (AND_NAND_INVERTED_REVERSE), 33 (OR_NOR), 34 (OR_NOR_INVERTED), 35 (OR_NOR_REVERSE), 36 (OR_NOR_INVERTED_REVERSE).

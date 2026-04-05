@@ -1,0 +1,39 @@
+Document: CurveXYZTexture
+Path: godot/classes/class_curvexyztexture.rst
+Summary: Class reference for CurveXYZTexture, covering identity, description, and inheritance hierarchy.
+Class: CurveXYZTexture
+---CHUNK---
+Document: CurveXYZTexture
+Path: godot/classes/class_curvexyztexture.rst
+Summary: A 1D texture where red, green, and blue channels represent three curves.
+
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+A 1D texture where the red, green, and blue color channels correspond to points on 3 curves.
+---CHUNK---
+Document: CurveXYZTexture
+Path: godot/classes/class_curvexyztexture.rst
+Summary: A 1D texture storing three curves in RGB channels for simplified curve storage as image files.
+
+A 1D texture where the red, green, and blue color channels correspond to points on 3 unit Curve resources. Compared to using separate CurveTexture resources, this further simplifies the task of saving curves as image files. If you only need to store one curve within a single texture, use CurveTexture instead. See also GradientTexture1D and GradientTexture2D. Note: This class is optimized for storing multiple curves in a single texture through its RGB color channels.
+---CHUNK---
+Document: CurveXYZTexture
+Path: godot/classes/class_curvexyztexture.rst
+Summary: Defines three Curve properties for X/Y/Z axes, a resource_local_to_scene boolean, and a width integer with default values.
+
+- curve_x (Curve): Controls the X-axis curve. Default: empty Curve.
+- curve_y (Curve): Controls the Y-axis curve. Default: empty Curve.
+- curve_z (Curve): Controls the Z-axis curve. Default: empty Curve.
+- resource_local_to_scene (bool): When true, the resource is local to the scene. Default: false (overrides Resource's resource_local_to_scene property).
+- width (int): Defines the texture width. Default: 256.
+---CHUNK---
+Document: CurveXYZTexture
+Path: godot/classes/class_curvexyztexture.rst
+Summary: Properties for configuring the CurveXYZTexture's color channels and dimensions.
+
+Property: curve_x (Curve): The Curve that is rendered onto the texture's red channel. Should be a unit Curve. Methods: set_curve_x(value: Curve), get_curve_x() → Curve. Note: Should be a unit Curve.
+
+Property: curve_y (Curve): The Curve that is rendered onto the texture's green channel. Should be a unit Curve. Methods: set_curve_y(value: Curve), get_curve_y() → Curve. Note: Should be a unit Curve.
+
+Property: curve_z (Curve): The Curve that is rendered onto the texture's blue channel. Should be a unit Curve. Methods: set_curve_z(value: Curve), get_curve_z() → Curve. Note: Should be a unit Curve.
+
+Property: width (int): The width of the texture (in pixels). Default: 256. Higher values improve high-frequency data representation but increase generation time and memory usage. Methods: set_width(value: int), get_width() → int.

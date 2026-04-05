@@ -1,0 +1,58 @@
+Document: Shape3D
+Path: godot/classes/class_shape3d.rst
+Summary: Base class for 3D shapes used in physics.
+---CHUNK---
+Document: Shape3D
+Path: godot/classes/class_shape3d.rst
+Summary: Abstract base class for 3D shapes used for physics collision.
+
+Inherits: Resource < RefCounted < Object
+Inherited By: BoxShape3D, CapsuleShape3D, ConcavePolygonShape3D, ConvexPolygonShape3D, CylinderShape3D, HeightMapShape3D, SeparationRayShape3D, SphereShape3D, WorldBoundaryShape3D
+
+Abstract base class for 3D shapes used for physics collision.
+---CHUNK---
+Document: ClassShape3D
+Path: godot/classes/class_shape3d.rst
+Summary: Abstract base class for all 3D shapes, intended for use in physics.
+
+Abstract base class for all 3D shapes, intended for use in physics. Performance: Primitive shapes, especially SphereShape3D, are fast to check collisions against. ConvexPolygonShape3D and HeightMapShape3D are slower, and ConcavePolygonShape3D is the slowest.
+---CHUNK---
+Document: class_shape3d
+Path: godot/classes/class_shape3d.rst
+Summary: Links to the physics introduction tutorial.
+- Physics introduction
+---CHUNK---
+Document: Shape3D
+Path: godot/classes/class_shape3d.rst
+Summary: Properties and their default values for the Shape3D class.
+
+- custom_solver_bias (float): Default: 0.0.
+- margin (float): Default: 0.04.
+---CHUNK---
+Document: ClassShape3D  
+Path: godot/classes/class_shape3d.rst  
+Summary: Overview of methods in the Shape3D class, including get_debug_mesh.  
+
+- :ref:`ArrayMesh<class_ArrayMesh>`: Related class used for mesh representation.  
+- get_debug_mesh(): Method to retrieve a debug mesh for visualization. Default: Returns an ArrayMesh instance.
+---CHUNK---
+Document: Shape3D
+Path: godot/classes/class_shape3d.rst
+Summary: Properties and methods for configuring 3D shape collision behavior, including solver bias and margin settings.
+
+Property: custom_solver_bias (float) = 0.0
+Method: set_custom_solver_bias(value: float)
+Method: get_custom_solver_bias() → float
+Defines how much bodies react to enforce contact separation when this shape is involved. When set to 0, uses the default contact bias from ProjectSettings.physics/3d/solver/default_contact_bias. Note: Only effective with GodotPhysics3D, has no effect with Jolt Physics.
+
+Property: margin (float) = 0.04
+Method: set_margin(value: float)
+Method: get_margin() → float
+Collision margin for the shape (not used in Godot Physics). Collision margins improve efficiency by adding a shell around shapes. Higher values increase performance but reduce edge accuracy.
+---CHUNK---
+Document: Shape3D
+Path: godot/classes/class_shape3d.rst
+Summary: Returns the ArrayMesh used for visualizing the collision shape in debug mode.
+
+Method: get_debug_mesh() → ArrayMesh
+Returns the ArrayMesh used to draw the debug collision for this Shape3D.

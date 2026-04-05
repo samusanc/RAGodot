@@ -1,0 +1,17 @@
+Document: VisualShaderNodeCubemapParameter
+Path: godot/classes/class_visualshadernodecubemapparameter.rst
+Summary: Class representing a cubemap parameter node in a visual shader. Inherits from VisualShaderNodeParameter and is used to sample cubemap textures in shader graphs.
+---CHUNK---
+Document: VisualShaderNodeCubemapParameter
+Path: godot/classes/class_visualshadernodecubemapparameter.rst
+Summary: A Cubemap parameter node to be used within the visual shader graph.
+
+Inherits: VisualShaderNodeTextureParameter < VisualShaderNodeParameter < VisualShaderNode < Resource < RefCounted < Object
+
+A Cubemap parameter node to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeCubeMapParameter
+Path: godot/classes/class_visualshadernodecubemapparameter.rst
+Summary: Represents a cube map parameter in visual shaders, translated to uniform samplerCube and compatible with VisualShaderNodeCubemap.
+
+Translated to uniform samplerCube in the shader language. The output value can be used as port for VisualShaderNodeCubemap.

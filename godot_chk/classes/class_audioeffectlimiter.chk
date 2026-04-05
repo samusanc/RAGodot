@@ -1,0 +1,47 @@
+Document: AudioEffectLimiter  
+Path: godot/classes/class_audioeffectlimiter.rst  
+Summary: Class reference for AudioEffectLimiter, a Godot audio effect that limits dynamic range.
+---CHUNK---
+Document: AudioEffectLimiter
+Path: godot/classes/class_audioeffectlimiter.rst
+Summary: Adds a soft-clip limiter audio effect to an audio bus.
+
+Deprecated: Use AudioEffectHardLimiter instead.
+Inherits: AudioEffect < Resource < RefCounted < Object
+Adds a soft-clip limiter audio effect to an audio bus.
+---CHUNK---
+Document: AudioEffectLimiter
+Path: godot/classes/class_audioeffectlimiter.rst
+Summary: Describes the AudioEffectLimiter class functionality and usage recommendations
+
+A limiter is an audio effect designed to stop audio signals from exceeding a specified volume threshold level, and usually works by decreasing the volume or soft-clipping the audio. Adding one in the Master bus is always recommended to prevent clipping when the volume goes above 0 dB. Soft clipping starts to decrease the peaks a little below the volume threshold level and progressively increases its effect as the input volume increases such that the threshold level is never exceeded. Note: If hard clipping is desired, consider AudioEffectDistortion.MODE_CLIP.
+---CHUNK---
+Document: AudioEffectLimiter
+Path: godot/classes/class_audioeffectlimiter.rst
+Summary: This chunk covers tutorials related to audio buses and audio effects in Godot.
+
+- Audio buses
+- Audio effects
+---CHUNK---
+Document: AudioEffectLimiter
+Path: godot/classes/class_audioeffectlimiter.rst
+Summary: AudioEffectLimiter properties and their default values
+
+Property: ceiling_db (Type: float). Default: -0.1
+Property: soft_clip_db (Type: float). Default: 2.0
+Property: soft_clip_ratio (Type: float). Default: 10.0
+Property: threshold_db (Type: float). Default: 0.0
+---CHUNK---
+Document: AudioEffectLimiter  
+Path: godot/classes/class_audioeffectlimiter.rst  
+Summary: Properties and methods for controlling audio limiting behavior, including threshold, ceiling, and soft clipping parameters.  
+
+ceiling_db (float): The waveform's maximum allowed value, in dB. Value can range from -20 to -0.1. Default: -0.1. Set via set_ceiling_db(value: float), get via get_ceiling_db().  
+
+soft_clip_db (float): Modifies the volume of the limited waves, in dB. Value can range from 0 to 6. Default: 2.0. Set via set_soft_clip_db(value: float), get via get_soft_clip_db().  
+
+soft_clip_ratio (float): This property has no effect on the audio. Use AudioEffectHardLimiter instead, as this Limiter effect is deprecated. Default: 10.0. Set via set_soft_clip_ratio(value: float), get via get_soft_clip_ratio().  
+
+threshold_db (float): The volume threshold level from which the limiter begins to be active, in dB. Value can range from -30 to 0. Default: 0.0. Set via set_threshold_db(value: float), get via get_threshold_db().  
+
+Note: soft_clip_ratio is deprecated and should not be used. Use AudioEffectHardLimiter for relevant functionality.

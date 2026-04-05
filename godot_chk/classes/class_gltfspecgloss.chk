@@ -1,0 +1,44 @@
+Document: GLTFSpecGloss
+Path: godot/classes/class_gltfspecgloss.rst
+Summary: Class GLTFSpecGloss reference for Godot Engine material handling.
+---CHUNK---
+Document: GLTFSpecGloss
+Path: godot/classes/class_gltfspecgloss.rst
+Summary: Archived glTF extension for specular/glossy materials.
+
+Inherits: Resource < RefCounted < Object
+Archived glTF extension for specular/glossy materials.
+---CHUNK---
+Document: GLTFSpecGloss
+Path: godot/classes/class_gltfspecgloss.rst
+Summary: KHR_materials_pbrSpecularGloss is an archived glTF extension deprecated for new files but still supported for loading old files.
+
+KHR_materials_pbrSpecularGloss is an archived glTF extension. This means that it is deprecated and not recommended for new files. However, it is still supported for loading old files.
+---CHUNK---
+Document: glTF Specular Glossiness Extension
+Path: godot/classes/class_gltfspecgloss.rst
+Summary: Overview of the KHR_materials_pbrSpecularGlossiness glTF extension and its implementation in Godot
+
+Tutorials:
+- Runtime file loading and saving
+- KHR_materials_pbrSpecularGlossiness glTF extension spec: https://github.com/KhronosGroup/glTF/blob/main/extensions/2.0/Archived/KHR_materials_pbrSpecularGlossiness
+---CHUNK---
+Document: GLTFSpecGloss  
+Path: godot/classes/class_gltfspecgloss.rst  
+Summary: Properties and member variables of the GLTFSpecGloss class, including diffuse and specular factors, and associated images.  
+
+diffuse_factor (Color): Default: Color(1, 1, 1, 1)  
+diffuse_img (Image): Default: (empty)  
+gloss_factor (float): Default: 1.0  
+spec_gloss_img (Image): Default: (empty)  
+specular_factor (Color): Default: Color(1, 1, 1, 1)
+---CHUNK---
+Document: GLTFSpecGloss  
+Path: godot/classes/class_gltfspecgloss.rst  
+Summary: Properties for configuring material diffuse, gloss, and specular settings in GLTFSpecGloss.  
+
+diffuse_factor (Color): The reflected diffuse factor of the material. Default: Color(1, 1, 1, 1). Set via set_diffuse_factor(Color), get via get_diffuse_factor().  
+diffuse_img (Image): The diffuse texture. Set via set_diffuse_img(Image), get via get_diffuse_img().  
+gloss_factor (float): The glossiness or smoothness of the material. Default: 1.0. Set via set_gloss_factor(float), get via get_gloss_factor().  
+spec_gloss_img (Image): The specular-glossiness texture. Set via set_spec_gloss_img(Image), get via get_spec_gloss_img().  
+specular_factor (Color): The specular RGB color of the material. The alpha channel is unused. Default: Color(1, 1, 1, 1). Set via set_specular_factor(Color), get via get_specular_factor().

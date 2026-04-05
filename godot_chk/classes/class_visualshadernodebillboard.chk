@@ -1,0 +1,43 @@
+Document: VisualShaderNodeBillboard  
+Path: godot/classes/class_visualshadernodebillboard.rst  
+Summary: This chunk covers the VisualShaderNodeBillboard class reference, including its identity, description, and inheritance chain.
+---CHUNK---
+Document: VisualShaderNodeBillboard  
+Path: godot/classes/class_visualshadernodebillboard.rst  
+Summary: A node that controls how the object faces the camera to be used within the visual shader graph.  
+Inherits: VisualShaderNode < Resource < RefCounted < Object  
+A node that controls how the object faces the camera to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeBillboard
+Path: godot/classes/class_visualshadernodebillboard.rst
+Summary: Describes the VisualShaderNodeBillboard class and its required connection to the Model View Matrix output port.
+
+The output port of this node needs to be connected to Model View Matrix port of VisualShaderNodeOutput. This node is used to control billboard behavior in visual shaders, ensuring geometry faces the camera. The connection to the Model View Matrix port is mandatory for proper shader functionality.
+---CHUNK---
+Document: VisualShaderNodeBillboard
+Path: godot/classes/class_visualshadernodebillboard.rst
+Summary: Properties for controlling billboard behavior in visual shaders, including type and scaling options.
+
+- billboard_type (Enum): Type of billboard. Default: 1 (BillboardType)
+- keep_scale (bool): Whether to maintain original scale when applying billboard transformations. Default: false
+
+Note: BillboardType enum values map to specific rendering behaviors (e.g., 1 represents standard billboard type).
+---CHUNK---
+Document: VisualShaderNodeBillboard
+Path: godot/classes/class_visualshadernodebillboard.rst
+Summary: Defines the BillboardType enum and its possible values for controlling billboarding behavior in visual shaders.
+
+enum BillboardType:
+- BILLBOARD_TYPE_DISABLED = 0: Billboarding is disabled and the node does nothing.
+- BILLBOARD_TYPE_ENABLED = 1: A standard billboarding algorithm is enabled.
+- BILLBOARD_TYPE_FIXED_Y = 2: A billboarding algorithm to rotate around Y-axis is enabled.
+- BILLBOARD_TYPE_PARTICLES = 3: A billboarding algorithm designed to use on particles is enabled.
+- BILLBOARD_TYPE_MAX = 4: Represents the size of the BillboardType enum.
+---CHUNK---
+Document: VisualShaderNodeBillboard
+Path: godot/classes/class_visualshadernodebillboard.rst
+Summary: Properties for controlling billboard behavior in visual shaders.
+
+Property: billboard_type (BillboardType): Controls how the object faces the camera. Default: 1. Methods: set_billboard_type(value: BillboardType) → void, get_billboard_type() → BillboardType. Note: The value corresponds to the enum VisualShaderNodeBillboard_BillboardType.
+
+Property: keep_scale (bool): If true, the shader preserves the mesh's scale. Default: false. Methods: set_keep_scale_enabled(value: bool) → void, is_keep_scale_enabled() → bool. Note: When disabled, the scale is lost during billboarding.

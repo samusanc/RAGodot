@@ -1,0 +1,53 @@
+Document: SpringBoneCollisionCapsule3D  
+Path: godot/classes/class_springbonecollisioncapsule3d.rst  
+Summary: Class representing a 3D capsule-shaped collision object for physics interactions in Godot.  
+
+SpringBoneCollisionCapsule3D is a specialized collision shape used in Godot's physics system to detect and resolve collisions between rigid bodies and other physics objects. It inherits from CollisionShape3D and implements the physics body interface for capsule-shaped volumes. The class provides properties to define the capsule's dimensions, position, and orientation in 3D space. Key parameters include radius, length, and transform, which determine the capsule's physical bounds. When added to a RigidBody3D or StaticBody3D node, it enables accurate collision detection for objects with capsule-like geometries. The class supports both dynamic and static physics interactions, making it suitable for characters, vehicles, and other objects requiring precise collision handling.
+---CHUNK---
+Document: SpringBoneCollisionCapsule3D  
+Path: godot/classes/class_springbonecollisioncapsule3d.rst  
+Summary: A 3D capsule-shaped collision object that interacts with SpringBoneSimulator3D for physics simulations.  
+
+Inherits: SpringBoneCollision3D < Node3D < Node < Object  
+A capsule shape collision that interacts with SpringBoneSimulator3D.
+---CHUNK---
+Document: SpringBoneCollisionCapsule3D
+Path: godot/classes/class_springbonecollisioncapsule3d.rst
+Summary: A capsule shape collision that interacts with SpringBoneSimulator3D.
+---CHUNK---
+Document: SpringBoneCollisionCapsule3D
+Path: godot/classes/class_springbonecollisioncapsule3d.rst
+Summary: Defines properties for configuring a 3D capsule collision shape used in spring bone systems.
+
+- height (float): Vertical size of the capsule. Default: 0.5
+- inside (bool): Whether the collision shape is solid (true) or hollow (false). Default: false
+- mid_height (float): Vertical position of the capsule's midpoint
+- radius (float): Horizontal radius of the capsule. Default: 0.1
+---CHUNK---
+Document: SpringBoneCollisionCapsule3D
+Path: godot/classes/class_springbonecollisioncapsule3d.rst
+Summary: Properties and their descriptions for the SpringBoneCollisionCapsule3D class, including height, radius, mid_height, and inside.
+
+float height = 0.5
+- set_height(value: float)
+- get_height() → float
+
+The capsule's full height, including the hemispheres. Note: The height of a capsule must be at least twice its radius. Otherwise, the capsule becomes a sphere. If the height is less than twice the radius, the properties adjust to a valid value.
+
+bool inside = false
+- set_inside(value: bool)
+- is_inside() → bool
+
+If true, the collision acts to trap the joint within the collision.
+
+float mid_height
+- set_mid_height(value: float)
+- get_mid_height() → float
+
+The capsule's height, excluding the hemispheres. This is the height of the central cylindrical part in the middle of the capsule, and is the distance between the centers of the two hemispheres. This is a wrapper for height.
+
+float radius = 0.1
+- set_radius(value: float)
+- get_radius() → float
+
+The capsule's radius. Note: The radius of a capsule cannot be greater than half of its height. Otherwise, the capsule becomes a sphere. If the radius is greater than half of the height, the properties adjust to a valid value.

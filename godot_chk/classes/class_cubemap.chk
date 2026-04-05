@@ -1,0 +1,43 @@
+Document: Cubemap  
+Path: godot/classes/class_cubemap.rst  
+Summary: This section provides the reference for the Cubemap class, covering its identity, description, and inheritance chain.  
+
+Cubemap is a class used to represent a 3D environment map in Godot, typically applied to materials for reflections or skybox rendering. It inherits from Resource < Texture < Cubemap. Key properties include the ability to set individual faces (positive/negative X, Y, Z axes) via the `set_face` method, and to generate a cubemap from a 3D scene using `generate_from_scene`. The class supports loading cubemaps from files in formats like PNG, JPEG, or OpenEXR, and provides methods to retrieve face data, check validity, and calculate hash values for resource identification. Notably, Cubemap instances are immutable once created, requiring explicit duplication for modifications.
+---CHUNK---
+Document: Cubemap
+Path: godot/classes/class_cubemap.rst
+Summary: A class representing six square textures forming the faces of a cube, typically used as a skybox in 3D environments
+
+Inherits: ImageTextureLayered < TextureLayered < Texture < Resource < RefCounted < Object
+Six square textures representing the faces of a cube. Commonly used as a skybox.
+---CHUNK---
+You can use one of the following templates as a base:  
+- 2×3 cubemap template (default layout option)  
+- 3×2 cubemap template  
+- 1×6 cubemap template  
+- 6×1 cubemap template  
+
+Note: Godot doesn't support using cubemaps in a PanoramaSkyMaterial. To use a cubemap as a skybox, convert the default PanoramaSkyMaterial to a ShaderMaterial using the "Convert to ShaderMaterial" resource dropdown option, then replace its code with the following:  
+
+```  
+shader_type sky;  
+
+uniform samplerCube source_panorama : filter_linear, source_color, hint_default_black;  
+uniform float exposure : hint_range(0, 128) = 1.0;  
+
+void sky() {  
+    // If importing a cubemap from another engine, you may need to flip one of the `EYEDIR` components below  
+    // by replacing it with `-EYEDIR`.  
+    vec3 eyedir = vec3(EYEDIR.x, EYEDIR.y, EYEDIR.z);  
+    COLOR = texture(source_panorama, eyedir).rgb * exposure;  
+}  
+```  
+
+Alternatively, you can use this tool to convert a cubemap to an equirectangular sky map and use PanoramaSkyMaterial as usual.
+---CHUNK---
+Document: Cubemap
+Path: godot/classes/class_cubemap.rst
+Summary: The create_placeholder method generates a placeholder version of the Cubemap resource.
+
+Method: create_placeholder() → Resource (const)
+Creates a placeholder version of this resource (PlaceholderCubemap).

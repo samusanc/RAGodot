@@ -1,0 +1,47 @@
+Document: GLTFAnimation
+Path: godot/classes/class_gltfanimation.rst
+Summary: Class for handling GLTF animations in Godot.
+---CHUNK---
+Document: GLTFAnimation
+Path: godot/classes/class_gltfanimation.rst
+Summary: This class has no description; please contribute one.
+Inherits: Resource < RefCounted < Object
+There is currently no description for this class. Please help us by contributing one.
+---CHUNK---
+Document: class_gltfanimation
+Path: godot/classes/class_gltfanimation.rst
+Summary: Lists tutorials related to runtime file loading and saving in Godot
+
+- Runtime file loading and saving
+---CHUNK---
+Document: GLTFAnimation
+Path: godot/classes/class_gltfanimation.rst
+Summary: Properties and their default values for the GLTFAnimation class.
+
+- bool: loop. Default: false
+- String: original_name. Default: ""
+---CHUNK---
+Document: GLTFAnimation
+Path: godot/classes/class_gltfanimation.rst
+Summary: Methods for retrieving and setting additional data associated with GLTF animation extensions.
+
+- get_additional_data(extension_name: StringName) → Variant: Returns the additional data stored for the specified GLTF animation extension.
+- set_additional_data(extension_name: StringName, additional_data: Variant): Sets the additional data for the specified GLTF animation extension.
+---CHUNK---
+Document: GLTFAnimation
+Path: godot/classes/class_gltfanimation.rst
+Summary: Describes the 'loop' boolean property and 'original_name' string property of the GLTFAnimation class.
+
+loop (bool): Default: false. Set via set_loop(value), Get via get_loop(). Note: No description available.
+
+original_name (String): Default: "". Set via set_original_name(value), Get via get_original_name(). The original name of the animation.
+---CHUNK---
+Document: GLTFAnimation
+Path: godot/classes/class_gltfanimation.rst
+Summary: Methods for retrieving and storing arbitrary data associated with GLTFDocumentExtension classes in GLTFAnimation instances.
+
+Method: get_additional_data(extension_name: StringName) → Variant
+Gets additional arbitrary data stored in this GLTFAnimation instance. Used to keep per-node state data in GLTFDocumentExtension classes, which are stateless by nature. The extension_name parameter should be the name of the GLTFDocumentExtension (does not need to match the extension name in the glTF file). Returns the stored Variant value or null if no data was set.
+
+Method: set_additional_data(extension_name: StringName, additional_data: Variant) → void
+Sets arbitrary data in this GLTFAnimation instance for use with GLTFDocumentExtension classes. The first parameter is the GLTFDocumentExtension name (does not need to match the glTF file's extension name), and the second parameter can be any Variant value. This allows storing per-node state information in stateless extension classes.

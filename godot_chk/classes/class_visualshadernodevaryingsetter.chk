@@ -1,0 +1,16 @@
+Document: VisualShaderNodeVaryingSetter
+Path: godot/classes/class_visualshadernodevaryingsetter.rst
+Summary: A node in the visual shader graph used to set varying variables for shader programs.
+---CHUNK---
+Document: VisualShaderNodeVaryingSetter
+Path: godot/classes/class_visualshadernodevaryingsetter.rst
+Summary: A visual shader node that sets a value of a varying.
+
+Inherits: VisualShaderNodeVarying < VisualShaderNode < Resource < RefCounted < Object
+A visual shader node that sets a value of a varying.
+---CHUNK---
+Document: VisualShaderNodeVaryingSetter
+Path: godot/classes/class_visualshadernodevaryingsetter.rst
+Summary: A shader node that inputs values to varying variables defined in the shader.
+
+Inputs a value to a varying defined in the shader. You need to first create a varying that can be used in the given function, e.g. varying setter in Fragment shader requires a varying with mode set to VisualShader.VARYING_MODE_FRAG_TO_LIGHT.

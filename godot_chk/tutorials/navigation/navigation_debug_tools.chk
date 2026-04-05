@@ -1,0 +1,57 @@
+Document: Navigation Debug Tools  
+Path: godot/tutorials/navigation/navigation_debug_tools.rst  
+Summary: This chunk contains no content as the provided RST file only includes a link target reference.
+---CHUNK---
+Document: Navigation debug tools  
+Path: godot/tutorials/navigation/navigation_debug_tools.rst  
+Summary: This section covers the use of navigation debug tools in Godot, which are only available in debug builds.  
+
+Note: The debug tools, properties and functions are only available in Godot debug builds. Do not use any of them in code that will be part of a release build.
+---CHUNK---
+Document: navigation_debug_tools
+Path: godot/tutorials/navigation/navigation_debug_tools.rst
+Summary: How to enable and use navigation debug visualizations in Godot
+
+Navigation debug visualizations are enabled by default in the editor. To visualize navigation meshes and connections during runtime, enable the **Visible Navigation** option in the editor's **Debug** menu. In Godot debug builds, this can also be controlled via NavigationServer singletons in scripts.
+
+GDScript:
+    NavigationServer2D.set_debug_enabled(false)
+    NavigationServer3D.set_debug_enabled(true)
+
+C#:
+    NavigationServer2D.SetDebugEnabled(false);
+    NavigationServer3D.SetDebugEnabled(true)
+
+Note: Debug visualizations rely on Nodes in the SceneTree. If NavigationServer2D or NavigationServer3D APIs are used exclusively without SceneTree integration, changes will not be reflected in the debug navigation tools.
+---CHUNK---
+Document: Navigation Debug Tools  
+Path: godot/tutorials/navigation/navigation_debug_tools.rst  
+Summary: Adjust navigation debug settings in ProjectSettings and understand their requirements for taking effect.  
+
+The appearance of navigation debug can be changed in the ProjectSettings under debug/shapes/navigation. Certain debug features can also be enabled or disabled at will but may require a scene restart to take effect.
+---CHUNK---
+Document: Navigation Debug Tools  
+Path: godot/tutorials/navigation/navigation_debug_tools.rst  
+Summary: Controls for visualizing navigation mesh polygons and their edges in the Godot editor.  
+
+Enabling ``enable_edge_lines`` highlights the edges of navigation mesh polygons. When ``enable_edge_lines_xray`` is also enabled, these edges become visible through geometry. Activating ``enable_geometry_face_random_color`` mixes each navigation mesh face's color with a random hue, which is further blended with the color defined in ``geometry_face_color``.
+---CHUNK---
+Document: Navigation Debug Tools  
+Path: godot/tutorials/navigation/navigation_debug_tools.rst  
+Summary: How edge connections between navigation meshes are visualized in the Godot editor.  
+
+When two navigation meshes are connected within `edge_connection_margin` distance, the connection is overlaid. The color of the overlay is controlled by `edge_connection_color`. The connections can be made visible through geometry with `enable_edge_connections_xray`.  
+
+Note: Edge connections are only visible when the NavigationServer is active.
+---CHUNK---
+Document: navigation_debug_tools  
+Path: godot/tutorials/navigation/navigation_debug_tools.rst  
+Summary: How to use the Navigation Process monitor and understand performance metrics for the NavigationServer in Godot.  
+
+To measure NavigationServer performance, a dedicated monitor exists within the Editor Debugger under *Debugger->Monitors->Navigation Process*. Navigation Process shows how long the NavigationServer spends updating its internals during this update frame in milliseconds. It functions similarly to Process for visual frame rendering and Physics Process for collision and fixed updates.  
+
+Navigation Process accounts for all updates to navigation maps, navigation regions, navigation agents, and avoidance calculations for the update frame. Note: Navigation Process does NOT include pathfinding performance because pathfinding operates on the navigation map data independently from the server process update.  
+
+Navigation Process should be kept as low and stable as possible for runtime performance to avoid frame rate issues. Since the NavigationServer process update occurs during the physics update, an increase in Navigation Process will automatically increase Physics Process by the same amount.  
+
+Navigation also provides detailed statistics about current navigation-related objects and navigation map composition on the NavigationServer. These statistics cannot be judged as good or bad for performance, as it depends entirely on the project what is reasonable or excessive. They help identify performance bottlenecks that may not have visible representations, such as pathfinding issues caused by overly detailed navigation meshes with thousands of edges/polygons or procedural navigation errors.

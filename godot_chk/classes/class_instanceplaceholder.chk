@@ -1,0 +1,32 @@
+Document: InstancePlaceholder
+Path: godot/classes/class_instanceplaceholder.rst
+Summary: A class placeholder used for instances in Godot Engine.
+---CHUNK---
+Document: InstancePlaceholder
+Path: godot/classes/class_instanceplaceholder.rst
+Summary: A placeholder node representing the root of a PackedScene instance.
+
+Inherits: Node < Object
+Placeholder for the root Node of a PackedScene. Used to represent the root of a scene instance when the scene is not yet loaded or when the instance is being referenced indirectly.
+---CHUNK---
+Document: InstancePlaceholder  
+Path: godot/classes/class_instanceplaceholder.rst  
+Summary: Explains the purpose and behavior of the InstancePlaceholder class when used to delay scene loading.  
+
+Enabling the **Load As Placeholder** option in the editor replaces an instantiated scene with an **InstancePlaceholder** at runtime, allowing the scene to be loaded later via the :ref:`create_instance()<class_InstancePlaceholder_method_create_instance>` method. This avoids loading large scenes immediately, enabling selective loading of scene parts.  
+
+Note: Like **Node**, **InstancePlaceholder** lacks a transform, causing child nodes to be positioned relative to the **Viewport** origin instead of their parent as shown in the editor. Replacing the placeholder with a scene that includes a transform restores child nodes' positioning to be relative to their parent.
+---CHUNK---
+Document: InstancePlaceholder
+Path: godot/classes/class_instanceplaceholder.rst
+Summary: Methods for creating instances, retrieving scene paths, and accessing stored property values in InstancePlaceholder.
+
+Node: create_instance(replace: bool = false, custom_scene: PackedScene = null)
+String: get_instance_path()
+Dictionary: get_stored_values(with_order: bool = false)
+
+create_instance() loads the node and returns it as a sibling above the InstancePlaceholder in the scene tree. The method is not thread-safe; use Object.call_deferred() when calling from threads. 
+
+get_instance_path() retrieves the default PackedScene resource path used by create_instance(). Also not thread-safe.
+
+get_stored_values() returns properties to apply when creating an instance. If with_order is true, a ".order" key (array of property names specifying application order) is added to the dictionary.

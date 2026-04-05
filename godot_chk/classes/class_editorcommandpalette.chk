@@ -1,0 +1,45 @@
+Document: EditorCommandPalette
+Path: godot/classes/class_editorcommandpalette.rst
+Summary: Class representing the command palette interface in Godot's editor.
+---CHUNK---
+Document: EditorCommandPalette
+Path: godot/classes/class_editorcommandpalette.rst
+Summary: Godot editor's command palette.
+
+Inherits: ConfirmationDialog < AcceptDialog < Window < Viewport < Node < Object
+---CHUNK---
+Document: EditorCommandPalette
+Path: godot/classes/class_editorcommandpalette.rst
+Summary: Class that manages command palette entries and their shortcuts for Godot's editor interface.
+
+The EditorCommandPalette class holds all available commands and their associated shortcut text. These commands are accessible through the Editor > Command Palette menu. Command key names use slash delimiters to create hierarchical sections, for example: "example/command1" would place "command1" under the "example" section.
+
+GDScript:
+	var command_palette = EditorInterface.get_command_palette()
+	# external_command is a function that will be called with the command is executed.
+	var command_callable = Callable(self, "external_command").bind(arguments)
+	command_palette.add_command("command", "test/command",command_callable)
+
+C#:
+	EditorCommandPalette commandPalette = EditorInterface.Singleton.GetCommandPalette();
+	// ExternalCommand is a function that will be called with the command is executed.
+	Callable commandCallable = new Callable(this, MethodName.ExternalCommand);
+	commandPalette.AddCommand("command", "test/command", commandCallable)
+
+Note: This class shouldn't be instantiated directly. Instead, access the singleton using EditorInterface.get_command_palette().
+---CHUNK---
+Document: ClassEditorCommandPalette
+Path: godot/classes/class_editorcommandpalette.rst
+Summary: Property dialog_hide_on_ok and its override relationship with AcceptDialog
+
+Property: dialog_hide_on_ok (bool): Controls whether the dialog is hidden after confirmation. Default: false. Note: This overrides the behavior defined in AcceptDialog's dialog_hide_on_ok property.
+---CHUNK---
+Document: EditorCommandPalette
+Path: godot/classes/class_editorcommandpalette.rst
+Summary: Methods for adding and removing custom commands in the EditorCommandPalette.
+
+add_command (String command_name, String key_name, Callable binded_callable, String shortcut_text = "None")  
+Adds a custom command to EditorCommandPalette. command_name is the display name for the user. key_name uniquely identifies the command. binded_callable is executed when the command is selected. shortcut_text displays the command's shortcut if available.
+
+remove_command (String key_name)  
+Removes a custom command from EditorCommandPalette. key_name must match the unique identifier used when adding the command.

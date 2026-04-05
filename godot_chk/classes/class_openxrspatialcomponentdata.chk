@@ -1,0 +1,25 @@
+Document: OpenXRSpatialComponentData  
+Path: godot/classes/class_openxrspatialcomponentdata.rst  
+Summary: Class reference for OpenXRSpatialComponentData, covering identity, description, and inheritance.
+---CHUNK---
+Document: OpenXRSpatialComponentData
+Path: godot/classes/class_openxrspatialcomponentdata.rst
+Summary: Class for storing OpenXR spatial entity component data with inheritance relationships and experimental status notes.
+
+Note: This class may be changed or removed in future versions.
+Inherits: RefCounted < Object
+Inherited By: OpenXRSpatialComponentAnchorList, OpenXRSpatialComponentBounded2DList, OpenXRSpatialComponentBounded3DList, OpenXRSpatialComponentMarkerList, OpenXRSpatialComponentMesh2DList, OpenXRSpatialComponentMesh3DList, OpenXRSpatialComponentParentList, OpenXRSpatialComponentPersistenceList, OpenXRSpatialComponentPlaneAlignmentList, OpenXRSpatialComponentPlaneSemanticLabelList, OpenXRSpatialComponentPolygon2DList, OpenXRSpatialQueryResultData
+Object for storing OpenXR spatial entity component data.
+---CHUNK---
+Document: class_openxrspatialcomponentdata
+Path: godot/classes/class_openxrspatialcomponentdata.rst
+Summary: Object for storing OpenXR spatial entity component data.
+---CHUNK---
+Document: OpenXRSpatialComponentData  
+Path: godot/classes/class_openxrspatialcomponentdata.rst  
+Summary: Methods for retrieving component type, structure data, and setting buffer capacity in OpenXR spatial component management.  
+
+- _get_component_type() → int (virtual, const): Returns the component type for the data stored by this object.  
+- _get_structure_data(next: int) → int (virtual, const): Returns a pointer to structure data for submission with snapshot queries. The pointer must remain valid while this object is instantiated.  
+- _set_capacity(capacity: int) → void (virtual): Sets the expected buffer capacity based on spatial entities query system input. Buffers must be initialized with correct storage allocation.  
+- set_capacity(capacity: int) → void: Public-facing method to set buffer capacity. Delegates to _set_capacity() for actual implementation. Both methods ensure buffers are initialized with storage matching the provided capacity value.

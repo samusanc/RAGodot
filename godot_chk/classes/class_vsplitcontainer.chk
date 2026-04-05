@@ -1,0 +1,23 @@
+Document: VSplitContainer
+Path: godot/classes/class_vsplitcontainer.rst
+Summary: A container control that splits the viewport vertically with a draggable splitter, allowing dynamic resizing of child panels.
+---CHUNK---
+Document: VSplitContainer
+Path: godot/classes/class_vsplitcontainer.rst
+Summary: A container that splits two child controls vertically with a grabber for adjusting the split ratio.
+
+Inherits: SplitContainer < Container < Control < CanvasItem < Node < Object
+A container that splits two child controls vertically and provides a grabber for adjusting the split ratio.
+---CHUNK---
+Document: VSplitContainer
+Path: godot/classes/class_vsplitcontainer.rst
+Summary: A container that arranges two child controls vertically with a draggable divisor to adjust their size ratio.
+
+A container that accepts only two child controls, then arranges them vertically and creates a divisor between them. The divisor can be dragged around to change the size relation between the child controls.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_vsplitcontainer.rst
+Summary: This section links to the "Using Containers" tutorial in the UI/GUI Containers guide.
+
+Tutorials
+- Using Containers

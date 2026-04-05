@@ -1,0 +1,16 @@
+Document: VisualShaderNodeVaryingGetter  
+Path: godot/classes/class_visualshadernodevaryinggetter.rst  
+Summary: A node in the VisualShader graph used to retrieve varying variables for use in shader stages.
+---CHUNK---
+Document: VisualShaderNodeVaryingGetter
+Path: godot/classes/class_visualshadernodevaryinggetter.rst
+Summary: A visual shader node that retrieves a value from a varying variable.
+
+Inherits: VisualShaderNodeVarying < VisualShaderNode < Resource < RefCounted < Object
+A visual shader node that gets a value of a varying.
+---CHUNK---
+Document: VisualShaderNodeVaryingGetter
+Path: godot/classes/class_visualshadernodevaryinggetter.rst
+Summary: Outputs a value from a shader varying, requiring proper varying setup for use in fragment shaders.
+
+Outputs a value of a varying defined in the shader. You need to first create a varying that can be used in the given function, e.g. varying getter in Fragment shader requires a varying with mode set to VisualShader.VARYING_MODE_VERTEX_TO_FRAG_LIGHT. Note: Varying mode must match shader function requirements for proper operation.

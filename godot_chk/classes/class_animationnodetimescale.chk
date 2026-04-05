@@ -1,0 +1,24 @@
+Document: AnimationNodeTimeScale  
+Path: godot/classes/class_animationnodetimescale.rst  
+Summary: AnimationNodeTimeScale is an animation node that scales the playback speed of animations.
+---CHUNK---
+Document: AnimationNodeTimeScale
+Path: godot/classes/class_animationnodetimescale.rst
+Summary: A time-scaling animation node used within AnimationTree to modify animation playback speed.
+
+Inherits: AnimationNode < Resource < RefCounted < Object
+A time-scaling animation node used in AnimationTree. This node allows adjusting the playback speed of animations by scaling the time factor. When connected to an AnimationTree, it modifies the duration of animations without altering their content, enabling effects like slow motion or fast-forward playback.
+---CHUNK---
+Document: AnimationNodeTimeScale
+Path: godot/classes/class_animationnodetimescale.rst
+Summary: Scales the speed or reverses animations in child AnimationNode instances, with 0.0 pausing the animation.
+
+Scales the speed of the animation (or reverses it) in any child AnimationNode instances. Setting the scale value to 0.0 will pause the animation. This node acts as a multiplier for the playback speed of connected animation nodes, allowing for dynamic control over animation timing through script or animation graph parameters.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_animationnodetimescale.rst
+Summary: This section lists tutorial resources related to animation node time scale functionality.
+
+Tutorials:
+- Using AnimationTree
+- 3D Platformer Demo

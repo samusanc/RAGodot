@@ -1,0 +1,54 @@
+Document: EditorScript
+Path: godot/classes/class_editorscript.rst
+Summary: No content provided in the input RST section.
+---CHUNK---
+Document: EditorScript
+Path: godot/classes/class_editorscript.rst
+Summary: Base script that can be used to add extension functions to the editor.
+
+EditorScript inherits from RefCounted < Object. It serves as a base script that can be used to add extension functions to the editor.
+---CHUNK---
+Document: EditorScript  
+Path: godot/classes/class_editorscript.rst  
+Summary: EditorScript enables custom in-editor functionality via the _run method, requires tool mode, and inherits RefCounted behavior.  
+
+Scripts extending this class and implementing its _run method can be executed from the Script Editor's **File > Run** menu (or by pressing :kbd:`Ctrl + Shift + X`) while the editor is running. This is useful for adding custom in-editor functionality to Godot. For more complex additions, consider using EditorPlugin instead. If a script extending this class also has a global class name, it will be included in the editor's command palette.  
+
+Note: Extending scripts need to have `tool` mode enabled.  
+
+Example: Running the following script prints "Hello from the Godot Editor!":  
+
+GDScript:  
+    @tool  
+    extends EditorScript  
+
+    func _run():  
+        print("Hello from the Godot Editor!")  
+
+C#:  
+    using Godot;  
+
+    [Tool]  
+    public partial class HelloEditor : EditorScript  
+    {  
+        public override void _Run()  
+        {  
+            GD.Print("Hello from the Godot Editor!");  
+        }  
+    }  
+
+Note: EditorScript is RefCounted, meaning it is destroyed when nothing references it. This can cause errors during asynchronous operations if there are no references to the script.  
+
+Inherits: RefCounted
+---CHUNK---
+Document: EditorScript
+Path: godot/classes/class_editorscript.rst
+Summary: Core methods for EditorScript class including scene manipulation and interface access.
+
+void: _run() → void. Virtual, required. Executed when "File > Run" is used.
+
+void: add_root_node(node: Node) → void. Deprecated. Use EditorInterface.add_root_node() instead. Makes node root of currently opened scene if empty. Creates inheriting scene if node is a scene instance.
+
+EditorInterface: get_editor_interface() → EditorInterface. Const. Deprecated. EditorInterface is a global singleton accessible directly. Returns EditorInterface singleton instance.
+
+Node: get_scene() → Node. Const. Deprecated. Use EditorInterface.get_edited_scene_root() instead. Returns edited scene's root Node. Equivalent to EditorInterface.get_edited_scene_root().

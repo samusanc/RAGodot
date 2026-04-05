@@ -1,0 +1,46 @@
+Document: StatusIndicator
+Path: godot/classes/class_statusindicator.rst
+Summary: This document is incomplete and lacks class identity, description, and inheritance information.
+---CHUNK---
+Document: StatusIndicator
+Path: godot/classes/class_statusindicator.rst
+Summary: Represents an application status indicator (notification area icon) for macOS and Windows
+
+Inherits: Node < Object
+Note: Status indicator is implemented on macOS and Windows.
+---CHUNK---
+Document: StatusIndicator
+Path: godot/classes/class_statusindicator.rst
+Summary: This chunk covers the properties of the StatusIndicator class and their default values.
+
+- icon (Texture2D): Default: none.
+- menu (NodePath): Default: NodePath("")
+- tooltip (String): Default: ""
+- visible (bool): Default: true
+---CHUNK---
+Document: StatusIndicator  
+Path: godot/classes/class_statusindicator.rst  
+Summary: Method get_rect() which returns a Rect2.  
+
+get_rect() (Method): Returns a Rect2. const.  
+
+Signal: pressed (mouse_button: int, mouse_position: Vector2i). Emitted when the status indicator is pressed.
+---CHUNK---
+Document: StatusIndicator
+Path: godot/classes/class_statusindicator.rst
+Summary: Properties and methods for configuring a StatusIndicator's icon, menu, tooltip, and visibility in Godot.
+
+Property: icon (Texture2D): Status indicator icon. Method: set_icon(value: Texture2D). Method: get_icon() → Texture2D.
+
+Property: menu (NodePath): Status indicator native popup menu. Default: NodePath(""). Method: set_menu(value: NodePath). Method: get_menu() → NodePath. Note: Native popup is only supported if NativeMenu supports FEATURE_POPUP_MENU feature. If set, the pressed signal is not emitted.
+
+Property: tooltip (String): Status indicator tooltip. Default: "". Method: set_tooltip(value: String). Method: get_tooltip() → String.
+
+Property: visible (bool): If true, the status indicator is visible. Default: true. Method: set_visible(value: bool). Method: is_visible() → bool.
+---CHUNK---
+Document: StatusIndicator
+Path: godot/classes/class_statusindicator.rst
+Summary: Returns the status indicator's screen-space rectangle and visibility state
+
+Method: get_rect() → Rect2 (const)
+Returns the status indicator rectangle in screen coordinates. If this status indicator is not visible, returns an empty Rect2.

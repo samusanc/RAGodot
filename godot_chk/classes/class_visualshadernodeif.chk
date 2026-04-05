@@ -1,0 +1,48 @@
+Document: VisualShaderNodeIf  
+Path: godot/classes/class_visualshadernodeif.rst  
+Summary: Class representing a conditional node in visual shaders, used to control shader logic based on boolean inputs.  
+
+Inherits: VisualShaderNode < ShaderNode < Node  
+This node evaluates a boolean condition and routes shader graph connections based on the result. It has two output ports: one for the "true" branch and one for the "false" branch. When the condition is true, the true output is active; otherwise, the false output is active.  
+
+Key Rule: The condition input must be a boolean value (0 or 1) for proper evaluation.  
+The node's functionality mirrors an "if-else" statement in programming, allowing dynamic control over shader behavior. It is part of Godot's visual shader graph system, enabling complex shading without writing code.  
+
+GDScript:  
+```gdscript  
+var condition: float = 1.0  
+var true_value: Color = Color(1, 0, 0)  
+var false_value: Color = Color(0, 0, 1)  
+```  
+
+C#:  
+```csharp  
+float condition = 1.0f;  
+Color trueValue = Color.Red;  
+Color falseValue = Color.Blue;  
+```  
+
+The node's ports include:  
+- `condition (Input: Float):` Boolean value determining which branch is active. Default: 0.  
+- `true (Output: Any):` Connected nodes active when condition is true.  
+- `false (Output: Any):` Connected nodes active when condition is false.  
+
+Note: This node is specifically designed for use within the VisualShaderGraph editor.  
+Warning: Connecting non-boolean values to the condition input may produce unexpected results.
+---CHUNK---
+Document: VisualShaderNodeIf
+Path: godot/classes/class_visualshadernodeif.rst
+Summary: A visual shader graph node that outputs a 3D vector based on floating-point comparisons.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Outputs a 3D vector based on the result of a floating-point comparison within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeIf
+Path: godot/classes/class_visualshadernodeif.rst
+Summary: Describes the VisualShaderNodeIf class, which compares two floating-point numbers and routes output based on the comparison result with tolerance.
+
+- Port 1 and 2 provide the two floating-point numbers a and b that will be compared.
+- Port 3 is the tolerance, which allows similar floating-point numbers to be considered equal.
+- Port 4 is the output returned if a == b.
+- Port 5 is the output returned if a > b.
+- Port 6 is the output returned if a < b.

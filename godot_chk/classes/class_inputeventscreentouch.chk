@@ -1,0 +1,62 @@
+Document: InputEventScreenTouch
+Path: godot/classes/class_inputeventscreentouch.rst
+Summary: Represents a screen touch input event for handling touch interactions on mobile or touch-enabled devices.
+---CHUNK---
+Document: InputEventScreenTouch  
+Path: godot/classes/class_inputeventscreentouch.rst  
+Summary: Represents a screen touch event.  
+
+Inherits: InputEventFromWindow < InputEvent < Resource < RefCounted < Object  
+Represents a screen touch event.
+---CHUNK---
+Document: InputEventScreenTouch
+Path: godot/classes/class_inputeventscreentouch.rst
+Summary: Stores information about multi-touch press/release events, including touch index for multi-touch tracking.
+
+Stores information about multi-touch press/release input events. Supports touch press, touch release and index for multi-touch count and order.
+---CHUNK---
+Document: class_inputeventscreentouch
+Path: godot/classes/class_inputeventscreentouch.rst
+Summary: Links to the InputEvent tutorial for using input events in Godot.
+
+Tutorials
+- Using InputEvent
+---CHUNK---
+Document: InputEventScreenTouch
+Path: godot/classes/class_inputeventscreentouch.rst
+Summary: Properties for handling screen touch input events, including cancellation status, double-tap detection, touch index, position, and press state.
+
+- canceled (bool): Indicates if the event was canceled. Default: false
+- double_tap (bool): Whether the event represents a double-tap gesture. Default: false
+- index (int): The touchpoint index (0 for primary touch). Default: 0
+- position (Vector2): The screen coordinates of the touchpoint. Default: Vector2(0, 0)
+- pressed (bool): Whether the touch is currently pressed. Default: false
+---CHUNK---
+Document: InputEventScreenTouch  
+Path: godot/classes/class_inputeventscreentouch.rst  
+Summary: Properties for handling screen touch events, including cancellation status, double tap detection, touch index, position, and press state.  
+
+Property: canceled (bool) = false  
+Setter: set_canceled(value: bool)  
+Getter: is_canceled() → bool  
+If true, the touch event has been canceled.  
+
+Property: double_tap (bool) = false  
+Setter: set_double_tap(value: bool)  
+Getter: is_double_tap() → bool  
+If true, the touch's state is a double tap.  
+
+Property: index (int) = 0  
+Setter: set_index(value: int)  
+Getter: get_index() → int  
+The touch index in the case of a multi-touch event. One index = one finger.  
+
+Property: position (Vector2) = Vector2(0, 0)  
+Setter: set_position(value: Vector2)  
+Getter: get_position() → Vector2  
+The touch position in the viewport the node is in, using the coordinate system of this viewport.  
+
+Property: pressed (bool) = false  
+Setter: set_pressed(value: bool)  
+Getter: is_pressed() → bool  
+If true, the touch's state is pressed. If false, the touch's state is released.

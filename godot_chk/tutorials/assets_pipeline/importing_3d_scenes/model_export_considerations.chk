@@ -1,0 +1,41 @@
+Document: Model Export Considerations
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.rst
+Summary: Overview of key considerations and best practices for exporting 3D models for use in Godot.
+---CHUNK---
+Document: model_export_considerations
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.rst
+Summary: Key considerations for exporting 3D models to ensure compatibility with Godot's conventions and best practices.
+
+Before exporting a 3D model from a 3D modeling application, such as Blender, there are some considerations that should be taken into account to ensure that the model follows the conventions and best practices for Godot.
+---CHUNK---
+Document: model_export_considerations
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.rst
+Summary: Explains 3D asset orientation conventions in Godot's right-handed Y-up coordinate system and their implications for modeling and rotation.
+
+Godot uses a right-handed, Y-is-up coordinate system with the -Z axis as the camera's forward direction (same as OpenGL). This makes +Z the back direction, +X the right, and -X the left for a camera. Oriented 3D assets (like characters) should face the opposite direction of the camera by default, meaning +Z is the front direction for assets, -Z is the rear, +X is the left side, and -X is the right side. In Blender, this translates to +Y being the rear and -Y being the front for assets. When rotating oriented assets in Godot, use the use_model_front option in look_at functions and Vector3.MODEL_* constants for local space calculations. For assets without a defined front (like maps/terrain), the convention is +X as east, -X as west, +Z as south, and -Z as north. In Blender, this means +Y is north and -Y is south.
+---CHUNK---
+Document: model_export_considerations
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.rst
+Summary: Exporting textures separately and using PBR materials in Godot for 3D models.
+
+Exporting textures separately while exporting 3D models is possible in formats like glTF 2.0. Godot uses PBR (physically based rendering) for materials, requiring texturing programs to export PBR textures for compatibility. Supported tools include Substance suite, ArmorPaint (open source), and Material Maker (open source). Note: For more information on Godot's materials, see doc_standard_material_3d.
+---CHUNK---
+Document: model_export_considerations
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.rst
+Summary: Best practices for preparing 3D models before exporting to ensure correct triangulation and skeletal pose in Godot.
+
+Exporting considerations
+Since GPUs can only render triangles, meshes that contain quads or N-gons have to be triangulated before they can be rendered. Godot can triangulate meshes on import, but results may be unpredictable or incorrect, especially with N-gons. Regardless of the target application, triangulating before exporting the scene will lead to more consistent results and should be done whenever possible.
+
+To avoid issues with incorrect triangulation after importing in Godot, it is recommended to make the 3D modeling software triangulate objects on its own. In Blender, this can be done by adding a Triangulate modifier to your objects and making sure Apply Modifiers is checked in the export dialog. Alternatively, depending on the exporter, you may be able to find and enable a Triangulate Faces option in the export dialog.
+
+To avoid issues with 3D selection in the editor, it is recommended to apply the object transform in the 3D modeling software before exporting the scene.
+
+Note: Ensure the mesh is not deformed by bones during export. Reset the skeleton to its T-pose or default rest pose in the 3D editor before exporting.
+---CHUNK---
+Document: Model Export Considerations
+Path: godot/tutorials/assets_pipeline/importing_3d_scenes/model_export_considerations.rst
+Summary: Importing 3D scene lighting can lead to inaccuracies; it's recommended to adjust lighting in Godot after import for better results.
+
+Lighting considerations
+While it's possible to import lights from a 3D scene using the glTF, .blend or Collada formats, it's generally advised to design the scene's lighting in the Godot editor after importing the scene. This allows you to get a more accurate feel for the final result, as different engines will render lights in a different manner. This also avoids any issues with lights appearing excessively strong or faint as a result of the import process.

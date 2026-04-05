@@ -1,0 +1,44 @@
+Document: VisualShaderNodeRemap  
+Path: godot/classes/class_visualshadernoderemap.rst  
+Summary: VisualShaderNodeRemap is a class in Godot used for remapping values in visual shaders.
+---CHUNK---
+Document: VisualShaderNodeRemap
+Path: godot/classes/class_visualshadernoderemap.rst
+Summary: A visual shader node used to implement remap functions in Godot's visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A visual shader node for remap function.
+---CHUNK---
+Document: VisualShaderNodeRemap  
+Path: godot/classes/class_visualshadernoderemap.rst  
+Summary: Transforms an input range into an output range, such as converting 0..1 to -2..2.  
+
+Remap will transform the input range into output range, e.g. you can change a 0..1 value to -2..2 etc. See @GlobalScope.remap() for more details.
+---CHUNK---
+Document: VisualShaderNodeRemap  
+Path: godot/classes/class_visualshadernoderemap.rst  
+Summary: Properties and member variables for the VisualShaderNodeRemap class, including the op_type property with its default value.  
+
+OpType (Enum): op_type (Property). Default: 0.
+---CHUNK---
+Document: VisualShaderNodeRemap
+Path: godot/classes/class_visualshadernoderemap.rst
+Summary: Enumeration values for VisualShaderNodeRemap's OpType, defining data types for shader remapping operations.
+
+enum OpType:
+- OP_TYPE_SCALAR = 0: A floating-point scalar type.
+- OP_TYPE_VECTOR_2D = 1: A 2D vector type.
+- OP_TYPE_VECTOR_2D_SCALAR = 2: The value port uses 2D vector type, while input min/max and output min/max ports use scalar type.
+- OP_TYPE_VECTOR_3D = 3: A 3D vector type.
+- OP_TYPE_VECTOR_3D_SCALAR = 4: The value port uses 3D vector type, while input min/max and output min/max ports use scalar type.
+- OP_TYPE_VECTOR_4D = 5: A 4D vector type.
+- OP_TYPE_VECTOR_4D_SCALAR = 6: The value port uses 4D vector type, while input min/max and output min/max ports use scalar type.
+- OP_TYPE_MAX = 7: Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeRemap
+Path: godot/classes/class_visualshadernoderemap.rst
+Summary: Property op_type of type OpType with default value 0 and associated setter/getter methods
+
+OpType op_type = 0
+Setter: set_op_type(value: OpType)
+Getter: get_op_type() → OpType

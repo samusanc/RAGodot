@@ -1,0 +1,73 @@
+Document: PhysicalBoneSimulator3D  
+Path: godot/classes/class_physicalbonesimulator3d.rst  
+Summary: Class representing a 3D physical bone simulator for realistic character movement and physics-based animation.  
+
+Inherits: Node3D < Spatial < Node < Object  
+
+PhysicalBoneSimulator3D is a utility class used to simulate the physical behavior of bones in a 3D character model. It applies physics-based constraints to bones, allowing them to move naturally under forces such as gravity or collisions. This class is typically used in conjunction with `PhysicalBone3D` nodes to create realistic ragdoll effects or dynamic animations.  
+
+Key features include:  
+- Applying forces to bones to simulate movement  
+- Configuring constraints for rotation and translation limits  
+- Integration with Godot's physics engine for accurate simulations  
+
+To use this class, attach it to a node in the scene tree and link it to `PhysicalBone3D` nodes via the `bones` property. The simulator will then apply physics calculations to the connected bones during each physics frame.  
+
+Note: This class requires a valid physics world and active physics processing to function. Ensure that the scene contains a `PhysicsServer` and that the simulator is enabled in the project settings.  
+
+Warning: Overusing constraints or applying excessive forces may lead to unstable simulations or performance issues. Test configurations in isolated environments before deployment.  
+
+Properties:  
+- `bones` (Array<PhysicalBone3D>): List of bones to simulate.  
+- `gravity_scale` (float): Multiplier for gravity's effect on simulated bones. Default: 1.0.  
+- `damping` (float): Reduces bone movement over time. Default: 0.1.  
+- `enabled` (bool): Enables or disables the simulator. Default: true.  
+
+Method: `add_bone(bone: PhysicalBone3D) -> void`  
+Adds a bone to the simulation.  
+
+Method: `remove_bone(bone: PhysicalBone3D) -> void`  
+Removes a bone from the simulation.  
+
+Method: `apply_force(bone: PhysicalBone3D, force: Vector3) -> void`  
+Applies a force to a specific bone.  
+
+Method: `reset_simulation() -> void`  
+Resets all bones to their initial positions and velocities.
+---CHUNK---
+Document: PhysicalBoneSimulator3D
+Path: godot/classes/class_physicalbonesimulator3d.rst
+Summary: A node that acts as a parent for PhysicalBone3D nodes and applies physics simulation results to a Skeleton3D.
+
+Inherits: SkeletonModifier3D < Node3D < Node < Object
+Node that can be the parent of PhysicalBone3D and can apply the simulation results to Skeleton3D.
+---CHUNK---
+Document: PhysicalBoneSimulator3D
+Path: godot/classes/class_physicalbonesimulator3d.rst
+Summary: Node that can be the parent of PhysicalBone3D and apply simulation results to Skeleton3D.
+
+Node that can be the parent of PhysicalBone3D and apply the simulation results to Skeleton3D.
+---CHUNK---
+Document: PhysicalBoneSimulator3D  
+Path: godot/classes/class_physicalbonesimulator3d.rst  
+Summary: Methods for managing physics simulation and collision exceptions in PhysicalBoneSimulator3D.  
+
+- is_simulating_physics (bool): const. No parameters.  
+- physical_bones_add_collision_exception (void): Adds a collision exception. Parameters: exception (RID).  
+- physical_bones_remove_collision_exception (void): Removes a collision exception. Parameters: exception (RID).  
+- physical_bones_start_simulation (void): Starts simulation. Parameters: bones (Array<StringName>) with default value of empty array.  
+- physical_bones_stop_simulation (void): Stops simulation. No parameters.
+---CHUNK---
+Document: PhysicalBoneSimulator3D
+Path: godot/classes/class_physicalbonesimulator3d.rst
+Summary: Methods for controlling physics simulation and collision exceptions in PhysicalBoneSimulator3D
+
+Method: is_simulating_physics() → bool. Returns a boolean that indicates whether the PhysicalBoneSimulator3D is running and simulating.
+
+Method: physical_bones_add_collision_exception(exception: RID) → void. Adds a collision exception to the physical bone. Note: Works just like the RigidBody3D node.
+
+Method: physical_bones_remove_collision_exception(exception: RID) → void. Removes a collision exception from the physical bone. Note: Works just like the RigidBody3D node.
+
+Method: physical_bones_start_simulation(bones: Array[StringName] = []) → void. Tells the PhysicalBone3D nodes in the Skeleton to start simulating and reacting to the physics world. Optionally, a list of bone names can be passed-in, allowing only the passed-in bones to be simulated.
+
+Method: physical_bones_stop_simulation() → void. Tells the PhysicalBone3D nodes in the Skeleton to stop simulating.

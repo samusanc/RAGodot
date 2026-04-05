@@ -1,0 +1,46 @@
+Document: ResourceImporter  
+Path: godot/classes/class_resourceimporter.rst  
+Summary: Class ResourceImporter in Godot Engine.
+---CHUNK---
+Document: ResourceImporter
+Path: godot/classes/class_resourceimporter.rst
+Summary: Base class for resource importers.
+
+Inherits: RefCounted < Object
+Inherited By: EditorImportPlugin, ResourceImporterBitMap, ResourceImporterBMFont, ResourceImporterCSVTranslation, ResourceImporterDynamicFont, ResourceImporterImage, ResourceImporterImageFont, ResourceImporterLayeredTexture, ResourceImporterMP3, ResourceImporterOBJ, ResourceImporterOggVorbis, ResourceImporterScene, ResourceImporterShaderFile, ResourceImporterSVG, ResourceImporterTexture, ResourceImporterTextureAtlas, ResourceImporterWAV
+Base class for resource importers.
+---CHUNK---
+Document: ResourceImporter  
+Path: godot/classes/class_resourceimporter.rst  
+Summary: Base class for Godot's resource importers, providing functionality for importing external resources into the engine.  
+
+This is the base class for Godot's resource importers. To implement your own resource importers using editor plugins, see EditorImportPlugin. Note: Custom importers must inherit from this class and override its methods to handle specific file formats and import logic. The class defines core behaviors for parsing, validating, and converting external resources into Godot-compatible formats. Key Rule: All resource importers must implement the import method to process files and generate runtime assets.
+---CHUNK---
+Document: class_resourceimporter
+Path: godot/classes/class_resourceimporter.rst
+Summary: This section links to the import plugins tutorial.
+Tutorials: Import plugins
+---CHUNK---
+Document: ResourceImporter
+Path: godot/classes/class_resourceimporter.rst
+Summary: Method _get_build_dependencies and ImportOrder enum for resource importer class
+
+Method: _get_build_dependencies(path: String) → PackedStringArray
+Called when the engine compilation profile editor checks build dependencies for imported resources. Returns a list of required build options. For example, if a resource uses multichannel signed distance fields, it would add "module_msdfgen_enabled" to dependencies.
+
+Enum: ImportOrder
+IMPORT_ORDER_DEFAULT = 0
+The default import order.
+
+IMPORT_ORDER_SCENE = 100
+The import order for scenes, ensuring they are imported after core resources like textures. Custom importers should use lower values to avoid conflicts with scene dependencies.
+
+GDScript:
+    func _get_build_dependencies(path):
+        var resource = load(path)
+        var dependencies = PackedStringArray()
+
+        if resource.multichannel_signed_distance_field:
+            dependencies.push_back("module_msdfgen_enabled")
+
+        return dependencies

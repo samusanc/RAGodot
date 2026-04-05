@@ -1,0 +1,46 @@
+Document: ConvexPolygonShape2D
+Path: godot/classes/class_convexpolygonshape2d.rst
+Summary: 2D physics shape representing a convex polygon for collision detection and response.
+---CHUNK---
+Document: ConvexPolygonShape2D  
+Path: godot/classes/class_convexpolygonshape2d.rst  
+Summary: A 2D convex polygon shape used for physics collision.  
+
+Inherits: Shape2D < Resource < RefCounted < Object
+---CHUNK---
+Document: Convexpolygonshape2d  
+Path: godot/classes/class_convexpolygonshape2d.rst  
+Summary: A 2D convex polygon shape for physics, used internally in CollisionPolygon2D when in BUILD_SOLIDS mode.  
+
+ConvexPolygonShape2D is solid, detecting collisions from objects fully inside it, unlike ConcavePolygonShape2D which is hollow. This makes it more suitable for both detection and physics. Convex decomposition splits concave polygons into convex ones, enabling complex collision shapes via multiple ConvexPolygonShape2D nodes or CollisionPolygon2D in BUILD_SOLIDS mode. To generate a collision polygon from a Sprite2D, select the node, open the Sprite2D menu above the viewport, and choose "Create Polygon2D Sibling." ConvexPolygonShape2D is faster than ConcavePolygonShape2D but slower than primitive shapes like CircleShape2D and RectangleShape2D. It should be used for medium-sized objects when primitive shapes cannot accurately represent the collision.
+---CHUNK---
+Document: ConvexPolygonShape2D
+Path: godot/classes/class_convexpolygonshape2d.rst
+Summary: Defines the 'points' property for storing polygon vertices as a PackedVector2Array with default empty value.
+
+Property: points (PackedVector2Array): Stores the convex polygon's vertices as a 2D vector array. Default: PackedVector2Array()
+---CHUNK---
+Document: ConvexPolygonShape2D  
+Path: godot/classes/class_convexpolygonshape2d.rst  
+Summary: Methods for setting the point cloud of a ConvexPolygonShape2D.  
+
+Method: set_point_cloud(point_cloud: PackedVector2Array) → void. Sets the point cloud defining the shape's geometry.
+---CHUNK---
+Document: ConvexPolygonShape2D
+Path: godot/classes/class_convexpolygonshape2d.rst
+Summary: Defines the points property for ConvexPolygonShape2D and its constraints for forming a convex hull.
+
+Property: points (PackedVector2Array): The polygon's list of vertices that form a convex hull. Can be in either clockwise or counterclockwise order. Default: PackedVector2Array()
+
+Method: set_points(value: PackedVector2Array) → void
+Method: get_points() → PackedVector2Array
+
+Warning: Only set this property to a list of points that actually form a convex hull. Use set_point_cloud() to generate the convex hull of an arbitrary set of points.
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedVector2Array for more details.
+---CHUNK---
+Document: ConvexPolygonShape2D
+Path: godot/classes/class_convexpolygonshape2d.rst
+Summary: The set_point_cloud method assigns points using a convex hull algorithm, removing redundant points.
+
+Method: set_point_cloud(point_cloud: PackedVector2Array) → void
+Based on the set of points provided, this assigns the points property using the convex hull algorithm, removing all unneeded points. See Geometry2D.convex_hull() for details.

@@ -1,0 +1,41 @@
+Document: 2D Antialiasing
+Path: godot/tutorials/2d/2d_antialiasing.rst
+Summary: This tutorial section introduces 2D antialiasing techniques in Godot Engine for smoother graphics rendering.
+---CHUNK---
+Document: 2D Antialiasing
+Path: godot/tutorials/2d/2d_antialiasing.rst
+Summary: Overview of 2D antialiasing techniques in Godot and references to related 3D documentation
+
+Note: Godot also supports antialiasing in 3D rendering, covered on the 3D antialiasing page.
+---CHUNK---
+Document: 2D Antialiasing  
+Path: godot/tutorials/2d/2d_antialiasing.rst  
+Summary: Explains aliasing artifacts in 2D rendering and methods to enable antialiasing in Godot.  
+
+Due to their limited resolution, scenes rendered in 2D can exhibit aliasing artifacts. These artifacts usually manifest in the form of a "staircase" effect on geometry edges, and are most noticeable when using nodes such as Line2D, Polygon2D or TextureProgressBar. Custom drawing in 2D can also have aliasing artifacts for methods that don't support antialiasing.  
+
+In the example below, you can notice how edges have a blocky appearance. Image is scaled by 2× with nearest-neighbor filtering to make aliasing more noticeable. To combat this, Godot supports several methods of enabling antialiasing on 2D rendering.
+---CHUNK---
+Document: 2D Antialiasing  
+Path: godot/tutorials/2d/2d_antialiasing.rst  
+Summary: Explains how to enable antialiasing in Line2D and custom drawing methods for 2D rendering in Godot.  
+
+The recommended method for antialiasing in 2D involves using the **Antialiased** property in Line2D nodes, which can be toggled via the inspector. This approach avoids the need for MSAA (Multisample Antialiasing) and maintains low baseline performance costs, as no permanent overhead is incurred when not rendering antialiased geometry. Several custom drawing functions in 2D support an optional `antialiased` parameter that can be set to `true` during calls. These methods generate additional geometry to achieve smooth edges but may become inefficient for complex or frequently updated shapes.  
+
+Note: This method has lower performance impact in most cases. However, nodes like Polygon2D, TextureProgressBar, and certain custom drawing techniques lack built-in antialiasing support. For these cases, 2D multisample antialiasing should be used instead. The tradeoff is that geometry-based antialiasing introduces overhead proportional to the complexity of the drawn shapes, which can become a bottleneck in performance-critical scenarios.
+---CHUNK---
+Document: 2D Antialiasing  
+Path: godot/tutorials/2d/2d_antialiasing.rst  
+Summary: Explains how multisample antialiasing (MSAA) works in 2D, its limitations, and how to enable it in Godot.  
+
+Multisample antialiasing (MSAA) is only available in the Forward+ and Mobile renderers, not the Compatibility renderer. Before enabling MSAA in 2D, understand its scope: it operates on geometry edges (lines, polygons) and sprite edges only for pixels touching a texture’s edge. This applies to both linear and nearest-neighbor filtering. Transparency-based sprite edges are unaffected.  
+
+MSAA increases coverage samples but not color samples, so fragment shaders run once per pixel. This means MSAA does not address:  
+- Aliasing within nearest-neighbor filtered textures (pixel art).  
+- Aliasing from custom 2D shaders.  
+- Specular aliasing with Light2D.  
+- Font rendering aliasing.  
+
+Enable MSAA in Project Settings by adjusting the **MSAA 2D** setting under *Rendering > Anti Aliasing > Quality > MSAA 2D*. Avoid modifying the **MSAA 3D** setting, as they are separate.  
+
+A comparison shows no antialiasing (left) versus MSAA levels (right). The top-left corner features a Line2D node, top-right has two TextureProgressBar nodes, and the bottom displays eight pixel art sprites—four touching edges (green background) and four not (Godot logo).

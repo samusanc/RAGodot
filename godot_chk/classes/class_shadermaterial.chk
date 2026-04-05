@@ -1,0 +1,55 @@
+Document: ShaderMaterial
+Path: godot/classes/class_shadermaterial.rst
+Summary: ShaderMaterial class reference section.
+---CHUNK---
+Document: ShaderMaterial
+Path: godot/classes/class_shadermaterial.rst
+Summary: A material defined by a custom Shader program and the values of its shader parameters.
+
+Inherits: Material < Resource < RefCounted < Object
+---CHUNK---
+Document: ShaderMaterial
+Path: godot/classes/class_shadermaterial.rst
+Summary: A material that uses a custom Shader program to render visual items with detailed control over shader code.
+
+A material that uses a custom Shader program to render visual items (canvas items, meshes, skies, fog), or to process particles. Compared to other materials, ShaderMaterial gives deeper control over the generated shader code. For more information, see the shaders documentation index below.
+
+Multiple ShaderMaterial instances can use the same shader and configure different values for the shader uniforms.
+
+Note: For performance reasons, the Resource.changed signal is only emitted when the Resource.resource_name changes. Only in editor, it is also emitted for shader changes.
+---CHUNK---
+Document: class_shadermaterial
+Path: godot/classes/class_shadermaterial.rst
+Summary: Tutorial section linking to shaders documentation index.
+Tutorials:
+- Shaders documentation index
+---CHUNK---
+Document: ShaderMaterial
+Path: godot/classes/class_shadermaterial.rst
+Summary: Properties of ShaderMaterial, including the Shader used by the material.
+
+Property: shader (Shader): The Shader resource assigned to this material. This defines the visual appearance and behavior of the material in the scene. Default: null.
+---CHUNK---
+Document: ShaderMaterial
+Path: godot/classes/class_shadermaterial.rst
+Summary: ShaderMaterial class methods for accessing and modifying shader parameters.
+
+Method: get_shader_parameter(param: StringName) → Variant
+Returns the current value of the specified shader parameter. This method is const, indicating it does not modify the object's state.
+
+Method: set_shader_parameter(param: StringName, value: Variant)
+Sets the value of the specified shader parameter. This method allows dynamic modification of shader properties at runtime, enabling effects like animated materials or parameter-driven visual changes. The parameter name must match exactly with the shader's defined uniform variables.
+---CHUNK---
+Document: ShaderMaterial
+Path: godot/classes/class_shadermaterial.rst
+Summary: The Shader property used to render this material.
+
+Shader (Shader): The Shader program used to render this material. Method: set_shader(value: Shader) → void. Method: get_shader() → Shader.
+---CHUNK---
+Document: ShaderMaterial  
+Path: godot/classes/class_shadermaterial.rst  
+Summary: Methods for retrieving and modifying shader uniform parameters in ShaderMaterial.  
+
+Method: get_shader_parameter(param: StringName) → Variant. Returns the current value set for this material of a uniform in the shader.  
+
+Method: set_shader_parameter(param: StringName, value: Variant). Changes the value set for this material of a uniform in the shader. Note: param is case-sensitive and must match the name of the uniform in the code exactly (not the capitalized name in the inspector). Note: Changes to the shader uniform will be effective on all instances using this ShaderMaterial. To prevent this, use per-instance uniforms with CanvasItem.set_instance_shader_parameter(), GeometryInstance3D.set_instance_shader_parameter(), or duplicate the ShaderMaterial resource using Resource.duplicate(). Per-instance uniforms allow for better shader reuse and are therefore faster, so they should be preferred over duplicating the ShaderMaterial when possible.

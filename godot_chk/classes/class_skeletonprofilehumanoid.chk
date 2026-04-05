@@ -1,0 +1,30 @@
+Document: SkeletonProfileHumanoid
+Path: godot/classes/class_skeletonprofilehumanoid.rst
+Summary: Class: SkeletonProfileHumanoid. No description or inheritance information provided in the input.
+---CHUNK---
+Document: SkeletonProfileHumanoid
+Path: godot/classes/class_skeletonprofilehumanoid.rst
+Summary: A humanoid SkeletonProfile preset.
+
+Inherits: SkeletonProfile < Resource < RefCounted < Object
+---CHUNK---
+Document: class_skeletonprofilehumanoid  
+Path: godot/classes/class_skeletonprofilehumanoid.rst  
+Summary: A read-only SkeletonProfile preset optimized for humanoid character skeletons, defining 56 bones grouped into body, face, and hands.  
+
+A SkeletonProfileHumanoid is a specialized preset for humanoid skeletons, with all parameters locked to ensure consistency across projects. It organizes 56 bones into four groups: "Body," "Face," "LeftHand," and "RightHand." The hierarchical structure begins at the Root, branching into Hips, Spine, and Chest. The Hips connect to LeftUpperLeg and RightUpperLeg, each leading to lower legs, feet, and toes. The Spine extends through Chest and UpperChest, connecting to the Neck and Head. The Head contains Jaw, LeftEye, and RightEye. Shoulders branch into arms, with each arm containing UpperArm, LowerArm, and Hand. Each hand has distinct finger bones: ThumbMetacarpal, ThumbProximal, ThumbDistal, and similarly structured Index, Middle, Ring, and Little fingers. The hierarchy ensures standardized bone placement for humanoid animations and rigging.
+---CHUNK---
+Document: Retargeting 3D Skeletons
+Path: godot/classes/class_skeletonprofilehumanoid.rst
+Summary: This section links to the 'Retargeting 3D Skeletons' tutorial.
+
+Retargeting 3D Skeletons
+---CHUNK---
+Document: class_skeletonprofilehumanoid
+Path: godot/classes/class_skeletonprofilehumanoid.rst
+Summary: Properties overriding SkeletonProfile settings for bone grouping and scaling in humanoid skeletons.
+
+bone_size (int): overrides SkeletonProfile's bone_size. Default: 56.
+group_size (int): overrides SkeletonProfile's group_size. Default: 4.
+root_bone (StringName): overrides SkeletonProfile's root_bone. Default: &"Root".
+scale_base_bone (StringName): overrides SkeletonProfile's scale_base_bone. Default: &"Hips".
