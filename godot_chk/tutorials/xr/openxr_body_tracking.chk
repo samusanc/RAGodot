@@ -1,0 +1,31 @@
+Document: openxr_body_tracking
+Path: godot/tutorials/xr/openxr_body_tracking.rst
+Summary: Introduction to using OpenXR for body tracking in Godot.
+---CHUNK---
+Document: openxr_body_tracking
+Path: godot/tutorials/xr/openxr_body_tracking.rst
+Summary: Current state of OpenXR body tracking support across platforms and planned documentation updates
+
+OpenXR body tracking Support for full body tracking in OpenXR is only just becoming available for a select few platforms. As support solidifies information will be added to this page.
+---CHUNK---
+Document: openxr_body_tracking  
+Path: godot/tutorials/xr/openxr_body_tracking.rst  
+Summary: HTC Tracker support for full body tracking via SteamVR and HTC Elite XR headsets using action maps and predefined roles.  
+
+HTC Tracker support has been available for full body tracking through SteamVR and HTC Elite XR headsets. Trackers are managed via the action map system and require assigning specific roles during configuration. To use them, add XRController3D nodes as children to the XROrigin3D node and assign one of the following predefined tracker roles:  
+
+- /user/vive_tracker_htcx/role/handheld_object  
+- /user/vive_tracker_htcx/role/left_foot  
+- /user/vive_tracker_htcx/role/right_foot  
+- /user/vive_tracker_htcx/role/left_shoulder  
+- /user/vive_tracker_htcx/role/right_shoulder  
+- /user/vive_tracker_htcx/role/left_elbow  
+- /user/vive_tracker_htcx/role/right_elbow  
+- /user/vive_tracker_htcx/role/left_knee  
+- /user/vive_tracker_htcx/role/right_knee  
+- /user/vive_tracker_htcx/role/waist  
+- /user/vive_tracker_htcx/role/chest  
+- /user/vive_tracker_htcx/role/camera  
+- /user/vive_tracker_htcx/role/keyboard  
+
+These assigned trackers can then be used as targets for inverse kinematics (IK) modifiers on a full-body avatar.

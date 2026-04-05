@@ -1,0 +1,25 @@
+Document: UniformSetCacheRD  
+Path: godot/classes/class_uniformsetcacherd.rst  
+Summary: A class used for caching uniform sets in the RenderingDevice system.
+---CHUNK---
+Document: UniformSetCacheRD
+Path: godot/classes/class_uniformsetcacherd.rst
+Summary: Uniform set cache manager for Rendering Device based renderers.
+
+UniformSetCacheRD
+Inherits: Object
+
+Uniform set cache manager for Rendering Device based renderers.
+---CHUNK---
+Document: UniformSetCacheRD
+Path: godot/classes/class_uniformsetcacherd.rst
+Summary: Uniform set cache manager for RenderingDevice-based renderers that creates and reuses uniform sets until dependent objects are freed.
+
+Uniform set cache manager for RenderingDevice-based renderers. Provides a way to create a uniform set and reuse it in subsequent calls for as long as the uniform set exists. Uniform set will automatically be cleaned up when dependent objects are freed.
+---CHUNK---
+Document: UniformSetCacheRD
+Path: godot/classes/class_uniformsetcacherd.rst
+Summary: The get_cache method creates or returns a cached uniform set based on provided uniforms for a given shader.
+
+- Method: get_cache(shader: RID, set: int, uniforms: Array<RDUniform>) → RID |static|
+  Creates/returns a cached uniform set based on the provided uniforms for a given shader.

@@ -1,0 +1,30 @@
+Document: VisualShaderNodeVec3Constant  
+Path: godot/classes/class_visualshadernodevec3constant.rst  
+Summary: Class VisualShaderNodeVec3Constant represents a constant 3D vector node in the Visual Shader graph.
+---CHUNK---
+Document: VisualShaderNodeVec3Constant
+Path: godot/classes/class_visualshadernodevec3constant.rst
+Summary: A Vector3 constant node for use in visual shader graphs within Godot
+Inherits: VisualShaderNodeConstant < VisualShaderNode < Resource < RefCounted < Object
+A Vector3 constant to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVec3Constant
+Path: godot/classes/class_visualshadernodevec3constant.rst
+Summary: A constant Vector3 node used as an input in visual shaders.
+
+A constant Vector3, which can be used as an input node. This node provides a fixed 3D vector value that can be connected to other nodes in a visual shader graph. The Vector3 value is specified through the node's properties and remains unchanged during shader execution.
+---CHUNK---
+Document: VisualShaderNodeVec3Constant
+Path: godot/classes/class_visualshadernodevec3constant.rst
+Summary: Defines the 'constant' property for VisualShaderNodeVec3Constant nodes, specifying a Vector3 value.
+
+constant (Vector3): The constant value used by this node. Default: Vector3(0, 0, 0).
+---CHUNK---
+Document: VisualShaderNodeVec3Constant
+Path: godot/classes/class_visualshadernodevec3constant.rst
+Summary: Defines a Vector3 constant property with getter/setter methods for a VisualShaderNode
+
+Property: Vector3 constant = Vector3(0, 0, 0)
+- Setter: void set_constant(Vector3 value)
+- Getter: Vector3 get_constant()
+- Represents the state of this node as a 3D vector value in the visual shader graph

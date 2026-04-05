@@ -1,0 +1,29 @@
+Document: TextServerDummy
+Path: godot/classes/class_textserverdummy.rst
+Summary: This section is incomplete and does not contain class identity, description, or inheritance information. The provided RST content only includes generator metadata and a reference link.
+---CHUNK---
+Document: TextServerDummy
+Path: godot/classes/class_textserverdummy.rst
+Summary: A dummy text server that cannot render text or manage fonts.
+
+Inherits: TextServerExtension < TextServer < RefCounted < Object
+A dummy text server that can't render text or manage fonts.
+---CHUNK---
+Document: TextServerDummy
+Path: godot/classes/class_textserverdummy.rst
+Summary: A dummy TextServer interface that does nothing, used for memory optimization and performance benchmarking in GUIs.
+
+A dummy TextServer interface that doesn't perform any operations. It is useful for freeing memory when text rendering is not required, as text servers are resource-intensive. This class can also be used for performance comparisons in complex GUIs to measure the impact of text rendering.
+
+A dummy text server is always available at project startup. To access it:
+GDScript:
+    var dummy_text_server = TextServerManager.find_interface("Dummy")
+    if dummy_text_server != null:
+        TextServerManager.set_primary_interface(dummy_text_server)
+        # If other text servers are unneeded, they can be removed:
+        for i in TextServerManager.get_interface_count():
+            var text_server = TextServerManager.get_interface(i)
+            if text_server != dummy_text_server:
+                TextServerManager.remove_interface(text_server)
+
+Note: The command line argument --text-driver Dummy (case-sensitive) can be used to force the "Dummy" TextServer on any project.

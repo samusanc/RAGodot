@@ -1,0 +1,40 @@
+Document: VisualShaderNodeVec2Constant  
+Path: godot/classes/class_visualshadernodevec2constant.rst  
+Summary: Class representing a constant Vec2 node in the Visual Shader graph.  
+
+Inherits: VisualShaderNode < ShaderNode < Reference < Object  
+
+A VisualShaderNodeVec2Constant is used to define a constant 2D vector (Vec2) value within a Visual Shader. It provides a fixed value that can be connected to other nodes in the shader graph. This node is useful for setting static positions, sizes, or other Vec2-based parameters that do not change during runtime.  
+
+The node's value is specified through its properties and can be adjusted via the editor's inspector panel. When used in a shader, the constant value is directly embedded into the generated shader code, ensuring consistent behavior across all instances of the shader.  
+
+Key Rule: This node is specifically designed for static Vec2 values and cannot be used for dynamic calculations or inputs that require runtime variability.
+---CHUNK---
+Document: VisualShaderNodeVec2Constant
+Path: godot/classes/class_visualshadernodevec2constant.rst
+Summary: A Vector2 constant node for use in visual shader graphs
+
+Inherits: VisualShaderNodeConstant < VisualShaderNode < Resource < RefCounted < Object
+A Vector2 constant to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVec2Constant
+Path: godot/classes/class_visualshadernodevec2constant.rst
+Summary: Represents a constant Vector2 value used as an input in visual shader graphs.
+
+Represents a constant Vector2 value used as an input in visual shader graphs. This node outputs a fixed Vector2 (x, y) value that can be connected to other nodes in a visual shader graph. The Vector2 value is defined in the node's parameters and remains unchanged during shader execution.
+---CHUNK---
+Document: VisualShaderNodeVec2Constant  
+Path: godot/classes/class_visualshadernodevec2constant.rst  
+Summary: Defines the Vector2 constant property for VisualShaderNodeVec2Constant with its default value.  
+
+Vector2 (Type): constant. Default: Vector2(0, 0).
+---CHUNK---
+Document: VisualShaderNodeVec2Constant
+Path: godot/classes/class_visualshadernodevec2constant.rst
+Summary: Defines the Vector2 constant property and its access methods for the VisualShaderNodeVec2Constant class.
+
+Vector2 constant = Vector2(0, 0)
+- set_constant(value: Vector2): void
+- get_constant(): Vector2
+
+Note: This Vector2 constant represents the state of this node in the visual shader graph. The property is used to store and retrieve a fixed 2D vector value during shader compilation. The default value is (0, 0) but can be modified through the set_constant method.

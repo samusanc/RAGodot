@@ -1,0 +1,31 @@
+Document: Path2D
+Path: godot/classes/class_path2d.rst
+Summary: Class Path2D reference section with identity, description, and inheritance information.
+---CHUNK---
+Document: Path2D
+Path: godot/classes/class_path2d.rst
+Summary: The Path2D class contains a Curve2D path for PathFollow2D nodes to follow.
+Inherits: Node2D < CanvasItem < Node < Object
+Contains a Curve2D path for PathFollow2D nodes to follow.
+---CHUNK---
+Document: Path2D
+Path: godot/classes/class_path2d.rst
+Summary: Manages a 2D path with PathFollow2D nodes moving along a Curve2D.
+
+Can have PathFollow2D child nodes moving along a Curve2D. See PathFollow2D for more information on usage. Note: The path is considered as relative to the moved nodes (children of PathFollow2D). As such, the curve should usually start with a zero vector ( (0, 0) ).
+---CHUNK---
+Document: Path2D  
+Path: godot/classes/class_path2d.rst  
+Summary: Properties and member variables of the Path2D class.  
+
+- Curve2D (Class)  
+- curve (Property)
+---CHUNK---
+Document: Path2D
+Path: godot/classes/class_path2d.rst
+Summary: The 'curve' property and its setter/getter methods for defining a 2D path.
+
+Curve2D curve
+Method: set_curve(value: Curve2D)
+Method: get_curve() → Curve2D
+A Curve2D describing the path. The curve property defines the shape of the path, with the setter method allowing assignment of a new Curve2D instance and the getter method retrieving the current curve.
