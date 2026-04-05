@@ -1,0 +1,28 @@
+Document: VisualShaderNodeBooleanConstant
+Path: godot/classes/class_visualshadernodebooleanconstant.rst
+Summary: A class representing a boolean constant node in a visual shader graph, used to set fixed true/false values in shader networks.
+---CHUNK---
+Document: VisualShaderNodeBooleanConstant
+Path: godot/classes/class_visualshadernodebooleanconstant.rst
+Summary: A boolean constant to be used within the visual shader graph.
+
+Inherits: VisualShaderNodeConstant < VisualShaderNode < Resource < RefCounted < Object
+A boolean constant to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeBooleanConstant
+Path: godot/classes/class_visualshadernodebooleanconstant.rst
+Summary: A shader node that outputs a boolean value with no input ports.
+
+This class represents a boolean constant in the visual shader graph. It has only one output port and no input ports. The node is translated to the `bool` type in the shader language. It is used to represent fixed boolean values (true/false) within shader programs, providing a way to hardcode boolean conditions directly into the visual shader network.
+---CHUNK---
+Document: VisualShaderNodeBooleanConstant
+Path: godot/classes/class_visualshadernodebooleanconstant.rst
+Summary: Properties of the VisualShaderNodeBooleanConstant class, including the constant boolean value.
+
+constant (bool): Default value is false.
+---CHUNK---
+Document: VisualShaderNodeBooleanConstant
+Path: godot/classes/class_visualshadernodebooleanconstant.rst
+Summary: Describes the 'constant' boolean property and its setter/getter methods for the VisualShaderNodeBooleanConstant class.
+
+bool constant = false. A boolean constant which represents a state of this node. Method: set_constant(value: bool) → void. Method: get_constant() → bool.

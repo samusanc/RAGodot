@@ -1,0 +1,31 @@
+Document: JointLimitationCone3D
+Path: godot/classes/class_jointlimitationcone3d.rst
+Summary: A 3D joint limitation cone used to restrict movement in physics simulations.
+---CHUNK---
+Document: JointLimitationCone3D
+Path: godot/classes/class_jointlimitationcone3d.rst
+Summary: A cone-shaped joint limitation used with ChainIK3D to restrict rotational movement.
+
+Inherits: JointLimitation3D < Resource < RefCounted < Object
+A cone shape limitation that interacts with ChainIK3D.
+---CHUNK---
+Document: ClassJointLimitationCone3D
+Path: godot/classes/class_jointlimitationcone3d.rst
+Summary: A cone-shaped joint limitation constraint for 3D skeletal animations, used with ChainIK3D.
+
+A cone shape limitation that interacts with ChainIK3D. This constraint restricts joint movement within a conical volume, commonly used in inverse kinematics systems to maintain natural limb motion ranges. The cone's orientation and angle determine the permissible movement area for the constrained joint.
+---CHUNK---
+Document: JointLimitationCone3D
+Path: godot/classes/class_jointlimitationcone3d.rst
+Summary: Properties of the JointLimitationCone3D class, including the angle parameter with its default value.
+
+- angle (float): The maximum angle allowed for the joint limitation cone. Default: 1.5707964
+---CHUNK---
+Document: JointLimitationCone3D
+Path: godot/classes/class_jointlimitationcone3d.rst
+Summary: The angle property defines the radius range of the cone-shaped hole in joint limitations.
+
+Property: angle (float) = 1.5707964
+Setter: set_angle(value: float)
+Getter: get_angle() → float
+Description: The radius range of the hole made by the cone. 0 degrees creates a sphere without a hole, 180 degrees creates a hemisphere, and 360 degrees results in no limitation (empty space). The default value of 1.5707964 radians corresponds to 90 degrees.

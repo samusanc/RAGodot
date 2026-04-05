@@ -1,0 +1,35 @@
+Document: VisualShaderNodeCurveTexture
+Path: godot/classes/class_visualshadernodecurvetexture.rst
+Summary: A visual shader node that applies a curve texture to modify color or other properties in a shader.
+
+Inherits: VisualShaderNode < VisualShaderNodeTexture < VisualShaderNode
+This node type is used in visual shaders to sample a curve texture, which can be used for color grading, gradient mapping, or other texture-based transformations. The curve texture is typically a 1D or 2D texture that defines a mapping between input and output values. When connected in a shader graph, this node outputs the sampled value from the curve texture based on the input parameter. The node supports various texture sampling modes and can be configured to use different channels of the texture for different purposes. It is commonly used in post-processing effects and material shading to create smooth transitions between colors or values.
+---CHUNK---
+Document: VisualShaderNodeCurveTexture
+Path: godot/classes/class_visualshadernodecurvetexture.rst
+Summary: Performs a CurveTexture lookup within the visual shader graph.
+
+Inherits: VisualShaderNodeResizableBase < VisualShaderNode < Resource < RefCounted < Object
+Performs a CurveTexture lookup within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeCurveTexture
+Path: godot/classes/class_visualshadernodecurvetexture.rst
+Summary: A class providing a built-in editor for texture curves in Godot's visual shader system.
+
+Comes with a built-in editor for texture's curves.
+---CHUNK---
+Document: VisualShaderNodeCurveTexture
+Path: godot/classes/class_visualshadernodecurvetexture.rst
+Summary: Properties of the VisualShaderNodeCurveTexture class, including the CurveTexture and texture attributes.
+
+- CurveTexture (Class): Reference to the CurveTexture class used for curve mapping.
+- texture (Property): The texture input for the curve shader node. Default: empty Texture.
+---CHUNK---
+Document: VisualShaderNodeCurveTexture
+Path: godot/classes/class_visualshadernodecurvetexture.rst
+Summary: Describes the texture property and its accessors for the VisualShaderNodeCurveTexture class.
+
+Property: texture (CurveTexture): The source texture. Default: none.
+
+Method: set_texture(CurveTexture value) → void
+Method: get_texture() → CurveTexture

@@ -1,0 +1,25 @@
+Document: AudioStreamMicrophone
+Path: godot/classes/class_audiostreammicrophone.rst
+Summary: Class: AudioStreamMicrophone. Inheritance and description information not provided in the source.
+---CHUNK---
+Document: AudioStreamMicrophone
+Path: godot/classes/class_audiostreammicrophone.rst
+Summary: A class that plays real-time audio input data from a microphone.
+
+Inherits: AudioStream < Resource < RefCounted < Object
+Plays real-time audio input data.
+---CHUNK---
+Document: AudioStreamMicrophone
+Path: godot/classes/class_audiostreammicrophone.rst
+Summary: Real-time microphone input playback for use with AudioEffectCapture in AudioStreamPlayer nodes
+
+When used directly in an AudioStreamPlayer node, AudioStreamMicrophone plays back microphone input in real-time. This can be used in conjunction with AudioEffectCapture to process the data or save it. Note: ProjectSettings.audio/driver/enable_input must be true for audio input to work. See also that setting's description for caveats related to permissions and operating system privacy settings.
+---CHUNK---
+Document: Tutorials  
+Path: godot/classes/class_audiostreammicrophone.rst  
+Summary: Links to audio-related tutorials and a demo project for microphone recording in Godot.  
+
+Tutorials:  
+- Audio streams  
+- Recording with microphone  
+- Audio Mic Record Demo

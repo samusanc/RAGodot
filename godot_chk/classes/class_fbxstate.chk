@@ -1,0 +1,31 @@
+Document: FBXState
+Path: godot/classes/class_fbxstate.rst
+Summary: Class FBXState: Represents a state in FBX import/export operations, handling animation and transformation data.
+---CHUNK---
+Document: FBXState
+Path: godot/classes/class_fbxstate.rst
+Summary: The FBXState class, which is experimental and inherits from GLTFState, providing functionality for handling FBX file states in Godot.
+
+Experimental: This class may be changed or removed in future versions.
+Inherits: GLTFState < Resource < RefCounted < Object
+---CHUNK---
+Document: FBXState
+Path: godot/classes/class_fbxstate.rst
+Summary: Manages state data imported from FBX files for animation and skeletal mesh handling.
+
+The FBXState handles the state data imported from FBX files.
+---CHUNK---
+Document: FBXState
+Path: godot/classes/class_fbxstate.rst
+Summary: Describes the boolean property allow_geometry_helper_nodes in FBXState class
+
+Property: allow_geometry_helper_nodes (bool): Controls whether geometry helper nodes are allowed. Default: false.
+---CHUNK---
+Document: FBXState
+Path: godot/classes/class_fbxstate.rst
+Summary: Configures use of geometry helper nodes during FBX import to preserve original 3D model transformations
+
+Property: allow_geometry_helper_nodes (bool) = false
+Method: set_allow_geometry_helper_nodes(value: bool)
+Method: get_allow_geometry_helper_nodes() → bool
+Description: If true, the import process uses auxiliary geometry helper nodes to preserve pivots and transformations of the original 3D model during import. These nodes help maintain the spatial relationships and orientation of model components as they were in the source file.

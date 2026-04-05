@@ -1,0 +1,24 @@
+Document: OpenXRSpatialComponentParentList
+Path: godot/classes/class_openxrspatialcomponentparentlist.rst
+Summary: Class reference for OpenXRSpatialComponentParentList, a Godot class related to OpenXR spatial component parent lists.
+---CHUNK---
+Document: OpenXRSpatialComponentParentList
+Path: godot/classes/class_openxrspatialcomponentparentlist.rst
+Summary: Class for storing queries parent result data in OpenXR spatial component systems.
+
+Note: This class may be changed or removed in future versions.
+Inherits: OpenXRSpatialComponentData < RefCounted < Object
+Object for storing the queries parent result data.
+---CHUNK---
+Document: OpenXRSpatialComponentParentList  
+Path: godot/classes/class_openxrspatialcomponentparentlist.rst  
+Summary: Class for storing parent result data from OpenXRSpatialEntityExtension's query_snapshot method.  
+
+Object for storing the queries parent result data when calling OpenXRSpatialEntityExtension.query_snapshot().
+---CHUNK---
+Document: OpenXRSpatialComponentParentList
+Path: godot/classes/class_openxrspatialcomponentparentlist.rst
+Summary: Method to retrieve parent entity RID by index in an OpenXR spatial component parent list
+
+Method: get_parent(index: int) → RID const
+Returns the RID for the parent entity at the specified index in the spatial component parent list. This const method allows querying parent relationships without modifying the list structure. The index parameter must be a valid integer within the bounds of the list.

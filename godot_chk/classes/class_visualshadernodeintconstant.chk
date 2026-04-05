@@ -1,0 +1,49 @@
+Document: VisualShaderNodeIntConstant
+Path: godot/classes/class_visualshadernodeintconstant.rst
+Summary: A node in the visual shader graph that outputs a constant integer value.
+
+Inherits: VisualShaderNode < ShaderNode < Reference < Object
+
+This node is used to set a fixed integer value in a shader. The value is set in the Inspector and can be used in shader expressions where an integer is required. The node has a single parameter that defines the integer value to output.
+
+Note: The value is baked into the shader and cannot be modified at runtime.
+
+Parameters:
+- value (int): The integer value output by this node. Default: 0.
+
+GDScript:
+```gdscript
+var node = VisualShaderNodeIntConstant.new()
+node.value = 42
+```
+
+The node's output is a constant integer that can be connected to other nodes requiring an integer input. It is commonly used for setting uniform values or fixed parameters in shader graphs.
+---CHUNK---
+Document: VisualShaderNodeIntConstant
+Path: godot/classes/class_visualshadernodeintconstant.rst
+Summary: A scalar integer constant to be used within the visual shader graph.
+
+Inherits: VisualShaderNodeConstant < VisualShaderNode < Resource < RefCounted < Object
+A scalar integer constant to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeIntConstant
+Path: godot/classes/class_visualshadernodeintconstant.rst
+Summary: Represents an integer constant node in the Visual Shader language, translated to 'int' in shader code.
+
+Description
+Translated to int in the shader language.
+---CHUNK---
+Document: VisualShaderNodeIntConstant
+Path: godot/classes/class_visualshadernodeintconstant.rst
+Summary: Defines the 'constant' property of the VisualShaderNodeIntConstant class
+
+constant (int): The constant value. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeIntConstant
+Path: godot/classes/class_visualshadernodeintconstant.rst
+Summary: Describes the 'constant' property and its setter/getter methods for the VisualShaderNodeIntConstant class.
+
+int constant = 0
+Method: set_constant(value: int) → void
+Method: get_constant() → int
+An integer constant which represents a state of this node.

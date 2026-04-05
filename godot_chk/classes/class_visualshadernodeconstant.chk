@@ -1,0 +1,17 @@
+Document: VisualShaderNodeConstant
+Path: godot/classes/class_visualshadernodeconstant.rst
+Summary: Class reference for VisualShaderNodeConstant, covering its identity, description, and inheritance chain.
+---CHUNK---
+Document: VisualShaderNodeConstant
+Path: godot/classes/class_visualshadernodeconstant.rst
+Summary: Base class for constant nodes in the visual shader graph, serving as a parent for various specialized constant types.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Inherited By: VisualShaderNodeBooleanConstant, VisualShaderNodeColorConstant, VisualShaderNodeFloatConstant, VisualShaderNodeIntConstant, VisualShaderNodeTransformConstant, VisualShaderNodeUIntConstant, VisualShaderNodeVec2Constant, VisualShaderNodeVec3Constant, VisualShaderNodeVec4Constant
+A base type for the constants within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeConstant
+Path: godot/classes/class_visualshadernodeconstant.rst
+Summary: Abstract base class for visual shader node constants, with derived types defining specific value types.
+
+This is an abstract class. See the derived types for descriptions of the possible values.

@@ -1,0 +1,26 @@
+Document: Tweener  
+Path: godot/classes/class_tweener.rst  
+Summary: Class Tweener reference with identity, description, and inheritance information.  
+
+Note: This section is incomplete as the provided RST content only includes generator metadata and a reference link, with no actual class documentation details present.
+---CHUNK---
+Document: Tweener
+Path: godot/classes/class_tweener.rst
+Summary: Abstract base class for all tweening operations in Godot, used by the Tween class.
+
+Inherits: RefCounted < Object
+Inherited By: AwaitTweener, CallbackTweener, IntervalTweener, MethodTweener, PropertyTweener, SubtweenTweener
+Abstract class for all Tweeners used by Tween.
+---CHUNK---
+Document: Tweener
+Path: godot/classes/class_tweener.rst
+Summary: Tweener objects handle animation tasks like property interpolation and method calls, created via Tween class methods.
+
+Tweeners are objects that perform a specific animating task, e.g. interpolating a property or calling a method at a given time. A Tweener can't be created manually, you need to use a dedicated method from Tween.
+---CHUNK---
+Document: Tweener
+Path: godot/classes/class_tweener.rst
+Summary: The 'finished' signal is emitted when the Tweener completes its task or becomes invalid.
+
+finished()  
+Emitted when the Tweener has just finished its job or became invalid (e.g. due to a freed object).

@@ -1,0 +1,22 @@
+Document: OpenXRSpatialPlaneTrackingCapability  
+Path: godot/classes/class_openxrspatialplanetrackingcapability.rst  
+Summary: Represents the capability of the OpenXR spatial plane tracking system.
+---CHUNK---
+Document: OpenXRSpatialPlaneTrackingCapability
+Path: godot/classes/class_openxrspatialplanetrackingcapability.rst
+Summary: Class for implementing spatial entity plane tracking logic in OpenXR
+
+Note: This class may be changed or removed in future versions. Inherits: OpenXRExtensionWrapper < Object. Implementation for handling spatial entity plane tracking logic.
+---CHUNK---
+Document: OpenXRSpacePlanetrackingcapability
+Path: godot/classes/class_openxrspatialplanetrackingcapability.rst
+Summary: This class handles the OpenXR plane tracking spatial entity extension.
+
+This class handles the OpenXR plane tracking spatial entity extension.
+---CHUNK---
+Document: OpenXRSpatialPlaneTrackingCapability
+Path: godot/classes/class_openxrspatialplanetrackingcapability.rst
+Summary: Method is_supported() which checks if plane tracking is supported by the current device
+
+Method: bool is_supported() → bool
+Returns true if plane tracking is supported by the current device.

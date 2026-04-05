@@ -1,0 +1,22 @@
+Document: Texture2DArrayRD
+Path: godot/classes/class_texture2darrayrd.rst
+Summary: Class reference for Texture2DArrayRD, a 2D array texture resource in Godot Engine.
+---CHUNK---
+Document: Texture2DArrayRD
+Path: godot/classes/class_texture2darrayrd.rst
+Summary: A 2D texture array bound to a texture created on the RenderingDevice
+
+Inherits: TextureLayeredRD < TextureLayered < Texture < Resource < RefCounted < Object
+Texture Array for 2D that is bound to a texture created on the RenderingDevice.
+---CHUNK---
+Document: class_Texture2DArrayRD  
+Path: godot/classes/class_texture2darrayrd.rst  
+Summary: A low-level 2D array texture class for use with RenderingDevice, intended for advanced material and mesh texturing.  
+
+This texture array class allows you to use a 2D array texture created directly on the RenderingDevice as a texture for materials, meshes, etc. Note: Texture2DArrayRD is intended for low-level usage with RenderingDevice. For most use cases, use Texture2DArray instead.
+---CHUNK---
+Document: Compute Texture demo
+Path: godot/classes/class_texture2darrayrd.rst
+Summary: Tutorial section linking to a Compute Texture demo asset on Godot's Asset Library
+
+Compute Texture demo (https://godotengine.org/asset-library/asset/2764)

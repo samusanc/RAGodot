@@ -1,0 +1,31 @@
+Document: VisualShaderNodeUIntConstant
+Path: godot/classes/class_visualshadernodeuintconstant.rst
+Summary: Class representing a uint constant node in the Visual Shader graph.
+---CHUNK---
+Document: VisualShaderNodeUIntConstant
+Path: godot/classes/class_visualshadernodeuintconstant.rst
+Summary: An unsigned scalar integer constant for use in visual shader graphs.
+
+Inherits: VisualShaderNodeConstant < VisualShaderNode < Resource < RefCounted < Object
+An unsigned scalar integer constant to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeUIntConstant
+Path: godot/classes/class_visualshadernodeuintconstant.rst
+Summary: Represents a uint constant value in the shader language.
+
+Translated to ``uint`` in the shader language.
+---CHUNK---
+Document: VisualShaderNodeUIntConstant
+Path: godot/classes/class_visualshadernodeuintconstant.rst
+Summary: Properties and member variables of the VisualShaderNodeUIntConstant class
+
+- constant (int): Default value is 0.
+---CHUNK---
+Document: VisualShaderNodeUIntConstant
+Path: godot/classes/class_visualshadernodeuintconstant.rst
+Summary: Describes the 'constant' property and its accessors for the VisualShaderNodeUIntConstant class.
+
+Property: constant (int): An unsigned integer constant which represents a state of this node. Default: 0.
+
+- Method: set_constant(value: int)
+- Method: get_constant() → int

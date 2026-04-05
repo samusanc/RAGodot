@@ -1,0 +1,41 @@
+Document: Panel  
+Path: godot/classes/class_panel.rst  
+Summary: The Panel class in Godot Engine is a UI control used to group and organize other UI elements.  
+
+Panel is a UI control that acts as a container for other UI elements, providing a visual grouping mechanism. It inherits from `Control <Control>` and is commonly used to structure interfaces by organizing child nodes within a defined area. Panels can be customized with themes, including background colors, borders, and padding, to match the desired UI design. They support layout management through the `LayoutContainer` system, allowing for flexible arrangement of child nodes. Key properties include `rect_clip_content` to control whether child content is clipped to the panel's bounds and `theme` to apply custom styles. Panels are essential for creating structured, visually cohesive user interfaces in Godot.
+---CHUNK---
+Document: Panel
+Path: godot/classes/class_panel.rst
+Summary: A GUI control that displays a StyleBox.
+
+Inherits: Control < CanvasItem < Node < Object
+A GUI control that displays a StyleBox.
+---CHUNK---
+Document: Panel  
+Path: godot/classes/class_panel.rst  
+Summary: Panel is a GUI control that displays a StyleBox and is often used with PanelContainer for layout management.  
+
+Panel is a GUI control that displays a StyleBox. See also PanelContainer.  
+Inherits: Control < CanvasItem < Node < Object
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_panel.rst
+Summary: This section lists example tutorials demonstrating 2D RPG and hierarchical finite state machine implementations.
+
+Tutorials
+- 2D Role Playing Game (RPG) Demo https://godotengine.org/asset-library/asset/2729
+
+- Hierarchical Finite State Machine Demo https://godotengine.org/asset-library/asset/2714
+---CHUNK---
+Document: class_Panel
+Path: godot/classes/class_panel.rst
+Summary: Theme properties for the Panel class, including StyleBox and panel style references.
+
+panel (StyleBox): Theme style for the Panel. Default: StyleBoxPanel.
+---CHUNK---
+Document: Panel
+Path: godot/classes/class_panel.rst
+Summary: Theme property "panel" which defines the StyleBox for this control
+
+Theme Property: panel (StyleBox)
+The StyleBox of this control.

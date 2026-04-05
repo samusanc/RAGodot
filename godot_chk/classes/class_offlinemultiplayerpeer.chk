@@ -1,0 +1,28 @@
+Document: OfflineMultiplayerPeer  
+Path: godot/classes/class_offlinemultiplayerpeer.rst  
+Summary: Class providing functionality for handling offline multiplayer connections in Godot.  
+
+This class is part of Godot's networking system and is designed to simulate multiplayer interactions without requiring an actual network connection. It is useful for testing multiplayer features locally or in scenarios where network access is unavailable. The class inherits from `MultiplayerPeer`, which serves as the base class for all multiplayer peer implementations in Godot.  
+
+Key features include the ability to simulate network latency, packet loss, and other network conditions, allowing developers to test how their games handle imperfect network environments. It also supports the creation of virtual players that can be controlled locally, mimicking the behavior of real players connected over a network.  
+
+The class provides methods for configuring network simulation parameters, such as setting the delay between packets, the probability of packet loss, and the maximum number of packets that can be queued. These settings can be adjusted dynamically during runtime to simulate different network conditions.  
+
+Additionally, the class includes functionality for managing the state of the simulated network, such as resetting the simulation, pausing it, or resuming it. This allows for precise control over the testing environment, ensuring that developers can thoroughly test their multiplayer code under a wide range of conditions.  
+
+The class is particularly useful during the development phase of multiplayer games, as it enables developers to test and debug their code without the need for multiple devices or a real network connection. It also supports the creation of custom network simulation scenarios, allowing developers to tailor the testing environment to their specific needs.  
+
+By using this class, developers can ensure that their multiplayer games are robust and can handle a variety of network conditions, improving the overall quality and reliability of the game.
+---CHUNK---
+Document: OfflineMultiplayerPeer
+Path: godot/classes/class_offlinemultiplayerpeer.rst
+Summary: A MultiplayerPeer that is always connected and functions as a server, inheriting from MultiplayerPeer, PacketPeer, RefCounted, and Object.
+
+Inherits: MultiplayerPeer < PacketPeer < RefCounted < Object
+A MultiplayerPeer which is always connected and acts as a server.
+---CHUNK---
+Document: OfflineMultiplayerPeer
+Path: godot/classes/class_offlinemultiplayerpeer.rst
+Summary: Default multiplayer peer that mimics a server with no connected peers, making the SceneTree the multiplayer authority.
+
+This is the default MultiplayerAPI.multiplayer_peer for the Node.multiplayer. It mimics the behavior of a server with no peers connected. This means that the SceneTree will act as the multiplayer authority by default. Calls to MultiplayerAPI.is_server() will return true, and calls to MultiplayerAPI.get_unique_id() will return MultiplayerPeer.TARGET_PEER_SERVER.

@@ -1,0 +1,20 @@
+Document: AnimationNodeAdd2
+Path: godot/classes/class_animationnodeadd2.rst
+Summary: Class AnimationNodeAdd2 is a Godot animation node that combines two animation tracks into a single output track.
+---CHUNK---
+Document: AnimationNodeAdd2
+Path: godot/classes/class_animationnodeadd2.rst
+Summary: Blends two animations additively within an AnimationNodeBlendTree.
+Inherits: AnimationNodeSync < AnimationNode < Resource < RefCounted < Object
+Blends two animations additively inside of an AnimationNodeBlendTree.
+---CHUNK---
+Document: class_animationnodeadd2
+Path: godot/classes/class_animationnodeadd2.rst
+Summary: A resource for additive blending of two animations in an AnimationNodeBlendTree based on an amount parameter.
+
+A resource to add to an AnimationNodeBlendTree. Blends two animations additively based on the amount value. If the amount is greater than 1.0, the animation connected to "in" port is blended with the amplified animation connected to "add" port. If the amount is less than 0.0, the animation connected to "in" port is blended with the inverted animation connected to "add" port.
+---CHUNK---
+Document: class_animationnodeadd2
+Path: godot/classes/class_animationnodeadd2.rst
+Summary: Links to the 'Using AnimationTree' tutorial for Godot Engine.
+Using AnimationTree

@@ -1,0 +1,60 @@
+Document: CircleShape2D  
+Path: godot/classes/class_circleshape2d.rst  
+Summary: 2D physics shape representing a circle, used for collision detection and area calculations.  
+
+Inherits: Shape2D < Resource < Object  
+
+Properties:  
+- radius (float): Distance from the center to the edge of the circle. Default: 0.5.  
+- position (Vector2): Coordinates of the circle's center. Default: (0, 0).  
+
+Methods:  
+- set_radius(radius: float) → void: Sets the circle's radius.  
+- get_radius() → float: Returns the current radius.  
+- set_position(position: Vector2) → void: Sets the circle's center position.  
+- get_position() → Vector2: Returns the current center position.  
+
+Note: CircleShape2D is commonly used with CollisionShape2D nodes for physics interactions.  
+Warning: Modifying the radius or position during physics processing may cause instability.  
+Tip: Use the editor's 2D physics inspector to adjust properties visually.  
+
+GDScript:  
+```gdscript  
+var circle = CircleShape2D.new()  
+circle.radius = 1.0  
+circle.position = Vector2(100, 100)  
+```  
+
+C#:  
+```csharp  
+var circle = new CircleShape2D();  
+circle.Radius = 1.0f;  
+circle.Position = new Vector2(100, 100);  
+```
+---CHUNK---
+Document: CircleShape2D
+Path: godot/classes/class_circleshape2d.rst
+Summary: A 2D circle shape used for physics collision detection in Godot.
+
+Inherits: Shape2D < Resource < RefCounted < Object
+A 2D circle shape used for physics collision.
+---CHUNK---
+Document: CircleShape2D  
+Path: godot/classes/class_circleshape2d.rst  
+Summary: A 2D circle shape used in physics for collision detection with CollisionShape2D nodes.  
+
+Performance: CircleShape2D is fast to check collisions against. It is faster than RectangleShape2D and CapsuleShape2D.
+---CHUNK---
+Document: CircleShape2D
+Path: godot/classes/class_circleshape2d.rst
+Summary: Defines the radius property for a 2D circle shape.
+
+- radius (float): The radius of the circle. Default: 10.0.
+---CHUNK---
+Document: CircleShape2D
+Path: godot/classes/class_circleshape2d.rst
+Summary: Defines the radius of the circle shape.
+
+Property: radius (float): The circle's radius. Default: 10.0
+Method: set_radius(value: float) → void
+Method: get_radius() → float

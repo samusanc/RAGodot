@@ -1,0 +1,27 @@
+Document: AnimationNodeBlend3
+Path: godot/classes/class_animationnodeblend3.rst
+Summary: Class AnimationNodeBlend3 is a node for blending animations in 3D.
+---CHUNK---
+Document: AnimationNodeBlend3
+Path: godot/classes/class_animationnodeblend3.rst
+Summary: Blends two of three animations linearly within an AnimationNodeBlendTree.
+
+Inherits: AnimationNodeSync < AnimationNode < Resource < RefCounted < Object
+Blends two of three animations linearly inside of an AnimationNodeBlendTree.
+---CHUNK---
+Document: AnimationNodeBlend3
+Path: godot/classes/class_animationnodeblend3.rst
+Summary: A resource for blending three animations in an AnimationNodeBlendTree based on a blend amount value.
+
+A resource to add to an AnimationNodeBlendTree. Blends two animations out of three linearly based on the amount value. This animation node has three inputs:
+
+- Base animation: The base animation to blend with
+- -blend animation: The animation to blend with when the blend amount is negative value
+- +blend animation: The animation to blend with when the blend amount is positive value
+
+The blend value should generally be in the [-1.0, 1.0] range. Values outside this range can blend amplified animations, however AnimationNodeAdd3 works better for this purpose.
+---CHUNK---
+Document: class_animationnodeblend3
+Path: godot/classes/class_animationnodeblend3.rst
+Summary: Links to the AnimationTree tutorial for using animation nodes in Godot
+Using AnimationTree

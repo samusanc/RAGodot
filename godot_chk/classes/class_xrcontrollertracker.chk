@@ -1,0 +1,29 @@
+Document: XRControllerTracker
+Path: godot/classes/class_xrcontrollertracker.rst
+Summary: Class XRControllerTracker is a tracker for XR controllers in Godot. Inheritance information is not provided in the given RST content.
+---CHUNK---
+Document: XRControllerTracker
+Path: godot/classes/class_xrcontrollertracker.rst
+Summary: Describes the XRControllerTracker class, which tracks a controller's position and orientation in VR/AR environments.
+
+XRControllerTracker
+Inherits: XRPositionalTracker < XRTracker < RefCounted < Object
+
+A tracked controller.
+---CHUNK---
+Document: XRControllerTracker
+Path: godot/classes/class_xrcontrollertracker.rst
+Summary: Represents a tracked controller instance managed by XRInterface and XRServer
+
+An instance of this object represents a controller that is tracked. As controllers are turned on and the XRInterface detects them, instances of this object are automatically added to this list of active tracking objects accessible through the XRServer. The XRController3D consumes objects of this type and should be used in your project.
+---CHUNK---
+Document: XRControllerTracker
+Path: godot/classes/class_xrcontrollertracker.rst
+Summary: Provides access to the XR documentation index for controller tracking features.
+Tutorials: XR documentation index
+---CHUNK---
+Document: XRControllerTracker
+Path: godot/classes/class_xrcontrollertracker.rst
+Summary: Property TrackerType with value 2 that overrides XRTracker's type
+
+TrackerType (TrackerType): Type of the tracker. Default: 2 (overrides XRTracker's type property).

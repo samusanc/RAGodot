@@ -1,0 +1,22 @@
+Document: AnimationNodeBlend2
+Path: godot/classes/class_animationnodeblend2.rst
+Summary: Class AnimationNodeBlend2 reference.
+---CHUNK---
+Document: AnimationNodeBlend2
+Path: godot/classes/class_animationnodeblend2.rst
+Summary: Blends two animations linearly inside an AnimationNodeBlendTree.
+
+Inherits: AnimationNodeSync < AnimationNode < Resource < RefCounted < Object
+Blends two animations linearly inside of an AnimationNodeBlendTree.
+---CHUNK---
+Document: AnimationNodeBlend2
+Path: godot/classes/class_animationnodeblend2.rst
+Summary: A resource for linearly blending two animations in an AnimationNodeBlendTree based on an amount value.
+
+A resource to add to an AnimationNodeBlendTree. Blends two animations linearly based on the amount value. In general, the blend value should be in the [0.0, 1.0] range. Values outside of this range can blend amplified or inverted animations, however, AnimationNodeAdd2 works better for this purpose.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_animationnodeblend2.rst
+Summary: Lists tutorial resources for AnimationTree and example projects.
+
+Tutorials: Using AnimationTree, 3D Platformer Demo, Third Person Shooter (TPS) Demo

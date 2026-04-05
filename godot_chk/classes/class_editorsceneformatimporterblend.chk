@@ -1,0 +1,38 @@
+Document: EditorSceneFormatImporterBlend  
+Path: godot/classes/class_editorsceneformatimporterblend.rst  
+Summary: A class for importing 3D scene data from Blender files into Godot.  
+
+Inherits: EditorSceneFormatImporter < SceneFormatImporter < Resource < Object  
+
+This class provides functionality to load and convert Blender (.blend) files into Godot's scene format. It handles parsing of Blender-specific data structures, including mesh geometry, materials, animations, and node hierarchies. The importer supports version compatibility checks and can be extended to handle custom Blender data types through plugin systems.  
+
+Key Rule: Always use the `import` method to load .blend files, which returns a `Node` representing the imported scene.  
+
+Supported Features:  
+- Mesh import with UVs, vertex colors, and morph targets  
+- Material conversion using Godot's material system  
+- Animation import with support for bone hierarchies  
+- Scene hierarchy preservation during import  
+- Error handling for corrupted or incompatible files  
+
+The class exposes several properties to control import behavior:  
+- `import_flags` (BitFlags): Controls import options like `IMPORT_MATERIALS`, `IMPORT_ANIMATIONS`, and `IMPORT_MESHES`  
+- `texture_path` (String): Specifies the base path for imported textures  
+- `animation_track_type` (Enum): Determines how animations are mapped to Godot's track types  
+
+Note: Requires Blender's Python API to be installed for advanced import operations.  
+Warning: Importing large .blend files may consume significant memory.  
+Tip: Use `get_imported_scene()` to access the root node of the imported scene after calling `import()`.
+---CHUNK---
+Document: EditorSceneFormatImporterBlend  
+Path: godot/classes/class_editorsceneformatimporterblend.rst  
+Summary: Importer for Blender's .blend scene file format.  
+
+Inherits: EditorSceneFormatImporter < RefCounted < Object  
+Importer for Blender's .blend scene file format.
+---CHUNK---
+Document: EditorSceneFormatImporterBlend
+Path: godot/classes/class_editorsceneformatimporterblend.rst
+Summary: Imports Blender scenes in the .blend format using the glTF 2.0 pipeline, requiring Blender 3.0 and proper configuration settings.
+
+Imports Blender scenes in the .blend file format through the glTF 2.0 3D import pipeline. This importer requires Blender to be installed by the user, so that it can be used to export the scene as glTF 2.0. The location of the Blender binary is set via the EditorSettings.filesystem/import/blender/blender_path setting. This importer is only used if ProjectSettings.filesystem/import/blender/enabled is enabled, otherwise .blend files present in the project folder are not imported. Blend import requires Blender 3.0. Internally, the EditorSceneFormatImporterBlend uses the Blender glTF "Use Original" mode to reference external textures. Note: Blender must be installed and properly configured in the project settings for this importer to function. The importer relies on the glTF 2.0 pipeline for scene conversion, which requires the Blender application to be available on the system. If the blender_path setting is not correctly configured, the importer will fail to process .blend files. The enabled setting in ProjectSettings determines whether .blend files are recognized as importable assets. When enabled, the importer will attempt to convert .blend files using the glTF 2.0 export pipeline. The "Use Original" mode ensures that external texture references are preserved as they are in the original Blender file. This importer is specifically designed for working with Blender files in Godot projects that require 3D asset conversion through the glTF format.

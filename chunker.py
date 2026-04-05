@@ -39,7 +39,8 @@ import ollama
 
 # Qwen hosts — A is faster (desktop GPU), B is slower (3080 notebook)
 OLLAMA_HOST_A    = "http://192.168.0.36:11434"
-OLLAMA_HOST_B    = "http://192.168.0.190:11434"
+#OLLAMA_HOST_B    = "http://192.168.0.190:11434"
+OLLAMA_HOST_B    = "http://192.168.0.36:11434"
 OLLAMA_MODEL     = "qwen3:14b"
 QWEN_NUM_CTX     = 3072
 

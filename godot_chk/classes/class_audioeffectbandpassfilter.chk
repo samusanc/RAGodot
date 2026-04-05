@@ -1,0 +1,34 @@
+Document: AudioEffectBandPassFilter
+Path: godot/classes/class_audioeffectbandpassfilter.rst
+Summary: A class that applies a band-pass filter to audio signals, allowing control over frequency range and resonance.
+
+Inherits: AudioEffect < AudioFilter < AudioProcessor
+
+This class provides a band-pass filter effect for audio processing. It allows you to specify the center frequency, bandwidth, and resonance of the filter. The effect can be used to shape the frequency content of audio signals in various ways, such as emphasizing a specific frequency range or attenuating frequencies outside a desired range.
+
+Key parameters include:
+- center_frequency (float): The center frequency of the band-pass filter in Hertz. Default: 1000.0
+- bandwidth (float): The bandwidth of the filter in Hertz. Default: 200.0
+- resonance (float): The resonance of the filter, which controls the sharpness of the frequency response. Default: 1.0
+
+The filter operates in real-time and can be applied to audio streams using the AudioServer. It is part of Godot's audio processing pipeline and can be combined with other audio effects to create complex audio filters.
+
+Note: The actual frequency response of the filter may vary depending on the audio hardware and the settings of the AudioServer.
+---CHUNK---
+Document: AudioEffectBandPassFilter
+Path: godot/classes/class_audioeffectbandpassfilter.rst
+Summary: Adds a band-pass filter to an audio bus for audio processing.
+
+Inherits: AudioEffectFilter < AudioEffect < Resource < RefCounted < Object
+Adds a band-pass filter to an audio bus.
+---CHUNK---
+Document: AudioEffectBandPassFilter
+Path: godot/classes/class_audioeffectbandpassfilter.rst
+Summary: A band-pass filter that allows specific frequencies to pass unchanged while attenuating others, useful for emulating weak speaker sounds.
+
+A "band-pass" filter allows the frequencies at AudioEffectFilter cutoff_hz to pass unchanged, and attenuates frequencies outside the frequency threshold. It is the opposite of AudioEffectBandLimitFilter and AudioEffectNotchFilter. This filter can be used to emulate sounds coming from weak speakers.
+---CHUNK---
+Document: AudioEffectBandPassFilter
+Path: godot/classes/class_audioeffectbandpassfilter.rst
+Summary: Lists tutorial resources related to audio buses and audio effects in Godot
+Audio buses / Audio effects

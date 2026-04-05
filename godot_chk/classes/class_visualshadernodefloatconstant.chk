@@ -1,0 +1,34 @@
+Document: VisualShaderNodeFloatConstant
+Path: godot/classes/class_visualshadernodefloatconstant.rst
+Summary: A class representing a float constant node in a visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeFloatConstant
+Path: godot/classes/class_visualshadernodefloatconstant.rst
+Summary: A scalar floating-point constant to be used within the visual shader graph.
+
+Inherits: VisualShaderNodeConstant < VisualShaderNode < Resource < RefCounted < Object
+A scalar floating-point constant to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeFloatConstant
+Path: godot/classes/class_visualshadernodefloatconstant.rst
+Summary: Represents a float constant node in the visual shader language.
+
+Description
+Translated to float in the shader language.
+---CHUNK---
+Document: VisualShaderNodeFloatConstant
+Path: godot/classes/class_visualshadernodefloatconstant.rst
+Summary: Defines the properties and default values for the VisualShaderNodeFloatConstant class.
+
+- constant (float): The constant value. Default: 0.0.
+---CHUNK---
+Document: VisualShaderNodeFloatConstant
+Path: godot/classes/class_visualshadernodefloatconstant.rst
+Summary: Defines the 'constant' property and its accessor methods for the VisualShaderNodeFloatConstant class.
+
+float constant = 0.0
+
+Method: set_constant(value: float)
+Method: get_constant() → float
+
+A floating-point constant which represents a state of this node.

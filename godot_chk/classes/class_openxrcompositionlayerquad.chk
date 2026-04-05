@@ -1,0 +1,32 @@
+Document: OpenXRCompositionLayerQuad
+Path: godot/classes/class_openxrcompositionlayerquad.rst
+Summary: Class OpenXRCompositionLayerQuad reference with inheritance and description.
+---CHUNK---
+Document: OpenXRCompositionLayerQuad
+Path: godot/classes/class_openxrcompositionlayerquad.rst
+Summary: A class representing an OpenXR composition layer that is rendered as a quad.
+
+**Experimental:** This class may be changed or removed in future versions.
+
+Inherits: OpenXRCompositionLayer < Node3D < Node < Object
+
+An OpenXR composition layer that is rendered as a quad.
+---CHUNK---
+Document: OpenXRCompositionLayerQuad
+Path: godot/classes/class_openxrcompositionlayerquad.rst
+Summary: An OpenXR composition layer that allows rendering a SubViewport on a quad.
+---CHUNK---
+Document: OpenXRCompositionLayerQuad
+Path: godot/classes/class_openxrcompositionlayerquad.rst
+Summary: Defines the quad_size property for OpenXR composition layer quad objects.
+
+Properties:
+- quad_size (Vector2): Size of the quad. Default: Vector2(1, 1)
+---CHUNK---
+Document: OpenXRCompositionLayerQuad  
+Path: godot/classes/class_openxrcompositionlayerquad.rst  
+Summary: Defines the quad_size property and its setter/getter methods for controlling the dimensions of an OpenXR composition layer quad.  
+
+quad_size (Vector2): The dimensions of the quad. Default: Vector2(1, 1).  
+Method: set_quad_size(value: Vector2)  
+Method: get_quad_size() → Vector2

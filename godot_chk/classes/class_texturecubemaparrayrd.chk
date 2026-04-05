@@ -1,0 +1,21 @@
+Document: TextureCubemapArrayRD  
+Path: godot/classes/class_texturecubemaparrayrd.rst  
+Summary: Class representing a cubemap array texture in the RenderingDevice API.
+---CHUNK---
+Document: TextureCubemapArrayRD
+Path: godot/classes/class_texturecubemaparrayrd.rst
+Summary: A cubemap array texture bound to a texture created on the RenderingDevice
+
+Inherits: TextureLayeredRD < TextureLayered < Texture < Resource < RefCounted < Object
+Texture Array for Cubemaps that is bound to a texture created on the RenderingDevice.
+---CHUNK---
+Document: TextureCubemapArrayRD
+Path: godot/classes/class_texturecubemaparrayrd.rst
+Summary: A texture class for using cubemap array textures directly with the RenderingDevice for materials and meshes.
+
+This texture class allows you to use a cubemap array texture created directly on the RenderingDevice as a texture for materials, meshes, etc. Note: TextureCubemapArrayRD is intended for low-level usage with RenderingDevice. For most use cases, use CubemapArray instead.
+---CHUNK---
+Document: Compute Texture demo
+Path: godot/classes/class_texturecubemaparrayrd.rst
+Summary: Links to a Compute Texture demo in the Godot Asset Library.
+- Compute Texture demo (https://godotengine.org/asset-library/asset/2764)

@@ -1,0 +1,27 @@
+Document: OpenXRSpatialComponentAnchorList
+Path: godot/classes/class_openxrspatialcomponentanchorlist.rst
+Summary: Class reference for OpenXRSpatialComponentAnchorList in Godot Engine.
+---CHUNK---
+Document: OpenXRSpatialComponentAnchorList
+Path: godot/classes/class_openxrspatialcomponentanchorlist.rst
+Summary: Object for storing the queries anchor result data.
+
+OpenXRSpatialComponentAnchorList
+**Experimental:** This class may be changed or removed in future versions.
+
+Inherits: OpenXRSpatialComponentData < RefCounted < Object
+
+This class is experimental and subject to change or removal in future versions. It inherits from OpenXRSpatialComponentData, which in turn inherits from RefCounted and Object. The class is designed to store data resulting from anchor queries.
+---CHUNK---
+Document: OpenXRSpatialComponentAnchorList  
+Path: godot/classes/class_openxrspatialcomponentanchorlist.rst  
+Summary: Class for storing anchor query results from OpenXRSpatialEntityExtension.query_snapshot().  
+
+Object for storing the queries anchor result data when calling OpenXRSpatialEntityExtension.query_snapshot().
+---CHUNK---
+Document: OpenXRSpatialComponentAnchorList
+Path: godot/classes/class_openxrspatialcomponentanchorlist.rst
+Summary: Method get_entity_pose that retrieves the transform of an entity at a specified index.
+
+Method: get_entity_pose(index: int) → Transform3D const
+Returns the transform for the entity at this index.

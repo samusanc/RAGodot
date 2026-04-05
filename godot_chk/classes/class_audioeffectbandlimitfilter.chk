@@ -1,0 +1,23 @@
+Document: AudioEffectBandLimitFilter
+Path: godot/classes/class_audioeffectbandlimitfilter.rst
+Summary: AudioEffectBandLimitFilter applies a band-limiting filter to audio signals, restricting frequencies within specified ranges.
+---CHUNK---
+Document: AudioEffectBandLimitFilter
+Path: godot/classes/class_audioeffectbandlimitfilter.rst
+Summary: Adds a band-limit filter to an audio bus.
+
+Inherits: AudioEffectFilter < AudioEffect < Resource < RefCounted < Object
+
+This class implements a band-limit audio filter effect. It inherits from AudioEffectFilter and is used to apply frequency range restrictions to audio signals passing through an audio bus. The filter allows specifying cutoff frequencies to limit the audio spectrum, which can be useful for reducing aliasing or shaping sound characteristics.
+---CHUNK---
+Document: AudioEffectBandLimitFilter
+Path: godot/classes/class_audioeffectbandlimitfilter.rst
+Summary: A band-limit filter that attenuates frequencies at a specified cutoff, allowing frequencies outside the threshold to pass unchanged.
+
+A "band-limit" filter attenuates the frequencies at AudioEffectFilter.cutoff_hz, and allows frequencies outside the frequency threshold to pass unchanged. It is a wider and weaker version of AudioEffectNotchFilter, and is the opposite of AudioEffectBandPassFilter. This filter can be used to give more room for other sounds to play at that frequency. Note: This filter is designed for audio processing tasks where specific frequency ranges need to be restricted.
+---CHUNK---
+Document: Tutorials  
+Path: godot/classes/class_audioeffectbandlimitfilter.rst  
+Summary: Links to tutorials on audio buses and audio effects.  
+Audio buses  
+Audio effects

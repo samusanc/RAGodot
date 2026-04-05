@@ -1,0 +1,16 @@
+Document: LightmapperRD
+Path: godot/classes/class_lightmapperrd.rst
+Summary: LightmapperRD class reference.
+---CHUNK---
+Document: LightmapperRD
+Path: godot/classes/class_lightmapperrd.rst
+Summary: The built-in GPU-based lightmapper for use with LightmapGI.
+
+Inherits: Lightmapper < RefCounted < Object
+The built-in GPU-based lightmapper for use with LightmapGI.
+---CHUNK---
+Document: LightmapperRD
+Path: godot/classes/class_lightmapperrd.rst
+Summary: LightmapperRD is a GPU-based lightmapper for Godot that uses compute shaders to bake lightmaps quickly without requiring CUDA or OpenCL.
+
+LightmapperRD ("RD" stands for RenderingDevice) is the built-in GPU-based lightmapper for use with LightmapGI. On most dedicated GPUs, it can bake lightmaps much faster than most CPU-based lightmappers. LightmapperRD uses compute shaders to bake lightmaps, so it does not require CUDA or OpenCL libraries to be installed to be usable. Note: This lightmapper requires the GPU to support the RenderingDevice backend (Forward+ and Mobile renderers). When using the Compatibility renderer, baking will use a temporary RenderingDevice. Support for RenderingDevice is not required to render lightmaps that were already baked beforehand.

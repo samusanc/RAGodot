@@ -1,0 +1,23 @@
+Document: VSlider
+Path: godot/classes/class_vslider.rst
+Summary: Class VSlider reference.
+---CHUNK---
+Document: VSlider
+Path: godot/classes/class_vslider.rst
+Summary: A vertical slider control that allows adjusting values by moving a handle from bottom (minimum) to top (maximum).
+
+Inherits: Slider < Range < Control < CanvasItem < Node < Object
+A vertical slider that goes from bottom (min) to top (max).
+---CHUNK---
+Document: VSlider
+Path: godot/classes/class_vslider.rst
+Summary: A vertical slider control for adjusting values along a vertical axis, inheriting from Range and operating in the opposite direction of VScrollBar.
+
+A vertical slider, used to adjust a value by moving a grabber along a vertical axis. It is a Range-based control and goes from bottom (min) to top (max). Note that this direction is the opposite of VScrollBar's. Inherits: Range < Control < CanvasItem < Node < Object. Key Rule: Vertical movement increases value from bottom to top, unlike VScrollBar which increases from top to bottom.
+---CHUNK---
+Document: VSlider
+Path: godot/classes/class_vslider.rst
+Summary: Horizontal and vertical size flags for VSlider that override Control class defaults.
+
+- size_flags_horizontal (bitfield: SizeFlags): Overrides Control's horizontal size flags. Default: 0
+- size_flags_vertical (bitfield: SizeFlags): Overrides Control's vertical size flags. Default: 1

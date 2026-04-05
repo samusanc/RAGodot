@@ -1,0 +1,37 @@
+Document: ColorRect
+Path: godot/classes/class_colorrect.rst
+Summary: A 2D rectangle node that displays a solid color in Godot Engine.
+---CHUNK---
+Document: ColorRect
+Path: godot/classes/class_colorrect.rst
+Summary: A control that displays a solid color rectangle.
+
+Inherits: Control < CanvasItem < Node < Object
+A control that displays a solid color rectangle.
+---CHUNK---
+Document: ColorRect
+Path: godot/classes/class_colorrect.rst
+Summary: Displays a solid-colored rectangle with an option to use Panel for borders.
+
+Displays a rectangle filled with a solid color. If you need to display the border alone, consider using a Panel instead. The color property determines the fill color of the rectangle. For border-only visualization, Panel is recommended as an alternative.
+---CHUNK---
+Document: class ColorRect
+Path: godot/classes/class_colorrect.rst
+Summary: This section lists a 2D game demo using the ColorRect class.
+Tutorials - 2D Dodge The Creeps Demo
+---CHUNK---
+Document: ColorRect
+Path: godot/classes/class_colorrect.rst
+Summary: Defines the 'color' property of the ColorRect class and its default value.
+
+- Property: color (Color): The color of the rectangle. Default: Color(1, 1, 1, 1)
+---CHUNK---
+Document: ColorRect
+Path: godot/classes/class_colorrect.rst
+Summary: The 'color' property and its setter/getter methods for the ColorRect class.
+
+Color (Color): Fill color of the rectangle. Default: Color(1, 1, 1, 1)
+Method: set_color(value: Color) → void
+Method: get_color() → Color
+
+The fill color of the rectangle.

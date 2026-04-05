@@ -1,0 +1,29 @@
+Document: CSharpScript
+Path: godot/classes/class_csharpscript.rst
+Summary: Class CSharpScript in Godot Engine.
+---CHUNK---
+Document: CSharpScript
+Path: godot/classes/class_csharpscript.rst
+Summary: A C# script class for Godot, saved with the .cs extension and available only in Mono-enabled builds.
+
+Inherits: Script < Resource < RefCounted < Object
+
+A script implemented in the C# programming language, saved with the .cs extension (Mono-enabled builds only).
+---CHUNK---
+Document: CSharpScript
+Path: godot/classes/class_csharpscript.rst
+Summary: Represents a C# script, equivalent to GDScript, available only in Mono-enabled Godot builds.
+
+This class represents a C# script. It is the C# equivalent of the GDScript class and is only available in Mono-enabled Godot builds.
+---CHUNK---
+Document: C# Scripting
+Path: godot/classes/class_csharpscript.rst
+Summary: This section provides an overview of the C# documentation index and related tutorials.
+Tutorials: C# documentation index
+---CHUNK---
+Document: CSharpScript
+Path: godot/classes/class_csharpscript.rst
+Summary: The 'new' method creates a new instance of the CSharpScript class.
+
+- Method: new(...) → Variant
+  Returns a new instance of the script.

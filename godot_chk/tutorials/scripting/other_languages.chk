@@ -1,0 +1,20 @@
+Document: other_languages
+Path: godot/tutorials/scripting/other_languages.rst
+Summary: This section introduces scripting in Godot using languages other than GDScript.
+---CHUNK---
+Document: Other languages  
+Path: godot/tutorials/scripting/other_languages.rst  
+Summary: Overview of officially supported and community-maintained programming languages for Godot Engine.  
+
+The Godot developers officially support the following languages for Godot: GDScript (all versions), C# (.NET version), and C++ (via GDExtension). Note: There are no plans to support additional languages officially. That said, the community offers several bindings for other languages (see below).  
+
+The bindings below are developed and maintained by the community:  
+- D  
+- Go  
+- Java/Kotlin  
+- Nim  
+- Rust  
+- Swift  
+- Odin  
+
+Note: Not all bindings mentioned here may be production-ready. Make sure to research options thoroughly before starting a project with one of those. Also, double-check whether the binding is compatible with the Godot version you're using.
