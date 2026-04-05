@@ -1,0 +1,21 @@
+Document: what_is_gdextension
+Path: godot/tutorials/scripting/gdextension/what_is_gdextension.rst
+Summary: Introduction to GDExtension in Godot, explaining its purpose and benefits.
+---CHUNK---
+Document: What is GDExtension?
+Path: godot/tutorials/scripting/gdextension/what_is_gdextension.rst
+Summary: GDExtension is a Godot-specific technology enabling runtime interaction with native shared libraries through three core components.
+
+GDExtension is a Godot-specific technology that lets the engine interact with native shared libraries at runtime. You can use it to run native code without compiling it with the engine. There are three primary methods with which this is achieved:
+
+- gdextension_interface.h: A set of C functions that Godot and a GDExtension can use to communicate.
+- extension_api.json: A list of C functions that are exposed from Godot APIs (Core Features).
+- *.gdextension: A file format read by Godot to load a GDExtension.
+
+Most people create GDExtensions with some existing language binding, such as godot-cpp (for C++) or one of the community-made ones.
+---CHUNK---
+Document: what_is_gdextension
+Path: godot/tutorials/scripting/gdextension/what_is_gdextension.rst
+Summary: Version compatibility considerations for GDExtensions, referencing the godot-cpp documentation
+
+Version compatibility See godot-cpp Version Compatibility, which applies to all GDExtensions.

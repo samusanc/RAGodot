@@ -1,0 +1,59 @@
+Document: CanvasGroup  
+Path: godot/classes/class_canvasgroup.rst  
+Summary: A node that controls the rendering of its children in the 2D scene.  
+Inherits: CanvasItem < Node  
+Key Rule: CanvasGroup nodes affect how child nodes are rendered, including visibility, transparency, and drawing order.
+---CHUNK---
+Document: CanvasGroup
+Path: godot/classes/class_canvasgroup.rst
+Summary: Merges several 2D nodes into a single draw operation.
+
+Inherits: Node2D < CanvasItem < Node < Object
+Merges several 2D nodes into a single draw operation.
+---CHUNK---
+Document: CanvasGroup  
+Path: godot/classes/class_canvasgroup.rst  
+Summary: CanvasGroup allows drawing overlapping translucent 2D nodes without unintended opacity by using a custom shader and managing self_modulate properties.  
+
+Child CanvasItem nodes of a CanvasGroup are drawn as a single object. It allows to e.g. draw overlapping translucent 2D nodes without causing the overlapping sections to be more opaque than intended (set the CanvasItem.self_modulate property on the CanvasGroup to achieve this effect).  
+
+Note: The CanvasGroup uses a custom shader to read from the backbuffer to draw its children. Assigning a Material to the CanvasGroup overrides the built-in shader. To duplicate the behavior of the built-in shader in a custom Shader, use the following:  
+
+```  
+shader_type canvas_item;  
+render_mode unshaded;  
+
+uniform sampler2D screen_texture : hint_screen_texture, repeat_disable, filter_nearest;  
+
+void fragment() {  
+    vec4 c = textureLod(screen_texture, SCREEN_UV, 0.0);  
+
+    if (c.a > 0.0001) {  
+        c.rgb /= c.a;  
+    }  
+
+    COLOR *= c;  
+}  
+```  
+
+Note: Since CanvasGroup and CanvasItem.clip_children both utilize the backbuffer, children of a CanvasGroup who have their CanvasItem.clip_children set to anything other than CanvasItem.CLIP_CHILDREN_DISABLED will not function correctly.
+---CHUNK---
+Document: CanvasGroup
+Path: godot/classes/class_canvasgroup.rst
+Summary: CanvasGroup properties with their data types and default values.
+
+- clear_margin (float): Default: 10.0
+- fit_margin (float): Default: 10.0
+- use_mipmaps (bool): Default: false
+---CHUNK---
+Document: CanvasGroup
+Path: godot/classes/class_canvasgroup.rst
+Summary: Properties controlling margin sizes and mipmap usage for CanvasGroup rendering performance and visual quality.
+
+clear_margin (float): Sets the margin size for expanding the clearing rect of the CanvasGroup. Default: 10.0. A smaller value reduces backbuffer usage but may cause mipmap errors if use_mipmaps is enabled. Use only as small as possible unless edge artifacts appear.
+
+fit_margin (float): Sets the margin size for expanding the drawable rect around children. Default: 10.0. Increases backbuffer usage and canvas coverage area, reducing performance. Should only be increased when necessary for effects like custom shaders.
+
+use_mipmaps (bool): Enables mipmap generation for the backbuffer to allow custom shaders to use them. Default: false. Generating mipmaps has performance cost and should only be enabled when required for visual effects.
+
+Note: Clear margin should be minimized to optimize performance but may need adjustment if edge artifacts appear when using mipmaps. Fit margin should be kept minimal unless additional coverage is needed for shader effects. Mipmap generation should be disabled unless explicitly required for visual quality.

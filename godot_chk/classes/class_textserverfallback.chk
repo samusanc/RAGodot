@@ -1,0 +1,16 @@
+Document: TextServerFallback  
+Path: godot/classes/class_textserverfallback.rst  
+Summary: Fallback text server class for handling text operations when the primary server is unavailable.
+---CHUNK---
+Document: TextServerFallback
+Path: godot/classes/class_textserverfallback.rst
+Summary: A fallback text server implementation lacking BiDi and complex text layout support.
+
+Inherits: TextServerExtension < TextServer < RefCounted < Object
+A fallback implementation of Godot's text server, without support for BiDi and complex text layout.
+---CHUNK---
+Document: TextServerFallback
+Path: godot/classes/class_textserverfallback.rst
+Summary: A fallback text server implementation in Godot that prioritizes speed over advanced text layout features like BiDi.
+
+A fallback implementation of Godot's text server. This fallback is faster than TextServerAdvanced for processing a lot of text, but it does not support BiDi and complex text layout. Note: This text server is not part of official Godot binaries. If you want to use it, compile the engine with the option module_text_server_fb_enabled=yes. When building with TextServerFallback, consider also disabling TextServerAdvanced with module_text_server_adv_enabled=no to reduce binary size.

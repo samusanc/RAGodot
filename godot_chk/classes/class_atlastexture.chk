@@ -1,0 +1,38 @@
+Document: AtlasTexture
+Path: godot/classes/class_atlastexture.rst
+Summary: Class: AtlasTexture. Part of Godot's texture system for managing atlas textures.
+---CHUNK---
+Document: AtlasTexture
+Path: godot/classes/class_atlastexture.rst
+Summary: A texture that crops out part of another Texture2D.
+
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+A texture that crops out part of another Texture2D.
+---CHUNK---
+Document: AtlasTexture
+Path: godot/classes/class_atlastexture.rst
+Summary: A Texture2D resource that displays a portion of an atlas texture, with adjustable region and margin settings.
+
+AtlasTexture is a Texture2D resource that draws only part of its atlas texture, as defined by the region property. An additional margin can be set for small adjustments. Multiple AtlasTexture resources can be cropped from the same atlas texture, allowing efficient packing of smaller textures into a single large texture to optimize video memory usage and reduce render calls.
+
+Note: AtlasTexture cannot be used in an AnimatedTexture and will not tile properly in nodes like TextureRect or Sprite2D. To achieve tiling, modify the region property instead. The atlas property references the source texture, while the region defines the visible portion. The margin property provides fine-grained control for adjustments. Inherits: Texture2D.
+---CHUNK---
+Document: AtlasTexture  
+Path: godot/classes/class_atlastexture.rst  
+Summary: Properties and member variables of the AtlasTexture class, including texture references, filtering options, and region definitions.  
+
+Property: atlas (Texture2D): . Default:  
+Property: filter_clip (bool): . Default: false  
+Property: margin (Rect2): . Default: Rect2(0, 0, 0, 0)  
+Property: region (Rect2): . Default: Rect2(0, 0, 0, 0)  
+Property: resource_local_to_scene (bool): overrides Resource's property. Default: false
+---CHUNK---
+Document: AtlasTexture
+Path: godot/classes/class_atlastexture.rst
+Summary: Properties and member variables of the AtlasTexture class, including atlas texture, filter settings, margins, and region definitions.
+
+AtlasTexture properties:
+- atlas (Texture2D): The texture containing the atlas. Can be any Texture2D subclass including another AtlasTexture. Set via set_atlas(Texture2D), retrieved via get_atlas() → Texture2D.
+- filter_clip (bool): If true, area outside the region is clipped to avoid texture pixel bleeding. Default: false. Set via set_filter_clip(bool), checked via has_filter_clip() → bool.
+- margin (Rect2): Margin around the region for adjustments. If Rect2.size is set, texture is resized to fit within margin. Default: Rect2(0,0,0,0). Set via set_margin(Rect2), retrieved via get_margin() → Rect2.
+- region (Rect2): Defines the area to draw from the atlas. If region size dimensions are 0, uses atlas size for that axis. Default: Rect2(0,0,0,0). Set via set_region(Rect2), retrieved via get_region() → Rect2. Note: Image size is always integer, so region size is rounded down.

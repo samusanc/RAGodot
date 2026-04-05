@@ -1,0 +1,52 @@
+Document: RemoteTransform2D
+Path: godot/classes/class_remotetransform2d.rst
+Summary: Class RemoteTransform2D reference.
+---CHUNK---
+Document: RemoteTransform2D
+Path: godot/classes/class_remotetransform2d.rst
+Summary: RemoteTransform2D synchronizes its 2D transformation with another Node2D-derived node in the scene
+Inherits: Node2D < CanvasItem < Node < Object
+RemoteTransform2D pushes its own Transform2D to another Node2D derived node in the scene.
+---CHUNK---
+Document: RemoteTransform2D
+Path: godot/classes/class_remotetransform2d.rst
+Summary: RemoteTransform2D synchronizes its Transform2D to a remote Node2D-derived node using global or local coordinate systems.
+
+RemoteTransform2D pushes its own Transform2D to another Node2D derived node (called the remote node) in the scene. It can be set to update another node's position, rotation and/or scale. It can use either global or local coordinates. The remote node's transformation is updated in real-time based on the RemoteTransform2D's properties. This allows for networked synchronization or remote control of node positions without direct scene hierarchy dependencies. The component operates by continuously transmitting its transform data to the target node, which applies the received values to its own transformation.
+---CHUNK---
+Document: RemoteTransform2D
+Path: godot/classes/class_remotetransform2d.rst
+Summary: Member variables and their default values for the RemoteTransform2D class.
+
+Property: remote_path (Type: NodePath). Default: NodePath("")
+Property: update_position (Type: bool). Default: true
+Property: update_rotation (Type: bool). Default: true
+Property: update_scale (Type: bool). Default: true
+Property: use_global_coordinates (Type: bool). Default: true
+---CHUNK---
+Document: RemoteTransform2D
+Path: godot/classes/class_remotetransform2d.rst
+Summary: The force_update_cache method with its return type and parameters.
+
+Method: force_update_cache() → void
+---CHUNK---
+Document: RemoteTransform2D  
+Path: godot/classes/class_remotetransform2d.rst  
+Summary: Properties and their set/get methods for controlling remote node transformations.  
+
+Property: remote_path (NodePath): The NodePath to the remote node, relative to the RemoteTransform2D's position in the scene. Default: NodePath(""). Method: set_remote_node(NodePath) → void. Method: get_remote_node() → NodePath.  
+
+Property: update_position (bool): If true, the remote node's position is updated. Default: true. Method: set_update_position(bool) → void. Method: get_update_position() → bool.  
+
+Property: update_rotation (bool): If true, the remote node's rotation is updated. Default: true. Method: set_update_rotation(bool) → void. Method: get_update_rotation() → bool.  
+
+Property: update_scale (bool): If true, the remote node's scale is updated. Default: true. Method: set_update_scale(bool) → void. Method: get_update_scale() → bool.  
+
+Property: use_global_coordinates (bool): Key Rule: If true, global coordinates are used. If false, local coordinates are used. Default: true. Method: set_use_global_coordinates(bool) → void. Method: get_use_global_coordinates() → bool.
+---CHUNK---
+Document: RemoteTransform2D  
+Path: godot/classes/class_remotetransform2d.rst  
+Summary: Describes the `force_update_cache()` method for manually refreshing the remote node cache in RemoteTransform2D.  
+
+Method: void force_update_cache()  
+RemoteTransform2D caches the remote node. It may not notice if the remote node disappears; force_update_cache() forces it to update the cache again. This is necessary to ensure the transform remains synchronized with the remote node's current state, especially after the remote node is reconnected or its position changes unexpectedly.

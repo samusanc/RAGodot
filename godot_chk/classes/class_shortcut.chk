@@ -1,0 +1,96 @@
+Document: Shortcut
+Path: godot/classes/class_shortcut.rst
+Summary: Class Shortcut: A class for managing keyboard shortcuts in Godot Engine.
+---CHUNK---
+Document: Shortcut  
+Path: godot/classes/class_shortcut.rst  
+Summary: A shortcut for binding input actions in Godot.  
+Inherits: Resource < RefCounted < Object  
+A shortcut for binding input.
+---CHUNK---
+Document: Shortcut  
+Path: godot/classes/class_shortcut.rst  
+Summary: Shortcuts are containers for InputEvent resources, enabling interaction with Control elements via input events.  
+
+Shortcuts (also known as hotkeys) are containers of InputEvent resources. They are commonly used to interact with a Control element from an InputEvent. One shortcut can contain multiple InputEvent resources, making it possible to trigger one action with multiple different inputs.  
+
+Example: Capture the Ctrl + S shortcut using a Shortcut resource.  
+
+GDScript:  
+    extends Node  
+
+    var save_shortcut = Shortcut.new()  
+    func _ready():  
+        var key_event = InputEventKey.new()  
+        key_event.keycode = KEY_S  
+        key_event.ctrl_pressed = true  
+        key_event.command_or_control_autoremap = true # Swaps Ctrl for Command on Mac.  
+        save_shortcut.events = [key_event]  
+
+    func _input(event):  
+        if save_shortcut.matches_event(event) and event.is_pressed() and not event.is_echo():  
+            print("Save shortcut pressed!")  
+            get_viewport().set_input_as_handled()  
+
+C#:  
+    using Godot;  
+
+    public partial class MyNode : Node  
+    {  
+        private readonly Shortcut _saveShortcut = new Shortcut();  
+
+        public override void _Ready()  
+        {  
+            InputEventKey keyEvent = new InputEventKey  
+            {  
+                Keycode = Key.S,  
+                CtrlPressed = true,  
+                CommandOrControlAutoremap = true, // Swaps Ctrl for Command on Mac.  
+            };  
+
+            _saveShortcut.Events = [keyEvent];  
+        }  
+
+        public override void _Input(InputEvent @event)  
+        {  
+            if (@event is InputEventKey keyEvent &&  
+                _saveShortcut.MatchesEvent(@event) &&  
+                keyEvent.Pressed && !keyEvent.Echo)  
+            {  
+                GD.Print("Save shortcut pressed!");  
+                GetViewport().SetInputAsHandled();  
+            }  
+        }  
+    }  
+
+Inherits: Node
+---CHUNK---
+Document: Shortcut
+Path: godot/classes/class_shortcut.rst
+Summary: Properties and member variables of the Shortcut class, including events and array handling.
+
+- events (Array): Default: []
+---CHUNK---
+Document: Shortcut
+Path: godot/classes/class_shortcut.rst
+Summary: Method signatures and constness for the Shortcut class.
+
+String: get_as_text() const
+bool: has_valid_event() const
+bool: matches_event(event: InputEvent) const
+---CHUNK---
+Document: Shortcut
+Path: godot/classes/class_shortcut.rst
+Summary: The 'events' property storing an array of InputEvent objects for the shortcut.
+
+Property: events (Array): The shortcut's InputEvent array. Default: empty array. Generally contains InputEventKey objects but can include any InputEvent type such as InputEventAction. Methods: set_events(value: Array), get_events() → Array. Note: InputEventKey is typically used for keyboard shortcuts.
+---CHUNK---
+Document: Shortcut  
+Path: godot/classes/class_shortcut.rst  
+Summary: Methods for checking and retrieving input events associated with a shortcut  
+
+Method: get_as_text() → String. Returns the shortcut's first valid InputEvent as a String.  
+
+Method: has_valid_event() → bool. Returns whether events contains an InputEvent which is valid.  
+
+Method: matches_event(event: InputEvent) → bool. Returns whether any InputEvent in events equals event. This uses InputEvent.is_match() to compare events.

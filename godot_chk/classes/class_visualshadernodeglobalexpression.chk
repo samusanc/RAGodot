@@ -1,0 +1,20 @@
+Document: VisualShaderNodeGlobalExpression
+Path: godot/classes/class_visualshadernodeglobalexpression.rst
+Summary: A visual shader node that allows referencing global variables in shader graphs.
+
+Inherits: VisualShaderNode < VisualShaderNodeExpression < VisualShaderNode
+Note: This node is used in the Visual Shader Graph to reference global variables defined in the project.
+---CHUNK---
+Document: VisualShaderNodeGlobalExpression
+Path: godot/classes/class_visualshadernodeglobalexpression.rst
+Summary: A custom global visual shader graph expression written in Godot Shading Language.
+
+Inherits: VisualShaderNodeExpression < VisualShaderNodeGroupBase < VisualShaderNodeResizableBase < VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeGlobalExpression
+Path: godot/classes/class_visualshadernodeglobalexpression.rst
+Summary: A custom Godot Shader Language expression that can be placed on top of generated shaders to define functions, varyings, uniforms, and global constants.
+
+Inherits: VisualShaderNode < VisualShaderNodeExpression < VisualShaderNodeBase
+
+Custom Godot Shader Language expression, which is placed on top of the generated shader. You can place various function definitions inside to call later in VisualShaderNodeExpression's (which are injected in the main shader functions). You can also declare varyings, uniforms and global constants.

@@ -1,0 +1,56 @@
+Document: AudioStreamGeneratorPlayback
+Path: godot/classes/class_audiostreamgeneratorplayback.rst
+Summary: Class: AudioStreamGeneratorPlayback. Inheritance: AudioStreamPlayback. Description: [No description provided in the source.]
+---CHUNK---
+Document: AudioStreamGeneratorPlayback
+Path: godot/classes/class_audiostreamgeneratorplayback.rst
+Summary: Plays back audio generated using AudioStreamGenerator.
+
+Inherits: AudioStreamPlaybackResampled < AudioStreamPlayback < RefCounted < Object
+Plays back audio generated using AudioStreamGenerator.
+---CHUNK---
+Document: AudioStreamGeneratorPlayback
+Path: godot/classes/class_audiostreamgeneratorplayback.rst
+Summary: This class is used with AudioStreamGenerator to play back generated audio in real-time.
+
+This class is meant to be used with AudioStreamGenerator to play back the generated audio in real-time.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_audiostreamgeneratorplayback.rst
+Summary: This section lists two tutorials related to audio features in Godot.
+
+- Audio Generator Demo <https://godotengine.org/asset-library/asset/2759>
+- Godot 3.2 will get new audio features <https://godotengine.org/article/godot-32-will-get-new-audio-features>
+---CHUNK---
+Document: AudioStreamGeneratorPlayback  
+Path: godot/classes/class_audiostreamgeneratorplayback.rst  
+Summary: Methods for managing audio buffers, checking available frames, and handling skips in audio stream generation.  
+
+Method: can_push_buffer(amount: int) → bool. Const method.  
+Method: clear_buffer() → void.  
+Method: get_frames_available() → int. Const method.  
+Method: get_skips() → int. Const method.  
+Method: push_buffer(frames: PackedVector2Array) → bool.  
+Method: push_frame(frame: Vector2) → bool.
+---CHUNK---
+Document: AudioStreamGeneratorPlayback
+Path: godot/classes/class_audiostreamgeneratorplayback.rst
+Summary: Methods for managing audio buffer operations including checking capacity, clearing, and pushing audio data.
+
+Method: can_push_buffer(amount: int) → bool
+Returns true if a buffer of the size amount can be pushed to the audio sample data buffer without overflowing it, false otherwise.
+
+Method: clear_buffer() → void
+Clears the audio sample data buffer.
+
+Method: get_frames_available() → int
+Returns the number of frames that can be pushed to the audio sample data buffer without overflowing it. If the result is 0, the buffer is full.
+
+Method: get_skips() → int
+Returns the number of times the playback skipped due to a buffer underrun in the audio sample data. This value is reset at the start of the playback.
+
+Method: push_buffer(frames: PackedVector2Array) → bool
+Pushes several audio data frames to the buffer. Note: push_buffer() is more efficient in C# and GDExtension but less efficient in GDScript compared to push_frame().
+
+Method: push_frame(frame: Vector2) → bool
+Pushes a single audio data frame to the buffer. Note: push_frame() is more efficient in GDScript compared to push_buffer() in C# and GDExtension.

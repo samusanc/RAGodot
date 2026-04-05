@@ -1,0 +1,34 @@
+Document: TextureCubemapRD  
+Path: godot/classes/class_texturecubemaprd.rst  
+Summary: Class: TextureCubemapRD. Inheritance: TextureRD < Texture < Resource < Object. Represents a cube map texture for rendering in Godot's rendering pipeline.  
+
+TextureCubemapRD is a specialized texture type used for storing and sampling cube map data in 3D rendering. It inherits from TextureRD, which provides core texture functionality for the rendering device (RD). Cube maps are used to represent environment maps, skyboxes, and other 360-degree texture data.  
+
+Key features include:  
+- Storage of six square textures (positive/negative X, Y, Z axes)  
+- Support for multiple texture formats (e.g., RGBA8, BC1-BC7)  
+- Integration with the rendering device for GPU access  
+- Compatibility with shaders via the TEXTURE_CUBEMAP sampler type  
+
+Creation requires using the `TextureCubemapRD` class methods to set individual faces and update the texture data. The class provides properties to control filtering, wrap modes, and mipmapping behavior. When used in shaders, cube maps are sampled with `texture(CUBEMAP, vec3)` and require proper UV coordinate calculation.  
+
+Note: This class is part of Godot's low-level rendering API and is typically used in custom rendering pipelines rather than standard Godot features.
+---CHUNK---
+Document: TextureCubemapRD
+Path: godot/classes/class_texturecubemaprd.rst
+Summary: A cubemap texture bound to a texture created on the RenderingDevice
+
+Inherits: TextureLayeredRD < TextureLayered < Texture < Resource < RefCounted < Object
+Texture for Cubemap that is bound to a texture created on the RenderingDevice.
+---CHUNK---
+Document: TextureCubemapRD  
+Path: godot/classes/class_texturecubemaprd.rst  
+Summary: A texture class for using cubemaps created on the RenderingDevice as materials and meshes textures.  
+
+This texture class allows you to use a cubemap texture created directly on the RenderingDevice as a texture for materials, meshes, etc. Note: TextureCubemapRD is intended for low-level usage with RenderingDevice. For most use cases, use Cubemap instead.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_texturecubemaprd.rst
+Summary: A tutorial demonstrating the use of Compute Texture in Godot.
+Tutorials
+- Compute Texture demo

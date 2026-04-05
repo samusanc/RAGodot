@@ -1,0 +1,59 @@
+Document: BoneMap
+Path: godot/classes/class_bonemap.rst
+Summary: Class: BoneMap. Inheritance: Object < BoneMap.
+---CHUNK---
+Document: BoneMap
+Path: godot/classes/class_bonemap.rst
+Summary: Describes a mapping of bone names for retargeting Skeleton3D into common names defined by a SkeletonProfile.
+
+Inherits: Resource < RefCounted < Object
+Describes a mapping of bone names for retargeting Skeleton3D into common names defined by a SkeletonProfile.
+---CHUNK---
+Document: BoneMap
+Path: godot/classes/class_bonemap.rst
+Summary: BoneMap is a dictionary that maps bone names from SkeletonProfile to actual Skeleton3D bone names for animation compatibility.
+
+This class contains a dictionary that uses a list of bone names in SkeletonProfile as key names. By assigning the actual Skeleton3D bone name as the key value, it maps the Skeleton3D to the SkeletonProfile.
+---CHUNK---
+Document: class_bonemap
+Path: godot/classes/class_bonemap.rst
+Summary: Links to a tutorial on retargeting 3D skeletons in the Godot engine
+
+Tutorials
+Retargeting 3D Skeletons
+---CHUNK---
+Document: BoneMap
+Path: godot/classes/class_bonemap.rst
+Summary: The profile property of the BoneMap class, which references a SkeletonProfile.
+
+profile (SkeletonProfile): [No description provided]. Default: [No default value provided].
+---CHUNK---
+Document: BoneMap  
+Path: godot/classes/class_bonemap.rst  
+Summary: Methods for mapping skeleton and profile bone names, including finding, getting, and setting bone name mappings.  
+
+StringName find_profile_bone_name(skeleton_bone_name: StringName) const  
+StringName get_skeleton_bone_name(profile_bone_name: StringName) const  
+void set_skeleton_bone_name(profile_bone_name: StringName, skeleton_bone_name: StringName)
+---CHUNK---
+Document: BoneMap
+Path: godot/classes/class_bonemap.rst
+Summary: The profile property and its synchronization with SkeletonProfile in BoneMap.
+
+SkeletonProfile profile
+Method: set_profile(value: SkeletonProfile) → void
+Method: get_profile() → SkeletonProfile
+Note: Key names in the BoneMap are synchronized with the SkeletonProfile of the mapping target.
+---CHUNK---
+Document: BoneMap
+Path: godot/classes/class_bonemap.rst
+Summary: Methods for mapping skeleton and profile bone names during retargeting processes.
+
+Method: find_profile_bone_name(skeleton_bone_name: StringName) → StringName
+Returns a profile bone name associated with the given skeleton bone name. If no mapping exists, returns empty StringName. Note: In the retargeting process, the returned bone name corresponds to the target skeleton's bone structure.
+
+Method: get_skeleton_bone_name(profile_bone_name: StringName) → StringName
+Returns the skeleton bone name mapped to the specified profile bone name. Note: In the retargeting process, the returned bone name corresponds to the source skeleton's bone structure.
+
+Method: set_skeleton_bone_name(profile_bone_name: StringName, skeleton_bone_name: StringName)
+Maps the specified skeleton bone name to the given profile bone name. Note: In the retargeting process, the setting bone name corresponds to the source skeleton's bone structure.

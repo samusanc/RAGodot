@@ -1,0 +1,68 @@
+Document: Joint3D
+Path: godot/classes/class_joint3d.rst
+Summary: Joint3D class reference for 3D physics joint constraints in Godot Engine.
+---CHUNK---
+Document: Joint3D
+Path: godot/classes/class_joint3d.rst
+Summary: Abstract base class for all 3D physics joints.
+
+Inherits: Node3D < Node < Object
+Inherited By: ConeTwistJoint3D, Generic6DOFJoint3D, HingeJoint3D, PinJoint3D, SliderJoint3D
+
+Abstract base class for all 3D physics joints. Provides common functionality for connecting RigidBody3D nodes with constraints. All specific joint types (ConeTwist, Hinge, Slider, etc.) inherit from this class to implement their unique constraint behaviors. Used in physics simulations to create mechanical connections between objects while maintaining control over movement limitations and reaction forces.
+---CHUNK---
+Document: Joint3D  
+Path: godot/classes/class_joint3d.rst  
+Summary: Abstract base class for 3D physics joints that bind two physics bodies with constraints.  
+
+Abstract base class for all joints in 3D physics. 3D joints bind together two physics bodies (node_a and node_b) and apply a constraint. If only one body is defined, it is attached to a fixed StaticBody3D without collision shapes. Note: This class serves as a foundation for implementing specific joint types like hinges, sliders, or ball-and-socket joints. It provides shared functionality for connecting rigid bodies while enforcing physical constraints between them. The joint's behavior is determined by its subclass, which defines the specific limitations and forces applied to the connected bodies. Key Rule: Joints require at least one physics body (RigidBody3D or StaticBody3D) to function, with StaticBody3D acting as an implicit anchor when only one body is provided.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_joint3d.rst
+Summary: This section lists tutorials related to 3D joint physics, including the 3D Truck Town Demo asset.
+
+Tutorials include: 3D Truck Town Demo
+---CHUNK---
+Document: Joint3D
+Path: godot/classes/class_joint3d.rst
+Summary: Properties and member variables of the Joint3D class with their types, descriptions, and default values.
+
+- exclude_nodes_from_collision (bool): Controls whether nodes are excluded from collision. Default: true
+- node_a (NodePath): First node connected to the joint. Default: NodePath("")
+- node_b (NodePath): Second node connected to the joint. Default: NodePath("")
+- solver_priority (int): Priority for the physics solver. Higher values mean earlier processing. Default: 1
+---CHUNK---
+Document: Joint3D
+Path: godot/classes/class_joint3d.rst
+Summary: The get_rid() method returns the RID associated with this joint.
+
+- get_rid() (Method): Returns the RID associated with this joint. Const.
+---CHUNK---
+Document: Joint3D  
+Path: godot/classes/class_joint3d.rst  
+Summary: Properties and configuration options for the Joint3D class in Godot, including collision exclusion, node attachment, and solver priority settings.  
+
+exclude_nodes_from_collision (bool): Controls whether the two connected bodies collide with each other. Default: true.  
+- set_exclude_nodes_from_collision(value: bool): Sets the collision exclusion state.  
+- get_exclude_nodes_from_collision(): Returns the current collision exclusion state.  
+
+node_a (NodePath): Path to the first physics body (A) connected to the joint. Must reference a node inheriting PhysicsBody3D. Default: empty.  
+- set_node_a(value: NodePath): Assigns the path for node A.  
+- get_node_a(): Retrieves the current path for node A.  
+If node_a is empty but node_b is set, the joint connects to a fixed StaticBody3D without collision shapes.  
+
+node_b (NodePath): Path to the second physics body (B) connected to the joint. Must reference a node inheriting PhysicsBody3D. Default: empty.  
+- set_node_b(value: NodePath): Assigns the path for node B.  
+- get_node_b(): Retrieves the current path for node B.  
+If node_b is empty but node_a is set, the joint connects to a fixed StaticBody3D without collision shapes.  
+
+solver_priority (int): Determines the order in which joints are processed by the physics solver. Lower values indicate higher priority. Default: 1.  
+- set_solver_priority(value: int): Sets the solver priority.  
+- get_solver_priority(): Returns the current solver priority.  
+Note: Only functional with GodotPhysics3D. Ignored when using Jolt Physics.
+---CHUNK---
+Document: Joint3D
+Path: godot/classes/class_joint3d.rst
+Summary: The get_rid method returns the joint's internal RID from the PhysicsServer3D.
+
+Method: get_rid() → RID. Note: This is a constant method. Returns the joint's internal RID from the PhysicsServer3D.
