@@ -1,0 +1,15 @@
+Document: OpenXRHapticBase
+Path: godot/classes/class_openxrhapticbase.rst
+Summary: Base class for handling haptic feedback in OpenXR.
+---CHUNK---
+Document: OpenXRHapticBase  
+Path: godot/classes/class_openxrhapticbase.rst  
+Summary: Base class for OpenXR haptic feedback, providing common functionality for vibration and haptic effects.  
+
+Inherits: Resource < RefCounted < Object  
+Inherited By: OpenXRHapticVibration  
+OpenXR Haptic feedback base class.
+---CHUNK---
+Document: OpenXRHapticBase
+Path: godot/classes/class_openxrhapticbase.rst
+Summary: Base class for haptic feedback resources in Godot.

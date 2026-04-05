@@ -1,0 +1,14 @@
+Document: VisualShaderNodeTextureSDF  
+Path: godot/classes/class_visualshadernodetexturesdf.rst  
+Summary: Class documentation for VisualShaderNodeTextureSDF, part of Godot's Visual Shader system.
+---CHUNK---
+Document: VisualShaderNodeTextureSDF
+Path: godot/classes/class_visualshadernodetexturesdf.rst
+Summary: Performs an SDF (signed-distance field) texture lookup within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Performs an SDF (signed-distance field) texture lookup within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTextureSDF
+Path: godot/classes/class_visualshadernodetexturesdf.rst
+Summary: Represents a shader node that translates to the texture_sdf(sdf_pos) function in the shader language.

@@ -1,0 +1,16 @@
+Document: VisualShaderNodeProximityFade  
+Path: godot/classes/class_visualshadernodeproximityfade.rst  
+Summary: VisualShaderNodeProximityFade is a shader node that modifies visual effects based on proximity to a defined distance.  
+
+VisualShaderNodeProximityFade is a specialized shader node in Godot's visual shader system, designed to create fading effects when objects are within a specified proximity range. It inherits from VisualShaderNode and implements functionality for distance-based transparency or intensity adjustments. The node operates by comparing the distance from the shader's input position to a user-defined threshold, applying a fade effect when the distance is within the specified range. Key parameters include the fade distance, which determines the proximity threshold, and the fade strength, which controls the intensity of the effect. This node is particularly useful for creating effects like depth-of-field transitions, atmospheric fog, or object-specific visibility adjustments in 3D scenes. The node's output is typically connected to other shader nodes to modulate color, alpha, or other visual properties based on proximity calculations.
+---CHUNK---
+Document: VisualShaderNodeProximityFade
+Path: godot/classes/class_visualshadernodeproximityfade.rst
+Summary: A visual shader node representing proximity fade effect.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A visual shader node representing proximity fade effect.
+---CHUNK---
+Document: VisualShaderNodeProximityFade
+Path: godot/classes/class_visualshadernodeproximityfade.rst
+Summary: The proximity fade effect fades out each pixel based on its distance to another object.

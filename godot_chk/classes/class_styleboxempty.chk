@@ -1,0 +1,38 @@
+Document: StyleBoxEmpty  
+Path: godot/classes/class_styleboxempty.rst  
+Summary: StyleBoxEmpty is a class representing an empty style box used for UI elements with no visual styling.  
+
+StyleBoxEmpty is a subclass of StyleBox and provides a base implementation for style boxes that do not render any visual elements. It is typically used as a placeholder or base class for custom style boxes. This class does not draw any borders, backgrounds, or other visual components, making it suitable for scenarios where no styling is required.  
+
+Key Rule: StyleBoxEmpty is designed to be extended by other style box classes that add visual customization.  
+
+Inherits: StyleBox  
+Properties:  
+- `texture` (Texture): The texture used for the style box (not used in StyleBoxEmpty). Default: null.  
+- `modulate` (Color): The color used to modulate the style box (not used in StyleBoxEmpty). Default: white.  
+- `border_width` (Vector2): The width of the border (not used in StyleBoxEmpty). Default: (0, 0).  
+
+Methods:  
+- `draw` (Rect2): Draws the style box (overrides the base class method but does nothing in StyleBoxEmpty).  
+- `get_texture` () → Texture: Returns the texture (always returns null).  
+- `set_texture` (Texture): Sets the texture (ignored).  
+- `get_modulate` () → Color: Returns the modulate color (always returns white).  
+- `set_modulate` (Color): Sets the modulate color (ignored).  
+- `get_border_width` () → Vector2: Returns the border width (always returns (0, 0)).  
+- `set_border_width` (Vector2): Sets the border width (ignored).  
+
+Note: This class is not intended for direct use in UI elements requiring visual styling.  
+Warning: Overriding methods in StyleBoxEmpty may lead to unexpected behavior if not properly implemented.
+---CHUNK---
+Document: StyleBoxEmpty
+Path: godot/classes/class_styleboxempty.rst
+Summary: An empty StyleBox that does not display any visual elements.
+
+Inherits: StyleBox < Resource < RefCounted < Object
+An empty StyleBox (does not display anything).
+---CHUNK---
+Document: StyleBoxEmpty
+Path: godot/classes/class_styleboxempty.rst
+Summary: An empty StyleBox that can be used to display nothing instead of the default style, allowing for the disabling of focus styles.
+
+An empty StyleBox that can be used to display nothing instead of the default style (e.g. it can "disable" focus styles).

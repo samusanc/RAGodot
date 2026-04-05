@@ -1,0 +1,16 @@
+Document: AudioBusLayout
+Path: godot/classes/class_audiobuslayout.rst
+Summary: Class reference for AudioBusLayout, covering identity, description, and inheritance.
+---CHUNK---
+Document: AudioBusLayout
+Path: godot/classes/class_audiobuslayout.rst
+Summary: Stores information about the audio buses.
+
+Inherits: Resource < RefCounted < Object
+Stores information about the audio buses.
+---CHUNK---
+Document: AudioBusLayout
+Path: godot/classes/class_audiobuslayout.rst
+Summary: Stores audio bus parameters including position, muting, solo, bypass, effects, volume, and connections between buses, with usage details in AudioServer.
+
+Stores position, muting, solo, bypass, effects, effect position, volume, and the connections between buses. See AudioServer for usage.

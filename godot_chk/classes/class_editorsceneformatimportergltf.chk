@@ -1,0 +1,11 @@
+Document: EditorSceneFormatImporterGLTF  
+Path: godot/classes/class_editorsceneformatimportergltf.rst  
+Summary: Class for importing GLTF scene formats in the Godot editor.  
+
+EditorSceneFormatImporterGLTF is a specialized importer for loading and processing GLTF (GL Transmission Format) 3D scene files within the Godot editor. It inherits from the base class EditorSceneFormatImporter, which provides core functionality for scene format importers. This class handles GLTF-specific parsing, including mesh data, materials, animations, and scene hierarchy. Key features include support for GLTF 2.0 standards, compatibility with Godot's material system, and integration with the editor's asset import pipeline. The class exposes methods for configuring import settings, such as texture compression, animation sampling rates, and mesh simplification. It also provides callbacks for post-processing imported data, allowing customization of node names, material assignments, and scene structure. Developers can extend this class to add custom import behaviors or modify default GLTF handling.
+---CHUNK---
+Document: EditorSceneFormatImporterGLTF
+Path: godot/classes/class_editorsceneformatimportergltf.rst
+Summary: This class has no available description in the source documentation.
+
+Inherits: EditorSceneFormatImporter < RefCounted < Object

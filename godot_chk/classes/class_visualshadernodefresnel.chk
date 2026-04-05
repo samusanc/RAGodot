@@ -1,0 +1,13 @@
+Document: VisualShaderNodeFresnel  
+Path: godot/classes/class_visualshadernodefresnel.rst  
+Summary: A shader node that calculates the Fresnel effect for visual materials.
+---CHUNK---
+Document: VisualShaderNodeFresnel
+Path: godot/classes/class_visualshadernodefresnel.rst
+Summary: A Fresnel effect node for use in visual shader graphs within Godot
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A Fresnel effect to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeFresnel
+Path: godot/classes/class_visualshadernodefresnel.rst
+Summary: Calculates and returns falloff based on the dot product between surface normal and view direction.

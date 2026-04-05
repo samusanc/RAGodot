@@ -1,0 +1,28 @@
+Document: VisualShaderNodeDeterminant  
+Path: godot/classes/class_visualshadernodedeterminant.rst  
+Summary: Class reference for VisualShaderNodeDeterminant, a shader node that calculates the determinant of a matrix in Godot's visual shader language.  
+
+Inherits: VisualShaderNode < VisualShaderNodeMatrix < VisualShaderNode  
+Description: This node computes the determinant of a 4x4 matrix, returning a single float value. It is used in visual shaders to perform matrix operations.  
+
+Properties:  
+- matrix (VisualShaderNodeMatrix): The input matrix whose determinant is calculated. Default: None.  
+
+Method:  
+- _get_input_port_count() → int: Returns the number of input ports (1 for the matrix).  
+- _get_output_port_count() → int: Returns the number of output ports (1 for the determinant result).  
+- _get_port_name(type, port_idx) → String: Returns the name of the input or output port.  
+- _get_port_type(type, port_idx) → int: Returns the data type of the input or output port.  
+- _get_shader_type() → String: Returns the shader type ("float").  
+
+Key Rule: The matrix input must be a 4x4 matrix; otherwise, the node may produce undefined results.
+---CHUNK---
+Document: VisualShaderNodeDeterminant
+Path: godot/classes/class_visualshadernodedeterminant.rst
+Summary: Calculates the determinant of a Transform3D within the visual shader graph.
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeDeterminant
+Path: godot/classes/class_visualshadernodedeterminant.rst
+Summary: Represents the determinant function in shader code, translating to 'determinant(x)' in the shader language.
+Translates to ``determinant(x)`` in the shader language.

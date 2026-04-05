@@ -1,0 +1,14 @@
+Document: VisualShaderNodeLinearSceneDepth
+Path: godot/classes/class_visualshadernodelinearscenedepth.rst
+Summary: Class: VisualShaderNodeLinearSceneDepth. Inheritance: VisualShaderNode < VisualShaderNodeDepth < VisualShaderNode. Description: Not provided in the original documentation.
+---CHUNK---
+Document: VisualShaderNodeLinearSceneDepth
+Path: godot/classes/class_visualshadernodelinearscenedepth.rst
+Summary: A visual shader node that returns the depth value of the DEPTH_TEXTURE node in a linear space.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A visual shader node that returns the depth value of the DEPTH_TEXTURE node in a linear space.
+---CHUNK---
+Document: VisualShaderNodeLinearSceneDepth
+Path: godot/classes/class_visualshadernodelinearscenedepth.rst
+Summary: This node can be used in fragment shaders.

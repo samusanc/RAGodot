@@ -1,0 +1,54 @@
+Document: AudioSamplePlayback  
+Path: godot/classes/class_audiosampleplayback.rst  
+Summary: Class representing audio sample playback functionality in Godot Engine.  
+
+Inherits: AudioStreamPlayback < AudioStreamPlayer < Node  
+
+Key Rule: This class is abstract and cannot be instantiated directly. Use AudioStreamPlayer for audio playback.  
+
+Properties:  
+- `stream (AudioStream)`: The audio stream to play. Default: null.  
+- `loop (bool)`: Whether the audio should loop. Default: false.  
+- `pitch_scale (float)`: Adjusts the playback pitch. Default: 1.0.  
+- `volume_db (float)`: Sets the playback volume in decibels. Default: -24.0.  
+- `playback_speed (float)`: Controls playback speed. Default: 1.0.  
+- `position (float)`: Current playback position in seconds. Default: 0.0.  
+- `is_playing (bool)`: Whether the audio is currently playing. Default: false.  
+- `is_looping (bool)`: Whether the audio is looping. Default: false.  
+- `is_paused (bool)`: Whether the audio is paused. Default: false.  
+
+Methods:  
+- `play() → void`: Starts playback.  
+- `stop() → void`: Stops playback.  
+- `pause() → void`: Pauses playback.  
+- `seek(position: float) → void`: Jumps to a specific playback position.  
+- `set_stream(stream: AudioStream) → void`: Assigns a new audio stream.  
+- `get_stream() → AudioStream`: Returns the current audio stream.  
+- `set_loop(enable: bool) → void`: Enables or disables looping.  
+- `is_looping() → bool`: Returns whether looping is enabled.  
+- `set_volume_db(volume: float) → void`: Sets the playback volume.  
+- `get_volume_db() → float`: Returns the current volume in decibels.  
+- `set_pitch_scale(scale: float) → void`: Adjusts the pitch scale.  
+- `get_pitch_scale() → float`: Returns the current pitch scale.  
+- `set_playback_speed(speed: float) → void`: Sets the playback speed.  
+- `get_playback_speed() → float`: Returns the current playback speed.  
+- `is_playing() → bool`: Checks if playback is active.  
+- `is_paused() → bool`: Checks if playback is paused.  
+- `get_position() → float`: Returns the current playback position.  
+- `get_length() → float`: Returns the total duration of the audio stream.  
+
+Note: AudioSamplePlayback is designed for low-level audio control. For most use cases, AudioStreamPlayer is recommended.  
+
+Warning: Modifying properties during playback may cause unexpected behavior. Always stop or pause before making changes.
+---CHUNK---
+Document: AudioSamplePlayback  
+Path: godot/classes/class_audiosampleplayback.rst  
+Summary: Meta class for playing back audio samples.  
+
+**Experimental:** This class may be changed or removed in future versions.  
+Inherits: RefCounted < Object  
+Meta class for playing back audio samples.
+---CHUNK---
+Document: AudioSamplePlayback
+Path: godot/classes/class_audiosampleplayback.rst
+Summary: Meta class for playing back audio samples.

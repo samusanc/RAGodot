@@ -1,0 +1,16 @@
+Document: VisualShaderNodeSDFRaymarch  
+Path: godot/classes/class_visualshadernodesdfraymarch.rst  
+Summary: Class representing a raymarch node for signed distance field (SDF) calculations in visual shaders.
+---CHUNK---
+Document: VisualShaderNodeSDFRaymarch  
+Path: godot/classes/class_visualshadernodesdfraymarch.rst  
+Summary: Implements an SDF raymarching algorithm for use in visual shader graphs.  
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object  
+SDF raymarching algorithm to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeDFRaymarch
+Path: godot/classes/class_visualshadernodesdfraymarch.rst
+Summary: Casts a ray against the screen SDF and returns the distance travelled.
+
+Casts a ray against the screen SDF (signed-distance field) and returns the distance travelled.

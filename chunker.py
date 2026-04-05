@@ -1,23 +1,25 @@
 """
 chunk_godot.py — Godot RST → cleaned chunks
-Three-tier routing + cascading fallback chain.
+Three-tier routing with DEDICATED WORKERS PER TIER.
 
-Model priority (highest to lowest):
-  gemini-2.5-pro / gemini-3.1-pro-preview
-  → gemini-3-pro-preview
-  → gemini-2.5-flash / gemini-3-flash-preview
-  → gemini-2.5-flash-lite / gemini-3.1-flash-lite-preview
-  → qwen (local, always available, round-robined across hosts)
+Model tiers (each tier has its own queue + worker pool):
+  LARGE  : gemini-2.5-pro, gemini-3.1-pro-preview, gemini-3-pro-preview
+  MID    : gemini-2.5-flash, gemini-3-flash-preview
+  LITE   : gemini-2.5-flash-lite, gemini-3.1-flash-lite-preview
+  QWEN-A : local host A (faster)  — gets files up to QWEN_A_MAX_SIZE chars
+  QWEN-B : local host B (slower)  — gets files up to QWEN_B_MAX_SIZE chars
 
 When a model fails N times in a row it is blacklisted for the session.
-Failed jobs cascade down the chain automatically.
-If all Gemini models are blacklisted, Qwen handles everything.
+Failed jobs cascade DOWN the tier chain automatically.
+If all Gemini models in a tier are blacklisted, jobs fall to the next tier.
+If all Gemini tiers exhausted → Qwen.
 
 Usage:
-    python chunk_godot.py                         # auto workers
-    python chunk_godot.py --qwen-workers 2 --gemini-workers 4
-    python chunk_godot.py --dry-run               # routing table only
-    python chunk_godot.py --fail-threshold 3      # blacklist after 3 failures
+    python chunk_godot.py
+    python chunk_godot.py --large-workers 2 --mid-workers 2 --lite-workers 2
+    python chunk_godot.py --qwen-a-workers 1 --qwen-b-workers 1
+    python chunk_godot.py --dry-run
+    python chunk_godot.py --fail-threshold 3
 """
 
 import re
@@ -35,40 +37,34 @@ import ollama
 # CONFIG
 # ═══════════════════════════════════════════════════════════════════════
 
-# Multiple Qwen hosts — round-robined per worker
-OLLAMA_HOSTS = [
-    "http://192.168.0.36:11434",
-    "http://192.168.0.190:11434",
-]
-OLLAMA_MODEL = "qwen3:14b"
-QWEN_NUM_CTX = 3072
+# Qwen hosts — A is faster (desktop GPU), B is slower (3080 notebook)
+OLLAMA_HOST_A    = "http://192.168.0.36:11434"
+OLLAMA_HOST_B    = "http://192.168.0.190:11434"
+OLLAMA_MODEL     = "qwen3:14b"
+QWEN_NUM_CTX     = 3072
 
-GEMINI_BASE_URL = "http://localhost:8317/v1/chat/completions"
-GEMINI_API_KEY  = "your-api-key-3"
+# Files larger than these limits get re-routed away from that Qwen host.
+QWEN_A_MAX_SIZE  = 5_000   # Fast host handles anything up to SMALL_THRESHOLD
+QWEN_B_MAX_SIZE  = 3_000   # Slow host only takes tiny files
 
-# Full fallback chain — ordered from most to least capable.
-# ALL models are included and used for initial routing (not just 2.5 family).
-GEMINI_FALLBACK_CHAIN = [
-    "gemini-2.5-pro",
-    "gemini-3.1-pro-preview",
-    "gemini-3-pro-preview",
-    "gemini-2.5-flash",
-    "gemini-3-flash-preview",
-    "gemini-2.5-flash-lite",
-    "gemini-3.1-flash-lite-preview",
-]
+GEMINI_BASE_URL  = "http://localhost:8317/v1/chat/completions"
+GEMINI_API_KEY   = "your-api-key-3"
 
-# Tier groupings for initial routing (maps size → candidate pool)
+# Per-tier model lists (fallback order within each tier)
 GEMINI_LARGE_TIER = ["gemini-2.5-pro", "gemini-3.1-pro-preview", "gemini-3-pro-preview"]
 GEMINI_MID_TIER   = ["gemini-2.5-flash", "gemini-3-flash-preview"]
 GEMINI_LITE_TIER  = ["gemini-2.5-flash-lite", "gemini-3.1-flash-lite-preview"]
 
-# How many consecutive failures before a model is blacklisted for the session
+# Full fallback chain (used for status reporting)
+GEMINI_FALLBACK_CHAIN = GEMINI_LARGE_TIER + GEMINI_MID_TIER + GEMINI_LITE_TIER
+
 DEFAULT_FAIL_THRESHOLD = 5
 
-# Size thresholds (pre-filtered chars) for initial routing
-SMALL_THRESHOLD  =  5_000   # ≤ this → qwen
-LARGE_THRESHOLD  = 15_000   # > this → prefer large tier
+# Size thresholds (pre-filtered chars) — controls initial tier assignment
+SMALL_THRESHOLD  =  5_000   # <= → qwen
+MID_THRESHOLD    = 15_000   # <= → lite tier
+LARGE_THRESHOLD  = 45_000   # <= → mid tier
+                             # >  → large tier
 
 # Section splitter caps
 QWEN_MAX_SECTION   =  3_000
@@ -84,23 +80,28 @@ PATH_ROUTING = [
     ("tutorials/**/*.rst",       "tutorial"),
 ]
 
-DEFAULT_QWEN_WORKERS   = 2   # now 2 by default (one per host)
-DEFAULT_GEMINI_WORKERS = 4
+# Default workers per tier
+DEFAULT_LARGE_WORKERS  = 2
+DEFAULT_MID_WORKERS    = 2
+DEFAULT_LITE_WORKERS   = 2
+DEFAULT_QWEN_A_WORKERS = 1
+DEFAULT_QWEN_B_WORKERS = 1
+
+# Print model stats every N completions
+STATS_EVERY = 25
 
 # ═══════════════════════════════════════════════════════════════════════
 # MODEL HEALTH TRACKER
 # ═══════════════════════════════════════════════════════════════════════
 
 class ModelHealth:
-    """Thread-safe failure counter with blacklisting + per-model stats."""
-
     def __init__(self, threshold: int):
         self._threshold   = threshold
-        self._failures    = defaultdict(int)   # model → consecutive failures
+        self._failures    = defaultdict(int)
         self._blacklisted = set()
-        self._success_ct  = defaultdict(int)   # model → total successes
-        self._fail_ct     = defaultdict(int)   # model → total failures
-        self._active      = defaultdict(int)   # model → currently in-flight
+        self._success_ct  = defaultdict(int)
+        self._fail_ct     = defaultdict(int)
+        self._active      = defaultdict(int)
         self._lock        = threading.Lock()
 
     def mark_start(self, model: str):
@@ -117,7 +118,6 @@ class ModelHealth:
             self._success_ct[model] += 1
 
     def record_failure(self, model: str) -> bool:
-        """Returns True if the model just got blacklisted."""
         with self._lock:
             self._failures[model] += 1
             self._fail_ct[model]  += 1
@@ -131,39 +131,36 @@ class ModelHealth:
         with self._lock:
             return model not in self._blacklisted
 
-    def available_gemini(self) -> list[str]:
+    def tier_available(self, tier: list) -> list:
         with self._lock:
-            return [m for m in GEMINI_FALLBACK_CHAIN
-                    if m not in self._blacklisted]
+            return [m for m in tier if m not in self._blacklisted]
 
     def status_line(self) -> str:
         with self._lock:
-            ok  = [m for m in GEMINI_FALLBACK_CHAIN if m not in self._blacklisted]
             bad = list(self._blacklisted)
+            ok  = [m for m in GEMINI_FALLBACK_CHAIN if m not in self._blacklisted]
             return (f"Gemini available: {len(ok)} | blacklisted: {len(bad)}"
                     + (f" ({', '.join(bad)})" if bad else ""))
 
     def model_stats_table(self) -> str:
-        """Return a formatted table of per-model call stats."""
         with self._lock:
-            all_models = list(GEMINI_FALLBACK_CHAIN) + ["qwen_fallback", "qwen"]
-            lines = [f"\n{'─'*70}",
-                     f"  {'MODEL':<35} {'OK':>6} {'FAIL':>6} {'IN-FLIGHT':>10}  STATUS",
-                     f"{'─'*70}"]
-            for m in all_models:
+            display = GEMINI_FALLBACK_CHAIN + ["qwen-a", "qwen-b", "qwen_fallback"]
+            lines = [f"\n{'─'*72}",
+                     f"  {'MODEL':<37} {'OK':>6} {'FAIL':>6} {'IN-FLIGHT':>10}  STATUS",
+                     f"{'─'*72}"]
+            for m in display:
                 ok  = self._success_ct.get(m, 0)
                 bad = self._fail_ct.get(m, 0)
                 inf = self._active.get(m, 0)
                 if ok == 0 and bad == 0:
                     continue
                 bl = " [BLACKLISTED]" if m in self._blacklisted else ""
-                lines.append(f"  {m:<35} {ok:>6} {bad:>6} {inf:>10}{bl}")
-            lines.append(f"{'─'*70}")
+                lines.append(f"  {m:<37} {ok:>6} {bad:>6} {inf:>10}{bl}")
+            lines.append(f"{'─'*72}")
         return "\n".join(lines)
 
 
-# Global instance — set in main()
-health: ModelHealth = None
+health: ModelHealth = None   # set in main()
 
 # ═══════════════════════════════════════════════════════════════════════
 # PROMPTS
@@ -253,7 +250,7 @@ def pre_filter(text: str) -> str:
 
 _HEADING_RE = re.compile(r"^(.+)\n([=\-~^\"'`#*+])\2{2,}\s*$", re.MULTILINE)
 
-def _split_headings(text: str) -> list[tuple[str, str]]:
+def _split_headings(text: str) -> list:
     matches = list(_HEADING_RE.finditer(text))
     if not matches:
         return [("", text)]
@@ -269,7 +266,7 @@ def _split_headings(text: str) -> list[tuple[str, str]]:
         sections.append((title, body))
     return sections
 
-def _split_class(text: str, max_chars: int) -> list[tuple[str, str]]:
+def _split_class(text: str, max_chars: int) -> list:
     sections = _split_headings(text)
     result, mbuf, mchars, mgroup = [], [], 0, 1
 
@@ -298,7 +295,7 @@ def _split_class(text: str, max_chars: int) -> list[tuple[str, str]]:
     flush()
     return result
 
-def _split_tutorial(text: str, max_chars: int) -> list[tuple[str, str]]:
+def _split_tutorial(text: str, max_chars: int) -> list:
     result = []
     for title, body in _split_headings(text):
         content = f"{title}\n{body}" if title not in ("__preamble__", "") else body
@@ -323,31 +320,15 @@ def _split_tutorial(text: str, max_chars: int) -> list[tuple[str, str]]:
 
 _tl = threading.local()
 
-# Round-robin counter for Qwen host assignment
-_qwen_host_counter = 0
-_qwen_host_lock    = threading.Lock()
-
-def _assign_qwen_host() -> str:
-    """Pick the next Qwen host in round-robin order."""
-    global _qwen_host_counter
-    with _qwen_host_lock:
-        host = OLLAMA_HOSTS[_qwen_host_counter % len(OLLAMA_HOSTS)]
-        _qwen_host_counter += 1
-    return host
-
-def _qwen_client(host: str):
-    """Return a thread-local ollama.Client for the given host."""
+def _qwen_client(host: str) -> ollama.Client:
     key = f"client_{host}"
     if not hasattr(_tl, key):
         setattr(_tl, key, ollama.Client(host=host))
     return getattr(_tl, key)
 
-def call_qwen(user_msg: str, host: str | None = None) -> str:
-    """Always-available local fallback. Retries 3 times.
-    If host is None, picks one via round-robin."""
-    if host is None:
-        host = _assign_qwen_host()
+def call_qwen(user_msg: str, host: str, stat_key: str) -> str:
     client = _qwen_client(host)
+    health.mark_start(stat_key)
     for attempt in range(1, 4):
         try:
             resp = client.chat(
@@ -358,15 +339,18 @@ def call_qwen(user_msg: str, host: str | None = None) -> str:
                 ],
                 options={"temperature": 0.1, "num_ctx": QWEN_NUM_CTX},
             )
+            health.mark_end(stat_key)
+            health.record_success(stat_key)
             return resp["message"]["content"].strip()
         except Exception as e:
-            _log(f"    [qwen@{host}] attempt {attempt} failed: {e}")
+            _log(f"    [{stat_key}] attempt {attempt} failed: {e}")
             if attempt < 3:
                 time.sleep(4 * attempt)
+    health.mark_end(stat_key)
+    health.record_failure(stat_key)
     return ""
 
 def _call_gemini_model(model: str, user_msg: str) -> str:
-    """Single attempt on a specific Gemini model. Raises on failure."""
     headers = {
         "Content-Type":  "application/json",
         "Authorization": f"Bearer {GEMINI_API_KEY}",
@@ -380,31 +364,20 @@ def _call_gemini_model(model: str, user_msg: str) -> str:
         "temperature": 0.1,
     }
     t0 = time.monotonic()
-    r = requests.post(GEMINI_BASE_URL, json=payload,
-                      headers=headers, timeout=180)
+    r  = requests.post(GEMINI_BASE_URL, json=payload,
+                       headers=headers, timeout=240)
     elapsed = time.monotonic() - t0
     r.raise_for_status()
     result = r.json()["choices"][0]["message"]["content"].strip()
-    _log(f"    [gemini] {model} responded in {elapsed:.1f}s "
-         f"({len(result)} chars out)")
+    _log(f"    [gemini] {model} {elapsed:.1f}s → {len(result)} chars")
     return result
 
-def call_with_fallback(user_msg: str, preferred_model: str,
-                       logs: list) -> tuple[str, str]:
-    """
-    Try preferred_model first, then cascade down GEMINI_FALLBACK_CHAIN,
-    then fall back to Qwen. Returns (result_text, model_used).
-    Logs all attempts.
-    """
-    chain = [preferred_model] + [
-        m for m in GEMINI_FALLBACK_CHAIN
-        if m != preferred_model
-    ]
-
-    for model in chain:
-        if not health.is_available(model):
-            logs.append(f"    skip {model} (blacklisted)")
-            continue
+def _try_tier(tier_models: list, user_msg: str, logs: list):
+    """Try each available model in a tier. Returns (result, model) or None."""
+    available = health.tier_available(tier_models)
+    if not available:
+        return None
+    for model in available:
         health.mark_start(model)
         try:
             result = _call_gemini_model(model, user_msg)
@@ -413,59 +386,51 @@ def call_with_fallback(user_msg: str, preferred_model: str,
             return result, model
         except Exception as e:
             health.mark_end(model)
-            newly_blacklisted = health.record_failure(model)
-            status = "BLACKLISTED" if newly_blacklisted else "failed"
+            newly_bl = health.record_failure(model)
+            status   = "BLACKLISTED" if newly_bl else "failed"
             logs.append(f"    {model} → {status}: {e}")
-            if newly_blacklisted:
-                _log(f"[!] {model} blacklisted after repeated failures. "
-                     f"{health.status_line()}")
+            if newly_bl:
+                _log(f"[!] {model} blacklisted. {health.status_line()}")
             time.sleep(2)
+    return None
 
-    # All Gemini exhausted → Qwen
-    logs.append("    all Gemini models unavailable → falling back to Qwen")
-    _log(f"[!] All Gemini unavailable — using Qwen. {health.status_line()}")
-    return call_qwen(user_msg), "qwen_fallback"
+def call_gemini_with_cascade(user_msg: str, start_tier: str, logs: list):
+    """
+    Try start_tier first, then cascade to other tiers, then Qwen fallback.
+    Returns (result, model_used).
+    """
+    if start_tier == "large":
+        tier_order = [GEMINI_LARGE_TIER, GEMINI_MID_TIER, GEMINI_LITE_TIER]
+    elif start_tier == "mid":
+        tier_order = [GEMINI_MID_TIER, GEMINI_LITE_TIER, GEMINI_LARGE_TIER]
+    else:  # lite
+        tier_order = [GEMINI_LITE_TIER, GEMINI_MID_TIER, GEMINI_LARGE_TIER]
+
+    for tier in tier_order:
+        result = _try_tier(tier, user_msg, logs)
+        if result:
+            return result
+
+    logs.append("    all Gemini unavailable → Qwen fallback")
+    _log(f"[!] All Gemini down — falling back to Qwen. {health.status_line()}")
+    for host, key in [(OLLAMA_HOST_A, "qwen-a"), (OLLAMA_HOST_B, "qwen-b")]:
+        res = call_qwen(user_msg, host, "qwen_fallback")
+        if res:
+            return res, f"qwen_fallback@{host}"
+    return "", "qwen_fallback_failed"
 
 # ═══════════════════════════════════════════════════════════════════════
-# ROUTING — now distributes across ALL model tiers
+# ROUTING
 # ═══════════════════════════════════════════════════════════════════════
 
-_tier_counters: dict[str, int] = {"large": 0, "mid": 0, "lite": 0}
-_tier_lock = threading.Lock()
-
-def _round_robin_from(tier_key: str, candidates: list[str],
-                      fallback: str) -> str:
-    """Pick next available model from a tier in round-robin order."""
-    with _tier_lock:
-        available = [m for m in candidates if health.is_available(m)]
-        if not available:
-            return fallback   # will cascade in call_with_fallback
-        idx   = _tier_counters[tier_key] % len(available)
-        model = available[idx]
-        _tier_counters[tier_key] += 1
-    return model
-
-def initial_model(filtered_size: int) -> str:
-    """Choose starting model based on file size, rotating across all tiers."""
+def assign_tier(filtered_size: int) -> str:
     if filtered_size <= SMALL_THRESHOLD:
         return "qwen"
+    if filtered_size <= MID_THRESHOLD:
+        return "lite"
     if filtered_size <= LARGE_THRESHOLD:
-        return _round_robin_from("lite", GEMINI_LITE_TIER,
-                                 GEMINI_LITE_TIER[0])
-    if filtered_size <= LARGE_THRESHOLD * 3:
-        return _round_robin_from("mid", GEMINI_MID_TIER,
-                                 GEMINI_MID_TIER[0])
-    return _round_robin_from("large", GEMINI_LARGE_TIER,
-                             GEMINI_LARGE_TIER[0])
-
-def backend_label(model: str) -> str:
-    if model == "qwen":
-        return "qwen"
-    if "pro" in model:
-        return "gemini_large"
-    if "lite" in model:
-        return "gemini_lite"
-    return "gemini_mid"
+        return "mid"
+    return "large"
 
 # ═══════════════════════════════════════════════════════════════════════
 # PROMPT BUILDER
@@ -485,12 +450,11 @@ def _make_prompt(label: str, content: str, path: str, group: int) -> str:
 # ═══════════════════════════════════════════════════════════════════════
 
 def process_file(raw: str, prompt_type: str, file_path: Path,
-                 preferred_model: str, qwen_host: str | None,
-                 logs: list) -> str:
+                 tier: str, qwen_host, logs: list) -> str:
 
     path_str  = str(file_path)
     filtered  = pre_filter(raw)
-    use_qwen  = (preferred_model == "qwen")
+    use_qwen  = (tier == "qwen") and (qwen_host is not None)
     max_chars = QWEN_MAX_SECTION if use_qwen else GEMINI_MAX_SECTION
 
     pct = 100 * (1 - len(filtered) / max(len(raw), 1))
@@ -498,7 +462,7 @@ def process_file(raw: str, prompt_type: str, file_path: Path,
 
     splitter = _split_class if prompt_type == "class" else _split_tutorial
     sections = splitter(filtered, max_chars)
-    logs.append(f"split: {len(sections)} section(s) [preferred={preferred_model}]")
+    logs.append(f"split: {len(sections)} section(s) [tier={tier}]")
 
     chunks, method_group = [], 1
     for label, content in sections:
@@ -512,10 +476,11 @@ def process_file(raw: str, prompt_type: str, file_path: Path,
         logs.append(f"  • {short} ({len(content)} chars)")
 
         if use_qwen:
-            result = call_qwen(prompt, host=qwen_host)
-            used   = f"qwen@{qwen_host}"
+            stat_key = "qwen-a" if qwen_host == OLLAMA_HOST_A else "qwen-b"
+            result   = call_qwen(prompt, qwen_host, stat_key)
+            used     = stat_key
         else:
-            result, used = call_with_fallback(prompt, preferred_model, logs)
+            result, used = call_gemini_with_cascade(prompt, tier, logs)
 
         if result:
             chunks.append(result)
@@ -547,7 +512,7 @@ class PriorityJobQueue:
             self._seq += 1
             self._cv.notify()
 
-    def get(self, timeout: float = 3.0) -> dict | None:
+    def get(self, timeout: float = 3.0):
         with self._cv:
             deadline = time.monotonic() + timeout
             while not self._heap:
@@ -573,87 +538,111 @@ class PriorityJobQueue:
 # WORKER LOOPS
 # ═══════════════════════════════════════════════════════════════════════
 
-_print_lock = threading.Lock()
-_done_count = 0
-_done_lock  = threading.Lock()
-
-# Periodic stats — print every N completions
-STATS_EVERY = 20
-_stats_counter = 0
-_stats_lock    = threading.Lock()
+_print_lock  = threading.Lock()
+_done_count  = 0
+_done_lock   = threading.Lock()
+_stats_count = 0
+_stats_lock  = threading.Lock()
+_total       = 0   # set in main()
 
 def _log(msg: str):
     with _print_lock:
         print(msg, flush=True)
 
 def _maybe_print_stats():
-    global _stats_counter
+    global _stats_count
     with _stats_lock:
-        _stats_counter += 1
-        do_print = (_stats_counter % STATS_EVERY == 0)
+        _stats_count += 1
+        do_print = (_stats_count % STATS_EVERY == 0)
     if do_print:
         _log(health.model_stats_table())
 
-def worker_loop(queue_obj: PriorityJobQueue, worker_id: str,
-                total: int, qwen_host: str | None = None):
-    """
-    qwen_host: if set, this worker uses that specific Qwen host.
-               Pass None for Gemini workers (they don't use Qwen directly).
-    """
+def _run_job(job: dict, worker_id: str):
     global _done_count
+    idx         = job["idx"]
+    file_path   = job["file_path"]
+    prompt_type = job["prompt_type"]
+    output_path = job["output_path"]
+    tier        = job["tier"]
+    qwen_host   = job.get("qwen_host")
+    raw         = job["raw"]
+
+    rel = file_path.relative_to(INPUT_ROOT)
+    _log(f"[{idx}/{_total}] START  {rel}  [{worker_id}] tier={tier}")
+
+    logs = []
+    try:
+        content = process_file(raw, prompt_type, file_path,
+                               tier, qwen_host, logs)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_text(content, encoding="utf-8")
+        n = len([p for p in content.split("---CHUNK---") if p.strip()])
+
+        with _done_lock:
+            _done_count += 1
+
+        _log(f"[{idx}/{_total}] DONE   {file_path.name} → {n} chunk(s)")
+        for line in logs:
+            _log(f"  {line}")
+
+        _maybe_print_stats()
+
+    except Exception as e:
+        with _done_lock:
+            _done_count += 1
+        _log(f"[{idx}/{_total}] FAIL   {file_path.name}: {e}")
+
+
+def gemini_worker_loop(queue_obj: PriorityJobQueue, worker_id: str):
+    """Worker dedicated to a Gemini tier queue."""
     while True:
         job = queue_obj.get(timeout=5.0)
         if job is None:
             break
+        _run_job(job, worker_id)
 
-        idx             = job["idx"]
-        file_path       = job["file_path"]
-        prompt_type     = job["prompt_type"]
-        output_path     = job["output_path"]
-        preferred_model = job["preferred_model"]
-        raw             = job["raw"]
 
-        rel = file_path.relative_to(INPUT_ROOT)
-        _log(f"[{idx}/{total}] START  {rel}  [{worker_id}]"
-             + (f" preferred={preferred_model}" if preferred_model != "qwen" else ""))
-
-        logs = []
-        try:
-            content = process_file(raw, prompt_type, file_path,
-                                   preferred_model, qwen_host, logs)
-            output_path.parent.mkdir(parents=True, exist_ok=True)
-            output_path.write_text(content, encoding="utf-8")
-            n = len([p for p in content.split("---CHUNK---") if p.strip()])
-
-            with _done_lock:
-                _done_count += 1
-
-            _log(f"[{idx}/{total}] DONE   {file_path.name} → {n} chunk(s)")
-            for line in logs:
-                _log(f"  {line}")
-
-            _maybe_print_stats()
-
-        except Exception as e:
-            with _done_lock:
-                _done_count += 1
-            _log(f"[{idx}/{total}] FAIL   {file_path.name}: {e}")
-
+def qwen_worker_loop(queue_obj: PriorityJobQueue, worker_id: str,
+                     host: str, host_max_size: int,
+                     overflow_queue):
+    """
+    Qwen worker for a specific host.
+    Jobs exceeding host_max_size are re-routed to overflow_queue (Gemini lite).
+    """
+    while True:
+        job = queue_obj.get(timeout=5.0)
+        if job is None:
+            break
+        size = job["filtered_size"]
+        if size > host_max_size and overflow_queue is not None:
+            _log(f"[{job['idx']}/{_total}] REROUTE {job['file_path'].name} "
+                 f"({size} chars > {host_max_size}) → lite [{worker_id}]")
+            job["tier"] = "lite"
+            job.pop("qwen_host", None)
+            overflow_queue.put(-size, job)
+        else:
+            job["qwen_host"] = host
+            _run_job(job, worker_id)
 
 # ═══════════════════════════════════════════════════════════════════════
 # MAIN
 # ═══════════════════════════════════════════════════════════════════════
 
 def main():
-    global health
+    global health, _total
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("--qwen-workers",    type=int, default=DEFAULT_QWEN_WORKERS,
-                        help=f"Qwen worker threads (default {DEFAULT_QWEN_WORKERS}, "
-                             f"split across {len(OLLAMA_HOSTS)} host(s))")
-    parser.add_argument("--gemini-workers",  type=int, default=DEFAULT_GEMINI_WORKERS)
-    parser.add_argument("--fail-threshold",  type=int, default=DEFAULT_FAIL_THRESHOLD,
-                        help="Consecutive failures before blacklisting a model")
+    parser.add_argument("--large-workers",  type=int, default=DEFAULT_LARGE_WORKERS,
+                        help=f"Workers for large Gemini tier (default {DEFAULT_LARGE_WORKERS})")
+    parser.add_argument("--mid-workers",    type=int, default=DEFAULT_MID_WORKERS,
+                        help=f"Workers for mid Gemini tier (default {DEFAULT_MID_WORKERS})")
+    parser.add_argument("--lite-workers",   type=int, default=DEFAULT_LITE_WORKERS,
+                        help=f"Workers for lite Gemini tier (default {DEFAULT_LITE_WORKERS})")
+    parser.add_argument("--qwen-a-workers", type=int, default=DEFAULT_QWEN_A_WORKERS,
+                        help=f"Workers for fast Qwen host A (default {DEFAULT_QWEN_A_WORKERS})")
+    parser.add_argument("--qwen-b-workers", type=int, default=DEFAULT_QWEN_B_WORKERS,
+                        help=f"Workers for slow Qwen host B (default {DEFAULT_QWEN_B_WORKERS})")
+    parser.add_argument("--fail-threshold", type=int, default=DEFAULT_FAIL_THRESHOLD)
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -677,88 +666,109 @@ def main():
                 continue
             raw      = file_path.read_text(encoding="utf-8")
             filtered = pre_filter(raw)
-            pmodel   = initial_model(len(filtered))
+            fsize    = len(filtered)
+            tier     = assign_tier(fsize)
             all_jobs.append({
-                "file_path":       file_path,
-                "prompt_type":     prompt_type,
-                "output_path":     output_path,
-                "raw":             raw,
-                "filtered_size":   len(filtered),
-                "preferred_model": pmodel,
+                "file_path":     file_path,
+                "prompt_type":   prompt_type,
+                "output_path":   output_path,
+                "raw":           raw,
+                "filtered_size": fsize,
+                "tier":          tier,
             })
 
-    total = len(all_jobs)
-    if total == 0:
+    _total = len(all_jobs)
+    if _total == 0:
         print("Nothing to do."); return
 
     # ── Routing table ───────────────────────────────────────────────
-    print(f"\n{'─'*62}")
-    print(f"{'FILE':<48} {'SIZE':>7}  PREFERRED")
-    print(f"{'─'*62}")
+    tier_counts: dict = defaultdict(int)
+    print(f"\n{'─'*65}")
+    print(f"{'FILE':<48} {'SIZE':>7}  TIER")
+    print(f"{'─'*65}")
     for job in all_jobs:
         rel = job["file_path"].relative_to(INPUT_ROOT)
-        print(f"{str(rel):<48} {job['filtered_size']:>7}  {job['preferred_model']}")
-    print(f"{'─'*62}")
-    print(f"Total: {total} files | qwen_workers={args.qwen_workers} "
-          f"gemini_workers={args.gemini_workers} "
-          f"fail_threshold={args.fail_threshold}")
-    print(f"Qwen hosts: {OLLAMA_HOSTS}")
-    print(f"Fallback chain: {' → '.join(GEMINI_FALLBACK_CHAIN)} → qwen")
-
-    # Show tier distribution
-    tier_counts: dict[str, int] = {"large": 0, "mid": 0, "lite": 0, "qwen": 0}
-    for job in all_jobs:
-        m = job["preferred_model"]
-        if m == "qwen":
-            tier_counts["qwen"] += 1
-        elif any(m == x for x in GEMINI_LARGE_TIER):
-            tier_counts["large"] += 1
-        elif any(m == x for x in GEMINI_MID_TIER):
-            tier_counts["mid"] += 1
-        else:
-            tier_counts["lite"] += 1
-    print(f"Tier distribution: large={tier_counts['large']} "
-          f"mid={tier_counts['mid']} lite={tier_counts['lite']} "
-          f"qwen={tier_counts['qwen']}")
+        t   = job["tier"]
+        tier_counts[t] += 1
+        print(f"{str(rel):<48} {job['filtered_size']:>7}  {t}")
+    print(f"{'─'*65}")
+    print(f"Total: {_total} files")
+    print(f"Tier counts:  large={tier_counts['large']}  mid={tier_counts['mid']}  "
+          f"lite={tier_counts['lite']}  qwen={tier_counts['qwen']}")
+    print(f"\nWorkers:      large={args.large_workers}  mid={args.mid_workers}  "
+          f"lite={args.lite_workers}  qwen-a={args.qwen_a_workers}  "
+          f"qwen-b={args.qwen_b_workers}  fail_threshold={args.fail_threshold}")
+    print(f"Qwen A (fast, max {QWEN_A_MAX_SIZE:,} chars): {OLLAMA_HOST_A}")
+    print(f"Qwen B (slow, max {QWEN_B_MAX_SIZE:,} chars): {OLLAMA_HOST_B}")
+    print(f"Size thresholds: qwen<={SMALL_THRESHOLD:,}  lite<={MID_THRESHOLD:,}  "
+          f"mid<={LARGE_THRESHOLD:,}  large=rest")
+    print(f"Gemini large: {GEMINI_LARGE_TIER}")
+    print(f"Gemini mid  : {GEMINI_MID_TIER}")
+    print(f"Gemini lite : {GEMINI_LITE_TIER}")
 
     if args.dry_run:
         return
 
-    # ── Build priority queues ───────────────────────────────────────
-    qwen_q   = PriorityJobQueue()
-    gemini_q = PriorityJobQueue()
+    # ── Build separate queues per tier ─────────────────────────────
+    q_large  = PriorityJobQueue()
+    q_mid    = PriorityJobQueue()
+    q_lite   = PriorityJobQueue()
+    q_qwen_a = PriorityJobQueue()
+    q_qwen_b = PriorityJobQueue()
 
     for idx, job in enumerate(all_jobs, 1):
-        job["idx"]   = idx
-        job["total"] = total
+        job["idx"] = idx
         size = job["filtered_size"]
-        if job["preferred_model"] == "qwen":
-            qwen_q.put(+size, job)     # smallest first
+        tier = job["tier"]
+        if tier == "large":
+            q_large.put(-size, job)    # largest first
+        elif tier == "mid":
+            q_mid.put(-size, job)
+        elif tier == "lite":
+            q_lite.put(-size, job)
         else:
-            gemini_q.put(-size, job)   # largest first
+            # Split between Qwen hosts:
+            # tiny files (≤ QWEN_B_MAX_SIZE) go to slow host B
+            # larger qwen files go to fast host A
+            if size <= QWEN_B_MAX_SIZE:
+                q_qwen_b.put(+size, job)
+            else:
+                q_qwen_a.put(+size, job)
 
     # ── Launch workers ──────────────────────────────────────────────
     t_start = time.time()
     threads = []
+    all_queues = [q_large, q_mid, q_lite, q_qwen_a, q_qwen_b]
 
-    # Assign Qwen hosts to workers in round-robin
-    for i in range(args.qwen_workers):
-        host = OLLAMA_HOSTS[i % len(OLLAMA_HOSTS)]
-        t = threading.Thread(
-            target=worker_loop,
-            args=(qwen_q, f"qwen-{i+1}@{host.split('/')[-1]}", total),
-            kwargs={"qwen_host": host},
-            daemon=True,
-        )
+    for i in range(args.large_workers):
+        t = threading.Thread(target=gemini_worker_loop,
+                             args=(q_large, f"large-{i+1}"), daemon=True)
         t.start(); threads.append(t)
 
-    for i in range(args.gemini_workers):
-        t = threading.Thread(
-            target=worker_loop,
-            args=(gemini_q, f"gemini-{i+1}", total),
-            kwargs={"qwen_host": None},  # Gemini workers pick host at fallback time
-            daemon=True,
-        )
+    for i in range(args.mid_workers):
+        t = threading.Thread(target=gemini_worker_loop,
+                             args=(q_mid, f"mid-{i+1}"), daemon=True)
+        t.start(); threads.append(t)
+
+    for i in range(args.lite_workers):
+        t = threading.Thread(target=gemini_worker_loop,
+                             args=(q_lite, f"lite-{i+1}"), daemon=True)
+        t.start(); threads.append(t)
+
+    # Qwen A: handles medium qwen files; re-routes oversized → lite
+    for i in range(args.qwen_a_workers):
+        t = threading.Thread(target=qwen_worker_loop,
+                             args=(q_qwen_a, f"qwen-a-{i+1}",
+                                   OLLAMA_HOST_A, QWEN_A_MAX_SIZE, q_lite),
+                             daemon=True)
+        t.start(); threads.append(t)
+
+    # Qwen B: handles tiny files; re-routes oversized → host A queue
+    for i in range(args.qwen_b_workers):
+        t = threading.Thread(target=qwen_worker_loop,
+                             args=(q_qwen_b, f"qwen-b-{i+1}",
+                                   OLLAMA_HOST_B, QWEN_B_MAX_SIZE, q_qwen_a),
+                             daemon=True)
         t.start(); threads.append(t)
 
     # ── Wait for completion ─────────────────────────────────────────
@@ -766,28 +776,27 @@ def main():
     while True:
         with _done_lock:
             done = _done_count
-        if done >= total:
+        if done >= _total:
             break
-        # Also print stats periodically by time (every 2 min)
         if time.time() - last_stats > 120:
             _log(health.model_stats_table())
             last_stats = time.time()
         time.sleep(1)
 
-    qwen_q.close()
-    gemini_q.close()
+    for q in all_queues:
+        q.close()
     for t in threads:
         t.join(timeout=10)
 
     elapsed = time.time() - t_start
-    print(f"\n{'─'*62}")
-    print(f"Done in {elapsed/60:.1f} min — {_done_count}/{total} processed")
+    print(f"\n{'─'*65}")
+    print(f"Done in {elapsed/60:.1f} min — {_done_count}/{_total} processed")
     print(health.status_line())
     print(health.model_stats_table())
     print(f"Output in '{OUTPUT_ROOT}/'")
 
 
-def parse_chunks(chk_content: str) -> list[str]:
+def parse_chunks(chk_content: str) -> list:
     return [p.strip() for p in chk_content.split("---CHUNK---") if p.strip()]
 
 

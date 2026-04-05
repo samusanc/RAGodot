@@ -1,0 +1,17 @@
+Document: VisualShaderNodeScreenNormalWorldSpace
+Path: godot/classes/class_visualshadernodescreennormalworldspace.rst
+Summary: Class reference for VisualShaderNodeScreenNormalWorldSpace, a visual shader node in Godot Engine.
+---CHUNK---
+Document: VisualShaderNodeScreenNormalWorldSpace  
+Path: godot/classes/class_visualshadernodescreennormalworldspace.rst  
+Summary: A visual shader node that unpacks the screen normal texture in World Space.  
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object  
+A visual shader node that unpacks the screen normal texture in World Space.
+---CHUNK---
+Document: VisualShaderNodeScreenNormalWorldSpace
+Path: godot/classes/class_visualshadernodescreennormalworldspace.rst
+Summary: A VisualShader node that generates screen space normal data for creating outline effects.
+
+Description
+The ScreenNormalWorldSpace node allows to create outline effects.

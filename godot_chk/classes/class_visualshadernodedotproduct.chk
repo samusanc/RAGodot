@@ -1,0 +1,13 @@
+Document: VisualShaderNodeDotProduct
+Path: godot/classes/class_visualshadernodedotproduct.rst
+Summary: A shader node that calculates the dot product of two vectors in Godot's visual shader language.
+---CHUNK---
+Document: VisualShaderNodeDotProduct
+Path: godot/classes/class_visualshadernodedotproduct.rst
+Summary: Calculates a dot product of two vectors within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeDotProduct
+Path: godot/classes/class_visualshadernodedotproduct.rst
+Summary: Represents the dot product operation in shaders, translating to the "dot(a, b)" function.

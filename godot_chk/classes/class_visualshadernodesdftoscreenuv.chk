@@ -1,0 +1,17 @@
+Document: VisualShaderNodeSDFToScreenUV
+Path: godot/classes/class_visualshadernodesdftoscreenuv.rst
+Summary: No description available in the source.
+---CHUNK---
+Document: VisualShaderNodeSDFToScreenUV
+Path: godot/classes/class_visualshadernodesdftoscreenuv.rst
+Summary: A function to convert an SDF (signed-distance field) to screen UV coordinates for use in visual shader graphs.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A function to convert an SDF (signed-distance field) to screen UV, to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeSdfToScreenUv
+Path: godot/classes/class_visualshadernodesdftoscreenuv.rst
+Summary: Translates to sdf_to_screen_uv(sdf_pos) in the shader language for converting SDF positions to screen UV coordinates.
+
+Description
+Translates to ``sdf_to_screen_uv(sdf_pos)`` in the shader language.

@@ -1,0 +1,17 @@
+Document: JointLimitation3D  
+Path: godot/classes/class_jointlimitation3d.rst  
+Summary: Class JointLimitation3D provides 3D joint limitation functionality for physics constraints.
+---CHUNK---
+Document: JointLimitation3D
+Path: godot/classes/class_jointlimitation3d.rst
+Summary: Base class for joint limitations used in 3D inverse kinematics with ChainIK3D
+
+Inherits: Resource < RefCounted < Object
+Inherited By: JointLimitationCone3D
+A base class of the limitation that interacts with ChainIK3D.
+---CHUNK---
+Document: ClassJointLimitation3D
+Path: godot/classes/class_jointlimitation3d.rst
+Summary: Imposes rotational constraints on bones via joint attachments in 3D space.
+
+The limitation is attached to each joint and limits the rotation of the bone.
