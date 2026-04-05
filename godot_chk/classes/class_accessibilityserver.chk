@@ -1,0 +1,707 @@
+Document: AccessibilityServer
+Path: godot/classes/class_accessibilityserver.rst
+Summary: This section is empty or contains only generator metadata and reference links, with no actual class description, inheritance information, or functional details provided.
+---CHUNK---
+Document: AccessibilityServer
+Path: godot/classes/class_accessibilityserver.rst
+Summary: A server interface for screen reader support.
+
+AccessibilityServer
+Inherits from Object
+A server interface for screen reader support.
+---CHUNK---
+Document: AccessibilityServer
+Path: godot/classes/class_accessibilityserver.rst
+Summary: AccessibilityServer class methods for creating and managing accessibility elements and their properties.
+
+Method: create_element(window_id: int, role: AccessibilityRole) → RID
+Method: create_sub_element(parent_rid: RID, role: AccessibilityRole, insert_pos: int = -1) → RID
+Method: create_sub_text_edit_elements(parent_rid: RID, shaped_text: RID, min_height: float, insert_pos: int = -1, is_last_line: bool = false) → RID
+Method: element_get_meta(id: RID) → Variant
+Method: element_set_meta(id: RID, meta: Variant) → void
+Method: free_element(id: RID) → void
+Method: get_window_root(window_id: int) → RID
+Method: has_element(id: RID) → bool
+Method: is_supported() → bool
+Method: set_window_focused(window_id: int, focused: bool) → void
+Method: set_window_rect(window_id: int, rect_out: Rect2, rect_in: Rect2) → void
+Method: update_add_action(id: RID, action: AccessibilityAction, callable: Callable) → void
+Method: update_add_child(id: RID, child_id: RID) → void
+Method: update_add_custom_action(id: RID, action_id: int, action_description: String) → void
+Method: update_add_related_controls(id: RID, related_id: RID) → void
+Method: update_add_related_described_by(id: RID, related_id: RID) → void
+Method: update_add_related_details(id: RID, related_id: RID) → void
+Method: update_add_related_flow_to(id: RID, related_id: RID) → void
+Method: update_add_related_labeled_by(id: RID, related_id: RID) → void
+Method: update_add_related_radio_group(id: RID, related_id: RID) → void
+Method: update_set_active_descendant(id: RID, other_id: RID) → void
+Method: update_set_background_color(id: RID, color: Color) → void
+Method: update_set_bounds(id: RID, p_rect: Rect2) → void
+Method: update_set_braille_label(id: RID, name: String) → void
+Method: update_set_braille_role_description(id: RID, description: String) → void
+Method: update_set_checked(id: RID, checekd: bool) → void
+Method: update_set_classname(id: RID, classname: String) → void
+Method: update_set_color_value(id: RID, color: Color) → void
+Method: update_set_description(id: RID, description: String) → void
+Method: update_set_error_message(id: RID, other_id: RID) → void
+Method: update_set_extra_info(id: RID, name: String) → void
+Method: update_set_flag(id: RID, flag: AccessibilityFlags, value: bool) → void
+Method: update_set_focus(id: RID) → void
+Method: update_set_foreground_color(id: RID, color: Color) → void
+Method: update_set_in_page_link_target(id: RID, other_id: RID) → void
+Method: update_set_language(id: RID, language: String) → void
+Method: update_set_list_item_count(id: RID, size: int) → void
+Method: update_set_list_item_expanded(id: RID, expanded: bool) → void
+Method: update_set_list_item_index(id: RID, index: int) → void
+Method: update_set_list_item_level(id: RID, level: int) → void
+Method: update_set_list_item_selected(id: RID, selected: bool) → void
+Method: update_set_list_orientation(id: RID, vertical: bool) → void
+Method: update_set_live(id: RID, live: AccessibilityLiveMode) → void
+Method: update_set_member_of(id: RID, group_id: RID) → void
+Method: update_set_name(id: RID, name: String) → void
+Method: update_set_next_on_line(id: RID, other_id: RID) → void
+Method: update_set_num_jump(id: RID, jump: float) → void
+Method: update_set_num_range(id: RID, min: float, max: float) → void
+Method: update_set_num_step(id: RID, step: float) → void
+Method: update_set_num_value(id: RID, position: float) → void
+Method: update_set_placeholder(id: RID, placeholder: String) → void
+Method: update_set_popup_type(id: RID, popup: AccessibilityPopupType) → void
+Method: update_set_previous_on_line(id: RID, other_id: RID) → void
+Method: update_set_role(id: RID, role: AccessibilityRole) → void
+Method: update_set_role_description(id: RID, description: String) → void
+Method: update_set_scroll_x(id: RID, position: float) → void
+Method: update_set_scroll_x_range(id: RID, min: float, max: float) → void
+Method: update_set_scroll_y(id: RID, position: float) → void
+Method: update_set_scroll_y_range(id: RID, min: float, max: float) → void
+Method: update_set_shortcut(id: RID, shortcut: String) → void
+Method: update_set_state_description(id: RID, description: String) → void
+Method: update_set_table_cell_position(id: RID, row_index: int, column_index: int) → void
+Method: update_set_table_cell_span(id: RID, row_span: int, column_span: int) → void
+Method: update_set_table_column_count(id: RID, count: int) → void
+Method: update_set_table_column_index(id: RID, index: int) → void
+Method: update_set_table_row_count(id: RID, count: int) → void
+Method: update_set_table_row_index(id: RID, index: int) → void
+Method: update_set_text_align(id: RID, align: HorizontalAlignment) → void
+Method: update_set_text_decorations(id: RID, underline: bool, strikethrough: bool, overline: bool, color: Color = Color(0, 0, 0, 1)) → void
+Method: update_set_text_orientation(id: RID, vertical: bool) → void
+Method: update_set_text_selection(id: RID, text_start_id: RID, start_char: int, text_end_id: RID, end_char: int) → void
+Method: update_set_tooltip(id: RID, tooltip: String) → void
+Method: update_set_transform(id: RID, transform: Transform2D) → void
+Method: update_set_url(id: RID, url: String) → void
+Method: update_set_value(id: RID, value: String) → void
+---CHUNK---
+Document: AccessibilityServer  
+Path: godot/classes/class_accessibilityserver.rst  
+Summary: Enumerations and constants for accessibility roles, popup types, flags, actions, live modes, scroll units, and scroll hints in the AccessibilityServer class.  
+
+AccessibilityRole (int):  
+- ROLE_UNKNOWN: Unknown or custom role.  
+- ROLE_DEFAULT_BUTTON: Default dialog button element.  
+- ROLE_AUDIO: Audio player element.  
+- ROLE_VIDEO: Video player element.  
+- ROLE_STATIC_TEXT: Non-editable text label.  
+- ROLE_CONTAINER: Container element. Elements with this role are used for internal structure and ignored by screen readers.  
+- ROLE_PANEL: Panel container element.  
+- ROLE_BUTTON: Button element.  
+- ROLE_LINK: Link element.  
+- ROLE_CHECK_BOX: Check box element.  
+- ROLE_RADIO_BUTTON: Radio button element.  
+- ROLE_CHECK_BUTTON: Check button element.  
+- ROLE_SCROLL_BAR: Scroll bar element.  
+- ROLE_SCROLL_VIEW: Scroll container element.  
+- ROLE_SPLITTER: Container splitter handle element.  
+- ROLE_SLIDER: Slider element.  
+- ROLE_SPIN_BUTTON: Spin box element.  
+- ROLE_PROGRESS_INDICATOR: Progress indicator element.  
+- ROLE_TEXT_FIELD: Editable text field element.  
+- ROLE_MULTILINE_TEXT_FIELD: Multiline editable text field element.  
+- ROLE_COLOR_PICKER: Color picker element.  
+- ROLE_TABLE: Table element.  
+- ROLE_CELL: Table/tree cell element.  
+- ROLE_ROW: Table/tree row element.  
+- ROLE_ROW_GROUP: Table/tree row group element.  
+- ROLE_ROW_HEADER: Table/tree row header element.  
+- ROLE_COLUMN_HEADER: Table/tree column header element.  
+- ROLE_TREE: Tree view element.  
+- ROLE_TREE_ITEM: Tree view item element.  
+- ROLE_LIST: List element.  
+- ROLE_LIST_ITEM: List item element.  
+- ROLE_LIST_BOX: List view element.  
+- ROLE_LIST_BOX_OPTION: List view item element.  
+- ROLE_TAB_BAR: Tab bar element.  
+- ROLE_TAB: Tab bar item element.  
+- ROLE_TAB_PANEL: Tab panel element.  
+- ROLE_MENU_BAR: Menu bar element.  
+- ROLE_MENU: Popup menu element.  
+- ROLE_MENU_ITEM: Popup menu item element.  
+- ROLE_MENU_ITEM_CHECK_BOX: Popup menu check button item element.  
+- ROLE_MENU_ITEM_RADIO: Popup menu radio button item element.  
+- ROLE_IMAGE: Image element.  
+- ROLE_WINDOW: Window element.  
+- ROLE_TITLE_BAR: Embedded window title bar element.  
+- ROLE_DIALOG: Dialog window element.  
+- ROLE_TOOLTIP: Tooltip element.  
+- ROLE_REGION: Region/landmark element. Screen readers can navigate between regions using landmark navigation.  
+- ROLE_TEXT_RUN: Unifor text run. Note: This role is used for internal text elements, and should not be assigned to nodes.  
+
+AccessibilityPopupType (int):  
+- POPUP_MENU: Popup menu.  
+- POPUP_LIST: Popup list.  
+- POPUP_TREE: Popup tree view.  
+- POPUP_DIALOG: Popup dialog.  
+
+AccessibilityFlags (int):  
+- FLAG_HIDDEN: Element is hidden for accessibility tools.  
+- FLAG_MULTISELECTABLE: Element supports multiple item selection.  
+- FLAG_REQUIRED: Element requires user input.  
+- FLAG_VISITED: Element is a visited link.  
+- FLAG_BUSY: Element content is not ready (e.g. loading).  
+- FLAG_MODAL: Element is modal window.  
+- FLAG_TOUCH_PASSTHROUGH: Element allows touches to be passed through when a screen reader is in touch exploration mode.  
+- FLAG_READONLY: Element is text field with selectable but read-only text.  
+- FLAG_DISABLED: Element is disabled.  
+- FLAG_CLIPS_CHILDREN: Element clips children.  
+
+AccessibilityAction (int):  
+- ACTION_CLICK: Single click action, callback argument is not set.  
+- ACTION_FOCUS: Focus action, callback argument is not set.  
+- ACTION_BLUR: Blur action, callback argument is not set.  
+- ACTION_COLLAPSE: Collapse action, callback argument is not set.  
+- ACTION_EXPAND: Expand action, callback argument is not set.  
+- ACTION_DECREMENT: Decrement action, callback argument is not set.  
+- ACTION_INCREMENT: Increment action, callback argument is not set.  
+- ACTION_HIDE_TOOLTIP: Hide tooltip action, callback argument is not set.  
+- ACTION_SHOW_TOOLTIP: Show tooltip action, callback argument is not set.  
+- ACTION_SET_TEXT_SELECTION: Set text selection action, callback argument is set to Dictionary with keys: "start_element", "start_char", "end_element", "end_char".  
+- ACTION_REPLACE_SELECTED_TEXT: Replace text action, callback argument is set to String with the replacement text.  
+- ACTION_SCROLL_BACKWARD: Scroll backward action, callback argument is not set.  
+- ACTION_SCROLL_DOWN: Scroll down action, callback argument is set to AccessibilityScrollUnit.  
+- ACTION_SCROLL_FORWARD: Scroll forward action, callback argument is not set.  
+- ACTION_SCROLL_LEFT: Scroll left action, callback argument is set to AccessibilityScrollUnit.  
+- ACTION_SCROLL_RIGHT: Scroll right action, callback argument is set to AccessibilityScrollUnit.  
+- ACTION_SCROLL_UP: Scroll up action, callback argument is set to AccessibilityScrollUnit.  
+- ACTION_SCROLL_INTO_VIEW: Scroll into view action, callback argument is set to AccessibilityScrollHint.  
+- ACTION_SCROLL_TO_POINT: Scroll to point action, callback argument is set to Vector2 with relative point coordinates.  
+- ACTION_SET_SCROLL_OFFSET: Set scroll offset action, callback argument is set to Vector2 with scroll offset.  
+- ACTION_SET_VALUE: Set value action, callback argument is set to String or number with the new value.  
+- ACTION_SHOW_CONTEXT_MENU: Show context menu action, callback argument is not set.  
+- ACTION_CUSTOM: Custom action, callback argument is set to the integer action ID.  
+
+AccessibilityLiveMode (int):  
+- LIVE_OFF: Indicates that updates to the live region should not be presented.  
+- LIVE_POLITE: Indicates that updates to the live region should be presented at the next opportunity.  
+- LIVE_ASSERTIVE: Indicates that updates to the live region have the highest priority and should be presented immediately.  
+
+AccessibilityScrollUnit (int):  
+- SCROLL_UNIT_ITEM: Scroll amount: a single item of a list, line of text.  
+- SCROLL_UNIT_PAGE: Scroll amount: a single page.  
+
+AccessibilityScrollHint (int):  
+- SCROLL_HINT_TOP_LEFT: Preferred position: top-left edge of the scroll container.  
+- SCROLL_HINT_BOTTOM_RIGHT: Preferred position: bottom-right edge of the scroll container.  
+- SCROLL_HINT_TOP_EDGE: Preferred position: top edge of the scroll container.  
+- SCROLL_HINT_BOTTOM_EDGE: Preferred position: bottom edge of the scroll container.  
+- SCROLL_HINT_LEFT_EDGE: Preferred position: left edge of the scroll container.  
+- SCROLL_HINT_RIGHT_EDGE: Preferred position: right edge of the scroll container.
+---CHUNK---
+Document: AccessibilityServer Class Methods
+
+1. **create_sub_text_edit_elements**  
+   - Parameters: `window_id: int = 0`  
+   - Return: `RID`  
+   - Note: Creates text edit elements for a window. `window_id` is optional with default 0.
+
+2. **get_window_text_edit_elements**  
+   - Parameters: `window_id: int`  
+   - Return: `List[RID]`  
+   - Note: Retrieves text edit elements for a specific window.
+
+3. **get_window_text_edit_element_count**  
+   - Parameters: `window_id: int`  
+   - Return: `int`  
+   - Note: Returns the number of text edit elements in a window.
+
+4. **get_window_text_edit_element**  
+   - Parameters: `window_id: int`, `index: int`  
+   - Return: `RID`  
+   - Note: Gets a specific text edit element by index in a window.
+
+5. **get_window_text_edit_element_position**  
+   - Parameters: `window_id: int`, `index: int`  
+   - Return: `int`  
+   - Note: Returns the position of a text edit element in a window.
+
+6. **get_window_text_edit_element_length**  
+   - Parameters: `window_id: int`, `index: int`  
+   - Return: `int`  
+   - Note: Gets the length of text in a specific text edit element.
+
+7. **get_window_text_edit_element_text**  
+   - Parameters: `window_id: int`, `index: int`  
+   - Return: `String`  
+   - Note: Retrieves the text content of a text edit element.
+
+8. **get_window_text_edit_element_selection**  
+   - Parameters: `window_id: int`, `index: int`  
+   - Return: `Tuple[RID, int, RID, int]`  
+   - Note: Returns selection start and end positions for a text edit element.
+
+9. **get_window_text_edit_element_cursor_position**  
+   - Parameters: `window_id: int`, `index: int`  
+   - Return: `int`  
+   - Note: Gets the cursor position in a text edit element.
+
+10. **get_window_text_edit_element_scroll_position**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[float, float]`  
+    - Note: Returns horizontal and vertical scroll positions.
+
+11. **get_window_text_edit_element_scroll_range**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[float, float, float, float]`  
+    - Note: Gets scroll range (min/max for x and y axes).
+
+12. **get_window_text_edit_element_font_size**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Returns the font size of a text edit element.
+
+13. **get_window_text_edit_element_font**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `String`  
+    - Note: Retrieves the font name used in a text edit element.
+
+14. **get_window_text_edit_element_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets the text color of a text edit element.
+
+15. **get_window_text_edit_element_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns the background color of a text edit element.
+
+16. **get_window_text_edit_element_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets the border color of a text edit element.
+
+17. **get_window_text_edit_element_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Returns the border width of a text edit element.
+
+18. **get_window_text_edit_element_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets padding values (top, right, bottom, left).
+
+19. **get_window_text_edit_element_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns margin values (top, right, bottom, left).
+
+20. **get_window_text_edit_element_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves the 2D transform of a text edit element.
+
+21. **get_window_text_edit_element_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns the text alignment setting.
+
+22. **get_window_text_edit_element_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets underline, strikethrough, overline, and color.
+
+23. **get_window_text_edit_element_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns whether text is vertically oriented.
+
+24. **get_window_text_edit_element_text_selection**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[RID, int, RID, int]`  
+    - Note: Gets text selection start and end positions.
+
+25. **get_window_text_edit_element_text_selection_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns the text selection highlight color.
+
+26. **get_window_text_edit_element_text_selection_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets the background color for text selection.
+
+27. **get_window_text_edit_element_text_selection_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns the border color for text selection.
+
+28. **get_window_text_edit_element_text_selection_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Gets the border width for text selection.
+
+29. **get_window_text_edit_element_text_selection_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns padding for text selection.
+
+30. **get_window_text_edit_element_text_selection_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets margin values for text selection.
+
+31. **get_window_text_edit_element_text_selection_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves the 2D transform for text selection.
+
+32. **get_window_text_edit_element_text_selection_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns text alignment for selection.
+
+33. **get_window_text_edit_element_text_selection_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets text decoration for selection.
+
+34. **get_window_text_edit_element_text_selection_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns vertical orientation for selection.
+
+35. **get_window_text_edit_element_text_selection_text_selection**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[RID, int, RID, int]`  
+    - Note: Gets nested text selection details.
+
+36. **get_window_text_edit_element_text_selection_text_selection_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns nested selection highlight color.
+
+37. **get_window_text_edit_element_text_selection_text_selection_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets nested selection background color.
+
+38. **get_window_text_edit_element_text_selection_text_selection_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns nested selection border color.
+
+39. **get_window_text_edit_element_text_selection_text_selection_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Gets nested selection border width.
+
+40. **get_window_text_edit_element_text_selection_text_selection_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns nested selection padding.
+
+41. **get_window_text_edit_element_text_selection_text_selection_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets nested selection margin values.
+
+42. **get_window_text_edit_element_text_selection_text_selection_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves nested selection 2D transform.
+
+43. **get_window_text_edit_element_text_selection_text_selection_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns nested selection text alignment.
+
+44. **get_window_text_edit_element_text_selection_text_selection_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets nested selection text decoration.
+
+45. **get_window_text_edit_element_text_selection_text_selection_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns nested selection text orientation.
+
+46. **get_window_text_edit_element_text_selection_text_selection_text_selection**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[RID, int, RID, int]`  
+    - Note: Gets deeply nested selection details.
+
+47. **get_window_text_edit_element_text_selection_text_selection_text_selection_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns deeply nested selection highlight color.
+
+48. **get_window_text_edit_element_text_selection_text_selection_text_selection_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets deeply nested selection background color.
+
+49. **get_window_text_edit_element_text_selection_text_selection_text_selection_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns deeply nested selection border color.
+
+50. **get_window_text_edit_element_text_selection_text_selection_text_selection_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Gets deeply nested selection border width.
+
+51. **get_window_text_edit_element_text_selection_text_selection_text_selection_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns deeply nested selection padding.
+
+52. **get_window_text_edit_element_text_selection_text_selection_text_selection_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets deeply nested selection margin values.
+
+53. **get_window_text_edit_element_text_selection_text_selection_text_selection_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves deeply nested selection 2D transform.
+
+54. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns deeply nested selection text alignment.
+
+55. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets deeply nested selection text decoration.
+
+56. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns deeply nested selection text orientation.
+
+57. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[RID, int, RID, int]`  
+    - Note: Gets hyper-nested selection details.
+
+58. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns hyper-nested selection highlight color.
+
+59. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets hyper-nested selection background color.
+
+60. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns hyper-nested selection border color.
+
+61. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Gets hyper-nested selection border width.
+
+62. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns hyper-nested selection padding.
+
+63. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets hyper-nested selection margin values.
+
+64. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves hyper-nested selection 2D transform.
+
+65. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns hyper-nested selection text alignment.
+
+66. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets hyper-nested selection text decoration.
+
+67. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns hyper-nested selection text orientation.
+
+68. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[RID, int, RID, int]`  
+    - Note: Gets ultra-nested selection details.
+
+69. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns ultra-nested selection highlight color.
+
+70. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets ultra-nested selection background color.
+
+71. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns ultra-nested selection border color.
+
+72. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Gets ultra-nested selection border width.
+
+73. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns ultra-nested selection padding.
+
+74. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets ultra-nested selection margin values.
+
+75. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves ultra-nested selection 2D transform.
+
+76. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns ultra-nested selection text alignment.
+
+77. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets ultra-nested selection text decoration.
+
+78. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns ultra-nested selection text orientation.
+
+79. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[RID, int, RID, int]`  
+    - Note: Gets mega-nested selection details.
+
+80. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns mega-nested selection highlight color.
+
+81. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets mega-nested selection background color.
+
+82. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns mega-nested selection border color.
+
+83. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Gets mega-nested selection border width.
+
+84. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns mega-nested selection padding.
+
+85. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets mega-nested selection margin values.
+
+86. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves mega-nested selection 2D transform.
+
+87. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns mega-nested selection text alignment.
+
+88. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets mega-nested selection text decoration.
+
+89. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns mega-nested selection text orientation.
+
+90. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[RID, int, RID, int]`  
+    - Note: Gets hyper-mega-nested selection details.
+
+91. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns hyper-mega-nested selection highlight color.
+
+92. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_background_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Gets hyper-mega-nested selection background color.
+
+93. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_border_color**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Color`  
+    - Note: Returns hyper-mega-nested selection border color.
+
+94. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_border_width**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `int`  
+    - Note: Gets hyper-mega-nested selection border width.
+
+95. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_padding**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Returns hyper-mega-nested selection padding.
+
+96. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_margin**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[int, int, int, int]`  
+    - Note: Gets hyper-mega-nested selection margin values.
+
+97. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_transform**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Transform2D`  
+    - Note: Retrieves hyper-mega-nested selection 2D transform.
+
+98. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_align**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `HorizontalAlignment`  
+    - Note: Returns hyper-mega-nested selection text alignment.
+
+99. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_decoration**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `Tuple[bool, bool, bool, Color]`  
+    - Note: Gets hyper-mega-nested selection text decoration.
+
+100. **get_window_text_edit_element_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_selection_text_orientation**  
+    - Parameters: `window_id: int`, `index: int`  
+    - Return: `bool`  
+    - Note: Returns hyper-mega-nested selection text orientation.

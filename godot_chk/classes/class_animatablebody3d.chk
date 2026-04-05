@@ -1,0 +1,46 @@
+Document: AnimatableBody3D
+Path: godot/classes/class_animatablebody3d.rst
+Summary: No description provided in the input.
+---CHUNK---
+Document: AnimatableBody3D
+Path: godot/classes/class_animatablebody3d.rst
+Summary: A 3D physics body that can't be moved by external forces but affects other bodies when moved manually.
+
+AnimatableBody3D inherits from StaticBody3D < PhysicsBody3D < CollisionObject3D < Node3D < Node < Object
+
+A 3D physics body that can't be moved by external forces. When moved manually, it affects other bodies in its path.
+---CHUNK---
+Document: AnimatableBody3D  
+Path: godot/classes/class_animatablebody3d.rst  
+Summary: An animatable 3D physics body that cannot be moved by external forces but can be manually controlled via code, AnimationMixer, or RemoteTransform3D.  
+
+AnimatableBody3D is a 3D physics body designed for objects that require manual movement rather than being influenced by physical forces. It cannot be displaced by collisions or external forces but can be moved programmatically through code, :ref:`AnimationMixer` instances (configured with :ref:`AnimationMixer.callback_mode_process<class_AnimationMixer_property_callback_mode_process>` set to :ref:`AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS<class_AnimationMixer_constant_ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS>`), or via :ref:`RemoteTransform3D` nodes. When moved, the body calculates its linear and angular velocity based on its motion, allowing it to interact with other physics bodies in its path. This behavior makes it suitable for implementing moving platforms, doors, or other dynamic objects that require precise control while maintaining physical interactions. The estimated velocity ensures that other physics bodies respond appropriately to the movement, enabling realistic collisions and motion effects.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_animatablebody3d.rst
+Summary: A list of tutorials and demo projects related to physics in Godot Engine.
+
+- Physics introduction
+- Troubleshooting physics issues
+- 3D Physics Tests Demo (https://godotengine.org/asset-library/asset/2747)
+- Third Person Shooter (TPS) Demo (https://godotengine.org/asset-library/asset/2710)
+- 3D Voxel Demo (https://godotengine.org/asset-library/asset/2755)
+---CHUNK---
+Document: AnimatableBody3D
+Path: godot/classes/class_animatablebody3d.rst
+Summary: Class property definitions with default values and type information
+
+- Property: sync_to_physics (bool): Controls whether the body's animations are synchronized with physics processing. Default: true.
+---CHUNK---
+Document: AnimatableBody3D
+Path: godot/classes/class_animatablebody3d.rst
+Summary: Property sync_to_physics and its behavior for physics synchronization
+
+Property: sync_to_physics (bool) = true
+Controls whether the body's movement is synchronized to the physics frame. Recommended for animation-based movement (e.g., AnimationPlayer). Key Rule: Do not use with PhysicsBody3D.move_and_collide().
+
+Methods:
+- set_sync_to_physics(value: bool)
+- is_sync_to_physics_enabled() → bool
+
+Note: Synchronization ensures smooth integration with physics simulations when using animated movement.

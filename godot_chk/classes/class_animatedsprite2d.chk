@@ -1,0 +1,103 @@
+Document: AnimatedSprite2D
+Path: godot/classes/class_animatedsprite2d.rst
+Summary: No description available in the provided content.
+---CHUNK---
+Document: AnimatedSprite2D
+Path: godot/classes/class_animatedsprite2d.rst
+Summary: Sprite node that contains multiple textures as frames to play for animation.
+
+Inherits: Node2D < CanvasItem < Node < Object
+---CHUNK---
+Document: AnimatedSprite2D
+Path: godot/classes/class_animatedsprite2d.rst
+Summary: AnimatedSprite2D is a node that displays multiple textures as animation frames using a SpriteFrames resource.
+
+AnimatedSprite2D is similar to the Sprite2D node, except it carries multiple textures as animation frames. Animations are created using a SpriteFrames resource, which allows you to import image files (or a folder containing said files) to provide the animation frames for the sprite. The SpriteFrames resource can be configured in the editor via the SpriteFrames bottom panel.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_animatedsprite2d.rst
+Summary: Lists tutorial resources for using AnimatedSprite2D in 2D sprite animation.
+
+2D Sprite animation
+2D Dodge The Creeps Demo (https://godotengine.org/asset-library/asset/2712)
+---CHUNK---
+Document: AnimatedSprite2D
+Path: godot/classes/class_animatedsprite2d.rst
+Summary: Class properties and member variables for AnimatedSprite2D, including animation control, frame settings, and sprite configuration.
+
+- animation (StringName): Default: "&"default""
+- autoplay (String): Default: ""
+- centered (bool): Default: true
+- flip_h (bool): Default: false
+- flip_v (bool): Default: false
+- frame (int): Default: 0
+- frame_progress (float): Default: 0.0
+- offset (Vector2): Default: Vector2(0, 0)
+- speed_scale (float): Default: 1.0
+- sprite_frames (SpriteFrames): Default:
+---CHUNK---
+Document: AnimatedSprite2D  
+Path: godot/classes/class_animatedsprite2d.rst  
+Summary: Methods for controlling animation playback, state, and frame management in AnimatedSprite2D.  
+
+Method: get_playing_speed() → float. Const method. Returns the current playback speed of the animation.  
+Method: is_playing() → bool. Const method. Checks if the animation is currently playing.  
+Method: pause(). Pauses the animation playback.  
+Method: play(name: StringName = "", custom_speed: float = 1.0, from_end: bool = false). Starts playing the specified animation. If name is empty, uses the current animation. custom_speed adjusts the playback speed. from_end starts from the end of the animation if true.  
+Method: play_backwards(name: StringName = ""). Plays the specified animation in reverse. If name is empty, uses the current animation.  
+Method: set_frame_and_progress(frame: int, progress: float). Sets the current frame and progress within the animation.  
+Method: stop(). Stops the animation and resets it to the beginning.
+---CHUNK---
+Document: AnimatedSprite2D  
+Path: godot/classes/class_animatedsprite2d.rst  
+Summary: Properties and member variables of the AnimatedSprite2D class, including animation control, texture manipulation, and frame management.  
+
+animation (StringName): The current animation from the sprite_frames resource. Default: "default". Changing this resets frame and frame_progress. Set/Get: set_animation(value), get_animation().  
+
+autoplay (String): The animation key to play when the scene loads. Default: empty string. Set/Get: set_autoplay(value), get_autoplay().  
+
+centered (bool): If true, texture is centered. Default: true. Note: For pixel art, set to false or enable snap_2d_vertices_to_pixel and snap_2d_transforms_to_pixel in ProjectSettings to avoid deformation. Set/Get: set_centered(value), is_centered().  
+
+flip_h (bool): If true, texture is flipped horizontally. Default: false. Set/Get: set_flip_h(value), is_flipped_h().  
+
+flip_v (bool): If true, texture is flipped vertically. Default: false. Set/Get: set_flip_v(value), is_flipped_v().  
+
+frame (int): The displayed animation frame index. Default: 0. Setting this resets frame_progress. Use set_frame_and_progress() to avoid resetting progress. Set/Get: set_frame(value), get_frame().  
+
+frame_progress (float): Progress between 0.0 and 1.0 for frame transitions. When playing backwards, transitions from 1.0 to 0.0. Default: 0.0. Set/Get: set_frame_progress(value), get_frame_progress().  
+
+offset (Vector2): Texture drawing offset. Default: Vector2(0, 0). Set/Get: set_offset(value), get_offset().  
+
+speed_scale (float): Animation speed scaling ratio. Default: 1.0. Negative values play animation in reverse. Zero stops animation. Set/Get: set_speed_scale(value), get_speed_scale().  
+
+sprite_frames (SpriteFrames): The SpriteFrames resource containing animations. Allows loading, editing, and saving states. Set/Get: set_sprite_frames(value), get_sprite_frames().
+---CHUNK---
+Document: AnimatedSprite2D  
+Path: godot/classes/class_animatedsprite2d.rst  
+Summary: Methods for controlling animation playback, speed, and state in AnimatedSprite2D.  
+
+get_playing_speed() → float  
+Returns the actual playing speed of the current animation or 0 if not playing. This speed is calculated as the speed_scale property multiplied by the custom_speed argument from the play() method. Returns a negative value if the animation is playing backwards.  
+
+is_playing() → bool  
+Returns true if an animation is currently playing, even if speed_scale or custom_speed are 0.  
+
+pause()  
+Pauses the currently playing animation. The frame and frame_progress values are retained. Calling play() or play_backwards() without arguments resumes playback from the current position. See also stop().  
+
+play(name: StringName = "", custom_speed: float = 1.0, from_end: bool = false)  
+Plays the animation with the specified name. If custom_speed is negative and from_end is true, the animation plays backwards (equivalent to play_backwards()). If the same animation name is used or no name is provided, a paused animation resumes.  
+
+play_backwards(name: StringName = "")  
+Plays the animation in reverse. This is a shorthand for play() with custom_speed = -1.0 and from_end = true.  
+
+set_frame_and_progress(frame: int, progress: float)  
+Sets the frame and frame_progress properties to the specified values without resetting frame_progress to 0.0. Example:  
+GDScript:  
+    var current_frame = animated_sprite.get_frame()  
+    var current_progress = animated_sprite.get_frame_progress()  
+    animated_sprite.play("walk_another_skin")  
+    animated_sprite.set_frame_and_progress(current_frame, current_progress)  
+
+stop()  
+Stops the currently playing animation, resetting the position to 0 and custom_speed to 1.0. See also pause().

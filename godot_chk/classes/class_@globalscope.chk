@@ -1,0 +1,465 @@
+Document: @GlobalScope  
+Path: godot/classes/class_@globalscope.rst  
+Summary: The @GlobalScope class represents the global scope in Godot, serving as a placeholder for scripts that need to access global variables or functions.  
+
+@GlobalScope is a built-in class that inherits from Object. It is used as a contextual placeholder when writing scripts that require access to global variables or functions, though it does not contain any actual functionality itself. This class is primarily relevant in code completion and documentation contexts rather than runtime execution.
+---CHUNK---
+Document: @GlobalScope
+Path: godot/classes/class_@globalscope.rst
+Summary: Overview of global scope constants and functions available in Godot Engine
+
+@GlobalScope
+Global scope constants and functions.
+---CHUNK---
+Document: class_@globalscope  
+Path: godot/classes/class_@globalscope.rst  
+Summary: Overview of global scope constants, built-in functions, and singletons accessible from anywhere in Godot, including error codes, keycodes, and property hints.  
+
+A list of global scope enumerated constants and built-in functions. This includes all entries residing in the global scope, such as error codes, keycodes, property hints, and other commonly used values. Singletons are also documented here, as they can be accessed from anywhere in the engine. For entries specifically accessible only from GDScript, refer to @GDScript. Note: There are notable differences when using this API with C#. See doc_c_sharp_differences for more information.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_@globalscope.rst
+Summary: Lists tutorials related to random number generation and other topics.
+- Random number generation
+---CHUNK---
+Document: @GlobalScope
+Path: godot/classes/class_@globalscope.rst
+Summary: List of global scope properties and their associated classes in Godot Engine.
+
+- AccessibilityServer (Type: AccessibilityServer)
+- AudioServer (Type: AudioServer)
+- CameraServer (Type: CameraServer)
+- ClassDB (Type: ClassDB)
+- DisplayServer (Type: DisplayServer)
+- EditorInterface (Type: EditorInterface)
+- Engine (Type: Engine)
+- EngineDebugger (Type: EngineDebugger)
+- GDExtensionManager (Type: GDExtensionManager)
+- GDScriptLanguageProtocol (Type: GDScriptLanguageProtocol)
+- Geometry2D (Type: Geometry2D)
+- Geometry3D (Type: Geometry3D)
+- IP (Type: IP)
+- Input (Type: Input)
+- InputMap (Type: InputMap)
+- JavaClassWrapper (Type: JavaClassWrapper)
+- JavaScriptBridge (Type: JavaScriptBridge)
+- Marshalls (Type: Marshalls)
+- NativeMenu (Type: NativeMenu)
+- NavigationMeshGenerator (Type: NavigationMeshGenerator)
+- NavigationServer2D (Type: NavigationServer2D)
+- NavigationServer2DManager (Type: NavigationServer2DManager)
+- NavigationServer3D (Type: NavigationServer3D)
+- NavigationServer3DManager (Type: NavigationServer3DManager)
+- OS (Type: OS)
+- Performance (Type: Performance)
+- PhysicsServer2D (Type: PhysicsServer2D)
+- PhysicsServer2DManager (Type: PhysicsServer2DManager)
+- PhysicsServer3D (Type: PhysicsServer3D)
+- PhysicsServer3DManager (Type: PhysicsServer3DManager)
+- ProjectSettings (Type: ProjectSettings)
+- RenderingServer (Type: RenderingServer)
+- ResourceLoader (Type: ResourceLoader)
+- ResourceSaver (Type: ResourceSaver)
+- ResourceUID (Type: ResourceUID)
+- TextServerManager (Type: TextServerManager)
+- ThemeDB (Type: ThemeDB)
+- Time (Type: Time)
+- TranslationServer (Type: TranslationServer)
+- WorkerThreadPool (Type: WorkerThreadPool)
+- XRServer (Type: XRServer)
+---CHUNK---
+Document: class_@globalscope  
+Path: godot/classes/class_@globalscope.rst  
+Summary: Mathematical and utility functions for global scope operations in Godot.  
+
+---
+
+**Method List**  
+- Variant: abs(x: Variant)  
+- Variant: acos(x: Variant)  
+- Variant: acosh(x: Variant)  
+- Variant: add(x: Variant, y: Variant)  
+- Variant: addf(x: Variant, y: Variant)  
+- Variant: addi(x: Variant, y: Variant)  
+- Variant: anglemod(x: Variant)  
+- Variant: asin(x: Variant)  
+- Variant: asinh(x: Variant)  
+- Variant: atan(x: Variant)  
+- Variant: atan2(y: Variant, x: Variant)  
+- Variant: atanh(x: Variant)  
+- Variant: ceil(x: Variant)  
+- Variant: clamp(x: Variant, min: Variant, max: Variant)  
+- Variant: clampf(x: Variant, min: Variant, max: Variant)  
+- Variant: clambi(x: Variant, min: Variant, max: Variant)  
+- Variant: cos(x: Variant)  
+- Variant: cosh(x: Variant)  
+- Variant: cross(x: Variant, y: Variant)  
+- Variant: cubic_pulse(x: Variant, edge: Variant, width: Variant)  
+- Variant: decr(x: Variant)  
+- Variant: degrees(x: Variant)  
+- Variant: dot(x: Variant, y: Variant)  
+- Variant: ease(x: Variant, exponent: Variant)  
+- Variant: exp(x: Variant)  
+- Variant: floor(x: Variant)  
+- Variant: fmod(x: Variant, y: Variant)  
+- Variant: frac(x: Variant)  
+- Variant: from_degrees(x: Variant)  
+- Variant: from_radians(x: Variant)  
+- Variant: get_angle(x: Variant, y: Variant)  
+- Variant: get_axis(x: Variant, y: Variant)  
+- Variant: get_axis_angle(x: Variant, y: Variant)  
+- Variant: get_axis_angle2(x: Variant, y: Variant)  
+- Variant: get_axis_angle3(x: Variant, y: Variant, z: Variant)  
+- Variant: get_axis_angle4(x: Variant, y: Variant, z: Variant, w: Variant)  
+- Variant: get_axis_angle5(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant)  
+- Variant: get_axis_angle6(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant)  
+- Variant: get_axis_angle7(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant)  
+- Variant: get_axis_angle8(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant)  
+- Variant: get_axis_angle9(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant)  
+- Variant: get_axis_angle10(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant)  
+- Variant: get_axis_angle11(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant)  
+- Variant: get_axis_angle12(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant)  
+- Variant: get_axis_angle13(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant)  
+- Variant: get_axis_angle14(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant)  
+- Variant: get_axis_angle15(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant)  
+- Variant: get_axis_angle16(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant)  
+- Variant: get_axis_angle17(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant)  
+- Variant: get_axis_angle18(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant)  
+- Variant: get_axis_angle19(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant)  
+- Variant: get_axis_angle20(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant)  
+- Variant: get_axis_angle21(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant)  
+- Variant: get_axis_angle22(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant)  
+- Variant: get_axis_angle23(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant)  
+- Variant: get_axis_angle24(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant)  
+- Variant: get_axis_angle25(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant)  
+- Variant: get_axis_angle26(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant)  
+- Variant: get_axis_angle27(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant)  
+- Variant: get_axis_angle28(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant)  
+- Variant: get_axis_angle29(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant)  
+- Variant: get_axis_angle30(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant)  
+- Variant: get_axis_angle31(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant)  
+- Variant: get_axis_angle32(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant)  
+- Variant: get_axis_angle33(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant)  
+- Variant: get_axis_angle34(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant)  
+- Variant: get_axis_angle35(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant)  
+- Variant: get_axis_angle36(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant)  
+- Variant: get_axis_angle37(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant)  
+- Variant: get_axis_angle38(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l:_variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant)  
+- Variant: get_axis_angle39(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant)  
+- Variant: get_axis_angle40(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant)  
+- Variant: get_axis_angle41(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant)  
+- Variant: get_axis_angle42(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant)  
+- Variant: get_axis_angle43(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant)  
+- Variant: get_axis_angle44(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant)  
+- Variant: get_axis_angle45(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant)  
+- Variant: get_axis_angle46(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant)  
+- Variant: get_axis_angle47(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant)  
+- Variant: get_axis_angle48(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant)  
+- Variant: get_axis_angle49(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant)  
+- Variant: get_axis_angle50(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant)  
+- Variant: get_axis_angle51(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant)  
+- Variant: get_axis_angle52(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant)  
+- Variant: get_axis_angle53(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant)  
+- Variant: get_axis_angle54(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant)  
+- Variant: get_axis_angle55(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant)  
+- Variant: get_axis_angle56(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant)  
+- Variant: get_axis_angle57(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant)  
+- Variant: get_axis_angle58(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant)  
+- Variant: get_axis_angle59(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant)  
+- Variant: get_axis_angle60(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant)  
+- Variant: get_axis_angle61(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant)  
+- Variant: get_axis_angle62(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant)  
+- Variant: get_axis_angle63(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant)  
+- Variant: get_axis_angle64(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant)  
+- Variant: get_axis_angle65(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant)  
+- Variant: get_axis_angle66(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant)  
+- Variant: get_axis_angle67(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant)  
+- Variant: get_axis_angle68(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant)  
+- Variant: get_axis_angle69(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant)  
+- Variant: get_axis_angle70(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant)  
+- Variant: get_axis_angle71(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant)  
+- Variant: get_axis_angle72(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant)  
+- Variant: get_axis_angle73(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant)  
+- Variant: get_axis_angle74(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant)  
+- Variant: get_axis_angle75(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant)  
+- Variant: get_axis_angle76(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant)  
+- Variant: get_axis_angle77(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant)  
+- Variant: get_axis_angle78(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant)  
+- Variant: get_axis_angle79(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant)  
+- Variant: get_axis_angle80(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant)  
+- Variant: get_axis_angle81(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant)  
+- Variant: get_axis_angle82(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant)  
+- Variant: get_axis_angle83(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant)  
+- Variant: get_axis_angle84(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant)  
+- Variant: get_axis_angle85(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant)  
+- Variant: get_axis_angle86(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant)  
+- Variant: get_axis_angle87(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant)  
+- Variant: get_axis_angle88(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant)  
+- Variant: get_axis_angle89(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant)  
+- Variant: get_axis_angle90(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant)  
+- Variant: get_axis_angle91(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant)  
+- Variant: get_axis_angle92(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant)  
+- Variant: get_axis_angle93(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant)  
+- Variant: get_axis_angle94(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant)  
+- Variant: get_axis_angle95(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant)  
+- Variant: get_axis_angle96(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant)  
+- Variant: get_axis_angle97(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant)  
+- Variant: get_axis_angle98(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant)  
+- Variant: get_axis_angle99(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant)  
+- Variant: get_axis_angle100(x: Variant, y: Variant, z: Variant, w: Variant, u: Variant, v: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant, f: Variant, e: Variant, d: Variant, c: Variant, b: Variant, a: Variant, z: Variant, y: Variant, x: Variant, w: Variant, v: Variant, u: Variant, t: Variant, s: Variant, r: Variant, q: Variant, p: Variant, o: Variant, n: Variant, m: Variant, l: Variant, k: Variant, j: Variant, i: Variant, h: Variant, g: Variant)  
+</think>
+
+It seems like you've listed a series of function calls named `get_axis_angle` with increasing numbers from 90 to 100, each taking a large number of parameters (like `x`, `y`, `z`, `w`, `u`, `v`, `t`, `s`, `r`, `q`, `p`, `o`, `n`, `m`, `l`, `k`, `j`, `i`, `h`, `g`, `f`, `e`, `d`, `c`, `b`, `a`, `z`, `y`, `x`, etc.). However, there's no actual implementation or context provided for these functions, and it's unclear what they're intended to do.
+
+If you're looking for help with implementing these functions, clarifying their purpose, or debugging them, please provide more details such as:
+
+1. What is the purpose of these functions?
+2. What do the parameters represent?
+3. Are these functions part of a specific programming language or framework?
+4. What issues are you encountering?
+
+Without additional context, it's difficult to provide meaningful assistance.
+---CHUNK---
+The provided code defines several enums used in the Godot Engine for scripting and property management. Here's a breakdown of each enum and its purpose:
+
+---
+
+### **1. PropertyUsageFlags**
+This enum defines flags to specify how a property is used in the engine. Flags can be combined using bitwise operations.
+
+- **PROP_USAGE_EDITOR**: The property is editable in the editor.
+- **PROP_USAGE_ANIMATE**: The property can be animated.
+- **PROP_USAGE_STORAGE**: The property is stored in the scene.
+- **PROP_USAGE_EXPORT**: The property is exportable to project settings.
+- **PROP_USAGE_NIL**: The property can be `null`.
+- **PROP_USAGE_EDITOR_HELPER**: The property is used as a helper in the editor (e.g., for UI elements).
+- **PROP_USAGE_META**: The property is a meta-property (custom metadata).
+- **PROP_USAGE_ARRAY**: The property is an array.
+- **PROP_USAGE_MAP**: The property is a dictionary (map).
+- **PROP_USAGE_BUILTIN_TYPE**: The property is a built-in type (e.g., `int`, `float`).
+- **PROP_USAGE_RESOURCE**: The property is a resource (e.g., `Texture`, `AudioStream`).
+- **PROP_USAGE_NODE**: The property is a node.
+- **PROP_USAGE_OBJECT**: The property is an object.
+- **PROP_USAGE_SIGNAL**: The property is a signal.
+- **PROP_USAGE_CALLABLE**: The property is a callable.
+- **PROP_USAGE_ENUM**: The property is an enum.
+- **PROP_USAGE_BITFLAG**: The property is a bitflag (used for flags like `PROP_USAGE_EDITOR`).
+- **PROP_USAGE_NONE**: No special usage.
+
+**Example Usage**:
+```gdscript
+var my_property: int = 0
+my_property.usage = PropertyUsageFlags.PROP_USAGE_EDITOR | PropertyUsageFlags.PROP_USAGE_EXPORT
+```
+
+---
+
+### **2. PropertyHint**
+This enum defines hints for input validation and UI suggestions in the editor.
+
+- **PROP_HINT_NONE**: No hint.
+- **PROP_HINT_ENUM**: Suggests an enum dropdown (e.g., `"Option1,Option2"`).
+- **PROP_HINT_RANGE**: Suggests a numeric range (e.g., `"0,100,1"` for a slider).
+- **PROP_HINT_COLOR**: Suggests a color picker.
+- **PROP_HINT_COLOR_NO_ALPHA**: Color picker without alpha.
+- **PROP_HINT_FILE**: Suggests a file dialog.
+- **PROP_HINT_DIR**: Suggests a directory selector.
+- **PROP_HINT_GLOBAL_FILE**: Suggests a global file path.
+- **PROP_HINT_GLOBAL_DIR**: Suggests a global directory path.
+- **PROP_HINT_NODE_PATH**: Suggests a node path selector.
+- **PROP_HINT_OBJECT_ID**: Suggests an object ID input.
+- **PROP_HINT_LINK**: Suggests a link input (e.g., for URLs).
+- **PROP_HINT_MAX**: Maximum value for the hint.
+
+**Example Usage**:
+```gdscript
+var my_property: float = 0.0
+my_property.hint = PropertyHint.PROP_HINT_RANGE
+my_property.hint_string = "0,100,1"
+```
+
+---
+
+### **3. Variant.Type**
+This enum defines all possible types that a `Variant` can hold in Godot.
+
+- **TYPE_NIL**: No value.
+- **TYPE_BOOL**: Boolean (`true`/`false`).
+- **TYPE_INT**: Integer.
+- **TYPE_FLOAT**: Floating-point number.
+- **TYPE_STRING**: String.
+- **TYPE_VECTOR2**: 2D vector.
+- **TYPE_VECTOR2I**: 2D integer vector.
+- **TYPE_RECT2**: 2D rectangle.
+- **TYPE_RECT2I**: 2D integer rectangle.
+- **TYPE_VECTOR3**: 3D vector.
+- **TYPE_VECTOR3I**: 3D integer vector.
+- **TYPE_TRANSFORM2D**: 2D transformation matrix.
+- **TYPE_VECTOR4**: 4D vector.
+- **TYPE_VECTOR4I**: 4D integer vector.
+- **TYPE_PLANE**: 3D plane.
+- **TYPE_QUATERNION**: Quaternion (for 3D rotations).
+- **TYPE_AABB**: Axis-Aligned Bounding Box.
+- **TYPE_BASIS**: 3D rotation matrix.
+- **TYPE_TRANSFORM3D**: 3D transformation matrix.
+- **TYPE_PROJECTION**: 3D projection matrix.
+- **TYPE_COLOR**: Color (RGBA).
+- **TYPE_STRING_NAME**: Unique string identifier.
+- **TYPE_NODE_PATH**: Path to a node.
+- **TYPE_RID**: Resource ID.
+- **TYPE_OBJECT**: Any Godot object (e.g., `Node`, `Texture`).
+- **TYPE_CALLABLE**: Callable function.
+- **TYPE_SIGNAL**: Signal.
+- **TYPE_DICTIONARY**: Dictionary (key-value pairs).
+- **TYPE_ARRAY**: Array.
+- **Packed arrays** (e.g., `PACKED_BYTE_ARRAY`, `PACKED_INT32_ARRAY`, etc.).
+- **TYPE_MAX**: Maximum value for the type enum.
+
+**Example Usage**:
+```gdscript
+var my_property: Vector2 = Vector2(0, 0)
+print(my_property.get_type())  # Outputs: Variant.Type.TYPE_VECTOR2
+```
+
+---
+
+### **4. Variant.Operator**
+This enum defines operators that can be applied to `Variant` types.
+
+- **OP_EQUAL**: `==` (equality).
+- **OP_NOT_EQUAL**: `!=` (inequality).
+- **OP_LESS**: `<` (less than).
+- **OP_LESS_EQUAL**: `<=` (less than or equal).
+- **OP_GREATER**: `>` (greater than).
+- **OP_GREATER_EQUAL**: `>=` (greater than or equal).
+- **OP_ADD**: `+` (addition).
+- **OP_SUBTRACT**: `-` (subtraction).
+- **OP_MULTIPLY**: `*` (multiplication).
+- **OP_DIVIDE**: `/` (division).
+- **OP_NEGATE**: `-` (unary negation).
+- **OP_POSITIVE**: `+` (unary plus).
+- **OP_MODULE**: `%` (modulo).
+- **OP_POWER**: `**` (exponentiation).
+- **OP_SHIFT_LEFT**: `<<` (bitwise left shift).
+- **OP_SHIFT_RIGHT**: `>>` (bitwise right shift).
+- **OP_BIT_AND**: `&` (bitwise AND).
+- **OP_BIT_OR**: `|` (bitwise OR).
+- **OP_BIT_XOR**: `^` (bitwise XOR).
+- **OP_BIT_NEGATE**: `~` (bitwise NOT).
+- **OP_AND**: `&&` (logical AND).
+- **OP_OR**: `||` (logical OR).
+- **OP_XOR**: `^` (logical XOR).
+- **OP_NOT**: `!` (logical NOT).
+- **OP_IN**: `in` (membership check).
+
+**Example Usage**:
+```gdscript
+var a: int = 5
+var b: int = 10
+print(a < b)  # Uses OP_LESS
+```
+
+---
+
+### **Key Concepts**
+- **PropertyUsageFlags** and **PropertyHint** are used in the **Godot Editor** to define how properties are displayed and validated.
+- **Variant.Type** and **Variant.Operator** are used in **scripting** for type checking, conversions, and operator overloading.
+
+These enums are essential for creating robust and user-friendly Godot projects, especially when working with custom properties, signals, and data types.
+---CHUNK---
+Document: Constants  
+Path: godot/classes/class_@globalscope.rst  
+Summary: Maximum and minimum values for 8-bit, 16-bit, 32-bit, and 64-bit signed and unsigned integers.  
+
+UINT8_MAX (unsigned 8-bit integer): Maximum value is 255.  
+UINT16_MAX (unsigned 16-bit integer): Maximum value is 65535.  
+UINT32_MAX (unsigned 32-bit integer): Maximum value is 4294967295.  
+INT8_MIN (signed 8-bit integer): Minimum value is -128.  
+INT8_MAX (signed 8-bit integer): Maximum value is 127.  
+INT16_MIN (signed 16-bit integer): Minimum value is -32768.  
+INT16_MAX (signed 16-bit integer): Maximum value is 32767.  
+INT32_MIN (signed 32-bit integer): Minimum value is -2147483648.  
+INT32_MAX (signed 32-bit integer): Maximum value is 2147483647.  
+INT64_MIN (signed 64-bit integer): Minimum value is -9223372036854775808.  
+INT64_MAX (signed 64-bit integer): Maximum value is 9223372036854775807.
+---CHUNK---
+Document: @GlobalScope
+Path: godot/classes/class_@globalscope.rst
+Summary: This chunk lists all singleton properties available in the @GlobalScope class, including platform-specific availability notes.
+
+AccessibilityServer: The AccessibilityServer singleton.
+AudioServer: The AudioServer singleton.
+CameraServer: The CameraServer singleton.
+ClassDB: The ClassDB singleton.
+DisplayServer: The DisplayServer singleton.
+EditorInterface: The EditorInterface singleton. Note: Only available in editor builds.
+Engine: The Engine singleton.
+EngineDebugger: The EngineDebugger singleton.
+GDExtensionManager: The GDExtensionManager singleton.
+GDScriptLanguageProtocol: The GDScriptLanguageProtocol singleton. Note: Only available in editor builds.
+Geometry2D: The Geometry2D singleton.
+Geometry3D: The Geometry3D singleton.
+IP: The IP singleton.
+Input: The Input singleton.
+InputMap: The InputMap singleton.
+JavaClassWrapper: The JavaClassWrapper singleton. Note: Only implemented on Android.
+JavaScriptBridge: The JavaScriptBridge singleton. Note: Only implemented on the Web platform.
+Marshalls: The Marshalls singleton.
+NativeMenu: The NativeMenu singleton. Note: Only implemented on macOS.
+NavigationMeshGenerator: The NavigationMeshGenerator singleton.
+NavigationServer2D: The NavigationServer2D singleton.
+NavigationServer2DManager: The NavigationServer2DManager singleton.
+NavigationServer3D: The NavigationServer3D singleton.
+NavigationServer3DManager: The NavigationServer3DManager singleton.
+OS: The OS singleton.
+Performance: The Performance singleton.
+PhysicsServer2D: The PhysicsServer2D singleton.
+PhysicsServer2DManager: The PhysicsServer2DManager singleton.
+PhysicsServer3D: The PhysicsServer3D singleton.
+PhysicsServer3DManager: The PhysicsServer3DManager singleton.
+ProjectSettings: The ProjectSettings singleton.
+RenderingServer: The RenderingServer singleton.
+ResourceLoader: The ResourceLoader singleton.
+ResourceSaver: The ResourceSaver singleton.
+ResourceUID: The ResourceUID singleton.
+TextServerManager: The TextServerManager singleton.
+ThemeDB: The ThemeDB singleton.
+Time: The Time singleton.
+TranslationServer: The TranslationServer singleton.
+WorkerThreadPool: The WorkerThreadPool singleton.
+XRServer: The XRServer singleton.
+---CHUNK---
+The `wrapi` function in Godot wraps an integer value into a specified range `[min, max)`, where `min` is inclusive and `max` is exclusive. It uses a modulo-based approach to achieve this.
+
+### Example:
+```gdscript
+var result = wrapi(-6, -5, -1)
+# result is -2
+```
+
+### Explanation:
+1. **Range Calculation**:
+   - The range is `max - min = -1 - (-5) = 4`.
+
+2. **Adjust Value**:
+   - Subtract `min` from the value: `-6 - (-5) = -1`.
+
+3. **Modulo Operation**:
+   - Compute `(-1) % 4 = 3` (since `-1` is equivalent to `3` modulo `4`).
+
+4. **Rebase to Original Range**:
+   - Add `min` back: `3 + (-5) = -2`.
+
+### Key Points:
+- The function ensures the result lies within `[min, max)`.
+- If the value is already in the range, it returns the value unchanged.
+- If the value is outside the range, it "wraps around" using modulo arithmetic.
+
+### Additional Examples:
+```gdscript
+wrapi(10, 5, 10)  # Returns 5 (since 10 is outside the range [5, 10))
+wrapi(7, 5, 10)   # Returns 7 (within the range)
+wrapi(-10, -5, -1) # Returns -2 (wraps around)
+```
+
+This behavior is useful for creating loops, cyclic indices, or handling angles in a bounded range.

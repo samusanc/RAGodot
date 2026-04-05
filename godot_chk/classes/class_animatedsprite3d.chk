@@ -1,0 +1,102 @@
+Document: AnimatedSprite3D
+Path: godot/classes/class_animatedsprite3d.rst
+Summary: 3D animated sprite node for playing sprite sheet animations in Godot Engine
+
+Key Rule: This class is part of Godot's 3D animation system and inherits from Sprite3D.
+---CHUNK---
+Document: AnimatedSprite3D
+Path: godot/classes/class_animatedsprite3d.rst
+Summary: 2D sprite node in 3D world that can use multiple 2D textures for animation
+
+Inherits: SpriteBase3D < GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+2D sprite node in 3D world, that can use multiple 2D textures for animation.
+---CHUNK---
+Document: AnimatedSprite3D  
+Path: godot/classes/class_animatedsprite3d.rst  
+Summary: AnimatedSprite3D is a node that uses SpriteFrames resources to display animated textures in 3D scenes.  
+
+AnimatedSprite3D is similar to the Sprite3D node, except it carries multiple textures as animation sprite_frames. Animations are created using a SpriteFrames resource, which allows you to import image files (or a folder containing said files) to provide the animation frames for the sprite. The SpriteFrames resource can be configured in the editor via the SpriteFrames bottom panel. AnimatedSprite3D inherits from Sprite3D and extends its functionality by enabling frame-based animations through the SpriteFrames resource. This resource manages the sequence of textures that make up the animation, allowing for smooth transitions between frames. The node does not render a single static texture but instead cycles through the frames defined in the SpriteFrames resource at a specified speed. Key Rule: The SpriteFrames resource must be assigned to the AnimatedSprite3D node for animations to play.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_animatedsprite3d.rst
+Summary: A list of tutorials related to animated sprite functionality in Godot, including a 2D sprite animation guide applicable to 3D.
+
+- 2D Sprite animation (also applies to 3D)
+---CHUNK---
+Document: AnimatedSprite3D
+Path: godot/classes/class_animatedsprite3d.rst
+Summary: Member variables and their default values for the AnimatedSprite3D class
+
+- animation (StringName): The name of the animation to play. Default: &"default"
+- autoplay (String): The name of the animation to autoplay. Default: ""
+- frame (int): The current frame index. Default: 0
+- frame_progress (float): The progress within the current frame. Default: 0.0
+- speed_scale (float): The speed multiplier for animations. Default: 1.0
+- sprite_frames (SpriteFrames): The SpriteFrames resource containing animations. No default value specified.
+---CHUNK---
+Document: AnimatedSprite3D
+Path: godot/classes/class_animatedsprite3d.rst
+Summary: Methods for controlling animation playback, frame management, and state checks in AnimatedSprite3D.
+
+Method: get_playing_speed() → float. Const method. Returns the current playback speed of the animation.
+Method: is_playing() → bool. Const method. Checks if the animation is currently playing.
+Method: pause() → void. Pauses the animation playback.
+Method: play(name: StringName = "", custom_speed: float = 1.0, from_end: bool = false) → void. Starts playing the specified animation. If name is empty, uses the current animation. custom_speed scales playback speed. from_end starts playback from the end of the animation.
+Method: play_backwards(name: StringName = "") → void. Plays the specified animation in reverse. If name is empty, uses the current animation.
+Method: set_frame_and_progress(frame: int, progress: float) → void. Sets the current frame and progress within the animation. Frame is the index of the frame, progress is a value between 0 (start) and 1 (end) of the animation.
+Method: stop() → void. Stops the animation playback and resets to the start frame.
+
+Note: The animation_finished signal is not emitted if an animation is looping.
+---CHUNK---
+Document: AnimatedSprite3D
+Path: godot/classes/class_animatedsprite3d.rst
+Summary: Properties and methods for controlling animation playback and frame management in AnimatedSprite3D.
+
+Property: animation (StringName) = "default"
+Sets the current animation from the sprite_frames resource. Changing this resets the frame counter and frame_progress. Accessors: set_animation(value), get_animation()
+
+Property: autoplay (String) = ""
+Specifies the animation key to play when the scene loads. Accessors: set_autoplay(value), get_autoplay()
+
+Property: frame (int) = 0
+Displays the animation frame at the specified index. Setting this resets frame_progress. For direct frame/progress control, use set_frame_and_progress(). Accessors: set_frame(value), get_frame()
+
+Property: frame_progress (float) = 0.0
+Tracks progress between 0.0 (start of frame) and 1.0 (end of frame). Reverses direction (1.0 to 0.0) when animation plays backwards. Accessors: set_frame_progress(value), get_frame_progress()
+
+Property: speed_scale (float) = 1.0
+Controls animation speed scaling. 1.0 = normal speed, 0.5 = half speed, 2.0 = double speed. Negative values play animation in reverse. Zero stops animation. Accessors: set_speed_scale(value), get_speed_scale()
+
+Property: sprite_frames (SpriteFrames)
+References the SpriteFrames resource containing animations. Allows loading, editing, clearing, and saving SpriteFrames states. Accessors: set_sprite_frames(value), get_sprite_frames()
+---CHUNK---
+Document: AnimatedSprite3D
+Path: godot/classes/class_animatedsprite3d.rst
+Summary: Methods for controlling animation playback, speed, and state in AnimatedSprite3D.
+
+get_playing_speed() → float
+Returns the actual playing speed of current animation or 0 if not playing. This speed is the speed_scale property multiplied by custom_speed argument specified when calling play(). Returns a negative value if the current animation is playing backwards.
+
+is_playing() → bool
+Returns true if an animation is currently playing (even if speed_scale and/or custom_speed are 0).
+
+pause()
+Pauses the currently playing animation. The frame and frame_progress will be kept and calling play() or play_backwards() without arguments will resume the animation from the current playback position. See also stop().
+
+play(name: StringName = "", custom_speed: float = 1.0, from_end: bool = false)
+Plays the animation with key name. If custom_speed is negative and from_end is true, the animation will play backwards (equivalent to play_backwards()). If called with the same animation name or no name parameter, the assigned animation will resume playing if it was paused.
+
+play_backwards(name: StringName = "")
+Plays the animation with key name in reverse. This method is a shorthand for play() with custom_speed = -1.0 and from_end = true.
+
+set_frame_and_progress(frame: int, progress: float)
+Sets frame and frame_progress to the given values. Unlike setting frame, this method does not reset frame_progress to 0.0 implicitly.
+
+GDScript:
+    var current_frame = animated_sprite.get_frame()
+    var current_progress = animated_sprite.get_frame_progress()
+    animated_sprite.play("walk_another_skin")
+    animated_sprite.set_frame_and_progress(current_frame, current_progress)
+
+stop()
+Stops the currently playing animation. The animation position is reset to 0 and the custom_speed is reset to 1.0. See also pause().

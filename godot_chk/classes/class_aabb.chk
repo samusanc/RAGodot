@@ -1,0 +1,169 @@
+Document: AABB
+Path: godot/classes/class_aabb.rst
+Summary: Class reference for AABB in Godot Engine.
+---CHUNK---
+Document: AABB
+Path: godot/classes/class_aabb.rst
+Summary: Represents a 3D axis-aligned bounding box used for spatial calculations and collision detection.
+
+AABB
+A 3D axis-aligned bounding box.
+---CHUNK---
+Document: AABB  
+Path: godot/classes/class_aabb.rst  
+Summary: The AABB class represents a 3D axis-aligned bounding box defined by position and size, used for fast overlap tests.  
+
+The AABB built-in Variant type represents an axis-aligned bounding box in a 3D space. It is defined by its position and size, which are Vector3 values. It is frequently used for fast overlap tests (see intersects()). Although AABB itself is axis-aligned, it can be combined with Transform3D to represent a rotated or skewed bounding box. It uses floating-point coordinates. The 2D counterpart to AABB is Rect2. There is no version of AABB that uses integer coordinates.  
+
+Note: Negative values for size are not supported. With negative size, most AABB methods do not work correctly. Use abs() to get an equivalent AABB with a non-negative size. Key Rule: In a boolean context, an AABB evaluates to false if both position and size are zero (equal to Vector3.ZERO). Otherwise, it always evaluates to true.  
+
+Note: C# API has notable differences; see doc_c_sharp_differences for details.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_aabb.rst
+Summary: Lists tutorials related to math and vector operations in Godot.
+
+- Math documentation index
+- Vector math
+- Advanced vector math
+---CHUNK---
+Document: AABB
+Path: godot/classes/class_aabb.rst
+Summary: Defines the AABB (Axis-Aligned Bounding Box) class properties: end, position, and size, each as Vector3 with default values of (0, 0, 0).
+
+- end (Vector3): Default: Vector3(0, 0, 0)
+- position (Vector3): Default: Vector3(0, 0, 0)
+- size (Vector3): Default: Vector3(0, 0, 0)
+---CHUNK---
+Document: AABB
+Path: godot/classes/class_aabb.rst
+Summary: Constructors for the AABB class, including default, copy, and position-size initialization.
+
+- AABB() → Creates a new AABB with default values.
+- AABB(from: AABB) → Creates a new AABB by copying an existing AABB instance.
+- AABB(position: Vector3, size: Vector3) → Creates a new AABB with specified position and size.
+---CHUNK---
+Document: AABB
+Path: godot/classes/class_aabb.rst
+Summary: Overview of AABB class methods for spatial operations and transformations.
+
+AABB: abs() → const
+bool: encloses(with: AABB) → const
+AABB: expand(to_point: Vector3) → const
+Vector3: get_center() → const
+Vector3: get_endpoint(idx: int) → const
+Vector3: get_longest_axis() → const
+int: get_longest_axis_index() → const
+float: get_longest_axis_size() → const
+Vector3: get_shortest_axis() → const
+int: get_shortest_axis_index() → const
+float: get_shortest_axis_size() → const
+Vector3: get_support(direction: Vector3) → const
+float: get_volume() → const
+AABB: grow(by: float) → const
+bool: has_point(point: Vector3) → const
+bool: has_surface() → const
+bool: has_volume() → const
+AABB: intersection(with: AABB) → const
+bool: intersects(with: AABB) → const
+bool: intersects_plane(plane: Plane) → const
+Variant: intersects_ray(from: Vector3, dir: Vector3) → const
+Variant: intersects_segment(from: Vector3, to: Vector3) → const
+bool: is_equal_approx(aabb: AABB) → const
+bool: is_finite() → const
+AABB: merge(with: AABB) → const
+---CHUNK---
+Document: AABB
+Path: godot/classes/class_aabb.rst
+Summary: Operators for comparing AABB objects and applying transformations.
+
+Operators:
+- bool operator !=(AABB right) - Returns true if the AABB is not equal to the given AABB
+- AABB operator *(Transform3D right) - Returns a new AABB transformed by the given Transform3D
+- bool operator ==(AABB right) - Returns true if the AABB is equal to the given AABB
+
+Key Rule: The != and == operators compare the position and size of two AABB objects. The * operator applies a 3D transformation to the AABB, returning a new transformed AABB.
+---CHUNK---
+Document: AABB  
+Path: godot/classes/class_aabb.rst  
+Summary: Properties of the AABB class (end, position, size) and their relationships, including usage notes and method references.  
+
+- end (Vector3): The ending point. This is usually the corner on the top-right and back of the bounding box, and is equivalent to position + size. Setting this point affects the size property. Default: Vector3(0, 0, 0).  
+
+- position (Vector3): The origin point. This is usually the corner on the bottom-left and forward of the bounding box. Default: Vector3(0, 0, 0).  
+
+- size (Vector3): The bounding box's width, height, and depth starting from position. Setting this value also affects the end point. Default: Vector3(0, 0, 0). Note: It's recommended setting the width, height, and depth to non-negative values. This is because most methods in Godot assume that the position is the bottom-left-forward corner, and the end is the top-right-back corner. To get an equivalent bounding box with non-negative size, use the abs() method.
+---CHUNK---
+Document: AABB
+Path: godot/classes/class_aabb.rst
+Summary: Constructor methods for creating AABB objects with different parameters
+
+Method: AABB() → creates an AABB with position and size set to Vector3.ZERO. The constructed box has no dimensions and is positioned at the origin.
+
+Method: AABB(from: AABB) → creates a copy of the provided AABB instance. The new box shares the same position and size values as the source.
+
+Method: AABB(position: Vector3, size: Vector3) → creates an AABB using the specified position and size parameters. Position defines the box's origin, size determines its dimensions along each axis.
+---CHUNK---
+Document: AABB  
+Path: godot/classes/class_aabb.rst  
+Summary: Overview of AABB class methods for bounding box operations, including expansion, intersection checks, axis retrieval, and volume calculations.  
+
+abs() → AABB. Returns an AABB equivalent to this bounding box with non-negative width, height, and depth. Example: var box = AABB(Vector3(5, 0, 5), Vector3(-20, -10, -5)); var absolute = box.abs(); print(absolute.position) # Prints (-15.0, -10.0, 0.0); print(absolute.size) # Prints (20.0, 10.0, 5.0). Note: Recommended for negative size.  
+
+encloses(with: AABB) → bool. Returns true if this box completely encloses the 'with' box. Edges included. Example: var a = AABB(Vector3(0, 0, 0), Vector3(4, 4, 4)); print(a.encloses(b)) # Prints true.  
+
+expand(to_point: Vector3) → AABB. Returns a copy expanded to align edges with the given point. Example: var box = AABB(Vector3(0, 0, 0), Vector3(5, 2, 5)); box = box.expand(Vector3(10, 0, 0)); print(box.position) # Prints (0.0, 0.0, 0.0); print(box.size) # Prints (10.0, 2.0, 5.0).  
+
+get_center() → Vector3. Returns the center point (position + size/2).  
+
+get_endpoint(idx: int) → Vector3. Returns one of the 8 vertices. idx 0 = position, idx 7 = end.  
+
+get_longest_axis() → Vector3. Returns the longest normalized axis (X, Y, or Z). Example: var box = AABB(Vector3(0, 0, 0), Vector3(2, 4, 8)); print(box.get_longest_axis()) # Prints (0.0, 0.0, 1.0). See also get_longest_axis_index() and get_longest_axis_size().  
+
+get_longest_axis_index() → int. Returns the index (X, Y, or Z) of the longest axis.  
+
+get_longest_axis_size() → float. Returns the longest dimension of size.  
+
+get_shortest_axis() → Vector3. Returns the shortest normalized axis. Example: var box = AABB(Vector3(0, 0, 0), Vector3(2, 4, 8)); print(box.get_shortest_axis()) # Prints (1.0, 0.0, 0.0). See also get_shortest_axis_index() and get_shortest_axis_size().  
+
+get_shortest_axis_index() → int. Returns the index (X, Y, or Z) of the shortest axis.  
+
+get_shortest_axis_size() → float. Returns the shortest dimension of size.  
+
+get_support(direction: Vector3) → Vector3. Returns the vertex farthest in the given direction (used in collision detection).  
+
+get_volume() → float. Returns size.x * size.y * size.z. See also has_volume().  
+
+grow(by: float) → AABB. Returns a copy extended on all sides by 'by'. Negative values shrink. Example: var a = AABB(Vector3(4, 4, 4), Vector3(8, 8, 8)).grow(4); print(a.size) # Prints (16.0, 16.0, 16.0).  
+
+has_point(point: Vector3) → bool. Returns true if the box contains the point. Note: Not reliable for negative size; use abs() first.  
+
+has_surface() → bool. Returns true if at least one size component is > 0.  
+
+has_volume() → bool. Returns true if all size components are positive.  
+
+intersection(with: AABB) → AABB. Returns the overlapping region. If no intersection, returns empty AABB. Example: var intersection = box1.intersection(box2); print(intersection.size) # Prints (3.0, 2.0, 4.0). Note: Use intersects() for overlap checks.  
+
+intersects(with: AABB) → bool. Returns true if boxes overlap (edges excluded).  
+
+intersects_plane(plane: Plane) → bool. Returns true if box is on both sides of the plane.  
+
+intersects_ray(from: Vector3, dir: Vector3) → Variant. Returns first intersection point with ray, or null.  
+
+intersects_segment(from: Vector3, to: Vector3) → Variant. Returns first intersection point with segment, or null.  
+
+is_equal_approx(aabb: AABB) → bool. Returns true if position and size are approximately equal.  
+
+is_finite() → bool. Returns true if position and size are finite.  
+
+merge(with: AABB) → AABB. Returns an AABB enclosing both this and 'with'. See also encloses().
+---CHUNK---
+Document: AABB  
+Path: godot/classes/class_aabb.rst  
+Summary: Operator methods for comparing AABB objects and transforming them with Transform3D matrices.  
+
+Operator != (AABB): Returns true if the position or size of both bounding boxes are not equal. Note: Due to floating-point precision errors, consider using is_equal_approx() instead, which is more reliable.  
+
+Operator * (Transform3D): Inversely transforms (multiplies) the AABB by the given Transform3D matrix, assuming the transformation basis is orthonormal (rotation/reflection allowed, scaling/skew not allowed). "aabb * transform" is equivalent to "transform.inverse() * aabb". For affine transformations (with scaling), use "transform.affine_inverse() * aabb" instead.  
+
+Operator == (AABB): Returns true if both position and size of the bounding boxes are exactly equal. Note: Due to floating-point precision errors, consider using is_equal_approx() instead, which is more reliable.

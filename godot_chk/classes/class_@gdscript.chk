@@ -1,0 +1,298 @@
+Document: @GDScript  
+Path: godot/classes/class_@gdscript.rst  
+Summary: Class @GDScript reference with inheritance details.  
+
+The @GDScript class is a scripting language used in Godot for creating game logic. It inherits from the base class `Object` and provides functionality for defining nodes, handling signals, and interacting with the Godot engine. Key features include support for methods, properties, signals, and access to the node tree.  
+
+GDScript syntax is designed to be simple and readable, with automatic memory management and integration with Godot's scene system. Scripts are attached to nodes and can override node behavior through method definitions. The class supports inheritance, allowing scripts to extend other classes and reuse code.  
+
+Key Rule: All GDScript code must be enclosed within the `@GDScript` class definition.  
+Key Rule: Methods defined in GDScript must use the `func` keyword followed by the method name and parameters.  
+Key Rule: Properties in GDScript are declared using the `var` keyword and can be exported for editor visibility.  
+
+Example GDScript code:  
+GDScript:  
+```gdscript  
+extends Node2D  
+
+var speed = 100  
+
+func _ready():  
+    pass  
+
+func _process(delta):  
+    position += Vector2(speed * delta, 0)  
+```  
+
+This example defines a simple node that moves right across the screen. The `_ready()` method is called when the node is added to the scene, and `_process(delta)` is called every frame to update the node's position.  
+
+The @GDScript class is essential for game development in Godot, enabling rapid prototyping and dynamic behavior through its integration with the engine's systems.
+---CHUNK---
+Document: @GDScript
+Path: godot/classes/class_@gdscript.rst
+Summary: Overview of built-in GDScript constants, functions, and annotations for class definitions.
+
+Built-in GDScript constants, functions, and annotations.
+---CHUNK---
+Document: @gdscript  
+Path: godot/classes/class_@gdscript.rst  
+Summary: Provides utility functions and annotations available in any GDScript script.  
+
+A list of utility functions and annotations accessible from any script written in GDScript. For the list of global functions and constants accessible in any scripting language, see @GlobalScope.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_@gdscript.rst
+Summary: Links to the GDScript exports tutorial.
+GDScript exports
+---CHUNK---
+Document: class_@gdscript  
+Path: godot/classes/class_@gdscript.rst  
+Summary: Built-in GDScript methods for type conversion, debugging, and utility functions.  
+
+Color: Color8(r8: int, g8: int, b8: int, a8: int = 255)  
+void: assert(condition: bool, message: String = "")  
+String: char(code: int)  
+Variant: convert(what: Variant, type: Variant.Type)  
+Object: dict_to_inst(dictionary: Dictionary)  
+Array: get_stack()  
+Dictionary: inst_to_dict(instance: Object)  
+bool: is_instance_of(value: Variant, type: Variant)  
+int: len(var: Variant)  
+Resource: load(path: String)  
+int: ord(char: String)  
+Resource: preload(path: String)  
+void: print_debug(...)  
+void: print_stack()  
+Array: range(...)  
+bool: type_exists(type: StringName)
+---CHUNK---
+Document: class_@gdscript  
+Path: godot/classes/class_@gdscript.rst  
+Summary: Key constants in GDScript, including PI, TAU, INF, and NAN, with their definitions and usage notes.  
+
+PI = 3.14159265358979. Represents the ratio of a circle's circumference to its diameter, equivalent to TAU / 2 or 180 degrees in rotations.  
+
+TAU = 6.28318530717959. The circle constant representing the circumference of the unit circle in radians, equivalent to PI * 2 or 360 degrees in rotations.  
+
+INF = inf. Positive floating-point infinity, resulting from division by 0.0. Negative infinity is -INF. Dividing by -0.0 produces negative infinity if the numerator is positive.  
+
+Warning: Infinity applies only to floating-point numbers. Integer division by zero causes a runtime error, not INF.  
+
+NAN = nan. "Not a Number," an invalid floating-point value resulting from operations like 0.0 / 0.0. NAN comparisons behave uniquely: != always returns true, while == and other operators return false, even when comparing NAN to itself. Use is_nan() to check for NAN.  
+
+Warning: NAN applies only to floating-point numbers. Integer division by zero causes a runtime error, not NAN.  
+
+Key Rule: Floating-point division by zero produces INF or -INF, while integer division by zero triggers a runtime error. NAN comparisons require explicit checks via is_nan().
+---CHUNK---
+### GDScript Annotations Overview
+
+GDScript annotations are used to modify the behavior of classes, variables, and methods in Godot. Below is a structured explanation of key annotations, their purposes, usage examples, and important notes.
+
+---
+
+#### **1. `@export`**
+**Purpose**: Exports a variable to be serialized and stored in scenes/resources.  
+**Usage**:  
+```gdscript
+@export var speed: float = 10.0
+```  
+**Notes**:  
+- Used for variables that need to be editable in the editor and saved with the scene/resource.  
+- Supports types like `int`, `float`, `String`, `Array`, etc.
+
+---
+
+#### **2. `@export_enum`**
+**Purpose**: Exports an enum variable with a dropdown in the editor.  
+**Usage**:  
+```gdscript
+enum MovementType { WALK, RUN, JUMP }
+@export_enum var movement_type: MovementType = MovementType.WALK
+```  
+**Notes**:  
+- Ensures the enum is displayed as a selectable list in the editor.
+
+---
+
+#### **3. `@export_range`**
+**Purpose**: Restricts a numeric variable to a specific range.  
+**Usage**:  
+```gdscript
+@export_range(0, 100, 1, "suffix:px") var health: int = 50
+```  
+**Parameters**:  
+- `min`, `max`: Range limits.  
+- `step`: Increment value (default: 1 for integers).  
+- `extra_hints`: Options like `"exp"` (exponential scaling), `"degrees"`, or `"suffix:unit"`.  
+
+**Notes**:  
+- Useful for sliders, input fields, or values requiring unit suffixes.
+
+---
+
+#### **4. `@export_group` / `@export_subgroup`**
+**Purpose**: Organizes variables into collapsible groups/subgroups in the editor.  
+**Usage**:  
+```gdscript
+@export_group("Player Settings")
+@export var health: int = 100
+@export_subgroup("Movement", "move_")
+@export var speed: float = 5.0
+```  
+**Notes**:  
+- `@export_subgroup` requires a parent `@export_group`.  
+- Use slashes (`/`) for nested subgroups (e.g., `"Movement/Fly"`).
+
+---
+
+#### **5. `@onready`**
+**Purpose**: Assigns a variable when the node is ready (after initialization).  
+**Usage**:  
+```gdscript
+@onready var label = $Label
+```  
+**Notes**:  
+- Useful for accessing child nodes that may not be available during `_init()`.
+
+---
+
+#### **6. `@tool`**
+**Purpose**: Marks a script as a tool script (runs in the editor).  
+**Usage**:  
+```gdscript
+@tool
+extends Node
+```  
+**Notes**:  
+- Must be placed **before** the class definition.  
+- Tool scripts can be used for editor plugins or utilities.
+
+---
+
+#### **7. `@rpc`**
+**Purpose**: Enables remote procedure calls (RPC) for multiplayer.  
+**Usage**:  
+```gdscript
+@rpc("authority", "call_remote", "reliable", 0)
+func update_position(x: float, y: float): pass
+```  
+**Parameters**:  
+- `mode`: `"authority"` (only authority can call) or `"any_peer"`.  
+- `sync`: `"call_local"` or `"call_remote"`.  
+- `transfer_mode`: `"reliable"`, `"unreliable"`, or `"unreliable_ordered"`.  
+- `transfer_channel`: Channel ID (default: 0).  
+
+**Notes**:  
+- Methods annotated with `@rpc` cannot have parameters requiring initialization in `_init()`.
+
+---
+
+#### **8. `@icon`**
+**Purpose**: Adds a custom icon to a script.  
+**Usage**:  
+```gdscript
+@icon("res://icons/player_icon.svg")
+extends Node2D
+```  
+**Notes**:  
+- Must be placed **before** the class definition.  
+- Only supports SVG or PNG files.
+
+---
+
+#### **9. `@warning_ignore` / `@warning_ignore_start` / `@warning_ignore_restore`**
+**Purpose**: Suppresses specific warnings in the editor.  
+**Usage**:  
+```gdscript
+@warning_ignore_start("unused_variable")
+var unused = 42  # No warning
+@warning_ignore_restore("unused_variable")
+```  
+**Notes**:  
+- Use `@warning_ignore` for single lines, `@warning_ignore_start`/`@warning_ignore_restore` for blocks.  
+- Warnings are reset to project settings after `@warning_ignore_restore`.
+
+---
+
+#### **10. `@static_unload`**
+**Purpose**: Makes static variables in a script reset when all references are lost.  
+**Usage**:  
+```gdscript
+@static_unload
+extends Node
+```  
+**Notes**:  
+- Currently, scripts are never unloaded, even with this annotation (due to a bug).
+
+---
+
+### Summary Table
+
+| Annotation       | Purpose                                      | Key Use Case                          |
+|------------------|----------------------------------------------|----------------------------------------|
+| `@export`        | Serialize variables                          | Scene/resource settings                |
+| `@export_enum`   | Dropdown for enums                           | Selectable options in editor           |
+| `@export_range`  | Numeric range with slider                    | Health, speed, position                |
+| `@export_group`  | Group variables in editor                    | Organize properties                    |
+| `@onready`       | Assign variables when node is ready          | Access child nodes                     |
+| `@tool`          | Run script in editor                         | Editor plugins/tools                   |
+| `@rpc`           | Enable multiplayer RPC                       | Networked game functions               |
+| `@icon`          | Custom icon for script                       | Node identification in scene tree      |
+| `@warning_*`     | Suppress warnings                            | Ignore false positives                 |
+| `@static_unload` | Reset static variables on unload             | Script lifecycle management            |
+
+---
+
+These annotations enhance code organization, debugging, and functionality in Godot projects. Use them to streamline development and improve editor usability.
+---CHUNK---
+Document: class_@gdscript  
+Path: godot/classes/class_@gdscript.rst  
+Summary: Overview of deprecated and utility methods in GDScript, including color conversion, assertions, and resource loading.  
+
+Color8(r8: int, g8: int, b8: int, a8: int = 255) → Color  
+Deprecated: Use Color.from_rgba8() instead. Returns a Color from 8-bit integer channels (r8, g8, b8, a8), each divided by 255.0. Useful for matching exact Image color values. Example: Color8(255, 0, 0) equals Color(1, 0, 0). Note: Due to lower precision, Color8() values may not equal those from the standard Color constructor. Use Color.is_equal_approx() for comparisons.  
+
+assert(condition: bool, message: String = "") → void  
+Asserts condition is true; if false, generates an error and pauses the project in the editor. Message provides additional context. Warning: Code inside assert() runs only in debug/editor builds. Example: assert(speed >= 0, "speed limit is 20"). Note: assert() is a keyword, not a function.  
+
+char(code: int) → String  
+Returns a single-character String from a Unicode code point. Inverse of ord(). Example: char(65) → "A", char(129302) → "🤖". See also String.chr() and String.unicode_at().  
+
+convert(what: Variant, type: Variant.Type) → Variant  
+Deprecated: Use type_convert() instead. Converts what to the specified type. Example: convert([4, 2.5, 1.2], TYPE_PACKED_BYTE_ARRAY) → [4, 2, 1].  
+
+dict_to_inst(dictionary: Dictionary) → Object  
+Deprecated: Use JSON.to_native() instead. Converts a dictionary (from inst_to_dict()) back to an Object instance.  
+
+get_stack() → Array  
+Returns an array of dictionaries representing the current call stack. Example output: [{function:bar, line:12, source:res://script.gd}, ...]. Note: Backtraces require editor/debug builds or ProjectSettings.debug/settings/gdscript/always_track_call_stacks enabled.  
+
+inst_to_dict(instance: Object) → Dictionary  
+Deprecated: Use JSON.from_native() instead. Converts an Object to a Dictionary. Note: Only supports objects with attached GDScript files. Non-recursive; nested objects are not duplicated.  
+
+is_instance_of(value: Variant, type: Variant) → bool  
+Returns true if value is an instance of type. Type can be Variant.Type constants, Object-derived classes, or Scripts. Example: is_instance_of(a, Node). Note: Raises runtime error if type is invalid.  
+
+len(var: Variant) → int  
+Returns the length of a Variant (e.g., String length, array size, Dictionary count). Example: len([1,2,3]) → 4.  
+
+load(path: String) → Resource  
+Loads a Resource from an absolute path. Example: load("res://main.tscn") → PackedScene. Note: Relative paths are prefixed with "res://". Use preload() for runtime caching.  
+
+ord(char: String) → int  
+Returns the Unicode code point of a single-character String. Inverse of char(). Example: ord("A") → 65.  
+
+preload(path: String) → Resource  
+Loads a Resource at parse-time, acting as a reference. Path must be a constant String. Example: preload("res://diamond.tscn").instantiate(). Note: preload() is a keyword.  
+
+print_debug(...) → void  
+Like print(), but includes stack frames when debugging. Example output: "Test print At: res://test.gd:15:_process()".  
+
+print_stack() → void  
+Prints a stack trace. Example output: "Frame 0 - res://test.gd:16 in function '_process'".  
+
+range(n: int) → Array  
+Returns an array with a range. Usage: range(4) → [0,1,2,3]; range(0,6,2) → [0,2,4]. Note: Returns empty array if no values meet constraints.  
+
+type_exists(type: StringName) → bool  
+Deprecated: Use ClassDB.class_exists() instead. Returns true if the specified class exists in ClassDB. Example: type_exists("Sprite2D") → true.

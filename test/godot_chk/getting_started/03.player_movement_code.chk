@@ -1,0 +1,250 @@
+Document: First 3D Game Player Movement  
+Path: godot/getting_started/03.player_movement_code.rst  
+Summary: This section introduces the player movement code for the first 3D game tutorial.
+---CHUNK---
+Document: Moving the player with code  
+Path: godot/getting_started/03.player_movement_code.rst  
+Summary: Setting up player movement properties and code structure in GDScript and C#  
+
+Right-click the Player node and select *Attach Script* to add a new script. Set the *Template* to *Empty* to write custom movement code. Define properties for movement speed, fall acceleration, and target velocity. In GDScript:  
+
+GDScript:  
+extends CharacterBody3D  
+@export var speed = 14  
+@export var fall_acceleration = 75  
+var target_velocity = Vector3.ZERO  
+
+In C#:  
+
+C#:  
+using Godot;  
+public partial class Player : CharacterBody3D  
+{  
+    [Export] public int Speed { get; set; } = 14;  
+    [Export] public int FallAcceleration { get; set; } = 75;  
+    private Vector3 _targetVelocity = Vector3.Zero;  
+}  
+
+Note: The values differ from 2D code because 3D uses meters as units. A kilometer in 3D corresponds to 1000 meters, unlike 2D where units are screen-relative.  
+
+The target_velocity is a 3D vector combining speed and direction. It is defined as a property to update and reuse across frames. Movement code begins in _physics_process(delta), calculating input direction using the global Input object.  
+
+Code example:  
+
+GDScript:  
+func _physics_process(delta):  
+    var direction = Vector3.ZERO  
+
+C#:  
+public override void _PhysicsProcess(double delta)  
+{  
+    Vector3 direction = Vector3.Zero;  
+}
+---CHUNK---
+Document: Player Movement Code  
+Path: godot/getting_started/03.player_movement_code.rst  
+Summary: Initializing direction variables and handling input in physics processing for 3D movement.  
+
+We check for each move input and update the direction accordingly. If "move_right" is pressed, direction.x increases by 1. If "move_left" is pressed, direction.x decreases by 1. For "move_back," direction.z increases by 1 (working with the XZ plane as the ground plane in 3D). For "move_forward," direction.z decreases by 1.  
+
+Instead of `_process()`, we use `_physics_process()` for physics-related calculations like moving kinematic or rigid bodies. This function updates the node using fixed time intervals, ensuring consistent physics behavior.  
+
+We initialize a `direction` variable to `Vector3.ZERO`. Checking for "move_*" inputs updates the vector's x and z components. Four conditions create eight possible movement directions. If multiple keys are pressed (e.g., W and D), the vector length becomes ~1.4, but normalization ensures consistent speed.  
+
+GDScript:  
+func _physics_process(delta):  
+   #...  
+   if direction != Vector3.ZERO:  
+       direction = direction.normalized()  
+       $Pivot.basis = Basis.looking_at(direction)  
+
+C#:  
+public override void _PhysicsProcess(double delta)  
+{  
+   // ...  
+   if (direction != Vector3.Zero)  
+   {  
+       direction = direction.Normalized();  
+       Pivot.Basis = Basis.LookingAt(direction);  
+   }  
+}  
+
+Key Rule: Normalizing the direction vector ensures consistent movement speed regardless of diagonal input combinations.
+---CHUNK---
+Document: 03.player_movement_code  
+Path: godot/getting_started/03.player_movement_code.rst  
+Summary: Updating player velocity and movement logic in 3D using CharacterBody3D  
+
+The code checks if the direction vector is non-zero, normalizes it, and sets the Pivot node's Basis to face the direction. This ensures rotation aligns with movement input. The direction is only normalized when the player presses a movement key, avoiding division-by-zero errors. A Basis object is created using Basis.LookingAt(direction) to determine the Pivot's orientation.  
+
+Velocity is split into ground and vertical components. Ground velocity is calculated by multiplying direction's x/z components by speed. Vertical velocity is adjusted by subtracting fall acceleration multiplied by delta time if the player is not on the floor. The is_on_floor() method returns true when the CharacterBody3D collides with the floor during the frame, preventing gravity application when grounded.  
+
+GDScript:  
+func _physics_process(delta):  
+    #...  
+    if direction != Vector3.ZERO:  
+        #...  
+
+    # Ground Velocity  
+    target_velocity.x = direction.x * speed  
+    target_velocity.z = direction.z * speed  
+
+    # Vertical Velocity  
+    if not is_on_floor():  
+        target_velocity.y = target_velocity.y - (fall_acceleration * delta)  
+
+    # Moving the Character  
+    velocity = target_velocity  
+    move_and_slide()  
+
+C#:  
+public override void _PhysicsProcess(double delta)  
+{  
+    // ...  
+    if (direction != Vector3.Zero)  
+    {  
+        // ...  
+    }  
+
+    // Ground velocity  
+    _targetVelocity.X = direction.X * Speed;  
+    _targetVelocity.Z = direction.Z * Speed;  
+
+    // Vertical velocity  
+    if (!IsOnFloor())  
+    {  
+        _targetVelocity.Y -= FallAcceleration * (float)delta;  
+    }  
+
+    // Moving the character  
+    Velocity = _targetVelocity;  
+    MoveAndSlide();  
+}  
+
+The move_and_slide() method handles smooth movement and collision resolution. It adjusts the character's position based on velocity, resolving wall collisions by redirecting motion. This method uses the CharacterBody3D's velocity property, which is updated separately for horizontal and vertical movement. Gravity is applied only when the player is airborne, ensuring realistic falling behavior. The physics engine detects collisions during movement, enabling future jump mechanics that rely on floor contact checks.
+---CHUNK---
+Document: Player Movement Code
+Path: godot/getting_started/03.player_movement_code.rst
+Summary: Implementing 3D player movement with velocity control and gravity in Godot
+
+The function handles velocity and collision response by moving the character and returning leftover velocity after collisions. When hitting obstacles, it reduces or resets speed in that direction. Storing the returned value prevents vertical momentum accumulation that could cause the character to pass through the ground.
+
+Here is the complete player.gd code for reference:
+
+GDScript:
+extends CharacterBody3D
+
+@export var speed = 14
+@export var fall_acceleration = 75
+
+var target_velocity = Vector3.ZERO
+
+func _physics_process(delta):
+    var direction = Vector3.ZERO
+
+    if Input.is_action_pressed("move_right"):
+        direction.x += 1
+    if Input.is_action_pressed("move_left"):
+        direction.x -= 1
+    if Input.is_action_pressed("move_back"):
+        direction.z += 1
+    if Input.is_action_pressed("move_forward"):
+        direction.z -= 1
+
+    if direction != Vector3.ZERO:
+        direction = direction.normalized()
+        $Pivot.basis = Basis.looking_at(direction)
+
+    target_velocity.x = direction.x * speed
+    target_velocity.z = direction.z * speed
+
+    if not is_on_floor():
+        target_velocity.y = target_velocity.y - (fall_acceleration * delta)
+
+    velocity = target_velocity
+    move_and_slide()
+
+C#:
+using Godot;
+
+public partial class Player : CharacterBody3D
+{
+    [Export]
+    public int Speed { get; set; } = 14;
+    [Export]
+    public int FallAcceleration { get; set; } = 75;
+
+    private Vector3 _targetVelocity = Vector3.Zero;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        var direction = Vector3.Zero;
+
+        if (Input.IsActionPressed("move_right"))
+        {
+            direction.X += 1.0f;
+        }
+        if (Input.IsActionPressed("move_left"))
+        {
+            direction.X -= 1.0f;
+        }
+        if (Input.IsActionPressed("move_back"))
+        {
+            direction.Z += 1.0f;
+        }
+        if (Input.IsActionPressed("move_forward"))
+        {
+            direction.Z -= 1.0f;
+        }
+---CHUNK---
+Document: Player Movement Code
+Path: godot/getting_started/03.player_movement_code.rst
+Summary: Updates player velocity based on movement direction, gravity, and applies motion using MoveAndSlide in a 3D character controller.
+
+C#:
+if (direction != Vector3.Zero)
+{
+    direction = direction.Normalized();
+    // Setting the basis property will affect the rotation of the node.
+    GetNode<Node3D>("Pivot").Basis = Basis.LookingAt(direction);
+}
+
+// Ground velocity
+_targetVelocity.X = direction.X * Speed;
+_targetVelocity.Z = direction.Z * Speed;
+
+// Vertical velocity
+if (!IsOnFloor()) // If in the air, fall towards the floor. Literally gravity
+{
+    _targetVelocity.Y -= FallAcceleration * (float)delta;
+}
+
+// Moving the character
+Velocity = _targetVelocity;
+MoveAndSlide();
+---CHUNK---
+Document: Testing our player's movement  
+Path: godot/getting_started/03.player_movement_code.rst  
+Summary: Instructions for adding the player scene to the Main scene and setting up a camera for 3D movement testing  
+
+We're going to put our player in the Main scene to test it. To do so, we need to instantiate the player and then add a camera. Unlike in 2D, in 3D, you won't see anything if your viewport doesn't have a camera pointing at something.  
+
+Save your Player scene and open the Main scene. You can click on the Main tab at the top of the editor to do so. If you closed the scene before, head to the FileSystem dock and double-click main.tscn to re-open it.  
+
+To instantiate the Player, right-click on the Main node and select Instantiate Child Scene. In the popup, double-click player.tscn. The character should appear in the center of the viewport. Note: This step confirms the player prefab is correctly linked to the Main scene hierarchy. Key Rule: A camera must be added to the Main scene for 3D visibility.
+---CHUNK---
+Document: Adding a camera  
+Path: godot/getting_started/03.player_movement_code.rst  
+Summary: Instructions for setting up a camera rig with a pivot and configuring orthographic projection for player movement in Godot.  
+
+Let's add the camera next. Right-click on the Main node and select *Add Child Node*, then create a new Marker3D named CameraPivot. Add a Camera3D as a child of CameraPivot. Your scene tree should now have Main → CameraPivot → Camera3D.  
+
+Enable the *Preview* checkbox in the 3D view when the Camera is selected to preview the in-game camera projection. Split the viewport using *View → 2 Viewports* (or press Ctrl+2/Cmd+2) to navigate the scene and view the camera's perspective simultaneously.  
+
+In the bottom viewport, select Camera3D and activate the preview checkbox. In the top viewport, select Camera3D and move it 19 units along the Z-axis (using the blue arrow). Select CameraPivot and rotate it -45 degrees around the X-axis (using the red circle) to simulate a crane-mounted camera.  
+
+Test the scene by pressing F6 (Cmd+R on macOS) and using arrow keys to move the character. Adjust the camera's projection to *Orthogonal* in the Inspector, setting the *Size* to 19. This makes the character appear flatter and fills the background with the ground.  
+
+Note: When using an orthogonal camera in Godot 4, directional shadow quality depends on the camera's *Far* value. Higher *Far* values increase visibility distance but reduce shadow quality. If shadows appear blurry after switching to orthogonal projection, lower the *Far* property to 100 (or similar) to maintain clarity without losing distant visibility.  
+
+After adjustments, test the scene again to ensure movement works in all 8 directions without glitching through the floor. This completes the camera setup for player movement, preparing the scene for monster implementation.

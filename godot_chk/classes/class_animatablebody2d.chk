@@ -1,0 +1,41 @@
+Document: AnimatableBody2D
+Path: godot/classes/class_animatablebody2d.rst
+Summary: Class AnimatableBody2D reference.
+---CHUNK---
+Document: AnimatableBody2D
+Path: godot/classes/class_animatablebody2d.rst
+Summary: A 2D physics body that can't be moved by external forces. When moved manually, it affects other bodies in its path.
+
+Inherits: StaticBody2D < PhysicsBody2D < CollisionObject2D < Node2D < CanvasItem < Node < Object
+---CHUNK---
+Document: AnimatableBody2D  
+Path: godot/classes/class_animatablebody2d.rst  
+Summary: An animatable 2D physics body that cannot be moved by external forces but can be manually controlled via code, AnimationMixer (with specific callback mode), and RemoteTransform2D. When moved, it affects other physics bodies through estimated velocity.  
+
+An animatable 2D physics body. It cannot be moved by external forces or contacts, but can be moved manually by other means such as code, AnimationMixer (with AnimationMixer.callback_mode_process set to AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS), and RemoteTransform2D. When AnimatableBody2D is moved, its linear and angular velocity are estimated and used to affect other physics bodies in its path. This makes it useful for moving platforms, doors, and other moving objects.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_animatablebody2d.rst
+Summary: This section lists related tutorials for working with AnimatableBody2D.
+
+- Physics introduction
+- Troubleshooting physics issues
+---CHUNK---
+Document: AnimatableBody2D
+Path: godot/classes/class_animatablebody2d.rst
+Summary: Properties and member variables of the AnimatableBody2D class, including the sync_to_physics boolean with a default value of true.
+
+- sync_to_physics (bool): Controls whether animations are synchronized with physics processing. Default: true.
+---CHUNK---
+Document: AnimatableBody2D  
+Path: godot/classes/class_animatablebody2d.rst  
+Summary: The `sync_to_physics` property and its associated methods for controlling physics synchronization in AnimatableBody2D.  
+
+Property: sync_to_physics (bool) = true  
+Controls whether the body's movement is synchronized to the physics frame. Useful for animating movement via AnimationPlayer on platforms. Do not use with PhysicsBody2D.move_and_collide().  
+
+Methods:  
+- set_sync_to_physics(value: bool)  
+- is_sync_to_physics_enabled() → bool  
+
+Note: Do not use `sync_to_physics` with `PhysicsBody2D.move_and_collide()` as they conflict.

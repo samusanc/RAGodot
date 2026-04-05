@@ -1,0 +1,64 @@
+Document: AimModifier3D
+Path: godot/classes/class_aimmodifier3d.rst
+Summary: AimModifier3D is a 3D node that modifies the aim direction of a character based on input and movement.
+
+AimModifier3D inherits from Node3D. This class is part of the Godot engine's 3D character control system, designed to handle aiming mechanics by calculating target directions based on character movement and input axes. Key Rule: Must be used with a CharacterBody3D node to function properly. Warning: Does not work correctly when attached to nodes other than CharacterBody3D. The class provides properties to configure sensitivity, smoothing, and priority for aiming calculations, with default values set to balanced gameplay settings.
+---CHUNK---
+Document: AimModifier3D
+Path: godot/classes/class_aimmodifier3d.rst
+Summary: AimModifier3D rotates a bone to look at a reference bone.
+
+Inherits: BoneConstraint3D < SkeletonModifier3D < Node3D < Node < Object
+AimModifier3D rotates a bone to look at a reference bone.
+---CHUNK---
+Document: AimModifier3D  
+Path: godot/classes/class_aimmodifier3d.rst  
+Summary: AimModifier3D is a simplified bone-aiming tool that tracks targets smoothly without Euler rotation or advanced interpolation options.  
+
+This is a simple version of LookAtModifier3D that only allows bone to the reference without advanced options such as angle limitation or time-based interpolation. The feature is simplified, but instead it is implemented with smooth tracking without euler, see set_use_euler().
+---CHUNK---
+Document: AimModifier3D  
+Path: godot/classes/class_aimmodifier3d.rst  
+Summary: Defines the AimModifier3D class property "setting_count" with its default value.  
+
+- setting_count (int): Default: 0.
+---CHUNK---
+Document: AimModifier3D  
+Path: godot/classes/class_aimmodifier3d.rst  
+Summary: Method signatures and parameters for AimModifier3D, including getters and setters for bone axis, rotation axes, and configuration flags.  
+
+Method: get_forward_axis(index: int) → BoneAxis. Const.  
+Method: get_primary_rotation_axis(index: int) → Axis. Const.  
+Method: is_relative(index: int) → bool. Const.  
+Method: is_using_euler(index: int) → bool. Const.  
+Method: is_using_secondary_rotation(index: int) → bool. Const.  
+Method: set_forward_axis(index: int, axis: BoneAxis) → void.  
+Method: set_primary_rotation_axis(index: int, axis: Axis) → void.  
+Method: set_relative(index: int, enabled: bool) → void.  
+Method: set_use_euler(index: int, enabled: bool) → void.  
+Method: set_use_secondary_rotation(index: int, enabled: bool) → void.
+---CHUNK---
+Document: AimModifier3D
+Path: godot/classes/class_aimmodifier3d.rst
+Summary: The setting_count property and its accessor methods for managing the number of settings in the modifier.
+
+Property: setting_count (int) = 0
+Description: The number of settings in the modifier.
+
+Method: set_setting_count(value: int) → void
+Method: get_setting_count() → int
+---CHUNK---
+Document: AimModifier3D  
+Path: godot/classes/class_aimmodifier3d.rst  
+Summary: Methods for configuring bone axes, rotation settings, and relative transformations in AimModifier3D.  
+
+Method: get_forward_axis(index: int) → BoneAxis. Returns the forward axis of the bone.  
+Method: get_primary_rotation_axis(index: int) → Axis. Returns the axis of the first rotation. Enabled only if is_using_euler(index) is true.  
+Method: is_relative(index: int) → bool. Returns true if the relative option is enabled at the specified index.  
+Method: is_using_euler(index: int) → bool. Returns true if rotation uses Euler angles.  
+Method: is_using_secondary_rotation(index: int) → bool. Returns true if rotation uses two axes. Enabled only if is_using_euler(index) is true.  
+Method: set_forward_axis(index: int, axis: BoneAxis). Sets the forward axis of the bone.  
+Method: set_primary_rotation_axis(index: int, axis: Axis). Sets the first rotation axis. Enabled only if is_using_euler(index) is true.  
+Method: set_relative(index: int, enabled: bool). Enables or disables relative rotation at the specified index. When true, rotation is applied relative to the pose; when false, it replaces the current pose with the modifier's result.  
+Method: set_use_euler(index: int, enabled: bool). Enables or disables Euler-based rotation. When true, uses Euler angles; when false, uses rotation from the forward axis vector and reference vector.  
+Method: set_use_secondary_rotation(index: int, enabled: bool). Enables or disables secondary rotation (two axes). Only available if is_using_euler(index) is true.

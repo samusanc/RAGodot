@@ -1,0 +1,166 @@
+Document: AcceptDialog  
+Path: godot/classes/class_acceptdialog.rst  
+Summary: Modal dialog for user confirmation with customizable buttons and text.  
+
+AcceptDialog is a modal dialog used to confirm user actions, typically displaying a message and offering buttons for response. It inherits from `PopupPanel` and is part of Godot's UI system. Key features include customizable text, button labels, and handling user input through signals.  
+
+Key Rule: Always connect the `confirmed` signal to handle positive user responses.  
+Key Rule: Use `get_ok_button()` to access the default confirmation button for customization.  
+
+Properties:  
+- `dialog_text (String):` Main message displayed to the user. Default: empty.  
+- `ok_button_text (String):` Label for the confirmation button. Default: "OK".  
+- `cancel_button_text (String):` Label for the cancellation button. Default: "Cancel".  
+
+Methods:  
+- `set_text(text: String):` Sets the dialog's main message.  
+- `set_okButtonText(text: String):` Changes the confirmation button's label.  
+- `set_cancelButtonText(text: String):` Changes the cancellation button's label.  
+
+Signals:  
+- `confirmed():` Emitted when the user clicks the confirmation button.  
+- `canceled():` Emitted when the user clicks the cancellation button or closes the dialog.  
+
+GDScript:  
+```gdscript  
+var dialog = AcceptDialog.new()  
+dialog.set_text("Are you sure?")  
+dialog.connect("confirmed", self, "_on_confirmed")  
+```  
+
+Note: Ensure the dialog is added to the scene tree before showing it with `popup_centered()`.  
+Warning: Do not modify properties during the `confirmed` or `canceled` signal handlers unless explicitly allowed.
+---CHUNK---
+Document: AcceptDialog
+Path: godot/classes/class_acceptdialog.rst
+Summary: A base dialog used for user notification.
+
+Inherits: Window < Viewport < Node < Object. Inherited By: ConfirmationDialog
+A base dialog used for user notification.
+---CHUNK---
+Document: AcceptDialog  
+Path: godot/classes/class_acceptdialog.rst  
+Summary: AcceptDialog allows customizing dialog actions via confirmed/canceled signals and button addition, with visibility controlled through Window popup methods.  
+
+The default use of AcceptDialog is to allow it to only be accepted or closed, with the same result. However, the confirmed and canceled signals allow making the two actions different, and the add_button() method allows adding custom buttons and actions. Note: AcceptDialog is invisible by default. To make it visible, call one of the popup_* methods from Window on the node, such as Window.popup_centered_clamped().
+---CHUNK---
+Document: AcceptDialog  
+Path: godot/classes/class_acceptdialog.rst  
+Summary: Class properties and their default values, including overrides from the Window class.  
+
+Property: dialog_autowrap (bool): Controls automatic text wrapping in the dialog. Default: false.  
+Property: dialog_close_on_escape (bool): Closes the dialog when the escape key is pressed. Default: true.  
+Property: dialog_hide_on_ok (bool): Hides the dialog after clicking "OK". Default: true.  
+Property: dialog_text (String): Main text displayed in the dialog. Default: empty string.  
+Property: exclusive (bool): Makes the dialog exclusive (no other windows interactable). Overrides Window's exclusive property. Default: true.  
+Property: keep_title_visible (bool): Ensures the title remains visible. Overrides Window's keep_title_visible property. Default: true.  
+Property: maximize_disabled (bool): Disables maximize button. Overrides Window's maximize_disabled property. Default: true.  
+Property: minimize_disabled (bool): Disables minimize button. Overrides Window's minimize_disabled property. Default: true.  
+Property: ok_button_text (String): Custom text for the "OK" button. Default: empty string.  
+Property: title (String): Dialog title. Overrides Window's title property. Default: "Alert!".  
+Property: transient (bool): Makes the dialog transient (not shown in taskbars). Overrides Window's transient property. Default: true.  
+Property: visible (bool): Initial visibility state. Overrides Window's visible property. Default: false.  
+Property: wrap_controls (bool): Wraps child controls to fit the dialog width. Overrides Window's wrap_controls property. Default: true.
+---CHUNK---
+Document: AcceptDialog
+Path: godot/classes/class_acceptdialog.rst
+Summary: Methods for managing buttons, labels, and text input handling in AcceptDialog.
+
+Button: add_button(text: String, right: bool = false, action: String = "")  
+Adds a button with specified text, alignment, and action. Right-aligned by default.  
+
+Button: add_cancel_button(name: String)  
+Adds a cancel button with the given name.  
+
+Label: get_label() → Label  
+Returns the label node associated with the dialog.  
+
+Button: get_ok_button() → Button  
+Returns the OK button node.  
+
+void: register_text_enter(line_edit: LineEdit)  
+Registers a LineEdit node to handle text input events.  
+
+void: remove_button(button: Button)  
+Removes the specified button from the dialog.
+---CHUNK---
+Document: AcceptDialog
+Path: godot/classes/class_acceptdialog.rst
+Summary: Theme properties for AcceptDialog with their types and default values.
+
+Theme Properties:
+- int (buttons_min_height): Minimum height for buttons. Default: 0
+- int (buttons_min_width): Minimum width for buttons. Default: 0
+- int (buttons_separation): Spacing between buttons. Default: 10
+- StyleBox (panel): Style for the dialog panel. Default: empty
+---CHUNK---
+Document: AcceptDialog  
+Path: godot/classes/class_acceptdialog.rst  
+Summary: Signals emitted by the AcceptDialog class for user interaction events.  
+
+Signal: canceled() — Emitted when the dialog is closed or the button created with add_cancel_button() is pressed.  
+Signal: confirmed() — Emitted when the dialog is accepted, i.e. the OK button is pressed.  
+Signal: custom_action(action: StringName) — Emitted when a custom button with an action is pressed. See add_button().
+---CHUNK---
+Document: AcceptDialog
+Path: godot/classes/class_acceptdialog.rst
+Summary: Class properties and methods for configuring dialog behavior and appearance in Godot's AcceptDialog.
+
+Property: dialog_autowrap (bool) = false
+Method: set_autowrap(value: bool)
+Method: has_autowrap() → bool
+Sets autowrapping for the text in the dialog.
+
+Property: dialog_close_on_escape (bool) = true
+Method: set_close_on_escape(value: bool)
+Method: get_close_on_escape() → bool
+If true, the dialog will be hidden when the ui_close_dialog action is pressed (default: Escape or Cmd + W on macOS).
+
+Property: dialog_hide_on_ok (bool) = true
+Method: set_hide_on_ok(value: bool)
+Method: get_hide_on_ok() → bool
+If true, the dialog is hidden when the OK button is pressed. Note: Some derived nodes like FileDialog override this with their own logic.
+
+Property: dialog_text (String) = ""
+Method: set_text(value: String)
+Method: get_text() → String
+The text displayed by the dialog.
+
+Property: ok_button_text (String) = ""
+Method: set_ok_button_text(value: String)
+Method: get_ok_button_text() → String
+The text displayed by the OK button. If empty, a default text will be used.
+---CHUNK---
+Document: AcceptDialog
+Path: godot/classes/class_acceptdialog.rst
+Summary: Methods for managing buttons, labels, and text input in AcceptDialog.
+
+Method: add_button(text: String, right: bool = false, action: String = "") → Button
+Adds a button with label text and custom action to the dialog. If action is non-empty, pressing the button emits the custom_action signal with the specified action string. The right parameter controls button alignment. Use remove_button() to remove the button.
+
+Method: add_cancel_button(name: String) → Button
+Adds a cancel button with the specified label. The button emits the canceled signal when pressed. Use remove_button() to remove the button.
+
+Method: get_label() → Label
+Returns the internal label node used for built-in text. Warning: Removing or freeing this node may cause a crash. To hide it, modify the visible property of the node or its children.
+
+Method: get_ok_button() → Button
+Returns the internal OK button instance. Warning: Removing or freeing this node may cause a crash. To hide it, modify the visible property of the node or its children.
+
+Method: register_text_enter(line_edit: LineEdit)
+Registers a LineEdit instance. Pressing Enter in the line edit will accept the dialog.
+
+Method: remove_button(button: Button)
+Removes the specified button from the dialog without freeing it. The button must have been added via add_button() or add_cancel_button(). After removal, the button no longer emits dialog signals.
+---CHUNK---
+Document: AcceptDialog
+Path: godot/classes/class_acceptdialog.rst
+Summary: Theme properties controlling button sizing and panel styling in AcceptDialog.
+
+buttons_min_height (int): 0. The minimum height of each button in the bottom row (such as OK/Cancel) in pixels. This can be increased to make buttons with short texts easier to click/tap.
+
+buttons_min_width (int): 0. The minimum width of each button in the bottom row (such as OK/Cancel) in pixels. This can be increased to make buttons with short texts easier to click/tap.
+
+buttons_separation (int): 10. The size of the vertical space between the dialog's content and the button row.
+
+panel (StyleBox): The panel that fills the background of the window.

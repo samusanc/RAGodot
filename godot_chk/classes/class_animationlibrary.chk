@@ -1,0 +1,53 @@
+Document: AnimationLibrary
+Path: godot/classes/class_animationlibrary.rst
+Summary: AnimationLibrary is a class used to manage and organize animations in Godot, providing tools for animation reuse and management.
+
+Key Rule: AnimationLibrary is part of Godot's animation system, used to store and organize animations for reuse across scenes.
+---CHUNK---
+Document: AnimationLibrary  
+Path: godot/classes/class_animationlibrary.rst  
+Summary: A container for Animation resources, inheriting from Resource, RefCounted, and Object.  
+
+AnimationLibrary inherits from Resource < RefCounted < Object. It serves as a container for Animation resources, allowing them to be organized and managed within a project. This class provides a way to group animations together, making it easier to reference and reuse them across scenes and animations.
+---CHUNK---
+Document: AnimationLibrary
+Path: godot/classes/class_animationlibrary.rst
+Summary: AnimationLibrary stores animations accessible through StringName keys for use with AnimationPlayer nodes.
+
+AnimationLibrary stores a set of animations accessible through StringName keys, for use with AnimationPlayer nodes. It provides a centralized way to manage and organize animations, allowing them to be referenced by name rather than by direct object pointers. This system enables efficient animation management in complex projects with many animated objects. The library can be accessed and modified through the AnimationPlayer node's API, which includes methods for adding, removing, and retrieving animations by their StringName keys.
+---CHUNK---
+Document: class_animationlibrary
+Path: godot/classes/class_animationlibrary.rst
+Summary: Links to the main animation tutorial index and related resources.
+
+Tutorials - Animation tutorial index
+---CHUNK---
+Document: AnimationLibrary  
+Path: godot/classes/class_animationlibrary.rst  
+Summary: Methods for managing animations in the AnimationLibrary class.  
+
+- add_animation(name: StringName, animation: Animation) → Error  
+- get_animation(name: StringName) → Animation (const)  
+- get_animation_list() → Array<StringName> (const)  
+- get_animation_list_size() → int (const)  
+- has_animation(name: StringName) → bool (const)  
+- remove_animation(name: StringName) → void  
+- rename_animation(name: StringName, newname: StringName) → void
+---CHUNK---
+Document: AnimationLibrary
+Path: godot/classes/class_animationlibrary.rst
+Summary: Methods for managing animations in an AnimationLibrary, including adding, retrieving, and modifying animations.
+
+Method: add_animation(name: StringName, animation: Animation) → Error. Adds the animation to the library, accessible by the key name.
+
+Method: get_animation(name: StringName) → Animation. Returns the Animation with the key name. If the animation does not exist, null is returned and an error is logged. Note: Returns null and logs an error when the animation is not found.
+
+Method: get_animation_list() → Array<StringName>. Returns the keys for the Animations stored in the library.
+
+Method: get_animation_list_size() → int. Returns the key count for the Animations stored in the library.
+
+Method: has_animation(name: StringName) → bool. Returns true if the library stores an Animation with name as the key.
+
+Method: remove_animation(name: StringName). Removes the Animation with the key name.
+
+Method: rename_animation(name: StringName, newname: StringName). Changes the key of the Animation associated with the key name to newname.
