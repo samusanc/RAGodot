@@ -1,0 +1,12 @@
+Document: OggPacketSequencePlayback
+Path: godot/classes/class_oggpacketsequenceplayback.rst
+Summary: Class for managing and playing back sequences of Ogg packets in Godot.
+---CHUNK---
+Document: OggPacketSequencePlayback
+Path: godot/classes/class_oggpacketsequenceplayback.rst
+Summary: This class has no available description. Please contribute a description to the Godot documentation.
+
+OggPacketSequencePlayback
+Inherits: RefCounted < Object
+
+There is currently no description for this class. Please help us by contributing one!

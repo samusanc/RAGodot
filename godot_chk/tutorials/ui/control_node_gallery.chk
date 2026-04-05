@@ -1,0 +1,9 @@
+Document: Control Node Gallery
+Path: godot/tutorials/ui/control_node_gallery.rst
+Summary: Introduces the Control Node Gallery in Godot for managing UI elements.
+---CHUNK---
+Document: Control node gallery
+Path: godot/tutorials/ui/control_node_gallery.rst
+Summary: This section introduces the Control Gallery demo and provides a link to its GitHub repository.
+
+The Control Gallery demo pictured above can be found on GitHub. The demo showcases a list of common Control nodes with their names displayed next to them. This visual reference helps developers understand the appearance and typical usage scenarios of various Control nodes in Godot's UI system. The implementation details of this demo are available in the Godot demo projects repository for further study.

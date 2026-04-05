@@ -1,0 +1,15 @@
+Document: AudioSample
+Path: godot/classes/class_audiosample.rst
+Summary: Represents an audio sample resource in Godot, used for managing and playing sound data.
+---CHUNK---
+Document: AudioSample
+Path: godot/classes/class_audiosample.rst
+Summary: Base class for audio samples.
+
+**Experimental:** This class may be changed or removed in future versions.
+Inherits: RefCounted < Object
+Base class for audio samples.
+---CHUNK---
+Document: AudioSample
+Path: godot/classes/class_audiosample.rst
+Summary: Base class for audio samples.
