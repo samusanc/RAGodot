@@ -1,0 +1,16 @@
+Document: RenderDataRD
+Path: godot/classes/class_renderdatard.rst
+Summary: Class reference for RenderDataRD, including identity, description, and inheritance.
+---CHUNK---
+Document: RenderDataRD
+Path: godot/classes/class_renderdatard.rst
+Summary: Render data implementation for the RenderingDevice based renderers.
+
+Inherits: RenderData < Object
+Render data implementation for the RenderingDevice based renderers.
+---CHUNK---
+Document: class_RenderDataRD
+Path: godot/classes/class_renderdatard.rst
+Summary: Manages render data for RenderingDevice-based renderers, related to RenderData, RenderSceneData, and RenderSceneDataRD.
+
+Note: This is an internal rendering server object. Do not instantiate this class from a script.

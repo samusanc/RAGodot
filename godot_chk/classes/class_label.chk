@@ -1,0 +1,147 @@
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: This document describes the Label class.
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: A control for displaying plain text.
+
+Inherits: Control < CanvasItem < Node < Object
+
+A control for displaying plain text.
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: A control for displaying plain text with alignment and wrapping, but without rich text formatting.
+
+A control for displaying plain text. It gives you control over the horizontal and vertical alignment and can wrap the text inside the node's bounding rectangle. It doesn't support bold, italics, or other rich text formatting. For that, use RichTextLabel instead. Note: A single Label node is not designed to display huge amounts of text. To display large amounts of text in a single node, consider using RichTextLabel instead as it supports features like an integrated scroll bar and threading. RichTextLabel generally performs better when displaying large amounts of text (several pages or more).
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: Lists related tutorials for the Label class.
+
+Tutorials
+- 2D Dodge The Creeps Demo
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: This section details the properties available for configuring a Label node, including text display, alignment, wrapping, and visibility.
+
+*   autowrap_mode (AutowrapMode): Default: 0
+*   autowrap_trim_flags (bitfield[LineBreakFlag]): Default: 192
+*   clip_text (bool): Default: false
+*   ellipsis_char (String): Default: "…"
+*   horizontal_alignment (HorizontalAlignment): Default: 0
+*   justification_flags (bitfield[JustificationFlag]): Default: 163
+*   label_settings (LabelSettings):
+*   language (String): Default: ""
+*   lines_skipped (int): Default: 0
+*   max_lines_visible (int): Default: -1
+*   mouse_filter (MouseFilter): Default: 2 (overrides Control)
+*   paragraph_separator (String): Default: "\n"
+*   size_flags_vertical (bitfield[SizeFlags]): Default: 4 (overrides Control)
+*   structured_text_bidi_override (StructuredTextParser): Default: 0
+*   structured_text_bidi_override_options (Array): Default: []
+*   tab_stops (PackedFloat32Array): Default: PackedFloat32Array()
+*   text (String): Default: ""
+*   text_direction (TextDirection): Default: 0
+*   text_overrun_behavior (OverrunBehavior): Default: 0
+*   uppercase (bool): Default: false
+*   vertical_alignment (VerticalAlignment): Default: 0
+*   visible_characters (int): Default: -1
+*   visible_characters_behavior (VisibleCharactersBehavior): Default: 0
+*   visible_ratio (float): Default: 1.0
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: This section lists the methods available for the Label class.
+
+Method: get_character_bounds(pos: int) → Rect2
+Method: get_line_count() → int
+Method: get_line_height(line: int = -1) → int
+Method: get_total_character_count() → int
+Method: get_visible_line_count() → int
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: This section lists the theme properties available for the Label node, including colors, sizes, and style boxes.
+
+Theme Properties
+* font_color (Color): Default: Color(1, 1, 1, 1).
+* font_outline_color (Color): Default: Color(0, 0, 0, 1).
+* font_shadow_color (Color): Default: Color(0, 0, 0, 0).
+* line_spacing (int): Default: 3.
+* outline_size (int): Default: 0.
+* paragraph_spacing (int): Default: 0.
+* shadow_offset_x (int): Default: 1.
+* shadow_offset_y (int): Default: 1.
+* shadow_outline_size (int): Default: 1.
+* font (Font):
+* font_size (int):
+* focus (StyleBox):
+* normal (StyleBox):
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: This section describes the properties available for the Label node, controlling text display, wrapping, alignment, and visibility.
+
+- autowrap_mode (AutowrapMode): If set to something other than TextServer.AUTOWRAP_OFF, the text gets wrapped inside the node's bounding rectangle. If you resize the node, it will change its height automatically to show all the text. Default: 0.
+- autowrap_trim_flags (bitfield[LineBreakFlag]): Autowrap space trimming flags. See TextServer.BREAK_TRIM_START_EDGE_SPACES and TextServer.BREAK_TRIM_END_EDGE_SPACES for more info. Default: 192.
+- clip_text (bool): If `true`, the Label only shows the text that fits inside its bounding rectangle and will clip text horizontally. Default: false.
+- ellipsis_char (String): Ellipsis character used for text clipping. Default: "…".
+- horizontal_alignment (HorizontalAlignment): Controls the text's horizontal alignment. Supports left, center, right, and fill (also known as justify). Default: 0.
+- justification_flags (bitfield[JustificationFlag]): Line fill alignment rules. Default: 163.
+- label_settings (LabelSettings): A LabelSettings resource that can be shared between multiple Label nodes. Takes priority over theme properties.
+- language (String): Language code used for line-breaking and text shaping algorithms. If left empty, the current locale is used instead. Default: "".
+- lines_skipped (int): The number of the lines ignored and not displayed from the start of the text value. Default: 0.
+- max_lines_visible (int): Limits the lines of text the node shows on screen. Default: -1.
+- paragraph_separator (String): String used as a paragraph separator. Each paragraph is processed independently, in its own BiDi context. Default: "\\n".
+- structured_text_bidi_override (StructuredTextParser): Set BiDi algorithm override for the structured text. Default: 0.
+- structured_text_bidi_override_options (Array): Set additional options for BiDi override. Default: [].
+- tab_stops (PackedFloat32Array): Aligns text to the given tab-stops. Note: The returned array is copied and any changes to it will not update the original property value. See PackedFloat32Array for more details. Default: PackedFloat32Array().
+- text (String): The text to display on screen. Default: "".
+- text_direction (TextDirection): Base text writing direction. Default: 0.
+- text_overrun_behavior (OverrunBehavior): The clipping behavior when the text exceeds the node's bounding rectangle. Default: 0.
+- uppercase (bool): If `true`, all the text displays as UPPERCASE. Default: false.
+- vertical_alignment (VerticalAlignment): Controls the text's vertical alignment. Supports top, center, bottom, and fill. Default: 0.
+- visible_characters (int): The number of characters to display. If set to `-1`, all characters are displayed. This can be useful when animating the text appearing in a dialog box. Note: Setting this property updates visible_ratio accordingly. Note: Characters are counted as Unicode codepoints. A single visible grapheme may contain multiple codepoints (e.g. certain emoji use three codepoints). A single codepoint may contain two UTF-16 characters, which are used in C# strings. Default: -1.
+- visible_characters_behavior (VisibleCharactersBehavior): The clipping behavior when visible_characters or visible_ratio is set. Default: 0.
+- visible_ratio (float): The fraction of characters to display, relative to the total number of characters (see get_total_character_count()). If set to `1.0`, all characters are displayed. If set to `0.5`, only half of the characters will be displayed. This can be useful when animating the text appearing in a dialog box. Note: Setting this property updates visible_characters accordingly. Default: 1.0.
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: This section describes methods for retrieving character bounds, line counts, line heights, and total character counts from a Label node.
+
+Method: get_character_bounds(pos: int) → Rect2
+Returns the bounding rectangle of the character at position `pos` in the label's local coordinate system. If the character is a non-visual character or `pos` is outside the valid range, an empty Rect2 is returned. If the character is a part of a composite grapheme, the bounding rectangle of the whole grapheme is returned.
+
+Method: get_line_count() → int
+Returns the number of lines of text the Label has.
+
+Method: get_line_height(line: int = -1) → int
+Returns the height of the line `line`. If `line` is set to `-1`, returns the biggest line height. If there are no lines, returns font size in pixels.
+
+Method: get_total_character_count() → int
+Returns the total number of printable characters in the text (excluding spaces and newlines).
+
+Method: get_visible_line_count() → int
+Returns the number of lines shown. Useful if the Label's height cannot currently display all lines.
+---CHUNK---
+Document: Label
+Path: godot/classes/class_label.rst
+Summary: This section describes the theme properties available for customizing the appearance of a Label node, including colors, spacing, outline, shadow, font, and style boxes.
+
+Theme Property Descriptions
+*   font_color (Color): Default text Color of the Label. Default: Color(1, 1, 1, 1).
+*   font_outline_color (Color): The color of text outline. Default: Color(0, 0, 0, 1).
+*   font_shadow_color (Color): Color of the text's shadow effect. Default: Color(0, 0, 0, 0).
+*   line_spacing (int): Additional vertical spacing between lines (in pixels), spacing is added to line descent. This value can be negative. Default: 3.
+*   outline_size (int): Text outline size. Note: If using a font with FontFile.multichannel_signed_distance_field enabled, its FontFile.msdf_pixel_range must be set to at least *twice* the value of outline_size for outline rendering to look correct. Otherwise, the outline may appear to be cut off earlier than intended. Note: Using a value that is larger than half the font size is not recommended, as the font outline may fail to be fully closed in this case. Default: 0.
+*   paragraph_spacing (int): Vertical space between paragraphs. Added on top of line_spacing. Default: 0.
+*   shadow_offset_x (int): The horizontal offset of the text's shadow. Default: 1.
+*   shadow_offset_y (int): The vertical offset of the text's shadow. Default: 1.
+*   shadow_outline_size (int): The size of the shadow outline. Default: 1.
+*   font (Font): Font used for the Label's text.
+*   font_size (int): Font size of the Label's text.
+*   focus (StyleBox): StyleBox used when the Label is focused (when used with assistive apps).
+*   normal (StyleBox): Background StyleBox for the Label.

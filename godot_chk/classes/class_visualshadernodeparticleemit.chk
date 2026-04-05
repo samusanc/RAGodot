@@ -1,0 +1,42 @@
+Document: VisualShaderNodeParticleEmit
+Path: godot/classes/class_visualshadernodeparticleemit.rst
+Summary: Class for emitting particles in a visual shader node system.
+---CHUNK---
+Document: VisualShaderNodeParticleEmit
+Path: godot/classes/class_visualshadernodeparticleemit.rst
+Summary: A visual shader node that forces to emit a particle from a sub-emitter.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeParticleEmit
+Path: godot/classes/class_visualshadernodeparticleemit.rst
+Summary: A shader node that emits particles from a configured sub-emitter with customizable parameters.
+
+This node internally calls the emit_subparticle shader method. It will emit a particle from the configured sub-emitter and also allows to customize how its emitted. Requires a sub-emitter assigned to the particles node with this shader.
+---CHUNK---
+Document: VisualShaderNodeParticleEmit
+Path: godot/classes/class_visualshadernodeparticleemit.rst
+Summary: Properties of the VisualShaderNodeParticleEmit class, including the flags property and its default value.
+
+- EmitFlags (Enum): flags (Property). Default: 31.
+---CHUNK---
+Document: VisualShaderNodeParticleEmit
+Path: godot/classes/class_visualshadernodeparticleemit.rst
+Summary: Enumerates flags controlling which particle properties are initialized by this node.
+
+EmitFlags (int):
+- EMIT_FLAG_POSITION: If enabled, the particle starts with the position defined by this node. Default: 1
+- EMIT_FLAG_ROT_SCALE: If enabled, the particle starts with the rotation and scale defined by this node. Default: 2
+- EMIT_FLAG_VELOCITY: If enabled, the particle starts with the velocity defined by this node. Default: 4
+- EMIT_FLAG_COLOR: If enabled, the particle starts with the color defined by this node. Default: 8
+- EMIT_FLAG_CUSTOM: If enabled, the particle starts with the CUSTOM data defined by this node. Default: 16
+---CHUNK---
+Document: VisualShaderNodeParticleEmit
+Path: godot/classes/class_visualshadernodeparticleemit.rst
+Summary: The flags property and its methods for overriding sub-emitter material properties in VisualShaderNodeParticleEmit.
+
+EmitFlags flags = 31
+- void set_flags(value: EmitFlags)
+- EmitFlags get_flags()
+
+Note: Flags used to override the properties defined in the sub-emitter's process material.

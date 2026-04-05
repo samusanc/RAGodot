@@ -1,0 +1,52 @@
+Document: BackBufferCopy
+Path: godot/classes/class_backbuffercopy.rst
+Summary: Class reference for BackBufferCopy, a utility for copying back buffer data in Godot.
+---CHUNK---
+Document: BackBufferCopy
+Path: godot/classes/class_backbuffercopy.rst
+Summary: A node that copies a region of the screen to a buffer for access in shader code.
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A node that copies a region of the screen to a buffer for access in shader code.
+---CHUNK---
+Document: BackBufferCopy  
+Path: godot/classes/class_backbuffercopy.rst  
+Summary: A node that captures the currently displayed screen into a back buffer, allowing access via shader scripts using the screen texture.  
+
+Node for back-buffering the currently-displayed screen. The region defined in the BackBufferCopy node is buffered with the content of the screen it covers, or the entire screen according to the copy_mode property. It can be accessed in shader scripts using the screen texture (i.e. a uniform sampler with hint_screen_texture).  
+
+Note: Since this node inherits from Node2D (and not Control), anchors and margins won't apply to child Control-derived nodes. This can be problematic when resizing the window. To avoid this, add Control-derived nodes as siblings to the BackBufferCopy node instead of adding them as children.  
+
+Inherits: Node2D
+---CHUNK---
+Document: class_backbuffercopy
+Path: godot/classes/class_backbuffercopy.rst
+Summary: Lists a tutorial on screen-reading shaders in Godot
+
+Tutorials
+- Screen-reading shaders
+---CHUNK---
+Document: BackBufferCopy
+Path: godot/classes/class_backbuffercopy.rst
+Summary: Properties and their default values for the BackBufferCopy class.
+
+- copy_mode (enum BackBufferCopy_CopyMode): Specifies the copy operation mode. Default: 1
+- rect (class Rect2): Defines the area to copy. Default: Rect2(-100, -100, 200, 200)
+---CHUNK---
+Document: BackBufferCopy
+Path: godot/classes/class_backbuffercopy.rst
+Summary: The CopyMode enumeration defines three buffering modes for the BackBufferCopy node.
+
+CopyMode enumeration:
+COPY_MODE_DISABLED = 0: Disables the buffering mode. This means the BackBufferCopy node will directly use the portion of screen it covers.
+COPY_MODE_RECT = 1: Buffers a rectangular region.
+COPY_MODE_VIEWPORT = 2: Buffers the entire screen.
+---CHUNK---
+Document: BackBufferCopy
+Path: godot/classes/class_backbuffercopy.rst
+Summary: Properties for configuring the BackBufferCopy's mode and area.
+
+copy_mode (CopyMode): Determines the buffer copy behavior. Default: 1. Note: Buffer mode. Set via set_copy_mode(CopyMode), retrieved via get_copy_mode().
+
+rect (Rect2): Defines the area covered by the BackBufferCopy. Default: Rect2(-100, -100, 200, 200). Note: Only used if copy_mode is COPY_MODE_RECT. Set via set_rect(Rect2), retrieved via get_rect().

@@ -1,0 +1,45 @@
+Document: World2D
+Path: godot/classes/class_world2d.rst
+Summary: Class World2D: Manages 2D world spatial relationships and node hierarchy in Godot Engine.
+---CHUNK---
+Document: World2D
+Path: godot/classes/class_world2d.rst
+Summary: A resource that holds all components of a 2D world, including a canvas and a physics space.
+
+Inherits: Resource < RefCounted < Object
+A resource that holds all components of a 2D world, such as a canvas and a physics space.
+---CHUNK---
+Document: World2D
+Path: godot/classes/class_world2d.rst
+Summary: Class that has everything pertaining to a 2D world: A physics space, a canvas, and a sound space. 2D nodes register their resources into the current 2D world.
+---CHUNK---
+Document: class_world2d
+Path: godot/classes/class_world2d.rst
+Summary: Lists a tutorial on ray-casting in Godot
+
+Tutorials: Ray-casting
+---CHUNK---
+Document: World2D  
+Path: godot/classes/class_world2d.rst  
+Summary: Properties of the World2D class, including their types and associated values.  
+
+- canvas (RID): Reference to the canvas associated with this world.  
+- direct_space_state (PhysicsDirectSpaceState2D): The direct space state for physics calculations.  
+- navigation_map (RID): Reference to the navigation map used for pathfinding.  
+- space (RID): Identifier for the space this world belongs to.
+---CHUNK---
+Document: World2D  
+Path: godot/classes/class_world2d.rst  
+Summary: Properties of the World2D class including canvas, direct space state, navigation map, and physics space references.  
+
+RID canvas  
+The RID of this world's canvas resource. Used by the RenderingServer for 2D drawing.  
+
+RID navigation_map  
+The RID of this world's navigation map. Used by the NavigationServer2D.  
+
+RID space  
+The RID of this world's physics space resource. Used by the PhysicsServer2D for 2D physics, treating it as both a space and an area.  
+
+PhysicsDirectSpaceState2D direct_space_state  
+Direct access to the world's physics 2D space state. Used for querying current and potential collisions. Note: When using multi-threaded physics, access is limited to Node._physics_process() in the main thread.

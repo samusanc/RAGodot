@@ -1,0 +1,230 @@
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: Provides direct access to a physics body's state in 3D.
+---CHUNK---
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: Provides direct access to a physics body's state in the PhysicsServer3D.
+
+PhysicsDirectBodyState3D
+Inherits: Object
+Inherited By: PhysicsDirectBodyState3DExtension
+
+Provides direct access to a physics body in the PhysicsServer3D.
+---CHUNK---
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: Describes PhysicsDirectBodyState3D, which provides direct access to a physics body in the PhysicsServer3D for safe property changes.
+
+Provides direct access to a physics body in the PhysicsServer3D, allowing safe changes to physics properties. This object is passed via the direct state callback of RigidBody3D, and is intended for changing the direct state of that body. See RigidBody3D._integrate_forces().
+---CHUNK---
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: Lists related physics tutorials.
+
+Tutorials:
+* Physics introduction
+* Ray-casting
+---CHUNK---
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: This section lists the properties available in PhysicsDirectBodyState3D, including physical attributes like velocity, mass, and collision settings.
+
+Properties:
+*   angular_velocity (Vector3)
+*   center_of_mass (Vector3)
+*   center_of_mass_local (Vector3)
+*   collision_layer (int)
+*   collision_mask (int)
+*   inverse_inertia (Vector3)
+*   inverse_inertia_tensor (Basis)
+*   inverse_mass (float)
+*   linear_velocity (Vector3)
+*   principal_inertia_axes (Basis)
+*   sleeping (bool)
+*   step (float)
+*   total_angular_damp (float)
+*   total_gravity (Vector3)
+*   total_linear_damp (float)
+*   transform (Transform3D)
+---CHUNK---
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: This section lists the methods available in PhysicsDirectBodyState3D for applying forces, impulses, and retrieving contact information.
+
+void Method: add_constant_central_force(force: Vector3 = Vector3(0, 0, 0))
+void Method: add_constant_force(force: Vector3, position: Vector3 = Vector3(0, 0, 0))
+void Method: add_constant_torque(torque: Vector3)
+void Method: apply_central_force(force: Vector3 = Vector3(0, 0, 0))
+void Method: apply_central_impulse(impulse: Vector3 = Vector3(0, 0, 0))
+void Method: apply_force(force: Vector3, position: Vector3 = Vector3(0, 0, 0))
+void Method: apply_impulse(impulse: Vector3, position: Vector3 = Vector3(0, 0, 0))
+void Method: apply_torque(torque: Vector3)
+void Method: apply_torque_impulse(impulse: Vector3)
+Vector3 Method: get_constant_force() const
+Vector3 Method: get_constant_torque() const
+RID Method: get_contact_collider(contact_idx: int) const
+int Method: get_contact_collider_id(contact_idx: int) const
+Object Method: get_contact_collider_object(contact_idx: int) const
+Vector3 Method: get_contact_collider_position(contact_idx: int) const
+int Method: get_contact_collider_shape(contact_idx: int) const
+Vector3 Method: get_contact_collider_velocity_at_position(contact_idx: int) const
+int Method: get_contact_count() const
+Vector3 Method: get_contact_impulse(contact_idx: int) const
+Vector3 Method: get_contact_local_normal(contact_idx: int) const
+Vector3 Method: get_contact_local_position(contact_idx: int) const
+int Method: get_contact_local_shape(contact_idx: int) const
+Vector3 Method: get_contact_local_velocity_at_position(contact_idx: int) const
+PhysicsDirectSpaceState3D Method: get_space_state()
+Vector3 Method: get_velocity_at_local_position(local_position: Vector3) const
+void Method: integrate_forces()
+void Method: set_constant_force(force: Vector3)
+void Method: set_constant_torque(torque: Vector3)
+---CHUNK---
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: This section describes the properties available in PhysicsDirectBodyState3D, including physical attributes like velocity, mass, inertia, and collision settings.
+
+Property Descriptions:
+
+*   **angular_velocity** (Vector3): The body's rotational velocity in radians per second.
+    *   Method: set_angular_velocity(value: Vector3)
+    *   Method: get_angular_velocity()
+
+*   **center_of_mass** (Vector3): The body's center of mass position relative to the body's center in the global coordinate system.
+    *   Method: get_center_of_mass()
+
+*   **center_of_mass_local** (Vector3): The body's center of mass position in the body's local coordinate system.
+    *   Method: get_center_of_mass_local()
+
+*   **collision_layer** (int): The body's collision layer.
+    *   Method: set_collision_layer(value: int)
+    *   Method: get_collision_layer()
+
+*   **collision_mask** (int): The body's collision mask.
+    *   Method: set_collision_mask(value: int)
+    *   Method: get_collision_mask()
+
+*   **inverse_inertia** (Vector3): The inverse of the inertia of the body.
+    *   Method: get_inverse_inertia()
+
+*   **inverse_inertia_tensor** (Basis): The inverse of the inertia tensor of the body.
+    *   Method: get_inverse_inertia_tensor()
+
+*   **inverse_mass** (float): The inverse of the mass of the body.
+    *   Method: get_inverse_mass()
+
+*   **linear_velocity** (Vector3): The body's linear velocity in units per second.
+    *   Method: set_linear_velocity(value: Vector3)
+    *   Method: get_linear_velocity()
+
+*   **principal_inertia_axes** (Basis):
+    *   Method: get_principal_inertia_axes()
+
+*   **sleeping** (bool): If `true`, this body is currently sleeping (not active).
+    *   Method: set_sleep_state(value: bool)
+    *   Method: is_sleeping()
+
+*   **step** (float): The timestep (delta) used for the simulation.
+    *   Method: get_step()
+
+*   **total_angular_damp** (float): The rate at which the body stops rotating, if there are not any other forces moving it.
+    *   Method: get_total_angular_damp()
+
+*   **total_gravity** (Vector3): The total gravity vector being currently applied to this body.
+    *   Method: get_total_gravity()
+
+*   **total_linear_damp** (float): The rate at which the body stops moving, if there are not any other forces moving it.
+    *   Method: get_total_linear_damp()
+
+*   **transform** (Transform3D): The body's transformation matrix.
+    *   Method: set_transform(value: Transform3D)
+    *   Method: get_transform()
+---CHUNK---
+Document: PhysicsDirectBodyState3D
+Path: godot/classes/class_physicsdirectbodystate3d.rst
+Summary: This section details methods for applying forces, impulses, and retrieving contact information for a PhysicsDirectBodyState3D.
+
+Method: add_constant_central_force(force: Vector3 = Vector3(0, 0, 0)) → void
+Adds a constant directional force without affecting rotation that keeps being applied over time until cleared with `constant_force = Vector3(0, 0, 0)`. This is equivalent to using add_constant_force() at the body's center of mass.
+
+Method: add_constant_force(force: Vector3, position: Vector3 = Vector3(0, 0, 0)) → void
+Adds a constant positioned force to the body that keeps being applied over time until cleared with `constant_force = Vector3(0, 0, 0)`. `position` is the offset from the body origin in global coordinates.
+
+Method: add_constant_torque(torque: Vector3) → void
+Adds a constant rotational force without affecting position that keeps being applied over time until cleared with `constant_torque = Vector3(0, 0, 0)`.
+
+Method: apply_central_force(force: Vector3 = Vector3(0, 0, 0)) → void
+Applies a directional force without affecting rotation. A force is time dependent and meant to be applied every physics update. This is equivalent to using apply_force() at the body's center of mass.
+
+Method: apply_central_impulse(impulse: Vector3 = Vector3(0, 0, 0)) → void
+Applies a directional impulse without affecting rotation. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise). This is equivalent to using apply_impulse() at the body's center of mass.
+
+Method: apply_force(force: Vector3, position: Vector3 = Vector3(0, 0, 0)) → void
+Applies a positioned force to the body. A force is time dependent and meant to be applied every physics update. `position` is the offset from the body origin in global coordinates.
+
+Method: apply_impulse(impulse: Vector3, position: Vector3 = Vector3(0, 0, 0)) → void
+Applies a positioned impulse to the body. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise). `position` is the offset from the body origin in global coordinates.
+
+Method: apply_torque(torque: Vector3) → void
+Applies a rotational force without affecting position. A force is time dependent and meant to be applied every physics update. Note: inverse_inertia is required for this to work. To have inverse_inertia, an active CollisionShape3D must be a child of the node, or you can manually set inverse_inertia.
+
+Method: apply_torque_impulse(impulse: Vector3) → void
+Applies a rotational impulse to the body without affecting the position. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise). Note: inverse_inertia is required for this to work. To have inverse_inertia, an active CollisionShape3D must be a child of the node, or you can manually set inverse_inertia.
+
+Method: get_constant_force() → Vector3
+Returns the body's total constant positional forces applied during each physics update. See add_constant_force() and add_constant_central_force().
+
+Method: get_constant_torque() → Vector3
+Returns the body's total constant rotational forces applied during each physics update. See add_constant_torque().
+
+Method: get_contact_collider(contact_idx: int) → RID
+Returns the collider's RID.
+
+Method: get_contact_collider_id(contact_idx: int) → int
+Returns the collider's object id.
+
+Method: get_contact_collider_object(contact_idx: int) → Object
+Returns the collider object.
+
+Method: get_contact_collider_position(contact_idx: int) → Vector3
+Returns the position of the contact point on the collider in the global coordinate system.
+
+Method: get_contact_collider_shape(contact_idx: int) → int
+Returns the collider's shape index.
+
+Method: get_contact_collider_velocity_at_position(contact_idx: int) → Vector3
+Returns the linear velocity vector at the collider's contact point.
+
+Method: get_contact_count() → int
+Returns the number of contacts this body has with other bodies. Note: By default, this returns 0 unless bodies are configured to monitor contacts. See RigidBody3D.contact_monitor.
+
+Method: get_contact_impulse(contact_idx: int) → Vector3
+Impulse created by the contact.
+
+Method: get_contact_local_normal(contact_idx: int) → Vector3
+Returns the local normal at the contact point.
+
+Method: get_contact_local_position(contact_idx: int) → Vector3
+Returns the position of the contact point on the body in the global coordinate system.
+
+Method: get_contact_local_shape(contact_idx: int) → int
+Returns the local shape index of the collision.
+
+Method: get_contact_local_velocity_at_position(contact_idx: int) → Vector3
+Returns the linear velocity vector at the body's contact point.
+
+Method: get_space_state() → PhysicsDirectSpaceState3D
+Returns the current state of the space, useful for queries.
+
+Method: get_velocity_at_local_position(local_position: Vector3) → Vector3
+Returns the body's velocity at the given relative position. `local_position` is the offset from the body origin in global coordinates.
+
+Method: integrate_forces() → void
+Updates the body's linear and angular velocity by applying gravity and damping for the equivalent of one physics tick.
+
+Method: set_constant_force(force: Vector3) → void
+Sets the body's total constant positional forces applied during each physics update. See add_constant_force() and add_constant_central_force().
+
+Method: set_constant_torque(torque: Vector3) → void
+Sets the body's total constant rotational forces applied during each physics update. See add_constant_torque().

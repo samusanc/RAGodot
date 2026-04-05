@@ -1,0 +1,189 @@
+Document: NavigationPolygon
+Path: godot/classes/class_navigationpolygon.rst
+Summary: This document describes the NavigationPolygon class, which defines a traversable area for navigation.
+---CHUNK---
+Document: NavigationPolygon
+Path: godot/classes/class_navigationpolygon.rst
+Summary: A 2D navigation mesh that describes a traversable surface for pathfinding.
+Key Rule: This class may be changed or removed in future versions.
+Inherits: Resource < RefCounted < Object
+
+A 2D navigation mesh that describes a traversable surface for pathfinding.
+---CHUNK---
+Document: NavigationPolygon
+Path: godot/classes/class_navigationpolygon.rst
+Summary: Describes how to create a NavigationPolygon by baking or by manually adding vertices and polygons.
+
+A navigation mesh can be created either by baking it with the help of the NavigationServer2D, or by adding vertices and convex polygon indices arrays manually. To bake a navigation mesh at least one outline needs to be added that defines the outer bounds of the baked area.
+
+GDScript:
+var new_navigation_mesh = NavigationPolygon.new()
+var bounding_outline = PackedVector2Array([Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)])
+new_navigation_mesh.add_outline(bounding_outline)
+NavigationServer2D.bake_from_source_geometry_data(new_navigation_mesh, NavigationMeshSourceGeometryData2D.new());
+$NavigationRegion2D.navigation_polygon = new_navigation_mesh
+
+C#:
+var newNavigationMesh = new NavigationPolygon();
+Vector2[] boundingOutline = [new Vector2(0, 0), new Vector2(0, 50), new Vector2(50, 50), new Vector2(50, 0)];
+newNavigationMesh.AddOutline(boundingOutline);
+NavigationServer2D.BakeFromSourceGeometryData(newNavigationMesh, new NavigationMeshSourceGeometryData2D());
+GetNode<NavigationRegion2D>("NavigationRegion2D").NavigationPolygon = newNavigationMesh;
+
+Adding vertices and polygon indices manually.
+
+GDScript:
+var new_navigation_mesh = NavigationPolygon.new()
+var new_vertices = PackedVector2Array([Vector2(0, 0), Vector2(0, 50), Vector2(50, 50), Vector2(50, 0)])
+new_navigation_mesh.vertices = new_vertices
+var new_polygon_indices = PackedInt32Array([0, 1, 2, 3])
+new_navigation_mesh.add_polygon(new_polygon_indices)
+$NavigationRegion2D.navigation_polygon = new_navigation_mesh
+
+C#:
+var newNavigationMesh = new NavigationPolygon();
+Vector2[] newVertices = [new Vector2(0, 0), new Vector2(0, 50), new Vector2(50, 50), new Vector2(50, 0)];
+newNavigationMesh.Vertices = newVertices;
+int[] newPolygonIndices = [0, 1, 2, 3];
+newNavigationMesh.AddPolygon(newPolygonIndices);
+GetNode<NavigationRegion2D>("NavigationRegion2D").NavigationPolygon = newNavigationMesh;
+---CHUNK---
+Document: Navigation Tutorials
+Path: godot/classes/class_navigationpolygon.rst
+Summary: Lists tutorials and demos related to navigation polygons.
+
+- Using NavigationMeshes
+- Navigation Polygon 2D Demo
+---CHUNK---
+Document: NavigationPolygon
+Path: godot/classes/class_navigationpolygon.rst
+Summary: This section lists the properties available for configuring a NavigationPolygon.
+
+Properties:
+* agent_radius (float): Default: 10.0
+* baking_rect (Rect2): Default: Rect2(0, 0, 0, 0)
+* baking_rect_offset (Vector2): Default: Vector2(0, 0)
+* border_size (float): Default: 0.0
+* cell_size (float): Default: 1.0
+* parsed_collision_mask (int): Default: 4294967295
+* parsed_geometry_type (ParsedGeometryType): Default: 2
+* sample_partition_type (SamplePartitionType): Default: 0
+* source_geometry_group_name (StringName): Default: &"navigation_polygon_source_geometry_group"
+* source_geometry_mode (SourceGeometryMode): Default: 0
+---CHUNK---
+Document: NavigationPolygon
+Path: godot/classes/class_navigationpolygon.rst
+Summary: This section details the methods and enumerations available for managing navigation polygons, including adding/removing outlines and polygons, and defining geometry parsing modes.
+
+Methods:
+*   Method: add_outline(outline: PackedVector2Array)
+*   Method: add_outline_at_index(outline: PackedVector2Array, index: int)
+*   Method: add_polygon(polygon: PackedInt32Array)
+*   Method: clear()
+*   Method: clear_outlines()
+*   Method: clear_polygons()
+*   Method: get_navigation_mesh() -> NavigationMesh
+*   Method: get_outline(idx: int) -> PackedVector2Array
+*   Method: get_outline_count() -> int
+*   Method: get_parsed_collision_mask_value(layer_number: int) -> bool
+*   Method: get_polygon(idx: int) -> PackedInt32Array
+*   Method: get_polygon_count() -> int
+*   Method: get_vertices() -> PackedVector2Array
+*   Method: make_polygons_from_outlines()
+*   Method: remove_outline(idx: int)
+*   Method: set_outline(idx: int, outline: PackedVector2Array)
+*   Method: set_parsed_collision_mask_value(layer_number: int, value: bool)
+*   Method: set_vertices(vertices: PackedVector2Array)
+
+Enumerations:
+enum SamplePartitionType:
+*   SAMPLE_PARTITION_CONVEX_PARTITION = 0: Convex partitioning that results in a navigation mesh with convex polygons.
+*   SAMPLE_PARTITION_TRIANGULATE = 1: Triangulation partitioning that results in a navigation mesh with triangle polygons.
+*   SAMPLE_PARTITION_MAX = 2: Represents the size of the SamplePartitionType enum.
+
+enum ParsedGeometryType:
+*   PARSED_GEOMETRY_MESH_INSTANCES = 0: Parses mesh instances as obstruction geometry. This includes Polygon2D, MeshInstance2D, MultiMeshInstance2D, and TileMap nodes. Meshes are only parsed when they use a 2D vertices surface format.
+*   PARSED_GEOMETRY_STATIC_COLLIDERS = 1: Parses StaticBody2D and TileMap colliders as obstruction geometry. The collider should be in any of the layers specified by parsed_collision_mask.
+*   PARSED_GEOMETRY_BOTH = 2: Both PARSED_GEOMETRY_MESH_INSTANCES and PARSED_GEOMETRY_STATIC_COLLIDERS.
+*   PARSED_GEOMETRY_MAX = 3: Represents the size of the ParsedGeometryType enum.
+
+enum SourceGeometryMode:
+*   SOURCE_GEOMETRY_ROOT_NODE_CHILDREN = 0: Scans the child nodes of the root node recursively for geometry.
+*   SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN = 1: Scans nodes in a group and their child nodes recursively for geometry. The group is specified by source_geometry_group_name.
+*   SOURCE_GEOMETRY_GROUPS_EXPLICIT = 2: Uses nodes in a group for geometry. The group is specified by source_geometry_group_name.
+*   SOURCE_GEOMETRY_MAX = 3: Represents the size of the SourceGeometryMode enum.
+---CHUNK---
+Document: NavigationPolygon
+Path: godot/classes/class_navigationpolygon.rst
+Summary: This section describes the properties available for configuring a NavigationPolygon, including parameters for agent radius, baking area, cell size, geometry parsing, and source geometry.
+
+Properties:
+agent_radius (float): The distance to erode/shrink the walkable surface when baking the navigation mesh. Default: 10.0. Note: The radius must be equal or higher than 0.0. If the radius is 0.0, it won't be possible to fix invalid outline overlaps and other precision errors during the baking process. As a result, some obstacles may be excluded incorrectly from the final navigation mesh, or may delete the navigation mesh's polygons.
+baking_rect (Rect2): If the baking Rect2 has an area the navigation mesh baking will be restricted to its enclosing area. Default: Rect2(0, 0, 0, 0).
+baking_rect_offset (Vector2): The position offset applied to the baking_rect Rect2. Default: Vector2(0, 0).
+border_size (float): The size of the non-navigable border around the bake bounding area defined by the baking_rect Rect2. In conjunction with the baking_rect the border size can be used to bake tile aligned navigation meshes without the tile edges being shrunk by agent_radius. Default: 0.0.
+cell_size (float): The cell size used to rasterize the navigation mesh vertices. Must match with the cell size on the navigation map. Default: 1.0.
+parsed_collision_mask (int): The physics layers to scan for static colliders. Only used when parsed_geometry_type is PARSED_GEOMETRY_STATIC_COLLIDERS or PARSED_GEOMETRY_BOTH. Default: 4294967295.
+parsed_geometry_type (ParsedGeometryType): Determines which type of nodes will be parsed as geometry. Default: 2.
+sample_partition_type (SamplePartitionType): Partitioning algorithm for creating the navigation mesh polys. Default: 0.
+source_geometry_group_name (StringName): The group name of nodes that should be parsed for baking source geometry. Only used when source_geometry_mode is SOURCE_GEOMETRY_GROUPS_WITH_CHILDREN or SOURCE_GEOMETRY_GROUPS_EXPLICIT. Default: "navigation_polygon_source_geometry_group".
+source_geometry_mode (SourceGeometryMode): The source of the geometry used when baking. Default: 0.
+---CHUNK---
+Document: NavigationPolygon
+Path: godot/classes/class_navigationpolygon.rst
+Summary: This section describes methods for managing outlines, polygons, vertices, and collision masks within a NavigationPolygon.
+
+Method: add_outline(outline: PackedVector2Array) -> void
+Appends a PackedVector2Array that contains the vertices of an outline to the internal array that contains all the outlines.
+
+Method: add_outline_at_index(outline: PackedVector2Array, index: int) -> void
+Adds a PackedVector2Array that contains the vertices of an outline to the internal array that contains all the outlines at a fixed position.
+
+Method: add_polygon(polygon: PackedInt32Array) -> void
+Adds a polygon using the indices of the vertices you get when calling get_vertices().
+
+Method: clear() -> void
+Clears the internal arrays for vertices and polygon indices.
+
+Method: clear_outlines() -> void
+Clears the array of the outlines, but it doesn't clear the vertices and the polygons that were created by them.
+
+Method: clear_polygons() -> void
+Clears the array of polygons, but it doesn't clear the array of outlines and vertices.
+
+Method: get_navigation_mesh() -> NavigationMesh
+Returns the NavigationMesh resulting from this navigation polygon. This navigation mesh can be used to update the navigation mesh of a region with the NavigationServer3D.region_set_navigation_mesh() API directly.
+
+Method: get_outline(idx: int) -> PackedVector2Array
+Returns a PackedVector2Array containing the vertices of an outline that was created in the editor or by script.
+
+Method: get_outline_count() -> int
+Returns the number of outlines that were created in the editor or by script.
+
+Method: get_parsed_collision_mask_value(layer_number: int) -> bool
+Returns whether or not the specified layer of the parsed_collision_mask is enabled, given a layer_number between 1 and 32.
+
+Method: get_polygon(idx: int) -> PackedInt32Array
+Returns a PackedInt32Array containing the indices of the vertices of a created polygon.
+
+Method: get_polygon_count() -> int
+Returns the count of all polygons.
+
+Method: get_vertices() -> PackedVector2Array
+Returns a PackedVector2Array containing all the vertices being used to create the polygons.
+
+Method: make_polygons_from_outlines() -> void
+Deprecated: Use NavigationServer2D.parse_source_geometry_data() and NavigationServer2D.bake_from_source_geometry_data() instead.
+Creates polygons from the outlines added in the editor or by script.
+
+Method: remove_outline(idx: int) -> void
+Removes an outline created in the editor or by script. You have to call make_polygons_from_outlines() for the polygons to update.
+
+Method: set_outline(idx: int, outline: PackedVector2Array) -> void
+Changes an outline created in the editor or by script. You have to call make_polygons_from_outlines() for the polygons to update.
+
+Method: set_parsed_collision_mask_value(layer_number: int, value: bool) -> void
+Based on value, enables or disables the specified layer in the parsed_collision_mask, given a layer_number between 1 and 32.
+
+Method: set_vertices(vertices: PackedVector2Array) -> void
+Sets the vertices that can be then indexed to create polygons with the add_polygon() method.

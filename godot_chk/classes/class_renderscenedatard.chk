@@ -1,0 +1,16 @@
+Document: RenderSceneDataRD
+Path: godot/classes/class_renderscenedatard.rst
+Summary: Base class for managing render scene data in Godot Engine.
+---CHUNK---
+Document: RenderSceneDataRD
+Path: godot/classes/class_renderscenedatard.rst
+Summary: Implementation of render scene data for RenderingDevice-based renderers.
+
+Inherits: RenderSceneData < Object
+Render scene data implementation for the RenderingDevice based renderers.
+---CHUNK---
+Document: RenderSceneDataRD
+Path: godot/classes/class_renderscenedatard.rst
+Summary: Class holds scene data for rendering a single viewport frame and is part of the internal rendering system.
+
+Object holds scene data related to rendering a single frame of a viewport. See also RenderSceneData, RenderData, and RenderDataRD. Note: This is an internal rendering server object. Do not instantiate this class from a script.

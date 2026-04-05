@@ -1,0 +1,15 @@
+Document: VisualShaderNodeTexture3DParameter
+Path: godot/classes/class_visualshadernodetexture3dparameter.rst
+Summary: A class representing a 3D texture parameter node in a visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTexture3DParameter
+Path: godot/classes/class_visualshadernodetexture3dparameter.rst
+Summary: Provides a 3D texture parameter within the visual shader graph.
+
+Inherits: VisualShaderNodeTextureParameter < VisualShaderNodeParameter < VisualShaderNode < Resource < RefCounted < Object
+Provides a 3D texture parameter within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTexture3DParameter
+Path: godot/classes/class_visualshadernodetexture3dparameter.rst
+Summary: Represents a 3D texture parameter in shaders, translated to 'uniform sampler3D' in the shader language.
+Translated to uniform sampler3D in the shader language.

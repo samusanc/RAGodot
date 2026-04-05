@@ -1,0 +1,49 @@
+Document: RDUniform
+Path: godot/classes/class_rduniform.rst
+Summary: Class RDUniform reference.
+---CHUNK---
+Document: RDUniform
+Path: godot/classes/class_rduniform.rst
+Summary: Shader uniform used by the RenderingDevice class for managing uniform data in shaders.
+
+Inherits: RefCounted < Object
+Shader uniform (used by RenderingDevice).
+---CHUNK---
+Document: class_rduniform
+Path: godot/classes/class_rduniform.rst
+Summary: A class used by RenderingDevice for managing uniform data in rendering operations.
+---CHUNK---
+Document: RDUniform
+Path: godot/classes/class_rduniform.rst
+Summary: Properties and their default values for the RDUniform class.
+
+Property: binding (int): The binding point for the uniform. Default: 0.
+Property: uniform_type (UniformType): The type of the uniform. Default: 3.
+---CHUNK---
+Document: RDUniform
+Path: godot/classes/class_rduniform.rst
+Summary: Methods for managing RIDs in a uniform buffer including adding, clearing, and retrieving RID collections.
+
+Method: add_id(id: RID) → void. Adds the given RID to the uniform buffer.
+
+Method: clear_ids() → void. Removes all RIDs from the uniform buffer.
+
+Method: get_ids() → Array[RID] const. Returns a read-only array containing all RIDs currently stored in the uniform buffer.
+---CHUNK---
+Document: RDUniform
+Path: godot/classes/class_rduniform.rst
+Summary: Describes the binding and uniform_type properties of the RDUniform class, including their default values and access methods.
+
+binding (int): The uniform's binding. Default: 0. Methods: set_binding(value: int), get_binding() → int.
+
+uniform_type (UniformType): The uniform's data type. Default: 3. Methods: set_uniform_type(value: UniformType), get_uniform_type() → UniformType.
+---CHUNK---
+Document: RDUniform
+Path: godot/classes/class_rduniform.rst
+Summary: Methods for managing bound IDs associated with a uniform in the rendering system.
+
+Method: add_id(RID id) → void. Binds the given id to the uniform. The data associated with the id is then used when the uniform is passed to a shader.
+
+Method: clear_ids() → void. Unbinds all ids currently bound to the uniform.
+
+Method: get_ids() → Array<RID> (const). Returns an array of all ids currently bound to the uniform.

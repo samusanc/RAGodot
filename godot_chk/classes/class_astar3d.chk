@@ -1,0 +1,157 @@
+Document: AStar3D
+Path: godot/classes/class_astar3d.rst
+Summary: This chunk identifies the AStar3D class.
+---CHUNK---
+Document: AStar3D
+Path: godot/classes/class_astar3d.rst
+Summary: An implementation of A* for finding the shortest path between two vertices on a connected graph in 3D space.
+
+AStar3D
+Inherits: RefCounted < Object
+
+An implementation of A* for finding the shortest path between two vertices on a connected graph in 3D space.
+---CHUNK---
+Document: AStar3D
+Path: godot/classes/class_astar3d.rst
+Summary: This section describes the A* pathfinding algorithm implementation in Godot, how to use it, and how to customize its cost calculation.
+
+A* (A star) is a computer algorithm used in pathfinding and graph traversal, the process of plotting short paths among vertices (points), passing through a given set of edges (segments). It enjoys widespread use due to its performance and accuracy. Godot's A* implementation uses points in 3D space and Euclidean distances by default.
+
+You must add points manually with add_point() and create segments manually with connect_points(). Once done, you can test if there is a path between two points with the are_points_connected() function, get a path containing indices by get_id_path(), or one containing actual coordinates with get_point_path().
+
+It is also possible to use non-Euclidean distances. To do so, create a script that extends AStar3D and override the methods _compute_cost() and _estimate_cost(). Both should take two point IDs and return the distance between the corresponding points.
+
+Example: Use Manhattan distance instead of Euclidean distance:
+
+GDScript:
+class_name MyAStar3D
+extends AStar3D
+
+func _compute_cost(u, v):
+    var u_pos = get_point_position(u)
+    var v_pos = get_point_position(v)
+    return abs(u_pos.x - v_pos.x) + abs(u_pos.y - v_pos.y) + abs(u_pos.z - v_pos.z)
+
+func _estimate_cost(u, v):
+    var u_pos = get_point_position(u)
+    var v_pos = get_point_position(v)
+    return abs(u_pos.x - v_pos.x) + abs(u_pos.y - v_pos.y) + abs(u_pos.z - v_pos.z)
+
+C#:
+using Godot;
+
+[GlobalClass]
+public partial class MyAStar3D : AStar3D
+{
+    public override float _ComputeCost(long fromId, long toId)
+    {
+        Vector3 fromPoint = GetPointPosition(fromId);
+        Vector3 toPoint = GetPointPosition(toId);
+
+        return Mathf.Abs(fromPoint.X - toPoint.X) + Mathf.Abs(fromPoint.Y - toPoint.Y) + Mathf.Abs(fromPoint.Z - toPoint.Z);
+    }
+
+    public override float _EstimateCost(long fromId, long toId)
+    {
+        Vector3 fromPoint = GetPointPosition(fromId);
+        Vector3 toPoint = GetPointPosition(toId);
+        return Mathf.Abs(fromPoint.X - toPoint.X) + Mathf.Abs(fromPoint.Y - toPoint.Y) + Mathf.Abs(fromPoint.Z - toPoint.Z);
+    }
+}
+
+_estimate_cost() should return a lower bound of the distance, i.e. _estimate_cost(u, v) <= _compute_cost(u, v). This serves as a hint to the algorithm because the custom _compute_cost() might be computation-heavy. If this is not the case, make _estimate_cost() return the same value as _compute_cost() to provide the algorithm with the most accurate information.
+
+If the default _estimate_cost() and _compute_cost() methods are used, or if the supplied _estimate_cost() method returns a lower bound of the cost, then the paths returned by A* will be the lowest-cost paths. Here, the cost of a path equals the sum of the _compute_cost() results of all segments in the path multiplied by the weight_scales of the endpoints of the respective segments. If the default methods are used and the weight_scales of all points are set to 1.0, then this equals the sum of Euclidean distances of all segments in the path.
+---CHUNK---
+Document: AStar3D
+Path: godot/classes/class_astar3d.rst
+Summary: This section describes the properties of the AStar3D class.
+
+*   neighbor_filter_enabled (bool): No description provided. Default: false.
+---CHUNK---
+Document: AStar3D
+Path: godot/classes/class_astar3d.rst
+Summary: Lists all available methods for the AStar3D class.
+
+Method: _compute_cost(from_id: int, to_id: int) -> float
+Method: _estimate_cost(from_id: int, end_id: int) -> float
+Method: _filter_neighbor(from_id: int, neighbor_id: int) -> bool
+Method: add_point(id: int, position: Vector3, weight_scale: float = 1.0) -> void
+Method: are_points_connected(id: int, to_id: int, bidirectional: bool = true) -> bool
+Method: clear() -> void
+Method: connect_points(id: int, to_id: int, bidirectional: bool = true) -> void
+Method: disconnect_points(id: int, to_id: int, bidirectional: bool = true) -> void
+Method: get_available_point_id() -> int
+Method: get_closest_point(to_position: Vector3, include_disabled: bool = false) -> int
+Method: get_closest_position_in_segment(to_position: Vector3) -> Vector3
+Method: get_id_path(from_id: int, to_id: int, allow_partial_path: bool = false) -> PackedInt64Array
+Method: get_point_capacity() -> int
+Method: get_point_connections(id: int) -> PackedInt64Array
+Method: get_point_count() -> int
+Method: get_point_ids() -> PackedInt64Array
+Method: get_point_path(from_id: int, to_id: int, allow_partial_path: bool = false) -> PackedVector3Array
+Method: get_point_position(id: int) -> Vector3
+Method: get_point_weight_scale(id: int) -> float
+Method: has_point(id: int) -> bool
+Method: is_point_disabled(id: int) -> bool
+Method: remove_point(id: int) -> void
+Method: reserve_space(num_nodes: int) -> void
+Method: set_point_disabled(id: int, disabled: bool = true) -> void
+Method: set_point_position(id: int, position: Vector3) -> void
+Method: set_point_weight_scale(id: int, weight_scale: float) -> void
+---CHUNK---
+Document: AStar3D
+Path: godot/classes/class_astar3d.rst
+Summary: This section describes the `neighbor_filter_enabled` property of the AStar3D class.
+
+neighbor_filter_enabled (bool): If `true` enables the filtering of neighbors via _filter_neighbor(). Default: false.
+- set_neighbor_filter_enabled(value: bool)
+- is_neighbor_filter_enabled()
+---CHUNK---
+Document: AStar3D
+Path: godot/classes/class_astar3d.rst
+Summary: This section describes methods for managing points and connections within an AStar3D pathfinding grid, including adding, connecting, and disconnecting points, and custom cost calculation.
+
+Method: float _compute_cost(from_id: int, to_id: int) -> float
+Called when computing the cost between two connected points. Note: This function is hidden in the default AStar3D class.
+
+Method: float _estimate_cost(from_id: int, end_id: int) -> float
+Called when estimating the cost between a point and the path's ending point. Note: This function is hidden in the default AStar3D class.
+
+Method: bool _filter_neighbor(from_id: int, neighbor_id: int) -> bool
+Called when neighboring point enters processing and if neighbor_filter_enabled is true. If true is returned the point will not be processed. Note: This function is hidden in the default AStar3D class.
+
+Method: void add_point(id: int, position: Vector3, weight_scale: float = 1.0)
+Adds a new point at the given position with the given identifier. The id must be 0 or larger, and the weight_scale must be 0.0 or greater. The weight_scale is multiplied by the result of _compute_cost() when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower weight_scales to form a path. If there already exists a point for the given id, its position and weight scale are updated to the given values.
+
+GDScript:
+var astar = AStar3D.new()
+astar.add_point(1, Vector3(1, 0, 0), 4) # Adds the point (1, 0, 0) with weight_scale 4 and id 1
+
+C#:
+var astar = new AStar3D();
+astar.AddPoint(1, new Vector3(1, 0, 0), 4); // Adds the point (1, 0, 0) with weight_scale 4 and id 1
+
+Method: bool are_points_connected(id: int, to_id: int, bidirectional: bool = true) -> bool
+Returns whether the two given points are directly connected by a segment. If bidirectional is false, returns whether movement from id to to_id is possible through this segment.
+
+Method: void clear()
+Clears all the points and segments.
+
+Method: void connect_points(id: int, to_id: int, bidirectional: bool = true)
+Creates a segment between the given points. If bidirectional is false, only movement from id to to_id is allowed, not the reverse direction.
+
+GDScript:
+var astar = AStar3D.new()
+astar.add_point(1, Vector3(1, 1, 0))
+astar.add_point(2, Vector3(0, 5, 0))
+astar.connect_points(1, 2, false)
+
+C#:
+var astar = new AStar3D();
+astar.AddPoint(1, new Vector3(1, 1, 0));
+astar.AddPoint(2, new Vector3(0, 5, 0));
+astar.ConnectPoints(1, 2, false);
+
+Method: void disconnect_points(id: int, to_id: int, bidirectional: bool = true)
+Deletes the segment between the given points. If bidirectional is false, only movement from id to to_id is prevented, and a unidirectional segment possibly remains.

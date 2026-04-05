@@ -1,0 +1,60 @@
+Document: EditorFileDialog
+Path: godot/classes/class_editorfiledialog.rst
+Summary: The EditorFileDialog class provides a file dialog interface for the Godot editor with file selection and filtering capabilities.
+
+Inherits: EditorWindow < ConfirmationDialog < Window < Control < CanvasItem < Node < Object
+
+The EditorFileDialog class is a specialized dialog window used for selecting files within the Godot editor interface. It extends the ConfirmationDialog class to provide a file selection UI with support for multiple file types through filter systems. Key features include:
+
+- File path display and navigation
+- File type filtering system
+- Multiple selection support
+- Dialog mode configuration (open/save)
+- Customizable UI elements
+
+The class implements the following core functionality:
+- File system browsing with directory navigation
+- File selection with checkbox support
+- Filter system for showing/hiding file types
+- Dialog result handling (success/cancel)
+- Integration with the editor's file management system
+
+Key Rule: EditorFileDialog must be used within the Godot editor context and cannot be instantiated directly in scenes.
+---CHUNK---
+Document: EditorFileDialog
+Path: godot/classes/class_editorfiledialog.rst
+Summary: A modified FileDialog used by the Godot editor for file operations.
+
+Inherits: FileDialog < ConfirmationDialog < AcceptDialog < Window < Viewport < Node < Object
+A modified version of FileDialog used by the editor.
+---CHUNK---
+Document: EditorFileDialog
+Path: godot/classes/class_editorfiledialog.rst
+Summary: Property disable_overwrite_warning and its default value
+
+- disable_overwrite_warning (bool): Controls whether the overwrite warning is disabled. Default: false.
+---CHUNK---
+Document: EditorFileDialog
+Path: godot/classes/class_editorfiledialog.rst
+Summary: Method add_side_menu with parameters and default value
+
+Method: add_side_menu(menu: Control, title: String = "")  
+Adds a side menu panel with the specified control and optional title. The title parameter is optional and defaults to an empty string if not provided.
+---CHUNK---
+Document: EditorFileDialog
+Path: godot/classes/class_editorfiledialog.rst
+Summary: Controls whether the file dialog warns users before overwriting files
+
+Property: disable_overwrite_warning (bool) = false
+Description: If true, the EditorFileDialog will not warn the user before overwriting files.
+
+Method: set_disable_overwrite_warning(value: bool)
+Method: is_overwrite_warning_disabled() → bool
+
+Note: Deprecated: Use FileDialog.overwrite_warning_enabled instead.
+---CHUNK---
+Document: EditorFileDialog
+Path: godot/classes/class_editorfiledialog.rst
+Summary: Deprecated method that does nothing; use alternative dialog display instead
+
+Note: This feature is no longer supported. This method is kept for compatibility and does nothing. As an alternative, you can display another dialog after showing the file dialog.

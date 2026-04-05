@@ -1,0 +1,248 @@
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: Overview of the Vector4i class.
+---CHUNK---
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: A 4D vector using integer coordinates.
+
+Vector4i
+A 4D vector using integer coordinates.
+---CHUNK---
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: A 4-element integer vector structure for 4D grid coordinates or quadruplets.
+A 4-element structure that can be used to represent 4D grid coordinates or any other quadruplet of integers. It uses integer coordinates and is therefore preferable to Vector4 when exact precision is required. Note that the values are limited to 32 bits, and unlike Vector4 this cannot be configured with an engine build option. Use int or PackedInt64Array if 64-bit values are needed. Key Rule: In a boolean context, a Vector4i will evaluate to false if it's equal to Vector4i(0, 0, 0, 0). Otherwise, a Vector4i will always evaluate to true.
+---CHUNK---
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: This section describes the properties (member variables) of the Vector4i class.
+
+Properties:
+* w (int): Default: 0
+* x (int): Default: 0
+* y (int): Default: 0
+* z (int): Default: 0
+---CHUNK---
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: This section details the constructors, methods, operators, and enumerations available for the Vector4i class.
+
+Constructors:
+* Vector4i()
+* Vector4i(from: Vector4i)
+* Vector4i(from: Vector4)
+* Vector4i(x: int, y: int, z: int, w: int)
+
+Methods:
+* Method: abs() → Vector4i
+* Method: clamp(min: Vector4i, max: Vector4i) → Vector4i
+* Method: clampi(min: int, max: int) → Vector4i
+* Method: distance_squared_to(to: Vector4i) → int
+* Method: distance_to(to: Vector4i) → float
+* Method: length() → float
+* Method: length_squared() → int
+* Method: max(with: Vector4i) → Vector4i
+* Method: max_axis_index() → int
+* Method: maxi(with: int) → Vector4i
+* Method: min(with: Vector4i) → Vector4i
+* Method: min_axis_index() → int
+* Method: mini(with: int) → Vector4i
+* Method: sign() → Vector4i
+* Method: snapped(step: Vector4i) → Vector4i
+* Method: snappedi(step: int) → Vector4i
+
+Operators:
+* operator !=(right: Vector4i) → bool
+* operator %(right: Vector4i) → Vector4i
+* operator %(right: int) → Vector4i
+* operator *(right: Vector4i) → Vector4i
+* operator *(right: float) → Vector4
+* operator *(right: int) → Vector4i
+* operator +(right: Vector4i) → Vector4i
+* operator -(right: Vector4i) → Vector4i
+* operator /(right: Vector4i) → Vector4i
+* operator /(right: float) → Vector4
+* operator /(right: int) → Vector4i
+* operator <(right: Vector4i) → bool
+* operator <=(right: Vector4i) → bool
+* operator ==(right: Vector4i) → bool
+* operator >(right: Vector4i) → bool
+* operator >=(right: Vector4i) → bool
+* operator [](index: int) → int
+* operator unary+() → Vector4i
+* operator unary-() → Vector4i
+
+Enumerations:
+enum Axis:
+* AXIS_X = 0: Enumerated value for the X axis. Returned by max_axis_index() and min_axis_index().
+* AXIS_Y = 1: Enumerated value for the Y axis. Returned by max_axis_index() and min_axis_index().
+* AXIS_Z = 2: Enumerated value for the Z axis. Returned by max_axis_index() and min_axis_index().
+* AXIS_W = 3: Enumerated value for the W axis. Returned by max_axis_index() and min_axis_index().
+---CHUNK---
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: This section describes the predefined constant Vector4i values: ZERO, ONE, MIN, and MAX.
+
+Constants
+**ZERO** = Vector4i(0, 0, 0, 0)
+Zero vector, a vector with all components set to 0.
+
+**ONE** = Vector4i(1, 1, 1, 1)
+One vector, a vector with all components set to 1.
+
+**MIN** = Vector4i(-2147483648, -2147483648, -2147483648, -2147483648)
+Min vector, a vector with all components equal to INT32_MIN. Can be used as a negative integer equivalent of Vector4.INF.
+
+**MAX** = Vector4i(2147483647, 2147483647, 2147483647, 2147483647)
+Max vector, a vector with all components equal to INT32_MAX. Can be used as an integer equivalent of Vector4.INF.
+---CHUNK---
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: This section describes the individual integer components (x, y, z, w) of a Vector4i.
+
+Properties:
+w (int): The vector's W component. Default: 0. Also accessible by using the index position [3].
+x (int): The vector's X component. Default: 0. Also accessible by using the index position [0].
+y (int): The vector's Y component. Default: 0. Also accessible by using the index position [1].
+z (int): The vector's Z component. Default: 0. Also accessible by using the index position [2].
+---CHUNK---
+Document: Vector4i
+Path: godot/classes/class_vector4i.rst
+Summary: This section details the constructors, methods, and operators available for the Vector4i class, covering initialization, mathematical operations, and component-wise comparisons.
+
+Constructor Descriptions
+Method: Vector4i() -> Vector4i
+Constructs a default-initialized Vector4i with all components set to 0.
+
+Method: Vector4i(from: Vector4i) -> Vector4i
+Constructs a Vector4i as a copy of the given Vector4i.
+
+Method: Vector4i(from: Vector4) -> Vector4i
+Constructs a new Vector4i from the given Vector4 by truncating components' fractional parts (rounding towards zero). For a different behavior consider passing the result of Vector4.ceil(), Vector4.floor() or Vector4.round() to this constructor instead.
+
+Method: Vector4i(x: int, y: int, z: int, w: int) -> Vector4i
+Returns a Vector4i with the given components.
+
+Method Descriptions
+Method: abs() -> Vector4i
+Returns a new vector with all components in absolute values (i.e. positive).
+
+Method: clamp(min: Vector4i, max: Vector4i) -> Vector4i
+Returns a new vector with all components clamped between the components of min and max, by running @GlobalScope.clamp() on each component.
+
+Method: clampi(min: int, max: int) -> Vector4i
+Returns a new vector with all components clamped between min and max, by running @GlobalScope.clamp() on each component.
+
+Method: distance_squared_to(to: Vector4i) -> int
+Returns the squared distance between this vector and to. This method runs faster than distance_to(), so prefer it if you need to compare vectors or need the squared distance for some formula.
+
+Method: distance_to(to: Vector4i) -> float
+Returns the distance between this vector and to.
+
+Method: length() -> float
+Returns the length (magnitude) of this vector.
+
+Method: length_squared() -> int
+Returns the squared length (squared magnitude) of this vector. This method runs faster than length(), so prefer it if you need to compare vectors or need the squared distance for some formula.
+
+Method: max(with: Vector4i) -> Vector4i
+Returns the component-wise maximum of this and with, equivalent to Vector4i(maxi(x, with.x), maxi(y, with.y), maxi(z, with.z), maxi(w, with.w)).
+
+Method: max_axis_index() -> int
+Returns the axis of the vector's highest value. See AXIS_* constants. If all components are equal, this method returns AXIS_X.
+
+Method: maxi(with: int) -> Vector4i
+Returns the component-wise maximum of this and with, equivalent to Vector4i(maxi(x, with), maxi(y, with), maxi(z, with), maxi(w, with)).
+
+Method: min(with: Vector4i) -> Vector4i
+Returns the component-wise minimum of this and with, equivalent to Vector4i(mini(x, with.x), mini(y, with.y), mini(z, with.z), mini(w, with.w)).
+
+Method: min_axis_index() -> int
+Returns the axis of the vector's lowest value. See AXIS_* constants. If all components are equal, this method returns AXIS_W.
+
+Method: mini(with: int) -> Vector4i
+Returns the component-wise minimum of this and with, equivalent to Vector4i(mini(x, with), mini(y, with), mini(z, with), mini(w, with)).
+
+Method: sign() -> Vector4i
+Returns a new vector with each component set to 1 if it's positive, -1 if it's negative, and 0 if it's zero. The result is identical to calling @GlobalScope.sign() on each component.
+
+Method: snapped(step: Vector4i) -> Vector4i
+Returns a new vector with each component snapped to the closest multiple of the corresponding component in step.
+
+Method: snappedi(step: int) -> Vector4i
+Returns a new vector with each component snapped to the closest multiple of step.
+
+Operator Descriptions
+Operator: !=(right: Vector4i) -> bool
+Returns true if the vectors are not equal.
+
+Operator: %(right: Vector4i) -> Vector4i
+Gets the remainder of each component of the Vector4i with the components of the given Vector4i. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using @GlobalScope.posmod() instead if you want to handle negative numbers.
+GDScript:
+print(Vector4i(10, -20, 30, -40) % Vector4i(7, 8, 9, 10)) # Prints (3, -4, 3, 0)
+
+Operator: %(right: int) -> Vector4i
+Gets the remainder of each component of the Vector4i with the given int. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using @GlobalScope.posmod() instead if you want to handle negative numbers.
+GDScript:
+print(Vector4i(10, -20, 30, -40) % 7) # Prints (3, -6, 2, -5)
+
+Operator: *(right: Vector4i) -> Vector4i
+Multiplies each component of the Vector4i by the components of the given Vector4i.
+GDScript:
+print(Vector4i(10, 20, 30, 40) * Vector4i(3, 4, 5, 6)) # Prints (30, 80, 150, 240)
+
+Operator: *(right: float) -> Vector4
+Multiplies each component of the Vector4i by the given float. Returns a Vector4 value due to floating-point operations.
+GDScript:
+print(Vector4i(10, 20, 30, 40) * 2) # Prints (20.0, 40.0, 60.0, 80.0)
+
+Operator: *(right: int) -> Vector4i
+Multiplies each component of the Vector4i by the given int.
+
+Operator: +(right: Vector4i) -> Vector4i
+Adds each component of the Vector4i by the components of the given Vector4i.
+GDScript:
+print(Vector4i(10, 20, 30, 40) + Vector4i(3, 4, 5, 6)) # Prints (13, 24, 35, 46)
+
+Operator: -(right: Vector4i) -> Vector4i
+Subtracts each component of the Vector4i by the components of the given Vector4i.
+GDScript:
+print(Vector4i(10, 20, 30, 40) - Vector4i(3, 4, 5, 6)) # Prints (7, 16, 25, 34)
+
+Operator: /(right: Vector4i) -> Vector4i
+Divides each component of the Vector4i by the components of the given Vector4i.
+GDScript:
+print(Vector4i(10, 20, 30, 40) / Vector4i(2, 5, 3, 4)) # Prints (5, 4, 10, 10)
+
+Operator: /(right: float) -> Vector4
+Divides each component of the Vector4i by the given float. Returns a Vector4 value due to floating-point operations.
+GDScript:
+print(Vector4i(1, 2, 3, 4) / 2.5) # Prints (0.4, 0.8, 1.2, 1.6)
+
+Operator: /(right: int) -> Vector4i
+Divides each component of the Vector4i by the given int.
+
+Operator: <(right: Vector4i) -> bool
+Compares two Vector4i vectors by first checking if the X value of the left vector is less than the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
+
+Operator: <=(right: Vector4i) -> bool
+Compares two Vector4i vectors by first checking if the X value of the left vector is less than or equal to the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
+
+Operator: ==(right: Vector4i) -> bool
+Returns true if the vectors are exactly equal.
+
+Operator: >(right: Vector4i) -> bool
+Compares two Vector4i vectors by first checking if the X value of the left vector is greater than the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
+
+Operator: >=(right: Vector4i) -> bool
+Compares two Vector4i vectors by first checking if the X value of the left vector is greater than or equal to the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, Z values of the two vectors, and then with the W values. This operator is useful for sorting vectors.
+
+Operator: [](index: int) -> int
+Access vector components using their index. v[0] is equivalent to v.x, v[1] is equivalent to v.y, v[2] is equivalent to v.z, and v[3] is equivalent to v.w.
+
+Operator: unary+() -> Vector4i
+Returns the same value as if the + was not there. Unary + does nothing, but sometimes it can make your code more readable.
+
+Operator: unary-() -> Vector4i
+Returns the negative value of the Vector4i. This is the same as writing Vector4i(-v.x, -v.y, -v.z, -v.w). This operation flips the direction of the vector while keeping the same magnitude.

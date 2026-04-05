@@ -1,0 +1,59 @@
+Document: XRTracker
+Path: godot/classes/class_xrtracker.rst
+Summary: Class XRTracker reference section containing identity, description, and inheritance information.
+---CHUNK---
+Document: XRTracker
+Path: godot/classes/class_xrtracker.rst
+Summary: Describes the XRTracker class, its inheritance, and purpose as a tracked object.
+
+XRTracker
+Inherits: RefCounted < Object
+Inherited By: XRFaceTracker, XRPositionalTracker
+
+A tracked object.
+---CHUNK---
+Document: XRTracker
+Path: godot/classes/class_xrtracker.rst
+Summary: This is the base class for all XR trackers in Godot, providing foundational functionality for tracking devices in virtual and augmented reality environments.
+
+This object is the base of all XR trackers.
+---CHUNK---
+Document: XRTracker
+Path: godot/classes/class_xrtracker.rst
+Summary: Provides a link to the main XR documentation index page.
+
+XR documentation index
+---CHUNK---
+Document: XRTracker
+Path: godot/classes/class_xrtracker.rst
+Summary: XRTracker class properties with their types, descriptions, and default values.
+
+- description (String): General information about the tracker. Default: ""
+- name (StringName): Identifier for the tracker. Default: &"Unknown"
+- type (TrackerType): Enum value specifying the tracker's category (XRServer_TrackerType). Default: 128
+---CHUNK---
+Document: XRTracker
+Path: godot/classes/class_xrtracker.rst
+Summary: Properties and methods for configuring XRTracker description, name, and type attributes.
+
+Property: description (String) = ""
+- Method: set_tracker_desc(value: String) → void
+- Method: get_tracker_desc() → String
+The description of this tracker.
+
+Property: name (StringName) = "Unknown"
+- Method: set_tracker_name(value: StringName) → void
+- Method: get_tracker_name() → StringName
+The unique name of this tracker. Godot expects XRInterface to implement specific reserved names:
+- "head" identifies XRPositionalTracker for the player's head
+- "left_hand" identifies XRControllerTracker in the player's left hand
+- "right_hand" identifies XRControllerTracker in the player's right hand
+- "/user/hand_tracker/left" identifies XRHandTracker for the player's left hand
+- "/user/hand_tracker/right" identifies XRHandTracker for the player's right hand
+- "/user/body_tracker" identifies XRBodyTracker for the player's body
+- "/user/face_tracker" identifies XRFaceTracker for the player's face
+
+Property: type (TrackerType) = 128
+- Method: set_tracker_type(value: TrackerType) → void
+- Method: get_tracker_type() → TrackerType
+The type of tracker.

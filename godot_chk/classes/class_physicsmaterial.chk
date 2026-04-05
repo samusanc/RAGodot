@@ -1,0 +1,37 @@
+Document: PhysicsMaterial  
+Path: godot/classes/class_physicsmaterial.rst  
+Summary: Class representing a physics material in Godot, used for defining physical properties like friction and bounce.
+---CHUNK---
+Document: PhysicsMaterial  
+Path: godot/classes/class_physicsmaterial.rst  
+Summary: Defines physics properties for a surface, including roughness and bounciness.  
+
+Inherits: Resource < RefCounted < Object  
+Holds physics-related properties of a surface, namely its roughness and bounciness.
+---CHUNK---
+Document: PhysicsMaterial
+Path: godot/classes/class_physicsmaterial.rst
+Summary: Defines physics properties for surfaces, including roughness and bounciness, to be applied to physics bodies.
+
+Holds physics-related properties of a surface, namely its roughness and bounciness. This class is used to apply these properties to a physics body.
+---CHUNK---
+Document: PhysicsMaterial
+Path: godot/classes/class_physicsmaterial.rst
+Summary: Overview of PhysicsMaterial class properties and their default values
+
+- absorbent (bool): Determines if the material is absorbent. Default: false
+- bounce (float): Controls the bounce coefficient of the material. Default: 0.0
+- friction (float): Defines the friction coefficient of the material. Default: 1.0
+- rough (bool): Indicates if the material surface is rough. Default: false
+---CHUNK---
+Document: PhysicsMaterial  
+Path: godot/classes/class_physicsmaterial.rst  
+Summary: Properties and methods for configuring physics material behavior in Godot, including bounce, friction, and collision absorption settings.  
+
+absorbent (bool): If true, subtracts the bounciness from the colliding object's bounciness instead of adding it. Default: false. Methods: set_absorbent(value: bool) → void, is_absorbent() → bool.  
+
+bounce (float): The body's bounciness. Values range from 0 (no bounce) to 1 (full bounciness). Default: 0.0. Methods: set_bounce(value: float) → void, get_bounce() → float. Note: Even with bounce set to 1.0, energy loss occurs due to linear and angular damping. To preserve energy, set bounce to 1.0, linear/angualr damp modes to Replace, and damp values to 0.0.  
+
+friction (float): The body's friction. Values range from 0 (frictionless) to 1 (maximum friction). Default: 1.0. Methods: set_friction(value: float) → void, get_friction() → float.  
+
+rough (bool): If true, uses the friction of the "rough" object during collisions. If false, uses the lowest friction of colliding objects. If both objects are rough, uses the highest friction. Default: false. Methods: set_rough(value: bool) → void, is_rough() → bool.

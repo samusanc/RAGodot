@@ -1,0 +1,29 @@
+Document: Making Trees Tutorial
+Path: godot/tutorials/shaders/making_trees.rst
+Summary: This section is a document reference with no content.
+---CHUNK---
+Document: Making trees  
+Path: godot/tutorials/shaders/making_trees.rst  
+Summary: A tutorial on creating trees and vegetation in Godot, focusing on visual quality rather than modeling techniques.  
+
+Making trees  
+This is a short tutorial on how to make trees and other types of vegetation from scratch. The aim is to not focus on the modeling techniques (there are plenty of tutorials about that), but how to make them look good in Godot.
+---CHUNK---
+Start with a tree  
+I took this tree from SketchFab:  
+https://sketchfab.com/models/ea5e6ed7f9d6445ba69589d503e8cebf  
+and opened it in Blender.
+---CHUNK---
+Document: making_trees
+Path: godot/tutorials/shaders/making_trees.rst
+Summary: Using vertex colors to control tree sway based on wind intensity in shaders
+
+The first thing you may want to do is to use the vertex colors to paint how much the tree will sway when there is wind. Just use the vertex color painting tool of your favorite 3D modeling program and paint something like this:
+
+This is a bit exaggerated, but the idea is that color indicates how much sway affects every part of the tree. This scale here represents it better:
+---CHUNK---
+Document: making_trees
+Path: godot/tutorials/shaders/making_trees.rst
+Summary: Recommended advanced reading on shader techniques from GPU Gems3, focusing on Crysis's sway code implementation.
+
+Improving the shader There are many more resources on how to do this that you can read. Now that you know the basics, a recommended read is the chapter from GPU Gems3 about how Crysis does this (focus mostly on the sway code, as many other techniques shown there are obsolete): https://developer.nvidia.com/gpugems/GPUGems3/gpugems3_ch16.html

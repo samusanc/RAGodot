@@ -1,0 +1,37 @@
+Document: CSGMesh3D
+Path: godot/classes/class_csgmesh3d.rst
+Summary: Class: CSGMesh3D reference section.
+---CHUNK---
+Document: CSGMesh3D
+Path: godot/classes/class_csgmesh3d.rst
+Summary: A CSG Mesh shape that uses a mesh resource.
+
+Inherits: CSGPrimitive3D < CSGShape3D < GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+A CSG Mesh shape that uses a mesh resource.
+---CHUNK---
+Document: CSGMesh3D
+Path: godot/classes/class_csgmesh3d.rst
+Summary: The CSGMesh3D class allows using a manifold mesh as a CSG shape for level prototyping, with performance considerations compared to MeshInstance3D.
+
+This CSG node allows you to use any mesh resource as a CSG shape, provided it is manifold. A manifold shape is closed, does not self-intersect, does not contain internal faces and has no edges that connect to more than two faces. See also CSGPolygon3D for drawing 2D extruded polygons to be used as CSG nodes. Note: CSG nodes are intended to be used for level prototyping. Creating CSG nodes has a significant CPU cost compared to creating a MeshInstance3D with a PrimitiveMesh. Moving a CSG node within another CSG node also has a significant CPU cost, so it should be avoided during gameplay.
+---CHUNK---
+Document: class_csgmesh3d
+Path: godot/classes/class_csgmesh3d.rst
+Summary: Links to the CSG tools tutorial for prototyping levels in 3D.
+
+Tutorial: Prototyping levels with CSG
+---CHUNK---
+Document: CSGMesh3D
+Path: godot/classes/class_csgmesh3d.rst
+Summary: Properties for the CSGMesh3D class, including material and mesh assignments.
+
+- material (Material)
+- mesh (Mesh)
+---CHUNK---
+Document: CSGMesh3D  
+Path: godot/classes/class_csgmesh3d.rst  
+Summary: Properties for configuring the material and mesh used by a CSGMesh3D node.  
+
+Material (Material): The material used in drawing the CSG shape. Setter: set_material(value: Material). Getter: get_material().  
+
+Mesh (Mesh): The mesh resource to use as a CSG shape. Setter: set_mesh(value: Mesh). Getter: get_mesh(). Note: PlaneMesh, PointMesh, QuadMesh, and RibbonTrailMesh are excluded from the type hint as they are non-manifold and incompatible with CSG. Note: When using ArrayMesh, only ARRAY_VERTEX and ARRAY_TEX_UV attributes are used. ARRAY_NORMAL is only used for determining flat shading faces. By default, vertex normals are ignored and recalculated for smooth shading. For flat shading, ensure all face vertex normals are approximately equal.

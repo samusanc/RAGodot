@@ -1,0 +1,16 @@
+Document: VisualShaderNodeOutput  
+Path: godot/classes/class_visualshadernodeoutput.rst  
+Summary: Represents the output node in a visual shader graph, used to define the final color or data output of a shader.
+---CHUNK---
+Document: VisualShaderNodeOutput
+Path: godot/classes/class_visualshadernodeoutput.rst
+Summary: Represents the output shader parameters within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Inherited By: VisualShaderNodeParticleOutput
+---CHUNK---
+Document: VisualShaderNodeOutput
+Path: godot/classes/class_visualshadernodeoutput.rst
+Summary: This class represents the output node in visual shader graphs, providing multiple value ports for outputting data.
+
+This visual shader node is present in all shader graphs in form of "Output" block with multiple output value ports. It serves as the final stage in shader graph pipelines, accepting data from connected nodes and exporting it to the rendering system. The node's architecture includes specialized ports for different data types (color, vector, scalar, etc.), allowing shaders to output multiple values simultaneously. By design, this node cannot have any input connections, ensuring it functions strictly as an endpoint in the graph topology.

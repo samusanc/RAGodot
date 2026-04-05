@@ -1,0 +1,61 @@
+Document: AudioEffectSpectrumAnalyzerInstance  
+Path: godot/classes/class_audioeffectspectrumanalyzerinstance.rst  
+Summary: A class for analyzing audio spectra in real-time within Godot's audio processing pipeline.  
+
+Inherits: AudioEffect < AudioFilter < AudioNode < Node < Object  
+This class provides functionality to capture and analyze frequency data from audio signals. It is typically used in conjunction with AudioEffectSpectrumAnalyzer to visualize or process spectral information. Key Rule: This class must be attached to an AudioBus to function.  
+
+Properties:  
+- `fft_size (int)`: Size of the Fast Fourier Transform buffer. Larger values increase frequency resolution but consume more memory. Default: 1024.  
+- `update_rate (float)`: Frequency at which the spectrum is updated (in Hz). Default: 60.  
+- `spectrum (Array<float>)`: Read-only array containing the current frequency spectrum data.  
+
+Methods:  
+- `get_spectrum() -> Array<float>`: Returns the latest frequency spectrum data as an array of float values.  
+- `set_fft_size(size: int)`: Sets the FFT buffer size. Must be a power of two between 32 and 8192.  
+- `set_update_rate(rate: float)`: Sets the spectrum update rate in Hz. Must be greater than 0.  
+
+Note: The spectrum data is normalized to a range of 0.0 (silence) to 1.0 (maximum amplitude).  
+Warning: High FFT sizes may cause performance issues on low-end hardware.  
+Tip: Use this class with AudioEffectSpectrumAnalyzer for real-time visualization of audio frequencies.  
+
+GDScript:  
+```gdscript  
+var analyzer = AudioEffectSpectrumAnalyzerInstance.new()  
+analyzer.fft_size = 2048  
+analyzer.update_rate = 120  
+```
+---CHUNK---
+Document: AudioEffectSpectrumAnalyzerInstance
+Path: godot/classes/class_audioeffectspectrumanalyzerinstance.rst
+Summary: A queryable instance of the AudioEffectSpectrumAnalyzer class for audio processing.
+
+Inherits: AudioEffectInstance < RefCounted < Object
+Queryable instance of an AudioEffectSpectrumAnalyzer.
+---CHUNK---
+Document: AudioEffectSpectrumAnalyzerInstance  
+Path: godot/classes/class_audioeffectspectrumanalyzerinstance.rst  
+Summary: Runtime component for querying frequency range magnitudes on an audio bus.  
+
+The runtime part of an AudioEffectSpectrumAnalyzer, which can be used to query the magnitude of a frequency range on its host bus. An instance of this class can be obtained with AudioServer.get_bus_effect_instance().
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_audioeffectspectrumanalyzerinstance.rst
+Summary: Links to tutorials and a demo related to audio buses, effects, and spectrum analysis.
+
+Audio buses
+
+Audio effects
+
+Audio Spectrum Visualizer Demo (https://godotengine.org/asset-library/asset/2762)
+---CHUNK---
+Document: AudioEffectSpectrumAnalyzerInstance
+Path: godot/classes/class_audioeffectspectrumanalyzerinstance.rst
+Summary: The get_magnitude_for_frequency_range method and MagnitudeMode enumeration for analyzing audio frequency ranges.
+
+MagnitudeMode enum:
+- MAGNITUDE_AVERAGE (0): Use the average value across the frequency range as magnitude
+- MAGNITUDE_MAX (1): Use the maximum value of the frequency range as magnitude
+
+Method: get_magnitude_for_frequency_range(from_hz: float, to_hz: float, mode: MagnitudeMode = 1) → Vector2
+Returns the magnitude of frequencies from from_hz to to_hz in linear energy as a Vector2. The x component represents the left stereo channel, y represents the right channel. The mode parameter determines processing: 0 for average value calculation, 1 for maximum value selection. Default mode is MAGNITUDE_MAX (1).

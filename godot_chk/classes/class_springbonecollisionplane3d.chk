@@ -1,0 +1,16 @@
+Document: SpringBoneCollisionPlane3D  
+Path: godot/classes/class_springbonecollisionplane3d.rst  
+Summary: A 3D collision plane for SpringBone physics in Godot Engine.
+---CHUNK---
+Document: SpringBoneCollisionPlane3D
+Path: godot/classes/class_springbonecollisionplane3d.rst
+Summary: An infinite plane collision that interacts with SpringBoneSimulator3D.
+
+Inherits: SpringBoneCollision3D < Node3D < Node < Object
+An infinite plane collision that interacts with SpringBoneSimulator3D.
+---CHUNK---
+Document: SpringBoneCollisionPlane3D  
+Path: godot/classes/class_springbonecollisionplane3d.rst  
+Summary: An infinite XZ plane collision with +Y normal direction that interacts with SpringBoneSimulator3D.  
+
+An infinite plane collision that interacts with SpringBoneSimulator3D. It is an infinite size XZ plane, and the +Y direction is treated as normal.

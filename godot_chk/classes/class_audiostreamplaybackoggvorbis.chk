@@ -1,0 +1,16 @@
+Document: AudioStreamPlaybackOggVorbis  
+Path: godot/classes/class_audiostreamplaybackoggvorbis.rst  
+Summary: Class for handling Ogg Vorbis audio stream playback in Godot.
+---CHUNK---
+Document: AudioStreamPlaybackOggVorbis
+Path: godot/classes/class_audiostreamplaybackoggvorbis.rst
+Summary: AudioStreamPlaybackOggVorbis is a playback class specifically designed for handling AudioStreamOggVorbis audio streams.
+
+Inherits: AudioStreamPlaybackResampled < AudioStreamPlayback < RefCounted < Object
+Playback class used for AudioStreamOggVorbis.
+---CHUNK---
+Document: class_audiostreamplaybackoggvorbis
+Path: godot/classes/class_audiostreamplaybackoggvorbis.rst
+Summary: Playback component for OggVorbis audio streams using OggPacketSequencePlayback for data.
+
+Playback component of AudioStreamOggVorbis. Uses OggPacketSequencePlayback for playback data. This class handles the actual audio playback functionality for Ogg Vorbis format streams, leveraging the OggPacketSequencePlayback class to manage the sequence of audio packets during playback. It is designed to work specifically with AudioStreamOggVorbis objects, providing the necessary methods and properties to control playback behavior, including position, volume, and playback state management. The implementation is optimized for efficient audio decoding and streaming from Ogg Vorbis files, ensuring low-latency playback while maintaining compatibility with the broader Godot audio system.

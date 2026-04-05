@@ -1,0 +1,42 @@
+Document: WorldEnvironment
+Path: godot/classes/class_worldenvironment.rst
+Summary: Class representing the world environment settings in Godot.
+
+Note: This document contains metadata and reference links but lacks the actual class description and technical details. The original RST file appears to be incomplete or only partially processed.
+---CHUNK---
+Document: WorldEnvironment
+Path: godot/classes/class_worldenvironment.rst
+Summary: Sets default environment properties for the entire scene, including post-processing effects, lighting, and background settings.
+
+Inherits: Node < Object
+Default environment properties for the entire scene (post-processing effects, lighting and background settings).
+---CHUNK---
+Document: class_worldenvironment  
+Path: godot/classes/class_worldenvironment.rst  
+Summary: Configures the default Environment for a scene, managing lighting, post-processing, and background settings.  
+
+The WorldEnvironment node defines the default Environment for the scene. Parameters set here can be overridden by an Environment node attached to the current Camera3D. Only one WorldEnvironment instance may exist in a scene at a time. This node specifies default lighting parameters such as ambient lighting, enables post-processing effects like SSAO, DOF, and Tonemapping, and determines background rendering options (solid color, skybox). These settings are typically used to enhance scene realism and color balance.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_worldenvironment.rst
+Summary: List of tutorials and demos related to environment and post-processing in Godot.
+
+- Environment and post-processing
+- 3D Material Testers Demo
+- Third Person Shooter (TPS) Demo
+---CHUNK---
+Document: WorldEnvironment  
+Path: godot/classes/class_worldenvironment.rst  
+Summary: Properties of the WorldEnvironment class, including camera_attributes, compositor, and environment.  
+
+- camera_attributes (CameraAttributes):  
+- compositor (Compositor):  
+- environment (Environment):
+---CHUNK---
+Document: WorldEnvironment  
+Path: godot/classes/class_worldenvironment.rst  
+Summary: Describes the camera_attributes, compositor, and environment properties of the WorldEnvironment class.  
+
+Property: camera_attributes (CameraAttributes): The default CameraAttributes resource to use if none set on the Camera3D. Methods: set_camera_attributes(value: CameraAttributes), get_camera_attributes() → CameraAttributes.  
+Property: compositor (Compositor): The default Compositor resource to use if none set on the Camera3D. Methods: set_compositor(value: Compositor), get_compositor() → Compositor.  
+Property: environment (Environment): The Environment resource used by this WorldEnvironment, defining the default properties. Methods: set_environment(value: Environment), get_environment() → Environment.

@@ -1,0 +1,97 @@
+Document: ScriptExtension
+Path: godot/classes/class_scriptextension.rst
+Summary: Reference for the ScriptExtension class.
+---CHUNK---
+Document: ScriptExtension
+Path: godot/classes/class_scriptextension.rst
+Summary: This class inherits from Script, Resource, RefCounted, and Object, but currently has no description.
+
+ScriptExtension
+Inherits: Script < Resource < RefCounted < Object
+There is currently no description for this class. Please help us by contributing one!
+---CHUNK---
+Document: ScriptExtension
+Path: godot/classes/class_scriptextension.rst
+Summary: This section lists the virtual methods that can be overridden in a ScriptExtension.
+
+Method: _can_instantiate() -> bool
+Method: _editor_can_reload_from_file() -> bool
+Method: _get_base_script() -> Script
+Method: _get_class_icon_path() -> String
+Method: _get_constants() -> Dictionary
+Method: _get_doc_class_name() -> StringName
+Method: _get_documentation() -> Array[Dictionary]
+Method: _get_global_name() -> StringName
+Method: _get_instance_base_type() -> StringName
+Method: _get_language() -> ScriptLanguage
+Method: _get_member_line(member: StringName) -> int
+Method: _get_members() -> Array[StringName]
+Method: _get_method_info(method: StringName) -> Dictionary
+Method: _get_property_default_value(property: StringName) -> Variant
+Method: _get_rpc_config() -> Variant
+Method: _get_script_method_argument_count(method: StringName) -> Variant
+Method: _get_script_method_list() -> Array[Dictionary]
+Method: _get_script_property_list() -> Array[Dictionary]
+Method: _get_script_signal_list() -> Array[Dictionary]
+Method: _get_source_code() -> String
+Method: _has_method(method: StringName) -> bool
+Method: _has_property_default_value(property: StringName) -> bool
+Method: _has_script_signal(signal: StringName) -> bool
+Method: _has_source_code() -> bool
+Method: _has_static_method(method: StringName) -> bool
+Method: _inherits_script(script: Script) -> bool
+Method: _instance_create(for_object: Object) -> void*
+Method: _instance_has(object: Object) -> bool
+Method: _is_abstract() -> bool
+Method: _is_placeholder_fallback_enabled() -> bool
+Method: _is_tool() -> bool
+Method: _is_valid() -> bool
+Method: _placeholder_erased(placeholder: void*) -> void
+Method: _placeholder_instance_create(for_object: Object) -> void*
+Method: _reload(keep_state: bool) -> Error
+Method: _set_source_code(code: String) -> void
+Method: _update_exports() -> void
+---CHUNK---
+Document: ScriptExtension
+Path: godot/classes/class_scriptextension.rst
+Summary: This section describes various virtual methods of the ScriptExtension class, primarily related to script introspection, instantiation, and lifecycle management.
+
+Method: _can_instantiate() → bool
+Method: _editor_can_reload_from_file() → bool
+Method: _get_base_script() → Script
+Method: _get_class_icon_path() → String
+Method: _get_constants() → Dictionary
+Method: _get_doc_class_name() → StringName
+Method: _get_documentation() → Array[Dictionary]
+Method: _get_global_name() → StringName
+Method: _get_instance_base_type() → StringName
+Method: _get_language() → ScriptLanguage
+Method: _get_member_line(member: StringName) → int
+Method: _get_members() → Array[StringName]
+Method: _get_method_info(method: StringName) → Dictionary
+Method: _get_property_default_value(property: StringName) → Variant
+Method: _get_rpc_config() → Variant
+Method: _get_script_method_argument_count(method: StringName) → Variant
+Return the expected argument count for the given method, or null if it can't be determined (which will then fall back to the default behavior).
+Method: _get_script_method_list() → Array[Dictionary]
+Method: _get_script_property_list() → Array[Dictionary]
+Method: _get_script_signal_list() → Array[Dictionary]
+Method: _get_source_code() → String
+Method: _has_method(method: StringName) → bool
+Method: _has_property_default_value(property: StringName) → bool
+Method: _has_script_signal(signal: StringName) → bool
+Method: _has_source_code() → bool
+Method: _has_static_method(method: StringName) → bool
+Method: _inherits_script(script: Script) → bool
+Method: _instance_create(for_object: Object) → void*
+Method: _instance_has(object: Object) → bool
+Method: _is_abstract() → bool
+Returns true if the script is an abstract script. Abstract scripts cannot be instantiated directly; instead, other scripts should inherit them. Abstract scripts will be either unselectable or hidden in the Create New Node dialog (unselectable if there are non-abstract classes inheriting it, otherwise hidden).
+Method: _is_placeholder_fallback_enabled() → bool
+Method: _is_tool() → bool
+Method: _is_valid() → bool
+Method: _placeholder_erased(placeholder: void*) → void
+Method: _placeholder_instance_create(for_object: Object) → void*
+Method: _reload(keep_state: bool) → Error
+Method: _set_source_code(code: String) → void
+Method: _update_exports() → void

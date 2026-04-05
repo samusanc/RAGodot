@@ -1,0 +1,15 @@
+Document: VisualShaderNodeVectorCompose
+Path: godot/classes/class_visualshadernodevectorcompose.rst
+Summary: A visual shader node that combines multiple input vectors into a single output vector.
+---CHUNK---
+Document: VisualShaderNodeVectorCompose
+Path: godot/classes/class_visualshadernodevectorcompose.rst
+Summary: Composes a Vector2, Vector3, or Quaternion from scalar inputs in the visual shader graph.
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+Composes a Vector2, Vector3, or 4D vector (represented as a Quaternion) from scalars within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorCompose
+Path: godot/classes/class_visualshadernodevectorcompose.rst
+Summary: Creates a vec2, vec3, or vec4 by combining scalar input values.
+
+Creates a ``vec2``, ``vec3`` or ``vec4`` using scalar values that can be provided from separate inputs.

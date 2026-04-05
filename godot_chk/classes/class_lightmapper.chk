@@ -1,0 +1,17 @@
+Document: Lightmapper
+Path: godot/classes/class_lightmapper.rst
+Summary: Class: Lightmapper
+---CHUNK---
+Document: Lightmapper
+Path: godot/classes/class_lightmapper.rst
+Summary: Abstract base class for lightmappers used in LightmapGI, inheriting from RefCounted and Object.
+
+Inherits: RefCounted < Object
+Inherited By: LightmapperRD
+Abstract class extended by lightmappers, for use in LightmapGI.
+---CHUNK---
+Document: Lightmapper
+Path: godot/classes/class_lightmapper.rst
+Summary: This class serves as a base for custom lightmapper implementations, enabling integration with LightmapGI for efficient 3D baked global illumination.
+
+This class should be extended by custom lightmapper classes. Lightmappers can then be used with LightmapGI to provide fast baked global illumination in 3D. Godot contains a built-in GPU-based lightmapper LightmapperRD that uses compute shaders, but custom lightmappers can be implemented by C++ modules.

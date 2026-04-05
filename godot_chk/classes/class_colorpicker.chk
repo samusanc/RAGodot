@@ -1,0 +1,227 @@
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This section identifies the ColorPicker class.
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: A widget that provides an interface for selecting or modifying a color.
+
+Inherits: VBoxContainer < BoxContainer < Container < Control < CanvasItem < Node < Object
+
+A widget that provides an interface for selecting or modifying a color.
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: Describes the ColorPicker widget, its purpose, and how it differs from ColorPickerButton.
+
+A widget that provides an interface for selecting or modifying a color. It can optionally provide functionalities like a color sampler (eyedropper), color modes, and presets.
+
+Note: This control is the color picker widget itself. You can use a ColorPickerButton instead if you need a button that brings up a ColorPicker in a popup.
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This chunk lists related tutorials for ColorPicker.
+
+Tutorials
+- Tween Interpolation Demo
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This section lists the properties available for the ColorPicker node, including color settings, visibility options, and interaction modes.
+
+*   can_add_swatches (bool). Default: true.
+*   color (Color). Default: Color(1, 1, 1, 1).
+*   color_mode (ColorModeType). Default: 0.
+*   color_modes_visible (bool). Default: true.
+*   deferred_mode (bool). Default: false.
+*   edit_alpha (bool). Default: true.
+*   edit_intensity (bool). Default: true.
+*   hex_visible (bool). Default: true.
+*   picker_shape (PickerShapeType). Default: 0.
+*   presets_visible (bool). Default: true.
+*   sampler_visible (bool). Default: true.
+*   sliders_visible (bool). Default: true.
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This section lists methods for managing color presets in a ColorPicker.
+
+Method: add_preset(color: Color) → void
+Method: add_recent_preset(color: Color) → void
+Method: erase_preset(color: Color) → void
+Method: erase_recent_preset(color: Color) → void
+Method: get_presets() → PackedColorArray
+Method: get_recent_presets() → PackedColorArray
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This section details the theme properties available for the ColorPicker node.
+
+Theme Properties:
+*   focused_not_editing_cursor_color (Color): Default: Color(1, 1, 1, 0.275).
+*   center_slider_grabbers (int): Default: 1.
+*   h_width (int): Default: 30.
+*   label_width (int): Default: 10.
+*   margin (int): Default: 4.
+*   sv_height (int): Default: 256.
+*   sv_width (int): Default: 256.
+*   add_preset (Texture2D):
+*   bar_arrow (Texture2D):
+*   color_copy (Texture2D):
+*   color_hue (Texture2D):
+*   color_script (Texture2D):
+*   expanded_arrow (Texture2D):
+*   folded_arrow (Texture2D):
+*   menu_option (Texture2D):
+*   overbright_indicator (Texture2D):
+*   picker_cursor (Texture2D):
+*   picker_cursor_bg (Texture2D):
+*   sample_bg (Texture2D):
+*   sample_revert (Texture2D):
+*   screen_picker (Texture2D):
+*   shape_circle (Texture2D):
+*   shape_rect (Texture2D):
+*   shape_rect_wheel (Texture2D):
+*   picker_focus_circle (StyleBox):
+*   picker_focus_rectangle (StyleBox):
+*   sample_focus (StyleBox):
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This section details the signals emitted by ColorPicker and its enumeration types for color modes and picker shapes.
+
+Signals
+color_changed(color: Color)
+Emitted when the color is changed.
+
+preset_added(color: Color)
+Emitted when a preset is added.
+
+preset_removed(color: Color)
+Emitted when a preset is removed.
+
+Enumerations
+enum ColorModeType:
+MODE_RGB = 0: Allows editing the color with Red/Green/Blue sliders in sRGB color space.
+MODE_HSV = 1: Allows editing the color with Hue/Saturation/Value sliders.
+MODE_RAW = 2: Deprecated: This is replaced by MODE_LINEAR.
+MODE_LINEAR = 2: Allows editing the color with Red/Green/Blue sliders in linear color space.
+MODE_OKHSL = 3: Allows editing the color with Hue/Saturation/Lightness sliders. OKHSL is a new color space similar to HSL but that better match perception by leveraging the Oklab color space which is designed to be simple to use, while doing a good job at predicting perceived lightness, chroma and hue.
+
+enum PickerShapeType:
+SHAPE_HSV_RECTANGLE = 0: HSV Color Model rectangle color space.
+SHAPE_HSV_WHEEL = 1: HSV Color Model rectangle color space with a wheel.
+SHAPE_VHS_CIRCLE = 2: HSV Color Model circle color space. Use Saturation as a radius.
+SHAPE_OKHSL_CIRCLE = 3: HSL OK Color Model circle color space.
+SHAPE_NONE = 4: The color space shape and the shape select button are hidden. Can't be selected from the shapes popup.
+SHAPE_OK_HS_RECTANGLE = 5: OKHSL Color Model rectangle with constant lightness.
+SHAPE_OK_HL_RECTANGLE = 6: OKHSL Color Model rectangle with constant saturation.
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This section describes the properties available for configuring a ColorPicker node, including visibility of UI elements, color selection behavior, and color representation.
+
+Property Descriptions:
+
+can_add_swatches (bool): If true, it's possible to add presets under Swatches. If false, the button to add presets is disabled. Default: true.
+Method: set_can_add_swatches(value: bool)
+Method: are_swatches_enabled()
+
+color (Color): The currently selected color. Default: Color(1, 1, 1, 1).
+Method: set_pick_color(value: Color)
+Method: get_pick_color()
+
+color_mode (ColorModeType): The currently selected color mode. Default: 0.
+Method: set_color_mode(value: ColorModeType)
+Method: get_color_mode()
+
+color_modes_visible (bool): If true, the color mode buttons are visible. Default: true.
+Method: set_modes_visible(value: bool)
+Method: are_modes_visible()
+
+deferred_mode (bool): If true, the color will apply only after the user releases the mouse button, otherwise it will apply immediately even in mouse motion event (which can cause performance issues). Default: false.
+Method: set_deferred_mode(value: bool)
+Method: is_deferred_mode()
+
+edit_alpha (bool): If true, shows an alpha channel slider (opacity). Default: true.
+Method: set_edit_alpha(value: bool)
+Method: is_editing_alpha()
+
+edit_intensity (bool): If true, shows an intensity slider. The intensity is applied as follows: convert the color to linear encoding, multiply it by 2 ** intensity, and then convert it back to nonlinear sRGB encoding. Default: true.
+Method: set_edit_intensity(value: bool)
+Method: is_editing_intensity()
+
+hex_visible (bool): If true, the hex color code input field is visible. Default: true.
+Method: set_hex_visible(value: bool)
+Method: is_hex_visible()
+
+picker_shape (PickerShapeType): The shape of the color space view. Default: 0.
+Method: set_picker_shape(value: PickerShapeType)
+Method: get_picker_shape()
+
+presets_visible (bool): If true, the Swatches and Recent Colors presets are visible. Default: true.
+Method: set_presets_visible(value: bool)
+Method: are_presets_visible()
+
+sampler_visible (bool): If true, the color sampler and color preview are visible. Default: true.
+Method: set_sampler_visible(value: bool)
+Method: is_sampler_visible()
+
+sliders_visible (bool): If true, the color sliders are visible. Default: true.
+Method: set_sliders_visible(value: bool)
+Method: are_sliders_visible()
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: This chunk describes methods for managing color presets and recent presets within a ColorPicker node.
+
+Method: add_preset(color: Color) → void
+Adds the given color to a list of color presets. The presets are displayed in the color picker and the user will be able to select them. Note: The presets list is only for this color picker.
+
+Method: add_recent_preset(color: Color) → void
+Adds the given color to a list of color recent presets so that it can be picked later. Recent presets are the colors that were picked recently, a new preset is automatically created and added to recent presets when you pick a new color. Note: The recent presets list is only for this color picker.
+
+Method: erase_preset(color: Color) → void
+Removes the given color from the list of color presets of this color picker.
+
+Method: erase_recent_preset(color: Color) → void
+Removes the given color from the list of color recent presets of this color picker.
+
+Method: get_presets() → PackedColorArray
+Returns the list of colors in the presets of the color picker.
+
+Method: get_recent_presets() → PackedColorArray
+Returns the list of colors in the recent presets of the color picker.
+---CHUNK---
+Document: ColorPicker
+Path: godot/classes/class_colorpicker.rst
+Summary: Describes the theme properties available for customizing the ColorPicker node.
+
+Theme Property Descriptions
+* focused_not_editing_cursor_color (Color): Color of rectangle or circle drawn when a picker shape part is focused but not editable via keyboard or joypad. Displayed *over* the picker shape, so a partially transparent color should be used to ensure the picker shape remains visible. Default: Color(1, 1, 1, 0.275)
+* center_slider_grabbers (int): Overrides the Slider.center_grabber theme property of the sliders. Default: 1
+* h_width (int): The width of the hue selection slider. Default: 30
+* label_width (int): The minimum width of the color labels next to sliders. Default: 10
+* margin (int): The margin around the ColorPicker. Default: 4
+* sv_height (int): The height of the saturation-value selection box. Default: 256
+* sv_width (int): The width of the saturation-value selection box. Default: 256
+* add_preset (Texture2D): The icon for the "Add Preset" button.
+* bar_arrow (Texture2D): The texture for the arrow grabber.
+* color_copy (Texture2D): The icon for the button that copies the color in text format to the clipboard.
+* color_hue (Texture2D): Custom texture for the hue selection slider on the right.
+* color_script (Texture2D): The icon for the button that switches color text to hexadecimal.
+* expanded_arrow (Texture2D): The icon for color preset drop down menu when expanded.
+* folded_arrow (Texture2D): The icon for color preset drop down menu when folded.
+* menu_option (Texture2D): The icon for color preset option menu.
+* overbright_indicator (Texture2D): The indicator used to signalize that the color value is outside the 0-1 range.
+* picker_cursor (Texture2D): The image displayed over the color box/circle (depending on the picker_shape), marking the currently selected color.
+* picker_cursor_bg (Texture2D): The fill image displayed behind the picker cursor.
+* sample_bg (Texture2D): Background panel for the color preview box (visible when the color is translucent).
+* sample_revert (Texture2D): The icon for the revert button (visible on the middle of the "old" color when it differs from the currently selected color). This icon is modulated with a dark color if the "old" color is bright enough, so the icon should be bright to ensure visibility in both scenarios.
+* screen_picker (Texture2D): The icon for the screen color picker button.
+* shape_circle (Texture2D): The icon for circular picker shapes.
+* shape_rect (Texture2D): The icon for rectangular picker shapes.
+* shape_rect_wheel (Texture2D): The icon for rectangular wheel picker shapes.
+* picker_focus_circle (StyleBox): The StyleBox used when the circle-shaped part of the picker is focused. Displayed *over* the picker shape, so a partially transparent StyleBox should be used to ensure the picker shape remains visible. A StyleBox that represents an outline or an underline works well for this purpose. To disable the focus visual effect, assign a StyleBoxEmpty resource. Note that disabling the focus visual effect will harm keyboard/controller navigation usability, so this is not recommended for accessibility reasons.
+* picker_focus_rectangle (StyleBox): The StyleBox used when the rectangle-shaped part of the picker is focused. Displayed *over* the picker shape, so a partially transparent StyleBox should be used to ensure the picker shape remains visible. A StyleBox that represents an outline or an underline works well for this purpose. To disable the focus visual effect, assign a StyleBoxEmpty resource. Note that disabling the focus visual effect will harm keyboard/controller navigation usability, so this is not recommended for accessibility reasons.
+* sample_focus (StyleBox): The StyleBox used for the old color sample part when it is focused. Displayed *over* the sample, so a partially transparent StyleBox should be used to ensure the picker shape remains visible. A StyleBox that represents an outline or an underline works well for this purpose. To disable the focus visual effect, assign a StyleBoxEmpty resource. Note that disabling the focus visual effect will harm keyboard/controller navigation usability, so this is not recommended for accessibility reasons.

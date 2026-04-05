@@ -1,0 +1,18 @@
+Document: Texture
+Path: godot/classes/class_texture.rst
+Summary: Class reference for Texture, covering identity, description, and inheritance information.
+---CHUNK---
+Document: Texture
+Path: godot/classes/class_texture.rst
+Summary: Base class for all texture types.
+
+Texture
+Inherits: Resource < RefCounted < Object
+Inherited By: Texture2D, Texture3D, TextureLayered
+Base class for all texture types.
+---CHUNK---
+Document: Texture
+Path: godot/classes/class_texture.rst
+Summary: Base class for all texture types in Godot, including Texture2D and ImageTexture.
+
+Texture is the base class for all texture types. Common texture types are Texture2D and ImageTexture. See also Image.

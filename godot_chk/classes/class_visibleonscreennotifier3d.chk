@@ -1,0 +1,56 @@
+Document: VisibleOnScreenNotifier3D
+Path: godot/classes/class_visibleonscreennotifier3d.rst
+Summary: Class: VisibleOnScreenNotifier3D. Description: Not available in provided content. Inheritance: Not specified.
+---CHUNK---
+Document: VisibleOnScreenNotifier3D
+Path: godot/classes/class_visibleonscreennotifier3d.rst
+Summary: A 3D spatial region that detects visibility on screen through a box-shaped volume.
+
+Inherits: VisualInstance3D < Node3D < Node < Object
+Inherited By: VisibleOnScreenEnabler3D
+
+A box-shaped region of 3D space that detects whether it is visible on screen.
+---CHUNK---
+Document: VisibleOnScreenNotifier3D  
+Path: godot/classes/class_visibleonscreennotifier3d.rst  
+Summary: A 3D box-shaped region that emits signals when visible on screen or in a Camera3D's view.  
+
+VisibleOnScreenNotifier3D represents a box-shaped region of 3D space. When any part of this region becomes visible on screen or in a Camera3D's view, it will emit a screen_entered signal, and likewise it will emit a screen_exited signal when no part of it remains visible. If you want a node to be enabled automatically when this region is visible on screen, use VisibleOnScreenEnabler3D. Note: VisibleOnScreenNotifier3D uses an approximate heuristic that doesn't take walls and other occlusion into account, unless occlusion culling is used. It also won't function unless Node3D.visible is set to true.
+---CHUNK---
+Document: VisibleOnScreenNotifier3D
+Path: godot/classes/class_visibleonscreennotifier3d.rst
+Summary: Defines the 'aabb' property and its default value as an AABB with specific coordinates.
+
+- Property: aabb (AABB): The axis-aligned bounding box used for screen visibility checks. Default: AABB(-1, -1, -1, 2, 2, 2)
+---CHUNK---
+Document: VisibleOnScreenNotifier3D
+Path: godot/classes/class_visibleonscreennotifier3d.rst
+Summary: Overview of methods and signals for detecting screen visibility in 3D space.
+
+Method: bool is_on_screen() const
+Returns true if the object is currently visible on the screen.
+
+Signal: screen_entered()
+Emitted when the VisibleOnScreenNotifier3D enters the screen.
+
+Signal: screen_exited()
+Emitted when the VisibleOnScreenNotifier3D exits the screen.
+---CHUNK---
+Document: VisibleOnScreenNotifier3D  
+Path: godot/classes/class_visibleonscreennotifier3d.rst  
+Summary: Defines the `aabb` property and its associated methods for the VisibleOnScreenNotifier3D class.  
+
+Property: AABB **aabb** = `AABB(-1, -1, -1, 2, 2, 2)`  
+Description: The **VisibleOnScreenNotifier3D**'s bounding box.  
+
+Method: void **set_aabb**(value: AABB)  
+Method: AABB **get_aabb**()  
+
+The `aabb` property represents the axis-aligned bounding box (AABB) used by the node to determine visibility. It is initialized to a default value of `AABB(-1, -1, -1, 2, 2, 2)`, which defines a cube centered at the origin with a size of 2 units per dimension. The `set_aabb` method allows updating this bounding box, while `get_aabb` retrieves its current value. This property is critical for determining whether the node's area is visible on the screen, as the notifier uses the AABB to calculate visibility thresholds.
+---CHUNK---
+Document: VisibleOnScreenNotifier3D
+Path: godot/classes/class_visibleonscreennotifier3d.rst
+Summary: Describes the is_on_screen() method for checking if a 3D object's bounding box is visible on screen.
+
+Method: is_on_screen() → bool
+Returns true if the bounding box is on the screen. Note: It takes one frame for the VisibleOnScreenNotifier3D's visibility to be assessed once added to the scene tree, so this method will always return false right after it is instantiated.

@@ -1,0 +1,141 @@
+Document: RenderSceneBuffersRD
+Path: godot/classes/class_renderscenebuffersrd.rst
+Summary: This document describes the RenderSceneBuffersRD class.
+---CHUNK---
+Document: RenderSceneBuffersRD
+Path: godot/classes/class_renderscenebuffersrd.rst
+Summary: Describes the RenderSceneBuffersRD class, an implementation for RenderingDevice based renderers.
+
+Inherits: RenderSceneBuffers < RefCounted < Object
+
+Render scene buffer implementation for the RenderingDevice based renderers.
+---CHUNK---
+Document: RenderSceneBuffersRD
+Path: godot/classes/class_renderscenebuffersrd.rst
+Summary: This chunk describes the purpose and structure of RenderSceneBuffersRD, an internal rendering server object managing 3D rendering buffers for viewports.
+This object manages all 3D rendering buffers for the rendering device based renderers. An instance of this object is created for every viewport that has 3D rendering enabled. See also RenderSceneBuffers.
+All buffers are organized in contexts. The default context is called render_buffers and can contain amongst others the color buffer, depth buffer, velocity buffers, VRS density map and MSAA variants of these buffers.
+Buffers are only guaranteed to exist during rendering of the viewport.
+Note: This is an internal rendering server object. Do not instantiate this class from a script.
+---CHUNK---
+Document: RenderSceneBuffersRD
+Path: godot/classes/class_renderscenebuffersrd.rst
+Summary: This section lists the methods available in the RenderSceneBuffersRD class for managing rendering buffers and textures.
+
+Method: clear_context(context: StringName) -> void
+Method: create_texture(context: StringName, name: StringName, data_format: DataFormat, usage_bits: int, texture_samples: TextureSamples, size: Vector2i, layers: int, mipmaps: int, unique: bool, discardable: bool) -> RID
+Method: create_texture_from_format(context: StringName, name: StringName, format: RDTextureFormat, view: RDTextureView, unique: bool) -> RID
+Method: create_texture_view(context: StringName, name: StringName, view_name: StringName, view: RDTextureView) -> RID
+Method: get_color_layer(layer: int, msaa: bool = false) -> RID
+Method: get_color_texture(msaa: bool = false) -> RID
+Method: get_depth_layer(layer: int, msaa: bool = false) -> RID
+Method: get_depth_texture(msaa: bool = false) -> RID
+Method: get_fsr_sharpness() const -> float
+Method: get_internal_size() const -> Vector2i
+Method: get_msaa_3d() const -> ViewportMSAA
+Method: get_render_target() const -> RID
+Method: get_scaling_3d_mode() const -> ViewportScaling3DMode
+Method: get_screen_space_aa() const -> ViewportScreenSpaceAA
+Method: get_target_size() const -> Vector2i
+Method: get_texture(context: StringName, name: StringName) const -> RID
+Method: get_texture_format(context: StringName, name: StringName) const -> RDTextureFormat
+Method: get_texture_samples() const -> TextureSamples
+Method: get_texture_slice(context: StringName, name: StringName, layer: int, mipmap: int, layers: int, mipmaps: int) -> RID
+Method: get_texture_slice_size(context: StringName, name: StringName, mipmap: int) -> Vector2i
+Method: get_texture_slice_view(context: StringName, name: StringName, layer: int, mipmap: int, layers: int, mipmaps: int, view: RDTextureView) -> RID
+Method: get_use_debanding() const -> bool
+Method: get_use_taa() const -> bool
+Method: get_velocity_layer(layer: int, msaa: bool = false) -> RID
+Method: get_velocity_texture(msaa: bool = false) -> RID
+Method: get_view_count() const -> int
+Method: has_texture(context: StringName, name: StringName) const -> bool
+---CHUNK---
+Document: RenderSceneBuffersRD
+Path: godot/classes/class_renderscenebuffersrd.rst
+Summary: This section details methods for managing and retrieving textures, buffers, and rendering properties within a RenderSceneBuffersRD object.
+
+Method: clear_context(context: StringName) -> void
+Frees all buffers related to this context.
+
+Method: create_texture(context: StringName, name: StringName, data_format: DataFormat, usage_bits: int, texture_samples: TextureSamples, size: Vector2i, layers: int, mipmaps: int, unique: bool, discardable: bool) -> RID
+Create a new texture with the given definition and cache this under the given name. Will return the existing texture if it already exists.
+
+Method: create_texture_from_format(context: StringName, name: StringName, format: RDTextureFormat, view: RDTextureView, unique: bool) -> RID
+Create a new texture using the given format and view and cache this under the given name. Will return the existing texture if it already exists.
+
+Method: create_texture_view(context: StringName, name: StringName, view_name: StringName, view: RDTextureView) -> RID
+Create a new texture view for an existing texture and cache this under the given view_name. Will return the existing texture view if it already exists. Will error if the source texture doesn't exist.
+
+Method: get_color_layer(layer: int, msaa: bool = false) -> RID
+Returns the specified layer from the color texture we are rendering 3D content to.
+Key Rule: If msaa is true and MSAA is enabled, this returns the MSAA variant of the buffer.
+
+Method: get_color_texture(msaa: bool = false) -> RID
+Returns the color texture we are rendering 3D content to. If multiview is used this will be a texture array with all views.
+Key Rule: If msaa is true and MSAA is enabled, this returns the MSAA variant of the buffer.
+
+Method: get_depth_layer(layer: int, msaa: bool = false) -> RID
+Returns the specified layer from the depth texture we are rendering 3D content to.
+Key Rule: If msaa is true and MSAA is enabled, this returns the MSAA variant of the buffer.
+
+Method: get_depth_texture(msaa: bool = false) -> RID
+Returns the depth texture we are rendering 3D content to. If multiview is used this will be a texture array with all views.
+Key Rule: If msaa is true and MSAA is enabled, this returns the MSAA variant of the buffer.
+
+Method: get_fsr_sharpness() -> float
+Returns the FSR sharpness value used while rendering the 3D content (if get_scaling_3d_mode() is an FSR mode).
+
+Method: get_internal_size() -> Vector2i
+Returns the internal size of the render buffer (size before upscaling) with which textures are created by default.
+
+Method: get_msaa_3d() -> ViewportMSAA
+Returns the applied 3D MSAA mode for this viewport.
+
+Method: get_render_target() -> RID
+Returns the render target associated with this buffers object.
+
+Method: get_scaling_3d_mode() -> ViewportScaling3DMode
+Returns the scaling mode used for upscaling.
+
+Method: get_screen_space_aa() -> ViewportScreenSpaceAA
+Returns the screen-space antialiasing method applied.
+
+Method: get_target_size() -> Vector2i
+Returns the target size of the render buffer (size after upscaling).
+
+Method: get_texture(context: StringName, name: StringName) -> RID
+Returns a cached texture with this name.
+
+Method: get_texture_format(context: StringName, name: StringName) -> RDTextureFormat
+Returns the texture format information with which a cached texture was created.
+
+Method: get_texture_samples() -> TextureSamples
+Returns the number of MSAA samples used.
+
+Method: get_texture_slice(context: StringName, name: StringName, layer: int, mipmap: int, layers: int, mipmaps: int) -> RID
+Returns a specific slice (layer or mipmap) for a cached texture.
+
+Method: get_texture_slice_size(context: StringName, name: StringName, mipmap: int) -> Vector2i
+Returns the texture size of a given slice of a cached texture.
+
+Method: get_texture_slice_view(context: StringName, name: StringName, layer: int, mipmap: int, layers: int, mipmaps: int, view: RDTextureView) -> RID
+Returns a specific view of a slice (layer or mipmap) for a cached texture.
+
+Method: get_use_debanding() -> bool
+Returns true if debanding is enabled.
+
+Method: get_use_taa() -> bool
+Returns true if TAA is enabled.
+
+Method: get_velocity_layer(layer: int, msaa: bool = false) -> RID
+Returns the specified layer from the velocity texture we are rendering 3D content to.
+
+Method: get_velocity_texture(msaa: bool = false) -> RID
+Returns the velocity texture we are rendering 3D content to. If multiview is used this will be a texture array with all views.
+Key Rule: If msaa is true and MSAA is enabled, this returns the MSAA variant of the buffer.
+
+Method: get_view_count() -> int
+Returns the view count for the associated viewport.
+
+Method: has_texture(context: StringName, name: StringName) -> bool
+Returns true if a cached texture exists for this name.

@@ -1,0 +1,280 @@
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: This section introduces the Vector3i class.
+---CHUNK---
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: A 3D vector using integer coordinates.
+Vector3i
+A 3D vector using integer coordinates.
+---CHUNK---
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: Describes the Vector3i class, its purpose, precision, and boolean evaluation.
+
+A 3-element structure that can be used to represent 3D grid coordinates or any other triplet of integers.
+
+It uses integer coordinates and is therefore preferable to Vector3 when exact precision is required. Note that the values are limited to 32 bits, and unlike Vector3 this cannot be configured with an engine build option. Use int or PackedInt64Array if 64-bit values are needed.
+
+Key Rule: In a boolean context, a Vector3i evaluates to false if it is equal to Vector3i(0, 0, 0). Otherwise, a Vector3i always evaluates to true.
+---CHUNK---
+Document: Math Tutorials Index
+Path: godot/classes/class_vector3i.rst
+Summary: Lists various math-related tutorials and external resources.
+
+Tutorials
+- Math documentation index
+- Vector math
+- 3Blue1Brown Essence of Linear Algebra
+---CHUNK---
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: This section describes the properties of the Vector3i class.
+
+Properties
+* x (int): Default: 0.
+* y (int): Default: 0.
+* z (int): Default: 0.
+---CHUNK---
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: This section details the constructors, methods, operators, and the Axis enumeration for the Vector3i class.
+
+Constructors:
+- Vector3i()
+- Vector3i(from: Vector3i)
+- Vector3i(from: Vector3)
+- Vector3i(x: int, y: int, z: int)
+
+Methods:
+- Method: abs() -> Vector3i
+- Method: clamp(min: Vector3i, max: Vector3i) -> Vector3i
+- Method: clampi(min: int, max: int) -> Vector3i
+- Method: distance_squared_to(to: Vector3i) -> int
+- Method: distance_to(to: Vector3i) -> float
+- Method: length() -> float
+- Method: length_squared() -> int
+- Method: max(with: Vector3i) -> Vector3i
+- Method: max_axis_index() -> int
+- Method: maxi(with: int) -> Vector3i
+- Method: min(with: Vector3i) -> Vector3i
+- Method: min_axis_index() -> int
+- Method: mini(with: int) -> Vector3i
+- Method: sign() -> Vector3i
+- Method: snapped(step: Vector3i) -> Vector3i
+- Method: snappedi(step: int) -> Vector3i
+
+Operators:
+- Operator: !=(right: Vector3i) -> bool
+- Operator: %(right: Vector3i) -> Vector3i
+- Operator: %(right: int) -> Vector3i
+- Operator: *(right: Vector3i) -> Vector3i
+- Operator: *(right: float) -> Vector3
+- Operator: *(right: int) -> Vector3i
+- Operator: +(right: Vector3i) -> Vector3i
+- Operator: -(right: Vector3i) -> Vector3i
+- Operator: /(right: Vector3i) -> Vector3i
+- Operator: /(right: float) -> Vector3
+- Operator: /(right: int) -> Vector3i
+- Operator: <(right: Vector3i) -> bool
+- Operator: <=(right: Vector3i) -> bool
+- Operator: ==(right: Vector3i) -> bool
+- Operator: >(right: Vector3i) -> bool
+- Operator: >=(right: Vector3i) -> bool
+- Operator: [](index: int) -> int
+- Operator: unary+() -> Vector3i
+- Operator: unary-() -> Vector3i
+
+Enumerations:
+enum Axis:
+- AXIS_X = 0: Enumerated value for the X axis. Returned by max_axis_index and min_axis_index.
+- AXIS_Y = 1: Enumerated value for the Y axis. Returned by max_axis_index and min_axis_index.
+- AXIS_Z = 2: Enumerated value for the Z axis. Returned by max_axis_index and min_axis_index.
+---CHUNK---
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: This section describes the predefined constant Vector3i values.
+
+Constants
+ZERO = Vector3i(0, 0, 0)
+Zero vector, a vector with all components set to 0.
+
+ONE = Vector3i(1, 1, 1)
+One vector, a vector with all components set to 1.
+
+MIN = Vector3i(-2147483648, -2147483648, -2147483648)
+Min vector, a vector with all components equal to INT32_MIN. Can be used as a negative integer equivalent of Vector3.INF.
+
+MAX = Vector3i(2147483647, 2147483647, 2147483647)
+Max vector, a vector with all components equal to INT32_MAX. Can be used as an integer equivalent of Vector3.INF.
+
+LEFT = Vector3i(-1, 0, 0)
+Left unit vector. Represents the local direction of left, and the global direction of west.
+
+RIGHT = Vector3i(1, 0, 0)
+Right unit vector. Represents the local direction of right, and the global direction of east.
+
+UP = Vector3i(0, 1, 0)
+Up unit vector.
+
+DOWN = Vector3i(0, -1, 0)
+Down unit vector.
+
+FORWARD = Vector3i(0, 0, -1)
+Forward unit vector. Represents the local direction of forward, and the global direction of north.
+
+BACK = Vector3i(0, 0, 1)
+Back unit vector. Represents the local direction of back, and the global direction of south.
+---CHUNK---
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: This section describes the `x`, `y`, and `z` integer components of a Vector3i.
+
+*   x (int): The vector's X component. Also accessible by using the index position [0]. Default: 0
+*   y (int): The vector's Y component. Also accessible by using the index position [1]. Default: 0
+*   z (int): The vector's Z component. Also accessible by using the index position [2]. Default: 0
+---CHUNK---
+Document: Vector3i
+Path: godot/classes/class_vector3i.rst
+Summary: This section details the constructors, methods, and operators available for the Vector3i class, covering vector creation, manipulation, and comparison.
+
+Constructor Descriptions
+
+Vector3i Vector3i()
+Constructs a default-initialized Vector3i with all components set to 0.
+
+Vector3i Vector3i(from: Vector3i)
+Constructs a Vector3i as a copy of the given Vector3i.
+
+Vector3i Vector3i(from: Vector3)
+Constructs a new Vector3i from the given Vector3 by truncating components' fractional parts (rounding towards zero). For a different behavior consider passing the result of Vector3.ceil(), Vector3.floor() or Vector3.round() to this constructor instead.
+
+Vector3i Vector3i(x: int, y: int, z: int)
+Returns a Vector3i with the given components.
+
+Method Descriptions
+
+Method: Vector3i abs()
+Returns a new vector with all components in absolute values (i.e. positive).
+
+Method: Vector3i clamp(min: Vector3i, max: Vector3i)
+Returns a new vector with all components clamped between the components of min and max, by running @GlobalScope.clamp() on each component.
+
+Method: Vector3i clampi(min: int, max: int)
+Returns a new vector with all components clamped between min and max, by running @GlobalScope.clamp() on each component.
+
+Method: int distance_squared_to(to: Vector3i)
+Returns the squared distance between this vector and to.
+This method runs faster than distance_to(), so prefer it if you need to compare vectors or need the squared distance for some formula.
+
+Method: float distance_to(to: Vector3i)
+Returns the distance between this vector and to.
+
+Method: float length()
+Returns the length (magnitude) of this vector.
+
+Method: int length_squared()
+Returns the squared length (squared magnitude) of this vector.
+This method runs faster than length(), so prefer it if you need to compare vectors or need the squared distance for some formula.
+
+Method: Vector3i max(with: Vector3i)
+Returns the component-wise maximum of this and with, equivalent to Vector3i(maxi(x, with.x), maxi(y, with.y), maxi(z, with.z)).
+
+Method: int max_axis_index()
+Returns the axis of the vector's highest value. See AXIS_* constants. If all components are equal, this method returns AXIS_X.
+
+Method: Vector3i maxi(with: int)
+Returns the component-wise maximum of this and with, equivalent to Vector3i(maxi(x, with), maxi(y, with), maxi(z, with)).
+
+Method: Vector3i min(with: Vector3i)
+Returns the component-wise minimum of this and with, equivalent to Vector3i(mini(x, with.x), mini(y, with.y), mini(z, with.z)).
+
+Method: int min_axis_index()
+Returns the axis of the vector's lowest value. See AXIS_* constants. If all components are equal, this method returns AXIS_Z.
+
+Method: Vector3i mini(with: int)
+Returns the component-wise minimum of this and with, equivalent to Vector3i(mini(x, with), mini(y, with), mini(z, with)).
+
+Method: Vector3i sign()
+Returns a new vector with each component set to 1 if it's positive, -1 if it's negative, and 0 if it's zero. The result is identical to calling @GlobalScope.sign() on each component.
+
+Method: Vector3i snapped(step: Vector3i)
+Returns a new vector with each component snapped to the closest multiple of the corresponding component in step.
+
+Method: Vector3i snappedi(step: int)
+Returns a new vector with each component snapped to the closest multiple of step.
+
+Operator Descriptions
+
+Method: bool operator != (right: Vector3i)
+Returns true if the vectors are not equal.
+
+Method: Vector3i operator % (right: Vector3i)
+Gets the remainder of each component of the Vector3i with the components of the given Vector3i. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using @GlobalScope.posmod() instead if you want to handle negative numbers.
+GDScript:
+print(Vector3i(10, -20, 30) % Vector3i(7, 8, 9)) # Prints (3, -4, 3)
+
+Method: Vector3i operator % (right: int)
+Gets the remainder of each component of the Vector3i with the given int. This operation uses truncated division, which is often not desired as it does not work well with negative numbers. Consider using @GlobalScope.posmod() instead if you want to handle negative numbers.
+GDScript:
+print(Vector3i(10, -20, 30) % 7) # Prints (3, -6, 2)
+
+Method: Vector3i operator * (right: Vector3i)
+Multiplies each component of the Vector3i by the components of the given Vector3i.
+GDScript:
+print(Vector3i(10, 20, 30) * Vector3i(3, 4, 5)) # Prints (30, 80, 150)
+
+Method: Vector3 operator * (right: float)
+Multiplies each component of the Vector3i by the given float. Returns a Vector3.
+GDScript:
+print(Vector3i(10, 15, 20) * 0.9) # Prints (9.0, 13.5, 18.0)
+
+Method: Vector3i operator * (right: int)
+Multiplies each component of the Vector3i by the given int.
+
+Method: Vector3i operator + (right: Vector3i)
+Adds each component of the Vector3i by the components of the given Vector3i.
+GDScript:
+print(Vector3i(10, 20, 30) + Vector3i(3, 4, 5)) # Prints (13, 24, 35)
+
+Method: Vector3i operator - (right: Vector3i)
+Subtracts each component of the Vector3i by the components of the given Vector3i.
+GDScript:
+print(Vector3i(10, 20, 30) - Vector3i(3, 4, 5)) # Prints (7, 16, 25)
+
+Method: Vector3i operator / (right: Vector3i)
+Divides each component of the Vector3i by the components of the given Vector3i.
+GDScript:
+print(Vector3i(10, 20, 30) / Vector3i(2, 5, 3)) # Prints (5, 4, 10)
+
+Method: Vector3 operator / (right: float)
+Divides each component of the Vector3i by the given float. Returns a Vector3.
+GDScript:
+print(Vector3i(1, 2, 3) / 2.5) # Prints (0.4, 0.8, 1.2)
+
+Method: Vector3i operator / (right: int)
+Divides each component of the Vector3i by the given int.
+
+Method: bool operator < (right: Vector3i)
+Compares two Vector3i vectors by first checking if the X value of the left vector is less than the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
+
+Method: bool operator <= (right: Vector3i)
+Compares two Vector3i vectors by first checking if the X value of the left vector is less than or equal to the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
+
+Method: bool operator == (right: Vector3i)
+Returns true if the vectors are equal.
+
+Method: bool operator > (right: Vector3i)
+Compares two Vector3i vectors by first checking if the X value of the left vector is greater than the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
+
+Method: bool operator >= (right: Vector3i)
+Compares two Vector3i vectors by first checking if the X value of the left vector is greater than or equal to the X value of the right vector. If the X values are exactly equal, then it repeats this check with the Y values of the two vectors, and then with the Z values. This operator is useful for sorting vectors.
+
+Method: int operator [] (index: int)
+Access vector components using their index. v[0] is equivalent to v.x, v[1] is equivalent to v.y, and v[2] is equivalent to v.z.
+
+Method: Vector3i operator unary+ ()
+Returns the same value as if the + was not there. Unary + does nothing, but sometimes it can make your code more readable.
+
+Method: Vector3i operator unary- ()
+Returns the negative value of the Vector3i. This is the same as writing Vector3i(-v.x, -v.y, -v.z). This operation flips the direction of the vector while keeping the same magnitude.

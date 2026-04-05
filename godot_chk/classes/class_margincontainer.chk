@@ -1,0 +1,59 @@
+Document: MarginContainer
+Path: godot/classes/class_margincontainer.rst
+Summary: A container that manages child controls with adjustable padding margins.
+
+MarginContainer is a specialized container node that arranges its child controls with customizable padding margins. It inherits from Container and adds functionality for defining left, right, top, and bottom margins. These margins create space between the container's edges and its children, allowing for precise layout control. The class provides properties to set margin values individually or through a margin preset. When used in a UI, MarginContainer ensures consistent spacing between interface elements regardless of screen size or resolution. It works with both horizontal and vertical layouts, making it suitable for complex UI arrangements. The container's margin settings affect all child controls uniformly, simplifying the creation of responsive interfaces. MarginContainer is particularly useful for creating dialog windows, panels, and other UI components requiring consistent internal spacing.
+---CHUNK---
+Document: MarginContainer
+Path: godot/classes/class_margincontainer.rst
+Summary: A container that keeps a margin around its child controls.
+
+Inherits: Container < Control < CanvasItem < Node < Object
+Inherited By: EditorDock
+A container that keeps a margin around its child controls.
+---CHUNK---
+Document: MarginContainer  
+Path: godot/classes/class_margincontainer.rst  
+Summary: Adds adjustable margins around all child controls, with margins controlled via theme overrides.  
+
+MarginContainer adds an adjustable margin on each side of its child controls. The margins are added around all children, not around each individual one. To control the MarginContainer's margins, use the margin_* theme properties listed below. Note: The margin sizes are theme overrides, not normal properties. This is an example of how to change them in code:  
+
+GDScript:  
+    # This code sample assumes the current script is extending MarginContainer.  
+    var margin_value = 100  
+    add_theme_constant_override("margin_top", margin_value)  
+    add_theme_constant_override("margin_left", margin_value)  
+    add_theme_constant_override("margin_bottom", margin_value)  
+    add_theme_constant_override("margin_right", margin_value)  
+
+C#:  
+    // This code sample assumes the current script is extending MarginContainer.  
+    int marginValue = 100;  
+    AddThemeConstantOverride("margin_top", marginValue);  
+    AddThemeConstantOverride("margin_left", marginValue);  
+    AddThemeConstantOverride("margin_bottom", marginValue);  
+    AddThemeConstantOverride("margin_right", marginValue);
+---CHUNK---
+Document: Using Containers
+Path: godot/classes/class_margincontainer.rst
+Summary: Lists tutorials related to using containers in Godot's UI system.
+
+- Using Containers
+---CHUNK---
+Document: MarginContainer
+Path: godot/classes/class_margincontainer.rst
+Summary: Theme properties for margin values with default 0 values.
+
+- int: margin_bottom. Default: 0
+- int: margin_left. Default: 0
+- int: margin_right. Default: 0
+- int: margin_top. Default: 0
+---CHUNK---
+Document: MarginContainer
+Path: godot/classes/class_margincontainer.rst
+Summary: Theme properties for offsetting direct children inside a MarginContainer from each edge.
+
+Property: margin_bottom (int): Offsets towards the inside direct children of the container by this amount of pixels from the bottom. Default: 0.
+Property: margin_left (int): Offsets towards the inside direct children of the container by this amount of pixels from the left. Default: 0.
+Property: margin_right (int): Offsets towards the inside direct children of the container by this amount of pixels from the right. Default: 0.
+Property: margin_top (int): Offsets towards the inside direct children of the container by this amount of pixels from the top. Default: 0.

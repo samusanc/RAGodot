@@ -1,0 +1,46 @@
+Document: MeshInstance2D
+Path: godot/classes/class_meshinstance2d.rst
+Summary: Class MeshInstance2D reference.
+---CHUNK---
+Document: MeshInstance2D
+Path: godot/classes/class_meshinstance2d.rst
+Summary: A 2D node for rendering a Mesh in the scene.
+
+Inherits: Node2D < CanvasItem < Node < Object
+Node used for displaying a Mesh in 2D.
+---CHUNK---
+Document: MeshInstance2D  
+Path: godot/classes/class_meshinstance2d.rst  
+Summary: A 2D node for rendering meshes, offering performance benefits over Sprite2D for large transparent areas.  
+
+Node used for displaying a Mesh in 2D. This can be faster to render compared to displaying a Sprite2D node with large transparent areas, especially if the node takes up a lot of space on screen at high viewport resolutions. This is because using a mesh designed to fit the sprite's opaque areas will reduce GPU fill rate utilization (at the cost of increased vertex processing utilization).  
+
+Note: A MeshInstance2D can be created from an existing Sprite2D via a tool in the editor toolbar. Select the Sprite2D node, then choose Sprite2D > Convert to MeshInstance2D at the top of the 2D editor viewport.  
+
+Tip: When a Mesh has to be instantiated more than thousands of times close to each other, consider using a MultiMesh in a MultiMeshInstance2D instead.
+---CHUNK---
+Document: MeshInstance2D
+Path: godot/classes/class_meshinstance2d.rst
+Summary: This section provides a link to the 2D meshes tutorial.
+
+Tutorials: 2D meshes
+---CHUNK---
+Document: MeshInstance2D
+Path: godot/classes/class_meshinstance2d.rst
+Summary: Properties for MeshInstance2D class, including mesh and texture references.
+
+mesh (Mesh): Reference to the mesh to display. Default: null.
+texture (Texture2D): Texture to apply to the mesh. Default: null.
+---CHUNK---
+Document: MeshInstance2D
+Path: godot/classes/class_meshinstance2d.rst
+Summary: The texture_changed signal is emitted when the texture property is modified.
+
+texture_changed(): Emitted when the texture is changed.
+---CHUNK---
+Document: MeshInstance2D  
+Path: godot/classes/class_meshinstance2d.rst  
+Summary: Describes the mesh and texture properties for rendering in 2D with MeshInstance2D.  
+
+Mesh (Mesh): The Mesh that will be drawn by the MeshInstance2D. Set via set_mesh(Mesh) and retrieved via get_mesh().  
+Texture2D (Texture2D): The Texture2D used with the default CanvasItemMaterial. Accessible as TEXTURE in CanvasItem shaders. Set via set_texture(Texture2D) and retrieved via get_texture(). Note: This property is only relevant when using the default material.

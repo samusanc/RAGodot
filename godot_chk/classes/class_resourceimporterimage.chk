@@ -1,0 +1,21 @@
+Document: ResourceImporterImage
+Path: godot/classes/class_resourceimporterimage.rst
+Summary: Class for importing image resources in Godot.
+---CHUNK---
+Document: ResourceImporterImage
+Path: godot/classes/class_resourceimporterimage.rst
+Summary: A class for importing images for use in scripting without rendering capabilities.
+
+Inherits: ResourceImporter < RefCounted < Object
+Imports an image for use in scripting, with no rendering capabilities.
+---CHUNK---
+Document: class_ResourceImporterImage
+Path: godot/classes/class_resourceimporterimage.rst
+Summary: This importer processes Image resources for 2D/3D use, differing from CompressedTexture2D handling.
+
+This importer imports Image resources, as opposed to CompressedTexture2D. If you need to render the image in 2D or 3D, use ResourceImporterTexture instead.
+---CHUNK---
+Document: Importing images
+Path: godot/classes/class_resourceimporterimage.rst
+Summary: Links to the tutorial on importing images in Godot
+Importing images

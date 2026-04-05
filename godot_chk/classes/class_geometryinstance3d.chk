@@ -1,0 +1,145 @@
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: This section introduces the GeometryInstance3D class.
+---CHUNK---
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: Base node for geometry-based visual instances.
+
+Inherits: VisualInstance3D < Node3D < Node < Object
+Inherited By: CPUParticles3D, CSGShape3D, GPUParticles3D, Label3D, MeshInstance3D, MultiMeshInstance3D, SpriteBase3D
+
+Base node for geometry-based visual instances.
+---CHUNK---
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: Describes the base node for geometry-based visual instances.
+Base node for geometry-based visual instances. Shares some common functionality like visibility and custom materials.
+---CHUNK---
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: Lists related tutorials for GeometryInstance3D.
+
+Tutorials
+- Visibility ranges (HLOD)
+---CHUNK---
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: This section lists the properties available for GeometryInstance3D nodes, including their types and default values.
+
+*   cast_shadow (ShadowCastingSetting): Default: 1
+*   custom_aabb (AABB): Default: AABB(0, 0, 0, 0, 0, 0)
+*   extra_cull_margin (float): Default: 0.0
+*   gi_lightmap_scale (LightmapScale): Default: 0
+*   gi_lightmap_texel_scale (float): Default: 1.0
+*   gi_mode (GIMode): Default: 1
+*   ignore_occlusion_culling (bool): Default: false
+*   lod_bias (float): Default: 1.0
+*   material_overlay (Material): Default:
+*   material_override (Material): Default:
+*   transparency (float): Default: 0.0
+*   visibility_range_begin (float): Default: 0.0
+*   visibility_range_begin_margin (float): Default: 0.0
+*   visibility_range_end (float): Default: 0.0
+*   visibility_range_end_margin (float): Default: 0.0
+*   visibility_range_fade_mode (VisibilityRangeFadeMode): Default: 0
+---CHUNK---
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: This section describes methods and enumerations for controlling shadow casting, global illumination, lightmap scaling, and visibility range fading for GeometryInstance3D.
+
+Methods:
+- Method: get_instance_shader_parameter(name: StringName) → Variant
+- Method: set_instance_shader_parameter(name: StringName, value: Variant) → void
+
+Enumerations
+
+enum **ShadowCastingSetting**:
+- **SHADOW_CASTING_SETTING_OFF** = 0: Will not cast any shadows. Use this to improve performance for small geometry that is unlikely to cast noticeable shadows (such as debris).
+- **SHADOW_CASTING_SETTING_ON** = 1: Will cast shadows from all visible faces in the GeometryInstance3D. Will take culling into account, so faces not being rendered will not be taken into account when shadow casting.
+- **SHADOW_CASTING_SETTING_DOUBLE_SIDED** = 2: Will cast shadows from all visible faces in the GeometryInstance3D. Will not take culling into account, so all faces will be taken into account when shadow casting.
+- **SHADOW_CASTING_SETTING_SHADOWS_ONLY** = 3: Will only show the shadows casted from this object. In other words, the actual mesh will not be visible, only the shadows casted from the mesh will be.
+
+enum **GIMode**:
+- **GI_MODE_DISABLED** = 0: Disabled global illumination mode. Use for dynamic objects that do not contribute to global illumination (such as characters). When using VoxelGI and SDFGI, the geometry will receive indirect lighting and reflections but the geometry will not be considered in GI baking.
+- **GI_MODE_STATIC** = 1: Baked global illumination mode. Use for static objects that contribute to global illumination (such as level geometry). This GI mode is effective when using VoxelGI, SDFGI and LightmapGI.
+- **GI_MODE_DYNAMIC** = 2: Dynamic global illumination mode. Use for dynamic objects that contribute to global illumination. This GI mode is only effective when using VoxelGI, but it has a higher performance impact than GI_MODE_STATIC. When using other GI methods, this will act the same as GI_MODE_DISABLED. When using LightmapGI, the object will receive indirect lighting using lightmap probes instead of using the baked lightmap texture.
+
+enum **LightmapScale**:
+- **LIGHTMAP_SCALE_1X** = 0: Deprecated: Use gi_lightmap_texel_scale instead. The standard texel density for lightmapping with LightmapGI.
+- **LIGHTMAP_SCALE_2X** = 1: Deprecated: Use gi_lightmap_texel_scale instead. Multiplies texel density by 2× for lightmapping with LightmapGI. To ensure consistency in texel density, use this when scaling a mesh by a factor between 1.5 and 3.0.
+- **LIGHTMAP_SCALE_4X** = 2: Deprecated: Use gi_lightmap_texel_scale instead. Multiplies texel density by 4× for lightmapping with LightmapGI. To ensure consistency in texel density, use this when scaling a mesh by a factor between 3.0 and 6.0.
+- **LIGHTMAP_SCALE_8X** = 3: Deprecated: Use gi_lightmap_texel_scale instead. Multiplies texel density by 8× for lightmapping with LightmapGI. To ensure consistency in texel density, use this when scaling a mesh by a factor greater than 6.0.
+- **LIGHTMAP_SCALE_MAX** = 4: Deprecated: Use gi_lightmap_texel_scale instead. Represents the size of the LightmapScale enum.
+
+enum **VisibilityRangeFadeMode**:
+- **VISIBILITY_RANGE_FADE_DISABLED** = 0: Will not fade itself nor its visibility dependencies, hysteresis will be used instead. This is the fastest approach to manual LOD, but it can result in noticeable LOD transitions depending on how the LOD meshes are authored. See visibility_range_begin and Node3D.visibility_parent for more information.
+- **VISIBILITY_RANGE_FADE_SELF** = 1: Will fade-out itself when reaching the limits of its own visibility range. This is slower than VISIBILITY_RANGE_FADE_DISABLED, but it can provide smoother transitions. The fading range is determined by visibility_range_begin_margin and visibility_range_end_margin. Note: Only supported when using the Forward+ rendering method. When using the Mobile or Compatibility rendering method, this mode acts like VISIBILITY_RANGE_FADE_DISABLED but with hysteresis disabled.
+- **VISIBILITY_RANGE_FADE_DEPENDENCIES** = 2: Will fade-in its visibility dependencies (see Node3D.visibility_parent) when reaching the limits of its own visibility range. This is slower than VISIBILITY_RANGE_FADE_DISABLED, but it can provide smoother transitions. The fading range is determined by visibility_range_begin_margin and visibility_range_end_margin. Note: Only supported when using the Forward+ rendering method. When using the Mobile or Compatibility rendering method, this mode acts like VISIBILITY_RANGE_FADE_DISABLED but with hysteresis disabled.
+---CHUNK---
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: This section describes the properties of GeometryInstance3D, including shadow casting, custom bounding boxes, culling margins, global illumination settings, material overrides, transparency, and visibility range controls.
+
+Properties:
+* cast_shadow (ShadowCastingSetting): The mode used to cast shadows from this instance. Default: 1.
+  - Method: set_cast_shadows_setting(value: ShadowCastingSetting)
+  - Method: get_cast_shadows_setting()
+* custom_aabb (AABB): Overrides the bounding box of this node with a custom one. This can avoid expensive AABB recalculation for skeletons with MeshInstance3D or provide precise control. To use the default AABB, set value to an AABB with all fields 0.0. To avoid frustum culling, set custom_aabb to a very large AABB (e.g., AABB(-10000, -10000, -10000, 20000, 20000, 20000)). To disable all culling (occlusion and layer), call RenderingServer.instance_set_ignore_culling() on the GeometryInstance3D's RID. Default: AABB(0, 0, 0, 0, 0, 0).
+  - Method: set_custom_aabb(value: AABB)
+  - Method: get_custom_aabb()
+* extra_cull_margin (float): The extra distance added to the GeometryInstance3D's bounding box (AABB) to increase its cull box. Default: 0.0.
+  - Method: set_extra_cull_margin(value: float)
+  - Method: get_extra_cull_margin()
+* gi_lightmap_scale (LightmapScale): Deprecated: Use gi_lightmap_texel_scale instead. The texel density to use for lightmapping in LightmapGI. Default: 0.
+  - Method: set_lightmap_scale(value: LightmapScale)
+  - Method: get_lightmap_scale()
+* gi_lightmap_texel_scale (float): The texel density to use for lightmapping in LightmapGI. Greater scale values provide higher resolution in the lightmap, resulting in sharper shadows for lights with baked direct and indirect light. However, greater scale values increase the space taken by the mesh in the lightmap texture, increasing memory, storage, and bake time. When using a single mesh at different scales, adjust this value to keep the lightmap texel density consistent. Doubling gi_lightmap_texel_scale doubles the lightmap texture resolution on each axis, quadrupling the texel count. Default: 1.0.
+  - Method: set_lightmap_texel_scale(value: float)
+  - Method: get_lightmap_texel_scale()
+* gi_mode (GIMode): The global illumination mode to use for the whole geometry. To avoid inconsistent results, use a mode that matches the mesh's purpose (static/dynamic). Note: Lights' bake mode will also affect global illumination rendering. See Light3D.light_bake_mode. Default: 1.
+  - Method: set_gi_mode(value: GIMode)
+  - Method: get_gi_mode()
+* ignore_occlusion_culling (bool): If true, disables occlusion culling for this instance. Useful for gizmos that must be rendered even when occlusion culling is in use. Note: ignore_occlusion_culling does not affect frustum culling. To avoid frustum culling, set custom_aabb to a very large AABB (e.g., AABB(-10000, -10000, -10000, 20000, 20000, 20000)). Default: false.
+  - Method: set_ignore_occlusion_culling(value: bool)
+  - Method: is_ignoring_occlusion_culling()
+* lod_bias (float): Changes how quickly the mesh transitions to a lower level of detail. A value of 0 forces the lowest LOD, 1 uses default settings, and larger values keep higher LOD at farther distances. Useful for testing LOD transitions in the editor. Default: 1.0.
+  - Method: set_lod_bias(value: float)
+  - Method: get_lod_bias()
+* material_overlay (Material): The material overlay for the whole geometry. If assigned, it renders on top of any other active material for all surfaces.
+  - Method: set_material_overlay(value: Material)
+  - Method: get_material_overlay()
+* material_override (Material): The material override for the whole geometry. If assigned, it is used instead of any material set in any material slot of the mesh.
+  - Method: set_material_override(value: Material)
+  - Method: get_material_override()
+* transparency (float): The transparency applied to the whole geometry (as a multiplier of the materials' existing transparency). 0.0 is fully opaque, while 1.0 is fully transparent. Values greater than 0.0 force materials through the transparent pipeline, which is slower and can exhibit sorting issues. Unlike transparent materials, setting transparency greater than 0.0 does not disable shadow rendering. In spatial shaders, 1.0 - transparency is the default ALPHA built-in. Note: transparency is clamped between 0.0 and 1.0, so it cannot make transparent materials more opaque. Note: Only supported with Forward+ rendering. Ignored (considered 0.0) with Mobile or Compatibility rendering. Default: 0.0.
+  - Method: set_transparency(value: float)
+  - Method: get_transparency()
+* visibility_range_begin (float): Starting distance from which the GeometryInstance3D will be visible, considering visibility_range_begin_margin. Default 0 disables the range check. Default: 0.0.
+  - Method: set_visibility_range_begin(value: float)
+  - Method: get_visibility_range_begin()
+* visibility_range_begin_margin (float): Margin for the visibility_range_begin threshold. The GeometryInstance3D changes visibility state only when going over or under visibility_range_begin by this amount. If visibility_range_fade_mode is VISIBILITY_RANGE_FADE_DISABLED, this acts as hysteresis. If visibility_range_fade_mode is VISIBILITY_RANGE_FADE_SELF or VISIBILITY_RANGE_FADE_DEPENDENCIES, this acts as a fade transition distance and must be greater than 0.0 for the effect to be noticeable. Default: 0.0.
+  - Method: set_visibility_range_begin_margin(value: float)
+  - Method: get_visibility_range_begin_margin()
+* visibility_range_end (float): Distance from which the GeometryInstance3D will be hidden, considering visibility_range_end_margin. Default 0 disables the range check. Default: 0.0.
+  - Method: set_visibility_range_end(value: float)
+  - Method: get_visibility_range_end()
+* visibility_range_end_margin (float): Margin for the visibility_range_end threshold. The GeometryInstance3D changes visibility state only when going over or under visibility_range_end by this amount. If visibility_range_fade_mode is VISIBILITY_RANGE_FADE_DISABLED, this acts as hysteresis. If visibility_range_fade_mode is VISIBILITY_RANGE_FADE_SELF or VISIBILITY_RANGE_FADE_DEPENDENCIES, this acts as a fade transition distance and must be greater than 0.0 for the effect to be noticeable. Default: 0.0.
+  - Method: set_visibility_range_end_margin(value: float)
+  - Method: get_visibility_range_end_margin()
+* visibility_range_fade_mode (VisibilityRangeFadeMode): Controls which instances will be faded when approaching the limits of the visibility range. Default: 0.
+  - Method: set_visibility_range_fade_mode(value: VisibilityRangeFadeMode)
+  - Method: get_visibility_range_fade_mode()
+---CHUNK---
+Document: GeometryInstance3D
+Path: godot/classes/class_geometryinstance3d.rst
+Summary: This chunk describes methods for getting and setting instance-specific shader parameters.
+
+Method: get_instance_shader_parameter(name: StringName) → Variant
+Get the value of a shader parameter as set on this instance.
+
+Method: set_instance_shader_parameter(name: StringName, value: Variant) → void
+Set the value of a shader uniform for this instance only (per-instance uniform). See also ShaderMaterial.set_shader_parameter() to assign a uniform on all instances using the same ShaderMaterial.
+Note: For a shader uniform to be assignable on a per-instance basis, it must be defined with `instance uniform ...` rather than `uniform ...` in the shader code.
+Note: `name` is case-sensitive and must match the name of the uniform in the code exactly (not the capitalized name in the inspector).
+Note: Per-instance shader uniforms are only available in Spatial and CanvasItem shaders, but not for Fog, Sky, or Particles shaders.

@@ -1,0 +1,56 @@
+Document: AudioEffectRecord
+Path: godot/classes/class_audioeffectrecord.rst
+Summary: Class reference for AudioEffectRecord, a Godot audio effect that records audio signals.
+---CHUNK---
+Document: AudioEffectRecord
+Path: godot/classes/class_audioeffectrecord.rst
+Summary: Audio effect used for recording the sound from an audio bus.
+
+Inherits: AudioEffect < Resource < RefCounted < Object
+Audio effect used for recording the sound from an audio bus.
+---CHUNK---
+Document: AudioEffectRecord  
+Path: godot/classes/class_audioeffectrecord.rst  
+Summary: Records audio from an audio bus into a WAV file, encoding with specified format; requires ProjectSettings.audio/driver/enable_input to be enabled for microphone input.  
+
+AudioEffectRecord allows the user to record sound from an audio bus into an AudioStreamWAV. When used on the Master audio bus, this includes all audio output by Godot. Unlike AudioEffectCapture, this effect encodes the recording with the given format (8-bit, 16-bit, or compressed) instead of providing access to raw audio samples. It can be used with an AudioStreamMicrophone to record from a microphone. Note: ProjectSettings.audio/driver/enable_input must be true for audio input to work. See also that setting's description for caveats related to permissions and operating system privacy settings.
+---CHUNK---
+Document: Recording with Microphone  
+Path: godot/classes/class_audioeffectrecord.rst  
+Summary: This section lists tutorials and resources for implementing microphone-based audio recording in Godot.  
+
+Tutorials:  
+- Recording with microphone  
+- Audio Microphone Record Demo (https://godotengine.org/asset-library/asset/2760)
+---CHUNK---
+Document: AudioEffectRecord
+Path: godot/classes/class_audioeffectrecord.rst
+Summary: This chunk describes the 'format' property of the AudioEffectRecord class and its default value.
+
+Property: format (AudioStreamWAV_Format): Audio stream format. Default: 1.
+---CHUNK---
+Document: AudioEffectRecord
+Path: godot/classes/class_audioeffectrecord.rst
+Summary: Methods for recording audio, including starting/stopping recording and retrieving the recorded stream.
+
+- get_recording() → AudioStreamWAV (const)
+- is_recording_active() → bool (const)
+- set_recording_active(record: bool) → void
+---CHUNK---
+Document: AudioEffectRecord
+Path: godot/classes/class_audioeffectrecord.rst
+Summary: Specifies the audio format for recording samples
+
+Format format = 1
+- void set_format(value: Format)
+- Format get_format()
+
+Specifies the format in which the sample will be recorded. The format property determines the audio encoding type used for recording, with a default value of 1. The set_format method allows changing the format, and get_format retrieves the current format setting. The available format options are defined in the AudioStreamWAV_Format enum.
+---CHUNK---
+Document: AudioEffectRecord
+Path: godot/classes/class_audioeffectrecord.rst
+Summary: Methods for managing audio recording functionality, including starting/stopping recording and retrieving recorded samples.
+
+Method: get_recording() → AudioStreamWAV. Returns the recorded sample.
+Method: is_recording_active() → bool. Returns whether the recording is active or not.
+Method: set_recording_active(record: bool) → void. If true, the sound will be recorded. Note: Restarting the recording will remove the previously recorded sample.

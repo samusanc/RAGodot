@@ -1,0 +1,50 @@
+Document: RDShaderFile
+Path: godot/classes/class_rdshaderfile.rst
+Summary: Class RDShaderFile reference documentation.
+---CHUNK---
+Document: RDShaderFile
+Path: godot/classes/class_rdshaderfile.rst
+Summary: A compiled shader file in SPIR-V format used by the RenderingDevice, distinct from Godot's Shader class.
+
+Inherits: Resource < RefCounted < Object
+Compiled shader file in SPIR-V form (used by RenderingDevice). Not to be confused with Godot's own Shader.
+Note: Not to be confused with Godot's own Shader class.
+---CHUNK---
+Document: RDShaderFile
+Path: godot/classes/class_rdshaderfile.rst
+Summary: A compiled shader file in SPIR-V format used with the RenderingDevice API.
+
+Compiled shader file in SPIR-V form. See also RDShaderSource. RDShaderFile is only meant to be used with the RenderingDevice API. It should not be confused with Godot's own Shader resource, which is what Godot's various nodes use for high-level shader programming.
+---CHUNK---
+Document: RDShaderFile
+Path: godot/classes/class_rdshaderfile.rst
+Summary: Properties of the RDShaderFile class, including their types and default values.
+- base_error (String): Default: ""
+---CHUNK---
+Document: RDShaderFile
+Path: godot/classes/class_rdshaderfile.rst
+Summary: Methods for handling shader bytecode and SPIR-V versions in RDShaderFile.
+
+- get_spirv(version: StringName = "") const → RDShaderSPIRV: Returns the SPIR-V bytecode for the specified version.
+- get_version_list() const → Array[StringName]: Returns an array of available shader versions.
+- set_bytecode(bytecode: RDShaderSPIRV, version: StringName = ""): Sets the shader bytecode for the specified version.
+---CHUNK---
+Document: RDShaderFile
+Path: godot/classes/class_rdshaderfile.rst
+Summary: The base_error property and its associated methods for handling shader compilation error messages.
+
+String base_error = ""  
+Method: set_base_error(value: String)  
+Method: get_base_error() → String  
+
+The base_error property stores the base compilation error message for shaders. If non-empty, it indicates errors not specific to a shader stage. An empty value does not guarantee successful compilation - check RDShaderSPIRV's error message members for detailed status. The set_base_error method allows assigning a new error message string, while get_base_error retrieves the current value. This property is primarily used to report general shader compilation issues that aren't stage-specific.
+---CHUNK---
+Document: RDShaderFile
+Path: godot/classes/class_rdshaderfile.rst
+Summary: Methods for managing SPIR-V bytecode and version lists in a shader file.
+
+Method: get_spirv(version: StringName = "") → RDShaderSPIRV. Returns the SPIR-V intermediate representation for the specified shader version.
+
+Method: get_version_list() → Array<StringName>. Returns the list of compiled versions for this shader.
+
+Method: set_bytecode(bytecode: RDShaderSPIRV, version: StringName = ""). Sets the SPIR-V bytecode that will be compiled for the specified version.

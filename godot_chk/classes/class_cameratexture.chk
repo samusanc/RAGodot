@@ -1,0 +1,41 @@
+Document: CameraTexture
+Path: godot/classes/class_cameratexture.rst
+Summary: A class that allows rendering camera feeds into a texture for use in shaders or 2D/3D scenes. Inherits: Texture < ImageTexture < Resource. Key Rule: Must be attached to a Camera node to function properly.
+---CHUNK---
+Document: CameraTexture
+Path: godot/classes/class_cameratexture.rst
+Summary: Provides a texture from a CameraFeed for rendering in 2D scenes.
+
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+Texture provided by a CameraFeed.
+---CHUNK---
+Document: CameraTexture
+Path: godot/classes/class_cameratexture.rst
+Summary: Provides access to camera textures from a CameraFeed node.
+
+Description
+This texture gives access to the camera texture provided by a CameraFeed.
+
+Note: Many cameras supply YCbCr images which need to be converted in a shader.
+---CHUNK---
+Document: CameraTexture
+Path: godot/classes/class_cameratexture.rst
+Summary: Properties and their default values for the CameraTexture class
+
+Properties:
+- int: camera_feed_id. Default: 0
+- bool: camera_is_active. Default: false
+- bool: resource_local_to_scene. Default: false (overrides Resource's resource_local_to_scene)
+- FeedImage (enum_CameraServer_FeedImage): which_feed. Default: 0
+
+Note: resource_local_to_scene overrides the Resource class's resource_local_to_scene property.
+---CHUNK---
+Document: CameraTexture
+Path: godot/classes/class_cameratexture.rst
+Summary: Properties and accessors for managing camera feed settings and image selection in CameraTexture.
+
+camera_feed_id (int): The ID of the CameraFeed for which we want to display the image. Default: 0. Set via set_camera_feed_id(value: int), get via get_camera_feed_id().
+
+camera_is_active (bool): Convenience property that gives access to the active property of the CameraFeed. Default: false. Set via set_camera_active(value: bool), get via get_camera_active().
+
+which_feed (FeedImage (enum)): Which image within the CameraFeed we want access to, important if the camera image is split in a Y and CbCr component. Default: 0. Set via set_which_feed(value: FeedImage), get via get_which_feed().

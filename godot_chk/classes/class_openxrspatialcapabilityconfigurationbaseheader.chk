@@ -1,0 +1,34 @@
+Document: OpenXRSpatialCapabilityConfigurationBaseHeader
+Path: godot/classes/class_openxrspatialcapabilityconfigurationbaseheader.rst
+Summary: Base class for configuring spatial capabilities in OpenXR.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationBaseHeader
+Path: godot/classes/class_openxrspatialcapabilityconfigurationbaseheader.rst
+Summary: Wrapper base class for OpenXR Spatial Capability Configuration headers.
+
+Note: This class may be changed or removed in future versions.
+
+Inherits: RefCounted < Object
+
+Inherited By:
+- OpenXRSpatialCapabilityConfigurationAnchor
+- OpenXRSpatialCapabilityConfigurationAprilTag
+- OpenXRSpatialCapabilityConfigurationAruco
+- OpenXRSpatialCapabilityConfigurationMicroQrCode
+- OpenXRSpatialCapabilityConfigurationPlaneTracking
+- OpenXRSpatialCapabilityConfigurationQrCode
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationBaseHeader
+Path: godot/classes/class_openxrspatialcapabilityconfigurationbaseheader.rst
+Summary: Base class for OpenXR Spatial Capability Configuration headers, requiring implementation for each capability structure in OpenXR's spatial entities system.
+
+Wrapper base class for OpenXR Spatial Capability Configuration headers. This class needs to be implemented for each capability configuration structure usable within OpenXR's spatial entities system.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationBaseHeader
+Path: godot/classes/class_openxrspatialcapabilityconfigurationbaseheader.rst
+Summary: Methods for retrieving spatial capability configuration data and validating its presence.
+
+Methods:
+- int _get_configuration() virtual: Return a pointer (encoded as an int64_t) to a struct holding the spatial capability configuration data. The memory for this struct should remain accessible as long as this object remains instantiated.
+- bool _has_valid_configuration() virtual const: Return true if this object contains a valid configuration that can be retrieved when calling _get_configuration().
+- bool has_valid_configuration() const: Returns true if this object contains a valid configuration that can be used when calling OpenXRSpatialEntityExtension.create_spatial_context().

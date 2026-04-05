@@ -1,0 +1,48 @@
+Document: XR Full Screen Effects  
+Path: godot/tutorials/xr/xr_full_screen_effects.rst  
+Summary: This section explains how to implement and manage full-screen effects in XR projects using Godot.  
+
+This tutorial covers techniques for applying post-processing effects like bloom, color correction, and lens distortion in VR/AR experiences. Key steps include setting up a dedicated fullscreen shader material, configuring the XR plugin to use the material, and adjusting parameters for optimal performance.  
+
+To create a full-screen effect:  
+- Create a new ShaderMaterial and assign it to a CanvasItem node.  
+- Use the `SCREEN` keyword in the shader to access the full viewport.  
+- Apply post-processing operations (e.g., `texture SCREEN` for bloom).  
+
+For XR compatibility:  
+- Ensure the shader uses linear color space.  
+- Use the `XRPlugin` class to inject the material into the XR rendering pipeline.  
+- Test on target hardware to adjust shader complexity.  
+
+Common effects include:  
+- Bloom: Enhances bright areas using a Gaussian blur.  
+- Chromatic aberration: Simulates lens distortion.  
+- Color grading: Adjusts overall color tone.  
+
+Performance considerations:  
+- Use lower resolution textures for mobile XR.  
+- Limit shader operations to avoid frame rate drops.  
+- Use the `is_active` property to toggle effects dynamically.  
+
+Example GDScript:  
+GDScript:  
+```gdscript  
+var effect_material = preload("res://Shaders/FullscreenEffect.tres")  
+XRPlugin.get_singleton().set_fullscreen_shader(effect_material)  
+```  
+
+Note: Fullscreen shaders must be compatible with the XR plugin's rendering pipeline. Warning: High-complexity shaders may cause latency in VR. Tip: Use the Godot XR plugin's built-in profiling tools to monitor performance.
+---CHUNK---
+Document: XR full screen effects  
+Path: godot/tutorials/xr/xr_full_screen_effects.rst  
+Summary: How to implement full screen shaders for XR applications using a quad mesh and projection matrix adjustments  
+
+To add custom full screen effects in an XR application, create a MeshInstance3D node as a child of XRCamera3D and assign a QuadMesh with width and height set to 2. Apply a shader to this quad to cover the screen by setting the vertex shader's POSITION built-in to vec4(VERTEX.xy, 1.0, 1.0). However, effects intended to appear centered in the user's view (e.g., vignette) may appear misaligned in XR due to differences between the render target and headset perspectives.  
+
+Testing with a vignette shader reveals that without adjustment, the effect appears centered in the render target but off-center in the headset view. This discrepancy occurs because the quad's default positioning does not account for the headset's projection matrix. To fix this, modify the shader to incorporate the projection matrix, ensuring the full screen quad aligns correctly with the headset's field of view. This adjustment makes the effect visually centered in the headset's display while maintaining proper coverage across the screen.
+---CHUNK---
+Document: XR Full Screen Effects
+Path: godot/tutorials/xr/xr_full_screen_effects.rst
+Summary: This method has no performance concerns for per-pixel effects but reading from the screen texture disables rendering optimizations in XR.
+
+This full screen effect method has no performance concerns for per-pixel effects such as the above vignette shader. However, it is not recommended to read from the screen texture when using this technique. Full screen effects that require reading from the screen texture effectively disable all rendering performance optimizations in XR. This is because, when reading from the screen texture, Godot makes a full copy of the render buffer; this drastically increases the workload for the GPU and can create performance concerns.

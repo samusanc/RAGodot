@@ -1,0 +1,66 @@
+Document: StreamPeerSocket  
+Path: godot/classes/class_streampeersocket.rst  
+Summary: Class for handling TCP socket communication in Godot.  
+
+Inherits: StreamPeer < TCPClient < Reference < Object  
+
+StreamPeerSocket is a class that provides functionality for establishing and managing TCP socket connections. It inherits from StreamPeer, which offers general stream handling capabilities, and extends it with TCP-specific features. Key operations include connecting to a remote host, accepting incoming connections, and managing data transmission.  
+
+The class supports both client and server roles, allowing it to initiate connections or listen for incoming ones. It includes methods for setting connection parameters, handling errors, and ensuring secure communication. Properties such as `connected` indicate the current state of the connection, while methods like `connect_to_host()` and `accept_connection()` manage the connection lifecycle.  
+
+Key Rule: Always check the `connected` property before sending or receiving data to avoid errors.  
+
+GDScript:  
+```gdscript  
+var socket = StreamPeerSocket.new()  
+socket.connect_to_host("127.0.0.1", 12345)  
+if socket.is_connected():  
+    socket.put_string("Hello, server!")  
+```  
+
+C#:  
+```csharp  
+var socket = new StreamPeerSocket();  
+socket.ConnectToHost("127.0.0.1", 12345);  
+if (socket.IsConnected())  
+{  
+    socket.PutString("Hello, server!");  
+}  
+```  
+
+The class also includes methods for handling disconnections, retrieving peer information, and managing socket options. It integrates with Godot's networking system, allowing seamless communication between clients and servers within the engine.
+---CHUNK---
+Document: StreamPeerSocket
+Path: godot/classes/class_streampeersocket.rst
+Summary: Abstract base class for interacting with socket streams.
+
+Inherits: StreamPeer < RefCounted < Object
+Inherited By: StreamPeerTCP, StreamPeerUDS
+
+Abstract base class for interacting with socket streams. Provides common functionality for socket communication implementations. Used as a foundation for specific socket types like TCP and Unix domain sockets.
+---CHUNK---
+Document: StreamPeerSocket
+Path: godot/classes/class_streampeersocket.rst
+Summary: Abstract base class defining common behavior for socket-based streams in Godot.
+
+StreamPeerSocket is an abstract base class that defines common behavior for socket-based streams. It provides foundational functionality for network communication through sockets, serving as a parent class for specific implementation classes like TCP and UDP peers. This class handles core operations such as connecting to servers, accepting connections, and managing data transmission over network sockets.
+---CHUNK---
+Document: StreamPeerSocket  
+Path: godot/classes/class_streampeersocket.rst  
+Summary: Overview of StreamPeerSocket methods, status enumeration, and connection management functions.  
+
+Methods:  
+- disconnect_from_host(): Disconnects from host.  
+- Status get_status() const: Returns the status of the connection.  
+- Error poll(): Polls the socket, updating its state. See get_status() for current status.  
+
+Status Enumeration:  
+- STATUS_NONE (0): Initial status of StreamPeerSocket. Also the status after disconnecting.  
+- STATUS_CONNECTING (1): Socket is connecting to a host.  
+- STATUS_CONNECTED (2): Socket is connected to a host.  
+- STATUS_ERROR (3): Socket is in error state.  
+
+Method Details:  
+- disconnect_from_host(): Terminates the connection to the host.  
+- get_status(): Returns current connection status as a Status enum value.  
+- poll(): Checks socket state and updates internal status. Must be called regularly to maintain connection state.

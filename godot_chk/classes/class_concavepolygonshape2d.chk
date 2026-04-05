@@ -1,0 +1,39 @@
+Document: ConcavePolygonShape2D
+Path: godot/classes/class_concavepolygonshape2d.rst
+Summary: Class representing a 2D concave polygon shape for physics collisions.
+---CHUNK---
+Document: ConcavePolygonShape2D
+Path: godot/classes/class_concavepolygonshape2d.rst
+Summary: A 2D polyline shape used for physics collision.
+
+Inherits: Shape2D < Resource < RefCounted < Object
+A 2D polyline shape used for physics collision.
+---CHUNK---
+Document: ConcavePolygonShape2D  
+Path: godot/classes/class_concavepolygonshape2d.rst  
+Summary: A 2D polyline shape for physics, used in CollisionPolygon2D's BUILD_SEGMENTS mode as a hollow, configurable shape.  
+
+A 2D polyline shape intended for use in physics, specifically with CollisionPolygon2D when in BUILD_SEGMENTS mode. ConcavePolygonShape2D is a collection of interconnected line segments, allowing creation of polygons of any type or even non-enclosing shapes. However, it remains hollow even if line segments enclose an area, making it unsuitable for physics or detection in many cases.  
+
+Note: When used for collision, ConcavePolygonShape2D works best with static CollisionShape2D nodes like StaticBody2D and may not function well with CharacterBody2D or RigidBody2D in non-static modes.  
+
+Warning: Small physics bodies moving quickly may clip through this shape due to its hollow nature, failing to detect collisions between frames.  
+
+Performance: ConcavePolygonShape2D is the slowest 2D collision shape due to its complexity and should be limited to level geometry. For closed polylines, CollisionPolygon2D's BUILD_SOLIDS mode decomposes the polygon into convex shapes, which can then be used with ConvexPolygonShape2D for better performance.
+---CHUNK---
+Document: ConcavePolygonShape2D
+Path: godot/classes/class_concavepolygonshape2d.rst
+Summary: The 'segments' property stores a PackedVector2Array defining the shape's polygon segments. Default value is an empty array.
+
+- segments (PackedVector2Array): Stores the polygon segments as a packed array of 2D vectors. Default: PackedVector2Array()
+---CHUNK---
+Document: ConcavePolygonShape2D
+Path: godot/classes/class_concavepolygonshape2d.rst
+Summary: The segments property defining line segments for a 2D concave polygon shape.
+
+Property: segments (PackedVector2Array): The array of points forming line segments. The array length must be divisible by two, with each pair representing a segment's start and end points. Default: empty PackedVector2Array.
+
+Method: set_segments(value: PackedVector2Array) → void
+Method: get_segments() → PackedVector2Array
+
+Note: The returned array is copied and modifications won't update the original property value. See PackedVector2Array documentation for details.

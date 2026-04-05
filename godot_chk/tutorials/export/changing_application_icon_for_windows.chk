@@ -1,0 +1,45 @@
+Document: Changing Application Icon for Windows
+Path: godot/tutorials/export/changing_application_icon_for_windows.rst
+Summary: This section explains how to change the application icon for Windows in Godot projects.
+---CHUNK---
+Document: Changing Application Icon for Windows
+Path: godot/tutorials/export/changing_application_icon_for_windows.rst
+Summary: Godot 4.1 automatically generates Windows ICO files from PNG/WebP/SVG icons defined in export presets, using the project's icon setting as a fallback.
+
+Windows applications require ICO format icons for both file and taskbar display. Since Godot 4.1, the engine can automatically generate ICO files from icon files specified in the Windows export preset. Supported source formats include PNG, WebP, and SVG. If no icon is explicitly defined in the Windows export preset, the application/config/icon project setting is used automatically.
+
+This automation eliminates the need for manual ICO file creation in most cases. However, developers who require precise control over icon appearance at different display sizes may still need to manually create and configure ICO files. The automatic generation process handles standard icon sizing requirements, but custom sizing specifications would require manual intervention.
+---CHUNK---
+Document: changing_application_icon_for_windows
+Path: godot/tutorials/export/changing_application_icon_for_windows.rst
+Summary: Instructions for creating a custom ICO file for Windows applications in Godot, including tools and required image sizes.
+
+Creating a custom ICO file requires converting an image to the ICO format. This can be done using programs like GIMP, with a video tutorial available at https://www.youtube.com/watch?v=uqV3UfM-n5Y demonstrating the process. Alternatively, PNG images can be converted to hiDPI-friendly ICO files using ImageMagick with this command:
+
+Command: magick convert icon.png -define icon:auto-resize=256,128,64,48,32,16 icon.ico
+
+If using certain ImageMagick versions, omit the magick prefix and use:
+Command: convert icon.png -define icon:auto-resize=256,128,64,48,32,16 icon.ico
+
+Warning: For the ICO file to replace the default Godot icon, it must include all sizes: 16×16, 32×32, 48×48, 64×64, 128×128, 256×256. Missing sizes will retain the default Godot icon for those dimensions. The provided ImageMagick command ensures all required sizes are included.
+---CHUNK---
+Document: Changing the taskbar icon  
+Path: godot/tutorials/export/changing_application_icon_for_windows.rst  
+Summary: Instructions for changing the taskbar icon in a Godot project for Windows, macOS, and other platforms.  
+
+To change the taskbar icon, go to **Project > Project Settings > Application > Config**, make sure **Advanced Settings** are enabled to see the setting, then go to **Windows Native Icon**. Click on the folder icon and select your ICO file. This setting only changes the icon for your exported game on Windows. To set the icon for macOS, use **Macos Native Icon**. For any other platform, use the **Icon** setting.
+---CHUNK---
+Document: Changing the Application Icon for Windows
+Path: godot/tutorials/export/changing_application_icon_for_windows.rst
+Summary: Instructions for setting the Windows executable icon during Godot project export
+
+The file icon is the icon of the executable that you click on to start the project. To do that, you will need to specify the icon when exporting. Go to Project > Export. Assuming you have already created a Windows Desktop preset, select your icon in ICO format in the Application > Icon field.
+---CHUNK---
+Document: Changing Application Icon for Windows
+Path: godot/tutorials/export/changing_application_icon_for_windows.rst
+Summary: Testing the exported project and troubleshooting icon display issues on Windows
+
+Testing the result
+You can now export the project. If it worked correctly, you should see this:
+
+Note: If your icon isn't showing up properly, try clearing the icon cache by opening the Run dialog and entering ie4uinit.exe -ClearIconCache or ie4uinit.exe -show.

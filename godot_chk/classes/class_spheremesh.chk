@@ -1,0 +1,46 @@
+Document: SphereMesh
+Path: godot/classes/class_spheremesh.rst
+Summary: The SphereMesh class represents a 3D spherical mesh in Godot, used for creating smooth spherical shapes in scenes.
+
+Inherits: Mesh < Resource
+
+Properties:
+- radius (float): The radius of the sphere. Default: 1.0
+- rings (int): Number of vertical subdivisions. Default: 16
+- sectors (int): Number of horizontal subdivisions. Default: 32
+- use_triangle_fan (bool): Whether to use triangle fan for rendering. Default: true
+
+Key Rule: SphereMesh generates a smooth spherical surface through radial subdivisions.
+---CHUNK---
+Document: SphereMesh
+Path: godot/classes/class_spheremesh.rst
+Summary: A class representing a spherical primitive mesh in Godot Engine.
+
+Inherits: PrimitiveMesh < Mesh < Resource < RefCounted < Object
+Class representing a spherical PrimitiveMesh.
+---CHUNK---
+Document: SphereMesh
+Path: godot/classes/class_spheremesh.rst
+Summary: Represents a spherical primitive mesh in Godot Engine.
+
+Class representing a spherical PrimitiveMesh.
+---CHUNK---
+Document: SphereMesh
+Path: godot/classes/class_spheremesh.rst
+Summary: Properties and their default values for the SphereMesh class.
+
+- float (Type): height. Default: 1.0
+- bool (Type): is_hemisphere. Default: false
+- int (Type): radial_segments. Default: 64
+- float (Type): radius. Default: 0.5
+- int (Type): rings. Default: 32
+---CHUNK---
+Document: SphereMesh  
+Path: godot/classes/class_spheremesh.rst  
+Summary: Properties for configuring the SphereMesh shape, including dimensions, segmentation, and hemisphere settings.  
+
+height (float): Full height of the sphere. Default: 1.0. Methods: set_height(float) → void, get_height() → float.  
+is_hemisphere (bool): If true, a hemisphere is created rather than a full sphere. Default: false. Methods: set_is_hemisphere(bool) → void, get_is_hemisphere() → bool. Note: To get a regular hemisphere, the height and radius of the sphere must be equal.  
+radial_segments (int): Number of radial segments on the sphere. Default: 64. Methods: set_radial_segments(int) → void, get_radial_segments() → int.  
+radius (float): Radius of sphere. Default: 0.5. Methods: set_radius(float) → void, get_radius() → float.  
+rings (int): Number of segments along the height of the sphere. Default: 32. Methods: set_rings(int) → void, get_rings() → int.

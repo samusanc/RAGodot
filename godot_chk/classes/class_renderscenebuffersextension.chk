@@ -1,0 +1,35 @@
+Document: RenderSceneBuffersExtension
+Path: godot/classes/class_renderscenebuffersextension.rst
+Summary: No description available in the provided RST content.
+---CHUNK---
+Document: RenderSceneBuffersExtension
+Path: godot/classes/class_renderscenebuffersextension.rst
+Summary: This class enables GDExtension implementations of the RenderSceneBuffer interface.
+
+Inherits: RenderSceneBuffers < RefCounted < Object
+This class allows for a RenderSceneBuffer implementation to be made in GDExtension.
+---CHUNK---
+Document: RenderSceneBufferExtension
+Path: godot/classes/class_renderscenebuffersextension.rst
+Summary: A class for implementing custom RenderSceneBuffer functionality in GDExtension.
+This class allows for a RenderSceneBuffer implementation to be made in GDExtension.
+---CHUNK---
+Document: RenderSceneBuffersExtension
+Path: godot/classes/class_renderscenebuffersextension.rst
+Summary: Virtual methods for configuring render scene buffer settings and related parameters.
+
+void _configure(config: RenderSceneBuffersConfiguration) virtual
+void _set_anisotropic_filtering_level(anisotropic_filtering_level: int) virtual
+void _set_fsr_sharpness(fsr_sharpness: float) virtual
+void _set_texture_mipmap_bias(texture_mipmap_bias: float) virtual
+void _set_use_debanding(use_debanding: bool) virtual
+---CHUNK---
+Document: RenderSceneBuffersExtension
+Path: godot/classes/class_renderscenebuffersextension.rst
+Summary: Private methods for configuring viewport resizing, anisotropic filtering, FSR sharpness, texture mipmap bias, and debanding in a render scene buffer extension.
+
+Method: _configure(RenderSceneBuffersConfiguration config) → void. Virtual method. Implement this in GDExtension to handle the (re)sizing of a viewport.
+Method: _set_anisotropic_filtering_level(int anisotropic_filtering_level) → void. Virtual method. Implement this in GDExtension to change the anisotropic filtering level.
+Method: _set_fsr_sharpness(float fsr_sharpness) → void. Virtual method. Implement this in GDExtension to record a new FSR sharpness value.
+Method: _set_texture_mipmap_bias(float texture_mipmap_bias) → void. Virtual method. Implement this in GDExtension to change the texture mipmap bias.
+Method: _set_use_debanding(bool use_debanding) → void. Virtual method. Implement this in GDExtension to react to the debanding flag changing.

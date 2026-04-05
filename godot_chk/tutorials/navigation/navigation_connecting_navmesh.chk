@@ -1,0 +1,63 @@
+Document: Connecting NavMesh
+Path: godot/tutorials/navigation/navigation_connecting_navmesh.rst
+Summary: This section explains how to connect multiple NavMesh regions in Godot to enable pathfinding across different areas.
+
+To connect NavMesh regions, use the NavigationMeshLink2D node. This node acts as a bridge between separate NavMesh areas, allowing characters to move between them. Add the NavigationMeshLink2D node to the scene and position it at the connection point between two NavMesh regions. The node's "Start" and "End" properties should be set to the respective NavMesh regions. When using multiple NavMeshLink2D nodes, ensure they form a continuous path between regions. This is essential for AI characters to navigate through complex environments with disconnected NavMesh areas. The NavigationMeshLink2D node does not require any additional setup beyond positioning and linking the correct NavMesh regions. This method is preferred over manually editing NavMesh data, as it maintains the integrity of individual NavMesh regions while enabling seamless navigation between them.
+---CHUNK---
+Document: Connecting navigation meshes  
+Path: godot/tutorials/navigation/navigation_connecting_navmesh.rst  
+Summary: Explains how NavigationMeshes merge automatically when edges overlap exactly and how to configure edge connection margins for reliable navigation mesh connections.  
+
+Different NavigationMeshes are automatically merged by the NavigationServer when at least two vertex positions of one edge exactly overlap. The same applies to multiple NavigationPolygon resources, provided their outline points overlap exactly and originate from different NavigationPolygon resources. Overlapping or intersecting outlines on the same NavigationPolygon will fail navigation mesh creation, while overlapping outlines from different NavigationPolygons often fail to create edge connections and should be avoided.  
+
+Warning: Exactly means exactly for vertex position merges. Small float errors from imported meshes can prevent successful vertex merges.  
+
+Navigation meshes are considered connected by the NavigationServer when edges are nearly parallel and within a defined distance, controlled by the `edge_connection_margin` parameter for each navigation map. Overlapping navigation meshes should be avoided for consistent merge behavior.  
+
+If navigation debug is enabled, established navigation mesh connections are visualized. The default 2D `edge_connection_margin` is set in ProjectSettings under `navigation/2d/default_edge_connection_margin`, and the 3D version under `navigation/3d/default_edge_connection_margin`. The edge connection margin of any navigation map can be adjusted at runtime via the NavigationServer API.  
+
+GDScript:  
+extends Node2D  
+
+func _ready() -> void:  
+    # 2D margins are designed to work with 2D "pixel" values.  
+    var default_map_rid: RID = get_world_2d().get_navigation_map()  
+    NavigationServer2D.map_set_edge_connection_margin(default_map_rid, 50.0)  
+
+C#:  
+using Godot;  
+
+public partial class MyNode2D : Node2D  
+{  
+    public override void _Ready()  
+    {  
+        // 2D margins are designed to work with 2D "pixel" values.  
+        Rid defaultMapRid = GetWorld2D().NavigationMap;  
+        NavigationServer2D.MapSetEdgeConnectionMargin(defaultMapRid, 50.0f);  
+    }  
+}
+---CHUNK---
+Document: navigation_connecting_navmesh
+Path: godot/tutorials/navigation/navigation_connecting_navmesh.rst
+Summary: Configures a navigation map's edge connection margin in GDScript and C#, and explains the impact of changing this value.
+
+GDScript:
+func _ready() -> void:
+        # 3D margins are designed to work with 3D world unit values.
+        var default_map_rid: RID = get_world_3d().get_navigation_map()
+        NavigationServer3D.map_set_edge_connection_margin(default_map_rid, 0.5)
+
+C#:
+using Godot;
+
+public partial class MyNode3D : Node3D
+{
+    public override void _Ready()
+    {
+        // 3D margins are designed to work with 3D world unit values.
+        Rid defaultMapRid = GetWorld3D().NavigationMap;
+        NavigationServer3D.MapSetEdgeConnectionMargin(defaultMapRid, 0.5f);
+    }
+}
+
+Note: Changing the edge connection margin will trigger a full update of all navigation mesh connections on the NavigationServer.

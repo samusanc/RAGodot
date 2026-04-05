@@ -1,0 +1,16 @@
+Document: OpenXRActionBindingModifier
+Path: godot/classes/class_openxractionbindingmodifier.rst
+Summary: No content available in the provided RST section.
+---CHUNK---
+Document: OpenXRActionBindingModifier
+Path: godot/classes/class_openxractionbindingmodifier.rst
+Summary: A binding modifier that applies on individual actions related to an interaction profile.
+
+Inherits: OpenXRBindingModifier < Resource < RefCounted < Object
+Inherited By: OpenXRAnalogThresholdModifier
+
+Binding modifier that applies on individual actions related to an interaction profile. This class modifies how specific actions are bound within an interaction profile, allowing customization of input behavior for individual action mappings. It inherits from OpenXRBindingModifier and is extended by OpenXRAnalogThresholdModifier for specialized analog input handling.
+---CHUNK---
+Document: OpenXRActionBindingModifier
+Path: godot/classes/class_openxractionbindingmodifier.rst
+Summary: A binding modifier that applies to individual actions within an interaction profile.

@@ -1,0 +1,15 @@
+Document: VisualShaderNodeTexture2DParameter
+Path: godot/classes/class_visualshadernodetexture2dparameter.rst
+Summary: A class representing a 2D texture parameter node in a visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTexture2DParameter
+Path: godot/classes/class_visualshadernodetexture2dparameter.rst
+Summary: Provides a 2D texture parameter within the visual shader graph.
+
+Inherits: VisualShaderNodeTextureParameter < VisualShaderNodeParameter < VisualShaderNode < Resource < RefCounted < Object
+Provides a 2D texture parameter within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTexture2DParameter
+Path: godot/classes/class_visualshadernodetexture2dparameter.rst
+Summary: Represents a 2D texture parameter in visual shaders, translated to 'uniform sampler2D' in the shader language.
+Translated to uniform sampler2D in the shader language.

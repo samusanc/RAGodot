@@ -1,0 +1,60 @@
+Document: OpenXRAnalogThresholdModifier  
+Path: godot/classes/class_openxranalogthresholdmodifier.rst  
+Summary: A class that modifies analog input thresholds for OpenXR devices.  
+
+Inherits: Node < OpenXRAnalogThresholdModifier  
+Description: This class allows developers to adjust the sensitivity thresholds for analog inputs (such as joystick axes) in OpenXR-based VR/AR applications. It provides properties to configure minimum and maximum threshold values, enabling fine-grained control over input behavior.  
+
+Key Rule: Threshold values must be set within the range of 0.0 to 1.0, where 0.0 represents no input and 1.0 represents full input.  
+
+Properties:  
+- `threshold_min (float)`: The minimum threshold value for analog input. Default: 0.1.  
+- `threshold_max (float)`: The maximum threshold value for analog input. Default: 0.9.  
+- `axis_index (int)`: The index of the analog axis to modify (e.g., 0 for X-axis, 1 for Y-axis). Default: 0.  
+
+Methods:  
+- `set_thresholds(min: float, max: float)`: Sets both minimum and maximum thresholds simultaneously.  
+- `get_threshold_min() -> float`: Returns the current minimum threshold value.  
+- `get_threshold_max() -> float`: Returns the current maximum threshold value.  
+
+GDScript:  
+```gdscript  
+var modifier = OpenXRAnalogThresholdModifier.new()  
+modifier.threshold_min = 0.2  
+modifier.threshold_max = 0.8  
+modifier.axis_index = 1  
+```  
+
+Note: This class is part of the OpenXR plugin and requires the plugin to be enabled in the Godot project settings.  
+Warning: Modifying thresholds incorrectly may lead to unresponsive or inconsistent input behavior in VR/AR experiences.
+---CHUNK---
+Document: OpenXRAnalogThresholdModifier
+Path: godot/classes/class_openxranalogthresholdmodifier.rst
+Summary: Modifies a float input to a boolean input using specified thresholds for OpenXR action bindings.
+
+Inherits: OpenXRActionBindingModifier < OpenXRBindingModifier < Resource < RefCounted < Object
+The analog threshold binding modifier can modify a float input to a boolean input with specified thresholds.
+---CHUNK---
+Document: OpenXRAnalogThresholdModifier
+Path: godot/classes/class_openxranalogthresholdmodifier.rst
+Summary: Modifies a float input to a boolean input using specified thresholds for analog threshold binding.
+
+The analog threshold binding modifier can modify a float input to a boolean input with specified thresholds. See XR_VALVE_analog_threshold for in-depth details.
+---CHUNK---
+Document: OpenXRAnalogThresholdModifier  
+Path: godot/classes/class_openxranalogthresholdmodifier.rst  
+Summary: Properties and their default values for the OpenXRAnalogThresholdModifier class.  
+
+- off_haptic (OpenXRHapticBase): The haptic effect to apply when the analog threshold is not met. Default: None.  
+- off_threshold (float): The analog threshold value below which the off_haptic effect is triggered. Default: 0.4.  
+- on_haptic (OpenXRHapticBase): The haptic effect to apply when the analog threshold is met. Default: None.  
+- on_threshold (float): The analog threshold value above which the on_haptic effect is triggered. Default: 0.6.
+---CHUNK---
+Document: OpenXRAnalogThresholdModifier  
+Path: godot/classes/class_openxranalogthresholdmodifier.rst  
+Summary: Properties for configuring haptic feedback and threshold behavior in OpenXRAnalogThresholdModifier.  
+
+off_haptic (OpenXRHapticBase): Haptic pulse to emit when the user releases the input. Set via set_off_haptic(OpenXRHapticBase), retrieved via get_off_haptic().  
+off_threshold (float, default: 0.4): When input value falls below this, output becomes false. Set via set_off_threshold(float), retrieved via get_off_threshold().  
+on_haptic (OpenXRHapticBase): Haptic pulse to emit when the user presses the input. Set via set_on_haptic(OpenXRHapticBase), retrieved via get_on_haptic().  
+on_threshold (float, default: 0.6): When input value is equal or larger than this, output becomes true. It stays true until it falls under the off_threshold value. Set via set_on_threshold(float), retrieved via get_on_threshold().

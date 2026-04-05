@@ -1,0 +1,16 @@
+Document: VisualShaderNodeParticleRingEmitter
+Path: godot/classes/class_visualshadernodeparticleringemitter.rst
+Summary: Class representing a particle ring emitter node in the Visual Shader graph.
+---CHUNK---
+Document: VisualShaderNodeParticleRingEmitter
+Path: godot/classes/class_visualshadernodeparticleringemitter.rst
+Summary: A visual shader node that emits particles in a ring shape.
+
+Inherits: VisualShaderNodeParticleEmitter < VisualShaderNode < Resource < RefCounted < Object
+A visual shader node that makes particles emitted in a ring shape.
+---CHUNK---
+Document: VisualShaderNodeParticleRingEmitter
+Path: godot/classes/class_visualshadernodeparticleringemitter.rst
+Summary: A VisualShaderNodeParticleEmitter that emits particles in a ring shape with specified inner and outer radii and height.
+
+VisualShaderNodeParticleRingEmitter is a VisualShaderNodeParticleEmitter that makes the particles emitted in ring shape with the specified inner and outer radii and height.

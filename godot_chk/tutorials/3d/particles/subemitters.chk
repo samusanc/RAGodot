@@ -1,0 +1,33 @@
+Document: Subemitters
+Path: godot/tutorials/3d/particles/subemitters.rst
+Summary: Explains how to use subemitters in 3D particle systems to create complex effects.
+---CHUNK---
+Document: Particle Sub-Emitters  
+Path: godot/tutorials/3d/particles/subemitters.rst  
+Summary: How to create and manage sub-emitters in particle systems for chained visual effects.  
+
+Particle sub-emitters allow particle systems to spawn as children of other particle systems, enabling complex effects like fireworks with sequential explosions. To use sub-emitters, at least two particle systems must exist in the same scene. One acts as the parent, while the other is assigned as the child via the ``Sub Emitter`` property. Clicking the property's box opens a list of available particle systems in the scene, from which one can be selected and confirmed.  
+
+Sub-emitters can also be added to instanced scenes if the ``Editable Children`` property is enabled on the instanced scene. This works bidirectionally, allowing sub-emitters to be assigned to particle systems in different instanced scenes.  
+
+Key Rule: When a particle system becomes a sub-emitter, it stops emitting immediately, even if the ``Emitting`` property was enabled. This behavior is permanent while the system remains a sub-emitter.  
+
+Warning: Recursive or self-referential sub-emitter setups (e.g., a particle system assigning itself as a sub-emitter) will not function. Such configurations will fail to spawn particles entirely.
+---CHUNK---
+Document: Subemitters
+Path: godot/tutorials/3d/particles/subemitters.rst
+Summary: How to configure sub-emitter behavior and particle spawning modes in Godot
+
+Emitter mode determines when and how sub-emitter particles are spawned. When assigning a sub-emitter, emitting is disabled by default and must be enabled by setting the Mode property in the Sub Emitter group of ParticleProcessMaterial to something other than Disabled. The selected mode controls particle spawning frequency and quantity:
+
+- Constant: Spawns a single particle at a rate defined by the Frequency property
+- At End: Spawns particles when the main emitter completes its lifespan, with quantity set by Amount At End
+- At Collision: Spawns particles when particles collide with other objects, with quantity set by Amount At Collision
+
+The Frequency property determines how often particles are spawned per second for Constant mode. For At End and At Collision modes, the Amount At End and Amount At Collision properties directly specify the number of particles spawned at those events. These settings allow precise control over sub-emitter behavior in different particle system scenarios.
+---CHUNK---
+Document: Subemitters
+Path: godot/tutorials/3d/particles/subemitters.rst
+Summary: Key limitations of sub-emitters in Godot, including the "Amount" property cap and ignored emitter properties.
+
+The total number of active particles from a sub-emitter is always limited by the Amount property in the sub-emitter particle system. If insufficient particles are being spawned, increasing the Amount value in the particle system may be necessary. Certain emitter properties have no effect when a particle system functions as a sub-emitter. For example, the Explosiveness property is ignored. Particle spawning behavior depends on the emitter mode - particles are either generated sequentially at fixed intervals or explosively all at once, regardless of the Explosiveness setting.

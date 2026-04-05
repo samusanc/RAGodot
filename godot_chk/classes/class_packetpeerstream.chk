@@ -1,0 +1,57 @@
+Document: PacketPeerStream  
+Path: godot/classes/class_packetpeerstream.rst  
+Summary: A class that represents a packet-based peer stream for networking, enabling data transmission over a network connection.  
+
+Inherits: Reference < StreamPeer < PacketPeerStream  
+Description: PacketPeerStream is a specialized stream peer class designed for handling packet-based communication. It provides methods for sending and receiving data in discrete packets, making it suitable for network protocols that require message segmentation and reassembly. Key features include support for reliable and unreliable data transmission, packet ordering, and quality of service settings.  
+
+Key Rule: PacketPeerStream must be connected to a valid network interface (e.g., via a TCP or UDP connection) to function.  
+
+Properties:  
+- `channel` (int): The channel number for sending/receiving packets. Default: 0.  
+- `max_packet_size` (int): Maximum size of a single packet. Default: 1400 bytes.  
+- `quality_of_service` (int): Quality of service setting (0 = best effort, 1 = reliable ordered, 2 = reliable unordered). Default: 0.  
+
+Methods:  
+- `get_available_packet_count()` → int: Returns the number of packets available for reading.  
+- `get_packet_channel()` → int: Returns the channel of the current packet.  
+- `get_packet_data()` → PackedByteArray: Returns the data of the current packet.  
+- `get_packet_size()` → int: Returns the size of the current packet.  
+- `is_reading()` → bool: Returns whether the stream is currently reading packets.  
+- `poll()` → void: Processes incoming packets.  
+- `put_packet(data, channel=0)` → void: Sends a packet with the specified data and channel.  
+- `set_channel(channel)` → void: Sets the channel for subsequent packet transmissions.  
+- `set_max_packet_size(size)` → void: Sets the maximum packet size.  
+- `set_quality_of_service(qos)` → void: Sets the quality of service setting.  
+
+Note: PacketPeerStream is typically used in conjunction with a `StreamPeerTCP` or `StreamPeerUDP` instance to handle low-level network communication.  
+Warning: Direct use of PacketPeerStream without proper error handling may lead to data loss or connection failures.
+---CHUNK---
+Document: PacketPeerStream
+Path: godot/classes/class_packetpeerstream.rst
+Summary: A wrapper class that allows using a PacketPeer over a StreamPeer.
+
+Inherits: PacketPeer < RefCounted < Object
+Wrapper to use a PacketPeer over a StreamPeer.
+---CHUNK---
+Document: PacketPeerStream  
+Path: godot/classes/class_packetpeerstream.rst  
+Summary: Provides a wrapper for using packets over a stream, enabling packet-based communication with StreamPeers through a custom protocol.  
+
+PacketStreamPeer provides a wrapper for working using packets over a stream. This allows for using packet based code with StreamPeers. PacketPeerStream implements a custom protocol over the StreamPeer, so the user should not read or write to the wrapped StreamPeer directly. Note: When exporting to Android, ensure the INTERNET permission is enabled in the Android export preset to allow network communication.
+---CHUNK---
+Document: PacketPeerStream
+Path: godot/classes/class_packetpeerstream.rst
+Summary: Defines properties for managing input/output buffer sizes and stream peer connections in PacketPeerStream.
+
+- input_buffer_max_size (int): Maximum size of the input buffer. Default: 65532
+- output_buffer_max_size (int): Maximum size of the output buffer. Default: 65532
+- stream_peer (StreamPeer): Associated stream peer connection (no default value specified)
+---CHUNK---
+Document: PacketPeerStream  
+Path: godot/classes/class_packetpeerstream.rst  
+Summary: Properties for configuring buffer sizes and the underlying StreamPeer in PacketPeerStream.  
+
+- input_buffer_max_size (int): Maximum size of the input buffer. Default: 65532. Set via set_input_buffer_max_size(value: int), get via get_input_buffer_max_size() → int.  
+- output_buffer_max_size (int): Maximum size of the output buffer. Default: 65532. Set via set_output_buffer_max_size(value: int), get via get_output_buffer_max_size() → int.  
+- stream_peer (StreamPeer): The wrapped StreamPeer object. Set via set_stream_peer(value: StreamPeer), get via get_stream_peer() → StreamPeer.

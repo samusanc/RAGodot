@@ -1,0 +1,81 @@
+Document: EditorScenePostImport
+Path: godot/classes/class_editorscenepostimport.rst
+Summary: Provides tools to modify scene import settings after initial import in Godot.
+
+Class: EditorScenePostImport
+Inherits: EditorPlugin < EditorSceneImport
+
+This class allows users to adjust scene import configurations after the initial import process. It provides functionality for modifying import settings through the editor interface, including options for adjusting scene hierarchy, material assignments, and node properties. The class handles post-import operations such as applying custom import rules, updating scene metadata, and ensuring consistency between imported assets and project settings. It works in conjunction with the EditorSceneImport class to complete the scene import workflow.
+---CHUNK---
+Document: EditorScenePostImport
+Path: godot/classes/class_editorscenepostimport.rst
+Summary: Post-processes scenes after import.
+
+Inherits: RefCounted < Object
+---CHUNK---
+Document: EditorScenePostImport
+Path: godot/classes/class_editorscenepostimport.rst
+Summary: Automatically modify imported scenes using a tool script that inherits from this class.
+
+Imported scenes can be automatically modified right after import by setting their Custom Script Import property to a tool script that inherits from this class. The _post_import callback receives the imported scene's root node and returns the modified version of the scene. This class inherits from Object.
+
+GDScript:
+@tool # Needed so it runs in editor.
+extends EditorScenePostImport
+
+# This sample changes all node names.
+# Called right after the scene is imported and gets the root node.
+func _post_import(scene):
+    # Change all node names to "modified_[oldnodename]"
+    iterate(scene)
+    return scene # Remember to return the imported scene
+
+func iterate(node):
+    if node != null:
+        node.name = "modified_" + node.name
+        for child in node.get_children():
+            iterate(child)
+
+C#:
+using Godot;
+
+// This sample changes all node names.
+// Called right after the scene is imported and gets the root node.
+[Tool]
+public partial class NodeRenamer : EditorScenePostImport
+{
+    public override GodotObject _PostImport(Node scene)
+    {
+        // Change all node names to "modified_[oldnodename]"
+        Iterate(scene);
+        return scene; // Remember to return the imported scene
+    }
+
+    public void Iterate(Node node)
+    {
+        if (node != null)
+        {
+            node.Name = $"modified_{node.Name}";
+            foreach (Node child in node.GetChildren())
+            {
+                Iterate(child);
+            }
+        }
+    }
+}
+---CHUNK---
+Document: Importing 3D scenes: Configuration: Using import scripts for automation  
+Path: godot/classes/class_editorscenepostimport.rst  
+Summary: This section covers using import scripts to automate the configuration of 3D scene imports in Godot.  
+
+- Importing 3D scenes: Configuration: Using import scripts for automation
+---CHUNK---
+Document: EditorScenePostImport
+Path: godot/classes/class_editorscenepostimport.rst
+Summary: Core methods for handling scene post-import operations and retrieving source file information.
+
+- _post_import (Node scene): Virtual method called after scene import. Must return modified scene version.
+- get_source_file (): Constant method returning source file path (e.g. res://scene.dae)
+
+Note: _post_import must return the modified version of the scene after import operations. 
+Note: get_source_file provides the original file path used for importing the scene.

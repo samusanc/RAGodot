@@ -1,0 +1,64 @@
+Document: IKModifier3D
+Path: godot/classes/class_ikmodifier3d.rst
+Summary: Class: IKModifier3D. Inheritance chain and basic description.
+---CHUNK---
+Document: IKModifier3D
+Path: godot/classes/class_ikmodifier3d.rst
+Summary: A node for inverse kinematics that can modify multiple bones.
+
+Inherits: SkeletonModifier3D < Node3D < Node < Object
+Inherited By: ChainIK3D, TwoBoneIK3D
+---CHUNK---
+Document: IKModifier3D
+Path: godot/classes/class_ikmodifier3d.rst
+Summary: Base class for SkeletonModifier3D with joint lists and inverse kinematics functionality.
+
+Base class of SkeletonModifier3D that has some joint lists and applies inverse kinematics. This class has some structs, enums, and helper methods which are useful to solve inverse kinematics.
+---CHUNK---
+Document: Inverse Kinematics Returns to Godot 4.6 - IKModifier3D
+Path: godot/classes/class_ikmodifier3d.rst
+Summary: Introduces the IKModifier3D class and its seven child classes in Godot 4.6 for inverse kinematics.
+
+Inverse Kinematics Returns to Godot 4.6 - IKModifier3D
+---CHUNK---
+Document: IKModifier3D
+Path: godot/classes/class_ikmodifier3d.rst
+Summary: Properties and member variables for the IKModifier3D class, including the mutable_bone_axes property with its default value.
+
+- mutable_bone_axes (bool): Default: true.
+---CHUNK---
+Document: IKModifier3D  
+Path: godot/classes/class_ikmodifier3d.rst  
+Summary: Overview of IKModifier3D class methods for managing settings and resetting the modifier.  
+
+- clear_settings (void): Removes all settings from the modifier.  
+- get_setting_count (int): Returns the number of settings currently configured. const.  
+- reset (void): Resets the modifier to its default state.  
+- set_setting_count (void): Sets the number of settings. Parameters: count (int).
+---CHUNK---
+Document: IKModifier3D
+Path: godot/classes/class_ikmodifier3d.rst
+Summary: Controls whether bone axes are recalculated from the bone pose each frame or cached from the rest pose.
+
+Property: mutable_bone_axes (bool) = true
+Setget: 
+- void set_mutable_bone_axes(value: bool)
+- bool are_bone_axes_mutable()
+
+If true, the solver retrieves the bone axis from the bone pose every frame. If false, the solver retrieves the bone axis from the bone rest and caches it, which increases performance slightly but ignores position changes in the bone pose made before processing this IKModifier3D.
+---CHUNK---
+Document: IKModifier3D
+Path: godot/classes/class_ikmodifier3d.rst
+Summary: Methods for managing IK modifier settings and resetting states.
+
+Method: clear_settings() → void
+Clears all settings.
+
+Method: get_setting_count() → int (const)
+Returns the number of settings.
+
+Method: reset() → void
+Resets a state with respect to the current bone pose.
+
+Method: set_setting_count(count: int) → void
+Sets the number of settings.

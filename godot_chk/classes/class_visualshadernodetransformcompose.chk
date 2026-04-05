@@ -1,0 +1,16 @@
+Document: VisualShaderNodeTransformCompose
+Path: godot/classes/class_visualshadernodetransformcompose.rst
+Summary: A visual shader node that composes transformation matrices in Godot's visual shader language.
+---CHUNK---
+Document: VisualShaderNodeTransformCompose
+Path: godot/classes/class_visualshadernodetransformcompose.rst
+Summary: Composes a Transform3D from four Vector3 values within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Composes a Transform3D from four Vector3 values within the visual shader graph. This node takes four 3D vectors as input and combines them into a single 3D transformation matrix, which can be used to represent rotations, translations, or scaling operations in the visual shader graph. The resulting transform is suitable for use in shader operations requiring spatial transformations.
+---CHUNK---
+Document: VisualShaderNodeTransformCompose
+Path: godot/classes/class_visualshadernodetransformcompose.rst
+Summary: Constructs a 4×4 transform matrix from four vec3 vectors, with the last column implicitly set to (0, 0, 0, 1).
+
+Creates a 4×4 transform matrix using four vectors of type vec3. Each vector is one row in the matrix and the last column is a vec4(0, 0, 0, 1).

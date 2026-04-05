@@ -1,0 +1,16 @@
+Document: VisualShaderNodeVectorDistance
+Path: godot/classes/class_visualshadernodevectordistance.rst
+Summary: A shader node that calculates the distance between two vector inputs in Godot's visual shader language.
+---CHUNK---
+Document: VisualShaderNodeVectorDistance
+Path: godot/classes/class_visualshadernodevectordistance.rst
+Summary: Calculates the distance between two vectors in a visual shader graph.
+
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+Returns the distance between two points. To be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorDistance
+Path: godot/classes/class_visualshadernodevectordistance.rst
+Summary: Calculates the distance between two vectors in a shader, translated to the shader function distance(p0, p1).
+
+Calculates distance from point represented by vector p0 to vector p1. Translated to distance(p0, p1) in the shader language.

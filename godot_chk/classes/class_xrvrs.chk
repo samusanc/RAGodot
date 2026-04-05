@@ -1,0 +1,48 @@
+Document: XRVRs  
+Path: godot/classes/class_xrvrs.rst  
+Summary: Class XRVRs reference section with generator and link information.  
+
+Generator: https://github.com/godotengine/godot/tree/master/doc/tools/make_rst.py.  
+_link: /
+---CHUNK---
+Document: XRVRS
+Path: godot/classes/class_xrvrs.rst
+Summary: Helper class for XR interfaces that generates VRS images.
+
+Inherits: Object
+
+Helper class for XR interfaces that generates VRS images.
+---CHUNK---
+Document: XRVR
+Path: godot/classes/class_xrvrs.rst
+Summary: This class is used by various XR interfaces to generate VRS textures that can be used to speed up rendering.
+---CHUNK---
+Document: XRVRS
+Path: godot/classes/class_xrvrs.rst
+Summary: XRVRS class properties with their data types and default values
+
+- vrs_min_radius (Type: float) - Default: 20.0
+- vrs_render_region (Type: Rect2i) - Default: Rect2i(0, 0, 0, 0)
+- vrs_strength (Type: float) - Default: 1.0
+---CHUNK---
+Document: XRVRS
+Path: godot/classes/class_xrvrs.rst
+Summary: The make_vrs_texture method generates a VRS texture with specified target size and eye focus points.
+
+Method: make_vrs_texture(target_size: Vector2, eye_foci: PackedVector2Array) → RID  
+Creates a VRS texture using the provided target size (Vector2) and eye focus points (PackedVector2Array). The method returns an RID reference to the generated texture.
+---CHUNK---
+Document: XRVRS  
+Path: godot/classes/class_xrvrs.rst  
+Summary: Properties and their descriptions for the XRVRS class, including VRS min radius, render region, and strength settings.  
+
+- **vrs_min_radius** (float): Minimum radius around the focal point where full quality is guaranteed if VRS is used as a percentage of screen size. Default: 20.0. Set/Get: set_vrs_min_radius(value: float), get_vrs_min_radius()  
+- **vrs_render_region** (Rect2i): Render region that the VRS texture will be scaled to when generated. Default: Rect2i(0, 0, 0, 0). Set/Get: set_vrs_render_region(value: Rect2i), get_vrs_render_region()  
+- **vrs_strength** (float): Strength used to calculate the VRS density map. The greater this value, the more noticeable VRS is. Default: 1.0. Set/Get: set_vrs_strength(value: float), get_vrs_strength()
+---CHUNK---
+Document: XRVR
+Path: godot/classes/class_xrvrs.rst
+Summary: Generates a VRS texture with specified parameters and caching behavior
+
+Method: make_vrs_texture(target_size: Vector2, eye_foci: PackedVector2Array) → RID
+Generates the VRS texture based on a render target_size adjusted by our VRS tile size. For each eyes focal point passed in eye_foci a layer is created. Focal point should be in NDC coordinates. The result will be cached, requesting a VRS texture with unchanged parameters and settings will return the cached RID.

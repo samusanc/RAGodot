@@ -1,0 +1,50 @@
+Document: ExternalTexture
+Path: godot/classes/class_externaltexture.rst
+Summary: Class ExternalTexture: [No description found in the provided content]
+---CHUNK---
+Document: ExternalTexture
+Path: godot/classes/class_externaltexture.rst
+Summary: A Texture2D that renders content from an external buffer.
+
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+Texture which displays the content of an external buffer.
+---CHUNK---
+Document: ExternalTexture
+Path: godot/classes/class_externaltexture.rst
+Summary: Displays content from an external buffer provided by the platform, requiring specific OpenGL or Vulkan extensions and currently only supported on Android.
+
+Displays the content of an external buffer provided by the platform. Requires the OES_EGL_image_external extension (OpenGL) or VK_ANDROID_external_memory_android_hardware_buffer extension (Vulkan). Note: This is currently only supported in Android builds.
+---CHUNK---
+Document: ExternalTexture
+Path: godot/classes/class_externaltexture.rst
+Summary: Properties and their default values for the ExternalTexture class
+
+- resource_local_to_scene (bool): overrides Resource's resource_local_to_scene property. Default: false
+- size (Vector2): texture dimensions. Default: Vector2(256, 256)
+---CHUNK---
+Document: ExternalTexture
+Path: godot/classes/class_externaltexture.rst
+Summary: Methods for retrieving and setting the external texture buffer ID.
+
+Method: get_external_texture_id() → int. Const method. Returns the current external texture buffer ID.
+
+Method: set_external_buffer_id(external_buffer_id: int) → void. Sets the external buffer ID for the texture. This is required to bind the texture to an external buffer in the rendering pipeline.
+---CHUNK---
+Document: ExternalTexture
+Path: godot/classes/class_externaltexture.rst
+Summary: Describes the 'size' property of the ExternalTexture class, including its default value and accessor methods.
+
+Vector2 size = Vector2(256, 256)
+Note: External texture size.
+Method: set_size(value: Vector2)
+Method: get_size() → Vector2
+---CHUNK---
+Document: ExternalTexture
+Path: godot/classes/class_externaltexture.rst
+Summary: Methods for retrieving and setting external texture and buffer IDs used in platform-specific operations.
+
+Method: get_external_texture_id() → int
+Returns the external texture ID. Note: You may need to pass this to platform APIs when creating Android SurfaceTextures.
+
+Method: set_external_buffer_id(external_buffer_id: int) → void
+Sets the external buffer ID. Warning: You should call this with data received from platform APIs like SurfaceTexture.getHardwareBuffer() on Android.

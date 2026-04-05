@@ -1,0 +1,37 @@
+Document: CapsuleMesh
+Path: godot/classes/class_capsulemesh.rst
+Summary: CapsuleMesh is a 3D mesh class for creating capsule-shaped geometry in Godot.
+---CHUNK---
+Document: CapsuleMesh
+Path: godot/classes/class_capsulemesh.rst
+Summary: A class representing a capsule-shaped primitive mesh used in 3D modeling within Godot Engine.
+
+Inherits: PrimitiveMesh < Mesh < Resource < RefCounted < Object
+Class representing a capsule-shaped primitive mesh. Used to create 3D shapes with rounded ends and cylindrical middle section. Commonly used for character collision shapes and simple 3D models.
+---CHUNK---
+Document: CapsuleMesh
+Path: godot/classes/class_capsulemesh.rst
+Summary: Represents a capsule-shaped primitive mesh in 3D space.
+
+Class representing a capsule-shaped PrimitiveMesh. A capsule mesh consists of a cylinder with hemispherical ends, commonly used for collision shapes and 3D modeling. This class inherits from PrimitiveMesh and provides methods for configuring capsule dimensions and subdivisions.
+---CHUNK---
+Document: CapsuleMesh
+Path: godot/classes/class_capsulemesh.rst
+Summary: Properties defining the shape and segmentation of a CapsuleMesh.
+
+Property: height (float): Default: 2.0
+Property: radial_segments (int): Default: 64
+Property: radius (float): Default: 0.5
+Property: rings (int): Default: 8
+---CHUNK---
+Document: CapsuleMesh
+Path: godot/classes/class_capsulemesh.rst
+Summary: Properties for configuring the dimensions and detail of a CapsuleMesh in Godot.
+
+height (float): Total height of the capsule mesh (including the hemispherical ends). Default: 2.0. Set/Get: set_height(value: float), get_height(). Note: The height of a capsule must be at least twice its radius. Otherwise, the capsule becomes a circle. If the height is less than twice the radius, the properties adjust to a valid value.
+
+radial_segments (int): Number of radial segments on the capsule mesh. Default: 64. Set/Get: set_radial_segments(value: int), get_radial_segments().
+
+radius (float): Radius of the capsule mesh. Default: 0.5. Set/Get: set_radius(value: float), get_radius(). Note: The radius of a capsule cannot be greater than half of its height. Otherwise, the capsule becomes a circle. If the radius is greater than half the height, the properties adjust to a valid value.
+
+rings (int): Number of rings along the height of the capsule. Default: 8. Set/Get: set_rings(value: int), get_rings().

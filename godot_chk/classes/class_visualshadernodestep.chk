@@ -1,0 +1,44 @@
+Document: VisualShaderNodeStep
+Path: godot/classes/class_visualshadernodestep.rst
+Summary: Class reference section for VisualShaderNodeStep, covering identity, description, and inheritance.
+---CHUNK---
+Document: VisualShaderNodeStep
+Path: godot/classes/class_visualshadernodestep.rst
+Summary: A visual shader graph node that calculates a Step function for use in shader operations.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Calculates a Step function within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeStep
+Path: godot/classes/class_visualshadernodestep.rst
+Summary: A shader node that returns 0.0 if input value is below a specified edge threshold, otherwise returns 1.0.
+
+Translates to step(edge, x) in the shader language. Returns 0.0 if x is smaller than edge and 1.0 otherwise.
+---CHUNK---
+Document: VisualShaderNodeStep
+Path: godot/classes/class_visualshadernodestep.rst
+Summary: The op_type property of the VisualShaderNodeStep class, which determines the operation type with a default value of 0.
+
+OpType (Enum): The operation type for the step node. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeStep
+Path: godot/classes/class_visualshadernodestep.rst
+Summary: Defines the OpType enumeration and its constants for VisualShaderNodeStep, specifying data types for shader node ports.
+
+OpType enumeration:
+- OP_TYPE_SCALAR (OpType): 0. A floating-point scalar type.
+- OP_TYPE_VECTOR_2D (OpType): 1. A 2D vector type.
+- OP_TYPE_VECTOR_2D_SCALAR (OpType): 2. The x port uses a 2D vector type, while the edge port uses a floating-point scalar type.
+- OP_TYPE_VECTOR_3D (OpType): 3. A 3D vector type.
+- OP_TYPE_VECTOR_3D_SCALAR (OpType): 4. The x port uses a 3D vector type, while the edge port uses a floating-point scalar type.
+- OP_TYPE_VECTOR_4D (OpType): 5. A 4D vector type.
+- OP_TYPE_VECTOR_4D_SCALAR (OpType): 6. The a and b ports use a 4D vector type. The weight port uses a scalar type.
+- OP_TYPE_MAX (OpType): 7. Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeStep
+Path: godot/classes/class_visualshadernodestep.rst
+Summary: The op_type property and its setter/getter methods for defining operand and return value types in VisualShaderNodeStep.
+
+Property: op_type (OpType): A type of operands and returned value. Default: 0
+Method: set_op_type(value: OpType) → void
+Method: get_op_type() → OpType

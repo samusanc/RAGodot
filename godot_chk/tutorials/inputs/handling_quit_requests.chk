@@ -1,0 +1,89 @@
+Document: Handling Quit Requests
+Path: godot/tutorials/inputs/handling_quit_requests.rst
+Summary: This tutorial explains how to properly handle quit requests in Godot applications to ensure clean shutdowns and resource management.
+---CHUNK---
+Document: Handling quit requests
+Path: godot/tutorials/inputs/handling_quit_requests.rst
+Summary: This section explains how to properly handle quit requests in Godot Engine applications.
+
+When developing Godot applications, it's important to handle quit requests correctly to ensure proper resource cleanup and avoid unexpected behavior. The engine provides several ways to intercept and respond to quit requests, including overriding the `close_request` method in the main scene or connecting to the `quit_requested` signal.
+
+Key Rule: Always override the `close_request` method or connect to the `quit_requested` signal to handle quit requests properly.
+
+The `close_request` method is called when the user attempts to close the window (e.g., via the close button or Alt+F4). By default, this method will quit the application immediately. To customize this behavior, you can override it in your main scene's script:
+
+GDScript:
+```gdscript
+func close_request():
+    # Custom logic here, e.g. show a confirmation dialog
+    if confirm_quit():
+        get_tree().quit()
+```
+
+For applications that need to handle quit requests from multiple sources (e.g., menu items, keyboard shortcuts), connecting to the `quit_requested` signal is recommended. This signal is emitted before the application quits, allowing you to perform cleanup operations:
+
+GDScript:
+```gdscript
+func _on_quit_requested():
+    save_game_data()
+    release_resources()
+```
+
+Note: When handling quit requests, always ensure that all resources are properly released and any ongoing operations are gracefully terminated to avoid data loss or corruption.
+
+Warning: Do not call `get_tree().quit()` directly in response to user input without first checking if the application is allowed to quit (e.g., unsaved changes, active network connections).
+---CHUNK---
+Document: handling_quit_requests
+Path: godot/tutorials/inputs/handling_quit_requests.rst
+Summary: Explains how applications can handle quit requests across different platforms.
+
+Quitting
+Most platforms have the option to request the application to quit. On desktops, this is usually done with the "x" icon on the window title bar. On mobile devices, the app can quit at any time while it is suspended to the background.
+---CHUNK---
+Document: Handling the notification
+Path: godot/tutorials/inputs/handling_quit_requests.rst
+Summary: How to handle window manager quit requests in Godot using the NOTIFICATION_WM_CLOSE_REQUEST notification.
+
+On desktop and web platforms, Node receives a special NOTIFICATION_WM_CLOSE_REQUEST notification when quitting is requested from the window manager. Handling the notification is done as follows (on any node):
+
+GDScript:
+    func _notification(what):
+        if what == NOTIFICATION_WM_CLOSE_REQUEST:
+            get_tree().quit() # default behavior
+
+C#:
+    public override void _Notification(int what)
+    {
+        if (what == NotificationWMCloseRequest)
+        {
+            GetTree().Quit(); // default behavior
+        }
+    }
+
+Note: By default, Godot apps quit when a window manager quit request is received. This can be changed to allow custom quitting procedures:
+
+GDScript:
+    get_tree().set_auto_accept_quit(false)
+
+C#:
+    GetTree().AutoAcceptQuit = false;
+---CHUNK---
+Document: Handling Quit Requests  
+Path: godot/tutorials/inputs/handling_quit_requests.rst  
+Summary: How to handle app closure and suspension events on mobile platforms in Godot.  
+
+On mobile platforms, there is no direct equivalent to NOTIFICATION_WM_CLOSE_REQUEST. Due to mobile operating system constraints, the only reliable way to execute code before quitting is during app suspension. Both Android and iOS may kill suspended apps at any time, so use NOTIFICATION_APPLICATION_PAUSED to perform critical actions when the app transitions to the background. Note: On iOS, tasks initiated by this signal must complete within approximately 5 seconds, or iOS will terminate the app instead of pausing it. On Android, pressing the Back button triggers NOTIFICATION_WM_GO_BACK_REQUEST and exits the application if the **Application > Config > Quit On Go Back** setting is enabled (default behavior).
+---CHUNK---
+Document: Handling Quit Requests  
+Path: godot/tutorials/inputs/handling_quit_requests.rst  
+Summary: How to properly notify the scene tree of an upcoming quit request before closing the application.  
+
+Calling SceneTree.quit directly forces the application to close without sending the NOTIFICATION_WM_CLOSE_REQUEST to nodes, skipping custom quit actions like saving or confirmation. To ensure nodes can respond to termination, manually propagate the notification first:  
+
+GDScript:  
+get_tree().root.propagate_notification(NOTIFICATION_WM_CLOSE_REQUEST)  
+
+C#:  
+GetTree().Root.PropagateNotification((int)NotificationWMCloseRequest);  
+
+This notifies all nodes of the impending quit but does not terminate the program. Key Rule: In Godot 4.X, propagating NOTIFICATION_WM_CLOSE_REQUEST does not terminate the program, unlike in 3.X. Call SceneTree.quit afterward to close the application. Note: Using SceneTree.quit directly skips custom quit actions like saving or confirmation.

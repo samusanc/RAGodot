@@ -1,0 +1,39 @@
+Document: GLTFTextureSampler  
+Path: godot/classes/class_gltftexturesampler.rst  
+Summary: Class for managing texture sampling parameters in GLTF files, including filtering and wrapping modes.
+---CHUNK---
+Document: GLTFTextureSampler
+Path: godot/classes/class_gltftexturesampler.rst
+Summary: Represents a glTF texture sampler resource with standard inheritance hierarchy
+
+Inherits: Resource < RefCounted < Object
+Represents a glTF texture sampler
+---CHUNK---
+Document: GLTFTextureSampler
+Path: godot/classes/class_gltftexturesampler.rst
+Summary: Represents a texture sampler as defined by the glTF spec, specifying how to sample data from a texture's base image during rendering.
+
+Texture samplers in glTF specify how to sample data from the texture's base image when rendering the texture on an object.
+---CHUNK---
+Document: class_gltftexturesampler
+Path: godot/classes/class_gltftexturesampler.rst
+Summary: Lists a tutorial on runtime file loading and saving in Godot
+Runtime file loading and saving
+---CHUNK---
+Document: GLTFTextureSampler
+Path: godot/classes/class_gltftexturesampler.rst
+Summary: Properties of the GLTFTextureSampler class including magnification filter, minification filter, and texture wrapping parameters with their default integer values.
+
+- mag_filter (int): 9729. Default: 9729
+- min_filter (int): 9987. Default: 9987
+- wrap_s (int): 10497. Default: 10497
+- wrap_t (int): 10497. Default: 10497
+---CHUNK---
+Document: GLTFTextureSampler  
+Path: godot/classes/class_gltftexturesampler.rst  
+Summary: Properties for configuring texture magnification, minification, and wrapping modes in GLTFTextureSampler.  
+
+- **mag_filter** (int): Texture's magnification filter, used when texture appears larger on screen than the source image. Default: 9729. Set/Get: set_mag_filter(value: int), get_mag_filter().  
+- **min_filter** (int): Texture's minification filter, used when the texture appears smaller on screen than the source image. Default: 9987. Set/Get: set_min_filter(value: int), get_min_filter().  
+- **wrap_s** (int): Wrapping mode to use for S-axis (horizontal) texture coordinates. Default: 10497. Set/Get: set_wrap_s(value: int), get_wrap_s().  
+- **wrap_t** (int): Wrapping mode to use for T-axis (vertical) texture coordinates. Default: 10497. Set/Get: set_wrap_t(value: int), get_wrap_t().

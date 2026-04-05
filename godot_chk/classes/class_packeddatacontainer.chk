@@ -1,0 +1,47 @@
+Document: PackedDataContainer
+Path: godot/classes/class_packeddatacontainer.rst
+Summary: A class for handling packed data containers in Godot.
+
+Note: This class is part of Godot's internal data handling system and is not typically used directly in projects.
+---CHUNK---
+Document: PackedDataContainer
+Path: godot/classes/class_packeddatacontainer.rst
+Summary: Deprecated class for serializing Arrays and Dictionaries with alternatives and compression methods.
+
+Deprecated: Use @GlobalScope.var_to_bytes() or FileAccess.store_var() instead. For data compression, use PackedByteArray.compress() or FileAccess.open_compressed().
+
+Inherits: Resource < RefCounted < Object
+
+Efficiently packs and serializes Array or Dictionary data structures. This class is deprecated and should not be used in new projects. The recommended alternatives for data serialization are the @GlobalScope.var_to_bytes() method for converting variables to byte arrays, and the FileAccess.store_var() method for writing variables to files. For compressed data storage, the PackedByteArray.compress() method can be used to compress byte arrays, or the FileAccess.open_compressed() method for opening compressed files. Developers are advised to migrate existing uses of PackedDataContainer to these newer methods for better performance and compatibility.
+---CHUNK---
+Document: PackedDataContainer
+Path: godot/classes/class_packeddatacontainer.rst
+Summary: Efficiently stores and retrieves data from untyped containers as packed raw bytes for file storage.
+
+PackedDataContainer can be used to efficiently store data from untyped containers. The data is packed into raw bytes and can be saved to file. Only Array and Dictionary can be stored this way. You can retrieve the data by iterating on the container, which will work as if iterating on the packed data itself. If the packed container is a Dictionary, the data can be retrieved by key names (String/StringName only).
+
+GDScript:
+    var data = { "key": "value", "another_key": 123, "lock": Vector2() }
+    var packed = PackedDataContainer.new()
+    packed.pack(data)
+    ResourceSaver.save(packed, "packed_data.res")
+
+GDScript:
+    var container = load("packed_data.res")
+    for key in container:
+        prints(key, container[key])
+
+Prints:
+    key value
+    lock (0, 0)
+    another_key 123
+
+Nested containers will be packed recursively. While iterating, they will be returned as PackedDataContainerRef.
+---CHUNK---
+Document: PackedDataContainer
+Path: godot/classes/class_packeddatacontainer.rst
+Summary: Methods for packing data into binary format and retrieving container size.
+
+Methods:
+- Error pack(value: Variant): Packs the given container into a binary representation. The value must be either Array or Dictionary, any other type will result in invalid data error. Note: Subsequent calls to this method will overwrite the existing data.
+- int size() const: Returns the size of the packed container (see Array.size() and Dictionary.size()).

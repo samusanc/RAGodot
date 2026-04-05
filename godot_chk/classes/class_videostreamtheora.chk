@@ -1,0 +1,16 @@
+Document: VideoStreamTheora
+Path: godot/classes/class_videostreamtheora.rst
+Summary: Class reference for VideoStreamTheora with inheritance and description details.
+---CHUNK---
+Document: VideoStreamTheora
+Path: godot/classes/class_videostreamtheora.rst
+Summary: VideoStreamTheora resource for Ogg Theora videos.
+
+Inherits: VideoStream < Resource < RefCounted < Object
+VideoStreamTheora resource for Ogg Theora videos.
+---CHUNK---
+Document: VideoStreamTheora
+Path: godot/classes/class_videostreamtheora.rst
+Summary: Resource for handling Ogg Theora video format with .ogv extension in Godot.
+
+VideoStreamTheora resource handles Ogg Theora video format with .ogv extension. The Theora codec is decoded on the CPU. Note: While Ogg Theora videos can also have .ogg extension, you will have to rename the extension to .ogv to use those videos within Godot.

@@ -1,0 +1,14 @@
+Document: VisualShaderNodeTextureParameterTriplanar
+Path: godot/classes/class_visualshadernodetextureparametertriplanar.rst
+Summary: A visual shader node that applies triplanar texture mapping with adjustable parameter controls.
+---CHUNK---
+Document: VisualShaderNodeTextureParameterTriplanar  
+Path: godot/classes/class_visualshadernodetextureparametertriplanar.rst  
+Summary: A visual shader node that performs uniform texture lookups using triplanar mapping.  
+
+Inherits: VisualShaderNodeTextureParameter < VisualShaderNodeParameter < VisualShaderNode < Resource < RefCounted < Object  
+Performs a uniform texture lookup with triplanar within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTextureParameterTriplanar
+Path: godot/classes/class_visualshadernodetextureparametertriplanar.rst
+Summary: Performs a lookup operation on the texture provided as a uniform for the shader, with support for triplanar mapping.

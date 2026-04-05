@@ -1,0 +1,16 @@
+Document: AudioStreamPlaybackSynchronized  
+Path: godot/classes/class_audiostreamplaybacksynchronized.rst  
+Summary: Class for synchronized audio stream playback in Godot.
+---CHUNK---
+Document: AudioStreamPlaybackSynchronized
+Path: godot/classes/class_audiostreamplaybacksynchronized.rst
+Summary: Class for synchronized audio playback in Godot Engine
+
+Inherits: AudioStreamPlayback < RefCounted < Object
+Playback class used for AudioStreamSynchronized
+---CHUNK---
+Document: AudioStreamPlaybackSynchronized
+Path: godot/classes/class_audiostreamplaybacksynchronized.rst
+Summary: Playback component for synchronizing multiple audio streams.
+
+Playback component of AudioStreamSynchronized. Handles the playback of multiple AudioStream instances in synchrony.

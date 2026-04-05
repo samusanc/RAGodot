@@ -1,0 +1,14 @@
+Document: VisualShaderNodeVectorDecompose  
+Path: godot/classes/class_visualshadernodevectordecompose.rst  
+Summary: A class representing a vector decomposition node in a visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorDecompose
+Path: godot/classes/class_visualshadernodevectordecompose.rst
+Summary: Decomposes a Vector2, Vector3, or 4D vector (as a Quaternion) into scalars within the visual shader graph.
+
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+Decomposes a Vector2, Vector3 or 4D vector (represented as a Quaternion) into scalars within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorDecompose
+Path: godot/classes/class_visualshadernodevectordecompose.rst
+Summary: This class takes a vec2, vec3, or vec4 input and decomposes it into individual scalar components, allowing each component to be used as a separate output in shader graphs.

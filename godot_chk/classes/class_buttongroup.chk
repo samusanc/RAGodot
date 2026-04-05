@@ -1,0 +1,87 @@
+Document: ButtonGroup  
+Path: godot/classes/class_buttongroup.rst  
+Summary: Class for managing groups of buttons, typically used for radio button functionality.  
+
+The `ButtonGroup` class is used to manage groups of buttons, ensuring only one button can be selected at a time, commonly used for radio button implementations. It inherits from `Control < Control >` and provides methods to add, remove, and manage buttons within the group. Key properties include `exclusive` (boolean) to enforce single selection, `selected_button` (NodePath) to reference the currently selected button, and `buttons` (Array) to list all buttons in the group.  
+
+Methods include:  
+- `add_button(button: Button)`: Adds a button to the group.  
+- `remove_button(button: Button)`: Removes a button from the group.  
+- `set_selected_button(button: Button)`: Sets the selected button.  
+- `get_selected_button() -> Button`: Returns the currently selected button.  
+
+Note: All buttons added to the group must be of type `Button`.  
+Warning: Modifying the group while iterating over its buttons may cause unexpected behavior.  
+Tip: Use `exclusive` to enable/disable single-selection behavior.  
+
+GDScript:  
+```gdscript  
+var group = ButtonGroup.new()  
+group.exclusive = true  
+group.add_button($Button1)  
+group.add_button($Button2)  
+```  
+
+C#:  
+```csharp  
+var group = new ButtonGroup();  
+group.Exclusive = true;  
+group.AddButton(Button1);  
+group.AddButton(Button2);  
+```  
+
+Enum values:  
+- `BUTTON_GROUP_MODE_EXCLUSIVE`: Enforces single selection (default).  
+- `BUTTON_GROUP_MODE_MULTIPLE`: Allows multiple selections.
+---CHUNK---
+Document: ButtonGroup
+Path: godot/classes/class_buttongroup.rst
+Summary: A group of buttons that ensures only one button can be pressed at a time.
+
+Inherits: Resource < RefCounted < Object
+A group of buttons that doesn't allow more than one button to be pressed at a time.
+---CHUNK---
+Document: ButtonGroup
+Path: godot/classes/class_buttongroup.rst
+Summary: A group of BaseButton-derived buttons that function like radio buttons, allowing only one button to be pressed at a time.
+
+A group of BaseButton-derived buttons. The buttons in a ButtonGroup are treated like radio buttons: No more than one button can be pressed at a time. Some types of buttons (such as CheckBox) may have a special appearance in this state. Every member of a ButtonGroup should have BaseButton.toggle_mode set to true. Note: BaseButton-derived buttons in a group must have their toggle_mode property enabled to function correctly. Inherits: BaseButton
+---CHUNK---
+Document: ButtonGroup
+Path: godot/classes/class_buttongroup.rst
+Summary: Properties and their default values for the ButtonGroup class
+
+Properties:
+- allow_unpress (bool): Controls if the group can have no buttons pressed. Default: false
+- resource_local_to_scene (bool): Overrides Resource's property to always treat resource as local to scene. Default: true (overrides Resource's resource_local_to_scene property)
+---CHUNK---
+Document: ButtonGroup  
+Path: godot/classes/class_buttongroup.rst  
+Summary: Methods for retrieving buttons and the currently pressed button in a group.  
+
+Methods:  
+- get_buttons() → Array<BaseButton>: Returns the list of buttons in the group.  
+- get_pressed_button() → BaseButton: Returns the currently pressed button in the group.
+---CHUNK---
+Document: ButtonGroup
+Path: godot/classes/class_buttongroup.rst
+Summary: Configures whether all buttons in the group can be unpressed simultaneously
+
+Property: allow_unpress (bool) = false
+Controls if all buttons in the group can be unpressed at once. When true, users can deselect all buttons simultaneously.
+
+Methods:
+- set_allow_unpress(value: bool)
+- is_allow_unpress() → bool
+
+Note: If true, it is possible to unpress all buttons in this ButtonGroup.
+---CHUNK---
+Document: ButtonGroup
+Path: godot/classes/class_buttongroup.rst
+Summary: Methods for retrieving buttons and pressed state in a ButtonGroup
+
+Array of BaseButton get_buttons()  
+Returns an Array of Button s who have this as their ButtonGroup (see BaseButton.button_group).
+
+BaseButton get_pressed_button()  
+Returns the current pressed button.

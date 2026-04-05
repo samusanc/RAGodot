@@ -1,0 +1,36 @@
+Document: PrismMesh  
+Path: godot/classes/class_prismmesh.rst  
+Summary: A class for creating and manipulating prism-shaped 3D meshes in Godot Engine.
+---CHUNK---
+Document: PrismMesh
+Path: godot/classes/class_prismmesh.rst
+Summary: A class representing a prism-shaped primitive mesh in Godot Engine.
+
+Inherits: PrimitiveMesh < Mesh < Resource < RefCounted < Object
+Class representing a prism-shaped PrimitiveMesh.
+---CHUNK---
+Document: PrismMesh
+Path: godot/classes/class_prismmesh.rst
+Summary: Represents a prism-shaped mesh in 3D space, derived from the PrimitiveMesh class.
+
+Class representing a prism-shaped PrimitiveMesh.
+---CHUNK---
+Document: PrismMesh
+Path: godot/classes/class_prismmesh.rst
+Summary: Properties and their default values for the PrismMesh class.
+
+- float: left_to_right. Default: 0.5
+- Vector3: size. Default: Vector3(1, 1, 1)
+- int: subdivide_depth. Default: 0
+- int: subdivide_height. Default: 0
+- int: subdivide_width. Default: 0
+---CHUNK---
+Document: PrismMesh  
+Path: godot/classes/class_prismmesh.rst  
+Summary: Properties and methods for controlling the shape and subdivision of a prism mesh in Godot.  
+
+- left_to_right (float): Displacement of the upper edge along the X axis. 0.0 positions edge straight above the bottom-left edge. Default: 0.5. Methods: set_left_to_right(value: float), get_left_to_right().  
+- size (Vector3): Size of the prism. Default: Vector3(1, 1, 1). Methods: set_size(value: Vector3), get_size().  
+- subdivide_depth (int): Number of added edge loops along the Z axis. Default: 0. Methods: set_subdivide_depth(value: int), get_subdivide_depth().  
+- subdivide_height (int): Number of added edge loops along the Y axis. Default: 0. Methods: set_subdivide_height(value: int), get_subdivide_height().  
+- subdivide_width (int): Number of added edge loops along the X axis. Default: 0. Methods: set_subdivide_width(value: int), get_subdivide_width().

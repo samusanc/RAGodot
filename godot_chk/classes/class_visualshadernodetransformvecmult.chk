@@ -1,0 +1,41 @@
+Document: VisualShaderNodeTransformVecMult
+Path: godot/classes/class_visualshadernodetransformvecmult.rst
+Summary: This chunk covers the class VisualShaderNodeTransformVecMult, but no further details are available in the provided RST content.
+---CHUNK---
+Document: VisualShaderNodeTransformVecMult
+Path: godot/classes/class_visualshadernodetransformvecmult.rst
+Summary: A visual shader graph node that multiplies a Transform3D and a Vector3.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Multiplies a Transform3D and a Vector3 within the visual shader graph. This node takes two inputs: a transformation matrix (Transform3D) and a vector (Vector3), and outputs the result of their multiplication operation. The operation is equivalent to applying the transformation matrix to the vector, which is commonly used for tasks like rotating or scaling vectors in 3D space within shader programs.
+---CHUNK---
+Document: VisualShaderNodeTransformVecMult
+Path: godot/classes/class_visualshadernodetransformvecmult.rst
+Summary: Performs multiplication between a 4×4 transform matrix and a vector, supporting various multiplication operators.
+
+A multiplication operation on a transform (4×4 matrix) and a vector, with support for different multiplication operators.
+---CHUNK---
+Document: VisualShaderNodeTransformVecMult
+Path: godot/classes/class_visualshadernodetransformvecmult.rst
+Summary: Describes the 'operator' property and its default value for the VisualShaderNodeTransformVecMult class.
+
+operator (enum_VisualShaderNodeTransformVecMult_Operator): The operator used for the transformation. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeTransformVecMult  
+Path: godot/classes/class_visualshadernodetransformvecmult.rst  
+Summary: Defines the Operator enum and its constants for transforming vectors using different multiplication operations.  
+
+Operator enum values:  
+- OP_AxB (0): Multiplies transform a by the vector b.  
+- OP_BxA (1): Multiplies vector b by the transform a.  
+- OP_3x3_AxB (2): Multiplies transform a by the vector b, skipping the last row and column of the transform.  
+- OP_3x3_BxA (3): Multiplies vector b by the transform a, skipping the last row and column of the transform.  
+- OP_MAX (4): Represents the size of the Operator enum.  
+
+Key Rule: OP_MAX indicates the total number of enum values in the Operator enumeration.
+---CHUNK---
+Document: VisualShaderNodeTransformVecMult  
+Path: godot/classes/class_visualshadernodetransformvecmult.rst  
+Summary: Defines the multiplication operator for vector transformations in a visual shader node.  
+
+Property: operator (Operator): The multiplication type to be performed. Default: 0. Setter method: set_operator(value: Operator). Getter method: get_operator() → Operator.

@@ -1,0 +1,33 @@
+Document: OpenXRCompositionLayerCylinder
+Path: godot/classes/class_openxrcompositionlayercylinder.rst
+Summary: A class representing a cylindrical composition layer for OpenXR in Godot, used for rendering 3D content in a cylindrical space.
+---CHUNK---
+Document: OpenXRCompositionLayerCylinder  
+Path: godot/classes/class_openxrcompositionlayercylinder.rst  
+Summary: A class representing an OpenXR composition layer rendered as an internal slice of a cylinder.  
+
+Note: This class may be changed or removed in future versions. Inherits: OpenXRCompositionLayer < Node3D < Node < Object. An OpenXR composition layer that is rendered as an internal slice of a cylinder.
+---CHUNK---
+Document: OpenXRCompositionLayerCylinder
+Path: godot/classes/class_openxrcompositionlayercylinder.rst
+Summary: A class representing an OpenXR composition layer that renders a SubViewport on an internal slice of a cylinder.
+
+An OpenXR composition layer that allows rendering a SubViewport on an internal slice of a cylinder.
+---CHUNK---
+Document: OpenXRCompositionLayerCylinder
+Path: godot/classes/class_openxrcompositionlayercylinder.rst
+Summary: Properties and their default values for the OpenXRCompositionLayerCylinder class.
+
+- aspect_ratio (float): Controls the aspect ratio of the cylinder. Default: 1.0
+- central_angle (float): Defines the central angle of the cylinder in radians. Default: 1.5707964
+- fallback_segments (int): Specifies the number of segments to use if the cylinder cannot be rendered with higher detail. Default: 10
+- radius (float): Sets the radius of the cylinder. Default: 1.0
+---CHUNK---
+Document: OpenXRCompositionLayerCylinder  
+Path: godot/classes/class_openxrcompositionlayercylinder.rst  
+Summary: Properties and their descriptions for the OpenXRCompositionLayerCylinder class, including default values and setter/getter methods.  
+
+aspect_ratio (float): The aspect ratio of the slice. Used to set the height relative to the width. Default: 1.0. Setter: set_aspect_ratio(float) → void. Getter: get_aspect_ratio() → float.  
+central_angle (float): The central angle of the cylinder. Used to set the width. Default: 1.5707964. Setter: set_central_angle(float) → void. Getter: get_central_angle() → float.  
+fallback_segments (int): The number of segments to use in the fallback mesh. Default: 10. Setter: set_fallback_segments(int) → void. Getter: get_fallback_segments() → int.  
+radius (float): The radius of the cylinder. Default: 1.0. Setter: set_radius(float) → void. Getter: get_radius() → float.

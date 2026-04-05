@@ -1,0 +1,53 @@
+Document: FoldableGroup
+Path: godot/classes/class_foldablegroup.rst
+Summary: This section is empty or lacks content; no class description or inheritance information provided.
+---CHUNK---
+Document: FoldableGroup
+Path: godot/classes/class_foldablegroup.rst
+Summary: A group of foldable containers that doesn't allow more than one container to be expanded at a time.
+
+Inherits: Resource < RefCounted < Object
+A group of foldable containers that doesn't allow more than one container to be expanded at a time.
+---CHUNK---
+Document: FoldableGroup
+Path: godot/classes/class_foldablegroup.rst
+Summary: A group that manages FoldableContainer-derived nodes, allowing only one container to be expanded at a time.
+
+A group of FoldableContainer-derived nodes. Only one container can be expanded at a time.
+---CHUNK---
+Document: FoldableGroup
+Path: godot/classes/class_foldablegroup.rst
+Summary: Properties and member variables of the FoldableGroup class, including allow_folding_all and resource_local_to_scene.
+
+Property: allow_folding_all (bool): Controls whether all items in the group can be folded. Default: false.
+Property: resource_local_to_scene (bool): Determines if the resource is local to the scene. Default: true (overrides Resource.resource_local_to_scene).
+---CHUNK---
+Document: FoldableGroup
+Path: godot/classes/class_foldablegroup.rst
+Summary: Methods for accessing containers and signals for tracking expansion state in a foldable group.
+
+Methods:
+- Array<FoldableContainer> get_containers() const
+- FoldableContainer get_expanded_container() const
+
+Signal: expanded(container: FoldableContainer)
+Emitted when one of the containers of the group is expanded.
+---CHUNK---
+Document: FoldableGroup  
+Path: godot/classes/class_foldablegroup.rst  
+Summary: Describes the `allow_folding_all` property and its setter/getter methods for controlling folding behavior in FoldableGroup containers.  
+
+bool allow_folding_all = false  
+Method: void set_allow_folding_all(value: bool)  
+Method: bool is_allow_folding_all()  
+If true, it is possible to fold all containers in this FoldableGroup.
+---CHUNK---
+Document: FoldableGroup
+Path: godot/classes/class_foldablegroup.rst
+Summary: Methods for accessing containers and expanded state in FoldableGroup.
+
+Method: get_containers() → Array[FoldableContainer]
+Returns an Array of FoldableContainer instances that have this FoldableGroup as their foldable_group property. This functions similarly to ButtonGroup but for FoldableContainers.
+
+Method: get_expanded_container() → FoldableContainer
+Returns the currently expanded FoldableContainer in the group.

@@ -1,0 +1,16 @@
+Document: OpenXRVisibilityMask
+Path: godot/classes/class_openxrvisibilitymask.rst
+Summary: Class representing an OpenXR visibility mask for VR rendering in Godot, handling eye and lens distortion parameters.
+---CHUNK---
+Document: OpenXRVisibilityMask
+Path: godot/classes/class_openxrvisibilitymask.rst
+Summary: A 3D visual instance that renders a stereo-correct visibility mask for OpenXR applications.
+
+Inherits: VisualInstance3D < Node3D < Node < Object
+Draws a stereo correct visibility mask.
+---CHUNK---
+Document: ClassOpenXRVisibilityMask
+Path: godot/classes/class_openxrvisibilitymask.rst
+Summary: The visibility mask blackens parts of the render result obscured by lens distortion to optimize rendering performance.
+
+The visibility mask allows us to black out the part of the render result that is invisible due to lens distortion. As this is rendered first, it prevents fragments with expensive lighting calculations to be processed as they are discarded through z-checking.

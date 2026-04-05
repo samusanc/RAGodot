@@ -1,0 +1,52 @@
+Document: AudioEffectStereoEnhance  
+Path: godot/classes/class_audioeffectstereoenhance.rst  
+Summary: A class that enhances stereo audio effects in Godot.
+---CHUNK---
+Document: AudioEffectStereoEnhance  
+Path: godot/classes/class_audioeffectstereoenhance.rst  
+Summary: Adds a stereo manipulation audio effect to an audio bus, controlling side channel gain and widening the stereo image.  
+
+AudioEffectStereoEnhance inherits from AudioEffect and is used to manipulate stereo audio signals. It allows adjustment of the gain for side channels (left and right) and can widen the stereo image to create a more immersive audio experience. This effect is applied to an audio bus and can be configured through parameters exposed in the Godot editor. The primary use case is enhancing the spatial perception of audio in games or multimedia applications.
+---CHUNK---
+Document: AudioEffectStereoEnhance
+Path: godot/classes/class_audioeffectstereoenhance.rst
+Summary: Adjusts gain of the left and right channels, and makes mono sounds stereo through phase shifting.
+
+AudioEffectStereoEnhance is an audio effect that modifies stereo channel balance and enhances stereo imaging by applying phase shifting to mono sources. It allows independent adjustment of left and right channel gains, enabling precise control over stereo width and depth. The effect works by detecting mono content (signals that are identical in both channels) and applying subtle phase differences to create a wider stereo image. This is particularly useful for enhancing the spatial characteristics of mono recordings or for creative audio processing in music production and game audio design.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_audioeffectstereoenhance.rst
+Summary: This section lists tutorials related to audio buses and audio effects in Godot.
+
+- Audio buses
+- Audio effects
+---CHUNK---
+Document: AudioEffectStereoEnhance
+Path: godot/classes/class_audioeffectstereoenhance.rst
+Summary: This section describes the properties of the AudioEffectStereoEnhance class, including pan_pullout, surround, and time_pullout_ms with their default values.
+
+- pan_pullout (float): Default: 1.0
+- surround (float): Default: 0.0
+- time_pullout_ms (float): Default: 0.0
+---CHUNK---
+Document: AudioEffectStereoEnhance  
+Path: godot/classes/class_audioeffectstereoenhance.rst  
+Summary: Describes the properties and methods for controlling stereo enhancement effects in Godot, including pan pullout, surround widening, and time-based phase shifting.  
+
+Property: pan_pullout (float) = 1.0  
+Methods:  
+- set_pan_pullout(value: float) → void  
+- get_pan_pullout() → float  
+Description: Gain of the side channels, if they exist. A value of 0 will downmix stereo to mono. Value can range from 0 to 4.  
+
+Property: surround (float) = 0.0  
+Methods:  
+- set_surround(value: float) → void  
+- get_surround() → float  
+Description: Widens the stereo image through phase shifting in conjunction with time_pullout_ms. Just pans sound to the left channel if time_pullout_ms is 0. Value can range from 0 to 1.  
+
+Property: time_pullout_ms (float) = 0.0  
+Methods:  
+- set_time_pullout(value: float) → void  
+- get_time_pullout() → float  
+Description: Widens the stereo image through phase shifting in conjunction with surround. Just delays the right channel if surround is 0. Value is in milliseconds, and can range from 0 to 50.

@@ -1,0 +1,43 @@
+Document: GUI Navigation
+Path: godot/tutorials/ui/gui_navigation.rst
+Summary: This section introduces GUI navigation in Godot Engine.
+---CHUNK---
+Document: GUI Navigation  
+Path: godot/tutorials/ui/gui_navigation.rst  
+Summary: Enabling keyboard/controller navigation in UIs through focus management and input action configuration.  
+
+Keyboard and controller navigation is essential for accessibility and console compatibility. Navigation between UI elements occurs by changing which node is actively selected—this is called UI focus. Every Control node can have focus, and some automatically grab focus via built-in input actions like `ui_up`, `ui_down`, `ui_focus_next`, and others. These actions are configured in the project settings under the input map and can be modified as needed.  
+
+Warning: Because these actions are used for focus management, they should not be repurposed for gameplay code.  
+
+By default, certain Control nodes react to these input actions to handle focus transitions. For example, pressing the Down arrow key might move focus to the next interactive element in a list. This system allows users to navigate menus, select options, and interact with UI components without requiring a mouse or touch input. Proper configuration ensures that focus flows logically between elements, improving usability for players with different input preferences.  
+
+The input map defines how actions like `ui_up` and `ui_down` map to physical controller buttons or keyboard keys. Developers can customize these mappings to suit their project's needs. However, overriding these actions for gameplay mechanics is discouraged, as it may break accessibility features and focus navigation.
+---CHUNK---
+Document: GUI Navigation  
+Path: godot/tutorials/ui/gui_navigation.rst  
+Summary: Configuring focus neighbors and navigation settings for UI controls in Godot.  
+
+Node settings allow defining focus neighbors for individual control nodes, enabling precise control over UI focus navigation. These settings are accessed via the Inspector dock under the "Focus" category in the "Control" section. Neighbor options specify nodes for 4-directional navigation (e.g., arrow keys or D-pad). The bottom neighbor is used for downward navigation, while "Next" and "Previous" options handle focus shifts via the Tab key.  
+
+Note: A node can lose focus if it becomes hidden. The mode setting determines focusability: **All** (clickable or keyboard/controller selectable), **Click** (only clickable), or **None** (not focusable). Defaults vary by node type—Label nodes default to "None," while Button nodes default to "All."  
+
+Proper scene configuration is critical for focus and navigation. If a node lacks defined focus neighbors, the engine attempts automatic guessing, which may cause unintended behavior in complex interfaces with ambiguous vertical/horizontal navigation flows.
+---CHUNK---
+Document: GUI Navigation
+Path: godot/tutorials/ui/gui_navigation.rst
+Summary: Setting initial focus for UI elements to enable keyboard/controller navigation.
+
+For keyboard and controller navigation to work correctly, any node must be focused using code when the scene starts. Without doing this, pressing buttons or keys won't do anything. You can use the Control.grab_focus() method to focus a control. Here is a basic example of setting initial focus with code:
+
+GDScript:
+    func _ready():
+        $StartButton.grab_focus.call_deferred()
+
+C#:
+    public override void _Ready()
+    {
+        GetNode<Button>("StartButton").GrabFocus.CallDeferred();
+    }
+
+Now when the scene starts, the "Start Button" node will be focused, and the keyboard or a controller can be used to navigate between it and other UI elements.

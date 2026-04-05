@@ -1,0 +1,52 @@
+Document: CapsuleShape2D  
+Path: godot/classes/class_capsuleshape2d.rst  
+Summary: 2D physics shape used for collision detection with a capsule shape. Inherits from Shape2D < Resource < Object. Defines properties for radius, length, and collision layers.  
+
+Inherits: Shape2D < Resource < Object  
+Properties:  
+- radius (float): Distance from center to capsule edge. Default: 0.5.  
+- length (float): Length of the capsule along its local axis. Default: 1.0.  
+- collision_layer (int): Bitmask defining which layers this shape collides with. Default: 0.  
+- collision_mask (int): Bitmask defining which layers can collide with this shape. Default: 0.  
+
+Methods:  
+- set_radius(value: float) → void: Sets the radius of the capsule.  
+- get_radius() → float: Returns the current radius.  
+- set_length(value: float) → void: Sets the length of the capsule.  
+- get_length() → float: Returns the current length.  
+
+Note: Collision layers and masks use bitwise operations to define interactions between objects.  
+Warning: Modifying properties at runtime may affect physics simulation stability.  
+Tip: Use with CollisionShape2D nodes for active collision detection in scenes.
+---CHUNK---
+Document: CapsuleShape2D
+Path: godot/classes/class_capsuleshape2d.rst
+Summary: A 2D capsule shape used for physics collision.
+
+Inherits: Shape2D < Resource < RefCounted < Object
+A 2D capsule shape used for physics collision.
+---CHUNK---
+Document: CapsuleShape2D  
+Path: godot/classes/class_capsuleshape2d.rst  
+Summary: A 2D capsule shape used in physics for collision detection with CollisionShape2D nodes.  
+
+A 2D capsule shape, intended for use in physics. Usually used to provide a shape for a CollisionShape2D. Performance: CapsuleShape2D is fast to check collisions against, but it is slower than RectangleShape2D and CircleShape2D.
+---CHUNK---
+Document: CapsuleShape2D
+Path: godot/classes/class_capsuleshape2d.rst
+Summary: Properties and their default values for the 2D capsule shape physics object.
+
+Properties:
+- height (float): Vertical dimension of the capsule. Default: 30.0
+- mid_height (float): Midpoint height value. Default: (no default value specified)
+- radius (float): Horizontal radius of the capsule. Default: 10.0
+---CHUNK---
+Document: CapsuleShape2D  
+Path: godot/classes/class_capsuleshape2d.rst  
+Summary: Properties defining the dimensions and behavior of a 2D capsule shape in Godot.  
+
+height (float): The capsule's full height, including the semicircles. Default: 30.0. Method: set_height(value: float). Method: get_height() → float. Note: The height must be at least twice the radius. Otherwise, the capsule becomes a circle, and properties adjust to valid values.  
+
+mid_height (float): The capsule's height excluding the semicircles. Represents the distance between the centers of the two semicircles. This is a wrapper for height. Method: set_mid_height(value: float). Method: get_mid_height() → float.  
+
+radius (float): The capsule's radius. Default: 10.0. Method: set_radius(value: float). Method: get_radius() → float. Note: The radius cannot exceed half the height. Otherwise, the capsule becomes a circle, and properties adjust to valid values.

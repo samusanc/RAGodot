@@ -1,0 +1,29 @@
+Document: OpenXRSpatialComponentPlaneSemanticLabelList
+Path: godot/classes/class_openxrspatialcomponentplanesemanticlabellist.rst
+Summary: Class reference for OpenXRSpatialComponentPlaneSemanticLabelList.
+---CHUNK---
+Document: OpenXRSpatialComponentPlaneSemanticLabelList
+Path: godot/classes/class_openxrspatialcomponentplanesemanticlabellist.rst
+Summary: Class for storing results from plane semantic label queries in OpenXR spatial component data.
+
+Note: This class may be changed or removed in future versions.
+Inherits: OpenXRSpatialComponentData < RefCounted < Object
+Object for storing the queries plane semantic label result data.
+---CHUNK---
+Document: OpenXRSpatialComponentPlaneSemanticLabelList  
+Path: godot/classes/class_openxrspatialcomponentplanesemanticlabellist.rst  
+Summary: Class for storing results of plane semantic label queries from OpenXRSpatialEntityExtension.  
+
+Object for storing the queries plane semantic label result data when calling OpenXRSpatialEntityExtension.query_snapshot().
+---CHUNK---
+Document: OpenXRSpatialComponentPlaneSemanticLabelList
+Path: godot/classes/class_openxrspatialcomponentplanesemanticlabellist.rst
+Summary: Defines the PlaneSemanticLabel enum and the get_plane_semantic_label method for retrieving semantic labels from spatial plane data.
+
+Enum: PlaneSemanticLabel.PLANE_SEMANTIC_LABEL_UNCATEGORIZED = 1. Uncategorized plane.
+Enum: PlaneSemanticLabel.PLANE_SEMANTIC_LABEL_FLOOR = 2. Plane represents a floor.
+Enum: PlaneSemanticLabel.PLANE_SEMANTIC_LABEL_WALL = 3. Plane represents a wall.
+Enum: PlaneSemanticLabel.PLANE_SEMANTIC_LABEL_CEILING = 4. Plane represents a ceiling.
+Enum: PlaneSemanticLabel.PLANE_SEMANTIC_LABEL_TABLE = 5. Plane represents the surface of a table.
+
+Method: get_plane_semantic_label(index: int) → PlaneSemanticLabel. Returns the plane semantic label for the parent entity at this index. Constant method.

@@ -1,0 +1,15 @@
+Document: IntervalTweener
+Path: godot/classes/class_intervaltweener.rst
+Summary: Class reference for IntervalTweener.
+---CHUNK---
+Document: IntervalTweener
+Path: godot/classes/class_intervaltweener.rst
+Summary: Creates an idle interval in a Tween animation.
+
+Inherits: Tweener < RefCounted < Object
+---CHUNK---
+Document: IntervalTweener
+Path: godot/classes/class_intervaltweener.rst
+Summary: IntervalTweener is used to make delays in a tweening sequence.
+
+IntervalTweener is used to make delays in a tweening sequence. See Tween.tween_interval() for more usage information. Note: Tween.tween_interval() is the only correct way to create IntervalTweener. Any IntervalTweener created manually will not function correctly.

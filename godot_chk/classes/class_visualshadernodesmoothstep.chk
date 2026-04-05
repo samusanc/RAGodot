@@ -1,0 +1,51 @@
+Document: VisualShaderNodeSmoothStep
+Path: godot/classes/class_visualshadernodesmoothstep.rst
+Summary: A shader node that implements smooth step interpolation between two values in Godot's visual shader language.
+
+Inherits: VisualShaderNode < VisualShaderNodeTexture < VisualShaderNodeBase
+
+This node performs smooth interpolation between two input values, commonly used for creating smooth transitions in shader effects. The smooth step function calculates a value that rises slowly from 0 to 1 between the input min and max values, then plateaus at 1 beyond the max value. The node accepts three inputs: the value to interpolate (X), the minimum threshold (Min), and the maximum threshold (Max). The output is a normalized value between 0 and 1 based on the smooth step calculation. This node is particularly useful for creating soft edges in lighting, fog effects, and material transitions.
+---CHUNK---
+Document: VisualShaderNodeSmoothStep
+Path: godot/classes/class_visualshadernodesmoothstep.rst
+Summary: A visual shader graph node that calculates a SmoothStep function for interpolating between two values.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Calculates a SmoothStep function within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeSmoothStep
+Path: godot/classes/class_visualshadernodesmoothstep.rst
+Summary: A shader node that interpolates input values between 0.0 and 1.0 using Hermite polynomials based on edge thresholds.
+
+This node implements the smoothstep function, returning 0.0 when input x is below edge0, 1.0 when x exceeds edge1, and interpolated values between those thresholds. The interpolation uses Hermite polynomials to create smooth transitions. The function maps input values to a range between 0.0 and 1.0, making it useful for creating smooth transitions in shader graphs. The node operates by comparing the input value against two edge thresholds and calculating the interpolated result based on their relationship.
+---CHUNK---
+Document: VisualShaderNodeSmoothStep
+Path: godot/classes/class_visualshadernodesmoothstep.rst
+Summary: Describes the 'op_type' property and its default value.
+
+- op_type (Property): Reference to class_VisualShaderNodeSmoothStep_property_op_type. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeSmoothStep
+Path: godot/classes/class_visualshadernodesmoothstep.rst
+Summary: Enumerates OpType values for VisualShaderNodeSmoothStep, defining scalar and vector port configurations.
+
+enum OpType:
+- OP_TYPE_SCALAR = 0: A floating-point scalar type.
+- OP_TYPE_VECTOR_2D = 1: A 2D vector type.
+- OP_TYPE_VECTOR_2D_SCALAR = 2: The x port uses a 2D vector type. The first two ports use a floating-point scalar type.
+- OP_TYPE_VECTOR_3D = 3: A 3D vector type.
+- OP_TYPE_VECTOR_3D_SCALAR = 4: The x port uses a 3D vector type. The first two ports use a floating-point scalar type.
+- OP_TYPE_VECTOR_4D = 5: A 4D vector type.
+- OP_TYPE_VECTOR_4D_SCALAR = 6: The a and b ports use a 4D vector type. The weight port uses a scalar type.
+- OP_TYPE_MAX = 7: Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeSmoothStep
+Path: godot/classes/class_visualshadernodesmoothstep.rst
+Summary: The op_type property defines the type of operands and returned value, with a default of 0.
+
+OpType op_type = 0
+
+Setter: set_op_type(value: OpType)
+Getter: get_op_type() → OpType
+
+The op_type property determines how the node handles input operands and output values. It uses the OpType enum which defines different operation modes. The default value is 0, which corresponds to the first enum variant. This property affects how the smooth step function is calculated between input values. The setter method allows changing the operation type, while the getter retrieves the current type. The specific behavior depends on the enum value assigned to this property.

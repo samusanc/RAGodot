@@ -1,0 +1,27 @@
+Document: OpenXRSpatialCapabilityConfigurationPlaneTracking  
+Path: godot/classes/class_openxrspatialcapabilityconfigurationplanetracking.rst  
+Summary: Class reference for OpenXRSpatialCapabilityConfigurationPlaneTracking, a Godot class related to OpenXR spatial capability configuration for plane tracking.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationPlaneTracking  
+Path: godot/classes/class_openxrspatialcapabilityconfigurationplanetracking.rst  
+Summary: Configuration header for plane tracking.  
+
+Note: This class may be changed or removed in future versions.  
+Inherits: OpenXRSpatialCapabilityConfigurationBaseHeader < RefCounted < Object  
+Configuration header for plane tracking.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationPlaneTracking  
+Path: godot/classes/class_openxrspatialcapabilityconfigurationplanetracking.rst  
+Summary: Configuration header for plane tracking, used to create a spatial context with plane tracking capabilities when passed to OpenXRSpatialEntityExtension.create_spatial_context().  
+
+Description  
+Configuration header for plane tracking. Pass this to OpenXRSpatialEntityExtension.create_spatial_context() to create a spatial context with plane tracking capabilities.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationPlaneTracking  
+Path: godot/classes/class_openxrspatialcapabilityconfigurationplanetracking.rst  
+Summary: Methods for querying enabled components and spatial capability support in OpenXR plane tracking configurations.  
+
+- PackedInt64Array get_enabled_components() const: Returns the components enabled by this configuration. Note: Only valid after this configuration was used to create a spatial context.  
+- bool supports_labels(): Returns true if plane semantic label component is supported (only valid after OpenXR session starts). Query using OpenXRSpatialComponentPlaneSemanticLabelList data object.  
+- bool supports_mesh_2d(): Returns true if mesh 2D component is supported (only valid after OpenXR session starts). Query using OpenXRSpatialComponentMesh2DList data object.  
+- bool supports_polygons(): Returns true if polygon 2D component is supported (only valid after OpenXR session starts). Query using OpenXRSpatialComponentPolygon2DList data object.

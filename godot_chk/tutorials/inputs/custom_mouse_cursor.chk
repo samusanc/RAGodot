@@ -1,0 +1,57 @@
+Document: Custom Mouse Cursor
+Path: godot/tutorials/inputs/custom_mouse_cursor.rst
+Summary: Tutorial on creating and implementing a custom mouse cursor in Godot Engine.
+---CHUNK---
+Document: Customizing the mouse cursor  
+Path: godot/tutorials/inputs/custom_mouse_cursor.rst  
+Summary: This section explains two methods to customize the mouse cursor in Godot: using project settings or scripting, with a note on hardware vs software approaches.  
+
+There are two ways to customize the mouse cursor in your game: using project settings or using a script. The project settings method is simpler but more limited, while the scripting approach offers greater customization at the cost of additional development effort. Note: Displaying a "software" mouse cursor by hiding the hardware cursor and manually updating a Sprite2D position in the `_process()` method introduces at least one frame of latency compared to using the hardware cursor. This approach is discouraged unless unavoidable, in which case adding extrapolation logic to predict cursor movement can mitigate visual lag.
+---CHUNK---
+Document: Custom Mouse Cursor  
+Path: godot/tutorials/inputs/custom_mouse_cursor.rst  
+Summary: Configure custom mouse cursor settings in Godot, including image size restrictions and hotspot positioning.  
+
+Open the Project Settings and go to Display > Mouse Cursor. You will see the settings Custom Image, Custom Image Hotspot, and Tooltip Position Offset. Custom Image is the desired image that you would like to set as the mouse cursor. Custom Hotspot is the point in the image that you would like to use as the cursor's detection point. Warning: The custom image must be 256×256 pixels at most. To avoid rendering issues, sizes of 128×128 or smaller are recommended. On the web platform, the maximum allowed cursor image size is 128×128.
+---CHUNK---
+Document: custom_mouse_cursor
+Path: godot/tutorials/inputs/custom_mouse_cursor.rst
+Summary: Creating a Node with a script to customize mouse cursor shapes using GDScript and C#.
+
+Create a Node and attach a script containing the following code. Load custom images for the mouse cursor using the load() function. In GDScript:
+
+GDScript:
+    extends Node
+
+    var arrow = load("res://arrow.png")
+    var beam = load("res://beam.png")
+
+    func _ready():
+        Input.set_custom_mouse_cursor(arrow)
+        Input.set_custom_mouse_cursor(beam, Input.CURSOR_IBEAM)
+
+In C#:
+
+C#:
+    using Godot;
+
+    public partial class MyNode : Node
+    {
+        public override void _Ready()
+        {
+            var arrow = ResourceLoader.Load("res://arrow.png");
+            var beam = ResourceLoader.Load("res://beam.png");
+
+            Input.SetCustomMouseCursor(arrow);
+            Input.SetCustomMouseCursor(beam, Input.CursorShape.Ibeam);
+        }
+    }
+
+Note: Check Input.set_custom_mouse_cursor() documentation for more information on usage and platform-specific caveats. The first example changes the default arrow shape, while the second example specifically modifies the I-beam cursor shape. Both implementations achieve the same result through different cursor shape parameters.
+---CHUNK---
+Document: Custom Mouse Cursor
+Path: godot/tutorials/inputs/custom_mouse_cursor.rst
+Summary: Overview of available mouse cursor shapes and their usage considerations in Godot.
+
+Cursor list
+There are multiple mouse cursors you can define, documented in the Input.CursorShape enum. Which ones you want to use depends on your use case.

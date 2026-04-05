@@ -1,0 +1,39 @@
+Document: DirectionalLight2D
+Path: godot/classes/class_directionallight2d.rst
+Summary: This section contains metadata and generator information, but no class description or inheritance details are present in the provided RST content.
+---CHUNK---
+Document: DirectionalLight2D
+Path: godot/classes/class_directionallight2d.rst
+Summary: A directional 2D light source that emits light from a distant position, affecting all objects in the scene uniformly.
+Inherits: Light2D < Node2D < CanvasItem < Node < Object
+Directional 2D light from a distance.
+---CHUNK---
+Document: DirectionalLight2D  
+Path: godot/classes/class_directionallight2d.rst  
+Summary: A directional light node emitting parallel rays from a distant source, used for effects like sunlight or moonlight.  
+
+A directional light is a type of Light2D node that models an infinite number of parallel rays covering the entire scene. It is used for lights with strong intensity located far away from the scene (e.g., sunlight or moonlight). Light is emitted in the +Y direction of the node's global basis. For an unrotated light, this means the light is emitted downwards. The position of the node is ignored; only the basis is used to determine light direction.  
+
+Note: DirectionalLight2D does not support light cull masks (but supports shadow cull masks) and will always light 2D nodes regardless of their CanvasItem.light_mask property. Inherits: Light2D.
+---CHUNK---
+Document: class_directionallight2d
+Path: godot/classes/class_directionallight2d.rst
+Summary: Tutorial entry for 2D lights and shadows documentation
+
+Tutorials
+- 2D lights and shadows
+---CHUNK---
+Document: DirectionalLight2D
+Path: godot/classes/class_directionallight2d.rst
+Summary: Properties for controlling light intensity and reach.
+
+- height (float): Controls the light's vertical size. Default: 0.0
+- max_distance (float): Limits how far the light's influence extends. Default: 10000.0
+---CHUNK---
+Document: DirectionalLight2D  
+Path: godot/classes/class_directionallight2d.rst  
+Summary: Describes the `height` and `max_distance` properties of DirectionalLight2D, their purposes, and related methods.  
+
+height (float): The height of the light, used with 2D normal mapping. Ranges from 0 (parallel to the plane) to 1 (perpendicular to the plane). Default: 0.0. Set via `set_height(value: float)`, get via `get_height()`.  
+
+max_distance (float): The maximum distance from the camera center objects can be before their shadows are culled (in pixels). Decreasing this value prevents distant objects from casting shadows and improves performance. Note: `Camera2D.zoom` is not considered, so higher zoom values cause shadows to fade sooner when zooming into a point. Default: 10000.0. Set via `set_max_distance(value: float)`, get via `get_max_distance()`.

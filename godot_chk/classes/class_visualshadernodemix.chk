@@ -1,0 +1,44 @@
+Document: VisualShaderNodeMix
+Path: godot/classes/class_visualshadernodemix.rst
+Summary: Class: VisualShaderNodeMix. Inheritance chain and description.
+---CHUNK---
+Document: VisualShaderNodeMix
+Path: godot/classes/class_visualshadernodemix.rst
+Summary: A visual shader graph node that linearly interpolates between two values.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Linearly interpolates between two values within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeMix
+Path: godot/classes/class_visualshadernodemix.rst
+Summary: Represents the mix function in shader language, combining two values based on a weight parameter.
+
+Translates to mix(a, b, weight) in the shader language. This node blends two input values (a and b) using a weight parameter that determines the contribution of each value to the final output. The weight parameter typically ranges between 0 and 1, where 0 returns a, 1 returns b, and values in between produce a smooth interpolation.
+---CHUNK---
+Document: VisualShaderNodeMix
+Path: godot/classes/class_visualshadernodemix.rst
+Summary: Properties and member variables of the VisualShaderNodeMix class, including the op_type property.
+
+- op_type (property): Specifies the operation type for the mix node. Default: 0. Accepts values from the OpType enum (enum_VisualShaderNodeMix_OpType).
+---CHUNK---
+Document: VisualShaderNodeMix
+Path: godot/classes/class_visualshadernodemix.rst
+Summary: The OpType enum defines mixing operations for VisualShaderNodeMix, specifying scalar and vector types for input ports and weight.
+
+OpType enum:
+- OP_TYPE_SCALAR (0): A floating-point scalar.
+- OP_TYPE_VECTOR_2D (1): A 2D vector type.
+- OP_TYPE_VECTOR_2D_SCALAR (2): The a and b ports use 2D vector type. The weight port uses a scalar type.
+- OP_TYPE_VECTOR_3D (3): A 3D vector type.
+- OP_TYPE_VECTOR_3D_SCALAR (4): The a and b ports use 3D vector type. The weight port uses a scalar type.
+- OP_TYPE_VECTOR_4D (5): A 4D vector type.
+- OP_TYPE_VECTOR_4D_SCALAR (6): The a and b ports use 4D vector type. The weight port uses a scalar type.
+- OP_TYPE_MAX (7): Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeMix
+Path: godot/classes/class_visualshadernodemix.rst
+Summary: Defines the op_type property and its setter/getter methods for the VisualShaderNodeMix class.
+
+op_type (OpType): A type of operands and returned value. Default: 0.  
+Set via: void set_op_type(OpType value)  
+Get via: OpType get_op_type()

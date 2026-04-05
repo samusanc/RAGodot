@@ -1,0 +1,18 @@
+Document: VisualShaderNodeParticleBoxEmitter
+Path: godot/classes/class_visualshadernodeparticleboxemitter.rst
+Summary: Class identity, description, and inheritance information for the VisualShaderNodeParticleBoxEmitter class.
+
+The VisualShaderNodeParticleBoxEmitter class is a visual shader node used for emitting particles from a box shape in Godot's visual shader graph. It inherits from the base VisualShaderNode class, which provides common functionality for all visual shader nodes. This specific node type is part of Godot's particle system shader nodes, designed to work with the VisualShaderGraph system for creating complex visual effects. The class implements the necessary methods and properties to define particle emission parameters specific to a box-shaped emitter, including position, direction, and emission rate controls. It is typically used in conjunction with other visual shader nodes to create dynamic particle effects in 3D scenes.
+---CHUNK---
+Document: VisualShaderNodeParticleBoxEmitter
+Path: godot/classes/class_visualshadernodeparticleboxemitter.rst
+Summary: A visual shader node that emits particles in a box shape.
+
+Inherits: VisualShaderNodeParticleEmitter < VisualShaderNode < Resource < RefCounted < Object
+A visual shader node that makes particles emitted in a box shape.
+---CHUNK---
+Document: VisualShaderNodeParticleBoxEmitter
+Path: godot/classes/class_visualshadernodeparticleboxemitter.rst
+Summary: VisualShaderNodeParticleEmitter that emits particles in a box shape with specified extents.
+
+VisualShaderNodeParticleEmitter that makes the particles emitted in box shape with the specified extents.

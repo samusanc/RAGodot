@@ -1,0 +1,57 @@
+Document: OggPacketSequence
+Path: godot/classes/class_oggpacketsequence.rst
+Summary: Class representing a sequence of Ogg packets for audio processing in Godot.
+---CHUNK---
+Document: OggPacketSequence
+Path: godot/classes/class_oggpacketsequence.rst
+Summary: Represents a sequence of Ogg packets for audio processing.
+
+Inherits: Resource < RefCounted < Object
+A sequence of Ogg packets.
+---CHUNK---
+Document: OggPacketSequence
+Path: godot/classes/class_oggpacketsequence.rst
+Summary: A sequence of Ogg packets.
+
+A sequence of Ogg packets.
+---CHUNK---
+Document: OggPacketSequence
+Path: godot/classes/class_oggpacketsequence.rst
+Summary: Properties and their default values for the OggPacketSequence class
+
+Property: granule_positions (PackedInt64Array): Stores granule position data for packets. Default: PackedInt64Array()
+Property: packet_data (Array of Arrays): Contains the raw packet data as nested arrays. Default: []
+Property: sampling_rate (float): Specifies the audio sampling rate in Hz. Default: 0.0
+---CHUNK---
+Document: OggPacketSequence
+Path: godot/classes/class_oggpacketsequence.rst
+Summary: Overview of OggPacketSequence methods including get_length().
+
+Method: get_length() → float
+Returns the number of packets in the sequence. Note: This is a const method.
+---CHUNK---
+Document: OggPacketSequence  
+Path: godot/classes/class_oggpacketsequence.rst  
+Summary: Describes the granule_positions, packet_data, and sampling_rate properties of the OggPacketSequence class.  
+
+PackedInt64Array granule_positions = PackedInt64Array()  
+Set/Get: void set_packet_granule_positions(value: PackedInt64Array)  
+PackedInt64Array get_packet_granule_positions()  
+Contains the granule positions for each page in this packet sequence. Note: The returned array is copied and any changes to it will not update the original property value.  
+
+Array<Array> packet_data = []  
+Set/Get: void set_packet_data(value: Array<Array>)  
+Array<Array> get_packet_data()  
+Contains the raw packets that make up this OggPacketSequence.  
+
+float sampling_rate = 0.0  
+Set/Get: void set_sampling_rate(value: float)  
+float get_sampling_rate()  
+Holds sample rate information about this sequence. Note: Must be set by another class that actually understands the codec.
+---CHUNK---
+Document: OggPacketSequence
+Path: godot/classes/class_oggpacketsequence.rst
+Summary: Describes the get_length() method which returns the duration of the OggPacketSequence stream in seconds.
+
+Method: get_length() → float (const)
+The length of this stream, in seconds.

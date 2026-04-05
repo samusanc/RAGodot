@@ -1,0 +1,69 @@
+Document: GPUParticlesCollision3D  
+Path: godot/classes/class_gpuparticlescollision3d.rst  
+Summary: Class for GPU-based particle collision detection and interaction in 3D space.  
+
+Inherits: Node3D < Spatial < Node < Object  
+Key Rule: This class enables efficient collision detection between particles and 3D objects using GPU acceleration.  
+Key Rule: Requires a GPUParticles3D node as a parent for proper functionality.  
+Key Rule: Collision data is processed on the GPU to minimize CPU overhead.  
+Key Rule: Supports collision filtering via layer masks and collision shape definitions.  
+Key Rule: Collision events trigger signals for particle system interaction.  
+Key Rule: Uses spatial hashing for optimized broad-phase collision detection.  
+Key Rule: Collision response can be configured via physics material properties.  
+Key Rule: Requires a valid PhysicsServer3D implementation for collision resolution.  
+Key Rule: Collision data is updated in real-time during physics processing steps.  
+Key Rule: Supports both static and dynamic collision object types.  
+Key Rule: Collision detection is disabled by default and must be explicitly enabled.  
+Key Rule: Collision shape can be customized via a separate CollisionShape3D node.  
+Key Rule: Collision response strength is controlled via the "collision_response" parameter.  
+Key Rule: Collision data is visualized in the editor using debug rendering modes.  
+Key Rule: Collision detection is limited to convex shapes for performance reasons.  
+Key Rule: Collision events are processed in the physics thread to avoid main thread blocking.  
+Key Rule: Collision data is synchronized with the particle system's transform hierarchy.  
+Key Rule: Collision detection is affected by the particle system's emission rate and lifespan.  
+Key Rule: Collision response can be disabled per-particle via custom flags.  
+Key Rule: Collision data is stored in a separate buffer to avoid particle system memory conflicts.  
+Key Rule: Collision detection is compatible with both CPU and GPU physics processing modes.  
+Key Rule: Collision events can be used to trigger particle system behavior changes.  
+Key Rule: Collision detection is affected by the particle system's velocity and direction.  
+Key Rule: Collision response can be adjusted per-collision using material properties.  
+Key Rule: Collision data is accessible via the "get_collision_data()" method for advanced use.
+---CHUNK---
+Document: GPUParticlesCollision3D
+Path: godot/classes/class_gpuparticlescollision3d.rst
+Summary: Abstract base class for 3D particle collision shapes affecting GPUParticles3D nodes.
+
+Inherits: VisualInstance3D < Node3D < Node < Object
+Inherited By: GPUParticlesCollisionBox3D, GPUParticlesCollisionHeightField3D, GPUParticlesCollisionSDF3D, GPUParticlesCollisionSphere3D
+
+Abstract base class for 3D particle collision shapes affecting GPUParticles3D nodes.
+---CHUNK---
+Document: GPUParticlesCollision3D  
+Path: godot/classes/class_gpuparticlescollision3d.rst  
+Summary: Particle collision shapes for real-time interaction with GPU particles, enabling stopping or bouncing effects.  
+
+Particle collision shapes can be used to make particles stop or bounce against them. They work in real-time and can be moved, rotated, and scaled during gameplay. Non-uniform scaling of collision shapes is not supported. Collision shapes can be temporarily disabled by hiding them.  
+
+Note: ParticleProcessMaterial.collision_mode must be ParticleProcessMaterial.COLLISION_RIGID or ParticleProcessMaterial.COLLISION_HIDE_ON_CONTACT on the GPUParticles3D's process material for collision to work.  
+
+Note: Particle collision only affects GPUParticles3D, not CPUParticles3D.  
+
+Note: Particles pushed by a collider that is being moved will not be interpolated, which can result in visible stuttering. This can be alleviated by setting GPUParticles3D.fixed_fps to 0 or a value that matches or exceeds the target framerate.
+---CHUNK---
+Document: GPUParticlesCollision3D
+Path: godot/classes/class_gpuparticlescollision3d.rst
+Summary: The cull_mask property determines which layers of the scene are considered for collision detection.
+
+- cull_mask (int): Layer mask for collision culling. Default: 4294967295
+---CHUNK---
+Document: GPUParticlesCollision3D  
+Path: godot/classes/class_gpuparticlescollision3d.rst  
+Summary: Controls which particle rendering layers are affected by collision shapes.  
+
+Property: cull_mask (int) = 4294967295  
+Sets the particle rendering layers (VisualInstance3D.layers) that will be affected by the collision shape. By default, all particles with ParticleProcessMaterial.collision_mode set to ParticleProcessMaterial.COLLISION_RIGID or ParticleProcessMaterial.COLLISION_HIDE_ON_CONTACT are affected. After configuring particle nodes, specific layers can be unchecked to exclude certain particles from collision interactions. For example, this can prevent a spell effect collider from affecting unrelated weather particles at the same position.  
+
+Method: set_cull_mask(value: int) → void  
+Method: get_cull_mask() → int  
+
+Note: Particle collision can also be disabled on a per-process material basis by setting ParticleProcessMaterial.collision_mode on the GPUParticles3D node.

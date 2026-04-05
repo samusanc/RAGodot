@@ -1,0 +1,13 @@
+Document: VisualShaderNodeUVPolarCoord
+Path: godot/classes/class_visualshadernodeuvpolarcoord.rst
+Summary: UV polar coordinate node. Converts UV coordinates to polar coordinates.
+---CHUNK---
+Document: VisualShaderNodeUVPolarCoord
+Path: godot/classes/class_visualshadernodeuvpolarcoord.rst
+Summary: A visual shader node that modifies the texture UV using polar coordinates.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeUVpolarCoord
+Path: godot/classes/class_visualshadernodeuvpolarcoord.rst
+Summary: The UV polar coord node transforms UV values into polar coordinates using scale, zoom strength, and repeat parameters, enabling the creation of swirl distortions.

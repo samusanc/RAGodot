@@ -1,0 +1,61 @@
+Document: StyleBoxLine
+Path: godot/classes/class_styleboxline.rst
+Summary: StyleBoxLine is a class used to define the visual style of lines in Godot's user interface system, providing properties to control thickness, color, and other line appearance attributes.
+
+Inherits: StyleBox < CanvasItem < Node < Object
+
+Key Rule: StyleBoxLine is specifically designed for drawing lines in UI elements like buttons and panels.
+
+Properties:
+- thickness (float): Controls the line's thickness in pixels. Default: 1.0
+- color (Color): Sets the line's color. Default: Color(1, 1, 1, 1)
+- modulate (Color): Multiplies the color for tinting effects. Default: Color(1, 1, 1, 1)
+- texture (Texture): Optional texture to use for the line. Default: null
+- texture_offset (Vector2): Adjusts the texture's position. Default: Vector2(0, 0)
+- texture_scale (Vector2): Scales the texture. Default: Vector2(1, 1)
+- texture_repeat (Vector2): Repeats the texture. Default: Vector2(1, 1)
+- texture_modulate (Color): Multiplies the texture color. Default: Color(1, 1, 1, 1)
+
+Method: draw_line(from: Vector2, to: Vector2, color: Color, width: float = 1.0) → void
+Draws a line between two points with specified color and width.
+
+Method: get_line_thickness() → float
+Returns the current line thickness.
+
+Method: set_line_thickness(thickness: float) → void
+Sets the line thickness.
+
+Note: Texture properties override color when both are set.
+---CHUNK---
+Document: StyleBoxLine
+Path: godot/classes/class_styleboxline.rst
+Summary: A StyleBox that displays a single line of a given color and thickness.
+
+Inherits: StyleBox < Resource < RefCounted < Object
+A StyleBox that displays a single line of a given color and thickness.
+---CHUNK---
+Document: StyleBoxLine  
+Path: godot/classes/class_styleboxline.rst  
+Summary: A StyleBox that displays a single horizontal or vertical line of specified color and thickness, used for separators.  
+
+A StyleBox that displays a single line of a given color and thickness. The line can be either horizontal or vertical. Useful for separators.
+---CHUNK---
+Document: StyleBoxLine
+Path: godot/classes/class_styleboxline.rst
+Summary: Overview of StyleBoxLine class properties and their default values.
+
+- color (Color): The color of the line. Default: Color(0, 0, 0, 1)
+- grow_begin (float): Amount of padding at the beginning of the line. Default: 1.0
+- grow_end (float): Amount of padding at the end of the line. Default: 1.0
+- thickness (int): Thickness of the line in pixels. Default: 1
+- vertical (bool): If true, the line is drawn vertically. Default: false
+---CHUNK---
+Document: StyleBoxLine  
+Path: godot/classes/class_styleboxline.rst  
+Summary: Properties and methods for configuring line appearance and behavior in StyleBoxLine.  
+
+- Color: color (Color) = Color(0, 0, 0, 1). Methods: set_color(value: Color) → void, get_color() → Color. The line's color.  
+- Float: grow_begin (float) = 1.0. Methods: set_grow_begin(value: float) → void, get_grow_begin() → float. The number of pixels the line will extend before the StyleBoxLine's bounds. If set to a negative value, the line will begin inside the StyleBoxLine's bounds.  
+- Float: grow_end (float) = 1.0. Methods: set_grow_end(value: float) → void, get_grow_end() → float. The number of pixels the line will extend past the StyleBoxLine's bounds. If set to a negative value, the line will end inside the StyleBoxLine's bounds.  
+- Int: thickness (int) = 1. Methods: set_thickness(value: int) → void, get_thickness() → int. The line's thickness in pixels.  
+- Bool: vertical (bool) = false. Methods: set_vertical(value: bool) → void, is_vertical() → bool. If true, the line will be vertical. If false, the line will be horizontal.

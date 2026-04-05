@@ -1,0 +1,35 @@
+Document: VisualShaderNodeTransformDecompose  
+Path: godot/classes/class_visualshadernodetransformdecompose.rst  
+Summary: Class for decomposing transform matrices into translation, rotation, and scale components in visual shaders.  
+
+Inherits: VisualShaderNode < ShaderNode < Reference < Object  
+Description: A visual shader node that breaks down a transform matrix into its constituent parts (translation, rotation, scale) for use in shader graphs. This node outputs separate vectors/variables representing each component of the transformation.  
+
+Key Rule: This node is specifically designed for use within the Visual Shader Graph editor.  
+Key Rule: Requires input of a 4x4 transform matrix as its primary parameter.  
+Key Rule: Outputs three separate values: translation (vector3), rotation (quaternion or vector4), and scale (vector3).  
+Key Rule: Does not support decomposition of non-uniform scaling without additional processing.  
+
+Properties:  
+- input (VisualShaderNodePort) : The input port for the transform matrix.  
+- translation_output (VisualShaderNodePort) : Output port for translation component.  
+- rotation_output (VisualShaderNodePort) : Output port for rotation component.  
+- scale_output (VisualShaderNodePort) : Output port for scale component.  
+
+Method: _get_input_ports() → Array: Returns the list of input ports for this node.  
+Method: _get_output_ports() → Array: Returns the list of output ports for this node.  
+Method: _get_tooltip() → String: Returns a tooltip describing the node's purpose.  
+Method: _get_icon() → Texture2D: Returns the icon representing this node type.
+---CHUNK---
+Document: VisualShaderNodeTransformDecompose
+Path: godot/classes/class_visualshadernodetransformdecompose.rst
+Summary: Decomposes a Transform3D into four Vector3 values within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Decomposes a Transform3D into four Vector3s within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTransformDecompose
+Path: godot/classes/class_visualshadernodetransformdecompose.rst
+Summary: Decomposes a 4×4 transform matrix into four vec3 values, each representing a row of the matrix.
+
+Takes a 4×4 transform matrix and decomposes it into four vec3 values, one from each row of the matrix.

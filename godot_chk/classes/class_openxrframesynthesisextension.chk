@@ -1,0 +1,50 @@
+Document: OpenXRFrameSynthesisExtension  
+Path: godot/classes/class_openxrframesynthesisextension.rst  
+Summary: Class providing functionality for OpenXR frame synthesis extension in Godot.
+---CHUNK---
+Document: OpenXRFrameSynthesisExtension
+Path: godot/classes/class_openxrframesynthesisextension.rst
+Summary: The OpenXR Frame synthesis extension allows for advanced reprojection at low(er) framerates.
+
+Inherits: OpenXRExtensionWrapper < Object
+The OpenXR Frame synthesis extension allows for advanced reprojection at low(er) framerates.
+---CHUNK---
+Document: OpenXRFrameSynthesisExtension  
+Path: godot/classes/class_openxrframesynthesisextension.rst  
+Summary: Implements the OpenXR Frame Synthesis extension to enhance XR frame rates using reprojection techniques.  
+
+This class implements the OpenXR Frame synthesis extension. When enabled in the project settings and supported by the XR runtime in use, frame synthesis uses advanced reprojection techniques to inject additional frames so that your XR experience hits the full frame rate of the device.
+---CHUNK---
+Document: OpenXRFrameSynthesisExtension  
+Path: godot/classes/class_openxrframesynthesisextension.rst  
+Summary: Properties and their default values for the OpenXRFrameSynthesisExtension class.  
+
+- enabled (bool): Controls whether the frame synthesis extension is active. Default: false.  
+- relax_frame_interval (bool): Allows more flexible timing between frames. Default: false.
+---CHUNK---
+Document: OpenXRFrameSynthesisExtension
+Path: godot/classes/class_openxrframesynthesisextension.rst
+Summary: Available methods for the OpenXRFrameSynthesisExtension class and their parameters.
+
+- Method: is_available() → bool (const)
+- Method: skip_next_frame() → void
+
+Note: The is_available method is marked as const, indicating it does not modify the object's state. The skip_next_frame method has no return value and is used to control frame synthesis behavior.
+---CHUNK---
+Document: OpenXRFrameSynthesisExtension  
+Path: godot/classes/class_openxrframesynthesisextension.rst  
+Summary: Properties for configuring frame synthesis behavior in OpenXR extensions.  
+
+enabled (bool): Enable frame synthesis. When true motion vector and depth data is provided to the XR runtime. Set via set_enabled(value: bool), get via is_enabled(). Default: false.  
+
+relax_frame_interval (bool): If true informs the XR runtime we will be providing frames at a greatly reduced rate. Enable this when your application runs at low framerates and wishes to inject multiple reprojected frames. Set via set_relax_frame_interval(value: bool), get via get_relax_frame_interval(). Default: false.
+---CHUNK---
+Document: OpenXRFrameSynthesisExtension  
+Path: godot/classes/class_openxrframesynthesisextension.rst  
+Summary: Two methods for checking frame synthesis availability and controlling frame skipping in XR rendering.  
+
+Method: is_available() → bool  
+Returns true if frame synthesis is enabled in project settings and the current XR runtime supports frame synthesis. The value will only be valid after OpenXR has been initialized. Note: This method's result is only reliable once OpenXR is fully initialized.  
+
+Method: skip_next_frame() → void  
+Queues the next frame to be skipped when supplying motion vector and depth data. Call this after teleporting the player or similar actions that move the player to prevent incorrect reprojection results caused by sudden positional changes.

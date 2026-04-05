@@ -1,0 +1,39 @@
+Document: GPUParticlesAttractorVectorField3D  
+Path: godot/classes/class_gpuparticlesattractorvectorfield3d.rst  
+Summary: A 3D vector field particle attractor for GPU-based particle systems.  
+
+GPUParticlesAttractorVectorField3D is a specialized node used to influence the movement of particles in a GPU-based particle system by defining a vector field. It works by calculating a direction and magnitude for each particle based on their position relative to the vector field's properties. This allows for complex, dynamic behaviors such as swirling motion, radial attraction, or directional flow. The node is typically used in conjunction with GPUParticles3D to create visually rich effects.  
+
+Key properties include the vector field's strength, falloff distance, and shape (such as spherical or box-based influence areas). These parameters determine how strongly particles are pulled toward or pushed away from the vector field's origin, and how the influence diminishes with distance. The vector field can be combined with other attractors or repellers to create layered effects.  
+
+The node inherits from GPUParticlesAttractor and implements the VectorField3D interface, allowing it to integrate with other vector field types. It does not require any scripts or custom logic, as its behavior is fully controlled through its exposed parameters.  
+
+Note: This node is optimized for performance and is intended for use with large particle systems where CPU-based attractors would be too slow. Warning: Overlapping vector fields may produce unexpected results if not carefully tuned.
+---CHUNK---
+Document: GPUParticlesAttractorVectorField3D
+Path: godot/classes/class_gpuparticlesattractorvectorfield3d.rst
+Summary: A box-shaped attractor with varying directions and strengths that influences particles from GPUParticles3D nodes.
+
+Inherits: GPUParticlesAttractor3D < VisualInstance3D < Node3D < Node < Object
+A box-shaped attractor with varying directions and strengths defined in it that influences particles from GPUParticles3D nodes.
+---CHUNK---
+Document: GPUParticlesAttractorVectorField3D  
+Path: godot/classes/class_gpuparticlesattractorvectorfield3d.rst  
+Summary: A box-shaped particle attractor using a texture to define varying attraction directions and strengths for GPUParticles3D nodes.  
+
+A box-shaped attractor with varying directions and strengths defined in it that influences particles from GPUParticles3D nodes. Unlike GPUParticlesAttractorBox3D, GPUParticlesAttractorVectorField3D uses a texture to affect attraction strength within the box. This can be used to create complex attraction scenarios where particles travel in different directions depending on their location. This can be useful for weather effects such as sandstorms. Particle attractors work in real-time and can be moved, rotated and scaled during gameplay. Unlike collision shapes, non-uniform scaling of attractors is also supported. Note: Particle attractors only affect GPUParticles3D, not CPUParticles3D.
+---CHUNK---
+Document: GPUParticlesAttractorVectorField3D  
+Path: godot/classes/class_gpuparticlesattractorvectorfield3d.rst  
+Summary: Properties of the GPUParticlesAttractorVectorField3D class, including size and texture parameters.  
+
+- Property: size (Vector3): See class_GPUParticlesAttractorVectorField3D_property_size. Default: Vector3(2, 2, 2).  
+- Property: texture (Texture3D): See class_GPUParticlesAttractorVectorField3D_property_texture. Default: (no value provided).
+---CHUNK---
+Document: GPUParticlesAttractorVectorField3D
+Path: godot/classes/class_gpuparticlesattractorvectorfield3d.rst
+Summary: Properties and methods for configuring the 3D vector field attractor in GPU particles.
+
+Property: size (Vector3): The size of the vector field box in 3D units. Default: Vector3(2, 2, 2). Methods: set_size(value: Vector3) → void, get_size() → Vector3.
+
+Property: texture (Texture3D): The 3D texture to be used. Values are linearly interpolated between the texture's pixels. Note: To get better performance, the 3D texture's resolution should reflect the size of the attractor. Since particle attraction is usually low-frequency data, the texture can be kept at a low resolution such as 64×64×64. Methods: set_texture(value: Texture3D) → void, get_texture() → Texture3D.

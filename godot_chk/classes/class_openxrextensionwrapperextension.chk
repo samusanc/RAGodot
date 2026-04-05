@@ -1,0 +1,17 @@
+Document: OpenXRExtensionWrapperExtension
+Path: godot/classes/class_openxrextensionwrapperextension.rst
+Summary: Class: OpenXRExtensionWrapperExtension, part of the OpenXR extension system in Godot.
+---CHUNK---
+Document: OpenXRExtensionWrapperExtension  
+Path: godot/classes/class_openxrextensionwrapperextension.rst  
+Summary: A deprecated class for implementing OpenXR extensions with GDExtension.  
+
+Deprecated: Use OpenXRExtensionWrapper instead.  
+Inherits: OpenXRExtensionWrapper < Object  
+Allows implementing OpenXR extensions with GDExtension.
+---CHUNK---
+Document: OpenXRExtensionWrapperExtension
+Path: godot/classes/class_openxrextensionwrapperextension.rst
+Summary: Enables implementing OpenXR extensions using GDExtension, requiring registration via OpenXRExtensionWrapper.register_extension_wrapper().
+
+OpenXRExtensionWrapperExtension allows implementing OpenXR extensions with GDExtension. The extension should be registered with OpenXRExtensionWrapper.register_extension_wrapper().

@@ -1,0 +1,16 @@
+Document: HSlider
+Path: godot/classes/class_hslider.rst
+Summary: A horizontal slider control for adjusting values visually.
+---CHUNK---
+Document: HSlider
+Path: godot/classes/class_hslider.rst
+Summary: A horizontal slider that moves from left (minimum value) to right (maximum value).
+
+Inherits: Slider < Range < Control < CanvasItem < Node < Object
+A horizontal slider that goes from left (min) to right (max).
+---CHUNK---
+Document: HSlider
+Path: godot/classes/class_hslider.rst
+Summary: A horizontal slider control for adjusting values along a horizontal axis, based on the Range class.
+
+A horizontal slider, used to adjust a value by moving a grabber along a horizontal axis. It is a Range-based control and goes from left (min) to right (max).

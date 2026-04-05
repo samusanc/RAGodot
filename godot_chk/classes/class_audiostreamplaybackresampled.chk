@@ -1,0 +1,31 @@
+Document: AudioStreamPlaybackResampled
+Path: godot/classes/class_audiostreamplaybackresampled.rst
+Summary: Class for resampled audio stream playback with inheritance and property definitions.
+---CHUNK---
+Document: AudioStreamPlaybackResampled
+Path: godot/classes/class_audiostreamplaybackresampled.rst
+Summary: Class for resampled audio stream playback functionality
+
+Inherits: AudioStreamPlayback < RefCounted < Object
+Inherited By: AudioStreamGeneratorPlayback, AudioStreamPlaybackOggVorbis
+Playback class used for resampled AudioStream s.
+---CHUNK---
+Document: class_audiostreamplaybackresampled  
+Path: godot/classes/class_audiostreamplaybackresampled.rst  
+Summary: Playback class used to mix an AudioStream's audio samples to AudioServer's mix rate using cubic interpolation.  
+
+Playback class used to mix an AudioStream's audio samples to AudioServer.get_mix_rate() using cubic interpolation. This class handles resampling audio data to match the current audio mixing rate, ensuring compatibility with the audio output device's specifications. The cubic interpolation method provides smoother transitions between sample points compared to linear interpolation, resulting in higher audio quality during playback. This class is typically used when playing back audio streams that need to be adjusted to a different sample rate than their original format.
+---CHUNK---
+Document: AudioStreamPlaybackResampled
+Path: godot/classes/class_audiostreamplaybackresampled.rst
+Summary: Core methods for resampling audio streams, including rate retrieval and mixing.
+
+Methods:
+- float _get_stream_sampling_rate() virtual required const
+  Returns an AudioStream's sample rate in Hz. Used to perform resampling.
+
+- int _mix_resampled(AudioFrame* dst_buffer, int frame_count) virtual required
+  Called by begin_resample() to mix an AudioStream to AudioServer.get_mix_rate(). Uses _get_stream_sampling_rate() as the source sample rate. Returns the number of mixed frames.
+
+- void begin_resample()
+  Called when an AudioStream is played. Clears the cubic interpolation history and starts mixing by calling _mix_resampled().

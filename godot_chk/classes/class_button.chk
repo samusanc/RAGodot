@@ -1,0 +1,206 @@
+Document: Button
+Path: godot/classes/class_button.rst
+Summary: This section identifies the Button class.
+---CHUNK---
+Document: Button
+Path: godot/classes/class_button.rst
+Summary: Describes the Button class, its inheritance, and its purpose as a themed button with text and an icon.
+
+Button
+Inherits: BaseButton < Control < CanvasItem < Node < Object
+Inherited By: CheckBox, CheckButton, ColorPickerButton, MenuButton, OptionButton
+A themed button that can contain text and an icon.
+---CHUNK---
+Document: Button
+Path: godot/classes/class_button.rst
+Summary: Button is a standard themed button that can display text and an icon, and this section provides an example of its basic usage and important considerations for touch input.
+
+Button is the standard themed button. It can contain text and an icon, and it will display them according to the current Theme.
+
+Example: Create a button and connect a method that will be called when the button is pressed:
+
+GDScript:
+func _ready():
+    var button = Button.new()
+    button.text = "Click me"
+    button.pressed.connect(_button_pressed)
+    add_child(button)
+
+func _button_pressed():
+    print("Hello world!")
+
+C#:
+public override void _Ready()
+{
+    var button = new Button();
+    button.Text = "Click me";
+    button.Pressed += ButtonPressed;
+    AddChild(button);
+}
+
+private void ButtonPressed()
+{
+    GD.Print("Hello world!");
+}
+
+See also BaseButton which contains common properties and methods associated with this node.
+
+Note: Buttons do not detect touch input and therefore don't support multitouch, since mouse emulation can only press one button at a given time. Use TouchScreenButton for buttons that trigger gameplay movement or actions.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_button.rst
+Summary: This chunk lists related tutorials.
+
+- 2D Dodge The Creeps Demo
+- Operating System Testing Demo
+---CHUNK---
+Document: Button
+Path: godot/classes/class_button.rst
+Summary: This section lists and describes the properties available for the Button class.
+
+*   alignment (HorizontalAlignment): Default: 1
+*   autowrap_mode (AutowrapMode): Default: 0
+*   autowrap_trim_flags (bitfield[LineBreakFlag]): Default: 128
+*   clip_text (bool): Default: false
+*   expand_icon (bool): Default: false
+*   flat (bool): Default: false
+*   icon (Texture2D):
+*   icon_alignment (HorizontalAlignment): Default: 0
+*   language (String): Default: ""
+*   text (String): Default: ""
+*   text_direction (TextDirection): Default: 0
+*   text_overrun_behavior (OverrunBehavior): Default: 0
+*   vertical_icon_alignment (VerticalAlignment): Default: 1
+---CHUNK---
+Document: Button
+Path: godot/classes/class_button.rst
+Summary: This section lists the theme properties available for customizing a Button node, including colors, sizes, fonts, icons, and styleboxes for various states.
+
+Theme Properties:
+* font_color (Color): Default: Color(0.875, 0.875, 0.875, 1)
+* font_disabled_color (Color): Default: Color(0.875, 0.875, 0.875, 0.5)
+* font_focus_color (Color): Default: Color(0.95, 0.95, 0.95, 1)
+* font_hover_color (Color): Default: Color(0.95, 0.95, 0.95, 1)
+* font_hover_pressed_color (Color): Default: Color(1, 1, 1, 1)
+* font_outline_color (Color): Default: Color(0, 0, 0, 1)
+* font_pressed_color (Color): Default: Color(1, 1, 1, 1)
+* icon_disabled_color (Color): Default: Color(1, 1, 1, 0.4)
+* icon_focus_color (Color): Default: Color(1, 1, 1, 1)
+* icon_hover_color (Color): Default: Color(1, 1, 1, 1)
+* icon_hover_pressed_color (Color): Default: Color(1, 1, 1, 1)
+* icon_normal_color (Color): Default: Color(1, 1, 1, 1)
+* icon_pressed_color (Color): Default: Color(1, 1, 1, 1)
+* align_to_largest_stylebox (int): Default: 0
+* h_separation (int): Default: 4
+* icon_max_width (int): Default: 0
+* line_spacing (int): Default: 0
+* outline_size (int): Default: 0
+* font (Font):
+* font_size (int):
+* icon (Texture2D):
+* disabled (StyleBox):
+* disabled_mirrored (StyleBox):
+* focus (StyleBox):
+* hover (StyleBox):
+* hover_mirrored (StyleBox):
+* hover_pressed (StyleBox):
+* hover_pressed_mirrored (StyleBox):
+* normal (StyleBox):
+* normal_mirrored (StyleBox):
+* pressed (StyleBox):
+* pressed_mirrored (StyleBox):
+---CHUNK---
+Document: Button
+Path: godot/classes/class_button.rst
+Summary: This section describes the properties available for configuring a Button's appearance and text behavior.
+
+Properties:
+alignment (HorizontalAlignment): Text alignment policy for the button's text. Default: 1.
+Method: set_text_alignment(value: HorizontalAlignment)
+Method: get_text_alignment()
+
+autowrap_mode (AutowrapMode): If set to something other than TextServer.AUTOWRAP_OFF, the text gets wrapped inside the node's bounding rectangle. Default: 0.
+Method: set_autowrap_mode(value: AutowrapMode)
+Method: get_autowrap_mode()
+
+autowrap_trim_flags (LineBreakFlag): Autowrap space trimming flags. See TextServer.BREAK_TRIM_START_EDGE_SPACES and TextServer.BREAK_TRIM_END_EDGE_SPACES for more info. Default: 128.
+Method: set_autowrap_trim_flags(value: LineBreakFlag)
+Method: get_autowrap_trim_flags()
+
+clip_text (bool): If true, text that is too large to fit the button is clipped horizontally. If false, the button will always be wide enough to hold the text. The text is not vertically clipped, and the button's height is not affected by this property. Default: false.
+Method: set_clip_text(value: bool)
+Method: get_clip_text()
+
+expand_icon (bool): When enabled, the button's icon will expand/shrink to fit the button's size while keeping its aspect. See also icon_max_width. Default: false.
+Method: set_expand_icon(value: bool)
+Method: is_expand_icon()
+
+flat (bool): Flat buttons don't display decoration. Default: false.
+Method: set_flat(value: bool)
+Method: is_flat()
+
+icon (Texture2D): Button's icon, if text is present the icon will be placed before the text. To edit margin and spacing of the icon, use h_separation theme property and content_margin_* properties of the used StyleBoxes.
+Method: set_button_icon(value: Texture2D)
+Method: get_button_icon()
+
+icon_alignment (HorizontalAlignment): Specifies if the icon should be aligned horizontally to the left, right, or center of a button. Uses the same HorizontalAlignment constants as the text alignment. If centered horizontally and vertically, text will draw on top of the icon. Default: 0.
+Method: set_icon_alignment(value: HorizontalAlignment)
+Method: get_icon_alignment()
+
+language (String): Language code used for line-breaking and text shaping algorithms. If left empty, the current locale is used instead. Default: "".
+Method: set_language(value: String)
+Method: get_language()
+
+text (String): The button's text that will be displayed inside the button's area. Default: "".
+Method: set_text(value: String)
+Method: get_text()
+
+text_direction (TextDirection): Base text writing direction. Default: 0.
+Method: set_text_direction(value: TextDirection)
+Method: get_text_direction()
+
+text_overrun_behavior (OverrunBehavior): Sets the clipping behavior when the text exceeds the node's bounding rectangle. Default: 0.
+Method: set_text_overrun_behavior(value: OverrunBehavior)
+Method: get_text_overrun_behavior()
+
+vertical_icon_alignment (VerticalAlignment): Specifies if the icon should be aligned vertically to the top, bottom, or center of a button. Uses the same VerticalAlignment constants as the text alignment. If centered horizontally and vertically, text will draw on top of the icon. Default: 1.
+Method: set_vertical_icon_alignment(value: VerticalAlignment)
+Method: get_vertical_icon_alignment()
+---CHUNK---
+Document: Button
+Path: godot/classes/class_button.rst
+Summary: This section details the theme properties available for customizing the appearance and behavior of Button nodes, including colors, fonts, icons, and styleboxes for various states.
+
+Theme Property Descriptions:
+*   font_color (Color): Default text Color of the Button. Default: Color(0.875, 0.875, 0.875, 1).
+*   font_disabled_color (Color): Text Color used when the Button is disabled. Default: Color(0.875, 0.875, 0.875, 0.5).
+*   font_focus_color (Color): Text Color used when the Button is focused. Only replaces the normal text color of the button. Disabled, hovered, and pressed states take precedence over this color. Default: Color(0.95, 0.95, 0.95, 1).
+*   font_hover_color (Color): Text Color used when the Button is being hovered. Default: Color(0.95, 0.95, 0.95, 1).
+*   font_hover_pressed_color (Color): Text Color used when the Button is being hovered and pressed. Default: Color(1, 1, 1, 1).
+*   font_outline_color (Color): The tint of text outline of the Button. Default: Color(0, 0, 0, 1).
+*   font_pressed_color (Color): Text Color used when the Button is being pressed. Default: Color(1, 1, 1, 1).
+*   icon_disabled_color (Color): Icon modulate Color used when the Button is disabled. Default: Color(1, 1, 1, 0.4).
+*   icon_focus_color (Color): Icon modulate Color used when the Button is focused. Only replaces the normal modulate color of the button. Disabled, hovered, and pressed states take precedence over this color. Default: Color(1, 1, 1, 1).
+*   icon_hover_color (Color): Icon modulate Color used when the Button is being hovered. Default: Color(1, 1, 1, 1).
+*   icon_hover_pressed_color (Color): Icon modulate Color used when the Button is being hovered and pressed. Default: Color(1, 1, 1, 1).
+*   icon_normal_color (Color): Default icon modulate Color of the Button. Default: Color(1, 1, 1, 1).
+*   icon_pressed_color (Color): Icon modulate Color used when the Button is being pressed. Default: Color(1, 1, 1, 1).
+*   align_to_largest_stylebox (int): Key Rule: If true, the minimum size of the button and text/icon alignment is always based on the largest stylebox margins, otherwise it's based on the current button state stylebox margins. Default: 0.
+*   h_separation (int): The horizontal space between Button's icon and text. Negative values will be treated as 0 when used. Default: 4.
+*   icon_max_width (int): The maximum allowed width of the Button's icon. This limit is applied on top of the default size of the icon, or its expanded size if expand_icon is true. The height is adjusted according to the icon's ratio. If the button has additional icons (e.g. CheckBox), they will also be limited. Default: 0.
+*   line_spacing (int): Additional vertical spacing between lines (in pixels), spacing is added to line descent. This value can be negative. Default: 0.
+*   outline_size (int): The size of the text outline. Note: If using a font with FontFile.multichannel_signed_distance_field enabled, its FontFile.msdf_pixel_range must be set to at least twice the value of outline_size for outline rendering to look correct. Otherwise, the outline may appear to be cut off earlier than intended. Default: 0.
+*   font (Font): Font of the Button's text.
+*   font_size (int): Font size of the Button's text.
+*   icon (Texture2D): Default icon for the Button. Appears only if icon is not assigned.
+*   disabled (StyleBox): StyleBox used when the Button is disabled.
+*   disabled_mirrored (StyleBox): StyleBox used when the Button is disabled (for right-to-left layouts).
+*   focus (StyleBox): StyleBox used when the Button is focused. The focus StyleBox is displayed over the base StyleBox, so a partially transparent StyleBox should be used to ensure the base StyleBox remains visible. A StyleBox that represents an outline or an underline works well for this purpose. To disable the focus visual effect, assign a StyleBoxEmpty resource. Note that disabling the focus visual effect will harm keyboard/controller navigation usability, so this is not recommended for accessibility reasons.
+*   hover (StyleBox): StyleBox used when the Button is being hovered.
+*   hover_mirrored (StyleBox): StyleBox used when the Button is being hovered (for right-to-left layouts).
+*   hover_pressed (StyleBox): StyleBox used when the Button is being pressed and hovered at the same time.
+*   hover_pressed_mirrored (StyleBox): StyleBox used when the Button is being pressed and hovered at the same time (for right-to-left layouts).
+*   normal (StyleBox): Default StyleBox for the Button.
+*   normal_mirrored (StyleBox): Default StyleBox for the Button (for right-to-left layouts).
+*   pressed (StyleBox): StyleBox used when the Button is being pressed.
+*   pressed_mirrored (StyleBox): StyleBox used when the Button is being pressed (for right-to-left layouts).

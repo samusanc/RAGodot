@@ -1,0 +1,47 @@
+Document: VisualShaderNodeSwitch  
+Path: godot/classes/class_visualshadernodeswitch.rst  
+Summary: Class: VisualShaderNodeSwitch. Inheritance and description not provided in the input.
+---CHUNK---
+Document: VisualShaderNodeSwitch
+Path: godot/classes/class_visualshadernodeswitch.rst
+Summary: A selector function for use within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeSwitch
+Path: godot/classes/class_visualshadernodeswitch.rst
+Summary: Returns a value of op_type based on a boolean input
+
+Returns an associated value of the op_type type if the provided boolean value is true or false.
+---CHUNK---
+Document: VisualShaderNodeSwitch
+Path: godot/classes/class_visualshadernodeswitch.rst
+Summary: Describes the 'op_type' property and its default value in the VisualShaderNodeSwitch class
+
+OpType (Enum): The type of operation. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeSwitch  
+Path: godot/classes/class_visualshadernodeswitch.rst  
+Summary: The OpType enumeration and its constants for defining data types in VisualShaderNodeSwitch.  
+
+enum OpType:  
+- OP_TYPE_FLOAT = 0: A floating-point scalar.  
+- OP_TYPE_INT = 1: An integer scalar.  
+- OP_TYPE_UINT = 2: An unsigned integer scalar.  
+- OP_TYPE_VECTOR_2D = 3: A 2D vector type.  
+- OP_TYPE_VECTOR_3D = 4: A 3D vector type.  
+- OP_TYPE_VECTOR_4D = 5: A 4D vector type.  
+- OP_TYPE_BOOLEAN = 6: A boolean type.  
+- OP_TYPE_TRANSFORM = 7: A transform type.  
+- OP_TYPE_MAX = 8: Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeSwitch
+Path: godot/classes/class_visualshadernodeswitch.rst
+Summary: The op_type property and its accessor methods for defining operand and return value types in VisualShaderNodeSwitch.
+
+OpType op_type = 0
+
+Method: set_op_type(value: OpType)
+Method: get_op_type() → OpType
+
+This property defines the type of operands and returned value. The OpType enum determines how the shader node processes input data and what type of value it outputs. The default value is 0, which corresponds to the first enum variant.

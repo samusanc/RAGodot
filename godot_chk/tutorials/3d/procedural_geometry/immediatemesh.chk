@@ -1,0 +1,73 @@
+Document: ImmediateMesh
+Path: godot/tutorials/3d/procedural_geometry/immediatemesh.rst
+Summary: This section is a reference target with no content.
+---CHUNK---
+Document: ImmediateMesh
+Path: godot/tutorials/3d/procedural_geometry/immediatemesh.rst
+Summary: How to use ImmediateMesh to create dynamic 3D geometry with OpenGL 1.x-style API in Godot
+
+ImmediateMesh is a tool for creating dynamic geometry using an OpenGL 1.x-style API. It is approachable to use and efficient for meshes requiring updates every frame, but inefficient for complex geometry with thousands of vertices even if generated once. Use it for simple geometry that changes each frame.
+
+To use ImmediateMesh:
+1. Create a MeshInstance3D and add an ImmediateMesh to it via the Inspector
+2. Add a script to MeshInstance3D. Place ImmediateMesh code in _process() for frame updates or _ready() for static meshes
+
+The workflow involves:
+- Calling surface_begin() with a PrimitiveType (triangles, lines, points, etc.) to define how GPU arranges primitives
+- Setting vertex attributes (normals, UVs) with surface_set_****() methods before adding vertices
+- Using surface_add_vertex() to add vertices with previously set attributes
+- Calling surface_end() to finalize surface creation
+
+Only attributes set before surface_add_vertex() are included in the vertex. Multiple attributes set before adding a vertex will use the last value.
+
+Example code for a triangle:
+GDScript:
+extends MeshInstance3D
+
+func _ready():
+    # Begin draw
+    mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
+    
+    # First vertex
+    mesh.surface_set_normal(Vector3(0, 0, 1))
+    mesh.surface_set_uv(Vector2(0, 0))
+    mesh.surface_add_vertex(Vector3(-1, -1, 0))
+    
+    # Second vertex
+    mesh.surface_set_normal(Vector3(0, 0, 1))
+    mesh.surface_set_uv(Vector2(0, 1))
+    mesh.surface_add_vertex(Vector3(-1, 1, 0))
+    
+    # Third vertex (code incomplete in original)
+
+Multiple surfaces can be created by repeating surface_begin() and surface_end() calls. The generated mesh is cached and reused for efficiency when created once.
+---CHUNK---
+Document: ImmediateMesh Tutorial
+Path: godot/tutorials/3d/procedural_geometry/immediatemesh.rst
+Summary: Demonstrates using ImmediateMesh to dynamically create and draw a single surface each frame with clear_surfaces() and surface_begin/end().
+
+mesh.surface_set_normal(Vector3(0, 0, 1))
+mesh.surface_set_uv(Vector2(1, 1))
+mesh.surface_add_vertex(Vector3(1, 1, 0))
+
+mesh.surface_end()
+
+The ImmediateMesh can also be used across frames. Each time you call surface_begin() and surface_end(), you are adding a new surface to the ImmediateMesh. If you want to recreate the mesh from scratch each frame, call clear_surfaces() before calling surface_begin().
+
+GDScript:
+extends MeshInstance3D
+
+func _process(delta):
+
+    # Clean up before drawing.
+    mesh.clear_surfaces()
+
+    # Begin draw.
+    mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
+
+    # Draw mesh.
+
+    # End drawing.
+    mesh.surface_end()
+
+The above code will dynamically create and draw a single surface each frame.

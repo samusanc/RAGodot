@@ -1,0 +1,48 @@
+Document: CapsuleShape3D  
+Path: godot/classes/class_capsuleshape3d.rst  
+Summary: A 3D physics shape representing a capsule, used for collision detection and physics simulations.  
+
+CapsuleShape3D is a specialized 3D shape class used in Godot's physics system to represent capsule-shaped collision volumes. It inherits from the base Shape3D class and implements the specific geometry required for capsule-shaped objects. This shape is particularly useful for representing characters or objects that require smooth collision detection with rounded edges.  
+
+Key properties include radius, height, and the ability to set the shape's position and rotation relative to the node's transform. The capsule is defined by two spherical ends connected by a cylindrical section, with the radius and height determining its overall dimensions.  
+
+When used in physics, CapsuleShape3D provides accurate collision detection with other shapes, including other capsules, spheres, boxes, and convex polygons. It supports both static and dynamic physics bodies and can be combined with other shapes using the CollisionShape3D node.  
+
+The class includes methods for setting and getting the shape's parameters, as well as for calculating the shape's bounding box and volume. These properties are essential for physics calculations, such as determining mass distribution and collision response.  
+
+Note: CapsuleShape3D is typically used in conjunction with a RigidBody3D or StaticBody3D node to enable physics interactions. The shape's local transform is applied relative to the node's global position and rotation.  
+
+Warning: Modifying the shape's parameters at runtime may affect existing physics simulations and require reinitialization of the physics body.  
+
+Tip: For optimal performance, ensure that the capsule's dimensions are set appropriately relative to the scale of the scene and the physics step size.
+---CHUNK---
+Document: CapsuleShape3D
+Path: godot/classes/class_capsuleshape3d.rst
+Summary: A 3D capsule shape used for physics collision.
+
+Inherits: Shape3D < Resource < RefCounted < Object
+A 3D capsule shape used for physics collision.
+---CHUNK---
+Document: CapsuleShape3D
+Path: godot/classes/class_capsuleshape3d.rst
+Summary: A 3D capsule shape used for physics collisions with performance characteristics compared to other shape types.
+
+A 3D capsule shape, intended for use in physics. Usually used to provide a shape for a CollisionShape3D. Performance: CapsuleShape3D is fast to check collisions against. It is faster than CylinderShape3D, but slower than SphereShape3D and BoxShape3D.
+---CHUNK---
+Document: CapsuleShape3D
+Path: godot/classes/class_capsuleshape3d.rst
+Summary: Defines three float properties for 3D capsule shapes with default values and descriptions.
+
+- height (float): Vertical dimension of the capsule. Default: 2.0
+- mid_height (float): Midpoint vertical position of the capsule. No default value specified
+- radius (float): Horizontal dimension of the capsule. Default: 0.5
+---CHUNK---
+Document: CapsuleShape3D  
+Path: godot/classes/class_capsuleshape3d.rst  
+Summary: Properties defining the dimensions and behavior of a 3D capsule shape in Godot.  
+
+height (float): The capsule's full height, including the hemispheres. Default: 2.0. Methods: set_height(value: float), get_height() → float. Note: The height must be at least twice the radius. If not, the capsule becomes a sphere, and properties adjust automatically.  
+
+mid_height (float): The capsule's height excluding the hemispheres, representing the central cylindrical part. This is a wrapper for the height property. Methods: set_mid_height(value: float), get_mid_height() → float.  
+
+radius (float): The capsule's radius. Default: 0.5. Methods: set_radius(value: float), get_radius() → float. Note: The radius cannot exceed half the height. If it does, the capsule becomes a sphere, and properties adjust automatically.

@@ -1,0 +1,19 @@
+Document: VisualShaderNodeRotationByAxis  
+Path: godot/classes/class_visualshadernoderotationbyaxis.rst  
+Summary: A visual shader node that applies rotation around a specified axis in Godot's visual shader language.  
+
+Inherits: VisualShaderNode < VisualShaderNodeTransform < VisualShaderNode  
+This node is used in visual shaders to rotate vectors around a specific axis. It requires three inputs: the vector to rotate, the axis of rotation, and the angle of rotation. The output is the rotated vector. This node is particularly useful for creating dynamic 3D effects in shaders.
+---CHUNK---
+Document: VisualShaderNodeRotationByAxis  
+Path: godot/classes/class_visualshadernoderotationbyaxis.rst  
+Summary: A visual shader node that modifies the rotation of the object using a rotation matrix.  
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object  
+A visual shader node that modifies the rotation of the object using a rotation matrix. This node applies a rotation transformation based on a specified axis and angle, allowing for precise control over 3D object orientation within the visual shader graph. It operates by constructing and applying a rotation matrix to the object's transformation, which is commonly used in conjunction with other shader nodes to create complex visual effects. The node's functionality is part of Godot's visual shader system, which enables shader creation through a node-based interface without requiring direct GLSL code writing.
+---CHUNK---
+Document: VisualShaderNodeRotationByAxis  
+Path: godot/classes/class_visualshadernoderotationbyaxis.rst  
+Summary: The RotationByAxis node transforms mesh vertices using a specified axis and angle in radians to rotate objects around arbitrary axes.  
+
+RotationByAxis node will transform the vertices of a mesh with specified axis and angle in radians. It can be used to rotate an object in an arbitrary axis.

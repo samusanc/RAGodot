@@ -1,0 +1,15 @@
+Document: VisualShaderNodeParticleSphereEmitter
+Path: godot/classes/class_visualshadernodeparticlesphereemitter.rst
+Summary: Class reference for VisualShaderNodeParticleSphereEmitter with no details provided in the input.
+---CHUNK---
+Document: VisualShaderNodeParticleSphereEmitter
+Path: godot/classes/class_visualshadernodeparticlesphereemitter.rst
+Summary: A visual shader node that makes particles emitted in a sphere shape.
+
+Inherits: VisualShaderNodeParticleEmitter < VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeParticleSphereEmitter
+Path: godot/classes/class_visualshadernodeparticlesphereemitter.rst
+Summary: VisualShaderNodeParticleEmitter that emits particles in a sphere shape with configurable inner and outer radii.
+
+VisualShaderNodeParticleSphereEmitter is a specialized particle emitter node that distributes particles in a spherical volume. It inherits from VisualShaderNodeParticleEmitter and adds parameters to control the emission radius. The node defines two key radii values: inner radius (minimum distance from the center) and outer radius (maximum distance from the center). Particles are emitted within this spherical shell, allowing for effects like radial explosions or volumetric fog. The emitter's position and orientation are determined by the node's parent VisualShaderNodeParticleEmitter configuration.

@@ -1,0 +1,103 @@
+Document: Idle and Physics Processing  
+Path: godot/tutorials/scripting/idle_and_physics_processing.rst  
+Summary: Explains the difference between idle and physics processing in Godot and when to use each.  
+
+In Godot, processing in scripts can occur in two main ways: idle processing and physics processing. Idle processing occurs at a variable frame rate, typically used for tasks that do not require precise timing, such as updating animations or handling user input. Physics processing, on the other hand, occurs at a fixed frame rate determined by the physics engine (usually 60 FPS), making it suitable for tasks that require consistent timing, such as movement and collision detection.  
+
+When using idle processing, the `_process(delta)` method is called, where `delta` represents the time in seconds since the last frame. This method is ideal for non-critical updates that can tolerate slight variations in timing. For physics processing, the `_physics_process(delta)` method is used, ensuring that physics-related calculations are performed at a consistent interval.  
+
+Key Rule: Use `_process()` for non-essential updates and `_physics_process()` for physics-related logic to maintain stability and performance.  
+
+GDScript:  
+```gdscript  
+extends Node2D  
+
+func _process(delta):  
+    # Example of idle processing (non-critical)  
+    position.x += 100 * delta  
+
+func _physics_process(delta):  
+    # Example of physics processing (critical)  
+    velocity = move_and_slide(velocity)  
+```  
+
+Note: Physics processing should be used sparingly to avoid performance issues, as it runs at a fixed interval regardless of frame rate. Idle processing is more flexible but less predictable.
+---CHUNK---
+Document: Idle and Physics Processing
+Path: godot/tutorials/scripting/idle_and_physics_processing.rst
+Summary: Explains Godot's _process() and _physics_process() methods for game loop updates.
+
+Games run in a loop. Each frame, you need to update the state of your game world before drawing it on screen. Godot provides two virtual methods in the Node class to do so: Node._process() and Node._physics_process(). If you define either or both in a script, the engine will call them automatically.
+
+There are two types of processing available to you:
+
+1. Idle processing allows you to run code that updates a node every frame, as often as possible.
+2. Physics processing happens at a fixed rate, 60 times per second by default. This is independent of your game's actual framerate, and keeps physics running smoothly. You should use it for anything that involves the physics engine, like moving a body that collides with the environment.
+
+You can activate idle processing by defining the _process() method in a script. You can turn it off and back on by calling Node.set_process().
+
+The engine calls this method every time it draws a frame:
+
+GDScript:
+func _process(delta):
+    # Do something...
+    pass
+
+C#:
+public override void _Process(double delta)
+{
+    // Do something...
+}
+
+Keep in mind that the frequency at which the engine calls _process() depends on your application's framerate, which varies over time and across devices.
+
+The function's delta parameter is the time elapsed in seconds since the previous call to _process(). Use this parameter to make calculations independent of the framerate. For example, you should always multiply a speed value by delta to animate a moving object.
+
+Physics processing works with a similar virtual function: _physics_process(). Use it for calculations that must happen before each physics step, like moving a character that collides with the game world. As mentioned above, _physics_process() runs at fixed time intervals as much as possible to keep the physics interactions stable. You can change the interval between physics steps in the Project Settings, under Physics -> Common -> Physics Fps. By default, it's set to run 60 times per second.
+
+The engine calls this method before every physics step:
+
+GDScript:
+func _physics_process(delta):
+    # Do something...
+    pass
+
+C#:
+public override void _PhysicsProcess(double delta)
+{
+    # Do something...
+}
+
+The function _process() is not synchronized with physics. Its rate depends on hardware and game optimization. It also runs after the physics step in single-threaded games.
+
+You can see the _process() function at work by creating a scene with a single Label node, with the following script attached to it:
+
+GDScript:
+extends Label
+
+var time = 0
+---CHUNK---
+Document: Idle and Physics Processing  
+Path: godot/tutorials/scripting/idle_and_physics_processing.rst  
+Summary: This example demonstrates using the _process method to update a label with elapsed time, showing a counter increasing each frame.  
+
+GDScript:  
+func _process(delta):  
+        time += delta  
+        text = str(time) # 'text' is a built-in Label property.  
+
+C#:  
+using Godot;  
+
+public partial class CustomLabel : Label  
+{  
+    private double _time;  
+
+    public override void _Process(double delta)  
+    {  
+        _time += delta;  
+        Text = _time.ToString(); // 'Text' is a built-in Label property.  
+    }  
+}  
+
+When you run the scene, you should see a counter increasing each frame.

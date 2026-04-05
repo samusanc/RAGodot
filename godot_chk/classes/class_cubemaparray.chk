@@ -1,0 +1,28 @@
+Document: CubemapArray
+Path: godot/classes/class_cubemaparray.rst
+Summary: Class reference for CubemapArray, a specialized resource type for handling cubemap arrays in Godot.
+---CHUNK---
+Document: CubemapArray
+Path: godot/classes/class_cubemaparray.rst
+Summary: Describes the CubemapArray class, an array of Cubemap objects stored with a single reference.
+
+Inherits: ImageTextureLayered < TextureLayered < Texture < Resource < RefCounted < Object
+An array of Cubemap objects, stored together and with a single reference.
+---CHUNK---
+Document: CubemapArray
+Path: godot/classes/class_cubemaparray.rst
+Summary: CubemapArray stores multiple Cubemap textures for efficient shader access and is used internally for effects like Sky reflections.
+
+CubemapArray stores an array of Cubemap textures. Each Cubemap must contain a number of textures divisible by 6 (one for each cube face). The primary benefit of CubemapArray is enabling shader access through a single texture reference, allowing multiple Cubemaps to be passed to shaders efficiently. CubemapArray is used internally by Godot for effects like Sky when ProjectSettings.rendering/reflections/sky_reflections/texture_array_reflections is enabled.
+
+To create a CubemapArray, use ImageTextureLayered.create_from_images() on a CubemapArray instance. The required image order follows Godot's coordinate system: X+ (right), X- (left), Y+ (up), Y- (down), Z+ (back), Z- (forward). Supported image layouts include 2×3 (default), 3×2, 1×6, and 6×1. Vertical imports stack layers top-to-bottom, while horizontal layouts arrange them left-to-right.
+
+Note: CubemapArray is not supported in the Compatibility renderer due to graphics API limitations.
+---CHUNK---
+Document: CubemapArray
+Path: godot/classes/class_cubemaparray.rst
+Summary: Method to create a placeholder version of the CubemapArray resource
+
+Resource create_placeholder() const
+
+Creates a placeholder version of this resource (PlaceholderCubemapArray). This method generates a lightweight version of the CubemapArray that can be used for previewing or when the actual resource is not yet available. The placeholder does not contain actual cubemap data but maintains the structure and metadata of the original resource.

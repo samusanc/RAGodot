@@ -1,0 +1,35 @@
+Document: DampedSpringJoint2D
+Path: godot/classes/class_dampedspringjoint2d.rst
+Summary: Class: DampedSpringJoint2D, a 2D joint with damping and spring properties.
+---CHUNK---
+Document: DampedSpringJoint2D
+Path: godot/classes/class_dampedspringjoint2d.rst
+Summary: A physics joint that connects two 2D physics bodies with a spring-like force.
+
+Inherits: Joint2D < Node2D < CanvasItem < Node < Object
+A physics joint that connects two 2D physics bodies with a spring-like force.
+---CHUNK---
+Document: DampedSpringJoint2D
+Path: godot/classes/class_dampedspringjoint2d.rst
+Summary: A physics joint that connects two 2D physics bodies with a spring-like force that stretches to a given length.
+---CHUNK---
+Document: DampedSpringJoint2D  
+Path: godot/classes/class_dampedspringjoint2d.rst  
+Summary: Properties and their default values for the DampedSpringJoint2D class.  
+
+- damping (float): Default: 1.0  
+- length (float): Default: 50.0  
+- rest_length (float): Default: 0.0  
+- stiffness (float): Default: 20.0
+---CHUNK---
+Document: DampedSpringJoint2D  
+Path: godot/classes/class_dampedspringjoint2d.rst  
+Summary: Properties controlling damping, length, rest length, and stiffness of a 2D damped spring joint.  
+
+damping (float): Spring joint's damping ratio. A value between 0 and 1. When bodies move in different directions, the system aligns them to the spring axis. High damping forces faster alignment. Default: 1.0. Methods: set_damping(float) → void, get_damping() → float.  
+
+length (float): Maximum allowed length of the spring joint. Bodies cannot stretch it beyond this value. Default: 50.0. Methods: set_length(float) → void, get_length() → float.  
+
+rest_length (float): Target length the joint tries to resize toward when bodies move. Default: 0.0. Methods: set_rest_length(float) → void, get_rest_length() → float.  
+
+stiffness (float): Determines how much the joint resists deformation. Higher values reduce deformation. Force applied is stiffness multiplied by the difference from rest length. Default: 20.0. Methods: set_stiffness(float) → void, get_stiffness() → float.

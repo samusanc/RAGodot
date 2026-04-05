@@ -1,0 +1,37 @@
+Document: AudioEffectEQ
+Path: godot/classes/class_audioeffecteq.rst
+Summary: Reference for the AudioEffectEQ class.
+---CHUNK---
+Document: AudioEffectEQ
+Path: godot/classes/class_audioeffecteq.rst
+Summary: Base class for audio equalizers (EQ) providing frequency control for custom equalizer creation.
+
+Inherits: AudioEffect < Resource < RefCounted < Object
+Inherited By: AudioEffectEQ10, AudioEffectEQ21, AudioEffectEQ6
+Base class for audio equalizers (EQ). Gives you control over frequencies. Use it to create a custom equalizer if AudioEffectEQ6, AudioEffectEQ10, or AudioEffectEQ21 don't fit your needs.
+---CHUNK---
+Document: AudioEffectEQ  
+Path: godot/classes/class_audioeffecteq.rst  
+Summary: Describes the AudioEffectEQ class, its purpose as an equalizer for adjusting frequency bands in audio processing.  
+
+An "equalizer" gives you control over the gain of frequencies in the entire spectrum, by allowing their adjustment through bands. A band is a point in the frequency spectrum, and each band means a division of the spectrum that can be adjusted. Use equalizers to compensate for existing deficiencies in the audio, make room for other elements, or remove undesirable frequencies. AudioEffectEQs are useful on the Master bus to balance the entire mix or give it more character. They are also useful when a game is run on a mobile device, to adjust the mix to that kind of speakers (it can be disabled when headphones are plugged in).
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_audioeffecteq.rst
+Summary: Links to audio-related tutorials in Godot Engine.
+
+- Audio buses (../tutorials/audio/audio_buses)
+- Audio effects (../tutorials/audio/audio_effects)
+---CHUNK---
+Document: AudioEffectEQ
+Path: godot/classes/class_audioeffecteq.rst
+Summary: AudioEffectEQ methods for managing equalizer band count and gain adjustments.
+
+Method: get_band_count() → int
+Returns the number of bands of the equalizer.
+
+Method: get_band_gain_db(int band_idx) → float
+Returns the band's gain at the specified index, in dB.
+
+Method: set_band_gain_db(int band_idx, float volume_db)
+Sets band's gain at the specified index, in dB.

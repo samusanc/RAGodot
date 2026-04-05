@@ -1,0 +1,59 @@
+Document: ConfirmationDialog
+Path: godot/classes/class_confirmationdialog.rst
+Summary: No description available in the provided content.
+---CHUNK---
+Document: ConfirmationDialog
+Path: godot/classes/class_confirmationdialog.rst
+Summary: A dialog used for confirmation of actions.
+
+Inherits: AcceptDialog < Window < Viewport < Node < Object
+Inherited By: EditorCommandPalette, FileDialog, ScriptCreateDialog
+
+A dialog used for confirmation of actions.
+---CHUNK---
+Document: ConfirmationDialog
+Path: godot/classes/class_confirmationdialog.rst
+Summary: A dialog window for confirming actions with distinct outcomes for OK and Cancel buttons, varying button order by OS.
+
+A dialog used for confirmation of actions. This window is similar to AcceptDialog, but pressing its Cancel button can have a different outcome from pressing the OK button. The order of the two buttons varies depending on the host OS. To get cancel action, you can use:
+
+GDScript:
+	get_cancel_button().pressed.connect(_on_canceled)
+
+C#:
+	GetCancelButton().Pressed += OnCanceled;
+
+Note: AcceptDialog is invisible by default. To make it visible, call one of the popup_* methods from Window on the node, such as Window.popup_centered_clamped().
+---CHUNK---
+Document: ConfirmationDialog
+Path: godot/classes/class_confirmationdialog.rst
+Summary: Properties and member variables of the ConfirmationDialog class, including cancel button text, size, title, and minimum size settings.
+
+Property: cancel_button_text (String): Text displayed on the cancel button. Default: "Cancel".
+Property: min_size (Vector2i): Minimum allowed size of the dialog. Default: Vector2i(200, 70) (overrides Window's min_size).
+Property: size (Vector2i): Default size of the dialog. Default: Vector2i(200, 100) (overrides Window's size).
+Property: title (String): Title text displayed at the top of the dialog. Default: "Please Confirm..." (overrides Window's title).
+---CHUNK---
+Document: ConfirmationDialog  
+Path: godot/classes/class_confirmationdialog.rst  
+Summary: Method: get_cancel_button() returns the cancel button as a Button instance.  
+
+get_cancel_button() (Button): Returns the cancel button.
+---CHUNK---
+Document: ConfirmationDialog
+Path: godot/classes/class_confirmationdialog.rst
+Summary: The cancel_button_text property and its associated methods for setting and getting the text displayed on the cancel button.
+
+String cancel_button_text = "Cancel"
+Method: set_cancel_button_text(value: String)
+Method: get_cancel_button_text() → String
+The text displayed by the cancel button (see get_cancel_button()).
+---CHUNK---
+Document: ConfirmationDialog
+Path: godot/classes/class_confirmationdialog.rst
+Summary: The get_cancel_button method returns the cancel button node with a warning about its internal use.
+
+Method: get_cancel_button() → Button
+Returns the cancel button node.
+
+Warning: This is a required internal node, removing and freeing it may cause a crash. If you wish to hide it or any of its children, use their CanvasItem.visible property.

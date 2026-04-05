@@ -1,0 +1,20 @@
+Document: VisualShaderNodeVectorRefract  
+Path: godot/classes/class_visualshadernodevectorrefract.rst  
+Summary: VisualShaderNodeVectorRefract is a shader node that calculates the refraction of light based on the surface normal and the incident ray direction.  
+
+Inherits: VisualShaderNode < VisualShaderNodeVectorOp < VisualShaderNode  
+VisualShaderNodeVectorRefract is used in visual shaders to simulate refraction effects, such as the distortion seen when light passes through water or glass. It takes input parameters for the incident vector, normal vector, and refraction index, and outputs the refracted vector. This node is part of Godot's visual shader graph system, allowing developers to create complex material effects without writing low-level shader code. The node's functionality is based on the physical refraction formula, which uses the surface normal and the direction of incoming light to determine how light bends as it passes through a medium.
+---CHUNK---
+Document: VisualShaderNodeVectorRefract
+Path: godot/classes/class_visualshadernodevectorrefract.rst
+Summary: Calculates and returns the refraction vector direction for use in visual shader graphs.
+
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+Returns the vector that points in the direction of refraction. For use within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorRefract
+Path: godot/classes/class_visualshadernodevectorrefract.rst
+Summary: Represents the refract function in shader language, calculating refraction based on incident vector, normal vector, and refraction ratio.
+
+Description
+Translated to `refract(I, N, eta)` in the shader language, where `I` is the incident vector, `N` is the normal vector and `eta` is the ratio of the indices of the refraction.

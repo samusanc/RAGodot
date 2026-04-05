@@ -1,0 +1,35 @@
+Document: GradientTexture1D
+Path: godot/classes/class_gradienttexture1d.rst
+Summary: Class GradientTexture1D description and inheritance information.
+---CHUNK---
+Document: GradientTexture1D  
+Path: godot/classes/class_gradienttexture1d.rst  
+Summary: A 1D texture that uses colors obtained from a Gradient.  
+
+Inherits: Texture2D < Texture < Resource < RefCounted < Object  
+A 1D texture that uses colors obtained from a Gradient.
+---CHUNK---
+Document: GradientTexture1D
+Path: godot/classes/class_gradienttexture1d.rst
+Summary: A 1D texture that generates colors by sampling a Gradient for each pixel, with potential color approximation due to pixel limitations.
+
+A 1D texture that obtains colors from a Gradient to fill the texture data. The texture is filled by sampling the gradient for each pixel. Therefore, the texture does not necessarily represent an exact copy of the gradient, as it may miss some colors if there are not enough pixels. See also GradientTexture2D, CurveTexture and CurveXYZTexture.
+---CHUNK---
+Document: GradientTexture1D
+Path: godot/classes/class_gradienttexture1d.rst
+Summary: Properties of GradientTexture1D including gradient, resource_local_to_scene, use_hdr, and width with their types, descriptions, and default values.
+
+gradient (Gradient): The gradient to use. Overrides Resource's resource_local_to_scene. Default: false.
+resource_local_to_scene (bool): Whether the resource is local to the scene. Note: Overrides Resource's resource_local_to_scene. Default: false.
+use_hdr (bool): Whether to use HDR format. Default: false.
+width (int): The width of the texture. Default: 256.
+---CHUNK---
+Document: GradientTexture1D  
+Path: godot/classes/class_gradienttexture1d.rst  
+Summary: Properties for configuring a 1D gradient texture, including the gradient itself, HDR support, and texture width.  
+
+Gradient (Gradient): The Gradient used to fill the texture. Set via `set_gradient(Gradient)`, retrieved with `get_gradient()`.  
+
+use_hdr (bool): Default: false. If true, the generated texture uses high dynamic range (FORMAT_RGBAF), enabling glow effects when Environment.glow_enabled is true. If false, uses low dynamic range (FORMAT_RGBA8), clamping overbright colors. Set via `set_use_hdr(bool)`, checked with `is_using_hdr()`.  
+
+width (int): Default: 256. The number of color samples obtained from the Gradient. Set via `set_width(int)`, retrieved with `get_width()`.

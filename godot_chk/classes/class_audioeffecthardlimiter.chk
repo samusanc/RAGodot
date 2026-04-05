@@ -1,0 +1,41 @@
+Document: AudioEffectHardLimiter
+Path: godot/classes/class_audioeffecthardlimiter.rst
+Summary: AudioEffectHardLimiter is a class that applies a hard limiting effect to audio signals, preventing them from exceeding a specified amplitude threshold.
+---CHUNK---
+Document: AudioEffectHardLimiter  
+Path: godot/classes/class_audioeffecthardlimiter.rst  
+Summary: Adds a limiter audio effect to an audio bus to prevent signals from exceeding a specified volume level.  
+Inherits: AudioEffect < Resource < RefCounted < Object  
+Prevents audio signals from exceeding a specified volume level.
+---CHUNK---
+Document: AudioEffectHardLimiter  
+Path: godot/classes/class_audioeffecthardlimiter.rst  
+Summary: A limiter that prevents audio signals from exceeding a specified volume threshold to avoid clipping and distortion.  
+
+A "limiter" disallows audio signals from exceeding a given volume threshold level in dB. Hard limiters predict volume peaks and will smoothly apply gain reduction when a peak crosses the ceiling threshold level to prevent clipping. It preserves the waveform and prevents it from crossing the ceiling threshold level. Adding one in the Master bus is recommended as a safety measure to prevent sudden volume peaks from occurring, and to prevent distortion caused by clipping, when the volume exceeds 0 dB. If clipping is desired, consider AudioEffectDistortion.MODE_CLIP. Note: Clipping should only be used intentionally to avoid unintended audio distortion.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_audioeffecthardlimiter.rst
+Summary: This section lists tutorials related to audio buses and audio effects in Godot.
+
+Tutorials
+- Audio buses
+- Audio effects
+---CHUNK---
+Document: AudioEffectHardLimiter
+Path: godot/classes/class_audioeffecthardlimiter.rst
+Summary: Properties of the AudioEffectHardLimiter class, including ceiling_db, pre_gain_db, and release with their default values.
+
+Property: ceiling_db (float): Controls the maximum output level before clipping. Default: -0.3
+Property: pre_gain_db (float): Applies gain before limiting to compensate for signal loss. Default: 0.0
+Property: release (float): Determines how quickly the limiter recovers after clipping. Default: 0.1
+---CHUNK---
+Document: AudioEffectHardLimiter  
+Path: godot/classes/class_audioeffecthardlimiter.rst  
+Summary: Properties for controlling audio limiting behavior, including ceiling level, pre-gain, and release time.  
+
+ceiling_db (float): The waveform's maximum allowed value, in dB. This value can range from -24 to 0. Default: -0.3. Note: The default value of -0.3 prevents potential inter-sample peaks (ISP) from crossing over 0 dB, which can cause slight distortion on some older hardware. Set/Get: set_ceiling_db(value: float), get_ceiling_db() → float.  
+
+pre_gain_db (float): Gain before limiting, in dB. Value can range from -24 to 24. Default: 0.0. Set/Get: set_pre_gain_db(value: float), get_pre_gain_db() → float.  
+
+release (float): Time it takes in seconds for the gain reduction to fully release. Value can range from 0.01 to 3.0. Default: 0.1. Set/Get: set_release(value: float), get_release() → float.

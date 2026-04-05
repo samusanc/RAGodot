@@ -1,0 +1,16 @@
+Document: VisualShaderNodeWorldPositionFromDepth
+Path: godot/classes/class_visualshadernodeworldpositionfromdepth.rst
+Summary: A VisualShaderNode that provides world position information based on depth input.
+---CHUNK---
+Document: VisualShaderNodeWorldPositionFromDepth  
+Path: godot/classes/class_visualshadernodeworldpositionfromdepth.rst  
+Summary: A visual shader node that calculates the position of the pixel in world space using the depth texture.  
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object  
+A visual shader node that calculates the position of the pixel in world space using the depth texture.
+---CHUNK---
+Document: VisualShaderNodeWorldPositionFromDepth
+Path: godot/classes/class_visualshadernodeworldpositionfromdepth.rst
+Summary: The WorldPositionFromDepth node reconstructs the depth position of the pixel in world space for projection mapping applications like Caustics.
+
+The WorldPositionFromDepth node reconstructs the depth position of the pixel in world space. This can be used to obtain world space UVs for projection mapping like Caustics.

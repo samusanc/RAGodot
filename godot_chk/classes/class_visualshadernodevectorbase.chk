@@ -1,0 +1,45 @@
+Document: VisualShaderNodeVectorBase
+Path: godot/classes/class_visualshadernodevectorbase.rst
+Summary: Base class for vector-based nodes in the Visual Shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorBase
+Path: godot/classes/class_visualshadernodevectorbase.rst
+Summary: Base class for visual shader graph nodes that perform vector operations
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+Inherited By: VisualShaderNodeFaceForward, VisualShaderNodeVectorCompose, VisualShaderNodeVectorDecompose, VisualShaderNodeVectorDistance, VisualShaderNodeVectorFunc, VisualShaderNodeVectorLen, VisualShaderNodeVectorOp, VisualShaderNodeVectorRefract
+
+A base type for the nodes that perform vector operations within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeVectorBase
+Path: godot/classes/class_visualshadernodevectorbase.rst
+Summary: Abstract base class for vector operations in visual shaders
+
+This is an abstract class. See the derived types for descriptions of the possible operations.
+---CHUNK---
+Document: VisualShaderNodeVectorBase
+Path: godot/classes/class_visualshadernodevectorbase.rst
+Summary: Defines the op_type property and its default value for the VisualShaderNodeVectorBase class.
+
+- op_type (OpType): Default: 1.
+---CHUNK---
+Document: VisualShaderNodeVectorBase
+Path: godot/classes/class_visualshadernodevectorbase.rst
+Summary: Defines the OpType enum and its constants for vector type operations in VisualShaderNodeVectorBase.
+
+OpType enum:
+- OP_TYPE_VECTOR_2D (Value: 0). A 2D vector type.
+- OP_TYPE_VECTOR_3D (Value: 1). A 3D vector type.
+- OP_TYPE_VECTOR_4D (Value: 2). A 4D vector type.
+- OP_TYPE_MAX (Value: 3). Represents the size of the OpType enum.
+---CHUNK---
+Document: VisualShaderNodeVectorBase
+Path: godot/classes/class_visualshadernodevectorbase.rst
+Summary: The op_type property and its setter/getter methods for defining vector operation types.
+
+OpType op_type = 1
+
+- Method: set_op_type(value: OpType) → void
+- Method: get_op_type() → OpType
+
+This property defines the vector type that operations are performed on. The OpType enum determines the specific vector type used, with a default value of 1. The setter method allows changing the operation type, while the getter retrieves the current value.

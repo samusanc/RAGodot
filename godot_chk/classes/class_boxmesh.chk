@@ -1,0 +1,39 @@
+Document: BoxMesh
+Path: godot/classes/class_boxmesh.rst
+Summary: Class reference for BoxMesh, including identity, description, and inheritance information.
+---CHUNK---
+Document: BoxMesh
+Path: godot/classes/class_boxmesh.rst
+Summary: Creates an axis-aligned box primitive mesh for 3D objects.
+
+Inherits: PrimitiveMesh < Mesh < Resource < RefCounted < Object
+Generate an axis-aligned box PrimitiveMesh.
+---CHUNK---
+Document: BoxMesh
+Path: godot/classes/class_boxmesh.rst
+Summary: Creates an axis-aligned box primitive mesh with customizable UV layout and subdivision settings.
+
+Generate an axis-aligned box PrimitiveMesh. The box's UV layout uses a 3×2 arrangement allowing individual face texturing. To apply uniform texturing across all faces, set the material's UV property to Vector3(3, 2, 1). This achieves the same result as adding "UV *= vec2(3.0, 2.0)" in a vertex shader.
+
+Note: When using large textured BoxMesh (e.g. as a floor), UV jittering may occur depending on camera angle. Increase subdivide_depth, subdivide_height, and subdivide_width until UV jittering is eliminated.
+---CHUNK---
+Document: BoxMesh
+Path: godot/classes/class_boxmesh.rst
+Summary: Properties and their default values for the BoxMesh class.
+
+Vector3 (Type): size. Default: Vector3(1, 1, 1).
+int (Type): subdivide_depth. Default: 0.
+int (Type): subdivide_height. Default: 0.
+int (Type): subdivide_width. Default: 0.
+---CHUNK---
+Document: BoxMesh
+Path: godot/classes/class_boxmesh.rst
+Summary: Properties and their descriptions for the BoxMesh class, including size and subdivision parameters.
+
+Vector3 size = Vector3(1, 1, 1). Set/Get: set_size(value: Vector3), get_size() → Vector3. The box's width, height and depth.
+
+Integer subdivide_depth = 0. Set/Get: set_subdivide_depth(value: int), get_subdivide_depth() → int. Number of extra edge loops inserted along the Z axis.
+
+Integer subdivide_height = 0. Set/Get: set_subdivide_height(value: int), get_subdivide_height() → int. Number of extra edge loops inserted along the Y axis.
+
+Integer subdivide_width = 0. Set/Get: set_subdivide_width(value: int), get_subdivide_width() → int. Number of extra edge loops inserted along the X axis.

@@ -1,0 +1,44 @@
+Document: ConvexPolygonShape3D  
+Path: godot/classes/class_convexpolygonshape3d.rst  
+Summary: 3D convex polygon shape for physics collisions.  
+
+Inherits: Shape3D < PhysicsBody3D < Node3D < Node < Object
+---CHUNK---
+Document: ConvexPolygonShape3D  
+Path: godot/classes/class_convexpolygonshape3d.rst  
+Summary: A 3D convex polyhedron shape used for physics collision detection in Godot.  
+
+Inherits: Shape3D < Resource < RefCounted < Object  
+A 3D convex polyhedron shape used for physics collision.
+---CHUNK---
+Document: ConvexPolygonShape3D  
+Path: godot/classes/class_convexpolygonshape3d.rst  
+Summary: A 3D convex polyhedron shape for physics, used with CollisionShape3D and optimized for collision detection.  
+
+ConvexPolygonShape3D represents a solid 3D convex polyhedron, detecting collisions from objects fully inside it. Unlike ConcavePolygonShape3D, which is hollow, this shape is better suited for both collision detection and physics simulations. Convex decomposition allows concave polyhedra to be split into multiple convex shapes, enabling complex collision representations for dynamic physics bodies. This can be achieved via the MeshInstance3D's **Create Multiple Convex Collision Siblings** option in the Mesh menu or by calling MeshInstance3D.create_multiple_convex_collisions() in scripts.  
+
+Performance-wise, ConvexPolygonShape3D is faster than ConcavePolygonShape3D but slower than primitive shapes like SphereShape3D or BoxShape3D. It is recommended for medium-sized objects requiring accurate collision representation beyond simple primitives. The shape is particularly useful when precise convex geometry is needed, though its computational cost increases with complexity. For optimal performance, avoid using it for large numbers of objects or highly detailed models.  
+
+Key Rule: ConvexPolygonShape3D is solid and detects internal collisions, making it ideal for physics but less efficient than primitive shapes.
+---CHUNK---
+Document: class_convexpolygonshape3d
+Path: godot/classes/class_convexpolygonshape3d.rst
+Summary: Tutorial section linking to the 3D Physics Tests Demo asset.
+Tutorials include the 3D Physics Tests Demo asset (https://godotengine.org/asset-library/asset/2747).
+---CHUNK---
+Document: ConvexPolygonShape3D  
+Path: godot/classes/class_convexpolygonshape3d.rst  
+Summary: Properties of the ConvexPolygonShape3D class, including the points defining the shape.  
+
+PackedVector3Array (Type): points. Default: PackedVector3Array().  
+This property stores the vertices of the convex polygon shape in 3D space. The points must form a closed, non-intersecting loop to ensure valid shape generation. The type PackedVector3Array is a compact array of Vector3 objects, optimized for performance in physics calculations. When no points are defined, the default empty array is used. This property is essential for defining the geometry of the shape, which is used in collision detection and physics simulations. The array must contain at least three points to form a valid polygon. If the points are not properly ordered or contain intersections, the shape may not behave correctly in physics interactions.
+---CHUNK---
+Document: ConvexPolygonShape3D  
+Path: godot/classes/class_convexpolygonshape3d.rst  
+Summary: The points property defining a convex polygon shape in 3D space.  
+
+PackedVector3Array points = PackedVector3Array()  
+Method: set_points(value: PackedVector3Array) → void  
+Method: get_points() → PackedVector3Array  
+
+The list of 3D points forming the convex polygon shape. Note: The returned array is copied and any changes to it will not update the original property value. See PackedVector3Array for more details.

@@ -1,0 +1,16 @@
+Document: ResourceImporterShaderFile  
+Path: godot/classes/class_resourceimportershaderfile.rst  
+Summary: This class is used to import shader files into the Godot engine.
+---CHUNK---
+Document: ResourceImporterShaderFile
+Path: godot/classes/class_resourceimportershaderfile.rst
+Summary: Imports native GLSL shaders as an RDShaderFile for use in Godot.
+
+Inherits: ResourceImporter < RefCounted < Object
+Imports native GLSL shaders (not Godot shaders) as an RDShaderFile.
+---CHUNK---
+Document: ResourceImporterShaderFile
+Path: godot/classes/class_resourceimportershaderfile.rst
+Summary: Imports native GLSL shaders as RDShaderFile resources for use with low-level RenderingDevice operations while excluding .gdshader files
+
+This class imports native GLSL shaders as RDShaderFile resources, for use with low-level RenderingDevice operations. This importer does not handle .gdshader files.

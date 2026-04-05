@@ -1,0 +1,26 @@
+Document: RenderData
+Path: godot/classes/class_renderdata.rst
+Summary: Class RenderData reference.
+---CHUNK---
+Document: RenderData
+Path: godot/classes/class_renderdata.rst
+Summary: Abstract render data object that holds frame data related to rendering a single frame of a viewport.
+
+Inherits: Object
+Inherited By: RenderDataExtension, RenderDataRD
+Abstract render data object that holds frame data related to rendering a single frame of a viewport.
+---CHUNK---
+Document: class_RenderData
+Path: godot/classes/class_renderdata.rst
+Summary: Abstract render data object for a single viewport rendering duration, related to RenderDataRD, RenderSceneData, and RenderSceneDataRD.
+
+Abstract render data object, exists for the duration of rendering a single viewport. See also RenderDataRD, RenderSceneData, and RenderSceneDataRD. Note: This is an internal rendering server object. Do not instantiate this class from a script.
+---CHUNK---
+Document: RenderData
+Path: godot/classes/class_renderdata.rst
+Summary: Methods returning RIDs and objects related to camera attributes, environment, and scene buffers for a viewport in the RenderingServer.
+
+- RID: get_camera_attributes() const – Returns the RID of the camera attributes object in the RenderingServer being used to render this viewport.
+- RID: get_environment() const – Returns the RID of the environment object in the RenderingServer being used to render this viewport.
+- RenderSceneBuffers: get_render_scene_buffers() const – Returns the RenderSceneBuffers object managing the scene buffers for rendering this viewport.
+- RenderSceneData: get_render_scene_data() const – Returns the RenderSceneData object managing this frame's scene data.

@@ -1,0 +1,35 @@
+Document: Mutex  
+Path: godot/classes/class_mutex.rst  
+Summary: A class for managing mutual exclusion in multithreaded environments.
+---CHUNK---
+Document: Mutex  
+Path: godot/classes/class_mutex.rst  
+Summary: A binary Semaphore for synchronizing multiple Threads.  
+
+Inherits: RefCounted < Object  
+A binary Semaphore for synchronization of multiple Threads.
+---CHUNK---
+Document: Mutex  
+Path: godot/classes/class_mutex.rst  
+Summary: A reentrant mutex for synchronizing threads, ensuring exclusive access to critical sections.  
+
+A synchronization mutex (mutual exclusion). This is used to synchronize multiple Thread objects, and is equivalent to a binary Semaphore. It guarantees that only one thread can access a critical section at a time. This is a reentrant mutex, meaning that it can be locked multiple times by one thread, provided it also unlocks it as many times.  
+
+Warning: To ensure proper cleanup without crashes or deadlocks, the following conditions must be met:  
+- When a Mutex's reference count reaches zero and it is therefore destroyed, no threads (including the one on which the destruction will happen) must have it locked.  
+- When a Thread's reference count reaches zero and it is therefore destroyed, it must not have any mutex locked.
+---CHUNK---
+Document: class_mutex
+Path: godot/classes/class_mutex.rst
+Summary: Links to tutorials on using multiple threads and thread-safe APIs in Godot.
+- Using multiple threads
+- Thread-safe APIs
+---CHUNK---
+Document: Mutex  
+Path: godot/classes/class_mutex.rst  
+Summary: Three core methods for managing thread synchronization: locking, trying to lock, and unlocking a mutex.  
+
+Methods:  
+- void lock(): Locks this Mutex, blocks until it is unlocked by the current owner. Note: Returns without blocking if the thread already has ownership of the mutex.  
+- bool try_lock(): Tries locking this Mutex without blocking. Returns true on success, false otherwise. Note: Returns true if the thread already has ownership of the mutex.  
+- void unlock(): Unlocks this Mutex, allowing other threads to acquire it. Note: If a thread calls lock() or try_lock() multiple times while owning the mutex, it must call unlock() the same number of times to fully release it. Warning: Calling unlock() more times than lock() on a given thread can cause crashes or deadlocks.

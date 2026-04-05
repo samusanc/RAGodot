@@ -1,0 +1,14 @@
+Document: VisualShaderNodeParticleOutput
+Path: godot/classes/class_visualshadernodeparticleoutput.rst
+Summary: Class: VisualShaderNodeParticleOutput. No description or inheritance information available in the provided RST content.
+---CHUNK---
+Document: VisualShaderNodeParticleOutput
+Path: godot/classes/class_visualshadernodeparticleoutput.rst
+Summary: Visual shader node that defines output values for particle emitting.
+
+Inherits: VisualShaderNodeOutput < VisualShaderNode < Resource < RefCounted < Object
+Visual shader node that defines output values for particle emitting.
+---CHUNK---
+Document: VisualShaderNodeParticleOutput
+Path: godot/classes/class_visualshadernodeparticleoutput.rst
+Summary: This node defines how particles are emitted. It allows to customize e.g. position and velocity. Available ports are different depending on which function this node is inside (start, process, collision) and whether custom data is enabled.

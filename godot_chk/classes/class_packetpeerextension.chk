@@ -1,0 +1,30 @@
+Document: PacketPeerExtension
+Path: godot/classes/class_packetpeerextension.rst
+Summary: Class: PacketPeerExtension. Provides extension functionality for packet peer communication in Godot Engine.
+---CHUNK---
+Document: PacketPeerExtension  
+Path: godot/classes/class_packetpeerextension.rst  
+Summary: This class has no description and inherits from PacketPeer, RefCounted, and Object.  
+
+Inherits: PacketPeer < RefCounted < Object
+---CHUNK---
+Document: PacketPeerExtension
+Path: godot/classes/class_packetpeerextension.rst
+Summary: Virtual methods for handling packet data in PacketPeerExtension, including retrieving packet counts, sizes, and transferring data buffers.
+
+Method: _get_available_packet_count() → int. Virtual, required, const method. Returns the number of available packets.
+
+Method: _get_max_packet_size() → int. Virtual, required, const method. Returns the maximum size of a single packet.
+
+Method: _get_packet(r_buffer: const uint8_t**, r_buffer_size: int32_t*) → Error. Virtual method. Retrieves a packet from the buffer, writing the data pointer and size to the provided parameters. Returns OK on success, ERR_* on failure.
+
+Method: _put_packet(p_buffer: const uint8_t*, p_buffer_size: int) → Error. Virtual method. Sends a packet with the provided buffer data and size. Returns OK on success, ERR_* on failure.
+---CHUNK---
+Document: PacketPeerExtension
+Path: godot/classes/class_packetpeerextension.rst
+Summary: Four private virtual methods for packet handling in PacketPeerExtension, including available packet count, max size, and packet transfer functions.
+
+Method: _get_available_packet_count() → int (virtual, required, const)
+Method: _get_max_packet_size() → int (virtual, required, const)
+Method: _get_packet(r_buffer: const uint8_t**, r_buffer_size: int32_t*) → Error (virtual)
+Method: _put_packet(p_buffer: const uint8_t*, p_buffer_size: int) → Error (virtual)

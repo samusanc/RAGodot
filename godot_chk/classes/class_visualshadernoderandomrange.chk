@@ -1,0 +1,16 @@
+Document: VisualShaderNodeRandomRange
+Path: godot/classes/class_visualshadernoderandomrange.rst
+Summary: Class for generating random range values in visual shaders.
+---CHUNK---
+Document: VisualShaderNodeRandomRange
+Path: godot/classes/class_visualshadernoderandomrange.rst
+Summary: A visual shader node that generates a pseudo-random scalar.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A visual shader node that generates a pseudo-random scalar.
+---CHUNK---
+Document: VisualShaderNodeRandomRange
+Path: godot/classes/class_visualshadernoderandomrange.rst
+Summary: Generates a pseudo-random scalar value within a specified range using a seed input, requiring a changing value like time for variability.
+
+Random range node outputs a pseudo-random scalar value in the specified range based on the seed input. The generated value remains consistent for identical seed and range inputs, making it deterministic. To achieve varying outputs over time, connect a changing input such as a time function to the seed parameter. This node is useful for creating randomized effects in shaders while maintaining reproducibility when needed.

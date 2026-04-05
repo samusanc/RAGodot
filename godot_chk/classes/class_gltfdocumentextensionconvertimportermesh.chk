@@ -1,0 +1,15 @@
+Document: GLTFDocumentExtensionConvertImporterMesh
+Path: godot/classes/class_gltfdocumentextensionconvertimportermesh.rst
+Summary: This chunk covers the identity, description, and inheritance chain for the GLTFDocumentExtensionConvertImporterMesh class.
+---CHUNK---
+Document: GLTFDocumentExtensionConvertImporterMesh
+Path: godot/classes/class_gltfdocumentextensionconvertimportermesh.rst
+Summary: This class has no available documentation description at this time.
+
+Inherits: GLTFDocumentExtension < Resource < RefCounted < Object
+---CHUNK---
+Document: Runtime file loading and saving
+Path: godot/classes/class_gltfdocumentextensionconvertimportermesh.rst
+Summary: This section links to a tutorial about loading and saving files at runtime in Godot.
+
+Runtime file loading and saving

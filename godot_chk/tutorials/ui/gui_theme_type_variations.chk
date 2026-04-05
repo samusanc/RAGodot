@@ -1,0 +1,21 @@
+Document: GUI Theme Type Variations
+Path: godot/tutorials/ui/gui_theme_type_variations.rst
+Summary: This section defines a hyperlink target for the GUI Theme Type Variations tutorial, but contains no actual content.
+---CHUNK---
+Document: Theme type variations  
+Path: godot/tutorials/ui/gui_theme_type_variations.rst  
+Summary: Explains how to use theme type variations to efficiently customize UI elements in Godot projects.  
+
+When designing a user interface there may be times when a Control node needs to have a different look than what is normally defined by a Theme. Every control node has theme property overrides, which allow you to redefine the styling for each individual UI element. This approach quickly becomes hard to manage if you need to share the same custom look between several controls. Imagine that you use gray, blue, and red variants of Button throughout your project. Setting it up every time you add a new button element to your interface is a tedious task. To help with the organization and to better utilize the power of themes you can use theme type variations. These work like normal theme types but instead of being self-sufficient and standalone they extend another base type. Following the previous example your theme can have some styles colors and fonts defined for the Button type customizing the looks of every button element in your UI. To then have a gray red or blue button you would create a new type e.g. GrayButton and mark it as a variation of the base Button type. Type variations can replace some aspects of the base type but keep others. They can also define properties that the base style hasn't defined. For example your GrayButton can override the normal style from the base Button and add font_color that Button has never defined. The control will use a combination of both types giving priority to the type variation. Note: The way controls resolve what theme items they use from each type and each theme is better described in the Customizing a project section of the "Introduction to GUI skinning" article.
+---CHUNK---
+Document: Creating a type variation  
+Path: godot/tutorials/ui/gui_theme_type_variations.rst  
+Summary: Instructions for creating and configuring a type variation in the Godot theme editor.  
+
+To create a type variation, open the theme editor and click the plus icon next to the **Type** dropdown on the right side of the editor. Enter a name for the theme type variation in the text box, then click **Add Type**. Switch to the tab with a wrench and screwdriver icon below the **Type** dropdown. Click the plus icon next to the **Base Type** field to select a base type, typically the name of a control node class (e.g., `Button`, `Label`). Type variations can chain and extend other type variations, mirroring how control nodes inherit styling from their base classes. For example, `CheckButton` inherits styles from `Button` because corresponding node types extend each other. After selecting the base type, its properties will appear on other tabs in the theme editor, where they can be edited as usual. Key Rule: Type variations inherit styling hierarchically, similar to how control nodes inherit from their base classes.
+---CHUNK---
+Document: GUI Theme Type Variations  
+Path: godot/tutorials/ui/gui_theme_type_variations.rst  
+Summary: How to apply a type variation to nodes in the Godot editor.  
+
+Using a type variation now that a type variation has been created you can apply it to your nodes. In the inspector dock under the Theme property of a control node you can find the Theme Type Variation property. It is empty by default which means that only the base type has an effect on this node. You can either select a type variation from a dropdown list or input its name manually. Variations appear on the list only if the type variation belongs to the project-wide theme which you can configure in the project settings. For any other case you have to input the name of the variation manually. Click on the pencil icon to the right. Then type in the name of the type variation and click the check mark icon or press enter. If a type variation with that name exists it will now be used by the node.

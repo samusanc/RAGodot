@@ -1,0 +1,9 @@
+Document: Exporting for VisionOS
+Path: godot/tutorials/export/exporting_for_visionos.rst
+Summary: This section provides a reference for exporting projects to VisionOS.
+---CHUNK---
+Document: Exporting for visionOS
+Path: godot/tutorials/export/exporting_for_visionos.rst
+Summary: This chunk covers the process of exporting Godot projects to visionOS with current limitations and export preset requirements.
+
+Exporting a Godot project to visionOS follows the same general process as exporting for iOS, but requires selecting a visionOS export preset instead of an iOS preset. The detailed steps are identical to those described in doc_compiling_for_ios. Note that currently only applications designed for use on a flat plane within the headset are supported - immersive experiences are not yet supported. This limitation applies to all visionOS exports at this time.
