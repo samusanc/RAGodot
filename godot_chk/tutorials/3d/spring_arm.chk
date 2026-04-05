@@ -1,0 +1,56 @@
+Document: Spring Arm
+Path: godot/tutorials/3d/spring_arm.rst
+Summary: This chunk covers the Spring Arm tutorial section.
+---CHUNK---
+Document: Third-person camera with spring arm
+Path: godot/tutorials/3d/spring_arm.rst
+Summary: An overview of implementing a third-person camera with a spring arm in Godot.
+---CHUNK---
+Document: Spring Arm (3D Camera Setup)
+Path: godot/tutorials/3d/spring_arm.rst
+Summary: Explains the purpose and usage of SpringArm3D for third-person camera follow in 3D games.
+
+3D games will often have a third-person camera that follows and rotates around something such as a player character or a vehicle. In Godot, this can be done by setting a Camera3D as a child of a node. However, if you try this without any extra steps, you'll notice that the camera clips through geometry and hides the scene. This is where the SpringArm3D node comes in.
+---CHUNK---
+Document: Spring Arm
+Path: godot/tutorials/3d/spring_arm.rst
+Summary: Explains the two main components of a spring arm (length and shape) and how they determine collision detection and child positioning behavior.
+
+A spring arm has two main components that affect its behavior. The "length" of the spring arm determines how far from its global position to check for collisions. This measurement defines the maximum reach of the spring arm's collision detection system. The "shape" of the spring arm specifies the geometric form used to check for collisions. The spring arm will "sweep" this shape from its origin outward along its length to detect potential collisions. When the shape collides with an object, the spring arm adjusts its children's positions to place them at or near the collision point instead of maintaining their usual position at the end of the spring arm's length. This behavior ensures that children remain visible and interact with the environment even when obstacles block the direct line from the spring arm's origin to its intended endpoint.
+---CHUNK---
+Document: Spring arm with a camera  
+Path: godot/tutorials/3d/spring_arm.rst  
+Summary: Explains how SpringArm uses camera shapes for collision detection and positioning  
+
+When a camera is placed as a child of a spring arm, a pyramid representing the camera will be used as the shape. This pyramid represents the near plane of the camera. Note: If the spring arm is given a specific shape, that shape will always be used. The camera's shape is only used if the camera is a direct child of the spring arm. If no shape is provided and the camera is not a direct child, the spring arm will fall back to using a ray cast which is inaccurate for camera collisions and not recommended. Every physics process frame, the spring arm will perform a motion cast to check if anything is collided with. When the shape hits something, the camera will be placed at or near the collision point.
+---CHUNK---
+Document: Spring Arm Camera Setup
+Path: godot/tutorials/3d/spring_arm.rst
+Summary: Adds a spring arm camera setup to a 3D platformer demo, including node structure, positioning, and mouse-controlled camera rotation.
+
+Note: You can download the Platformer 3D demo on GitHub or using the Asset Library.
+
+For third-person camera setup, create three nodes as children of the followed node:
+- Node3D (pivot point for the camera)
+  - SpringArm3D
+    - Camera3D
+
+Open player/player.tscn. Add these nodes as children of the player, rename them uniquely, and delete the existing camera node. Move the pivot point up 2 units on Y-axis. Set spring arm length to 3 units.
+
+Note: Leave the spring arm's Shape as <empty> to use the camera's pyramid shape. A sphere shape can also be used for smoother edge sliding.
+
+Update player/player.gd to reference the new nodes:
+@onready var _camera := %Camera3D as Camera3D
+@onready var _camera_pivot := %CameraPivot as Node3D
+
+Add mouse input handling for camera rotation:
+@export_range(0.0, 1.0) var mouse_sensitivity = 0.01
+@export var tilt_limit = deg_to_rad(75)
+
+func _unhandled_input(event: InputEvent) -> void:
+  if event is InputEventMouseMotion:
+    _camera_pivot.rotation.x -= event.screen_relative.y * mouse_sensitivity
+    _camera_pivot.rotation.x = clampf(_camera_pivot.rotation.x, -tilt_limit, tilt_limit)
+    _camera_pivot.rotation.y += -event.screen_relative.x * mouse_sensitivity
+
+Rotating the pivot point rotates the spring arm and changes the camera position. Mouse movement now rotates the camera around the character. Collision with walls will block camera movement.

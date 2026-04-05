@@ -1,0 +1,40 @@
+Document: ResourceImporterSVG
+Path: godot/classes/class_resourceimportersvg.rst
+Summary: Class for importing SVG resources in Godot.
+---CHUNK---
+Document: ResourceImporterSVG
+Path: godot/classes/class_resourceimportersvg.rst
+Summary: Imports an SVG file as an automatically scalable texture for use in UI elements and 2D rendering.
+
+Inherits: ResourceImporter < RefCounted < Object
+Imports an SVG file as an automatically scalable texture for use in UI elements and 2D rendering.
+---CHUNK---
+Document: ResourceImporterSVG
+Path: godot/classes/class_resourceimportersvg.rst
+Summary: Imports DPITexture resources and relates to other texture importers
+
+This importer imports DPITexture resources. See also ResourceImporterTexture and ResourceImporterImage.
+---CHUNK---
+Document: ResourceImporterSVG
+Path: godot/classes/class_resourceimportersvg.rst
+Summary: Properties and member variables of the ResourceImporterSVG class, including their types, default values, and descriptions.
+
+- base_scale (float): Default: 1.0
+- color_map (Dictionary): Default: {}
+- compress (bool): Default: true
+- fix_alpha_border (bool): Default: false
+- premult_alpha (bool): Default: false
+- saturation (float): Default: 1.0
+---CHUNK---
+Document: ResourceImporterSVG  
+Path: godot/classes/class_resourceimportersvg.rst  
+Summary: Properties for controlling SVG texture import settings, including scaling, color mapping, compression, and alpha handling.  
+
+Property: base_scale (float): Texture scale. 1.0 is the original SVG size. Higher values result in a larger image.  
+Property: color_map (Dictionary): If set, remaps texture colors according to Color-Color map.  
+Property: compress (bool): If true, uses lossless compression for the SVG source.  
+Property: fix_alpha_border (bool): If true, puts pixels of the same surrounding color in transition from transparent to opaque areas. For textures displayed with bilinear filtering, this helps to reduce the outline effect when exporting images from an image editor.  
+Property: premult_alpha (bool): An alternative to fixing darkened borders with fix_alpha_border is to use premultiplied alpha. By enabling this option, the texture will be converted to this format. A premultiplied alpha texture requires specific materials to be displayed correctly:  
+- In 2D, a CanvasItemMaterial will need to be created and configured to use the CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA blend mode on CanvasItem's that use this texture. In custom canvas_item shaders, render_mode blend_premul_alpha; should be used.  
+- In 3D, a BaseMaterial3D will need to be created and configured to use the BaseMaterial3D.BLEND_MODE_PREMULT_ALPHA blend mode on materials that use this texture. In custom spatial shaders, render_mode blend_premul_alpha; should be used.  
+Property: saturation (float): Overrides texture saturation.

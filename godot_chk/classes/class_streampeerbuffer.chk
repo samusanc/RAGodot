@@ -1,0 +1,55 @@
+Document: StreamPeerBuffer  
+Path: godot/classes/class_streampeerbuffer.rst  
+Summary: Class for handling buffered stream data in Godot Engine.
+---CHUNK---
+Document: StreamPeerBuffer
+Path: godot/classes/class_streampeerbuffer.rst
+Summary: A stream peer used to handle binary data streams.
+
+Inherits: StreamPeer < RefCounted < Object
+
+A stream peer used to handle binary data streams.
+---CHUNK---
+Document: StreamPeerBuffer
+Path: godot/classes/class_streampeerbuffer.rst
+Summary: A data buffer stream peer using a byte array for handling binary data in network sessions.
+
+A StreamPeerBuffer object keeps an internal cursor which is the offset in bytes to the start of the buffer. Get and put operations are performed at the cursor position and will move the cursor accordingly. To handle binary data stored in files, FileAccess can be used directly. This object can be used to handle binary data from network sessions.
+---CHUNK---
+Document: StreamPeerBuffer
+Path: godot/classes/class_streampeerbuffer.rst
+Summary: Properties of StreamPeerBuffer, including the data_array property which stores binary data as a PackedByteArray.
+
+Property: data_array (Type: PackedByteArray). Default: PackedByteArray()
+---CHUNK---
+Document: StreamPeerBuffer
+Path: godot/classes/class_streampeerbuffer.rst
+Summary: Methods for buffer manipulation, including clearing, duplicating, resizing, and position tracking.
+
+- clear(): void
+- duplicate(): StreamPeerBuffer const
+- get_position(): int const
+- get_size(): int const
+- resize(size: int): void
+- seek(position: int): void
+---CHUNK---
+Document: StreamPeerBuffer
+Path: godot/classes/class_streampeerbuffer.rst
+Summary: The data_array property and its associated methods for managing the underlying buffer in StreamPeerBuffer.
+
+PackedByteArray data_array = PackedByteArray()
+Method: set_data_array(value: PackedByteArray)
+Method: get_data_array() → PackedByteArray
+
+The underlying data buffer. Setting this value resets the cursor. Note: The returned array is copied and any changes to it will not update the original property value. See PackedByteArray for more details.
+---CHUNK---
+Document: StreamPeerBuffer  
+Path: godot/classes/class_streampeerbuffer.rst  
+Summary: Methods for managing data buffer operations including clearing, duplicating, resizing, and cursor control.  
+
+Method: clear() → void. Clears the data_array and resets the cursor.  
+Method: duplicate() → StreamPeerBuffer. Returns a new StreamPeerBuffer with the same data_array content.  
+Method: get_position() → int. Returns the current cursor position.  
+Method: get_size() → int. Returns the size of data_array.  
+Method: resize(size: int) → void. Resizes the data_array. This doesn't update the cursor.  
+Method: seek(position: int) → void. Moves the cursor to the specified position. Position must be a valid index of data_array.

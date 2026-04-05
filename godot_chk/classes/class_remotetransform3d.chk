@@ -1,0 +1,53 @@
+Document: RemoteTransform3D
+Path: godot/classes/class_remotetransform3d.rst
+Summary: This chunk covers the class identity, description, and inheritance for RemoteTransform3D.
+---CHUNK---
+Document: RemoteTransform3D
+Path: godot/classes/class_remotetransform3d.rst
+Summary: RemoteTransform3D synchronizes its 3D transform to another Node3D-derived node in the scene.
+
+Inherits: Node3D < Node < Object
+RemoteTransform3D pushes its own Transform3D to another Node3D derived Node in the scene.
+---CHUNK---
+Document: RemoteTransform3D
+Path: godot/classes/class_remotetransform3d.rst
+Summary: RemoteTransform3D synchronizes its Transform3D to a remote Node3D using global or local coordinates.
+
+RemoteTransform3D pushes its own Transform3D to another Node3D-derived node (called the remote node) in the scene. It can be configured to update the remote node's position, rotation, and/or scale. The synchronization can occur using either global coordinates (relative to the scene origin) or local coordinates (relative to the remote node's parent). This allows for precise control over how transformations are applied to the target node.
+---CHUNK---
+Document: RemoteTransform3D  
+Path: godot/classes/class_remotetransform3d.rst  
+Summary: Properties and their default values for the RemoteTransform3D class.  
+
+remote_path (NodePath). Default: NodePath("").  
+update_position (bool). Default: true.  
+update_rotation (bool). Default: true.  
+update_scale (bool). Default: true.  
+use_global_coordinates (bool). Default: true.
+---CHUNK---
+Document: RemoteTransform3D
+Path: godot/classes/class_remotetransform3d.rst
+Summary: Describes the force_update_cache method and its purpose in the RemoteTransform3D class.
+
+Method: force_update_cache() → void
+Forces an immediate update of the transform cache, ensuring all connected nodes reflect the latest transformation data. This is typically used when manual synchronization of spatial relationships is required between remote nodes.
+---CHUNK---
+Document: RemoteTransform3D  
+Path: godot/classes/class_remotetransform3d.rst  
+Summary: Properties and configuration options for RemoteTransform3D, including remote node path and update settings.  
+
+remote_path (NodePath): The NodePath to the remote node, relative to the RemoteTransform3D's position in the scene. Set via set_remote_node(NodePath), Get via get_remote_node().  
+
+update_position (bool): If true, the remote node's position is updated. Set via set_update_position(bool), Get via get_update_position(). Default: true.  
+
+update_rotation (bool): If true, the remote node's rotation is updated. Set via set_update_rotation(bool), Get via get_update_rotation(). Default: true.  
+
+update_scale (bool): If true, the remote node's scale is updated. Set via set_update_scale(bool), Get via get_update_scale(). Default: true.  
+
+use_global_coordinates (bool): If true, global coordinates are used. If false, local coordinates are used. Set via set_use_global_coordinates(bool), Get via get_use_global_coordinates(). Default: true.
+---CHUNK---
+Document: RemoteTransform3D  
+Path: godot/classes/class_remotetransform3d.rst  
+Summary: Describes the `force_update_cache` method for RemoteTransform3D, which manually updates the cached remote node reference.  
+
+Method: force_update_cache() → void. RemoteTransform3D caches the remote node. It may not notice if the remote node disappears; force_update_cache() forces it to update the cache again.

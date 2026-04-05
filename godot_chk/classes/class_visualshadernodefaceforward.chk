@@ -1,0 +1,15 @@
+Document: VisualShaderNodeFaceForward
+Path: godot/classes/class_visualshadernodefaceforward.rst
+Summary: Class VisualShaderNodeFaceForward reference with inheritance and description.
+---CHUNK---
+Document: VisualShaderNodeFaceForward
+Path: godot/classes/class_visualshadernodefaceforward.rst
+Summary: Returns the vector that points in the same direction as a reference vector within the visual shader graph.
+
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeFaceForward
+Path: godot/classes/class_visualshadernodefaceforward.rst
+Summary: This class implements the faceforward function for orienting vectors in shaders.
+
+This class translates to faceforward(N, I, Nref) in the shader language. The function takes three vector parameters: N (the vector to orient), I (the incident vector), and Nref (the reference vector). If the dot product of I and Nref is less than zero, the return value is N. Otherwise, -N is returned. The operation ensures the vector N is oriented in the same direction as the reference vector Nref relative to the incident vector I.

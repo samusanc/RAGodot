@@ -1,0 +1,46 @@
+Document: VisualShaderNodeVectorOp
+Path: godot/classes/class_visualshadernodevectorop.rst
+Summary: A class representing vector operation nodes in visual shaders for Godot Engine.
+---CHUNK---
+Document: VisualShaderNodeVectorOp
+Path: godot/classes/class_visualshadernodevectorop.rst
+Summary: A vector operator node for performing operations in the visual shader graph.
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeVectorOp
+Path: godot/classes/class_visualshadernodevectorop.rst
+Summary: A visual shader node that applies vector operations to input vectors a and b.
+
+A visual shader node for use of vector operators. Operates on vector a and vector b.
+---CHUNK---
+Document: VisualShaderNodeVectorOp
+Path: godot/classes/class_visualshadernodevectorop.rst
+Summary: Properties and default values for the VisualShaderNodeVectorOp class.
+
+operator (VisualShaderNodeVectorOp_Operator): Default value 0.
+---CHUNK---
+Document: VisualShaderNodeVectorOp
+Path: godot/classes/class_visualshadernodevectorop.rst
+Summary: Enumerates vector operation types for VisualShaderNodeVectorOp, including arithmetic, comparison, and geometric operations.
+
+Operator: OP_ADD (0): Adds two vectors.
+Operator: OP_SUB (1): Subtracts a vector from a vector.
+Operator: OP_MUL (2): Multiplies two vectors.
+Operator: OP_DIV (3): Divides vector by vector.
+Operator: OP_MOD (4): Returns the remainder of the two vectors.
+Operator: OP_POW (5): Returns the value of the first parameter raised to the power of the second, for each component of the vectors.
+Operator: OP_MAX (6): Returns the greater of two values, for each component of the vectors.
+Operator: OP_MIN (7): Returns the lesser of two values, for each component of the vectors.
+Operator: OP_CROSS (8): Calculates the cross product of two vectors.
+Operator: OP_ATAN2 (9): Returns the arc-tangent of the parameters.
+Operator: OP_REFLECT (10): Returns the vector that points in the direction of reflection. a is incident vector and b is the normal vector.
+Operator: OP_STEP (11): Vector step operator. Returns 0.0 if a is smaller than b and 1.0 otherwise.
+Operator: OP_ENUM_SIZE (12): Represents the size of the Operator enum.
+---CHUNK---
+Document: VisualShaderNodeVectorOp
+Path: godot/classes/class_visualshadernodevectorop.rst
+Summary: The 'operator' property and its setter/getter methods for the VisualShaderNodeVectorOp class.
+
+Property: operator (Operator): The operator to be used. Default: 0.
+Method: set_operator(value: Operator)
+Method: get_operator() → Operator

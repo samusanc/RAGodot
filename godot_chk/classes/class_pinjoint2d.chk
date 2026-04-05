@@ -1,0 +1,43 @@
+Document: PinJoint2D
+Path: godot/classes/class_pinjoint2d.rst
+Summary: A 2D joint that pins two bodies together, allowing rotation but not translation.
+---CHUNK---
+Document: PinJoint2D
+Path: godot/classes/class_pinjoint2d.rst
+Summary: A physics joint that attaches two 2D physics bodies at a single point, allowing them to freely rotate.
+
+Inherits: Joint2D < Node2D < CanvasItem < Node < Object
+A physics joint that attaches two 2D physics bodies at a single point, allowing them to freely rotate.
+---CHUNK---
+Document: PinJoint2D  
+Path: godot/classes/class_pinjoint2d.rst  
+Summary: A 2D physics joint that connects two bodies at a single point, enabling rotation while maintaining a fixed connection.  
+
+A physics joint that attaches two 2D physics bodies at a single point, allowing them to freely rotate. Note: Can be used to attach a RigidBody2D to a StaticBody2D, creating a pendulum or seesaw effect.
+---CHUNK---
+Document: PinJoint2D
+Path: godot/classes/class_pinjoint2d.rst
+Summary: Properties for configuring angular limits, motor behavior, and joint softness in a 2D pin joint.
+
+- angular_limit_enabled (bool): Enables angular limits. Default: false.
+- angular_limit_lower (float): Lower bound for angular limit. Default: 0.0.
+- angular_limit_upper (float): Upper bound for angular limit. Default: 0.0.
+- motor_enabled (bool): Enables motor-driven angular velocity. Default: false.
+- motor_target_velocity (float): Target angular velocity for motor. Default: 0.0.
+- softness (float): Determines joint compliance (lower = stiffer). Default: 0.0.
+---CHUNK---
+Document: PinJoint2D  
+Path: godot/classes/class_pinjoint2d.rst  
+Summary: Properties for configuring angular limits, motor behavior, and joint softness in PinJoint2D.  
+
+angular_limit_enabled (bool): Controls whether angular rotation limits are enforced. Default: false. Set via set_angular_limit_enabled(value), queried via is_angular_limit_enabled(). Note: When true, rotation constraints defined by angular_limit_lower and angular_limit_upper are applied.  
+
+angular_limit_lower (float): Minimum allowed rotation angle. Default: 0.0. Set via set_angular_limit_lower(value), queried via get_angular_limit_lower(). Note: Only active if angular_limit_enabled is true.  
+
+angular_limit_upper (float): Maximum allowed rotation angle. Default: 0.0. Set via set_angular_limit_upper(value), queried via get_angular_limit_upper(). Note: Only active if angular_limit_enabled is true.  
+
+motor_enabled (bool): Enables the motor to actively rotate the pin. Default: false. Set via set_motor_enabled(value), queried via is_motor_enabled(). Key Rule: When activated, a motor turns the pin.  
+
+motor_target_velocity (float): Desired rotational speed for the motor. Default: 0.0. Set via set_motor_target_velocity(value), queried via get_motor_target_velocity(). Unit: radians per second.  
+
+softness (float): Determines how much the joint can flex under force. Default: 0.0. Set via set_softness(value), queried via get_softness(). Higher values allow greater flexibility in the bond to the pinned partner.

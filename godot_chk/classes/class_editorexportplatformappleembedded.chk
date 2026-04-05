@@ -1,0 +1,24 @@
+Document: EditorExportPlatformAppleEmbedded
+Path: godot/classes/class_editorexportplatformappleembedded.rst
+Summary: Class representing the Apple Embedded platform export configuration in Godot Editor.
+---CHUNK---
+Document: EditorExportPlatformAppleEmbedded
+Path: godot/classes/class_editorexportplatformappleembedded.rst
+Summary: Base class for Apple embedded platform exporters (iOS and visionOS).
+
+Inherits: EditorExportPlatform < RefCounted < Object
+Inherited By: EditorExportPlatformIOS, EditorExportPlatformVisionOS
+
+Base class for the Apple embedded platform exporters (iOS and visionOS).
+---CHUNK---
+Document: EditorExportPlatformAppleEmbedded
+Path: godot/classes/class_editorexportplatformappleembedded.rst
+Summary: Base class for Apple embedded platform exporters, supporting iOS and visionOS but not macOS.
+
+The base class for Apple embedded platform exporters. These include iOS and visionOS, but not macOS. See the classes inheriting from this one for more details.
+---CHUNK---
+Document: EditorExportPlatformAppleEmbedded
+Path: godot/classes/class_editorexportplatformappleembedded.rst
+Summary: This section lists tutorials related to iOS export and plugin documentation.
+
+Exporting for iOS / iOS plugins documentation index

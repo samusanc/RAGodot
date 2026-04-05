@@ -1,0 +1,18 @@
+Document: EditorSceneFormatImporterFBX2GLTF
+Path: godot/classes/class_editorsceneformatimporterfbx2gltf.rst
+Summary: Class for importing FBX files to GLTF format in the Godot editor.
+---CHUNK---
+Document: EditorSceneFormatImporterFBX2GLTF
+Path: godot/classes/class_editorsceneformatimporterfbx2gltf.rst
+Summary: Importer for the .fbx scene file format.
+
+EditorSceneFormatImporterFBX2GLTF
+Inherits: EditorSceneFormatImporter < RefCounted < Object
+
+Importer for the .fbx scene file format.
+---CHUNK---
+Document: EditorSceneFormatImporterFBX2GLTF
+Path: godot/classes/class_editorsceneformatimporterfbx2gltf.rst
+Summary: Imports Autodesk FBX 3D scenes by converting them to glTF 2.0 using the FBX2glTF command line tool.
+
+Imports Autodesk FBX 3D scenes by converting them to glTF 2.0 using the FBX2glTF command line tool. The location of the FBX2glTF binary is set via the EditorSettings.filesystem/import/fbx/fbx2gltf_path editor setting. This importer is only used if ProjectSettings.filesystem/import/fbx2gltf/enabled is set to true.

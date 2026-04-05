@@ -1,0 +1,43 @@
+Document: PhysicsServer3DRenderingServerHandler
+Path: godot/classes/class_physicsserver3drenderingserverhandler.rst
+Summary: This section defines the PhysicsServer3DRenderingServerHandler class, but no details are available in the provided RST content.
+---CHUNK---
+Document: PhysicsServer3DRenderingServerHandler  
+Path: godot/classes/class_physicsserver3drenderingserverhandler.rst  
+Summary: A class that provides a rendering handler for soft bodies in PhysicsServer3DExtension methods.  
+
+Inherits: Object  
+A class used to provide PhysicsServer3DExtension._soft_body_update_rendering_server() with a rendering handler for soft bodies.
+---CHUNK---
+Document: PhysicsServer3DRenderingServerHandler  
+Path: godot/classes/class_physicsserver3drenderingserverhandler.rst  
+Summary: This section lists the methods for the PhysicsServer3DRenderingServerHandler class, including both private and public methods for setting AABB, normals, and vertices.  
+
+Method: _set_aabb(aabb: AABB) → void. Flags: virtual, required.  
+Method: _set_normal(vertex_id: int, normal: Vector3) → void. Flags: virtual, required.  
+Method: _set_vertex(vertex_id: int, vertex: Vector3) → void. Flags: virtual, required.  
+Method: set_aabb(aabb: AABB) → void.  
+Method: set_normal(vertex_id: int, normal: Vector3) → void.  
+Method: set_vertex(vertex_id: int, vertex: Vector3) → void.
+---CHUNK---
+Document: PhysicsServer3DRenderingServerHandler  
+Path: godot/classes/class_physicsserver3drenderingserverhandler.rst  
+Summary: Methods for setting bounding boxes, normals, and vertex positions on SoftBody3D objects via the PhysicsServer3D.  
+
+Method: _set_aabb(AABB: AABB) → void  
+Called by PhysicsServer3D to set the bounding box for SoftBody3D.  
+
+Method: _set_normal(vertex_id: int, normal: Vector3) → void  
+Called by PhysicsServer3D to set the normal for SoftBody3D vertex at index vertex_id. Note: The normal parameter used to be of type const void* prior to Godot 4.2.  
+
+Method: _set_vertex(vertex_id: int, vertex: Vector3) → void  
+Called by PhysicsServer3D to set the position for SoftBody3D vertex at index vertex_id. Note: The vertex parameter used to be of type const void* prior to Godot 4.2.  
+
+Method: set_aabb(AABB: AABB) → void  
+Sets the bounding box for SoftBody3D.  
+
+Method: set_normal(vertex_id: int, normal: Vector3) → void  
+Sets the normal for SoftBody3D vertex at index vertex_id.  
+
+Method: set_vertex(vertex_id: int, vertex: Vector3) → void  
+Sets the position for SoftBody3D vertex at index vertex_id.

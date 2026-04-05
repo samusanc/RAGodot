@@ -1,0 +1,46 @@
+Document: CurveTexture
+Path: godot/classes/class_curvetexture.rst
+Summary: A class representing a texture that can be used to create curved surfaces in Godot.
+---CHUNK---
+Document: CurveTexture
+Path: godot/classes/class_curvetexture.rst
+Summary: A 1D texture where pixel brightness corresponds to points on a curve.
+
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+A 1D texture where pixel brightness corresponds to points on a curve.
+---CHUNK---
+Document: CurveTexture
+Path: godot/classes/class_curvetexture.rst
+Summary: A 1D texture where pixel brightness corresponds to points on a unit Curve resource in grayscale or red.
+
+A 1D texture where pixel brightness corresponds to points on a unit Curve resource, either in grayscale or in red. This visual representation simplifies the task of saving curves as image files. If you need to store up to 3 curves within a single texture, use CurveXYZTexture instead. See also GradientTexture1D and GradientTexture2D.
+---CHUNK---
+Document: CurveTexture
+Path: godot/classes/class_curvetexture.rst
+Summary: Properties and their default values for the CurveTexture class.
+
+Property: curve (Curve): The curve used to generate the texture. Default: none.
+Property: resource_local_to_scene (bool): Whether the resource is local to the scene. Default: false (overrides Resource.resource_local_to_scene).
+Property: texture_mode (TextureMode): The mode used to generate the texture. Default: 0 (enum value).
+Property: width (int): The width of the generated texture. Default: 256.
+---CHUNK---
+Document: CurveTexture  
+Path: godot/classes/class_curvetexture.rst  
+Summary: Defines the TextureMode enum with two modes for storing curve data in texture channels.  
+
+enum TextureMode:  
+  TEXTURE_MODE_RGB = 0  
+  Store the curve equally across the red, green and blue channels. This uses more video memory, but is more compatible with shaders that only read the green and blue values.  
+
+  TEXTURE_MODE_RED = 1  
+  Store the curve only in the red channel. This saves video memory, but some custom shaders may not be able to work with this.
+---CHUNK---
+Document: CurveTexture
+Path: godot/classes/class_curvetexture.rst
+Summary: Properties of the CurveTexture class including curve, texture_mode, and width with their descriptions and default values.
+
+Curve (Curve): The Curve that is rendered onto the texture. Should be a unit Curve. Methods: set_curve(value: Curve) → void, get_curve() → Curve.
+
+TextureMode (enum): 0. The format the texture should be generated with. When passing a CurveTexture as an input to a Shader, this may need to be adjusted. Methods: set_texture_mode(value: TextureMode) → void, get_texture_mode() → TextureMode.
+
+Width (int): 256. The width of the texture (in pixels). Higher values make it possible to represent high-frequency data better (such as sudden direction changes), at the cost of increased generation time and memory usage. Methods: set_width(value: int) → void, get_width() → int.

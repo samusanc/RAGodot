@@ -1,0 +1,28 @@
+Document: GDScriptSyntaxHighlighter
+Path: godot/classes/class_gdscriptsyntaxhighlighter.rst
+Summary: GDScript syntax highlighter used to color-code GDScript code in the editor
+
+GDScriptSyntaxHighlighter inherits from EditorSyntaxHighlighter < SyntaxHighlighter < Reference. This class provides syntax highlighting functionality for GDScript in the Godot editor, applying color-coding to different language elements for improved code readability and editing experience.
+---CHUNK---
+Document: GDScriptSyntaxHighlighter  
+Path: godot/classes/class_gdscriptsyntaxhighlighter.rst  
+Summary: A GDScript syntax highlighter for use with TextEdit and CodeEdit nodes in Godot.  
+
+Inherits: EditorSyntaxHighlighter < SyntaxHighlighter < Resource < RefCounted < Object  
+A GDScript syntax highlighter that can be used with TextEdit and CodeEdit nodes.
+---CHUNK---
+Document: GDScriptSyntaxHighlighter
+Path: godot/classes/class_gdscriptsyntaxhighlighter.rst
+Summary: A class for syntax highlighting in text editors, restricted to editor plugin usage.
+
+Note: This class can only be used for editor plugins because it relies on editor settings.
+
+GDScript:
+var code_preview = TextEdit.new()
+var highlighter = GDScriptSyntaxHighlighter.new()
+code_preview.syntax_highlighter = highlighter
+
+C#:
+var codePreview = new TextEdit();
+var highlighter = new GDScriptSyntaxHighlighter();
+codePreview.SyntaxHighlighter = highlighter;

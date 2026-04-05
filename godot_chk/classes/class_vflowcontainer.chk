@@ -1,0 +1,21 @@
+Document: VFlowContainer
+Path: godot/classes/class_vflowcontainer.rst
+Summary:
+---CHUNK---
+Document: VFlowContainer
+Path: godot/classes/class_vflowcontainer.rst
+Summary: A vertical flow container that arranges child controls and wraps them at the borders.
+
+Inherits: FlowContainer < Container < Control < CanvasItem < Node < Object
+A container that arranges its child controls vertically and wraps them around at the borders.
+---CHUNK---
+Document: VFlowContainer
+Path: godot/classes/class_vflowcontainer.rst
+Summary: A vertical variant of FlowContainer that wraps child controls at the container's borders, similar to text wrapping in a book.
+
+A variant of FlowContainer that can only arrange its child controls vertically, wrapping them around at the borders. This is similar to how text in a book wraps around when no more words can fit on a line, except vertically. Inherits: FlowContainer
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_vflowcontainer.rst
+Summary: Links to the 'Using Containers' tutorial in the UI/GUI Containers section.
+Using Containers

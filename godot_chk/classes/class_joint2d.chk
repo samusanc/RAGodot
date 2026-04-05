@@ -1,0 +1,53 @@
+Document: Joint2D
+Path: godot/classes/class_joint2d.rst
+Summary: Class: Joint2D. Inheritance and description.
+---CHUNK---
+Document: Joint2D
+Path: godot/classes/class_joint2d.rst
+Summary: Abstract base class for all 2D physics joints in Godot.
+
+Inherits: Node2D < CanvasItem < Node < Object
+Inherited By: DampedSpringJoint2D, GrooveJoint2D, PinJoint2D
+
+Abstract base class for all 2D physics joints. Provides common functionality for connecting and constraining physics bodies in 2D space. All specific joint types (like PinJoint2D and DampedSpringJoint2D) inherit from this class to implement their unique constraint behaviors.
+---CHUNK---
+Document: Joint2D
+Path: godot/classes/class_joint2d.rst
+Summary: Abstract base class for 2D physics joints that bind two physics bodies and apply constraints.
+
+Abstract base class for all joints in 2D physics. 2D joints bind together two physics bodies (node_a and node_b) and apply a constraint.
+---CHUNK---
+Document: Joint2D
+Path: godot/classes/class_joint2d.rst
+Summary: Properties and their default values for the Joint2D class in Godot.
+
+Bias (float): Default: 0.0
+disable_collision (bool): Default: true
+node_a (NodePath): Default: NodePath("")
+node_b (NodePath): Default: NodePath("")
+---CHUNK---
+Document: Joint2D
+Path: godot/classes/class_joint2d.rst
+Summary: Retrieves the unique resource identifier (RID) associated with this joint.
+
+- Method: get_rid() → RID (const)
+Key Rule: This method is marked as const, indicating it does not modify the joint's state.
+---CHUNK---
+Document: Joint2D
+Path: godot/classes/class_joint2d.rst
+Summary: Properties and member variables of the Joint2D class in Godot Engine.
+
+bias (float): 0.0. Controls how fast the joint pulls bodies back to their original position when they move in different directions. Lower values allow more movement. Uses ProjectSettings.physics/2d/solver/default_constraint_bias when set to 0. Set via set_bias(value: float), get via get_bias().
+
+disable_collision (bool): true. If enabled, the two connected bodies do not collide with each other. Set via set_exclude_nodes_from_collision(value: bool), get via get_exclude_nodes_from_collision().
+
+node_a (NodePath): NodePath(""). Path to the first physics body (A) attached to the joint. Must inherit PhysicsBody2D. Set via set_node_a(value: NodePath), get via get_node_a().
+
+node_b (NodePath): NodePath(""). Path to the second physics body (B) attached to the joint. Must inherit PhysicsBody2D. Set via set_node_b(value: NodePath), get via get_node_b().
+---CHUNK---
+Document: Joint2D
+Path: godot/classes/class_joint2d.rst
+Summary: The get_rid() method returns the joint's internal RID from the PhysicsServer2D.
+
+Method: get_rid() → RID (constant)
+Returns the joint's internal RID from the PhysicsServer2D. Key Rule: This method is marked as constant and returns a read-only identifier.

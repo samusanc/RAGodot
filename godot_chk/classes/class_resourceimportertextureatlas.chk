@@ -1,0 +1,56 @@
+Document: ResourceImporterTextureAtlas  
+Path: godot/classes/class_resourceimportertextureatlas.rst  
+Summary: A class for importing texture atlases as resources in Godot Engine.  
+
+Inherits: ResourceImporter < ResourceImporterBase < Object  
+
+This class is part of the Godot Engine's resource importer system, specifically designed to handle texture atlases. It extends the base `ResourceImporter` class and provides functionality for importing and processing texture atlas files into usable resources within the engine.  
+
+Key features include:  
+- Support for importing texture atlas formats (e.g., PNG, JPEG).  
+- Configuration options for texture compression, filtering, and mipmap generation.  
+- Integration with Godot's resource management system for seamless asset pipeline workflows.  
+
+The class defines methods for importing resources, handling import errors, and configuring import settings. It also includes properties for specifying the target format, quality settings, and metadata preservation during import.  
+
+Note: This class is typically used internally by Godot's import system and may not be directly instantiated by users. Instead, it is registered as an importer for texture atlas files through the engine's configuration.  
+
+Warning: Modifying this class directly can lead to unexpected behavior in the resource import pipeline. Always use the engine-provided import settings and configurations.  
+
+Key Rule: Texture atlas import settings must be configured through the Godot Project Manager or via code using the `EditorResourceImporter` API.
+---CHUNK---
+Document: ResourceImporterTextureAtlas
+Path: godot/classes/class_resourceimportertextureatlas.rst
+Summary: Imports a collection of textures from a PNG image into an optimized AtlasTexture for 2D rendering.
+
+Inherits: ResourceImporter < RefCounted < Object
+Imports a collection of textures from a PNG image into an optimized AtlasTexture for 2D rendering.
+---CHUNK---
+Document: ResourceImporterTextureAtlas
+Path: godot/classes/class_resourceimportertextureatlas.rst
+Summary: Imports textures from PNG images into AtlasTexture or ArrayMesh for 2D animation memory optimization.
+
+This class imports a collection of textures from a PNG image into an AtlasTexture or 2D ArrayMesh. It helps save memory when importing 2D animations from spritesheets. Texture atlases are only supported in 2D rendering, not 3D. See also ResourceImporterTexture and ResourceImporterLayeredTexture.
+
+Note: ResourceImporterTextureAtlas does not handle TileSetAtlasSource, which is created using the TileSet editor instead.
+---CHUNK---
+Document: ResourceImporterTextureAtlas  
+Path: godot/classes/class_resourceimportertextureatlas.rst  
+Summary: Properties and their default values for the ResourceImporterTextureAtlas class.  
+
+Property: atlas_file (String): The file path for the atlas. Default: "".  
+Property: crop_to_region (bool): Whether to crop textures to their region. Default: false.  
+Property: import_mode (int): The mode used for importing the atlas. Default: 0.  
+Property: trim_alpha_border_from_region (bool): Whether to trim alpha borders from regions. Default: true.
+---CHUNK---
+Document: ResourceImporterTextureAtlas
+Path: godot/classes/class_resourceimportertextureatlas.rst
+Summary: Properties for configuring texture atlas import behavior, including file path, trimming options, and rendering modes.
+
+atlas_file (String): Path to the atlas spritesheet. Must be set to a valid PNG image path, otherwise the atlas will fail to import. Default: "".
+
+crop_to_region (bool): If true, discards empty areas from the atlas. Only affects final sprite positioning, not storage. Note: Only effective if import_mode is Region. Default: false.
+
+import_mode (int): 0 = Region, 1 = Mesh. Region mode imports as AtlasTexture resource, rendering as a rectangle. May require rendering transparent areas if trimming is ineffective. Mesh mode imports as ArrayMesh, rendering as a polygon. Reduces fill rate for large transparent sprites but may slow rendering if few transparent areas exist. Default: 0.
+
+trim_alpha_border_from_region (bool): If true, trims regions to exclude fully transparent pixels using a clipping rectangle. Saves memory. Note: Only effective if import_mode is Region. Default: true.

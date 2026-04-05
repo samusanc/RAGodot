@@ -1,0 +1,16 @@
+Document: VisualShaderNodeTexture2DArrayParameter
+Path: godot/classes/class_visualshadernodetexture2darrayparameter.rst
+Summary: A class representing a 2D array texture parameter node in the Visual Shader graph.
+---CHUNK---
+Document: VisualShaderNodeTexture2DArrayParameter
+Path: godot/classes/class_visualshadernodetexture2darrayparameter.rst
+Summary: A visual shader node for shader parameter (uniform) of type Texture2DArray.
+
+Inherits: VisualShaderNodeTextureParameter < VisualShaderNodeParameter < VisualShaderNode < Resource < RefCounted < Object
+A visual shader node for shader parameter (uniform) of type Texture2DArray.
+---CHUNK---
+Document: VisualShaderNodeTexture2DArrayParameter
+Path: godot/classes/class_visualshadernodetexture2darrayparameter.rst
+Summary: This parameter provides a collection of textures for shaders, with the VisualShaderNodeTexture2DArray node used to extract individual textures from the array.
+
+This parameter allows to provide a collection of textures for the shader. You can use VisualShaderNodeTexture2DArray to extract the textures from array.

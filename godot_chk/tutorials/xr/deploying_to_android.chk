@@ -1,0 +1,55 @@
+Document: Deploying to Android
+Path: godot/tutorials/xr/deploying_to_android.rst
+Summary: This section serves as a reference target for the Deploying to Android tutorial in Godot's XR documentation.
+---CHUNK---
+Document: Deploying to Android
+Path: godot/tutorials/xr/deploying_to_android.rst
+Summary: Overview of deploying Android applications using Godot Engine.
+
+Deploying to Android
+/
+---CHUNK---
+Document: Deploying to Android
+Path: godot/tutorials/xr/deploying_to_android.rst
+Summary: Prerequisites and considerations for Android XR deployment using OpenXR
+
+Setup
+Most standalone headsets run on Android and OpenXR support is making its way to these platforms. Before following the OpenXR-specific instructions here, you'll need to first setup your system to export to Android in general, including:
+
+- Installing OpenJDK 17
+- Installing Android Studio
+- Configuring the location of the Android SDK in Godot
+
+See doc_exporting_for_android for the full details, and return here when you've finished these steps.
+
+Warning: While the Mobile Vulkan renderer has many optimizations targeted at mobile devices, we're still working out the kinks. It is highly advisable to use the compatibility renderer (OpenGL) for the time being when targeting Android based XR devices.
+---CHUNK---
+Document: deploying_to_android
+Path: godot/tutorials/xr/deploying_to_android.rst
+Summary: Instructions for setting up a Gradle Android build to include vendor-specific OpenXR loaders in a Godot project
+
+Note: Official support for Android in OpenXR was not initially available, requiring vendor-specific loaders. While long-term standardization is expected, current projects must include these loaders. To add the vendor-specific OpenXR loader, setup a Gradle Android build by selecting **Install Android Build Template** from the **Project** menu. This creates an **android** folder containing necessary runtime files. Customize this installation via file browser (Godot does not display it in the editor). Further details about Gradle builds can be found in the Android Gradle Build documentation.
+---CHUNK---
+Document: Deploying to Android  
+Path: godot/tutorials/xr/deploying_to_android.rst  
+Summary: Instructions for installing the Godot OpenXR Vendors plugin to enable Android deployment features.  
+
+The vendors plugin can be downloaded from the asset library, search for "OpenXR vendors" and install the one named "Godot OpenXR Vendors plugin v4". You will find the installed files inside the addons folder. Alternatively you can manually install the vendors plugin by downloading it from the release page here. You will need to copy the assets/addons/godotopenxrvendors folder from the zip file into your projects addons folder. You can find the main repository of the vendors plugin here.  
+
+Note: From Godot 4.6 onwards, the vendor plugin is now an optional but recommended plugin. Godot can export directly to most Android-compatible devices. This can be useful for demonstration and tutorial projects where a single APK can be deployed to multiple devices. The vendor plugin unlocks vendor specific implementations and settings, and may be required to release on app stores.
+---CHUNK---
+Document: Deploying to Android  
+Path: godot/tutorials/xr/deploying_to_android.rst  
+Summary: Instructions for configuring Android export presets with XR support in Godot.  
+
+You will need to setup a separate export preset for each device, as each device will need its own loader included. Open Project and select Export.. Click on Add.. and select Android. Next change the name of the export preset for the device you're setting this up for, say Meta Quest. And enable Use Gradle Build. Next change the XR Mode to OpenXR. If you want to use one-click deploy (described below), ensure that Runnable is enabled.  
+
+If you've installed the vendor plugin you will also find entries for the different headsets under XR Features. Select the entry for your headset, if you see one. Otherwise, enable the Khronos plugin. Scroll to the bottom of the list and you'll find additional XR feature sections, currently only Meta XR Features, Pico XR Features, Magicleap XR Features and Khronos XR Features for HTC are available. You will need to select the appropriate settings if you wish to use these features.
+---CHUNK---
+Document: Deploying to Android
+Path: godot/tutorials/xr/deploying_to_android.rst
+Summary: Instructions for deploying VR applications to Android devices using Godot's one-click deploy feature and device-specific setup requirements.
+
+If you've setup your export settings as described above, and your headset is connected to your computer and correctly recognized, you can launch it directly from the Godot editor using one-click deploy:
+
+Note: For some devices on some platforms, you may need to perform extra steps for your device to be recognized correctly. Check your headset vendor's developer documentation for requirements. With the Meta Quest 2, enable developer mode on the headset and install special ADB drivers if using Windows. See the official Meta Quest developer documentation for more details. If you're having any issues with one-click deploy, check the Troubleshooting section.

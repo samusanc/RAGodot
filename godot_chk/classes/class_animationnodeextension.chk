@@ -1,0 +1,40 @@
+Document: AnimationNodeExtension
+Path: godot/classes/class_animationnodeextension.rst
+Summary: Class: AnimationNodeExtension. Inheritance chain and description.
+---CHUNK---
+Document: AnimationNodeExtension
+Path: godot/classes/class_animationnodeextension.rst
+Summary: Base class for extending AnimationRootNode\ s from GDScript, C#, or C++.
+
+Experimental: This class may be changed or removed in future versions.
+
+Inherits: AnimationNode < Resource < RefCounted < Object
+
+Base class for extending AnimationRootNode\ s from GDScript, C#, or C++.
+---CHUNK---
+Document: AnimationNodeExtension  
+Path: godot/classes/class_animationnodeextension.rst  
+Summary: AnimationNodeExtension provides APIs for extending AnimationRootNode to create custom AnimationTree nodes in GDScript, C#, or C++.  
+
+AnimationNodeExtension exposes the APIs of AnimationRootNode to allow users to extend it from GDScript, C#, or C++. This class is not meant to be used directly, but to be extended by other classes. It is used to create custom nodes for the AnimationTree system.
+---CHUNK---
+Document: class_AnimationNodeExtension
+Path: godot/classes/class_animationnodeextension.rst
+Summary: Core methods for AnimationNodeExtension including animation processing, timing calculation, and loop status checks.
+
+- PackedFloat32Array: _process_animation_node(playback_info: PackedFloat64Array, test_only: bool) virtual required
+- float: get_remaining_time(node_info: PackedFloat32Array, break_loop: bool) static
+- bool: is_looping(node_info: PackedFloat32Array) static
+---CHUNK---
+Document: AnimationNodeExtension
+Path: godot/classes/class_animationnodeextension.rst
+Summary: Core methods for processing animation data and querying animation state in custom AnimationNode implementations.
+
+Method: _process_animation_node(playback_info: PackedFloat64Array, test_only: bool) → PackedFloat32Array
+A version of the AnimationNode._process() method meant to be overridden by custom nodes. Returns a PackedFloat32Array containing processed animation data. The playback_info parameter contains encoded playback information: playback time and delta, start/end times, seek request status (float > 0), external seek flag (float > 0), current LoopedFlag (encoded as float), and blend weight. The return array must contain animation length, time position, delta, LoopMode (encoded as float), animation end status (float > 0), and infinite status (float > 0).
+
+Method: get_remaining_time(node_info: PackedFloat32Array, break_loop: bool) → float
+Returns the animation's remaining time for the given node info. For looping animations, returns a large integer value unless break_loop is true, in which case it returns the actual remaining time.
+
+Method: is_looping(node_info: PackedFloat32Array) → bool
+Returns true if the animation for the given node_info is looping.

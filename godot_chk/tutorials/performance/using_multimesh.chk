@@ -1,0 +1,70 @@
+Document: Using Multimesh
+Path: godot/tutorials/performance/using_multimesh.rst
+Summary: This tutorial explains how to use Multimesh for efficient rendering of multiple instances of the same 3D model in Godot.
+---CHUNK---
+Document: Using MultiMesh  
+Path: godot/tutorials/performance/using_multimesh.rst  
+Summary: When dealing with thousands of instances requiring dynamic control, using servers directly is recommended, but for hundreds of thousands or millions of objects, alternative optimizations may be necessary.  
+
+Optimization using MultiMeshes is suitable for large numbers of instances (in the thousands) that need constant processing and some level of control. In such cases, using servers directly is the recommended optimization approach. However, when the number of objects reaches hundreds of thousands or millions, even this method becomes inefficient. Depending on specific requirements, there may still be additional optimization possibilities available for such extreme scales.
+---CHUNK---
+Document: Using MultiMesh  
+Path: godot/tutorials/performance/using_multimesh.rst  
+Summary: MultiMesh is a GPU-optimized primitive for rendering large numbers of objects with limitations on visibility control.  
+
+MultiMesh is a single draw primitive that can render up to millions of objects in one go. It is extremely efficient because it leverages GPU hardware for this task. The primary limitation is the absence of screen or frustum culling for individual instances, meaning all instances in a MultiMesh are either always visible or never visible based on the entire MultiMesh's visibility. A custom visibility rectangle can be provided, but it only allows all-or-none visibility.  
+
+If objects are simple (few vertices), this is generally not problematic as modern GPUs are optimized for such workloads. A workaround for visibility management is to split objects into multiple MultiMeshes for different world areas.  
+
+Vertex shaders can execute logic using built-in constants like INSTANCE_ID or INSTANCE_CUSTOM. For example, the "Animating thousands of fish" tutorial demonstrates animating thousands of objects in a MultiMesh. Shader data can be provided via textures, with floating-point Image formats being ideal for this purpose.  
+
+An alternative is using GDExtension with C++ for extreme efficiency. The RenderingServer.multimesh_set_buffer() function allows setting the entire state for all objects via linear memory, enabling multi-threaded array creation and single-call updates for high cache efficiency.  
+
+The visible_instance_count property controls how many MultiMesh instances are visible. The typical workflow involves pre-allocating the maximum needed instances and adjusting visible_instance_count dynamically based on current requirements.
+---CHUNK---
+Document: using_multimesh
+Path: godot/tutorials/performance/using_multimesh.rst
+Summary: Demonstrates creating and configuring a MultiMesh instance in GDScript and C#
+
+Here is an example of using a MultiMesh from code. Languages other than GDScript may be more efficient for millions of objects, but for a few thousands, GDScript should be fine.
+
+GDScript:
+    extends MultiMeshInstance3D
+
+    func _ready():
+        # Create the multimesh.
+        multimesh = MultiMesh.new()
+        # Set the format first.
+        multimesh.transform_format = MultiMesh.TRANSFORM_3D
+        # Then resize (otherwise, changing the format is not allowed).
+        multimesh.instance_count = 10000
+        # Maybe not all of them should be visible at first.
+        multimesh.visible_instance_count = 1000
+
+        # Set the transform of the instances.
+        for i in multimesh.visible_instance_count:
+            multimesh.set_instance_transform(i, Transform3D(Basis(), Vector3(i * 20, 0, 0)))
+
+C#:
+    using Godot;
+
+    public partial class MyMultiMeshInstance3D : MultiMeshInstance3D
+    {
+        public override void _Ready()
+        {
+            // Create the multimesh.
+            Multimesh = new MultiMesh();
+            // Set the format first.
+            Multimesh.TransformFormat = MultiMesh.TransformFormatEnum.Transform3D;
+            // Then resize (otherwise, changing the format is not allowed)
+            Multimesh.InstanceCount = 1000;
+            // Maybe not all of them should be visible at first.
+            Multimesh.VisibleInstanceCount = 1000;
+
+            // Set the transform of the instances.
+            for (int i = 0; i < Multimesh.VisibleInstanceCount; i++)
+            {
+                Multimesh.SetInstanceTransform(i, new Transform3D(Basis.Identity, new Vector3(i * 20, 0, 0)));
+            }
+        }
+    }

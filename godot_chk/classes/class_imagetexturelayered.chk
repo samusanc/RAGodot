@@ -1,0 +1,69 @@
+Document: ImageTextureLayered  
+Path: godot/classes/class_imagetexturelayered.rst  
+Summary: Class reference for ImageTextureLayered, including identity, description, and inheritance.
+---CHUNK---
+Document: ImageTextureLayered  
+Path: godot/classes/class_imagetexturelayered.rst  
+Summary: Base class for texture types containing multiple ImageTextures of the same size and format.  
+
+Inherits: TextureLayered < Texture < Resource < RefCounted < Object  
+Inherited By: Cubemap, CubemapArray, Texture2DArray  
+
+Base class for texture types which contain the data of multiple ImageTextures. Each image is of the same size and format.
+---CHUNK---
+Document: ImageTextureLayered
+Path: godot/classes/class_imagetexturelayered.rst
+Summary: Base class for Texture2DArray, Cubemap, and CubemapArray, providing common functionality for layered texture resources.
+
+Base class for Texture2DArray, Cubemap, and CubemapArray. Cannot be used directly, but contains all the functions necessary for accessing the derived resource types. See also Texture3D.
+---CHUNK---
+Document: ImageTextureLayered
+Path: godot/classes/class_imagetexturelayered.rst
+Summary: Key methods for creating and updating image layers in ImageTextureLayered
+
+Method: create_from_images(images: Array[Image]) → Error
+Initializes a layered texture from an array of Image objects. Returns an error code if the operation fails. The input array must contain valid Image instances with compatible formats and dimensions.
+
+Method: update_layer(image: Image, layer: int) → void
+Replaces the contents of a specific layer in the texture with a new Image. The layer index must be within the valid range (0 to total_layers-1). The new Image must match the original texture's format and dimensions. This method modifies the texture in-place without creating a new instance.
+
+Key Rule: Both methods require images with matching format and dimensions to ensure proper texture layering.
+---CHUNK---
+Document: ImageTextureLayered  
+Path: godot/classes/class_imagetexturelayered.rst  
+Summary: Methods for creating and updating layered image textures from arrays of images.  
+
+Method: create_from_images(images: Array[Image]) → Error  
+Creates an ImageTextureLayered from an array of Image objects. The first image determines width, height, image format, and mipmapping settings. All subsequent images must match these properties. Each Image represents one layer. The array must contain at least one Image for 2D textures, exactly six Images for cubemaps (in X+, X-, Y+, Y-, Z+, Z- order), or a multiple of six for cubemap arrays. If the image format is unsupported, it will be decompressed and converted to a supported format.  
+
+GDScript:  
+    # Fill an array of Images with different colors  
+    var images = []  
+    const LAYERS = 6  
+    for i in LAYERS:  
+        var image = Image.create_empty(128, 128, false, Image.FORMAT_RGB8)  
+        if i % 3 == 0:  
+            image.fill(Color.RED)  
+        elif i % 3 == 1:  
+            image.fill(Color.GREEN)  
+        else:  
+            image.fill(Color.BLUE)  
+        images.push_back(image)  
+
+    # Create and save a 2D texture array  
+    var texture_2d_array = Texture2DArray.new()  
+    texture_2d_array.create_from_images(images)  
+    ResourceSaver.save(texture_2d_array, "res://texture_2d_array.res", ResourceSaver.FLAG_COMPRESS)  
+
+    # Create and save a cubemap (requires exactly 6 Images)  
+    var cubemap = Cubemap.new()  
+    cubemap.create_from_images(images)  
+    ResourceSaver.save(cubemap, "res://cubemap.res", ResourceSaver.FLAG_COMPRESS)  
+
+    # Create and save a cubemap array (requires multiple of 6 Images)  
+    var cubemap_array = CubemapArray.new()  
+    cubemap_array.create_from_images(images)  
+    ResourceSaver.save(cubemap_array, "res://cubemap_array.res", ResourceSaver.FLAG_COMPRESS)  
+
+Method: update_layer(image: Image, layer: int) → void  
+Replaces the existing Image data at the specified layer with a new image. The new Image must match the width, height, image format, and mipmapping flag of the original images. If the format is unsupported, it will be decompressed and converted to a supported Format. The update is immediate and synchronized with drawing.

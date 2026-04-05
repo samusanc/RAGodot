@@ -1,0 +1,79 @@
+Document: OpenXRSpatialEntityTracker  
+Path: godot/classes/class_openxrspatialentitytracker.rst  
+Summary: Class OpenXRSpatialEntityTracker reference section with identity, description, and inheritance information.  
+
+Inherits: Object  
+Description: A class for tracking spatial entities in OpenXR environments. Provides functionality for interacting with XR devices and spatial data. Key Rule: This class is part of the Godot OpenXR plugin and requires OpenXR-compatible hardware.  
+Properties:  
+- spatial_entity_id (String): Unique identifier for the tracked spatial entity. Default: ""  
+- tracking_status (int): Current tracking status (0 = not tracked, 1 = tracked). Default: 0  
+Methods:  
+- get_transform() → Transform: Returns the current spatial transform of the entity.  
+- is_tracked() → bool: Checks if the entity is currently being tracked.  
+- update() → void: Updates the entity's position and orientation data.  
+Note: Requires OpenXR 1.10+ support for full functionality.  
+Warning: Not all OpenXR devices may support spatial entity tracking.  
+Tip: Use with XRController to enable hand-tracking features.  
+Enum: TrackingStatus  
+- NOT_TRACKED = 0  
+- TRACKED = 1  
+- TRACKING_LOST = 2  
+GDScript:  
+func _process(delta):  
+    if is_tracked():  
+        var transform = get_transform()  
+        # Use transform for spatial calculations  
+C#:  
+public void _Process(float delta)  
+{  
+    if (IsTracked())  
+    {  
+        var transform = GetTransform();  
+        // Use transform for spatial calculations  
+    }  
+}
+---CHUNK---
+Document: OpenXRSpatialEntityTracker  
+Path: godot/classes/class_openxrspatialentitytracker.rst  
+Summary: Base class for Positional trackers managed by OpenXR's spatial entity extensions.  
+
+Experimental: This class may be changed or removed in future versions.  
+Inherits: XRPositionalTracker < XRTracker < RefCounted < Object  
+Inherited By: OpenXRAnchorTracker, OpenXRMarkerTracker, OpenXRPlaneTracker  
+Base class for Positional trackers managed by OpenXR's spatial entity extensions.
+---CHUNK---
+Document: OpenXRSpatialEntityTracker
+Path: godot/classes/class_openxrspatialentitytracker.rst
+Summary: This class represents trackers created by OpenXR's spatial entity extensions that provide access to OpenXR spatial entity data.
+
+These are trackers created and managed by OpenXR's spatial entity extensions that give access to specific data related to OpenXR's spatial entities. They will always be of type TRACKER_ANCHOR.
+---CHUNK---
+Document: OpenXRSpatialEntityTracker
+Path: godot/classes/class_openxrspatialentitytracker.rst
+Summary: Properties and their default values for the OpenXRSpatialEntityTracker class.
+
+- RID (RID): Unique resource identifier. Default: RID()
+- EntityTrackingState (EntityTrackingState): Current tracking state of the entity. Default: 2
+- TrackerType (TrackerType): Type of tracker device. Default: 8 (overrides XRTracker's type property)
+Note: The TrackerType value 8 overrides the default type value from the XRTracker class.
+---CHUNK---
+Document: OpenXRSpatialEntityTracker
+Path: godot/classes/class_openxrspatialentitytracker.rst
+Summary: Defines the spatial tracking state signal and associated enumeration values for the OpenXR spatial entity tracker class.
+
+Signal: spatial_tracking_state_changed (int: spatial_tracking_state)
+Note: No description available for this signal. Please contribute documentation.
+
+Enumerations:
+- EntityTrackingState (int): 
+  - ENTITY_TRACKING_STATE_STOPPED = 1: This anchor has stopped tracking.
+  - ENTITY_TRACKING_STATE_PAUSED = 2: Tracking is currently paused.
+  - ENTITY_TRACKING_STATE_TRACKING = 3: This anchor is currently being tracked.
+---CHUNK---
+Document: OpenXRSpatialEntityTracker  
+Path: godot/classes/class_openxrspatialentitytracker.rst  
+Summary: Describes the entity association and spatial tracking state properties for the OpenXR spatial entity tracker class.  
+
+entity (RID): The spatial entity associated with this tracker. Default: RID(). Set via set_entity(value: RID), retrieved via get_entity() → RID.  
+
+spatial_tracking_state (EntityTrackingState): The spatial tracking state for this tracker. Default: 2. Set via set_spatial_tracking_state(value: EntityTrackingState), retrieved via get_spatial_tracking_state() → EntityTrackingState.

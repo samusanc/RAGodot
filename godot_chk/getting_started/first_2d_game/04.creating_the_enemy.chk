@@ -1,0 +1,33 @@
+Document: Creating the Enemy
+Path: godot/getting_started/first_2d_game/04.creating_the_enemy.rst
+Summary: This section is empty or contains only a hyperlink reference.
+---CHUNK---
+Document: Creating the enemy
+Path: godot/getting_started/first_2d_game/04.creating_the_enemy.rst
+Summary: This section explains how to create and spawn enemy mobs in a 2D game, including their basic movement behavior and scene instantiation.
+
+Creating the enemy
+Now it's time to make the enemies our player will have to dodge. Their behavior
+will not be very complex: mobs will spawn randomly at the edges of the screen,
+choose a random direction, and move in a straight line.
+
+We'll create a Mob scene, which we can then instance to create any number
+of independent mobs in the game.
+---CHUNK---
+Document: Creating the Enemy
+Path: godot/getting_started/first_2d_game/04.creating_the_enemy.rst
+Summary: Instructions for setting up the enemy node hierarchy, physics properties, animations, and collision configuration in a 2D Godot game.
+
+Create a new scene with a RigidBody2D node named "Mob". Add the following child nodes: AnimatedSprite2D, CollisionShape2D, and VisibleOnScreenNotifier2D. Group the child nodes so they cannot be selected by clicking the Group button (or Ctrl+G) while the RigidBody2D parent is selected. Set the RigidBody2D's Gravity Scale property to 0 to prevent falling. In the CollisionObject2D section of the inspector, uncheck the "1" in the Mask property under the Collision group to disable mob-to-mob collisions.
+
+Configure the AnimatedSprite2D with three animations: fly, swim, and walk. Each animation requires setting the Animation Speed property to 3. Use the "Play Animation" buttons next to the speed input to preview animations. Randomly select one of these animations for variety. Scale the AnimatedSprite2D to (0.75, 0.75) to match the art assets. Add a CapsuleShape2D for collision detection, setting its Rotation property to 90 degrees to align with the sprite. Save the scene after completing these configurations.
+---CHUNK---
+Document: Creating the Enemy  
+Path: godot/getting_started/first_2d_game/04.creating_the_enemy.rst  
+Summary: Adds a script to the Mob node, implements random animation selection, and handles mob removal when exiting the screen.  
+
+Enemy script: Add a script to the Mob node. The GDScript code extends RigidBody2D and includes a _ready() function that selects a random animation from ["walk", "swim", "fly"] using Array.pick_random(). The C# version uses GD.Randi() % 3 to achieve the same result. Both versions call play() on the AnimatedSprite2D node to start the chosen animation.  
+
+To handle mob removal when exiting the screen, connect the VisibleOnScreenNotifier2D's screen_exited() signal to the Mob node. The GDScript implementation uses _on_visible_on_screen_notifier_2d_screen_exited() to call queue_free(), which deletes the node at the end of the frame. The C# version uses OnVisibleOnScreenNotifier2DScreenExited() with QueueFree().  
+
+Key Rule: queue_free() is called to delete nodes when they leave the screen. The Mob scene is now complete, with random animations and automatic cleanup. The next step involves combining the player and enemies in a new scene to create a playable game.

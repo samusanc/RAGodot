@@ -1,0 +1,54 @@
+Document: OpenXRActionSet
+Path: godot/classes/class_openxractionset.rst
+Summary: Represents an OpenXR action set for managing input actions in VR applications.
+---CHUNK---
+Document: OpenXRActionSet
+Path: godot/classes/class_openxractionset.rst
+Summary: A collection of OpenXRAction resources that define an action set for input handling in Godot
+
+Inherits: Resource < RefCounted < Object
+Collection of OpenXRAction resources that make up an action set.
+---CHUNK---
+Document: OpenXRActionSet  
+Path: godot/classes/class_openxractionset.rst  
+Summary: Explains how OpenXR action sets group inputs for different game states and prioritize conflicting actions.  
+
+Action sets in OpenXR define a collection of actions that can be activated in unison. This allows games to easily change between different states that require different inputs or need to reinterpret inputs. For instance we could have an action set that is active when a menu is open, an action set that is active when the player is freely walking around and an action set that is active when the player is controlling a vehicle.  
+
+Action sets can contain the same action with the same name, if such action sets are active at the same time the action set with the highest priority defines which binding is active. Note: Conflicting actions in overlapping action sets are resolved by prioritizing the action set with the highest priority.
+---CHUNK---
+Document: OpenXRActionSet
+Path: godot/classes/class_openxractionset.rst
+Summary: Properties of the OpenXRActionSet class including data types, default values, and descriptions.
+
+Property: actions (Array): Default: []
+Property: localized_name (String): Default: ""
+Property: priority (int): Default: 0
+---CHUNK---
+Document: OpenXRActionSet
+Path: godot/classes/class_openxractionset.rst
+Summary: Core methods for managing actions in an OpenXR action set, including adding, removing, and querying actions.
+
+- Method: add_action(action: OpenXRAction) → void. Adds the specified action to the action set.
+- Method: get_action_count() → int. Returns the number of actions in the action set. Constant method.
+- Method: remove_action(action: OpenXRAction) → void. Removes the specified action from the action set.
+---CHUNK---
+Document: OpenXRActionSet
+Path: godot/classes/class_openxractionset.rst
+Summary: Properties and methods for managing action sets in OpenXR.
+
+Property: actions (Array): Collection of actions for this action set. Default: empty array. Set via set_actions(value: Array), get via get_actions().
+
+Property: localized_name (String): The localized name of this action set. Default: empty string. Set via set_localized_name(value: String), get via get_localized_name().
+
+Property: priority (int): The priority for this action set. Default: 0. Set via set_priority(value: int), get via get_priority(). Higher values indicate higher priority when resolving input conflicts.
+---CHUNK---
+Document: OpenXRActionSet
+Path: godot/classes/class_openxractionset.rst
+Summary: Methods for adding, removing, and querying actions in an OpenXR action set.
+
+Method: add_action(action: OpenXRAction) → void. Add an action to this action set.
+
+Method: get_action_count() → int. Retrieve the number of actions in our action set.
+
+Method: remove_action(action: OpenXRAction) → void. Remove an action from this action set.

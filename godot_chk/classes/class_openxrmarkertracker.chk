@@ -1,0 +1,54 @@
+Document: OpenXRMarkerTracker
+Path: godot/classes/class_openxrmarkertracker.rst
+Summary: Class reference for OpenXRMarkerTracker, including identity, description, and inheritance.
+---CHUNK---
+Document: OpenXRMarkerTracker
+Path: godot/classes/class_openxrmarkertracker.rst
+Summary: A spatial entity tracker for marker-based tracking in OpenXR.
+
+Note: This class may be changed or removed in future versions.
+Inherits: OpenXRSpatialEntityTracker < XRPositionalTracker < XRTracker < RefCounted < Object
+Spatial entity tracker for our spatial entity marker tracking extension.
+---CHUNK---
+Document: OpenXRMarkerTracker
+Path: godot/classes/class_openxrmarkertracker.rst
+Summary: Spatial entity tracker for the OpenXR spatial entity marker tracking extension, identifying real-space entities via visual markers like QR codes or Aruco codes and mapping their locations to virtual space.
+---CHUNK---
+Document: OpenXRMarkerTracker
+Path: godot/classes/class_openxrmarkertracker.rst
+Summary: Properties and their default values for the OpenXRMarkerTracker class
+
+- Property: bounds_size (Type: Vector2) - Default: Vector2(0, 0)
+- Property: marker_id (Type: int) - Default: 0
+- Property: marker_type (Type: MarkerType (enum)) - Default: 0
+---CHUNK---
+Document: OpenXRMarkerTracker
+Path: godot/classes/class_openxrmarkertracker.rst
+Summary: Core methods for retrieving and setting marker data in OpenXR tracking.
+
+- get_marker_data() → Variant (const): Returns current marker data as a Variant. This is a constant method that does not modify the object state.
+- set_marker_data(marker_data: Variant) → void: Updates marker data from a Variant input. Accepts any data type compatible with Variant storage.
+
+Key Rule: The get_marker_data method must be called on a valid OpenXR marker instance to retrieve meaningful data.
+---CHUNK---
+Document: OpenXRMarkerTracker  
+Path: godot/classes/class_openxrmarkertracker.rst  
+Summary: Properties and methods for configuring and querying marker tracking data in OpenXRMarkerTracker.  
+
+bounds_size (Vector2): The bounds size for this marker. Default: Vector2(0, 0). Set via set_bounds_size(value: Vector2), get via get_bounds_size().  
+
+marker_id (int): The marker ID for this marker, only returned for Aruco and April Tag markers. Default: 0. Set via set_marker_id(value: int), get via get_marker_id(). Note: Use get_marker_data() for QRCode markers.  
+
+marker_type (MarkerType): The type of marker. Default: 0. Set via set_marker_type(value: MarkerType), get via get_marker_type(). MarkerType enum values: 0 (unknown), 1 (Aruco), 2 (April Tag), 3 (QRCode).
+---CHUNK---
+Document: OpenXRMarkerTracker
+Path: godot/classes/class_openxrmarkertracker.rst
+Summary: Methods for retrieving and setting marker data associated with QR code markers.
+
+Method: get_marker_data() → Variant
+Returns the marker data for this marker. This can return a String or PackedByteArray. Only applicable to QR Code based markers.
+
+Method: set_marker_data(marker_data: Variant) → void
+Sets the marker data for this marker.
+
+Note: This should only be set by marker discovery logic.

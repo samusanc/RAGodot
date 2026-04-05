@@ -1,0 +1,54 @@
+Document: Introduction to Godot  
+Path: godot/getting_started/introduction/introduction_to_godot.rst  
+Summary: This section provides an overview of the Godot Engine and its features.
+---CHUNK---
+Document: Introduction to Godot
+Path: godot/getting_started/introduction/introduction_to_godot.rst
+Summary: An overview of Godot's features and how to get started with the engine
+This article is here to help you figure out whether Godot might be a good fit for you. We will introduce some broad features of the engine to give you a feel for what you can achieve with it and answer questions such as "what do I need to know to get started?" This is by no means an exhaustive overview. We will introduce many more features in this getting started series.
+---CHUNK---
+Document: introduction_to_godot
+Path: godot/getting_started/introduction/introduction_to_godot.rst
+Summary: Introduces Godot as a 2D/3D game engine supporting desktop, mobile, web, and console platforms
+
+Godot is a general-purpose 2D and 3D game engine designed to support all sorts of projects. You can use it to create games or applications you can then release on desktop or mobile, as well as on the web. You can also create console games with it, although you either need strong programming skills or a developer to port the game for you. Note: For information about console support, see the Godot website.
+---CHUNK---
+Document: introduction_to_godot
+Path: godot/getting_started/introduction/introduction_to_godot.rst
+Summary: Overview of Godot's development history and examples of games/applications created with the engine.
+
+Godot was initially developed in-house by an Argentinian game studio. Its development started in 2001, and the engine was rewritten and improved tremendously since its open source release in 2014. Some examples of games created with Godot include Cassette Beasts, PVKK, and Usagi Shima. As for applications, the open source pixel art drawing program Pixelorama is powered by Godot, and so is the voxel RPG creator RPG in a Box. You can find many more examples in the Official Showcase.
+
+Usagi Shima
+Cassette Beasts
+PVKK: Planetenverteidigungskanonenkommandant
+RPG in a Box
+---CHUNK---
+Document: Introduction to Godot  
+Path: godot/getting_started/introduction/introduction_to_godot.rst  
+Summary: Overview of Godot's integrated tools and external support options.  
+
+Godot comes with a fully-fledged game editor with integrated tools to answer the most common needs. It includes a code editor, an animation editor, a tilemap editor, a shader editor, a debugger, a profiler, and more. The team strives to offer a feature-rich game editor with a consistent user experience. While there is always room for improvement, the user interface keeps getting refined.  
+
+External Tools Support:  
+- Importing 3D scenes designed in Blender  
+- Plugins for coding in VSCode and Emacs for GDScript and C#  
+- Support for Visual Studio for C# on Windows
+---CHUNK---
+Document: introduction_to_godot
+Path: godot/getting_started/introduction/introduction_to_godot.rst
+Summary: Overview of supported programming languages and engine extensibility options in Godot
+
+Godot supports two primary scripting languages for game development: GDScript and C#. GDScript is a lightweight, Python-inspired language designed specifically for Godot with tight engine integration. C# is also supported and widely used in the game industry. Both languages allow developers to create gameplay logic and game features through standard scripting.
+
+For high-performance code or third-party integration, Godot provides GDExtension technology. This system enables writing performance-critical code in C++ or other supported languages without requiring engine recompilation. GDExtension is particularly useful for integrating external libraries, SDKs, and custom modules into the engine.
+
+The Godot engine is completely open source and free to use. This allows developers to directly modify and extend engine functionality by adding custom modules or features. The open-source nature of Godot provides maximum flexibility for advanced users who need to implement specialized systems or integrate unique technologies.
+---CHUNK---
+Document: Introduction to Godot  
+Path: godot/getting_started/introduction/introduction_to_godot.rst  
+Summary: Prerequisites for using Godot, emphasizing programming foundations and object-oriented concepts.  
+
+Godot is a feature-packed game engine with thousands of features requiring good programming foundations to use effectively. While the engine aims for accessibility, understanding programming principles will greatly enhance your experience. Godot relies on object-oriented programming, so familiarity with concepts like classes and objects is essential for efficient coding.  
+
+If you're new to programming, GDQuest's *Learn GDScript From Zero* is a free, open-source interactive tutorial designed for absolute beginners. It is available as a desktop application or in the browser. We will provide additional Godot-specific learning resources in doc_learning_new_features. The next section will cover the engine's essential concepts.

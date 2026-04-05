@@ -1,0 +1,22 @@
+Document: AudioEffectHighPassFilter  
+Path: godot/classes/class_audioeffecthighpassfilter.rst  
+Summary: Class for applying a high-pass filter to audio signals.
+---CHUNK---
+Document: AudioEffectHighPassFilter  
+Path: godot/classes/class_audioeffecthighpassfilter.rst  
+Summary: Adds a high-pass filter to an audio bus for audio processing.  
+
+Inherits: AudioEffectFilter < AudioEffect < Resource < RefCounted < Object  
+Adds a high-pass filter to an audio bus.
+---CHUNK---
+Document: AudioEffectHighPassFilter  
+Path: godot/classes/class_audioeffecthighpassfilter.rst  
+Summary: A high-pass filter that attenuates low frequencies while allowing higher frequencies to pass unchanged, useful for creating space for bass and impact sounds.  
+
+A "high-pass" filter attenuates frequencies lower than AudioEffectFilter.cutoff_hz and allows higher frequencies to pass unchanged. This filter can be used to remove "strength" from a sound, and give low-end space for basses and impact sounds. Note: The cutoff frequency is controlled via the AudioEffectFilter.cutoff_hz property.
+---CHUNK---
+Document: Audio Effect Highpass Filter
+Path: godot/classes/class_audioeffecthighpassfilter.rst
+Summary: This section lists tutorials covering the basics of audio buses and effects in Godot.
+- Audio buses
+- Audio effects

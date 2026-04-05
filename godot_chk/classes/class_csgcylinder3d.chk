@@ -1,0 +1,34 @@
+Document: CSGCylinder3D  
+Path: godot/classes/class_csgcylinder3d.rst  
+Summary: Class reference for CSGCylinder3D. No content available in the provided RST section.
+---CHUNK---
+Document: CSGCylinder3D
+Path: godot/classes/class_csgcylinder3d.rst
+Summary: A CSG Cylinder shape used in 3D collision and visual representations.
+
+CSGCylinder3D
+Inherits: CSGPrimitive3D < CSGShape3D < GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+A CSG Cylinder shape.
+---CHUNK---
+Document: CSGCylinder3D
+Path: godot/classes/class_csgcylinder3d.rst
+Summary: This class creates a cylinder or cone shape for use in the CSG system with performance considerations.
+
+This node allows you to create a cylinder (or cone) for use with the CSG system. Note: CSG nodes are intended to be used for level prototyping. Creating CSG nodes has a significant CPU cost compared to creating a MeshInstance3D with a PrimitiveMesh. Moving a CSG node within another CSG node also has a significant CPU cost, so it should be avoided during gameplay.
+---CHUNK---
+Document: class_csgcylinder3d  
+Path: godot/classes/class_csgcylinder3d.rst  
+Summary: Lists a tutorial on prototyping levels with CSG tools in Godot.  
+Tutorials  
+- Prototyping levels with CSG
+---CHUNK---
+Document: CSGCylinder3D
+Path: godot/classes/class_csgcylinder3d.rst
+Summary: Properties and member variables of the CSGCylinder3D class, including cone shape, height, material, radius, polygon count, and surface smoothing settings.
+
+- cone (bool): Enables cone shape instead of cylinder. Default: false
+- height (float): Vertical dimension of the cylinder. Default: 2.0
+- material (Material): Surface material applied to the shape
+- radius (float): Horizontal radius of the cylinder. Default: 0.5
+- sides (int): Number of polygonal segments around the circumference. Default: 8
+- smooth_faces (bool): Enables smooth shading for faces. Default: true

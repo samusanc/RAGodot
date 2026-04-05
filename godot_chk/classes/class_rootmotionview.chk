@@ -1,0 +1,45 @@
+Document: RootMotionView
+Path: godot/classes/class_rootmotionview.rst
+Summary: RootMotionView class reference with inheritance and basic description.
+
+RootMotionView is a class used to visualize and manipulate root motion in Godot. It inherits from Node and provides tools for animators to adjust character movement through animation curves. The class is part of the animation system and is typically used in conjunction with AnimationPlayer and AnimationTree nodes. Key features include the ability to display motion paths, adjust speed multipliers, and synchronize with animation timelines. RootMotionView is particularly useful for fine-tuning character movement in complex animation setups.
+---CHUNK---
+Document: RootMotionView
+Path: godot/classes/class_rootmotionview.rst
+Summary: Editor-only helper for setting up root motion in AnimationMixer.
+
+Inherits: VisualInstance3D < Node3D < Node < Object
+Editor-only helper for setting up root motion in AnimationMixer.
+---CHUNK---
+Document: RootMotionView
+Path: godot/classes/class_rootmotionview.rst
+Summary: Explains the RootMotionView class, its purpose in visualizing root motion animations, and editor-specific visibility behavior.
+
+Root motion refers to an animation technique where a mesh's skeleton is used to give impulse to a character. When working with 3D animations, a popular technique is for animators to use the root skeleton bone to give motion to the rest of the skeleton. This allows animating characters in a way where steps actually match the floor below. It also allows precise interaction with objects during cinematics. See also AnimationMixer.
+
+Note: RootMotionView is only visible in the editor. It will be hidden automatically in the running project.
+---CHUNK---
+Document: class_rootmotionview
+Path: godot/classes/class_rootmotionview.rst
+Summary: Links to the 'Using AnimationTree - Root motion' tutorial in the Godot documentation.
+- Using AnimationTree - Root motion
+---CHUNK---
+Document: RootMotionView
+Path: godot/classes/class_rootmotionview.rst
+Summary: Properties and their default values for the RootMotionView class.
+
+- Property: animation_path (NodePath): The path to the animation resource. Default: NodePath("")
+- Property: cell_size (float): Size of each cell in the grid display. Default: 1.0
+- Property: color (Color): Color used for visual representation. Default: Color(0.5, 0.5, 1, 1)
+- Property: radius (float): Radius of the motion visualization circle. Default: 10.0
+- Property: zero_y (bool): Whether to constrain motion to the Y=0 plane. Default: true
+---CHUNK---
+Document: RootMotionView  
+Path: godot/classes/class_rootmotionview.rst  
+Summary: Configuration properties for RootMotionView's grid visualization and animation path.  
+
+- **animation_path** (NodePath): Path to an AnimationMixer node to use as a basis for root motion. Default: NodePath(""). Set/Get methods: set_animation_path(value: NodePath), get_animation_path() → NodePath.  
+- **cell_size** (float): The grid's cell size in 3D units. Default: 1.0. Set/Get methods: set_cell_size(value: float), get_cell_size() → float.  
+- **color** (Color): The grid's color. Default: Color(0.5, 0.5, 1, 1). Set/Get methods: set_color(value: Color), get_color() → Color.  
+- **radius** (float): The grid's radius in 3D units. The grid's opacity will fade gradually as the distance from the origin increases until this radius is reached. Default: 10.0. Set/Get methods: set_radius(value: float), get_radius() → float.  
+- **zero_y** (bool): If true, the grid's points will all be on the same Y coordinate (local Y = 0). If false, the points' original Y coordinate is preserved. Default: true. Set/Get methods: set_zero_y(value: bool), get_zero_y() → bool.

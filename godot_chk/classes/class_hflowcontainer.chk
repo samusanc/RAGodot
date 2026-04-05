@@ -1,0 +1,27 @@
+Document: HFlowContainer
+Path: godot/classes/class_hflowcontainer.rst
+Summary: Class HFlowContainer reference.
+---CHUNK---
+Document: HFlowContainer
+Path: godot/classes/class_hflowcontainer.rst
+Summary: A container that arranges its child controls horizontally and wraps them around at the borders.
+
+HFlowContainer
+Inherits: FlowContainer < Container < Control < CanvasItem < Node < Object
+A container that arranges its child controls horizontally and wraps them around at the borders.
+---CHUNK---
+Document: HFlowContainer
+Path: godot/classes/class_hflowcontainer.rst
+Summary: A horizontal-only variant of FlowContainer that wraps child controls at container borders like text wrapping in a book.
+
+HFlowContainer is a specialized container control that arranges its child nodes in a horizontal layout. Unlike standard FlowContainer which can arrange items both horizontally and vertically, HFlowContainer strictly maintains horizontal alignment. When the available horizontal space is exhausted, it wraps the remaining child controls to the next line, similar to how text wraps at the end of a paragraph in printed materials.
+
+This container type is particularly useful for creating UI elements that require horizontal scrolling or line-wrapping behavior, such as toolbars, galleries, or any interface components where horizontal space needs to be efficiently utilized. The wrapping behavior is automatic and dynamic, adjusting to the size of the container and the dimensions of its child controls.
+
+Inherits: FlowContainer < Container < Control < CanvasItem < Node < Object
+---CHUNK---
+Document: class_hflowcontainer
+Path: godot/classes/class_hflowcontainer.rst
+Summary: Links to the 'Using Containers' tutorial in the Godot documentation.
+
+Using Containers

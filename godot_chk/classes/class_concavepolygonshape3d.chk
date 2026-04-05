@@ -1,0 +1,78 @@
+Document: ConcavePolygonShape3D  
+Path: godot/classes/class_concavepolygonshape3d.rst  
+Summary: This class represents a 3D concave polygon shape used for physics collisions in Godot, derived from ConvexPolygonShape3D and Shape3D.  
+
+Inherits: Shape3D < ConvexPolygonShape3D < Reference < Object  
+Description: ConcavePolygonShape3D is a physics shape that defines a concave polygon in 3D space. Unlike ConvexPolygonShape3D, it can represent non-convex geometries by combining multiple convex shapes. It is used in physics bodies to define collision boundaries. The shape is created by providing a list of triangles (as an Array of Vector3) that form the concave mesh. Key Rule: ConcavePolygonShape3D requires triangulated input data and does not support dynamic updates after creation.  
+
+Properties:  
+- polygons (Array): Array of triangles defining the concave shape. Each triangle is a Vector3 array of three points. Default: empty array.  
+- margin (float): Collision margin for the shape. Default: 0.01.  
+
+Methods:  
+- set_polygons (Array): Sets the triangle list for the shape.  
+- get_polygons () → Array: Returns the current triangle list.  
+- set_margin (float): Sets the collision margin.  
+- get_margin () → float: Returns the collision margin.  
+
+Note: ConcavePolygonShape3D is typically used with RigidBody3D or StaticBody3D nodes for physics interactions. Warning: Performance may degrade with complex concave shapes due to increased computational overhead.
+---CHUNK---
+Document: ConcavePolygonShape3D
+Path: godot/classes/class_concavepolygonshape3d.rst
+Summary: A 3D trimesh shape used for physics collision.
+
+Inherits: Shape3D < Resource < RefCounted < Object
+A 3D trimesh shape used for physics collision.
+---CHUNK---
+Document: ConcavePolygonShape3D  
+Path: godot/classes/class_concavepolygonshape3d.rst  
+Summary: A 3D trimesh shape for physics, used with CollisionShape3D nodes, offering high configurability but with performance and usage limitations.  
+
+A 3D trimesh shape intended for use in physics, typically paired with CollisionShape3D nodes. As a collection of interconnected triangles, ConcavePolygonShape3D allows creation of polyhedra of any type, including non-enclosing volumes. However, it remains hollow even when triangles form a closed volume, making it unsuitable for many physics applications.  
+
+Note: Intended for static CollisionShape3D nodes like StaticBody3D; may not work well with CharacterBody3D or RigidBody3D in non-Static modes.  
+Warning: Small physics bodies moving quickly may clip through this shape due to its hollow nature, failing to detect collisions between frames.  
+Performance: Slowest 3D collision shape due to complexity; optimal for level geometry. For convex shapes, use ConvexPolygonShape3D. For dynamic concave collision, use multiple ConvexPolygonShape3D instances via convex decomposition.
+---CHUNK---
+Document: class_concavepolygonshape3d
+Path: godot/classes/class_concavepolygonshape3d.rst
+Summary: This section lists tutorials related to the ConcavePolygonShape3D class, including the 3D Physics Tests Demo.
+
+Tutorials
+- 3D Physics Tests Demo
+---CHUNK---
+Document: ConcavePolygonShape3D
+Path: godot/classes/class_concavepolygonshape3d.rst
+Summary: Describes the backface_collision property of ConcavePolygonShape3D and its default value.
+
+- backface_collision (bool): Controls whether collision detection includes backfaces. Default: false.
+---CHUNK---
+Document: ConcavePolygonShape3D
+Path: godot/classes/class_concavepolygonshape3d.rst
+Summary: Methods for manipulating 3D concave polygon shape faces
+
+- get_faces() → PackedVector3Array (const): Returns the array of face vertices defining the concave polygon shape
+- set_faces(faces: PackedVector3Array): Sets the face vertices defining the concave polygon shape. Accepts a PackedVector3Array containing vertex data for all faces.
+---CHUNK---
+Document: ConcavePolygonShape3D
+Path: godot/classes/class_concavepolygonshape3d.rst
+Summary: Configures backface collision behavior for concave polygon shapes and related methods.
+
+Property: backface_collision (bool) = false
+Controls whether collisions occur on both sides of concave shape faces. When true, collisions are detected on both sides; when false, collisions only occur along face normals.
+
+Method: set_backface_collision_enabled(value: bool) → void
+Enables or disables backface collision detection by setting the value parameter.
+
+Method: is_backface_collision_enabled() → bool
+Returns the current state of backface collision detection (true if enabled, false if disabled).
+---CHUNK---
+Document: ConcavePolygonShape3D
+Path: godot/classes/class_concavepolygonshape3d.rst
+Summary: Methods for retrieving and setting triangle face data in a 3D concave polygon shape.
+
+Method: get_faces() → PackedVector3Array
+Returns the faces of the trimesh shape as an array of vertices. The array (of length divisible by three) is naturally divided into triples; each triple of vertices defines a triangle.
+
+Method: set_faces(faces: PackedVector3Array)
+Sets the faces of the trimesh shape from an array of vertices. The faces array should be composed of triples such that each triple of vertices defines a triangle.

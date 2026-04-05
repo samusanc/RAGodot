@@ -1,0 +1,44 @@
+Document: InputEventMouse
+Path: godot/classes/class_inputeventmouse.rst
+Summary: Represents mouse input events in Godot, including position, button states, and modifiers.
+
+Inherits: InputEvent < InputEventMouseButton < InputEventMouse
+
+This class handles mouse-related input events, capturing details like cursor position, button presses, and keyboard modifiers. It extends InputEventMouseButton by adding mouse-specific properties and inherits from the base InputEvent class. Key properties include mouse button states, position coordinates, and modifier keys (Shift, Ctrl, etc.). Events are generated when the mouse moves, buttons are pressed/released, or modifiers change. The class is used by the InputMap system to map mouse actions to signals and functions in Godot projects.
+---CHUNK---
+Document: InputEventMouse
+Path: godot/classes/class_inputeventmouse.rst
+Summary: Base input event type for mouse events.
+
+Inherits: InputEventWithModifiers < InputEventFromWindow < InputEvent < Resource < RefCounted < Object
+Inherited By: InputEventMouseButton, InputEventMouseMotion
+Base input event type for mouse events.
+---CHUNK---
+Document: InputEventMouse
+Path: godot/classes/class_inputeventmouse.rst
+Summary: Represents mouse event data, including position, button states, and modifiers.
+---CHUNK---
+Document: class_inputeventmouse
+Path: godot/classes/class_inputeventmouse.rst
+Summary: Links to the 'Using InputEvent' tutorial for handling input events in Godot.
+
+Tutorials: Using InputEvent
+---CHUNK---
+Document: InputEventMouse
+Path: godot/classes/class_inputeventmouse.rst
+Summary: Mouse input event properties including button masks, device identifiers, and position data.
+
+- button_mask (bitfield): The mouse button mask. Default: 0.
+- device (int): The input device. Overrides the base class's device property. Default: 32.
+- global_position (Vector2): The global position of the mouse event. Default: Vector2(0, 0).
+- position (Vector2): The local position of the mouse event. Default: Vector2(0, 0).
+---CHUNK---
+Document: InputEventMouse
+Path: godot/classes/class_inputeventmouse.rst
+Summary: Mouse input event properties including button mask and position data with context-specific behavior.
+
+button_mask (bitfield[MouseButtonMask]): The mouse button mask identifier, one of or a bitwise combination of the MouseButton button masks. Default: 0. Set via set_button_mask(value), Get via get_button_mask().
+
+global_position (Vector2): Returns mouse position in root Viewport coordinate system when received in Node._input() or Node._unhandled_input(). Returns mouse position in the CanvasLayer coordinate system when received in Control._gui_input(). Default: Vector2(0, 0). Set via set_global_position(value), Get via get_global_position().
+
+position (Vector2): Returns mouse position in the Viewport coordinate system of the Node's containing Viewport when received in Node._input() or Node._unhandled_input(). Returns mouse position in the Control's local coordinate system when received in Control._gui_input(). Default: Vector2(0, 0). Set via set_position(value), Get via get_position().

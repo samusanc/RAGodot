@@ -1,0 +1,78 @@
+Document: AudioStreamSynchronized  
+Path: godot/classes/class_audiostreamsynchronized.rst  
+Summary: Class AudioStreamSynchronized: Base class for synchronized audio streams.  
+
+AudioStreamSynchronized is a class designed to handle audio streams that are synchronized with other audio elements or timelines. It provides functionality to manage playback timing, ensure alignment with visual or other audio cues, and handle synchronization events. This class is typically used in scenarios where precise timing is critical, such as in games with complex audio-visual interactions or when integrating external audio sources that require strict synchronization.  
+
+Key features include methods to set and retrieve synchronization parameters, handle playback events, and manage the relationship between audio streams and other synchronized elements. The class inherits from AudioStream, extending its capabilities with synchronization-specific properties and methods. Developers can use this class to create audio streams that start, stop, or adjust their playback in response to specific triggers or time markers.  
+
+Implementation details involve handling time offsets, managing synchronization locks, and ensuring compatibility with other audio systems within the engine. The class may also include properties to control the synchronization mode, such as whether the stream should start at a specific time or align with another stream. These features allow for flexible and precise control over audio synchronization within Godot projects.
+---CHUNK---
+Document: AudioStreamSynchronized
+Path: godot/classes/class_audiostreamsynchronized.rst
+Summary: A class that allows sub-streams to be synchronized during playback.
+
+Inherits: AudioStream < Resource < RefCounted < Object
+Stream that can be fitted with sub-streams, which will be played in-sync.
+---CHUNK---
+Document: AudioStreamSynchronized  
+Path: godot/classes/class_audiostreamsynchronized.rst  
+Summary: A synchronized audio stream that plays multiple sub-streams simultaneously, starting and ending together, with looping support.  
+
+This is a stream that can be fitted with sub-streams, which will be played in-sync. The streams begin at exactly the same time when play is pressed, and will end when the last of them ends. If one of the sub-streams loops, then playback will continue.
+---CHUNK---
+Document: AudioStreamSynchronized
+Path: godot/classes/class_audiostreamsynchronized.rst
+Summary: Lists tutorials related to audio streams in Godot Engine.
+
+Tutorials
+- Audio streams
+---CHUNK---
+Document: AudioStreamSynchronized
+Path: godot/classes/class_audiostreamsynchronized.rst
+Summary: Describes the 'stream_count' property and its default value.
+
+Properties:
+- stream_count (int): Number of streams. Default: 0.
+---CHUNK---
+Document: AudioStreamSynchronized
+Path: godot/classes/class_audiostreamsynchronized.rst
+Summary: AudioStreamSynchronized class methods for managing synchronized audio streams and their volume levels.
+
+- get_sync_stream(stream_index: int) → AudioStream (const): Retrieves the audio stream at the specified index.
+- get_sync_stream_volume(stream_index: int) → float (const): Returns the volume level (in decibels) of the stream at the specified index.
+- set_sync_stream(stream_index: int, audio_stream: AudioStream): Assigns a new audio stream to the specified index, replacing any existing stream.
+- set_sync_stream_volume(stream_index: int, volume_db: float): Sets the volume level (in decibels) for the stream at the specified index.
+---CHUNK---
+Document: AudioStreamSynchronized  
+Path: godot/classes/class_audiostreamsynchronized.rst  
+Summary: Defines the MAX_STREAMS constant and its role in limiting synchronized audio streams.  
+
+MAX_STREAMS = 32  
+Maximum amount of streams that can be synchronized.
+---CHUNK---
+Document: AudioStreamSynchronized
+Path: godot/classes/class_audiostreamsynchronized.rst
+Summary: Configures the stream_count property for synchronizing multiple audio streams
+
+stream_count (int): Set the total amount of streams that will be played back synchronized. Default: 0
+- set_stream_count(value: int): Sets the number of synchronized streams
+- get_stream_count() → int: Returns the current number of synchronized streams
+
+Note: This property controls how many audio streams will be synchronized together. Increasing this value allows more streams to play in sync but may impact performance.
+---CHUNK---
+Document: AudioStreamSynchronized  
+Path: godot/classes/class_audiostreamsynchronized.rst  
+Summary: Methods for retrieving and modifying synchronized audio streams and their volume levels.  
+
+Method: get_sync_stream(stream_index: int) → AudioStream  
+Get one of the synchronized streams, by index.  
+
+Method: get_sync_stream_volume(stream_index: int) → float  
+Get the volume of one of the synchronized streams, by index.  
+
+Method: set_sync_stream(stream_index: int, audio_stream: AudioStream) → void  
+Set one of the synchronized streams, by index.  
+
+Method: set_sync_stream_volume(stream_index: int, volume_db: float) → void  
+Set the volume of one of the synchronized streams, by index.

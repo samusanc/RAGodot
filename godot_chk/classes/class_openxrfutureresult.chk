@@ -1,0 +1,47 @@
+Document: OpenXRFutureResult  
+Path: godot/classes/class_openxrfutureresult.rst  
+Summary: Class reference for OpenXRFutureResult, including identity, description, and inheritance information.
+---CHUNK---
+Document: OpenXRFutureResult  
+Path: godot/classes/class_openxrfutureresult.rst  
+Summary: A result object that tracks the asynchronous outcome of an OpenXR Future operation.  
+
+Inherits: RefCounted < Object  
+Result object tracking the asynchronous result of an OpenXR Future object.
+---CHUNK---
+Document: OpenXRFutureResult
+Path: godot/classes/class_openxrfutureresult.rst
+Summary: Result object tracking the asynchronous result of an OpenXR Future object, allowing status monitoring.
+
+Result object tracking the asynchronous result of an OpenXR Future object, you can use this object to track the result status.
+---CHUNK---
+Document: OpenXRFutureResult  
+Path: godot/classes/class_openxrfutureresult.rst  
+Summary: Methods, signals, and enumerations for managing asynchronous operations and result statuses in OpenXRFutureResult.  
+
+Method: cancel_future() → void.  
+Method: get_future() → int. Constant.  
+Method: get_result_value() → Variant. Constant.  
+Method: get_status() → ResultStatus. Constant.  
+Method: set_result_value(result_value: Variant) → void.  
+
+Signal: completed(result: OpenXRFutureResult). Emitted when the asynchronous function is finished or has been cancelled.  
+
+Enum: ResultStatus.  
+- RESULT_RUNNING = 0. The asynchronous function is running.  
+- RESULT_FINISHED = 1. The asynchronous function has finished.  
+- RESULT_CANCELLED = 2. The asynchronous function has been cancelled.
+---CHUNK---
+Document: OpenXRFutureResult  
+Path: godot/classes/class_openxrfutureresult.rst  
+Summary: Methods for managing asynchronous operations and retrieving results from OpenXR extensions.  
+
+Method: cancel_future() → void. Cancel this future, this will interrupt and stop the asynchronous function.  
+
+Method: get_future() → int. Return the XrFutureEXT value this result relates to.  
+
+Method: get_result_value() → Variant. Returns the result value of our asynchronous function (if set by the extension). The type of this result value depends on the function being called. Consult the documentation of the relevant function.  
+
+Method: get_status() → ResultStatus. Returns the status of this result.  
+
+Method: set_result_value(result_value: Variant) → void. Stores the result value we expose to the user. Note: This method should only be called by an OpenXR extension that implements an asynchronous function.

@@ -1,0 +1,55 @@
+Document: VisualShaderNodeColorFunc
+Path: godot/classes/class_visualshadernodecolorfunc.rst
+Summary: Class VisualShaderNodeColorFunc reference.
+---CHUNK---
+Document: VisualShaderNodeColorFunc
+Path: godot/classes/class_visualshadernodecolorfunc.rst
+Summary: A Color function node for use in visual shader graphs within Godot Engine
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A Color function to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeColorFunc
+Path: godot/classes/class_visualshadernodecolorfunc.rst
+Summary: Transforms input Color based on specified function in Visual Shader
+
+Accepts a Color to the input port and transforms it according to the function property. The transformation is determined by the value of the function parameter, which specifies the color operation to apply.
+---CHUNK---
+Document: VisualShaderNodeColorFunc
+Path: godot/classes/class_visualshadernodecolorfunc.rst
+Summary: Describes the properties and member variables of the VisualShaderNodeColorFunc class, including the Function enum and its default value.
+
+Function (enum_VisualShaderNodeColorFunc_Function): function (class_VisualShaderNodeColorFunc_property_function). Default: 0.
+---CHUNK---
+Document: VisualShaderNodeColorFunc
+Path: godot/classes/class_visualshadernodecolorfunc.rst
+Summary: Defines color conversion functions for visual shaders, including grayscale, HSV conversion, sepia, and sRGB encoding/decoding.
+
+enum Function: 
+- FUNC_GRAYSCALE (0): Converts the color to grayscale using the formula:
+  vec3 c = input;
+  float max1 = max(c.r, c.g);
+  float max2 = max(max1, c.b);
+  float max3 = max(max1, max2);
+  return vec3(max3, max3, max3);
+- FUNC_HSV2RGB (1): Converts HSV vector to RGB equivalent.
+- FUNC_RGB2HSV (2): Converts RGB vector to HSV equivalent.
+- FUNC_SEPIA (3): Applies sepia tone effect using the formula:
+  vec3 c = input;
+  float r = (c.r * 0.393) + (c.g * 0.769) + (c.b * 0.189);
+  float g = (c.r * 0.349) + (c.g * 0.686) + (c.b * 0.168);
+  float b = (c.r * 0.272) + (c.g * 0.534) + (c.b * 0.131);
+  return vec3(r, g, b);
+- FUNC_LINEAR_TO_SRGB (4): Converts color from linear encoding to nonlinear sRGB encoding using:
+  const vec3 a = vec3(0.055f);
+  return mix((vec3(1.0f) + a) * pow(c.rgb, vec3(1.0f / 2.4f)) - a, 12.92f * c.rgb, lessThan(c.rgb, vec3(0.0031308f)));
+  Note: Compatibility renderer uses simpler formula with potential undefined behavior for negative inputs:
+  vec3 c = input;
+  return max(vec3(1.055) * pow(c, vec3(0.416666667)) - vec3(0.055), vec3(0.0));
+- FUNC_MAX (6): Represents the size of the Function enum.
+---CHUNK---
+Document: VisualShaderNodeColorFunc
+Path: godot/classes/class_visualshadernodecolorfunc.rst
+Summary: The 'function' property and its setter/getter methods for applying a color function in VisualShaderNodeColorFunc.
+
+Function (Function): A function to be applied to the input color. Default: 0. Method: set_function(value: Function). Method: get_function() → Function.

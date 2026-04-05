@@ -1,0 +1,34 @@
+Document: Using Engine Compilation Configuration Editor  
+Path: godot/tutorials/editor/using_engine_compilation_configuration_editor.rst  
+Summary: This section contains only a reference link with no actual content.
+---CHUNK---
+Document: Using the engine compilation configuration editor  
+Path: godot/tutorials/editor/using_engine_compilation_configuration_editor.rst  
+Summary: This section explains how to use Godot's engine compilation configuration editor to optimize project binary size by managing enabled features and creating custom build profiles.  
+
+Godot includes many built-in features, which can increase binary size for projects using only a subset of these features. To reduce binary size, custom export templates can be compiled with unused features disabled. The engine compilation configuration editor simplifies this process by providing an interface to view, manage, and detect features used in the project. Accessible via :menu:`Project > Tools > Engine Compilation Configuration Editor`, this tool allows users to create and manage build profiles.  
+
+Two options are available: manually unchecking unused features or using the :button:`Detect from Project` button to automatically identify features in use. Automatic detection overrides manual changes, resetting unchecked items based on actual project usage. Note that unchecking features in this interface does not immediately reduce binary size; custom export templates must be compiled with the build profile to apply changes.  
+
+After detection, a list of features is updated with unused ones disabled. The build profile can be saved using **Save As**, ideally within the project folder and added to version control for future reference. The saved profile is a JSON file with a ``.gdbuild`` extension, containing configuration data derived from project analysis. Example structure:  
+
+{  
+  "disabled_features": ["feature1", "feature2"],  
+  "enabled_features": ["feature3", "feature4"]  
+}  
+
+Warning: Disabling features in the editor does not directly reduce binary size. Custom export templates must be compiled with the profile to remove unused features at compile-time.
+---CHUNK---
+Document: Using Engine Compilation Configuration Editor
+Path: godot/tutorials/editor/using_engine_compilation_configuration_editor.rst
+Summary: This section outlines scenarios where the 'Detect from Project' feature fails to identify used engine features.
+
+The Detect from Project functionality relies on reading the project's scenes and scripts. It will not be able to detect used features in the following scenarios:
+
+- Features used in GDScripts that are procedurally created then run at runtime
+- Features used in expressions
+- Features used in GDExtensions unless the language binding allows defining used classes and the extension utilizes the functionality (see GH-104129 for details)
+- Features used in external PCKs loaded at runtime
+- Certain edge cases may exist. If unsure, please open an issue on GitHub with a minimal reproduction project attached
+
+Note: You can achieve further size reductions by passing other options that reduce binary size. See doc_optimizing_for_size for more information.

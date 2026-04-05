@@ -1,0 +1,45 @@
+Document: RenderSceneData
+Path: godot/classes/class_renderscenedata.rst
+Summary: Class: RenderSceneData. Inheritance: [unknown]
+---CHUNK---
+Document: RenderSceneData
+Path: godot/classes/class_renderscenedata.rst
+Summary: Abstract render data object holding scene data for rendering a single viewport frame.
+
+Inherits: Object < RenderSceneDataExtension < RenderSceneDataRD
+Abstract render data object holding scene data related to rendering a single frame of a viewport.
+---CHUNK---
+Document: RenderSceneData
+Path: godot/classes/class_renderscenedata.rst
+Summary: Abstract scene data object for single viewport rendering, related to RenderSceneDataRD, RenderData, and RenderDataRD.
+
+Abstract scene data object, exists for the duration of rendering a single viewport. See also RenderSceneDataRD, RenderData, and RenderDataRD.
+
+Note: This is an internal rendering server object. Do not instantiate this class from a script.
+---CHUNK---
+Document: class_RenderSceneData
+Path: godot/classes/class_renderscenedata.rst
+Summary: Methods of the RenderSceneData class for retrieving camera and view information
+
+- Projection (Type): get_cam_projection() → const
+- Transform3D (Type): get_cam_transform() → const
+- RID (Type): get_uniform_buffer() → const
+- int (Type): get_view_count() → const
+- Vector3 (Type): get_view_eye_offset(view: int) → const
+- Projection (Type): get_view_projection(view: int) → const
+---CHUNK---
+Document: RenderSceneData
+Path: godot/classes/class_renderscenedata.rst
+Summary: Methods for retrieving camera and view data used in rendering scenes.
+
+Method: get_cam_projection() → Projection. Returns the camera projection used to render this frame. Note: If more than one view is rendered, this will return a combined projection.
+
+Method: get_cam_transform() → Transform3D. Returns the camera transform used to render this frame. Note: If more than one view is rendered, this will return a centered transform.
+
+Method: get_uniform_buffer() → RID. Return the RID of the uniform buffer containing the scene data as a UBO.
+
+Method: get_view_count() → int. Returns the number of views being rendered.
+
+Method: get_view_eye_offset(view: int) → Vector3. Returns the eye offset per view used to render this frame. This is the offset between our camera transform and the eye transform.
+
+Method: get_view_projection(view: int) → Projection. Returns the view projection per view used to render this frame. Note: If a single view is rendered, this returns the camera projection. If more than one view is rendered, this will return a projection for the given view including the eye offset.

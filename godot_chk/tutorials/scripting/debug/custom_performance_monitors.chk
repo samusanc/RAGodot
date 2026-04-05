@@ -1,0 +1,65 @@
+Document: Custom Performance Monitors  
+Path: godot/tutorials/scripting/debug/custom_performance_monitors.rst  
+Summary: This section defines a link target for the tutorial on creating custom performance monitors in Godot.
+---CHUNK---
+Document: Custom performance monitors
+Path: godot/tutorials/scripting/debug/custom_performance_monitors.rst
+Summary: This section explains how to create and use custom performance monitors in Godot for profiling and optimizing game performance.
+---CHUNK---
+Document: Custom Performance Monitors
+Path: godot/tutorials/scripting/debug/custom_performance_monitors.rst
+Summary: Explains how to create custom performance monitors in Godot to track project-specific metrics and in-game data for debugging.
+
+Godot's Debugger > Monitors panel allows tracking values through time-based graphs, with data sourced from the Performance singleton. Custom monitors can be declared to display project-specific performance metrics or non-performance in-game data. Example use cases include:
+
+- Tracking voxel chunk load rates per second in a voxel game
+- Monitoring enemy spawn counts to validate spawning mechanics
+- Visualizing any numerical game state values useful for debugging
+
+These custom monitors provide flexibility beyond the engine's default performance metrics, enabling developers to create tailored debugging visualizations for their specific projects.
+---CHUNK---
+Document: Custom Performance Monitors  
+Path: godot/tutorials/scripting/debug/custom_performance_monitors.rst  
+Summary: This tutorial demonstrates creating a custom performance monitor to track enemy counts in a Godot project.  
+
+The example creates a custom performance monitor to track how many enemies are present in the scene. The main scene uses a Timer node with a script that registers a custom monitor using `Performance.add_custom_monitor("game/enemies", get_enemy_count)`. The monitor's callback function `get_enemy_count()` returns the number of nodes in the "enemies" group via `get_tree().get_nodes_in_group("enemies").size()`. The Timer node spawns enemies every 0.05 seconds (20 per second) by instantiating a scene named "res://enemy.tscn" and adding it to the parent node.  
+
+The enemy scene (enemy.tscn) contains a Node2D with a Timer child. When the enemy node is added to the scene, it joins the "enemies" group and starts its Timer. The Timer despawns the enemy 2.5 seconds later by calling `queue_free()` on timeout. This setup ensures 20 enemies spawn per second and each lives for 2.5 seconds, resulting in a stable count of 50 enemies (20 * 2.5 = 50).  
+
+To visualize the monitor data, run the project and open the Debugger > Monitors panel in the editor. The "Game > Enemies" section displays a graph showing the enemy count over time.  
+
+Note: The performance monitor handling code doesn't have to live in the same script as the nodes themselves. You may choose to move the performance monitor registration and getter function to an autoload instead.  
+
+GDScript:  
+    extends Timer  
+  
+    func _ready():  
+        Performance.add_custom_monitor("game/enemies", get_enemy_count)  
+        timeout.connect(_on_timeout)  
+        wait_time = 0.05  
+        start()  
+  
+    func _on_timeout():  
+        var enemy = preload("res://enemy.tscn").instantiate()  
+        get_parent().add_child(enemy)  
+  
+    func get_enemy_count():  
+        return get_tree().get_nodes_in_group("enemies").size()  
+
+GDScript:  
+    extends Node2D  
+  
+    func _ready():  
+        add_to_group("enemies")  
+        $Timer.timeout.connect(_on_timer_timeout)  
+        $Timer.wait_time = 2.5  
+        $Timer.start()  
+  
+    func _on_timer_timeout():  
+        queue_free()
+---CHUNK---
+Document: custom_performance_monitors
+Path: godot/tutorials/scripting/debug/custom_performance_monitors.rst
+Summary: How to retrieve and display custom performance monitor values in a running Godot project using specific methods and UI elements
+
+Use Performance.get_custom_monitor("category/name") to fetch the value of the custom monitor. You can display the value using a Label, RichTextLabel, custom drawing in 2D, 3D text, or other visualization methods. This method can be used in exported projects as well (debug and release mode), which allows you to create visualizations outside the editor.

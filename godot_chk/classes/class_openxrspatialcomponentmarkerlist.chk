@@ -1,0 +1,57 @@
+Document: OpenXRSpatialComponentMarkerList
+Path: godot/classes/class_openxrspatialcomponentmarkerlist.rst
+Summary: Class reference for OpenXRSpatialComponentMarkerList, a Godot class related to XR spatial component marker management.
+---CHUNK---
+Document: OpenXRSpatialComponentMarkerList
+Path: godot/classes/class_openxrspatialcomponentmarkerlist.rst
+Summary: Object for storing the queries marker result data.
+
+**Experimental:** This class may be changed or removed in future versions.
+
+Inherits: OpenXRSpatialComponentData < RefCounted < Object
+---CHUNK---
+Document: OpenXRSpatialComponentMarkerList
+Path: godot/classes/class_openxrspatialcomponentmarkerlist.rst
+Summary: Class for storing marker query results from OpenXRSpatialEntityExtension's query_snapshot method.
+
+Object for storing the queries marker result data when calling OpenXRSpatialEntityExtension.query_snapshot()
+---CHUNK---
+Document: OpenXRSpatialComponentMarkerList  
+Path: godot/classes/class_openxrspatialcomponentmarkerlist.rst  
+Summary: Methods for retrieving marker data, IDs, and types from an OpenXR spatial component marker list, along with the MarkerType enumeration.  
+
+Methods:  
+- Variant get_marker_data(snapshot: RID, index: int) const  
+  Retrieves marker data for a specific snapshot and index.  
+- int get_marker_id(index: int) const  
+  Returns the unique ID of the marker at the specified index.  
+- MarkerType get_marker_type(index: int) const  
+  Gets the type of the marker at the given index.  
+
+Enumerations:  
+MarkerType enum:  
+- MARKER_TYPE_UNKNOWN = 0  
+  Unknown or unset marker type.  
+- MARKER_TYPE_QRCODE = 1  
+  Marker based on a QR code.  
+- MARKER_TYPE_MICRO_QRCODE = 2  
+  Marker based on a micro QR code.  
+- MARKER_TYPE_ARUCO = 3  
+  Marker based on an Aruco code.  
+- MARKER_TYPE_APRIL_TAG = 4  
+  Marker based on an April Tag.  
+- MARKER_TYPE_MAX = 5  
+  Maximum value for this enum (not a valid type).
+---CHUNK---
+Document: OpenXRSpatialComponentMarkerList
+Path: godot/classes/class_openxrspatialcomponentmarkerlist.rst
+Summary: Methods for retrieving marker data, IDs, and types from an OpenXR spatial component marker list.
+
+Method: get_marker_data(snapshot: RID, index: int) → Variant
+Returns either a String or a PackedByteArray buffer with data for the marker at this index. Only applicable for QR code markers.
+
+Method: get_marker_id(index: int) → int
+Returns the marker ID for the marker at this index. Only applicable for Aruco or April Tag markers.
+
+Method: get_marker_type(index: int) → MarkerType
+Returns the marker type for the marker at this index.

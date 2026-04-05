@@ -1,0 +1,21 @@
+Document: controlling_thousands_of_fish  
+Path: godot/tutorials/performance/vertex_animation/controlling_thousands_of_fish.rst  
+Summary: This tutorial explains how to use vertex animation to control thousands of fish efficiently in Godot.
+---CHUNK---
+Document: Controlling Thousands of Fish  
+Path: godot/tutorials/performance/vertex_animation/controlling_thousands_of_fish.rst  
+Summary: This section explains how to individually control fish movement using velocity and transform variables in a vertex shader.  
+
+TRANSFORM[3].xyz = position * 20.0;  
+All code must be placed inside the start() function. The vertex shader for the mesh remains unchanged from the previous tutorial. Fish movement can be controlled by modifying TRANSFORM directly or by writing to VELOCITY.  
+
+Setting VELOCITY.z = 10.0 applies uniform velocity to all particles. For variation, use:  
+GDScript:  
+  VELOCITY.z = cos(TIME + CUSTOM.x * 6.28) * 4.0 + 6.0;  
+This creates unique speeds between 2 and 10 for each fish. Velocity can also change dynamically by updating VELOCITY in the process() function.  
+
+To synchronize swim animation speed with velocity, set:  
+GDScript:  
+  CUSTOM.y = VELOCITY.z * 0.1;  
+
+Using ParticleProcessMaterial, you can control fish behavior through velocity, color, rotation, and scale (via TRANSFORM). Additional properties like COLOR and scale can be modified in shaders. For detailed information on particle shaders, consult the Particles Shader Reference.

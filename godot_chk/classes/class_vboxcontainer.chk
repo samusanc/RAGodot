@@ -1,0 +1,26 @@
+Document: VBoxContainer
+Path: godot/classes/class_vboxcontainer.rst
+Summary: A container that arranges child controls vertically in a column.
+---CHUNK---
+Document: VBoxContainer
+Path: godot/classes/class_vboxcontainer.rst
+Summary: A container that arranges its child controls vertically.
+
+Inherits: BoxContainer < Container < Control < CanvasItem < Node < Object
+Inherited By: ColorPicker, ScriptEditorBase
+A container that arranges its child controls vertically.
+---CHUNK---
+Document: VBoxContainer
+Path: godot/classes/class_vboxcontainer.rst
+Summary: A vertical arrangement variant of BoxContainer that automatically rearranges children based on their minimum size changes.
+
+Inherits: BoxContainer
+
+A variant of BoxContainer that can only arrange its child controls vertically. Child controls are rearranged automatically when their minimum size changes. This container type is particularly useful for UI layouts requiring dynamic vertical spacing adjustments between elements. The vertical arrangement ensures that all child controls are positioned along the y-axis, with automatic spacing management between items based on their individual minimum size requirements.
+---CHUNK---
+Document: Tutorials  
+Path: godot/classes/class_vboxcontainer.rst  
+Summary: Lists related tutorials and example projects for VBoxContainer usage.  
+Tutorials  
+- Using Containers  
+- 3D Voxel Demo (asset library)

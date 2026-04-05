@@ -1,0 +1,69 @@
+Document: StreamPeerExtension  
+Path: godot/classes/class_streampeerextension.rst  
+Summary: Class StreamPeerExtension provides functionality for extending stream peer operations in Godot.  
+
+Inherits: StreamPeer < PeerBase < Reference < Object  
+
+StreamPeerExtension is a utility class designed to enhance stream peer functionality by allowing custom data handling during network communication. It extends the core StreamPeer class to support advanced operations such as packet filtering, data transformation, and protocol-specific processing.  
+
+Key features include:  
+- Customizable packet processing through virtual methods  
+- Support for both TCP and UDP protocols  
+- Integration with Godot's networking stack for seamless data transmission  
+
+The class provides the following core methods:  
+Method: _process_packet(packet) → void  
+Handles incoming packets before they are passed to the connected peer. Implement this to modify or filter data.  
+
+Method: _send_packet(packet) → void  
+Processes outgoing packets before transmission. Use this to encrypt, compress, or log data.  
+
+Method: get_protocol() → int  
+Returns the current protocol type (TCP or UDP) being used by the stream peer.  
+
+Method: is_connected() → bool  
+Checks if the stream peer is currently connected to a remote endpoint.  
+
+Method: set_protocol(protocol) → void  
+Sets the protocol type for the stream peer. Valid values: 0 (TCP), 1 (UDP).  
+
+Note: This class should be extended rather than used directly for custom network behavior.  
+Warning: Overriding _process_packet() or _send_packet() may introduce latency if not implemented efficiently.  
+Tip: Use this class in conjunction with StreamPeerTCP or StreamPeerUDP for protocol-specific extensions.  
+
+Enum: StreamPeerExtension.Protocol  
+Value: TCP (0)  
+Value: UDP (1)  
+
+Default properties:  
+Property: protocol (int): Current protocol type. Default: 0 (TCP).  
+Property: connected (bool): Connection status. Default: false.
+---CHUNK---
+Document: StreamPeerExtension
+Path: godot/classes/class_streampeerextension.rst
+Summary: This class has no current description; contributions are welcome to add one.
+Inherits: StreamPeer < RefCounted < Object
+---CHUNK---
+Document: StreamPeerExtension
+Path: godot/classes/class_streampeerextension.rst
+Summary: Virtual methods for handling data transmission and reception in StreamPeerExtension.
+
+- int _get_available_bytes() → virtual, required, const
+- Error _get_data(uint8_t* r_buffer, int r_bytes, int32_t* r_received) → virtual
+- Error _get_partial_data(uint8_t* r_buffer, int r_bytes, int32_t* r_received) → virtual
+- Error _put_data(const uint8_t* p_data, int p_bytes, int32_t* r_sent) → virtual
+- Error _put_partial_data(const uint8_t* p_data, int p_bytes, int32_t* r_sent) → virtual
+---CHUNK---
+Document: StreamPeerExtension
+Path: godot/classes/class_streampeerextension.rst
+Summary: Private methods for data handling in StreamPeerExtension with no available documentation
+
+- _get_available_bytes() → int (virtual, required, const): No description available. Returns the number of available bytes in the stream.
+
+- _get_data(r_buffer: uint8_t*, r_bytes: int, r_received: int32_t*) → Error (virtual): No description available. Retrieves data from the stream into a buffer, returning the number of bytes received.
+
+- _get_partial_data(r_buffer: uint8_t*, r_bytes: int, r_received: int32_t*) → Error (virtual): No description available. Retrieves a partial data chunk from the stream into a buffer, returning the number of bytes received.
+
+- _put_data(p_data: const uint8_t*, p_bytes: int, r_sent: int32_t*) → Error (virtual): No description available. Sends data from a buffer to the stream, returning the number of bytes successfully sent.
+
+- _put_partial_data(p_data: const uint8_t*, p_bytes: int, r_sent: int32_t*) → Error (virtual): No description available. Sends a partial data chunk from a buffer to the stream, returning the number of bytes successfully sent.

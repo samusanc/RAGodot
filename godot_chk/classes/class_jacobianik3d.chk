@@ -1,0 +1,16 @@
+Document: JacobianIK3D
+Path: godot/classes/class_jacobianik3d.rst
+Summary: 3D inverse kinematics solver using Jacobian matrix calculations for robotic arm control.
+---CHUNK---
+Document: JacobianIK3D
+Path: godot/classes/class_jacobianik3d.rst
+Summary: Jacobian transpose based inverse kinematics solver.
+
+Inherits: IterateIK3D < ChainIK3D < IKModifier3D < SkeletonModifier3D < Node3D < Node < Object
+Jacobian transpose based inverse kinematics solver.
+---CHUNK---
+Document: JacobianIK3D
+Path: godot/classes/class_jacobianik3d.rst
+Summary: Calculates simultaneous joint rotations for natural, smooth biological animations.
+
+JacobianIK3D calculates rotations for all joints simultaneously, producing natural and smooth movement. It is particularly suited for biological animations. The resulting twist around the forward vector will always be kept from the previous pose. Note: Converges more slowly than other IK solvers, resulting in gentler, less immediate target tracking.

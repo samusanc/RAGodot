@@ -1,0 +1,22 @@
+Document: AudioEffectLowPassFilter  
+Path: godot/classes/class_audioeffectlowpassfilter.rst  
+Summary: AudioEffectLowPassFilter class reference: audio effect that applies a low-pass filter to audio signals.
+---CHUNK---
+Document: AudioEffectLowPassFilter
+Path: godot/classes/class_audioeffectlowpassfilter.rst
+Summary: Adds a low-pass filter to an audio bus.
+
+Inherits: AudioEffectFilter < AudioEffect < Resource < RefCounted < Object
+Adds a low-pass filter to an audio bus.
+---CHUNK---
+Document: AudioEffectLowPassFilter
+Path: godot/classes/class_audioeffectlowpassfilter.rst
+Summary: A low-pass filter that attenuates high frequencies and allows lower frequencies to pass unchanged, used to muffle sounds.
+
+A "low-pass" filter attenuates frequencies higher than AudioEffectFilter.cutoff_hz and allows lower frequencies to pass unchanged. This filter can be used to muffle sounds.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_audioeffectlowpassfilter.rst
+Summary: Lists tutorial resources related to audio buses and audio effects in Godot.
+Audio buses
+Audio effects

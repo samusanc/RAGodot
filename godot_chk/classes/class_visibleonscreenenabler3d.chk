@@ -1,0 +1,40 @@
+Document: VisibleOnScreenEnabler3D  
+Path: godot/classes/class_visibleonscreenenabler3d.rst  
+Summary: This class is not described in the provided documentation.
+---CHUNK---
+Document: VisibleOnScreenEnabler3D
+Path: godot/classes/class_visibleonscreenenabler3d.rst
+Summary: A box-shaped region of 3D space that, when visible on screen, enables a target node.
+
+Inherits: VisibleOnScreenNotifier3D < VisualInstance3D < Node3D < Node < Object
+A box-shaped region of 3D space that, when visible on screen, enables a target node.
+---CHUNK---
+Document: VisibleOnScreenEnabler3D
+Path: godot/classes/class_visibleonscreenenabler3d.rst
+Summary: Enables a target node when a 3D region becomes visible on the screen, using an approximate visibility heuristic.
+
+VisibleOnScreenEnabler3D contains a box-shaped region of 3D space and a target node. The target node will be automatically enabled (via its Node.process_mode property) when any part of this region becomes visible on the screen, and automatically disabled otherwise. This can for example be used to activate enemies only when the player approaches them. See VisibleOnScreenNotifier3D if you only want to be notified when the region is visible on screen. Note: VisibleOnScreenEnabler3D uses an approximate heuristic that doesn't take walls and other occlusion into account, unless occlusion culling is used. It also won't function unless Node3D.visible is set to true.
+---CHUNK---
+Document: VisibleOnScreenEnabler3D
+Path: godot/classes/class_visibleonscreenenabler3d.rst
+Summary: Properties and their default values for the VisibleOnScreenEnabler3D class.
+
+- EnableMode (Enum): enable_mode. Default: 0
+- NodePath (NodePath): enable_node_path. Default: NodePath("..")
+---CHUNK---
+Document: VisibleOnScreenEnabler3D
+Path: godot/classes/class_visibleonscreenenabler3d.rst
+Summary: Defines the EnableMode enum and its three possible values for controlling visibility behavior in 3D space
+
+EnableMode enum:
+- ENABLE_MODE_INHERIT (0): Corresponds to Node.PROCESS_MODE_INHERIT
+- ENABLE_MODE_ALWAYS (1): Corresponds to Node.PROCESS_MODE_ALWAYS
+- ENABLE_MODE_WHEN_PAUSED (2): Corresponds to Node.PROCESS_MODE_WHEN_PAUSED
+---CHUNK---
+Document: VisibleOnScreenEnabler3D  
+Path: godot/classes/class_visibleonscreenenabler3d.rst  
+Summary: Properties for configuring node activation based on screen visibility and target node path.  
+
+enable_mode (EnableMode): Determines how the target node is enabled. Corresponds to Node.PROCESS_MODE_DISABLED when the node is disabled. Set via set_enable_mode(value: EnableMode), retrieved via get_enable_mode() → EnableMode. Note: When disabled, the node always uses Node.PROCESS_MODE_DISABLED.  
+
+enable_node_path (NodePath): The path to the target node, relative to VisibleOnScreenEnabler3D. Set via set_enable_node_path(value: NodePath), retrieved via get_enable_node_path() → NodePath. Note: The target node is cached when the VisibleOnScreenEnabler3D enters the scene tree. If the path is empty or invalid, an error is generated.

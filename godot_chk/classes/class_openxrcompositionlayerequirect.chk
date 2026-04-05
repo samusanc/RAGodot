@@ -1,0 +1,34 @@
+Document: OpenXRCompositionLayerEquirect  
+Path: godot/classes/class_openxrcompositionlayerequirect.rst  
+Summary: This chunk covers the OpenXRCompositionLayerEquirect class, but no detailed information is available in the provided RST content.
+---CHUNK---
+Document: OpenXRCompositionLayerEquirect
+Path: godot/classes/class_openxrcompositionlayerequirect.rst
+Summary: A class representing an OpenXR composition layer rendered as an internal slice of a sphere.
+
+Note: This class may be changed or removed in future versions.
+Inherits: OpenXRCompositionLayer < Node3D < Node < Object
+---CHUNK---
+Document: OpenXRCompositionLayerEquirect
+Path: godot/classes/class_openxrcompositionlayerequirect.rst
+Summary: A class representing an OpenXR composition layer that renders a SubViewport on an internal slice of a sphere.
+---CHUNK---
+Document: OpenXRCompositionLayerEquirect
+Path: godot/classes/class_openxrcompositionlayerequirect.rst
+Summary: Properties and their default values for the OpenXRCompositionLayerEquirect class.
+
+- central_horizontal_angle (float). Default: 1.5707964
+- fallback_segments (int). Default: 10
+- lower_vertical_angle (float). Default: 0.7853982
+- radius (float). Default: 1.0
+- upper_vertical_angle (float). Default: 0.7853982
+---CHUNK---
+Document: OpenXRCompositionLayerEquirect  
+Path: godot/classes/class_openxrcompositionlayerequirect.rst  
+Summary: Properties and their descriptions for the OpenXRCompositionLayerEquirect class, including default values, accessors, and usage notes.  
+
+central_horizontal_angle (float): The central horizontal angle of the sphere. Used to set the width. Default: 1.5707964. Accessor methods: set_central_horizontal_angle(value: float), get_central_horizontal_angle() → float.  
+fallback_segments (int): The number of segments to use in the fallback mesh. Default: 10. Accessor methods: set_fallback_segments(value: int), get_fallback_segments() → int.  
+lower_vertical_angle (float): The lower vertical angle of the sphere. Used together with upper_vertical_angle to set the height. Default: 0.7853982. Accessor methods: set_lower_vertical_angle(value: float), get_lower_vertical_angle() → float.  
+radius (float): The radius of the sphere. Default: 1.0. Accessor methods: set_radius(value: float), get_radius() → float.  
+upper_vertical_angle (float): The upper vertical angle of the sphere. Used together with lower_vertical_angle to set the height. Default: 0.7853982. Accessor methods: set_upper_vertical_angle(value: float), get_upper_vertical_angle() → float.

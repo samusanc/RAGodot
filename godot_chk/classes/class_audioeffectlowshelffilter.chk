@@ -1,0 +1,26 @@
+Document: AudioEffectLowShelfFilter  
+Path: godot/classes/class_audioeffectlowshelffilter.rst  
+Summary: Class reference section covering identity, description, and inheritance for the AudioEffectLowShelfFilter class.  
+
+AudioEffectLowShelfFilter is a class that represents a low shelf filter audio effect. It inherits from AudioEffect and is part of the Godot engine's audio processing system. This class allows for the manipulation of audio signals by attenuating or boosting frequencies below a specified cutoff point. The low shelf filter is useful for adjusting the bass response of audio tracks. The class provides properties and methods to control the filter's characteristics, such as the frequency cutoff, gain, and Q factor. These parameters determine how the filter affects the audio signal. The AudioEffectLowShelfFilter can be used in various audio processing scenarios, including music production, sound design, and game audio development. The class is designed to be integrated into the Godot audio system, allowing developers to apply the filter to audio nodes and mixers. The implementation of the class ensures that the filter operates efficiently, with minimal computational overhead. Developers can use the class to create custom audio effects by combining it with other audio processing classes. The class is part of the Godot engine's comprehensive set of audio tools, which includes a wide range of effects and filters. The AudioEffectLowShelfFilter is a valuable tool for audio engineers and developers working on audio-intensive projects.
+---CHUNK---
+Document: AudioEffectLowShelfFilter
+Path: godot/classes/class_audioeffectlowshelffilter.rst
+Summary: Describes the AudioEffectLowShelfFilter class, which adds a low-shelf filter to an audio bus.
+
+Inherits: AudioEffectFilter < AudioEffect < Resource < RefCounted < Object
+Adds a low-shelf filter to an audio bus.
+---CHUNK---
+Document: AudioEffectLowShelfFilter
+Path: godot/classes/class_audioeffectlowshelffilter.rst
+Summary: A low-shelf filter that controls the gain of all frequencies below a specified cutoff frequency, used to adjust the low-end strength of a sound.
+
+A "low-shelf" filter controls the gain of all frequencies below AudioEffectFilter.cutoff_hz. This filter can be used to adjust the "strength" of a sound, by increasing or decreasing its low-end.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_audioeffectlowshelffilter.rst
+Summary: Lists tutorials related to audio buses and audio effects in Godot.
+
+- Audio buses
+
+- Audio effects

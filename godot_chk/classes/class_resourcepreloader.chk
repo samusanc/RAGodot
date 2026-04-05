@@ -1,0 +1,54 @@
+Document: ResourcePreloader  
+Path: godot/classes/class_resourcepreloader.rst  
+Summary: Class reference for ResourcePreloader, covering its identity, description, and inheritance chain.
+---CHUNK---
+Document: ResourcePreloader  
+Path: godot/classes/class_resourcepreloader.rst  
+Summary: A node used to preload sub-resources within a scene.  
+
+Inherits: Node < Object  
+A node used to preload sub-resources inside a scene.
+---CHUNK---
+Document: ResourcePreloader  
+Path: godot/classes/class_resourcepreloader.rst  
+Summary: A node that preloads sub-resources in a scene to ensure they are ready for use when the scene loads.  
+
+This node is used to preload sub-resources inside a scene, so when the scene is loaded, all the resources are ready to use and can be retrieved from the preloader. You can add the resources using the ResourcePreloader tab when the node is selected. Note: GDScript has a simplified @GDScript.preload() built-in method which can be used in most situations, leaving the use of ResourcePreloader for more advanced scenarios.
+---CHUNK---
+Document: ResourcePreloader
+Path: godot/classes/class_resourcepreloader.rst
+Summary: Methods for managing resources in the ResourcePreloader class.
+
+void: add_resource(name: StringName, resource: Resource). Adds a resource with the specified name.
+
+Resource: get_resource(name: StringName) const. Retrieves a resource by name.
+
+PackedStringArray: get_resource_list() const. Returns a list of all resource names.
+
+bool: has_resource(name: StringName) const. Checks if a resource exists by name.
+
+void: remove_resource(name: StringName). Removes a resource by name.
+
+void: rename_resource(name: StringName, newname: StringName). Renames a resource.
+---CHUNK---
+Document: ResourcePreloader  
+Path: godot/classes/class_resourcepreloader.rst  
+Summary: Core methods for managing resources in the preloader, including adding, retrieving, and modifying resources.  
+
+Method: add_resource(name: StringName, resource: Resource) → void  
+Adds a resource to the preloader with the given name. If a resource with the given name already exists, the new resource will be renamed to "name N" where N is an incrementing number starting from 2.  
+
+Method: get_resource(name: StringName) → Resource  
+Returns the resource associated to name.  
+
+Method: get_resource_list() → PackedStringArray  
+Returns the list of resources inside the preloader.  
+
+Method: has_resource(name: StringName) → bool  
+Returns true if the preloader contains a resource associated to name.  
+
+Method: remove_resource(name: StringName) → void  
+Removes the resource associated to name from the preloader.  
+
+Method: rename_resource(name: StringName, newname: StringName) → void  
+Renames a resource inside the preloader from name to newname.

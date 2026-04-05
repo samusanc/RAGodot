@@ -1,0 +1,56 @@
+Document: ArrayOccluder3D
+Path: godot/classes/class_arrayoccluder3d.rst
+Summary: No description available in the provided content.
+---CHUNK---
+Document: ArrayOccluder3D
+Path: godot/classes/class_arrayoccluder3d.rst
+Summary: 3D polygon shape for use with occlusion culling in OccluderInstance3D.
+
+Inherits: Occluder3D < Resource < RefCounted < Object
+3D polygon shape for use with occlusion culling in OccluderInstance3D.
+---CHUNK---
+Document: ArrayOccluder3D
+Path: godot/classes/class_arrayoccluder3d.rst
+Summary: Stores a 3D polygon shape for occlusion culling, similar to ArrayMesh but for occluders.
+
+ArrayOccluder3D stores an arbitrary 3D polygon shape that can be used by the engine's occlusion culling system. This is analogous to ArrayMesh, but for occluders. See OccluderInstance3D's documentation for setup instructions.
+---CHUNK---
+Document: Occlusion Culling
+Path: godot/classes/class_arrayoccluder3d.rst
+Summary: Provides a link to the occlusion culling tutorial and includes styling for the class reference group.
+
+- Occlusion culling
+---CHUNK---
+Document: ArrayOccluder3D
+Path: godot/classes/class_arrayoccluder3d.rst
+Summary: Properties for ArrayOccluder3D, including indices and vertices with their types and default values.
+
+Property: indices (PackedInt32Array): Stores triangle indices for the occluder mesh. Default: PackedInt32Array()
+Property: vertices (PackedVector3Array): Stores vertex positions for the occluder mesh. Default: PackedVector3Array()
+---CHUNK---
+Document: ArrayOccluder3D  
+Path: godot/classes/class_arrayoccluder3d.rst  
+Summary: The set_arrays method defines the geometry for the ArrayOccluder3D by specifying vertices and indices.  
+
+Method: set_arrays(vertices: PackedVector3Array, indices: PackedInt32Array) → void. Sets the geometry for the ArrayOccluder3D using the provided vertices and indices.
+---CHUNK---
+Document: ArrayOccluder3D  
+Path: godot/classes/class_arrayoccluder3d.rst  
+Summary: Properties for defining the occluder's indices and vertex positions in 3D space.  
+
+PackedInt32Array **indices** = PackedInt32Array()  
+Method: set_indices(value: PackedInt32Array) → void  
+Method: get_indices() → PackedInt32Array  
+The occluder's index position. Indices determine which points from the vertices array should be drawn and in which order. Note: The occluder is always updated after setting this value. If creating occluders procedurally, consider using set_arrays() instead to avoid updating the occluder twice when it's created. Note: The returned array is copied and any changes to it will not update the original property value.  
+
+PackedVector3Array **vertices** = PackedVector3Array()  
+Method: set_vertices(value: PackedVector3Array) → void  
+Method: get_vertices() → PackedVector3Array  
+The occluder's vertex positions in local 3D coordinates. Note: The occluder is always updated after setting this value. If creating occluders procedurally, consider using set_arrays() instead to avoid updating the occluder twice when it's created. Note: The returned array is copied and any changes to it will not update the original property value.
+---CHUNK---
+Document: ArrayOccluder3D
+Path: godot/classes/class_arrayoccluder3d.rst
+Summary: Method to set vertices and indices arrays for an occluder, updating the occluder once after both are assigned.
+
+Method: set_arrays(vertices: PackedVector3Array, indices: PackedInt32Array) → void
+Sets vertices and indices properties, updating the occluder geometry only after both arrays are assigned. The method ensures the occluder is rebuilt once when both parameters are set, rather than on each individual assignment.

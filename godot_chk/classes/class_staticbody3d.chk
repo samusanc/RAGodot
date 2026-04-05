@@ -1,0 +1,61 @@
+Document: StaticBody3D  
+Path: godot/classes/class_staticbody3d.rst  
+Summary: Class StaticBody3D reference section.  
+
+Note: This class is part of the Godot Engine's 3D physics system, designed to represent non-dynamic objects that do not move under physics simulation. It inherits from RigidBody3D and is typically used for static elements in a scene that should not be affected by forces or collisions. Key Rule: StaticBody3D does not respond to physics forces but can still interact with other physics bodies through collision detection.
+---CHUNK---
+Document: StaticBody3D
+Path: godot/classes/class_staticbody3d.rst
+Summary: A 3D physics body that cannot be moved by external forces and does not affect other bodies when manually moved.
+
+Inherits: PhysicsBody3D < CollisionObject3D < Node3D < Node < Object
+Inherited By: AnimatableBody3D
+A 3D physics body that can't be moved by external forces. When moved manually, it doesn't affect other bodies in its path.
+---CHUNK---
+Document: StaticBody3D  
+Path: godot/classes/class_staticbody3d.rst  
+Summary: A static 3D physics body that cannot be moved by external forces but can be manually controlled via code or animations.  
+
+A static 3D physics body. It can't be moved by external forces or contacts, but can be moved manually by other means such as code, AnimationMixer's (with AnimationMixer.callback_mode_process set to AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_PHYSICS), and RemoteTransform3D.  
+
+When StaticBody3D is moved, it is teleported to its new position without affecting other physics bodies in its path. If this is not desired, use AnimatableBody3D instead.  
+
+StaticBody3D is useful for completely static objects like floors and walls, as well as moving surfaces like conveyor belts and circular revolving platforms (by using constant_linear_velocity and constant_angular_velocity).
+---CHUNK---
+Document: StaticBody3D
+Path: godot/classes/class_staticbody3d.rst
+Summary: Lists physics-related tutorials and demo projects for 3D game development in Godot
+
+Tutorials
+Physics introduction
+Troubleshooting physics issues
+3D Physics Tests Demo
+Third Person Shooter (TPS) Demo
+3D Voxel Demo
+---CHUNK---
+Document: StaticBody3D
+Path: godot/classes/class_staticbody3d.rst
+Summary: Properties of StaticBody3D including angular/linear velocity and physics material override.
+
+- Vector3 (Type): constant_angular_velocity. Default: Vector3(0, 0, 0)
+- Vector3 (Type): constant_linear_velocity. Default: Vector3(0, 0, 0)
+- PhysicsMaterial (Type): physics_material_override. Default: (no value)
+---CHUNK---
+Document: StaticBody3D  
+Path: godot/classes/class_staticbody3d.rst  
+Summary: Properties and methods for controlling a StaticBody3D's angular/linear velocity and physics material override.  
+
+Vector3 constant_angular_velocity = Vector3(0, 0, 0)  
+Method: set_constant_angular_velocity(value: Vector3)  
+Method: get_constant_angular_velocity() → Vector3  
+The body's constant angular velocity. This does not rotate the body, but affects touching bodies, as if it were rotating.  
+
+Vector3 constant_linear_velocity = Vector3(0, 0, 0)  
+Method: set_constant_linear_velocity(value: Vector3)  
+Method: get_constant_linear_velocity() → Vector3  
+The body's constant linear velocity. This does not move the body, but affects touching bodies, as if it were moving.  
+
+PhysicsMaterial physics_material_override  
+Method: set_physics_material_override(value: PhysicsMaterial)  
+Method: get_physics_material_override() → PhysicsMaterial  
+The physics material override for the body. If a material is assigned to this property, it will be used instead of any other physics material, such as an inherited one.

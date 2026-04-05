@@ -1,0 +1,61 @@
+Document: VisualShaderNodeTransformOp  
+Path: godot/classes/class_visualshadernodetransformop.rst  
+Summary: A class representing a transform operation node in a visual shader graph.  
+
+This class is part of the Godot Engine's visual shader system, used to manipulate transformation matrices within shader graphs. It inherits from `VisualShaderNode` and provides functionality for handling matrix operations such as translation, rotation, and scaling. The node is typically used in conjunction with other visual shader nodes to construct complex visual effects.  
+
+Key properties include:  
+- `matrix` (Matrix4x4): The transformation matrix to apply. Default: identity matrix.  
+- `mode` (int): Operation mode (e.g., 0 for multiply, 1 for add). Default: 0.  
+- `input` (Vector2): Input vector for the transformation. Default: (0, 0).  
+
+Supported methods:  
+- `set_matrix(matrix: Matrix4x4)`: Updates the transformation matrix.  
+- `get_matrix() -> Matrix4x4`: Returns the current transformation matrix.  
+- `set_mode(mode: int)`: Sets the operation mode.  
+- `get_mode() -> int`: Returns the current operation mode.  
+
+Note: This node is designed for use within the visual shader editor and may not be directly instantiated in code.  
+Warning: Modifying the matrix or mode at runtime may affect shader performance if not optimized.
+---CHUNK---
+Document: VisualShaderNodeTransformOp
+Path: godot/classes/class_visualshadernodetransformop.rst
+Summary: A Transform3D operator used in the visual shader graph for manipulating 3D transformations.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A Transform3D operator to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeTransformOp
+Path: godot/classes/class_visualshadernodetransformop.rst
+Summary: Applies operator to two transform (4×4 matrices) inputs.
+---CHUNK---
+Document: VisualShaderNodeTransformOp
+Path: godot/classes/class_visualshadernodetransformop.rst
+Summary: Properties of the VisualShaderNodeTransformOp class including the operator enum and its default value.
+
+Operator (Enum): operator. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeTransformOp
+Path: godot/classes/class_visualshadernodetransformop.rst
+Summary: Defines the Operator enum and its constants for transform operations in VisualShaderNodeTransformOp.
+
+Operator enum values:
+Operator OP_AxB = 0: Multiplies transform a by the transform b.
+Operator OP_BxA = 1: Multiplies transform b by the transform a.
+Operator OP_AxB_COMP = 2: Performs component-wise multiplication of transform a by transform b.
+Operator OP_BxA_COMP = 3: Performs component-wise multiplication of transform b by transform a.
+Operator OP_ADD = 4: Adds two transforms.
+Operator OP_A_MINUS_B = 5: Subtracts transform a from transform b.
+Operator OP_B_MINUS_A = 6: Subtracts transform b from transform a.
+Operator OP_A_DIV_B = 7: Divides transform a by transform b.
+Operator OP_B_DIV_A = 8: Divides transform b by transform a.
+Operator OP_MAX = 9: Represents the size of the Operator enum. Key Rule: OP_MAX indicates the total number of enum values available.
+---CHUNK---
+Document: VisualShaderNodeTransformOp
+Path: godot/classes/class_visualshadernodetransformop.rst
+Summary: Describes the 'operator' property and its setter/getter methods for specifying the transform operation type.
+
+Property: Operator (enum VisualShaderNodeTransformOp_Operator): The type of operation to be performed on the transforms. Default: 0.  
+Method: set_operator(value: enum VisualShaderNodeTransformOp_Operator) → void  
+Method: get_operator() → enum VisualShaderNodeTransformOp_Operator  
+Note: This determines how transforms are combined or modified in the shader.

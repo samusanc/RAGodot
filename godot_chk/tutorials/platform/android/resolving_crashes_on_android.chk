@@ -1,0 +1,48 @@
+Document: Resolving Crashes on Android
+Path: godot/tutorials/platform/android/resolving_crashes_on_android.rst
+Summary: This tutorial explains how to resolve crashes on Android when using Godot.
+---CHUNK---
+Document: Resolving crashes on Android
+Path: godot/tutorials/platform/android/resolving_crashes_on_android.rst
+Summary: This section explains how to obtain and use native debug symbols to make Android crash stack traces human-readable.
+
+When your game crashes on Android, you often see obfuscated stack traces in Play Console or other crash reporting tools like Firebase Crashlytics. To make these stack traces human-readable (symbolicated), you need native debug symbols that correspond to your game's exported build. Godot now provides downloadable native debug symbols for each official export template.
+---CHUNK---
+Document: Resolving Crashes on Android
+Path: godot/tutorials/platform/android/resolving_crashes_on_android.rst
+Summary: How to obtain native debug symbols for Godot Android templates from GitHub releases
+
+Native debug symbol files are provided for every stable Godot release and can be downloaded from the GitHub release page. For version 4.5.1.stable, navigate to the 4.5.1.stable release page and download the release artifact named Godot_native_debug_symbols.4.5.1.stable.template_release.android.zip. These symbols are essential for debugging native crashes on Android devices when using official Godot templates.
+---CHUNK---
+Document: Resolving Crashes on Android
+Path: godot/tutorials/platform/android/resolving_crashes_on_android.rst
+Summary: How to generate matching native debug symbols for custom Android export templates
+
+Your exported template and its native debug symbols must come from the same build, so you can use the official symbols only if you are using the official export templates. If you are building custom export templates, you need to generate matching symbol files yourself. To do so, add debug_symbols=yes separate_debug_symbols=yes to your scons build command. This will generate a file named android-template-release-native-symbols.zip containing the native debug symbols for your custom build. For example:
+
+scons platform=android target=template_release debug_symbols=yes separate_debug_symbols=yes generate_android_binaries=yes
+
+If building for multiple architectures, include separate_debug_symbols=yes only in the last build command, similar to how generate_android_binaries=yes is used. Example build sequence:
+
+scons platform=android arch=arm32 target=template_release debug_symbols=yes
+scons platform=android arch=arm64 target=template_release debug_symbols=yes
+scons platform=android arch=x86_32 target=template_release debug_symbols=yes
+scons platform=android arch=x86_64 target=template_release debug_symbols=yes separate_debug_symbols=yes generate_android_binaries=yes
+---CHUNK---
+Document: Resolving Crashes on Android
+Path: godot/tutorials/platform/android/resolving_crashes_on_android.rst
+Summary: Steps to upload native debug symbols to Google Play Console for Android builds.
+
+To upload native debug symbols to Google Play Console, open the Play Console, select an app, and navigate to Test and release > Latest releases and bundles. Choose a bundle, go to the Downloads tab, scroll to the Assets section, and click the upload arrow icon next to Native debug symbols. Select and upload the corresponding symbols file for the build version. Alternatively, when creating a new release, locate the release bundle, click the three-dot menu, choose Upload native debug symbols (.zip), and upload the matching symbols file for that build version.
+---CHUNK---
+Document: Resolving Crashes on Android  
+Path: godot/tutorials/platform/android/resolving_crashes_on_android.rst  
+Summary: Manual crash log symbolication using the Android NDK's ndk-stack tool and required preparation steps.  
+
+Note: If the Android SDK is installed, the ndk-stack tool is located in the SDK's ndk folder. Otherwise, download the NDK from the NDK downloads page.  
+Important: The crash.txt file must start with a line of 15 asterisks: *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***.  
+1. Extract the native debug symbols zip file obtained earlier (or from a custom build).  
+2. Save the crash log to a text file named crash.txt.  
+3. Execute ndk-stack with the symbol directory path matching the crash's CPU architecture (e.g., arm64-v8a):  
+Command: ndk-stack -sym path/to/native_debug_symbols/arm64-v8a/ -dump crash.txt  
+The output will display symbolicated stack traces with Godot source file names and line numbers from the crash log.

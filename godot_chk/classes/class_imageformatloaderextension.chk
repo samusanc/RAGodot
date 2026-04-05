@@ -1,0 +1,46 @@
+Document: ImageFormatLoaderExtension
+Path: godot/classes/class_imageformatloaderextension.rst
+Summary: Class: ImageFormatLoaderExtension. Provides functionality for loading image formats in Godot.
+---CHUNK---
+Document: ImageFormatLoaderExtension
+Path: godot/classes/class_imageformatloaderextension.rst
+Summary: Base class for creating ImageFormatLoader extensions (adding support for extra image formats).
+
+Inherits: ImageFormatLoader < RefCounted < Object
+Base class for creating ImageFormatLoader extensions (adding support for extra image formats).
+---CHUNK---
+Document: ImageFormatLoaderExtension
+Path: godot/classes/class_imageformatloaderextension.rst
+Summary: Extends Godot's image format support by implementing custom loaders.
+
+The engine supports multiple image formats out of the box (PNG, SVG, JPEG, WebP to name a few), but you can choose to implement support for additional image formats by extending this class. Be sure to respect the documented return types and values. You should create an instance of it, and call add_format_loader() to register that loader during the initialization phase. Note: Proper implementation requires adherence to specified return types and values for compatibility.
+---CHUNK---
+Document: ImageFormatLoaderExtension
+Path: godot/classes/class_imageformatloaderextension.rst
+Summary: Core methods for image format loading and management in ImageFormatLoaderExtension.
+
+Method: _get_recognized_extensions() → PackedStringArray. Virtual, const.
+Method: _load_image(image: Image, fileaccess: FileAccess, flags: bitfield[LoaderFlags], scale: float) → Error. Virtual.
+Method: add_format_loader() → void.
+Method: remove_format_loader() → void.
+---CHUNK---
+Document: ImageFormatLoaderExtension
+Path: godot/classes/class_imageformatloaderextension.rst
+Summary: Methods for handling image format recognition and loading in the engine.
+
+Method: _get_recognized_extensions() → PackedStringArray
+Returns the list of file extensions for this image format. Files with the given extensions will be treated as image files and loaded using this class. Note: This method must be implemented by subclasses to define supported extensions.
+
+Method: _load_image(image: Image, fileaccess: FileAccess, flags: LoaderFlags, scale: float) → Error
+Loads the content of fileaccess into the provided image. Parameters:
+- image (Image): Target image to populate with loaded data
+- fileaccess (FileAccess): File access object containing the image data
+- flags (LoaderFlags): Bitfield of loading options (e.g., LOAD_FLAG_MIPMAPS)
+- scale (float): Scaling factor for the image dimensions
+Returns: Error indicating success or failure of the operation.
+
+Method: add_format_loader() → void
+Registers this format loader with the engine, enabling it to recognize file extensions returned by _get_recognized_extensions(). Must be called after implementation to activate the loader.
+
+Method: remove_format_loader() → void
+Unregisters this format loader from the engine, preventing it from handling any image files. Typically used when disabling or removing a custom image format handler.

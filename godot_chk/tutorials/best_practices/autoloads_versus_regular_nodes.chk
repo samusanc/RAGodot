@@ -1,0 +1,40 @@
+Document: Autoloads versus Regular Nodes
+Path: godot/tutorials/best_practices/autoloads_versus_regular_nodes.rst
+Summary: This section compares the use of autoloads and regular nodes in Godot, discussing their advantages and appropriate use cases.
+---CHUNK---
+Document: Autoloads versus regular nodes
+Path: godot/tutorials/best_practices/autoloads_versus_regular_nodes.rst
+Summary: This guide explains when to use Godot's Autoload feature for global node access and alternatives to avoid it.
+
+Godot offers a feature to automatically load nodes at the root of your project, allowing you to access them globally, that can fulfill the role of a Singleton: Singletons Autoload. These autoloaded nodes are not freed when you change the scene from code with SceneTree.change_scene_to_file. In this guide, you will learn when to use the Autoload feature, and techniques you can use to avoid it.
+---CHUNK---
+Document: autoloads_versus_regular_nodes  
+Path: godot/tutorials/best_practices/autoloads_versus_regular_nodes.rst  
+Summary: Explains why global autoloaded sound managers create maintenance issues and advocates for scene-local audio management in Godot.  
+
+The cutting audio issue arises when using a global autoloaded sound manager class in Godot. For example, in a platformer, a global `Sound` class might pool `AudioStreamPlayer` nodes to play coin pickup sounds. While this avoids immediate issues with overlapping audio playback, it introduces three critical problems:  
+
+1. **Global state**: A single class manages all audio data, creating a single point of failure. If the `Sound` class fails or lacks available players, all dependent nodes break simultaneously.  
+2. **Global access**: Any node can call `Sound.play("coin_pickup.ogg")`, making debugging difficult as errors could originate from any part of the project.  
+3. **Global resource allocation**: Pre-allocating a fixed pool of `AudioStreamPlayer` nodes risks either insufficient players (causing bugs) or excessive memory usage.  
+
+Note: Global access allows any code to pass invalid data to the `Sound` class, requiring a project-wide search to debug issues. In contrast, keeping `AudioStreamPlayer` nodes within scenes limits problems to specific scenes.  
+
+Scene-local management resolves these issues:  
+1. Each scene handles its own state, isolating data-related problems to individual scenes.  
+2. Nodes only interact with their own scene's objects, simplifying debugging by narrowing the scope of potential faults.  
+3. Scenes allocate exactly the resources they need, avoiding over-allocation or under-allocation of audio players.  
+
+This approach aligns with Godot's node tree design, reducing global state dependencies and improving maintainability.
+---CHUNK---
+Document: autoloads_versus_regular_nodes
+Path: godot/tutorials/best_practices/autoloads_versus_regular_nodes.rst
+Summary: Explains using Autoloads for shared functionality/data across scenes, alternatives like class_name and owner property.
+
+Managing shared functionality or data. Another reason to use an Autoload can be that you want to reuse the same method or data across many scenes. In the case of functions, you can create a new type of Node that provides that feature for an individual scene using the class_name keyword in GDScript. When it comes to data, you can either: 1. Create a new type of Resource to share the data. 2. Store the data in an object to which each node has access, for example using the owner property to access the scene's root node.
+---CHUNK---
+Document: autoloads_versus_regular_nodes
+Path: godot/tutorials/best_practices/autoloads_versus_regular_nodes.rst
+Summary: When to use autoloads in Godot and their advantages over regular nodes.
+
+GDScript supports the creation of static functions using static func. When combined with class_name, this makes it possible to create libraries of helper functions without having to create an instance to call them. The limitation of static functions is that they can't reference member variables, non-static functions or self. Since Godot 4.1, GDScript also supports static variables using static var. This means you can now share variables across instances of a class without having to create a separate autoload. Still, autoloaded nodes can simplify your code for systems with a wide scope. If the autoload is managing its own information and not invading the data of other objects, then it's a great way to create systems that handle broad-scoped tasks. For example, a quest or a dialogue system. Note: An autoload is not necessarily a singleton. Nothing prevents you from instantiating copies of an autoloaded node. An autoload is only a tool that makes a node load automatically as a child of the root of your scene tree, regardless of your game's node structure or which scene you run, e.g. by pressing the F6 key. As a result, you can get the autoloaded node, for example an autoload called Sound, by calling get_node("/root/Sound").

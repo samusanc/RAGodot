@@ -1,0 +1,71 @@
+Document: Finishing Up
+Path: godot/getting_started/first_2d_game/07.finishing-up.rst
+Summary: This section contains a reference link with no tutorial content.
+---CHUNK---
+Document: Finishing up  
+Path: godot/getting_started/first_2d_game/07.finishing-up.rst  
+Summary: This section outlines final steps to enhance the game's polish and encourages adding personal gameplay improvements.  
+
+We have now completed all the functionality for our game. Below are some remaining steps to add a bit more "juice" to improve the game experience. Feel free to expand the gameplay with your own ideas.
+---CHUNK---
+Document: Finishing Up
+Path: godot/getting_started/first_2d_game/07.finishing-up.rst
+Summary: Modifying the game's background using ColorRect or TextureRect nodes
+
+The default gray background is not very appealing, so let's change its color. One way to do this is to use a ColorRect node. Make it the first node under Main so that it will be drawn behind the other nodes. ColorRect only has one property: Color. Choose a color you like and select "Layout" -> "Anchors Preset" -> "Full Rect" either in the toolbar at the top of the viewport or in the inspector so that it covers the screen.
+
+You could also add a background image, if you have one, by using a TextureRect node instead.
+---CHUNK---
+Document: Finishing Up
+Path: godot/getting_started/first_2d_game/07.finishing-up.rst
+Summary: Adding and managing sound effects and background music in a 2D game using AudioStreamPlayer nodes.
+
+Add two AudioStreamPlayer nodes as children of Main. Name one "Music" and the other "DeathSound". Assign the "House In a Forest Loop.ogg" file to the Music node and "gameover.wav" to DeathSound. All audio imports have the Loop setting disabled by default. To enable seamless looping for background music, select the Stream file arrow, choose "Make Unique", then check the Loop box in the Stream properties.
+
+Implement audio playback in script functions: call $Music.play() in new_game(), $Music.stop() and $DeathSound.play() in game_over(). GDScript example:
+
+GDScript:
+    func game_over():
+        ...
+        $Music.stop()
+        $DeathSound.play()
+
+    func new_game():
+        ...
+        $Music.play()
+
+C# example:
+
+C#:
+    public void GameOver()
+    {
+        ...
+        GetNode<AudioStreamPlayer>("Music").Stop();
+        GetNode<AudioStreamPlayer>("DeathSound").Play();
+    }
+
+    public void NewGame()
+    {
+        ...
+        GetNode<AudioStreamPlayer>("Music").Play();
+    }
+---CHUNK---
+Document: Finishing Up Your First 2D Game  
+Path: godot/getting_started/first_2d_game/07.finishing-up.rst  
+Summary: Configuring the start button's keyboard shortcut via input actions and shortcut resources.  
+
+To enable keyboard control for starting the game, use the "Shortcut" property of the StartButton node. Previously, four input actions were created for character movement. Now create a new input action called "start_game" in Project Settings > Input Map, mapping it to the Enter key.  
+
+Tip: For controller support, pair your controller and map corresponding buttons/d-pad/stick directions to each input action under the "+" button in Input Map.  
+
+In the HUD scene, select the StartButton and access its Shortcut property in the Inspector. Create a new Shortcut resource by clicking the property box. Open the Events array, add a new array element, and create a new InputEventAction. Select the "start_game" action from the list.  
+
+With this setup, the start button can be activated by clicking it or pressing Enter. This completes the first 2D game in Godot, which includes a player-controlled character, randomly spawning enemies, score tracking, game over/replay mechanics, UI implementation, and sound integration.  
+
+Congratulations on completing your first Godot game! When ready, proceed to the next tutorial on creating a 3D game from scratch.
+---CHUNK---
+Document: Finishing Up (First 2D Game Tutorial)
+Path: godot/getting_started/first_2d_game/07.finishing-up.rst
+Summary: Instructions for exporting and sharing a completed Godot 2D game project
+
+To share your finished game without requiring Godot installation, export the project for each target operating system. Refer to doc_exporting_projects for export procedures. After exporting, compress the generated executable file and associated PCK file (not the original project files) into a ZIP archive. Upload this ZIP file to a file sharing platform for distribution.

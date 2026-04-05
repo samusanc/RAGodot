@@ -1,0 +1,12 @@
+Document: physics_interpolation_quick_start_guide
+Path: godot/tutorials/physics/interpolation/physics_interpolation_quick_start_guide.rst
+Summary: This section contains a reference link for the physics interpolation quick start guide.
+---CHUNK---
+Document: Physics Interpolation Quick Start Guide  
+Path: godot/tutorials/physics/interpolation/physics_interpolation_quick_start_guide.rst  
+Summary: Enable physics interpolation, use _physics_process() for movement, reset interpolation after positioning nodes, and adjust ticks per second for testing.  
+
+- Turn on physics interpolation: Project Settings > Physics > Common > Physics Interpolation  
+- Make sure you move objects and run your game logic in _physics_process() rather than _process(). This includes moving objects directly and indirectly (by e.g. moving a parent, or using another mechanism to automatically move nodes).  
+- Be sure to call Node.reset_physics_interpolation on nodes after you first position or teleport them, to prevent "streaking".  
+- Temporarily try setting Project Settings > Physics > Common > Physics Ticks per Second to 10 to see the difference with and without interpolation.

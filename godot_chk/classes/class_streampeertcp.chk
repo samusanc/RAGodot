@@ -1,0 +1,47 @@
+Document: StreamPeerTCP
+Path: godot/classes/class_streampeertcp.rst
+Summary: Class for handling TCP network communication in Godot.
+---CHUNK---
+Document: StreamPeerTCP
+Path: godot/classes/class_streampeertcp.rst
+Summary: A stream peer that handles TCP connections.
+
+Inherits: StreamPeerSocket < StreamPeer < RefCounted < Object
+A stream peer that handles TCP connections.
+---CHUNK---
+Document: StreamPeerTCP  
+Path: godot/classes/class_streampeertcp.rst  
+Summary: A stream peer class for handling TCP connections, used to connect to TCP servers or returned by them.  
+
+A stream peer that handles TCP connections. This object can be used to connect to TCP servers, or also is returned by a TCP server.  
+Note: When exporting to Android, make sure to enable the INTERNET permission in the Android export preset before exporting the project or using one-click deploy. Otherwise, network communication of any kind will be blocked by Android.
+---CHUNK---
+Document: StreamPeerTCP
+Path: godot/classes/class_streampeertcp.rst
+Summary: Core methods for TCP stream peer functionality including connection management and socket configuration.
+
+Methods:
+- bind(port: int, host: String = "*") → Error
+- connect_to_host(host: String, port: int) → Error
+- get_connected_host() → String (const)
+- get_connected_port() → int (const)
+- get_local_port() → int (const)
+- set_no_delay(enabled: bool) → void
+
+Note: Methods marked as const are safe to call on constant instances. The bind method defaults to host "*" which typically represents all available interfaces. The set_no_delay method controls TCP_NODELAY socket option.
+---CHUNK---
+Document: StreamPeerTCP
+Path: godot/classes/class_streampeertcp.rst
+Summary: Methods for binding, connecting, and managing TCP socket parameters in StreamPeerTCP
+
+Method: bind(port: int, host: String = "*") → Error. Opens the TCP socket, and binds it to the specified local address. This method is generally not needed, and only used to force the subsequent call to connect_to_host() to use the specified host and port as source address. This can be desired in some NAT punchthrough techniques, or when forcing the source network interface.
+
+Method: connect_to_host(host: String, port: int) → Error. Connects to the specified host:port pair. A hostname will be resolved if valid. Returns OK on success.
+
+Method: get_connected_host() → String. Returns the IP of this peer.
+
+Method: get_connected_port() → int. Returns the port of this peer.
+
+Method: get_local_port() → int. Returns the local port to which this peer is bound.
+
+Method: set_no_delay(enabled: bool) → void. If enabled is true, packets will be sent immediately. If enabled is false (the default), packet transfers will be delayed and combined using Nagle's algorithm. Note: It's recommended to leave this disabled for applications that send large packets or need to transfer a lot of data, as enabling this can decrease the total available bandwidth.

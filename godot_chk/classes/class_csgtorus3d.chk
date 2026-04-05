@@ -1,0 +1,50 @@
+Document: CSGTorus3D
+Path: godot/classes/class_csgtorus3d.rst
+Summary: Class reference for CSGTorus3D covering identity, description, and inheritance relationships.
+---CHUNK---
+Document: CSGTorus3D
+Path: godot/classes/class_csgtorus3d.rst
+Summary: Describes the CSG Torus shape class and its inheritance hierarchy.
+
+Inherits: CSGPrimitive3D < CSGShape3D < GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+A CSG Torus shape.
+---CHUNK---
+Document: CSGTorus3D
+Path: godot/classes/class_csgtorus3d.rst
+Summary: Creates a torus shape for use in the CSG system with performance considerations for prototyping.
+
+Note: CSG nodes are intended for level prototyping due to significant CPU costs compared to MeshInstance3D with PrimitiveMesh. Moving CSG nodes within other CSG nodes during gameplay should be avoided because of high computational overhead.
+---CHUNK---
+Document: class_csgtorus3d
+Path: godot/classes/class_csgtorus3d.rst
+Summary: Links to a tutorial on using CSG tools for prototyping levels in Godot.
+
+Tutorials
+- Prototyping levels with CSG
+---CHUNK---
+Document: CSGTorus3D
+Path: godot/classes/class_csgtorus3d.rst
+Summary: Properties and member variables of the CSGTorus3D class, including radius settings, material, and geometry parameters.
+
+Property: inner_radius (float): Default: 0.5
+Property: material (Material): Default: 
+Property: outer_radius (float): Default: 1.0
+Property: ring_sides (int): Default: 6
+Property: sides (int): Default: 8
+Property: smooth_faces (bool): Default: true
+---CHUNK---
+Document: CSGTorus3D
+Path: godot/classes/class_csgtorus3d.rst
+Summary: Properties and methods for configuring a CSG torus shape in 3D space.
+
+inner_radius (float): The inner radius of the torus. Default: 0.5. Methods: set_inner_radius(value: float) → void, get_inner_radius() → float.
+
+material (Material): The material used to render the torus. Methods: set_material(value: Material) → void, get_material() → Material.
+
+outer_radius (float): The outer radius of the torus. Default: 1.0. Methods: set_outer_radius(value: float) → void, get_outer_radius() → float.
+
+ring_sides (int): The number of edges each ring of the torus is constructed of. Default: 6. Methods: set_ring_sides(value: int) → void, get_ring_sides() → int.
+
+sides (int): The number of slices the torus is constructed of. Default: 8. Methods: set_sides(value: int) → void, get_sides() → int.
+
+smooth_faces (bool): If true, the normals of the torus are set to give a smooth effect making the torus seem rounded. If false, the torus will have a flat shaded look. Default: true. Methods: set_smooth_faces(value: bool) → void, get_smooth_faces() → bool. Key Rule: Smooth faces enable rounded appearance, flat faces create angular look.

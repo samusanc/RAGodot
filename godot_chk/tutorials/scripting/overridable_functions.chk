@@ -1,0 +1,133 @@
+Document: Overridable Functions
+Path: godot/tutorials/scripting/overridable_functions.rst
+Summary: This section is a placeholder or lacks content.
+---CHUNK---
+Document: Overridable functions  
+Path: godot/tutorials/scripting/overridable_functions.rst  
+Summary: Overview of Godot's overridable functions for node initialization, updates, and scene tree events.  
+
+Godot's Node class provides virtual functions you can override to update nodes every frame or on specific events, like when they enter the scene tree. This document presents the ones you'll use most often.  
+
+Two functions allow you to initialize and get nodes besides the class's constructor: `_enter_tree()` and `_ready()`. When the node enters the Scene Tree, it becomes active and the engine calls its `_enter_tree()` method. That node's children may not be part of the active scene yet. As you can remove and re-add nodes to the scene tree, this function may be called multiple times throughout a node's lifetime. Most of the time, `_ready()` is used for initialization because it is called once when the node is added to the scene. `_exit_tree()` is called when the node is removed from the scene.  
+
+Method: `_enter_tree()` → void  
+Description: Called every time the node enters the scene tree. This is useful for setting up resources or connections that need to be re-established when the node is re-added to the scene.  
+
+GDScript:  
+Method: `_enter_tree()` → void  
+# Called every time the node enters the scene tree.  
+func _enter_tree():  
+    pass  
+
+C#:  
+Method: `_EnterTree()` → void  
+// Called every time the node enters the scene tree.  
+void _EnterTree()  
+{  
+    // Implementation  
+}  
+
+Method: `_ready()` → void  
+Description: Called once when the node is added to the scene. Used for initialization tasks that should only happen once.  
+
+GDScript:  
+Method: `_ready()` → void  
+# Called once when the node is added to the scene.  
+func _ready():  
+    pass  
+
+C#:  
+Method: `_Ready()` → void  
+// Called once when the node is added to the scene.  
+void _Ready()  
+{  
+    // Implementation  
+}  
+
+Method: `_exit_tree()` → void  
+Description: Called when the node is removed from the scene. Useful for cleaning up resources.  
+
+GDScript:  
+Method: `_exit_tree()` → void  
+# Called when the node is removed from the scene.  
+func _exit_tree():  
+    pass  
+
+C#:  
+Method: `_ExitTree()` → void  
+// Called when the node is removed from the scene.  
+void _ExitTree()  
+{  
+    // Implementation  
+}  
+
+Method: `_process(delta)` → void  
+Description: Called every frame. Used for continuous updates, such as movement or animations. Delta is the time in seconds since the last frame.  
+
+GDScript:  
+Method: `_process(delta)` → void  
+# Called every frame.  
+func _process(delta):  
+    pass  
+
+C#:  
+Method: `_Process(delta)` → void  
+// Called every frame.  
+void _Process(float delta)  
+{  
+    // Implementation  
+}  
+
+Method: `_physics_process(delta)` → void  
+Description: Called every physics frame. Used for physics-related updates, such as collision detection. Delta is the time in seconds since the last physics frame.  
+
+GDScript:  
+Method: `_physics_process(delta)` → void  
+# Called every physics frame.  
+func _physics_process(delta):  
+    pass  
+
+C#:  
+Method: `_PhysicsProcess(delta)` → void  
+// Called every physics frame.  
+void _PhysicsProcess(float delta)  
+{  
+    // Implementation  
+}
+---CHUNK---
+Document: overridable_functions
+Path: godot/tutorials/scripting/overridable_functions.rst
+Summary: Essential built-in node callback functions for handling input and other node events in Godot.
+
+public override void _PhysicsProcess(double delta) {
+    // Called every physics frame.
+    base._PhysicsProcess(delta);
+}
+
+Two more essential built-in node callback functions are Node._unhandled_input() and Node._input(), which you use to both receive and process individual input events. The _unhandled_input() method receives every key press, mouse click, etc. that have not been handled already in an _input() callback or in a user interface component. You want to use it for gameplay input in general. The _input() callback allows you to intercept and process input events before _unhandled_input() gets them.
+
+To learn more about inputs in Godot, see the Input section.
+
+GDScript:
+    # Called once for every event.
+    func _unhandled_input(event):
+        pass
+
+    # Called once for every event before _unhandled_input(), allowing you to
+    # consume some events.
+    func _input(event):
+        pass
+
+C#:
+    // Called once for every event.
+    public override void _UnhandledInput(InputEvent @event) {
+        base._UnhandledInput(@event);
+    }
+
+    // Called once for every event before _UnhandledInput(), allowing you to
+    // consume some events.
+    public override void _Input(InputEvent @event) {
+        base._Input(@event);
+    }
+
+There are some more overridable functions like Node._get_configuration_warnings(). Specialized node types provide more callbacks like CanvasItem._draw() to draw programmatically or Control._gui_input() to handle clicks and input on UI elements.

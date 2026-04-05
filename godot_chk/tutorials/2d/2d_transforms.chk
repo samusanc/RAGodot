@@ -1,0 +1,101 @@
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: This section explains how to use 2D transforms in Godot for positioning and manipulating objects in the game world.
+---CHUNK---
+Document: 2D Transforms  
+Path: godot/tutorials/2d/2d_transforms.rst  
+Summary: Explains viewport and canvas transforms in 2D Godot projects.  
+
+Viewport and canvas transforms
+---CHUNK---
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: This tutorial explains how to handle input events with correct coordinate systems in Godot's 2D transforms.
+
+This is an overview of the 2D transforms going on for nodes from the moment they draw their content locally to the time they are drawn onto the screen. This overview discusses very low-level details of the engine. The goal of this tutorial is to teach a way for feeding input events to the Input with a position in the correct coordinate system. A more extensive description of all coordinate systems and 2d transforms is available in doc_2d_coordinate_systems.
+---CHUNK---
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: Explains how CanvasItem nodes use Canvas Layers with Transform2D for positioning and transformation
+
+CanvasItem nodes (including Node2D and Control-based nodes) reside in Canvas Layers, each with a Transform2D that handles translation, rotation, and scaling. By default, nodes are drawn in Layer 0 of the built-in canvas. To place nodes in different layers, use a CanvasLayer node which allows assigning nodes to alternative canvas layers. The Transform2D of each canvas layer determines how its contents are positioned and transformed within the scene.
+---CHUNK---
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: Viewports have a Global Canvas transform that serves as the master transform for all Canvas Layers.
+
+Viewports also have a Global Canvas transform (also a Transform2D). This is the master transform and affects all individual Canvas Layer transforms. Generally, this is primarily used in Godot's CanvasItem Editor.
+---CHUNK---
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: Explains the Stretch Transform in viewports for screen resizing and coordinate conversion.
+
+Viewports have a Stretch Transform used when resizing or stretching the screen. This transform is used internally (as described in Multiple Resolutions) but can also be manually set on each viewport. Input events are multiplied by this transform, but lack the ones above. Note: The CanvasItem.make_input_local() function was added for convenience to convert InputEvent coordinates to local CanvasItem coordinates.
+---CHUNK---
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: Explains the role of the window transform in scaling and positioning content within a Window to maintain aspect ratios
+
+The root viewport is a Window. In order to scale and position the Window's content as described in doc_multiple_resolutions, each Window contains a window transform. It is for example responsible for the black bars at the Window's sides so that the Viewport is displayed with a fixed aspect ratio.
+---CHUNK---
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: This section explains the sequence of transforms required to convert a CanvasItem's local coordinates to screen coordinates.
+
+To convert a CanvasItem local coordinate to an actual screen coordinate, the following chain of transforms must be applied:
+---CHUNK---
+Document: 2D Transforms  
+Path: godot/tutorials/2d/2d_transforms.rst  
+Summary: Explains how to use transform functions for coordinate conversion in 2D, including affine inverse and screen coordinate calculations.  
+
+Transform functions operate from right to left, meaning multiplying a transform with a coordinate shifts the coordinate system to the left. Multiplying by the affine inverse of a transform shifts it to the right. For example:  
+
+GDScript:  
+```gdscript  
+# Called from a CanvasItem.  
+canvas_pos = get_global_transform() * local_pos  
+local_pos = get_global_transform().affine_inverse() * canvas_pos  
+```  
+
+C#:  
+```csharp  
+// Called from a CanvasItem.  
+canvasPos = GetGlobalTransform() * localPos;  
+localPos = GetGlobalTransform().AffineInverse() * canvasPos;  
+```  
+
+To convert a CanvasItem's local coordinates to screen coordinates, multiply in this order:  
+
+GDScript:  
+```gdscript  
+var screen_coord = get_viewport().get_screen_transform() * get_global_transform_with_canvas() * local_pos  
+```  
+
+C#:  
+```csharp  
+var screenCoord = GetViewport().GetScreenTransform() * GetGlobalTransformWithCanvas() * localPos;  
+```  
+
+Note: Working with screen coordinates is generally discouraged. Instead, use Canvas coordinates via `CanvasItem.get_global_transform()` to ensure proper automatic screen resolution resizing.
+---CHUNK---
+Document: 2D Transforms
+Path: godot/tutorials/2d/2d_transforms.rst
+Summary: How to generate and process custom input events in a focused window using Godot's transform system.
+
+To feed custom input events to the game in the focused window, calculate the screen position using the node's global transform with canvas and apply it to the input event. This ensures proper event handling within the game's coordinate system.
+
+GDScript:
+var local_pos = Vector2(10, 20) # Local to Control/Node2D.
+var ie = InputEventMouseButton.new()
+ie.button_index = MOUSE_BUTTON_LEFT
+ie.position = get_viewport().get_screen_transform() * get_global_transform_with_canvas() * local_pos
+Input.parse_input_event(ie)
+
+C#:
+var localPos = new Vector2(10,20); // Local to Control/Node2D.
+var ie = new InputEventMouseButton()
+{
+    ButtonIndex = MouseButton.Left,
+    Position = GetViewport().GetScreenTransform() * GetGlobalTransformWithCanvas() * localPos,
+};
+Input.ParseInputEvent(ie);

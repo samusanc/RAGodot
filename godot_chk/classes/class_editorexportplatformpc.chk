@@ -1,0 +1,25 @@
+Document: EditorExportPlatformPC
+Path: godot/classes/class_editorexportplatformpc.rst
+Summary: Class EditorExportPlatformPC reference section.
+---CHUNK---
+Document: EditorExportPlatformPC
+Path: godot/classes/class_editorexportplatformpc.rst
+Summary: Base class for the desktop platform exporter supporting Windows and Linux/BSD systems.
+
+Inherits: EditorExportPlatform < RefCounted < Object
+Inherited By: EditorExportPlatformLinuxBSD, EditorExportPlatformWindows
+
+Base class for the desktop platform exporter (Windows and Linux/BSD).
+---CHUNK---
+Document: EditorExportPlatformPC
+Path: godot/classes/class_editorexportplatformpc.rst
+Summary: Base class for desktop platform exporters (Windows, Linux/BSD) excluding macOS.
+
+The base class for the desktop platform exporters. These include Windows and Linux/BSD, but not macOS. See the classes inheriting from this one for more details.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_editorexportplatformpc.rst
+Summary: Links to tutorials on exporting projects for Windows and Linux platforms.
+
+Exporting for Windows
+Exporting for Linux

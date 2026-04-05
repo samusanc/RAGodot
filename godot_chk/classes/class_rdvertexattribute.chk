@@ -1,0 +1,44 @@
+Document: RDVertexAttribute
+Path: godot/classes/class_rdvertexattribute.rst
+Summary: Class RDVertexAttribute: identity, description, and inheritance information (original RST content incomplete).
+---CHUNK---
+Document: RDVertexAttribute
+Path: godot/classes/class_rdvertexattribute.rst
+Summary: Represents a vertex attribute used by the RenderingDevice class for graphics operations.
+
+Inherits: RefCounted < Object
+
+Vertex attribute (used by RenderingDevice).
+---CHUNK---
+Document: RdVertexAttribute
+Path: godot/classes/class_rdvertexattribute.rst
+Summary: A class used by RenderingDevice to handle vertex attribute data in the rendering pipeline.
+
+This object is used by RenderingDevice.
+---CHUNK---
+Document: RDVertexAttribute
+Path: godot/classes/class_rdvertexattribute.rst
+Summary: Properties and their default values for the RDVertexAttribute class.
+
+- binding (int): Attribute binding index. Default: 4294967295
+- format (DataFormat): Vertex data format (from RenderingDevice_DataFormat enum). Default: 232
+- frequency (VertexFrequency): Update frequency (from RenderingDevice_VertexFrequency enum). Default: 0
+- location (int): Shader attribute location. Default: 0
+- offset (int): Byte offset within the vertex buffer. Default: 0
+- stride (int): Byte distance between consecutive vertex entries. Default: 0
+---CHUNK---
+Document: RDVertexAttribute
+Path: godot/classes/class_rdvertexattribute.rst
+Summary: Properties and methods for configuring vertex attribute data in a rendering device.
+
+binding (int): The index of the buffer in the vertex buffer array to bind this vertex attribute. When set to -1, defaults to the attribute's index. Set via set_binding(value), get via get_binding(). Note: Cannot mix explicitly assigned bindings with implicitly assigned ones (-1). All attributes must use either explicit bindings or -1.
+
+format (DataFormat): The way attribute data is interpreted when sent to a shader. Set via set_format(value), get via get_format().
+
+frequency (VertexFrequency): The rate at which this attribute is pulled from its vertex buffer. Set via set_frequency(value), get via get_frequency().
+
+location (int): The shader location this attribute is bound to. Set via set_location(value), get via get_location().
+
+offset (int): Number of bytes between vertex buffer start and first instance of this attribute. Set via set_offset(value), get via get_offset().
+
+stride (int): Number of bytes between consecutive instances of this attribute. Set via set_stride(value), get via get_stride().

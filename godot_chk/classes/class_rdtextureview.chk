@@ -1,0 +1,39 @@
+Document: RDTextureView
+Path: godot/classes/class_rdtextureview.rst
+Summary: Class RDTextureView provides functionality for texture views in rendering.
+---CHUNK---
+Document: RDTextureView
+Path: godot/classes/class_rdtextureview.rst
+Summary: A texture view used by the RenderingDevice for managing texture data.
+
+RDTextureView inherits from RefCounted < Object. Texture view (used by RenderingDevice).
+---CHUNK---
+Document: RdTextureView
+Path: godot/classes/class_rdtextureview.rst
+Summary: A class used by the RenderingDevice for texture view operations.
+
+This object is used by RenderingDevice.
+---CHUNK---
+Document: RDTextureView
+Path: godot/classes/class_rdtextureview.rst
+Summary: Properties of the RDTextureView class including format override and texture swizzle configuration with default values.
+
+- format_override (DataFormat): Default: 232.
+- swizzle_a (TextureSwizzle): Default: 6.
+- swizzle_b (TextureSwizzle): Default: 5.
+- swizzle_g (TextureSwizzle): Default: 4.
+- swizzle_r (TextureSwizzle): Default: 3.
+---CHUNK---
+Document: RDTextureView
+Path: godot/classes/class_rdtextureview.rst
+Summary: Properties for configuring texture format and channel swizzling in RDTextureView.
+
+Property: format_override (DataFormat): Optional override for the data format to return sampled values in. The corresponding RDTextureFormat must have had this added as a shareable format. Default value of RenderingDevice.DATA_FORMAT_MAX does not override the format. Methods: set_format_override(value: DataFormat) → void, get_format_override() → DataFormat.
+
+Property: swizzle_a (TextureSwizzle): The channel to sample when sampling the alpha channel. Methods: set_swizzle_a(value: TextureSwizzle) → void, get_swizzle_a() → TextureSwizzle. Default value: 6.
+
+Property: swizzle_b (TextureSwizzle): The channel to sample when sampling the blue color channel. Methods: set_swizzle_b(value: TextureSwizzle) → void, get_swizzle_b() → TextureSwizzle. Default value: 5.
+
+Property: swizzle_g (TextureSwizzle): The channel to sample when sampling the green color channel. Methods: set_swizzle_g(value: TextureSwizzle) → void, get_swizzle_g() → TextureSwizzle. Default value: 4.
+
+Property: swizzle_r (TextureSwizzle): The channel to sample when sampling the red color channel. Methods: set_swizzle_r(value: TextureSwizzle) → void, get_swizzle_r() → TextureSwizzle. Default value: 3.

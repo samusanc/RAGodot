@@ -1,0 +1,85 @@
+Document: How to Read the Godot API
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: This section contains a reference link with no further content.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how to navigate and understand the Godot API class reference documentation.
+
+The API, or Application Programming Interface, is an index of what Godot offers users. It provides a brief summary of which classes exist, how they are related to each other, what features they have, and how to use them. This page teaches how to read the class reference for the Godot API, which serves as a central resource for understanding the structure and functionality of Godot's programming interface. The documentation organizes classes hierarchically, showing inheritance relationships and detailing each class's methods, properties, signals, and constants. It also includes usage examples, parameter descriptions, and return value information to help developers implement features effectively.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how to interpret inheritance relationships in Godot's API documentation
+
+At the top of each file, you will see the name of the class. The "Inherits" section lists each class the current one inherits. Here CanvasItem inherits Node and Node inherits Object. The "Inherited By" section lists each class which directly inherits the current class. Here Control and Node2D both inherit CanvasItem.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how brief class descriptions are used in Godot Editor popups for node and resource creation.
+
+Brief Description. Next a brief description of the class. This text appears in Godot Editor popups for creating Nodes, Resources, and other types.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Overview of how to read and understand Godot API documentation, including class details, code examples, and usage notes.
+
+Description
+Next a more detailed description the class, its features, and its use case(s).
+
+Things you may find here:
+- Specifics of how the class works.
+- Code samples of common use cases.
+- Usage details which are shared between each of the class's methods.
+- Warnings about required dependencies or configuration.
+- Links to other related parts of the Godot API.
+---CHUNK---
+Document: How to Read the Godot API  
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst  
+Summary: This section explains that the tutorials page links to relevant manual sections for the current class.  
+
+Tutorials  
+The page then provides links to parts of the manual which mention or make use  
+of the current class.
+---CHUNK---
+Document: how_to_read_the_godot_api  
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst  
+Summary: Explains the structure and purpose of the Properties table in Godot's API documentation.  
+
+The Properties table lists variables belonging to each instance of a class, also known as "properties." The left column shows the data type of the property, with text linked to the corresponding data type's Godot API page. The center column displays the property name, linked to its full description on the page. This name is used to access or modify the property's value. The right column indicates the default value of the property. To initialize a property with a different value, set it via script or the Inspector.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how to interpret the Methods table in Godot's API documentation, including return types, parameters, and method qualifiers.
+
+The Methods table lists functions belonging to each class instance. The left column shows the return value's data type. The right column contains method names, parameters, and qualifiers. Method names link to full descriptions and are used to call the method. Each parameter's data type, name, and default value are detailed. Possible qualifiers include: const (method does not modify class data), virtual (method waits for script override), and vararg (method accepts arbitrary arguments).
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how to interpret the Signals section in the Godot API, detailing event names, parameters, and their emission contexts.
+
+Signals list details the names and parameters of events which "signal" a change in game state to other class instances. Like the Methods table, any parameters will include their data type and name. Each signal also has a detailed explanation of when the signal is emitted.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how Godot's API documentation details enumerations and their associated values for a class.
+
+The Enumerations list details the enumerable data types associated with the current class. For each enumeration, the page states its name and then lists its possible values. For each enumeration value, the page states its name, its integer value, and an explanation of its use case(s) and/or affects. This structure allows developers to quickly reference available options and understand their functional implications when working with the class's API.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how to interpret the Constants section in Godot's API documentation, including named integer values and their use cases.
+
+The Constants list details named integer constants in the current class. For each constant, the page states its name, its integer value, and an explanation of its use case(s) and/or affects. ``NOTIFICATION_*`` constants' descriptions will state which engine event triggers the notification.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: Explains how the Property Descriptions list in Godot's API documentation details property data types, setter/getter functions, and usage context.
+
+The Property Descriptions list details everything about each property. It restates the data type and name of the property. Every property in the Godot API is bound to a pair of setter and getter functions. Using either is equivalent. They are listed here. Below that is a detailed summary of what the property's data represents, its use case(s), and/or the affects of changing it. It may include code samples and/or links to relevant parts of the Godot API. Note: Knowing the setter and getter names is useful when one must bind a method name or Callable to something.
+---CHUNK---
+Document: how_to_read_the_godot_api
+Path: godot/tutorials/scripting/how_to_read_the_godot_api.rst
+Summary: This section explains how to interpret method descriptions in the Godot API, including return types, parameters, and usage details.
+
+Method Descriptions list details everything about each method. It restates the method's return data type, parameter names/types/defaults, and qualifiers. Below that is a detailed summary of what the method does and its use case(s). It may include code samples and/or links to relevant parts of the Godot API.

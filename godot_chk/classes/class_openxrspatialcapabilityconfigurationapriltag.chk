@@ -1,0 +1,51 @@
+Document: OpenXRSpatialCapabilityConfigurationAprilTag
+Path: godot/classes/class_openxrspatialcapabilityconfigurationapriltag.rst
+Summary: Class OpenXRSpatialCapabilityConfigurationAprilTag configuration for AprilTag spatial tracking in OpenXR.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationAprilTag
+Path: godot/classes/class_openxrspatialcapabilityconfigurationapriltag.rst
+Summary: Configuration header for April tag markers.
+
+Note: This class may be changed or removed in future versions.
+Inherits: OpenXRSpatialCapabilityConfigurationBaseHeader < RefCounted < Object
+---CHUNK---
+Document: class_openxrspatialcapabilityconfigurationapriltag
+Path: godot/classes/class_openxrspatialcapabilityconfigurationapriltag.rst
+Summary: Configuration header for April tag markers used in spatial context creation.
+
+Configuration header for April tag markers. Pass this to OpenXRSpatialEntityExtension.create_spatial_context() to create a spatial context that can detect April tags.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationAprilTag
+Path: godot/classes/class_openxrspatialcapabilityconfigurationapriltag.rst
+Summary: Property definition for the AprilTag dictionary configuration with default value.
+
+april_dict (AprilTagDict): Property for specifying the AprilTag dictionary. Default: 4.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationAprilTag
+Path: godot/classes/class_openxrspatialcapabilityconfigurationapriltag.rst
+Summary: This chunk covers the AprilTag dictionary enumeration values and the get_enabled_components method for OpenXR spatial capability configuration.
+
+Method: get_enabled_components() → PackedInt64Array (const)
+
+Enum: AprilTagDict
+- APRIL_TAG_DICT_16H5 (1): 4 by 4 bits, minimum Hamming distance between any two codes = 5, 30 codes
+- APRIL_TAG_DICT_25H9 (2): 5 by 5 bits, minimum Hamming distance between any two codes = 9, 35 codes
+- APRIL_TAG_DICT_36H10 (3): 6 by 6 bits, minimum Hamming distance between any two codes = 10, 2320 codes
+- APRIL_TAG_DICT_36H11 (4): 6 by 6 bits, minimum Hamming distance between any two codes = 11, 587 codes
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationAprilTag  
+Path: godot/classes/class_openxrspatialcapabilityconfigurationapriltag.rst  
+Summary: The april_dict property and its associated methods for configuring April tag decoding in spatial contexts.  
+
+AprilDict (Type): AprilTagDict. Default: 4.  
+Method: set_april_dict(value: AprilTagDict) → void.  
+Method: get_april_dict() → AprilTagDict.  
+
+Dictionary to use to decode April tags. Note: Must be set before using this configuration to create a spatial context.
+---CHUNK---
+Document: OpenXRSpatialCapabilityConfigurationAprilTag
+Path: godot/classes/class_openxrspatialcapabilityconfigurationapriltag.rst
+Summary: Method get_enabled_components and its validity condition
+
+Method: get_enabled_components() → PackedInt64Array
+Returns the components enabled by this configuration. Note: Only valid after this configuration was used to create a spatial context.

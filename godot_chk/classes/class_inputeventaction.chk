@@ -1,0 +1,54 @@
+Document: InputEventAction  
+Path: godot/classes/class_inputeventaction.rst  
+Summary: Represents an input event tied to a specific action, used for input mapping and processing.  
+
+InputEventAction is a class that extends InputEvent and is used to represent input events associated with specific actions. It is part of Godot's input system, allowing developers to map and process input events based on predefined actions. This class inherits from InputEvent, which provides common functionality for all input events.  
+
+Key properties include the action name, which identifies the specific action, and the event type, which determines how the input is processed. InputEventAction can be used in conjunction with InputMap to define and manage input actions.  
+
+When creating an InputEventAction, developers can specify the action name and set other properties such as the event type and modifiers. These events are then used by the input system to trigger corresponding actions in the game or application.  
+
+InputEventAction supports various input types, including keyboard, mouse, and controller inputs. It allows for precise control over how input events are handled, making it a crucial component in Godot's input handling system.  
+
+By using InputEventAction, developers can create flexible and customizable input configurations, enabling a wide range of interactions within the game or application. This class is essential for implementing complex input systems that respond to user actions in a meaningful way.
+---CHUNK---
+Document: InputEventAction
+Path: godot/classes/class_inputeventaction.rst
+Summary: A class representing input events tied to specific actions in Godot
+Inherits: InputEvent < Resource < RefCounted < Object
+---CHUNK---
+Document: class_inputeventaction  
+Path: godot/classes/class_inputeventaction.rst  
+Summary: Represents a generic input action that can be mapped to multiple input types, used for manual action emission and checking physical events against input map actions.  
+
+Contains a generic action which can be targeted from several types of inputs. Actions and their events can be set in the Input Map tab in Project > Project Settings, or with the InputMap class. Note: Unlike other InputEvent subclasses which map to unique physical events, this virtual one is not emitted by the engine. This class is useful to emit actions manually with Input.parse_input_event, which are then received in Node._input. To check if a physical event matches an action from the Input Map, use InputEvent.is_action and InputEvent.is_action_pressed.
+---CHUNK---
+Document: class_inputeventaction
+Path: godot/classes/class_inputeventaction.rst
+Summary: Tutorials demonstrating the use of InputEvent actions and related demos.
+
+Tutorials
+- Using InputEvent: Actions
+- 2D Dodge The Creeps Demo
+- 3D Voxel Demo
+---CHUNK---
+Document: InputEventAction  
+Path: godot/classes/class_inputeventaction.rst  
+Summary: Properties and their default values for the InputEventAction class.  
+
+- action (StringName): Default: &""  
+- event_index (int): Default: -1  
+- pressed (bool): Default: false  
+- strength (float): Default: 1.0
+---CHUNK---
+Document: InputEventAction
+Path: godot/classes/class_inputeventaction.rst
+Summary: Properties for the InputEventAction class, including action name, event index, pressed state, and strength value.
+
+Property: action (StringName): The action's name, usually matching an existing action in InputMap. Default: &"". Set/Get methods: set_action(value: StringName), get_action() → StringName.
+
+Property: event_index (int): The real event index in action this event corresponds to (from events defined for this action in InputMap). Default: -1. Set/Get methods: set_event_index(value: int), get_event_index() → int. If -1, a unique ID is used requiring separate release events.
+
+Property: pressed (bool): If true, the action's state is pressed. If false, the action's state is released. Default: false. Set/Get methods: set_pressed(value: bool), is_pressed() → bool.
+
+Property: strength (float): The action's strength between 0 and 1. Considered 0 if pressed is false. Used to fake analog joypad motion events by specifying axis bend/pressure. Default: 1.0. Set/Get methods: set_strength(value: float), get_strength() → float.

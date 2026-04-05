@@ -1,0 +1,51 @@
+Document: EditorSelection
+Path: godot/classes/class_editorselection.rst
+Summary: Class identity, description, and inheritance for EditorSelection.
+---CHUNK---
+Document: EditorSelection
+Path: godot/classes/class_editorselection.rst
+Summary: Manages the SceneTree selection in the editor.
+
+Inherits: Object
+---CHUNK---
+Document: class_editorselection
+Path: godot/classes/class_editorselection.rst
+Summary: Manages the SceneTree selection in the Godot editor.
+
+Note: This class shouldn't be instantiated directly. Instead, access the singleton using EditorInterface.get_selection().
+---CHUNK---
+Document: EditorSelection
+Path: godot/classes/class_editorselection.rst
+Summary: Methods for managing node selection in the editor, including adding, removing, and retrieving selected nodes.
+
+Method: add_node(node: Node) → void. Adds a node to the selection.
+Method: clear() → void. Removes all nodes from the selection.
+Method: get_selected_nodes() → Array[Node]. Returns all currently selected nodes.
+Method: get_top_selected_nodes() → Array[Node]. Returns top-level selected nodes.
+Method: get_transformable_selected_nodes() → Array[Node]. Returns nodes that can be transformed.
+Method: remove_node(node: Node) → void. Removes a node from the selection.
+---CHUNK---
+Document: EditorSelection
+Path: godot/classes/class_editorselection.rst
+Summary: Methods for managing node selection in the Godot editor, including adding/removing nodes, retrieving selected nodes, and handling transforms.
+
+void add_node(Node node)  
+Adds a node to the selection.  
+Note: The newly selected node will not be automatically edited in the inspector. If you want to edit a node, use EditorInterface.edit_node().  
+
+void clear()  
+Clear the selection.  
+
+Array<Node> get_selected_nodes()  
+Returns the list of selected nodes.  
+
+Array<Node> get_top_selected_nodes()  
+Returns the list of top selected nodes only, excluding any children. This is useful for performing transform operations (moving them, rotating, etc.).  
+For example, if there is a node A with a child B and a sibling C, then selecting all three will cause this method to return only A and C. Changing the global transform of A will affect the global transform of B, so there is no need to change B separately.  
+
+Array<Node> get_transformable_selected_nodes()  
+Deprecated: Use get_top_selected_nodes() instead.  
+Returns the list of top selected nodes only, excluding any children. This is useful for performing transform operations (moving them, rotating, etc.). See get_top_selected_nodes().  
+
+void remove_node(Node node)  
+Removes a node from the selection.

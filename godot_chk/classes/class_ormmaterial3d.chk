@@ -1,0 +1,22 @@
+Document: ORMMaterial3D
+Path: godot/classes/class_ormmaterial3d.rst
+Summary: Class ORMMaterial3D reference.
+---CHUNK---
+Document: ORMMaterial3D
+Path: godot/classes/class_ormmaterial3d.rst
+Summary: A PBR (Physically Based Rendering) material for 3D objects using an ORM texture.
+
+Inherits: BaseMaterial3D < Material < Resource < RefCounted < Object
+A PBR (Physically Based Rendering) material to be used on 3D objects. Uses an ORM texture.
+---CHUNK---
+Document: ORMMaterial3D
+Path: godot/classes/class_ormmaterial3d.rst
+Summary: ORMMaterial3D is a material class that combines ambient occlusion, roughness, and metallic maps into a single ORM texture, inheriting properties from BaseMaterial3D.
+
+ORMMaterial3D's properties are inherited from BaseMaterial3D. Unlike StandardMaterial3D, ORMMaterial3D uses a single texture for ambient occlusion, roughness and metallic maps, known as an ORM texture. This approach simplifies material configuration by combining three separate maps into one, reducing the number of texture assets required. The ORM texture format typically stores ambient occlusion in the red channel, roughness in the green channel, and metallic in the blue channel. This class is particularly useful for optimizing performance in scenarios where multiple texture maps would otherwise be needed. The material retains all functionality from its parent class while introducing this specialized texture format.
+---CHUNK---
+Document: Tutorials  
+Path: godot/classes/class_ormmaterial3d.rst  
+Summary: Links to tutorials related to Standard Material 3D and ORM Material 3D in Godot.  
+
+- Standard Material 3D and ORM Material 3D

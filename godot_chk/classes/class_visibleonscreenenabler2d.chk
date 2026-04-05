@@ -1,0 +1,45 @@
+Document: VisibleOnScreenEnabler2D  
+Path: godot/classes/class_visibleonscreenenabler2d.rst  
+Summary: Class documentation for VisibleOnScreenEnabler2D in Godot Engine.
+---CHUNK---
+Document: VisibleOnScreenEnabler2D
+Path: godot/classes/class_visibleonscreenenabler2d.rst
+Summary: A 2D rectangular region that enables a target node when it becomes visible on screen.
+
+Inherits: VisibleOnScreenNotifier2D < Node2D < CanvasItem < Node < Object
+A rectangular region of 2D space that, when visible on screen, enables a target node.
+---CHUNK---
+Document: VisibleOnScreenEnabler2D  
+Path: godot/classes/class_visibleonscreenenabler2d.rst  
+Summary: Enables a target node when a defined 2D region becomes visible on the screen.  
+
+VisibleOnScreenEnabler2D contains a rectangular region of 2D space and a target node. The target node will be automatically enabled (via its Node.process_mode property) when any part of this region becomes visible on the screen, and automatically disabled otherwise. This can for example be used to activate enemies only when the player approaches them. See VisibleOnScreenNotifier2D if you only want to be notified when the region is visible on screen.  
+
+Note: VisibleOnScreenEnabler2D uses the render culling code to determine whether it's visible on screen, so it won't function unless CanvasItem.visible is set to true.
+---CHUNK---
+Document: VisibleOnScreenEnabler2D
+Path: godot/classes/class_visibleonscreenenabler2d.rst
+Summary: Properties and their default values for the VisibleOnScreenEnabler2D class.
+
+- EnableMode (Type): The mode used to determine visibility. Default: 0.
+- NodePath (Type): The path to the node that controls visibility. Default: NodePath("..")
+---CHUNK---
+Document: VisibleOnScreenEnabler2D
+Path: godot/classes/class_visibleonscreenenabler2d.rst
+Summary: Defines the EnableMode enum and its three values for controlling visibility behavior in 2D nodes.
+
+enum EnableMode:
+- ENABLE_MODE_INHERIT (0): Corresponds to Node.PROCESS_MODE_INHERIT. The node inherits visibility state from parent nodes.
+- ENABLE_MODE_ALWAYS (1): Corresponds to Node.PROCESS_MODE_ALWAYS. The node is always visible regardless of parent states.
+- ENABLE_MODE_WHEN_PAUSED (2): Corresponds to Node.PROCESS_MODE_WHEN_PAUSED. The node is only visible when the scene is paused.
+---CHUNK---
+Document: VisibleOnScreenEnabler2D
+Path: godot/classes/class_visibleonscreenenabler2d.rst
+Summary: Properties for configuring node activation based on screen visibility and target node path.
+
+enable_mode (EnableMode): Determines how the target node is enabled. Corresponds to Node.ProcessMode. When the node is disabled, it always uses Node.PROCESS_MODE_DISABLED. Default: 0.  
+Set/Get: void set_enable_mode(EnableMode value), EnableMode get_enable_mode().
+
+enable_node_path (NodePath): The path to the target node, relative to VisibleOnScreenEnabler2D. The target node is cached when setting this property (if VisibleOnScreenEnabler2D is in the scene tree) and when entering the scene tree. If empty, no node is affected. If invalid, an error is generated. Default: NodePath("..").  
+Set/Get: void set_enable_node_path(NodePath value), NodePath get_enable_node_path().  
+Note: Path is resolved relative to the VisibleOnScreenEnabler2D node.

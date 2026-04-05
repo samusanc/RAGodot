@@ -1,0 +1,49 @@
+Document: VisualShaderNodeFloatOp
+Path: godot/classes/class_visualshadernodefloatop.rst
+Summary: A shader graph node that performs mathematical operations on float values in Godot's visual shader system.
+---CHUNK---
+Document: VisualShaderNodeFloatOp
+Path: godot/classes/class_visualshadernodefloatop.rst
+Summary: A floating-point scalar operator to be used within the visual shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+A floating-point scalar operator to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeFloatOp
+Path: godot/classes/class_visualshadernodefloatop.rst
+Summary: Applies a specified operator to two floating-point inputs (a and b) in a visual shader.
+Applies operator to two floating-point inputs: a and b.
+---CHUNK---
+Document: VisualShaderNodeFloatOp
+Path: godot/classes/class_visualshadernodefloatop.rst
+Summary: The 'operator' property of the VisualShaderNodeFloatOp class, which determines the mathematical operation to perform, with a default value of 0.
+
+- operator (Operator): The operator to use. Default: 0.
+---CHUNK---
+Document: VisualShaderNodeFloatOp
+Path: godot/classes/class_visualshadernodefloatop.rst
+Summary: Enumerates arithmetic and comparison operations for float values in visual shaders, with corresponding Godot Shader Language functions.
+
+Operator (enum): 
+- OP_ADD (0): Sums two numbers using a + b.
+- OP_SUB (1): Subtracts two numbers using a - b.
+- OP_MUL (2): Multiplies two numbers using a * b.
+- OP_DIV (3): Divides two numbers using a / b.
+- OP_MOD (4): Calculates remainder of a divided by b (mod(a, b)).
+- OP_POW (5): Raises a to the power of b (pow(a, b)).
+- OP_MAX (6): Returns the greater of two numbers (max(a, b)).
+- OP_MIN (7): Returns the lesser of two numbers (min(a, b)).
+- OP_ATAN2 (8): Returns arc-tangent of parameters (atan(a, b)).
+- OP_STEP (9): Generates step function comparing b (x) to a (edge) (step(a, b)).
+- OP_ENUM_SIZE (10): Represents the total number of enum values.
+---CHUNK---
+Document: VisualShaderNodeFloatOp
+Path: godot/classes/class_visualshadernodefloatop.rst
+Summary: Describes the 'operator' property and its setter/getter methods for applying mathematical operations between two float inputs in a visual shader node.
+
+Operator (int): Selects the mathematical operation to apply between two float inputs. Default: 0 (ADD). Supported values: 0 (ADD), 1 (SUB), 2 (MUL), 3 (DIV), 4 (POW), 5 (MIN), 6 (MAX), 7 (EQ), 8 (NEQ), 9 (LT), 10 (LTE), 11 (GT), 12 (GTE), 13 (AND), 14 (OR), 15 (XOR), 16 (NAND), 17 (NOR), 18 (XNOR). 
+
+Setter: set_operator(value: Operator) → void
+Getter: get_operator() → Operator
+
+Note: This property defines the operation performed on the two float inputs connected to this node in the visual shader graph.

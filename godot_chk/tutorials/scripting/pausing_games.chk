@@ -1,0 +1,99 @@
+Document: Pausing Games
+Path: godot/tutorials/scripting/pausing_games.rst
+Summary: This section is empty or contains only a document reference.
+---CHUNK---
+Document: Pausing games and process mode
+Path: godot/tutorials/scripting/pausing_games.rst
+Summary: Explains how to pause games and manage process modes in Godot.
+---CHUNK---
+Document: Pausing Games
+Path: godot/tutorials/scripting/pausing_games.rst
+Summary: This section explains how to implement a simple pausing framework in Godot to control game interruptions.
+
+In most games it is desirable to at some point interrupt the game to do something else such as taking a break or changing options. Implementing a fine-grained control for what can be paused (and what cannot) is a lot of work so a simple framework for pausing is provided in Godot.
+---CHUNK---
+Document: Pausing Games
+Path: godot/tutorials/scripting/pausing_games.rst
+Summary: How to pause a game by setting the SceneTree.paused property and its effects on physics and node behavior.
+
+To pause the game the pause state must be set. This is done by assigning true to the SceneTree.paused property:
+
+GDScript:
+    get_tree().paused = true
+
+C#:
+    GetTree().Paused = true;
+
+Doing this will cause two things. First, 2D and 3D physics will be stopped for all nodes. Second, the behavior of certain nodes will stop or start depending on their process mode.
+
+Note: The physics servers can be made active while the game is paused by using their set_active methods.
+---CHUNK---
+Document: Pausing Games  
+Path: godot/tutorials/scripting/pausing_games.rst  
+Summary: Explains how process modes in Godot determine when nodes execute, including code examples and behavior differences.  
+
+Each node in Godot has a "Process Mode" that defines when it processes. It can be found and changed under a node's Node properties in the inspector. You can also alter the property with code:  
+
+GDScript:  
+func _ready():  
+    process_mode = Node.PROCESS_MODE_PAUSABLE  
+
+C#:  
+public override void _Ready()  
+{  
+    ProcessMode = Node.ProcessModeEnum.Pausable;  
+}  
+
+Process modes dictate node behavior:  
+- Inherit: Process depending on the parent, grandparent, etc. The first parent with a non-Inherit state determines processing.  
+- Pausable: Process only when the game is not paused.  
+- WhenPaused: Process only when the game is paused.  
+- Always: Process regardless of pause state.  
+- Disabled: Do not process at all.  
+
+By default, all nodes use "Inherit." If a parent is set to "Inherit," the grandparent is checked recursively. If no non-Inherit state is found, the SceneTree's pause state applies. When paused, all nodes stop processing. This affects:  
+- _process, _physics_process, _input, and _input_event functions not being called.  
+- Signals still triggering connected functions even if the target node is not processing.  
+- Animation nodes pausing animations, audio nodes pausing streams, and particles pausing. These resume automatically when unpaused.  
+
+Key Rule: Physics servers are disabled by default when paused. To enable physics during pauses, use the physics servers' set_active() methods.
+---CHUNK---
+Document: Pause menu example
+Path: godot/tutorials/scripting/pausing_games.rst
+Summary: How to create a pause menu by configuring node process modes and connecting button signals to control game pausing.
+
+Create a button node to act as the pause trigger. Build a menu UI with a close button, then set the root node's Process Mode to "When Paused". This ensures all child nodes inherit the paused processing state. Hide the menu initially by default.
+
+Attach a script to the menu's root node. Connect the pause button's pressed signal to a method that:
+- Sets get_tree().paused = true
+- Calls show() to display the menu
+
+GDScript:
+func _on_pause_button_pressed():
+    get_tree().paused = true
+    show()
+
+C#:
+private void OnPauseButtonPressed()
+{
+    GetTree().Paused = true;
+    Show();
+}
+
+Connect the close button's pressed signal to a method that:
+- Calls hide() to conceal the menu
+- Sets get_tree().paused = false to resume gameplay
+
+GDScript:
+func _on_close_button_pressed():
+    hide()
+    get_tree().paused = false
+
+C#:
+private void OnCloseButtonPressed()
+{
+    Hide();
+    GetTree().Paused = false;
+}
+
+This implementation creates a functional pause menu system where the UI only becomes interactive when the game is paused.

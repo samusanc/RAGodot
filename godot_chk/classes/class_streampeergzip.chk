@@ -1,0 +1,47 @@
+Document: StreamPeerGZIP  
+Path: godot/classes/class_streampeergzip.rst  
+Summary: Class StreamPeerGZIP: A class for handling GZIP-compressed data streams.  
+
+Inherits: StreamPeer < StreamPeerBase < Reference < Object  
+Key Rule: StreamPeerGZIP is a specialized stream peer for decompressing and compressing data using the GZIP algorithm. It extends StreamPeerBase to provide GZIP-specific functionality for reading from and writing to compressed data streams.  
+
+GDScript:  
+```gdscript  
+class_name StreamPeerGZIP extends StreamPeerBase  
+```  
+
+Key Rule: This class is used to interface with GZIP-compressed data, allowing for decompression of incoming data and compression of outgoing data. It is typically used in conjunction with other stream peers or network classes that handle raw byte streams.  
+
+Key Rule: StreamPeerGZIP does not support direct file operations; it is designed for use with existing stream peers that provide the underlying byte data. Compression and decompression are handled internally by the class.  
+
+Key Rule: When decompressing, data is read from the stream and automatically decompressed. When compressing, data written to the stream is automatically compressed using GZIP format.  
+
+Key Rule: The class provides methods to check if the stream is compressed, to set compression level, and to handle errors specific to GZIP operations.
+---CHUNK---
+Document: StreamPeerGZIP
+Path: godot/classes/class_streampeergzip.rst
+Summary: A stream peer that handles GZIP and deflate compression/decompression.
+
+Note: This class may be changed or removed in future versions.
+Inherits: StreamPeer < RefCounted < Object
+A stream peer that handles GZIP and deflate compression/decompression.
+---CHUNK---
+Document: StreamPeerGZIP  
+Path: godot/classes/class_streampeergzip.rst  
+Summary: This class enables streaming compression and decompression of data using GZIP/deflate, ideal for network file transfers without full memory allocation.  
+
+This class allows compressing or decompressing data using GZIP/deflate in a streaming fashion. It is particularly useful when handling files that need to be sent over a network without requiring full memory allocation. To use it, first start the stream via start_compression() (or start_decompression()). Once initiated, calling put_partial_data() on this stream will compress (or decompress) the data, writing it to the internal buffer. The method get_available_bytes() returns the number of pending bytes in the internal buffer, while get_partial_data() retrieves the compressed (or decompressed) bytes from it. When the stream concludes, finish() must be called to ensure the internal buffer is properly flushed. Before finalizing, check get_available_bytes() one last time to confirm if additional data remains to be read after flushing.
+---CHUNK---
+Document: StreamPeerGZIP  
+Path: godot/classes/class_streampeergzip.rst  
+Summary: Methods for managing GZIP compression and decompression streams, including initialization, finalization, and state management.  
+
+- clear (void): No parameters.  
+- finish (Error): No parameters.  
+- start_compression (Error): use_deflate (bool, default false), buffer_size (int, default 65535).  
+- start_decompression (Error): use_deflate (bool, default false), buffer_size (int, default 65535).  
+
+clear: Clears this stream, resetting the internal state.  
+finish: Finalizes the stream, compressing any buffered chunk left. You must call it only when you are compressing.  
+start_compression: Start the stream in compression mode with the given buffer_size, if use_deflate is true uses deflate instead of GZIP.  
+start_decompression: Start the stream in decompression mode with the given buffer_size, if use_deflate is true uses deflate instead of GZIP.

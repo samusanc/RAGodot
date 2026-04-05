@@ -1,0 +1,24 @@
+Document: AnimationNodeOutput
+Path: godot/classes/class_animationnodeoutput.rst
+Summary: Class AnimationNodeOutput reference.
+---CHUNK---
+Document: AnimationNodeOutput
+Path: godot/classes/class_animationnodeoutput.rst
+Summary: The animation output node of an AnimationNodeBlendTree.
+
+Inherits: AnimationNode < Resource < RefCounted < Object
+The animation output node of an AnimationNodeBlendTree.
+---CHUNK---
+Document: class_animationnodeoutput
+Path: godot/classes/class_animationnodeoutput.rst
+Summary: A node automatically created in an AnimationNodeBlendTree to output the final animation.
+
+A node created automatically in an AnimationNodeBlendTree that outputs the final animation.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_animationnodeoutput.rst
+Summary: Lists example projects and resources for learning animation in Godot
+
+Using AnimationTree
+3D Platformer Demo
+Third Person Shooter (TPS) Demo

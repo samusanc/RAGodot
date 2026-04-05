@@ -1,0 +1,35 @@
+Document: AudioEffectHighShelfFilter  
+Path: godot/classes/class_audioeffecthighshelffilter.rst  
+Summary: AudioEffectHighShelfFilter is a class for applying a high shelf filter effect to audio signals in Godot Engine.  
+
+Inherits: AudioEffect < AudioFilter < Resource  
+AudioEffectHighShelfFilter is a type of audio filter that boosts or attenuates frequencies above a specified cutoff point. It is commonly used in audio processing to shape the tonal characteristics of sound. The filter's behavior is controlled through several key parameters:  
+
+- **gain_db (float):** Determines the amount of amplification or attenuation applied to frequencies above the cutoff. A positive value increases volume, while a negative value decreases it. Default: 0.0.  
+- **cutoff_hz (float):** Specifies the frequency (in Hertz) above which the filter begins to take effect. Default: 1000.0.  
+- **slope (int):** Defines the steepness of the filter's transition from the cutoff frequency. Higher values create a sharper roll-off. Valid values: 1, 2, 3, 4. Default: 1.  
+
+This class is typically used within the AudioEffectFilter node or other audio processing systems to modify the frequency response of audio tracks. It supports real-time parameter adjustments, allowing dynamic control over the filter's characteristics during playback.  
+
+Key Rule: The slope parameter must be set to a value between 1 and 4, as higher values may cause audio distortion if not used carefully.
+---CHUNK---
+Document: AudioEffectHighShelfFilter
+Path: godot/classes/class_audioeffecthighshelffilter.rst
+Summary: Adds a high-shelf filter to an audio bus for audio processing.
+
+Inherits: AudioEffectFilter < AudioEffect < Resource < RefCounted < Object
+Adds a high-shelf filter to an audio bus. This filter allows boosting or attenuating frequencies above a specified cutoff point, commonly used in audio equalization to shape the high-frequency content of an audio signal.
+---CHUNK---
+Document: AudioEffectHighshelfFilter
+Path: godot/classes/class_audioeffecthighshelffilter.rst
+Summary: A high-shelf filter controls the gain of all frequencies above the cutoff frequency, used to adjust sound clarity.
+
+A "high-shelf" filter controls the gain of all frequencies above AudioEffectFilter cutoff_hz. This filter can be used to increase or decrease clarity of a sound.
+---CHUNK---
+Document: Audio Buses and Effects Tutorials  
+Path: godot/classes/class_audioeffecthighshelffilter.rst  
+Summary: Lists tutorials related to audio buses and audio effects in Godot.  
+
+Tutorials:  
+- Audio buses  
+- Audio effects

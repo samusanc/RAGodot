@@ -1,0 +1,26 @@
+Document: HBoxContainer
+Path: godot/classes/class_hboxcontainer.rst
+Summary: HBoxContainer is a horizontal box container that arranges child nodes in a row, automatically resizing to fit their contents.
+---CHUNK---
+Document: HBoxContainer
+Path: godot/classes/class_hboxcontainer.rst
+Summary: A container that arranges its child controls horizontally.
+
+Inherits: BoxContainer < Container < Control < CanvasItem < Node < Object
+Inherited By: EditorResourcePicker, EditorToaster, OpenXRInteractionProfileEditorBase
+
+A container that arranges its child controls horizontally.
+---CHUNK---
+Document: HBoxContainer
+Path: godot/classes/class_hboxcontainer.rst
+Summary: A horizontal variant of BoxContainer that automatically rearranges child controls when their minimum size changes.
+
+Inherits: BoxContainer
+A variant of BoxContainer that can only arrange its child controls horizontally. Child controls are rearranged automatically when their minimum size changes.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_hboxcontainer.rst
+Summary: This section links to the "Using Containers" tutorial which explains how to use UI containers in Godot.
+
+Tutorials
+- Using Containers
