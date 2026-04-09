@@ -1,0 +1,103 @@
+Document: WebSocketMultiplayerPeer
+Path: godot/classes/class_websocketmultiplayerpeer.rst
+Summary: Implements the MultiplayerAPI interface using WebSocket.
+
+WebSocketMultiplayerPeer is a low-level implementation of the MultiplayerAPI interface that uses WebSocket for network communication. It allows you to send and receive data over a WebSocket connection, making it suitable for real-time multiplayer games and applications.
+
+Inherits: PacketPeerExtension < PacketPeer < RefCounted
+---CHUNK---
+Document: WebSocketMultiplayerPeer
+Path: godot/classes/class_websocketmultiplayerpeer.rst
+Summary: Base class for WebSocket server and client.
+
+WebSocketMultiplayerPeer
+Inherits: MultiplayerPeer < PacketPeer < RefCounted < Object
+
+Base class for WebSocket server and client.
+---CHUNK---
+Document: WebSocketMultiplayerPeer
+Path: godot/classes/class_websocketmultiplayerpeer.rst
+Summary: Base class for WebSocket server and client, enabling their use with the MultiplayerAPI.
+Note: When exporting to Android, make sure to enable the INTERNET permission in the Android export preset before exporting the project or using one-click deploy. Otherwise, network communication of any kind will be blocked by Android.
+---CHUNK---
+Document: WebSocketMultiplayerPeer
+Path: godot/classes/class_websocketmultiplayerpeer.rst
+Summary: Defines properties for configuring WebSocket multiplayer peer behavior, including handshake headers, timeouts, buffer sizes, and supported protocols.
+
+Properties:
+* handshake_headers (PackedStringArray): Custom HTTP headers to send with the WebSocket handshake. Default: PackedStringArray().
+* handshake_timeout (float): The time in seconds to wait for the WebSocket handshake to complete. Default: 3.0.
+* inbound_buffer_size (int): The maximum size in bytes of the inbound buffer for received data. Default: 65535.
+* max_queued_packets (int): The maximum number of packets that can be queued for sending. Default: 4096.
+* outbound_buffer_size (int): The maximum size in bytes of the outbound buffer for data to be sent. Default: 65535.
+* supported_protocols (PackedStringArray): A list of WebSocket subprotocols supported by this peer. Default: PackedStringArray().
+---CHUNK---
+Document: WebSocketMultiplayerPeer
+Path: godot/classes/class_websocketmultiplayerpeer.rst
+Summary: Defines methods for creating WebSocket client and server connections, and retrieving peer information.
+
+Method: create_client(url: String, tls_client_options: TLSOptions = null) → Error
+Creates a WebSocket client and connects to the specified URL. Returns an Error code indicating success or failure.
+
+Method: create_server(port: int, bind_address: String = "*", tls_server_options: TLSOptions = null) → Error
+Creates a WebSocket server listening on the specified port and bind address. Returns an Error code indicating success or failure.
+
+Method: get_peer(peer_id: int) → WebSocketPeer
+Returns the WebSocketPeer associated with the given peer ID.
+
+Method: get_peer_address(id: int) → String
+Returns the IP address of the peer with the specified ID.
+
+Method: get_peer_port(id: int) → int
+Returns the port of the peer with the specified ID.
+---CHUNK---
+Document: WebSocketMultiplayerPeer
+Path: godot/classes/class_websocketmultiplayerpeer.rst
+Summary: Properties for configuring WebSocket handshake, timeouts, and buffer sizes.
+
+Property Descriptions
+handshake_headers (PackedStringArray): The extra headers to use during handshake. See WebSocketPeer.handshake_headers for more details.
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedStringArray for more details.
+Method: set_handshake_headers(value: PackedStringArray)
+Method: get_handshake_headers() → PackedStringArray
+
+handshake_timeout (float): The maximum time each peer can stay in a connecting state before being dropped. Default: 3.0
+Method: set_handshake_timeout(value: float)
+Method: get_handshake_timeout() → float
+
+inbound_buffer_size (int): The inbound buffer size for connected peers. See WebSocketPeer.inbound_buffer_size for more details. Default: 65535
+Method: set_inbound_buffer_size(value: int)
+Method: get_inbound_buffer_size() → int
+
+max_queued_packets (int): The maximum number of queued packets for connected peers. See WebSocketPeer.max_queued_packets for more details. Default: 4096
+Method: set_max_queued_packets(value: int)
+Method: get_max_queued_packets() → int
+
+outbound_buffer_size (int): The outbound buffer size for connected peers. See WebSocketPeer.outbound_buffer_size for more details. Default: 65535
+Method: set_outbound_buffer_size(value: int)
+Method: get_outbound_buffer_size() → int
+
+supported_protocols (PackedStringArray): The supported WebSocket sub-protocols. See WebSocketPeer.supported_protocols for more details.
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedStringArray for more details.
+Method: set_supported_protocols(value: PackedStringArray)
+Method: get_supported_protocols() → PackedStringArray
+---CHUNK---
+Document: WebSocketMultiplayerPeer
+Path: godot/classes/class_websocketmultiplayerpeer.rst
+Summary: This section describes methods for creating WebSocket clients and servers, and retrieving information about connected peers.
+
+Method: create_client(url: String, tls_client_options: TLSOptions = null) → Error
+Starts a new multiplayer client connecting to the given url. TLS certificates will be verified against the hostname when connecting using the wss:// protocol. You can pass the optional tls_client_options parameter to customize the trusted certification authorities, or disable the common name verification. See TLSOptions.client() and TLSOptions.client_unsafe().
+Note: It is recommended to specify the scheme part of the URL, i.e. the url should start with either ws:// or wss://.
+
+Method: create_server(port: int, bind_address: String = "*", tls_server_options: TLSOptions = null) → Error
+Starts a new multiplayer server listening on the given port. You can optionally specify a bind_address, and provide valid tls_server_options to use TLS. See TLSOptions.server().
+
+Method: get_peer(peer_id: int) → WebSocketPeer
+Returns the WebSocketPeer associated to the given peer_id.
+
+Method: get_peer_address(id: int) → String
+Returns the IP address of the given peer.
+
+Method: get_peer_port(id: int) → int
+Returns the remote port of the given peer.

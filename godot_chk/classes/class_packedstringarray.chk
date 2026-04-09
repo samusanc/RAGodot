@@ -1,0 +1,78 @@
+Document: PackedStringArray
+Path: godot/classes/class_packedstringarray.rst
+Summary: This document describes the PackedStringArray class.
+---CHUNK---
+Document: PackedStringArray
+Path: godot/classes/class_packedstringarray.rst
+Summary: A packed array of strings.
+
+PackedStringArray
+A packed array of Strings.
+---CHUNK---
+Document: PackedStringArray
+Path: godot/classes/class_packedstringarray.rst
+Summary: Describes the PackedStringArray class, its memory efficiency, and differences from other array types.
+
+An array specifically designed to hold Strings. Packs data tightly, so it saves memory for large array sizes.
+
+If you want to join the strings in the array, use String.join().
+
+GDScript:
+    var string_array = PackedStringArray(["hello", "world"])
+    var string = " ".join(string_array)
+    print(string) # "hello world"
+
+Differences between packed arrays, typed arrays, and untyped arrays: Packed arrays are generally faster to iterate on and modify compared to a typed array of the same type (e.g. PackedStringArray versus `Array[String]`). Also, packed arrays consume less memory. As a downside, packed arrays are less flexible as they don't offer as many convenience methods such as Array.map(). Typed arrays are in turn faster to iterate on and modify than untyped arrays.
+
+Note: Packed arrays are always passed by reference. To get a copy of an array that can be modified independently of the original array, use duplicate(). This is not the case for built-in properties and methods. In these cases the returned packed array is a copy, and changing it will not affect the original value. To update a built-in property of this type, modify the returned array and then assign it to the property again.
+
+Key Rule: In a boolean context, a packed array will evaluate to `false` if it's empty. Otherwise, a packed array will always evaluate to `true`.
+
+Note: There are notable differences when using this API with C#. See doc_c_sharp_differences for more information.
+---CHUNK---
+Document: Tutorials
+Path: godot/classes/class_packedstringarray.rst
+Summary: Lists related tutorials.
+
+Tutorials
+- Operating System Testing Demo
+---CHUNK---
+Document: PackedStringArray
+Path: godot/classes/class_packedstringarray.rst
+Summary: This section details the constructors, methods, and operators available for the PackedStringArray class, used for managing arrays of strings efficiently.
+
+Constructors:
+*   PackedStringArray(): Constructs an empty PackedStringArray.
+*   PackedStringArray(from: PackedStringArray): Constructs a PackedStringArray as a copy of the given PackedStringArray.
+*   PackedStringArray(from: Array): Constructs a new PackedStringArray from a generic Array.
+
+Methods:
+*   append(value: String) -> bool: Appends an element at the end of the array (alias of push_back()).
+*   append_array(array: PackedStringArray) -> void: Appends a PackedStringArray at the end of this array.
+*   bsearch(value: String, before: bool = true) -> int const: Finds the index of an existing value or the insertion index that maintains sorting order using binary search. If `before` is false, the returned index comes after all existing entries. Warning: Calling bsearch() on an unsorted array results in unexpected behavior.
+*   clear() -> void: Clears the array, equivalent to resize() with a size of 0.
+*   count(value: String) -> int const: Returns the number of times an element is in the array.
+*   duplicate() -> PackedStringArray const: Creates and returns a copy of the array.
+*   erase(value: String) -> bool: Removes the first occurrence of a value from the array and returns true. Returns false if the value does not exist. Use remove_at() to remove by index.
+*   fill(value: String) -> void: Assigns the given value to all elements in the array.
+*   find(value: String, from: int = 0) -> int const: Searches the array for a value and returns its index or -1 if not found.
+*   get(index: int) -> String const: Returns the String at the given index. If `index` is out-of-bounds or negative, returns an empty string without pausing project execution in the editor.
+*   has(value: String) -> bool const: Returns true if the array contains `value`.
+*   insert(at_index: int, value: String) -> int: Inserts a new element at a given valid position or at the end of the array.
+*   is_empty() -> bool const: Returns true if the array is empty.
+*   push_back(value: String) -> bool: Appends a string element at the end of the array.
+*   remove_at(index: int) -> void: Removes an element from the array by index.
+*   resize(new_size: int) -> int: Sets the size of the array. Returns OK on success, or ERR_INVALID_PARAMETER if size is negative, or ERR_OUT_OF_MEMORY if allocations fail.
+*   reverse() -> void: Reverses the order of the elements in the array.
+*   rfind(value: String, from: int = -1) -> int const: Searches the array in reverse order. If `from` is negative, it's relative to the end of the array.
+*   set(index: int, value: String) -> void: Changes the String at the given index.
+*   size() -> int const: Returns the number of elements in the array.
+*   slice(begin: int, end: int = 2147483647) -> PackedStringArray const: Returns a new PackedStringArray containing a slice from `begin` (inclusive) to `end` (exclusive). Negative values for `begin` or `end` are relative to the end of the array.
+*   sort() -> void: Sorts the elements of the array in ascending order.
+*   to_byte_array() -> PackedByteArray const: Returns a PackedByteArray with each string encoded as UTF-8 and null terminated.
+
+Operators:
+*   operator !=(right: PackedStringArray) -> bool: Returns true if contents of the arrays differ.
+*   operator +(right: PackedStringArray) -> PackedStringArray: Returns a new PackedStringArray with contents of `right` added at the end. Consider using append_array() for better performance.
+*   operator ==(right: PackedStringArray) -> bool: Returns true if contents of both arrays are the same.
+*   operator [](index: int) -> String: Returns the String at index `index`. Negative indices access elements from the end. Out-of-bounds indices result in an error.

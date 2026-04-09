@@ -1,0 +1,95 @@
+Document: TextureProgressBar
+Path: godot/classes/class_textureprogressbar.rst
+Summary: Identifies the TextureProgressBar class.
+---CHUNK---
+Document: TextureProgressBar
+Path: godot/classes/class_textureprogressbar.rst
+Summary: Describes the TextureProgressBar class, a texture-based progress bar.
+
+TextureProgressBar
+Inherits: Range < Control < CanvasItem < Node < Object
+
+Texture-based progress bar. Useful for loading screens and life or stamina bars.
+---CHUNK---
+Document: TextureProgressBar
+Path: godot/classes/class_textureprogressbar.rst
+Summary: Describes the TextureProgressBar node, which uses textures for progress display.
+
+TextureProgressBar works like ProgressBar, but uses up to 3 textures instead of Godot's Theme resource. It can be used to create horizontal, vertical and radial progress bars.
+---CHUNK---
+Document: TextureProgressBar
+Path: godot/classes/class_textureprogressbar.rst
+Summary: This section lists and describes the properties available for TextureProgressBar nodes.
+
+Properties:
+*   fill_mode (int): Default: 0
+*   mouse_filter (MouseFilter): Default: 1 (overrides Control.mouse_filter)
+*   nine_patch_stretch (bool): Default: false
+*   radial_center_offset (Vector2): Default: Vector2(0, 0)
+*   radial_fill_degrees (float): Default: 360.0
+*   radial_initial_angle (float): Default: 0.0
+*   size_flags_vertical (bitfield[SizeFlags]): Default: 1 (overrides Control.size_flags_vertical)
+*   step (float): Default: 1.0 (overrides Range.step)
+*   stretch_margin_bottom (int): Default: 0
+*   stretch_margin_left (int): Default: 0
+*   stretch_margin_right (int): Default: 0
+*   stretch_margin_top (int): Default: 0
+*   texture_over (Texture2D):
+*   texture_progress (Texture2D):
+*   texture_progress_offset (Vector2): Default: Vector2(0, 0)
+*   texture_under (Texture2D):
+*   tint_over (Color): Default: Color(1, 1, 1, 1)
+*   tint_progress (Color): Default: Color(1, 1, 1, 1)
+*   tint_under (Color): Default: Color(1, 1, 1, 1)
+---CHUNK---
+Document: TextureProgressBar
+Path: godot/classes/class_textureprogressbar.rst
+Summary: This section describes the methods for managing stretch margins and defines the FillMode enumeration for TextureProgressBar.
+
+Methods:
+Method: get_stretch_margin(margin: Side) -> int
+Method: set_stretch_margin(margin: Side, value: int) -> void
+
+Enumerations:
+enum FillMode:
+FILL_LEFT_TO_RIGHT = 0: The texture_progress fills from left to right.
+FILL_RIGHT_TO_LEFT = 1: The texture_progress fills from right to left.
+FILL_TOP_TO_BOTTOM = 2: The texture_progress fills from top to bottom.
+FILL_BOTTOM_TO_TOP = 3: The texture_progress fills from bottom to top.
+FILL_CLOCKWISE = 4: Turns the node into a radial bar. The texture_progress fills clockwise. See radial_center_offset, radial_initial_angle and radial_fill_degrees to control the way the bar fills up.
+FILL_COUNTER_CLOCKWISE = 5: Turns the node into a radial bar. The texture_progress fills counterclockwise. See radial_center_offset, radial_initial_angle and radial_fill_degrees to control the way the bar fills up.
+FILL_BILINEAR_LEFT_AND_RIGHT = 6: The texture_progress fills from the center, expanding both towards the left and the right.
+FILL_BILINEAR_TOP_AND_BOTTOM = 7: The texture_progress fills from the center, expanding both towards the top and the bottom.
+FILL_CLOCKWISE_AND_COUNTER_CLOCKWISE = 8: Turns the node into a radial bar. The texture_progress fills radially from the center, expanding both clockwise and counterclockwise. See radial_center_offset, radial_initial_angle and radial_fill_degrees to control the way the bar fills up.
+---CHUNK---
+Document: TextureProgressBar
+Path: godot/classes/class_textureprogressbar.rst
+Summary: This section describes properties related to fill mode, nine-patch stretching, and radial fill settings for TextureProgressBar.
+
+*   `fill_mode` (int): The fill direction. See FillMode for possible values. Default: 0.
+    *   Method: `set_fill_mode(value: int)`
+    *   Method: `get_fill_mode()`
+*   `nine_patch_stretch` (bool): If true, Godot treats the bar's textures like in NinePatchRect. Use the `stretch_margin_*` properties like `stretch_margin_bottom` to set up the nine patch's 3x3 grid. When using a radial `fill_mode`, this setting will only enable stretching for `texture_progress`, while `texture_under` and `texture_over` will be treated like in NinePatchRect. Default: false.
+    *   Method: `set_nine_patch_stretch(value: bool)`
+    *   Method: `get_nine_patch_stretch()`
+*   `radial_center_offset` (Vector2): Offsets `texture_progress` if `fill_mode` is FILL_CLOCKWISE, FILL_COUNTER_CLOCKWISE, or FILL_CLOCKWISE_AND_COUNTER_CLOCKWISE. Default: Vector2(0, 0).
+    *   Note: The effective radial center always stays within the `texture_progress` bounds. If you need to move it outside the texture's bounds, modify the `texture_progress` to contain additional empty space where needed.
+    *   Method: `set_radial_center_offset(value: Vector2)`
+    *   Method: `get_radial_center_offset()`
+*   `radial_fill_degrees` (float): Upper limit for the fill of `texture_progress` if `fill_mode` is FILL_CLOCKWISE, FILL_COUNTER_CLOCKWISE, or FILL_CLOCKWISE_AND_COUNTER_CLOCKWISE. When the node's `value` is equal to its `max_value`, the texture fills up to this angle. See Range.value, Range.max_value. Default: 360.0.
+    *   Method: `set_fill_degrees(value: float)`
+    *   Method: `get_fill_degrees()`
+*   `radial_initial_angle` (float): Starting angle for the fill of `texture_progress` if `fill_mode` is FILL_CLOCKWISE, FILL_COUNTER_CLOCKWISE, or FILL_CLOCKWISE_AND_COUNTER_CLOCKWISE. When the node's `value` is equal to its `min_value`, the texture doesn't show up at all. When the `value` increases, the texture fills and tends towards `radial_fill_degrees`. Default: 0.0.
+    *   Note: `radial_initial_angle` is wrapped between 0 and 360 degrees (inclusive).
+    *   Method: `set_radial_initial_angle(value: float)`
+    *   Method: `get_radial_initial_angle()`
+---CHUNK---
+Document: TextureProgressBar
+Path: godot/classes/class_textureprogressbar.rst
+Summary: Methods for getting and setting stretch margins in TextureProgressBar.
+
+Method: get_stretch_margin(margin: Side) → int
+Returns the stretch margin with the specified index. See stretch_margin_bottom and related properties.
+
+Method: set_stretch_margin(margin: Side, value: int) → void
+Sets the stretch margin with the specified index. See stretch_margin_bottom and related properties.

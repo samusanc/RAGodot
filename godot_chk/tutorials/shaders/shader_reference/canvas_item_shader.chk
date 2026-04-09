@@ -1,0 +1,205 @@
+Document: Canvas Item Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section introduces the Canvas Item Shader.
+---CHUNK---
+Document: CanvasItem shaders
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section introduces CanvasItem shaders, their purpose in 2D rendering, and their basic structure.
+
+CanvasItem shaders are used to draw all 2D elements in Godot. These include all nodes that inherit from CanvasItems, and all GUI elements.
+
+CanvasItem shaders contain fewer built-in variables and functionality than Spatial shaders, but they maintain the same basic structure with vertex, fragment, and light processor functions.
+---CHUNK---
+Document: CanvasItem Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This chunk describes various render modes available for CanvasItem shaders.
+
+Render modes:
+*   **blend_mix**: Mix blend mode (alpha is transparency), default.
+*   **blend_add**: Additive blend mode.
+*   **blend_sub**: Subtractive blend mode.
+*   **blend_mul**: Multiplicative blend mode.
+*   **blend_premul_alpha**: Pre-multiplied alpha blend mode.
+*   **blend_disabled**: Disable blending, values (including alpha) are written as-is.
+*   **unshaded**: Result is just albedo. No lighting/shading happens in material.
+*   **light_only**: Only draw in the light pass.
+*   **skip_vertex_transform**: `VERTEX` needs to be transformed manually in the `vertex()` function.
+*   **world_vertex_coords**: `VERTEX` is modified in world coordinates instead of local.
+---CHUNK---
+Document: CanvasItem Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section describes built-in variables available in CanvasItem shaders and their usage.
+
+Built-ins
+Values marked as `in` are read-only. Values marked as `out` can optionally be written to and will not necessarily contain sensible values. Values marked as `inout` provide a sensible default value, and can optionally be written to. Samplers cannot be written to so they are not marked.
+
+Not all built-ins are available in all processing functions. To access a vertex built-in from the `fragment()` function, you can use a varying. The same applies for accessing fragment built-ins from the `light()` function.
+---CHUNK---
+Document: CanvasItem Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section describes global built-in variables available in CanvasItem shaders.
+
+Global built-ins are available everywhere, including custom functions.
+
+*   in float TIME: Global time since the engine has started, in seconds. It repeats after every 3,600 seconds (which can be changed with the rendering/limits/time/time_rollover_secs setting). It's affected by time_scale but not by pausing. If you need a TIME variable that is not affected by time scale, add your own global shader uniform and update it each frame.
+*   in float PI: A PI constant (3.141592). The ratio of a circle's circumference to its diameter and the number of radians in a half turn.
+*   in float TAU: A TAU constant (6.283185). Equivalent to PI * 2 and the number of radians in a full turn.
+*   in float E: An E constant (2.718281). Euler's number, the base of the natural logarithm.
+---CHUNK---
+Document: Canvas Item Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section details the vertex built-in variables available in CanvasItem shaders, including coordinate spaces, transformations, and instance data.
+
+Vertex data (VERTEX) is presented in local space (pixel coordinates, relative to the Node2D's origin). If not written to, these values will not be modified and be passed through as they came.
+
+The user can disable the built-in model to world transform (world to screen and projection will still happen later) and do it manually with the following code:
+
+    shader_type canvas_item;
+    render_mode skip_vertex_transform;
+
+    void vertex() {
+
+        VERTEX = (MODEL_MATRIX * vec4(VERTEX, 0.0, 1.0)).xy;
+    }
+
+Other built-ins, such as UV and COLOR, are also passed through to the fragment() function if not modified.
+
+For instancing, the INSTANCE_CUSTOM variable contains the instance custom data. When using particles, this information is usually:
+*   x: Rotation angle in radians.
+*   y: Phase during lifetime (0.0 to 1.0).
+*   z: Animation frame.
+
+*   MODEL_MATRIX (mat4): Local space to world space transform. World space is the coordinates you normally use in the editor.
+*   CANVAS_MATRIX (mat4): World space to canvas space transform. In canvas space the origin is the upper-left corner of the screen and coordinates range from (0.0, 0.0) to viewport size.
+*   SCREEN_MATRIX (mat4): Canvas space to clip space transform. In clip space coordinates range from (-1.0, -1.0) to (1.0, 1.0).
+*   INSTANCE_ID (int): Instance ID for instancing.
+*   INSTANCE_CUSTOM (vec4): Instance custom data.
+*   AT_LIGHT_PASS (bool): Always false.
+*   TEXTURE_PIXEL_SIZE (vec2): Normalized pixel size of the default 2D texture. For a Sprite2D with a texture of size 64×32 pixels, TEXTURE_PIXEL_SIZE = vec2(1.0 / 64.0, 1.0 / 32.0).
+*   VERTEX (vec2): Vertex position, in local space.
+*   VERTEX_ID (int): The index of the current vertex in the vertex buffer.
+*   UV (vec2): Normalized texture coordinates. Range from 0.0 to 1.0.
+*   COLOR (vec4): Color from vertex primitive multiplied by the CanvasItem's modulate multiplied by CanvasItem's self_modulate.
+*   POINT_SIZE (float): Point size for point drawing.
+*   CUSTOM0 (vec4): Custom value from vertex primitive.
+*   CUSTOM1 (vec4): Custom value from vertex primitive.
+---CHUNK---
+Document: Canvas Item Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: Describes the fragment built-in variables available in CanvasItem shaders.
+
+Fragment built-ins
+---CHUNK---
+Document: CanvasItem Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: Explains the usage of the built-in `COLOR` and `TEXTURE` variables in CanvasItem shaders, including how to sample textures.
+
+The built-in variable `COLOR` is used for a few things:
+- In the `vertex()` function, `COLOR` contains the color from the vertex primitive multiplied by the CanvasItem's modulate multiplied by the CanvasItem's self_modulate.
+- In the `fragment()` function, the input value `COLOR` is that same value multiplied by the color from the default `TEXTURE` (if present).
+- In the `fragment()` function, `COLOR` is also the final output.
+
+Certain nodes (for example, Sprite2D) display a texture by default, for example texture. When using a custom `fragment()` function, you have a few options on how to sample this texture.
+
+To read only the contents of the default texture, ignoring the vertex `COLOR`:
+GLSL:
+  void fragment() {
+    COLOR = texture(TEXTURE, UV);
+  }
+
+To read the contents of the default texture multiplied by vertex `COLOR`:
+GLSL:
+  void fragment() {
+    // Equivalent to an empty fragment() function, since COLOR is also the output variable.
+    COLOR = COLOR;
+  }
+
+To read only the vertex `COLOR` in `fragment()`, ignoring the main texture, you must pass `COLOR` as a varying, then read it in `fragment()`:
+GLSL:
+  varying vec4 vertex_color;
+  void vertex() {
+    vertex_color = COLOR;
+  }
+  void fragment() {
+    COLOR = vertex_color;
+  }
+---CHUNK---
+Document: Canvas Item Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section explains how normal maps are handled in CanvasItem shaders and lists various built-in variables and samplers available in the fragment function.
+
+Similarly, if a normal map is used in the CanvasTexture, Godot uses it by default and assigns its value to the built-in `NORMAL` variable. If you are using a normal map meant for use in 3D, it will appear inverted. In order to use it in your shader, you must assign it to the `NORMAL_MAP` property. Godot will handle converting it for use in 2D and overwriting `NORMAL`.
+
+GLSL:
+  NORMAL_MAP = texture(NORMAL_TEXTURE, UV).rgb;
+
+*   FRAGCOORD (vec4): Coordinate of pixel center. In screen space. `xy` specifies position in viewport. Upper-left of the viewport is the origin, `(0.0, 0.0)`. Bottom-right of the viewport is `(1.0, 1.0)`.
+*   SCREEN_PIXEL_SIZE (vec2): Size of individual pixels. Equal to the inverse of resolution.
+*   REGION_RECT (vec4): Visible area of the sprite region in format `(x, y, width, height)`. Varies according to Sprite2D's `region_enabled` property. Values are normalized; for example, a 600x400 region on a 1000x800 texture with a 100x100 offset would be `vec4(0.1, 0.125, 0.6, 0.5)`. Values may exceed the 0.0 to 1.0 range if the X/Y offset is negative, or if the size exceeds the texture's size.
+*   POINT_COORD (vec2): Coordinate for drawing points in the 0.0 to 1.0 range.
+*   TEXTURE (sampler2D): Default 2D texture.
+*   TEXTURE_PIXEL_SIZE (vec2): Normalized pixel size of the default 2D texture. For a Sprite2D with a texture of size 64x32 pixels, `TEXTURE_PIXEL_SIZE` = `vec2(1.0 / 64.0, 1.0 / 32.0)`.
+*   AT_LIGHT_PASS (bool): Always `false`.
+*   SPECULAR_SHININESS_TEXTURE (sampler2D): Specular shininess texture of this object.
+*   SPECULAR_SHININESS (vec4): Specular shininess color, as sampled from the texture.
+*   UV (vec2): UV from the `vertex()` function. For a Sprite2D with region enabled, this will sample the entire texture. Use `REGION_RECT` instead to sample only the region defined in the Sprite2D's properties.
+*   SCREEN_UV (vec2): Screen UV coordinate for the current pixel.
+*   SCREEN_TEXTURE (sampler2D): Removed in Godot 4. Use a `sampler2D` with `hint_screen_texture` instead.
+*   NORMAL (vec3): Normal read from `NORMAL_TEXTURE`. Writable.
+*   NORMAL_TEXTURE (sampler2D): Default 2D normal texture.
+*   NORMAL_MAP (vec3): Configures normal maps meant for 3D for use in 2D. If used, overrides `NORMAL`.
+*   NORMAL_MAP_DEPTH (float): Normal map depth for scaling.
+*   VERTEX (vec2): Pixel position in screen space.
+*   SHADOW_VERTEX (vec2): Same as `VERTEX` but can be written to alter shadows.
+*   LIGHT_VERTEX (vec3): Same as `VERTEX` but can be written to alter lighting. Z component represents height.
+*   COLOR (vec4): `COLOR` from the `vertex()` function multiplied by the `TEXTURE` color. Also output color value.
+---CHUNK---
+Document: CanvasItem Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section explains light built-ins and processor functions in CanvasItem shaders, including available variables.
+
+Light built-ins
+Light processor functions work differently in Godot 4.x than they did in Godot 3.x. In Godot 4.x all lighting is done during the regular draw pass. In other words, Godot no longer draws the object again for each light.
+
+Use the `unshaded` render mode if you do not want the `light()` function to run. Use the `light_only` render mode if you only want to see the impact of lighting on an object; this can be useful when you only want the object visible where it is covered by light.
+
+If you define a `light()` function it will replace the built-in light function, even if your light function is empty.
+
+Below is an example of a light shader that takes a CanvasItem's normal map into account:
+
+GLSL:
+  void light() {
+    float cNdotL = max(0.0, dot(NORMAL, LIGHT_DIRECTION));
+    LIGHT = vec4(LIGHT_COLOR.rgb * COLOR.rgb * LIGHT_ENERGY * cNdotL, LIGHT_COLOR.a);
+  }
+
+*   FRAGCOORD (in vec4): Coordinate of pixel center. In screen space. `xy` specifies position in viewport. Upper-left of the viewport is the origin, `(0.0, 0.0)`. Bottom-right of the viewport is `(1.0, 1.0)`.
+*   NORMAL (in vec3): Input normal.
+*   COLOR (in vec4): Input color. This is the output of the `fragment()` function.
+*   UV (in vec2): UV from the `vertex()` function, equivalent to the UV in the `fragment()` function.
+*   TEXTURE (sampler2D): Current texture in use for the CanvasItem.
+*   TEXTURE_PIXEL_SIZE (in vec2): Normalized pixel size of `TEXTURE`. For a Sprite2D with a `TEXTURE` of size 64×32 pixels, `TEXTURE_PIXEL_SIZE` = `vec2(1.0 / 64.0, 1.0 / 32.0)`.
+*   SCREEN_UV (in vec2): Screen UV coordinate for the current pixel.
+*   POINT_COORD (in vec2): UV for Point Sprite.
+*   LIGHT_COLOR (in vec4): Color of the Light2D. If the light is a PointLight2D, multiplied by the light's texture.
+*   LIGHT_ENERGY (in float): Energy multiplier of the Light2D.
+*   LIGHT_POSITION (in vec3): Position of the Light2D in screen space. If using a DirectionalLight2D this is always `(0.0, 0.0, 0.0)`.
+*   LIGHT_DIRECTION (in vec3): Direction of the Light2D in screen space.
+*   LIGHT_IS_DIRECTIONAL (in bool): `true` if this pass is a DirectionalLight2D.
+*   LIGHT_VERTEX (in vec3): Pixel position, in screen space as modified in the `fragment()` function.
+*   LIGHT (inout vec4): Output color for this Light2D.
+*   SPECULAR_SHININESS (in vec4): Specular shininess, as set in the object's texture.
+*   SHADOW_MODULATE (out vec4): Multiply shadows cast at this point by this color.
+---CHUNK---
+Document: CanvasItem Shader
+Path: godot/tutorials/shaders/shader_reference/canvas_item_shader.rst
+Summary: This section describes SDF functions available in CanvasItem shaders for sampling Signed Distance Field textures.
+
+SDF functions are additional functions implemented to sample an automatically generated Signed Distance Field texture. These functions are available in the `fragment()` and `light()` functions of CanvasItem shaders. Custom functions may also use them as long as they are called from supported functions.
+
+The signed distance field is generated from LightOccluder2D nodes present in the scene with the **SDF Collision** property enabled (which is the default). See the 2D lights and shadows documentation for more information.
+
+*   `float texture_sdf (vec2 sdf_pos)`: Performs an SDF texture lookup.
+*   `vec2 texture_sdf_normal (vec2 sdf_pos)`: Calculates a normal from the SDF texture.
+*   `vec2 sdf_to_screen_uv (vec2 sdf_pos)`: Converts an SDF to screen UV.
+*   `vec2 screen_uv_to_sdf (vec2 uv)`: Converts screen UV to an SDF.

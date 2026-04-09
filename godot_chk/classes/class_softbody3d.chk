@@ -1,0 +1,149 @@
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: This section covers the identity, description, and inheritance of the SoftBody3D class.
+---CHUNK---
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: SoftBody3D is a deformable 3D physics mesh.
+
+Inherits: MeshInstance3D < GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+
+A deformable 3D physics mesh.
+---CHUNK---
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: A deformable 3D physics mesh used for elastic objects, subject to wind forces, with a recommendation for Jolt Physics.
+
+Description
+A deformable 3D physics mesh. Used to create elastic or deformable objects such as cloth, rubber, or other flexible materials.
+
+Additionally, SoftBody3D is subject to wind forces defined in Area3D (see Area3D.wind_source_path, Area3D.wind_force_magnitude, and Area3D.wind_attenuation_factor).
+
+Note: It's recommended to use Jolt Physics when using SoftBody3D instead of the default GodotPhysics3D, as Jolt Physics' soft body implementation is faster and more reliable. You can switch the physics engine using the ProjectSettings.physics/3d/physics_engine project setting.
+---CHUNK---
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: This section links to the SoftBody tutorial.
+
+Tutorials
+- SoftBody
+---CHUNK---
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: This section lists the properties available for configuring a SoftBody3D node.
+
+*   collision_layer (int): Default: 1.
+*   collision_mask (int): Default: 1.
+*   damping_coefficient (float): Default: 0.01.
+*   disable_mode (DisableMode): Default: 0.
+*   drag_coefficient (float): Default: 0.0.
+*   linear_stiffness (float): Default: 0.5.
+*   parent_collision_ignore (NodePath): Default: NodePath("").
+*   pressure_coefficient (float): Default: 0.0.
+*   ray_pickable (bool): Default: true.
+*   shrinking_factor (float): Default: 0.0.
+*   simulation_precision (int): Default: 5.
+*   total_mass (float): Default: 1.0.
+---CHUNK---
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: This section details the methods and enumerations available for the SoftBody3D class, including collision management, force application, and disable modes.
+
+Methods:
+* Method: add_collision_exception_with(body: Node) -> void
+* Method: apply_central_force(force: Vector3) -> void
+* Method: apply_central_impulse(impulse: Vector3) -> void
+* Method: apply_force(point_index: int, force: Vector3) -> void
+* Method: apply_impulse(point_index: int, impulse: Vector3) -> void
+* Method: get_collision_exceptions() -> Array[PhysicsBody3D]
+* Method: get_collision_layer_value(layer_number: int) -> bool
+* Method: get_collision_mask_value(layer_number: int) -> bool
+* Method: get_physics_rid() -> RID
+* Method: get_point_transform(point_index: int) -> Vector3
+* Method: is_point_pinned(point_index: int) -> bool
+* Method: remove_collision_exception_with(body: Node) -> void
+* Method: set_collision_layer_value(layer_number: int, value: bool) -> void
+* Method: set_collision_mask_value(layer_number: int, value: bool) -> void
+* Method: set_point_pinned(point_index: int, pinned: bool, attachment_path: NodePath = NodePath(""), insert_at: int = -1) -> void
+
+Enumerations:
+enum DisableMode:
+* DISABLE_MODE_REMOVE = 0: When Node.process_mode is set to Node.PROCESS_MODE_DISABLED, remove from the physics simulation to stop all physics interactions with this SoftBody3D. Automatically re-added to the physics simulation when the Node is processed again.
+* DISABLE_MODE_KEEP_ACTIVE = 1: When Node.process_mode is set to Node.PROCESS_MODE_DISABLED, do not affect the physics simulation.
+---CHUNK---
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: This section describes the properties of the SoftBody3D node, including collision settings, physical characteristics, and simulation parameters.
+
+**collision_layer** (int): The physics layers this SoftBody3D is in. Collision objects can exist in one or more of 32 different layers. See also collision_mask. Note: Object A can detect a contact with object B only if object B is in any of the layers that object A scans. Default: 1.
+
+**collision_mask** (int): The physics layers this SoftBody3D scans. Collision objects can scan one or more of 32 different layers. See also collision_layer. Note: Object A can detect a contact with object B only if object B is in any of the layers that object A scans. Default: 1.
+
+**damping_coefficient** (float): The body's damping coefficient. Higher values will slow down the body more noticeably when forces are applied. Default: 0.01.
+
+**disable_mode** (DisableMode): Defines the behavior in physics when Node.process_mode is set to Node.PROCESS_MODE_DISABLED. Default: 0.
+
+**drag_coefficient** (float): The body's drag coefficient. Higher values increase this body's air resistance. Note: This value is currently unused by Godot's default physics implementation. Default: 0.0.
+
+**linear_stiffness** (float): Higher values will result in a stiffer body, while lower values will increase the body's ability to bend. The value can be between 0.0 and 1.0 (inclusive). Default: 0.5.
+
+**parent_collision_ignore** (NodePath): NodePath to a CollisionObject3D this SoftBody3D should avoid clipping. Default: NodePath("").
+
+**pressure_coefficient** (float): The pressure coefficient of this soft body. Simulate pressure build-up from inside this body. Higher values increase the strength of this effect. Default: 0.0.
+
+**ray_pickable** (bool): If true, the SoftBody3D will respond to RayCast3Ds. Default: true.
+
+**shrinking_factor** (float): Scales the rest lengths of SoftBody3D's edge constraints. Positive values shrink the mesh, while negative values expand it. For example, a value of 0.1 shortens the edges of the mesh by 10%, while -0.1 expands the edges by 10%. Note: shrinking_factor is best used on surface meshes with pinned points. Default: 0.0.
+
+**simulation_precision** (int): Increasing this value will improve the resulting simulation, but can affect performance. Use with care. Default: 5.
+
+**total_mass** (float): The SoftBody3D's mass. Default: 1.0.
+---CHUNK---
+Document: SoftBody3D
+Path: godot/classes/class_softbody3d.rst
+Summary: This section describes methods for managing collisions, applying forces and impulses, and manipulating points on a SoftBody3D.
+
+Method: add_collision_exception_with(body: Node) -> void
+Adds a body to the list of bodies that this body can't collide with.
+
+Method: apply_central_force(force: Vector3) -> void
+Distributes and applies a force to all points. A force is time dependent and meant to be applied every physics update.
+
+Method: apply_central_impulse(impulse: Vector3) -> void
+Distributes and applies an impulse to all points. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise).
+
+Method: apply_force(point_index: int, force: Vector3) -> void
+Applies a force to a point. A force is time dependent and meant to be applied every physics update.
+
+Method: apply_impulse(point_index: int, impulse: Vector3) -> void
+Applies an impulse to a point. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise).
+
+Method: get_collision_exceptions() -> Array[PhysicsBody3D]
+Returns an array of nodes that were added as collision exceptions for this body.
+
+Method: get_collision_layer_value(layer_number: int) -> bool
+Returns whether or not the specified layer of the collision_layer is enabled, given a layer_number between 1 and 32.
+
+Method: get_collision_mask_value(layer_number: int) -> bool
+Returns whether or not the specified layer of the collision_mask is enabled, given a layer_number between 1 and 32.
+
+Method: get_physics_rid() -> RID
+Returns the internal RID used by the PhysicsServer3D for this body.
+
+Method: get_point_transform(point_index: int) -> Vector3
+Returns local translation of a vertex in the surface array.
+
+Method: is_point_pinned(point_index: int) -> bool
+Returns true if vertex is set to pinned.
+
+Method: remove_collision_exception_with(body: Node) -> void
+Removes a body from the list of bodies that this body can't collide with.
+
+Method: set_collision_layer_value(layer_number: int, value: bool) -> void
+Based on value, enables or disables the specified layer in the collision_layer, given a layer_number between 1 and 32.
+
+Method: set_collision_mask_value(layer_number: int, value: bool) -> void
+Based on value, enables or disables the specified layer in the collision_mask, given a layer_number between 1 and 32.
+
+Method: set_point_pinned(point_index: int, pinned: bool, attachment_path: NodePath = NodePath(""), insert_at: int = -1) -> void
+Sets the pinned state of a surface vertex. When set to true, the optional attachment_path can define a Node3D the pinned vertex will be attached to.

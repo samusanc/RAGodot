@@ -1,0 +1,83 @@
+Document: MovieWriter
+Path: godot/classes/class_moviewriter.rst
+Summary: Base class for movie writing implementations.
+
+Inherits: RefCounted < Object
+
+The MovieWriter class is the base class for movie writing implementations. It provides a common interface for writing video frames to a file. This class is not meant to be instantiated directly. Instead, you should use one of its derived classes, such as MovieWriterMP4 or MovieWriterWebM, which provide specific implementations for different video formats.
+
+The MovieWriter class defines the following methods:
+
+*   **open(path: String, format: String, fps: float, size: Vector2i) → int**: Opens a movie file for writing.
+    *   `path`: The path to the movie file to be created.
+    *   `format`: The format of the movie file (e.g., "mp4", "webm").
+    *   `fps`: The frames per second of the movie.
+    *   `size`: The resolution of the movie (width, height).
+    *   Returns: An error code (0 on success, non-zero on failure).
+
+*   **write_frame(image: Image) → int**: Writes a single frame to the movie file.
+    *   `image`: The Image object containing the frame data.
+    *   Returns: An error code (0 on success, non-zero on failure).
+
+*   **close() → int**: Closes the movie file and flushes any buffered data.
+    *   Returns: An error code (0 on success, non-zero on failure).
+
+*   **is_open() → bool**: Returns true if the movie file is currently open for writing, false otherwise.
+
+This class is part of the `MovieWriter` module and is available in Godot Engine.
+---CHUNK---
+Document: MovieWriter
+Path: godot/classes/class_moviewriter.rst
+Summary: Abstract class for non-real-time video recording encoders.
+MovieWriter
+Inherits: Object
+Abstract class for non-real-time video recording encoders.
+---CHUNK---
+Document: MovieWriter
+Path: godot/classes/class_moviewriter.rst
+Summary: Describes Godot's MovieWriter functionality for recording non-real-time simulations and lists its built-in implementations.
+
+MovieWriter allows Godot to record videos using non-real-time simulation, ensuring a consistent frame delta across all frames regardless of rendering time. This is useful for creating high-quality videos with perfect frame pacing.
+
+Godot includes three built-in MovieWriter implementations:
+
+*   **OGV:** Uses the OGV container with Theora for video and Vorbis for audio. It offers lossy compression, medium file sizes, and fast encoding. Video quality can be adjusted via ProjectSettings.editor.movie_writer.video_quality, and audio quality via ProjectSettings.editor.movie_writer.ogv.audio_quality. Files can be played in Godot's VideoStreamPlayer and most video players but not web browsers due to Theora's lack of support.
+*   **AVI:** Uses the AVI container with MJPEG for video and uncompressed audio. It also provides lossy compression with medium file sizes and fast encoding. Video quality is adjustable via ProjectSettings.editor.movie_writer.video_quality. Files are viewable in most video players but require conversion for web or Godot playback. MJPEG does not support transparency, and AVI output is limited to 4 GB.
+*   **PNG Sequence:** Uses a PNG image sequence for video and WAV for audio. This offers lossless compression but results in large file sizes and slow encoding. It's intended for encoding into a video file using external tools like FFmpeg after recording. Transparency is not supported.
+
+Users can extend the MovieWriter class, typically via GDExtension, to create custom movie writers for different formats or to pipe streams through third-party software.
+
+For editor usage, a default movie file path can be set in ProjectSettings.editor.movie_writer.movie_file. Alternatively, a "movie_file" metadata can be added to the root node of a scene to specify a recording path for that specific scene. To start recording, enable Movie Maker mode by clicking the video reel icon in the editor's top-right corner. Recording begins after the splash screen and stops when the engine quits. Clicking the icon again disables Movie Maker mode. Toggling this mode does not affect already running project instances.
+
+Note: MovieWriter is available in both the editor and exported projects but is not intended for end-users to record gameplay. Tools like OBS Studio or SimpleScreenRecorder are recommended for that purpose.
+
+Note: MJPEG support (AVI) requires the 'jpg' module to be enabled at compile time, which is the default.
+
+Note: OGV support (OGV) requires the 'theora' module to be enabled at compile time, which is the default. Theora compression is only available in editor binaries.
+---CHUNK---
+Document: MovieWriter
+Path: godot/classes/class_moviewriter.rst
+Summary: Defines the methods for writing movie files, including initialization, frame writing, and cleanup.
+Method: _get_audio_mix_rate() -> int |virtual| |required| |const|
+Called when the audio sample rate used for recording the audio is requested by the engine. The value returned must be specified in Hz. Defaults to 48000 Hz if _get_audio_mix_rate() is not overridden.
+Method: _get_audio_speaker_mode() -> SpeakerMode |virtual| |required| |const|
+Called when the audio speaker mode used for recording the audio is requested by the engine. This can affect the number of output channels in the resulting audio file/stream. Defaults to AudioServer.SPEAKER_MODE_STEREO if _get_audio_speaker_mode() is not overridden.
+Method: _get_supported_extensions() -> PackedStringArray |virtual| |required| |const|
+Returns the list of supported filename extensions for movies written with this MovieWriter.
+Method: _handles_file(path: String) -> bool |virtual| |required| |const|
+Called when the engine determines whether this MovieWriter is able to handle the file at path. Must return true if this MovieWriter is able to handle the given file path, false otherwise. Typically, _handles_file() is overridden as follows to allow the user to record a file at any path with a given file extension:
+GDScript:
+    func _handles_file(path):
+        # Allows specifying an output file with a .mkv file extension (case-insensitive),
+        # either in the Project Settings or with the --write-movie <path> command line argument.
+        return path.get_extension().to_lower() == "mkv"
+Method: _write_begin(movie_size: Vector2i, fps: int, base_path: String) -> Error |virtual| |required|
+Called once before the engine starts writing video and audio data. movie_size is the width and height of the video to save. fps is the number of frames per second specified in the project settings or using the --fixed-fps <fps> command line argument.
+Method: _write_end() -> void |virtual| |required|
+Called when the engine finishes writing. This occurs when the engine quits by pressing the window manager's close button, or when SceneTree.quit() is called.
+Note: Pressing Ctrl + C on the terminal running the editor/project does not result in _write_end() being called.
+Method: _write_frame(frame_image: Image, audio_frame_block: const void*) -> Error |virtual| |required|
+Called at the end of every rendered frame. The frame_image and audio_frame_block function arguments should be written to.
+Method: add_writer(writer: MovieWriter) -> void |static|
+Adds a writer to be usable by the engine. The supported file extensions can be set by overriding _handles_file().
+Note: add_writer() must be called early enough in the engine initialization to work, as movie writing is designed to start at the same time as the rest of the engine.

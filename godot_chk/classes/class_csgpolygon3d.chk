@@ -1,0 +1,125 @@
+Document: CSGPolygon3D
+Path: godot/classes/class_csgpolygon3d.rst
+Summary: This section identifies the CSGPolygon3D class.
+---CHUNK---
+Document: CSGPolygon3D
+Path: godot/classes/class_csgpolygon3d.rst
+Summary: Extrudes a 2D polygon shape to create a 3D mesh.
+Inherits: CSGPrimitive3D < CSGShape3D < GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+
+Extrudes a 2D polygon shape to create a 3D mesh.
+---CHUNK---
+Document: CSGPolygon3D
+Path: godot/classes/class_csgpolygon3d.rst
+Summary: Describes the purpose and performance considerations of CSGPolygon3D.
+
+An array of 2D points is extruded to quickly and easily create a variety of 3D meshes. See also CSGMesh3D for using 3D meshes as CSG nodes.
+Note: CSG nodes are intended to be used for level prototyping. Creating CSG nodes has a significant CPU cost compared to creating a MeshInstance3D with a PrimitiveMesh. Moving a CSG node within another CSG node also has a significant CPU cost, so it should be avoided during gameplay.
+---CHUNK---
+Document: CSGPolygon3D
+Path: godot/classes/class_csgpolygon3d.rst
+Summary: Lists related tutorials for CSG.
+
+Tutorials
+- Prototyping levels with CSG
+---CHUNK---
+Document: CSGPolygon3D
+Path: godot/classes/class_csgpolygon3d.rst
+Summary: This section lists and describes the properties available for CSGPolygon3D nodes.
+
+Properties:
+*   depth (float): Default: 1.0
+*   material (Material):
+*   mode (Mode): Default: 0
+*   path_continuous_u (bool):
+*   path_interval (float):
+*   path_interval_type (PathIntervalType):
+*   path_joined (bool):
+*   path_local (bool):
+*   path_node (NodePath):
+*   path_rotation (PathRotation):
+*   path_rotation_accurate (bool):
+*   path_simplify_angle (float):
+*   path_u_distance (float):
+*   polygon (PackedVector2Array): Default: PackedVector2Array(0, 0, 0, 1, 1, 1, 1, 0)
+*   smooth_faces (bool): Default: false
+*   spin_degrees (float):
+*   spin_sides (int):
+---CHUNK---
+Document: CSGPolygon3D
+Path: godot/classes/class_csgpolygon3d.rst
+Summary: This section describes the enumeration types Mode, PathRotation, and PathIntervalType for CSGPolygon3D, detailing how a polygon's extrusion behavior is defined.
+
+Enumerations
+
+enum **Mode**:
+*   **MODE_DEPTH** = 0: The polygon shape is extruded along the negative Z axis.
+*   **MODE_SPIN** = 1: The polygon shape is extruded by rotating it around the Y axis.
+*   **MODE_PATH** = 2: The polygon shape is extruded along the Path3D specified in path_node.
+
+enum **PathRotation**:
+*   **PATH_ROTATION_POLYGON** = 0: The polygon shape is not rotated. Note: Requires the path Z coordinates to continually decrease to ensure viable shapes.
+*   **PATH_ROTATION_PATH** = 1: The polygon shape is rotated along the path, but it is not rotated around the path axis. Note: Requires the path Z coordinates to continually decrease to ensure viable shapes.
+*   **PATH_ROTATION_PATH_FOLLOW** = 2: The polygon shape follows the path and its rotations around the path axis.
+
+enum **PathIntervalType**:
+*   **PATH_INTERVAL_DISTANCE** = 0: When mode is set to MODE_PATH, path_interval will determine the distance, in meters, each interval of the path will extrude.
+*   **PATH_INTERVAL_SUBDIVIDE** = 1: When mode is set to MODE_PATH, path_interval will subdivide the polygons along the path.
+---CHUNK---
+Document: CSGPolygon3D
+Path: godot/classes/class_csgpolygon3d.rst
+Summary: This section details the properties of the CSGPolygon3D node, including extrusion depth, material, mode, and various path-related settings for polygon extrusion.
+
+*   **depth** (float): When mode is MODE_DEPTH, the depth of the extrusion. Default: 1.0
+    *   Method: set_depth(value: float)
+    *   Method: get_depth()
+*   **material** (Material): Material to use for the resulting mesh. The UV maps the top half of the material to the extruded shape (U along the length of the extrusions and V around the outline of the polygon), the bottom-left quarter to the front end face, and the bottom-right quarter to the back end face.
+    *   Method: set_material(value: Material)
+    *   Method: get_material()
+*   **mode** (Mode): The mode used to extrude the polygon. Default: 0
+    *   Method: set_mode(value: Mode)
+    *   Method: get_mode()
+*   **path_continuous_u** (bool): When mode is MODE_PATH, by default, the top half of the material is stretched along the entire length of the extruded shape. If false the top half of the material is repeated every step of the extrusion.
+    *   Method: set_path_continuous_u(value: bool)
+    *   Method: is_path_continuous_u()
+*   **path_interval** (float): When mode is MODE_PATH, the path interval or ratio of path points to extrusions.
+    *   Method: set_path_interval(value: float)
+    *   Method: get_path_interval()
+*   **path_interval_type** (PathIntervalType): When mode is MODE_PATH, this will determine if the interval should be by distance (PATH_INTERVAL_DISTANCE) or subdivision fractions (PATH_INTERVAL_SUBDIVIDE).
+    *   Method: set_path_interval_type(value: PathIntervalType)
+    *   Method: get_path_interval_type()
+*   **path_joined** (bool): When mode is MODE_PATH, if true the ends of the path are joined, by adding an extrusion between the last and first points of the path.
+    *   Method: set_path_joined(value: bool)
+    *   Method: is_path_joined()
+*   **path_local** (bool): When mode is MODE_PATH, if true the Transform3D of the CSGPolygon3D is used as the starting point for the extrusions, not the Transform3D of the path_node.
+    *   Method: set_path_local(value: bool)
+    *   Method: is_path_local()
+*   **path_node** (NodePath): When mode is MODE_PATH, the location of the Path3D object used to extrude the polygon.
+    *   Method: set_path_node(value: NodePath)
+    *   Method: get_path_node()
+*   **path_rotation** (PathRotation): When mode is MODE_PATH, the path rotation method used to rotate the polygon as it is extruded.
+    *   Method: set_path_rotation(value: PathRotation)
+    *   Method: get_path_rotation()
+*   **path_rotation_accurate** (bool): When mode is MODE_PATH, if true the polygon will be rotated according to the proper tangent of the path at the sampled points. If false an approximation is used, which decreases in accuracy as the number of subdivisions decreases.
+    *   Method: set_path_rotation_accurate(value: bool)
+    *   Method: get_path_rotation_accurate()
+*   **path_simplify_angle** (float): When mode is MODE_PATH, extrusions that are less than this angle, will be merged together to reduce polygon count.
+    *   Method: set_path_simplify_angle(value: float)
+    *   Method: get_path_simplify_angle()
+*   **path_u_distance** (float): When mode is MODE_PATH, this is the distance along the path, in meters, the texture coordinates will tile. When set to 0, texture coordinates will match geometry exactly with no tiling.
+    *   Method: set_path_u_distance(value: float)
+    *   Method: get_path_u_distance()
+*   **polygon** (PackedVector2Array): The point array that defines the 2D polygon that is extruded. This can be a convex or concave polygon with 3 or more points. The polygon must not have any intersecting edges. Otherwise, triangulation will fail and no mesh will be generated. Default: PackedVector2Array(0, 0, 0, 1, 1, 1, 1, 0)
+    *   Note: If only 1 or 2 points are defined in polygon, no mesh will be generated.
+    *   Note: The returned array is copied and any changes to it will not update the original property value. See PackedVector2Array for more details.
+    *   Method: set_polygon(value: PackedVector2Array)
+    *   Method: get_polygon()
+*   **smooth_faces** (bool): If true, applies smooth shading to the extrusions. Default: false
+    *   Method: set_smooth_faces(value: bool)
+    *   Method: get_smooth_faces()
+*   **spin_degrees** (float): When mode is MODE_SPIN, the total number of degrees the polygon is rotated when extruding.
+    *   Method: set_spin_degrees(value: float)
+    *   Method: get_spin_degrees()
+*   **spin_sides** (int): When mode is MODE_SPIN, the number of extrusions made.
+    *   Method: set_spin_sides(value: int)
+    *   Method: get_spin_sides()

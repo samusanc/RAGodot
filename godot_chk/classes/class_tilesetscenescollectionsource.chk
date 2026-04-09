@@ -1,0 +1,119 @@
+Document: TileSetScenesCollectionSource
+Path: godot/classes/class_tilesetscenescollectionsource.rst
+Summary: Defines a collection of scenes to be used as tiles in a TileSet.
+
+TileSetScenesCollectionSource
+
+Inherits: TileSetSource < Resource
+
+A collection of scenes to be used as tiles in a TileSet. This source type allows you to use scenes as tiles, which can be useful for more complex tile setups.
+
+This source type is used by TileSet to store scenes as tiles. It is a subclass of TileSetSource.
+
+Key Rule: When using scenes as tiles, each scene will be treated as a single tile. The root node of the scene will be the tile's representation in the TileMap.
+
+Properties:
+* `enabled` (bool): Whether this scene collection source is enabled. Default: true
+* `id` (int): The unique identifier for this source.
+* `name` (String): The name of this source.
+* `scene_count` (int): The number of scenes in this collection.
+* `texture_region_size` (Vector2i): The size of the texture region for each tile.
+
+Methods:
+* `add_scene(scene: PackedScene)` → void: Adds a scene to the collection.
+* `get_scene(id: int)` → PackedScene: Returns the scene associated with the given ID.
+* `get_scene_count()` → int: Returns the number of scenes in the collection.
+* `remove_scene(id: int)` → void: Removes the scene with the given ID from the collection.
+* `update_scene(id: int, scene: PackedScene)` → void: Updates the scene associated with the given ID.
+---CHUNK---
+Document: TileSetScenesCollectionSource
+Path: godot/classes/class_tilesetscenescollectionsource.rst
+Summary: Exposes a set of scenes as tiles for a TileSet resource.
+---CHUNK---
+Document: TileSetScenesCollectionSource
+Path: godot/classes/class_tilesetscenescollectionsource.rst
+Summary: Describes how TileSetScenesCollectionSource instantiates scenes as tiles within a TileMapLayer.
+
+When placed on a TileMapLayer, tiles from TileSetScenesCollectionSource will automatically instantiate an associated scene at the cell's position in the TileMapLayer. Scenes are instantiated as children of the TileMapLayer after it enters the tree, at the end of the frame (their creation is deferred). If you add or remove a scene tile in the TileMapLayer that is already inside the tree, the TileMapLayer will automatically instantiate or free the scene accordingly.
+
+Note: Scene tiles all occupy one tile slot and instead use alternate tile ID to identify scene index. TileSetSource.get_tiles_count() will always return 1. Use get_scene_tiles_count() to get a number of scenes in a TileSetScenesCollectionSource.
+
+Use this code if you want to find the scene path at a given tile in TileMapLayer:
+
+GDScript:
+```gdscript
+var source_id = tile_map_layer.get_cell_source_id(Vector2i(x, y))
+if source_id > -1:
+    var scene_source = tile_map_layer.tile_set.get_source(source_id)
+    if scene_source is TileSetScenesCollectionSource:
+        var alt_id = tile_map_layer.get_cell_alternative_tile(Vector2i(x, y))
+        # The assigned PackedScene.
+        var scene = scene_source.get_scene_tile_scene(alt_id)
+```
+
+C#:
+```csharp
+int sourceId = tileMapLayer.GetCellSourceId(new Vector2I(x, y));
+if (sourceId > -1)
+{
+    TileSetSource source = tileMapLayer.TileSet.GetSource(sourceId);
+    if (source is TileSetScenesCollectionSource sceneSource)
+    {
+        int altId = tileMapLayer.GetCellAlternativeTile(new Vector2I(x, y));
+        // The assigned PackedScene.
+        PackedScene scene = sceneSource.GetSceneTileScene(altId);
+    }
+}
+```
+---CHUNK---
+Document: TileSetScenesCollectionSource
+Path: godot/classes/class_tilesetscenescollectionsource.rst
+Summary: This chunk covers the methods available in TileSetScenesCollectionSource for managing scene-based tiles within a TileSet.
+
+Methods:
+- int create_scene_tile(PackedScene packed_scene, int id_override = -1): Creates a scene-based tile out of the given scene and returns a newly generated unique ID.
+- int get_next_scene_tile_id(): Returns the scene ID a following call to create_scene_tile would return.
+- bool get_scene_tile_display_placeholder(int id): Returns whether the scene tile with id displays a placeholder in the editor.
+- int get_scene_tile_id(int index): Returns the scene tile ID of the scene tile at index.
+- PackedScene get_scene_tile_scene(int id): Returns the PackedScene resource of scene tile with id.
+- int get_scene_tiles_count(): Returns the number of scene tiles this TileSet source has.
+- bool has_scene_tile_id(int id): Returns whether this TileSet source has a scene tile with id.
+- void remove_scene_tile(int id): Removes the scene tile with id.
+- void set_scene_tile_display_placeholder(int id, bool display_placeholder): Sets whether or not the scene tile with id should display a placeholder in the editor.
+- void set_scene_tile_id(int id, int new_id): Changes a scene tile's ID from id to new_id. This will fail if there is already a tile with an ID equal to new_id.
+- void set_scene_tile_scene(int id, PackedScene packed_scene): Assigns a PackedScene resource to the scene tile with id.
+
+Method Descriptions:
+
+Method: create_scene_tile(PackedScene packed_scene, int id_override = -1) → int
+Creates a scene-based tile out of the given scene. Returns a newly generated unique ID.
+
+Method: get_next_scene_tile_id() → int
+Returns the scene ID a following call to create_scene_tile would return.
+
+Method: get_scene_tile_display_placeholder(int id) → bool
+Returns whether the scene tile with id displays a placeholder in the editor.
+
+Method: get_scene_tile_id(int index) → int
+Returns the scene tile ID of the scene tile at index.
+
+Method: get_scene_tile_scene(int id) → PackedScene
+Returns the PackedScene resource of scene tile with id.
+
+Method: get_scene_tiles_count() → int
+Returns the number of scene tiles this TileSet source has.
+
+Method: has_scene_tile_id(int id) → bool
+Returns whether this TileSet source has a scene tile with id.
+
+Method: remove_scene_tile(int id) → void
+Remove the scene tile with id.
+
+Method: set_scene_tile_display_placeholder(int id, bool display_placeholder) → void
+Sets whether or not the scene tile with id should display a placeholder in the editor. This might be useful for scenes that are not visible.
+
+Method: set_scene_tile_id(int id, int new_id) → void
+Changes a scene tile's ID from id to new_id. This will fail if there is already a tile with an ID equal to new_id.
+
+Method: set_scene_tile_scene(int id, PackedScene packed_scene) → void
+Assigns a PackedScene resource to the scene tile with id. This will fail if the scene does not extend CanvasItem, as positioning properties are needed to place the scene on the TileMapLayer.

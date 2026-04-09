@@ -1,0 +1,160 @@
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: This document explains how to use feature tags to manage export presets in Godot.
+
+Feature tags allow you to specify which features are available on a particular export. This is useful for differentiating between builds, such as a mobile build that might not need desktop-specific features or a debug build that includes extra logging.
+
+You can define feature tags in the export presets. When exporting, you can then select which tags to include. This allows you to create multiple export presets that share common settings but differ in their feature tags.
+
+For example, you might have a "mobile" tag and a "desktop" tag. You could then create an export preset for Android that includes the "mobile" tag, and another preset for Windows that includes the "desktop" tag.
+
+You can also use feature tags to conditionally enable or disable features within your project. For instance, you could use a feature tag to include or exclude certain scripts or assets based on the target platform.
+
+To define feature tags:
+1. Go to Project -> Export.
+2. Select an export preset or create a new one.
+3. In the "Feature Tags" section, enter the tags you want to associate with this preset. Tags are comma-separated.
+
+When exporting, you can choose to export with specific feature tags. This is done in the export dialog.
+
+Key Rule: Feature tags are a powerful way to customize your export builds and manage project features based on the target platform or build type.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: This document explains how to use feature tags in Godot to manage export configurations.
+
+Feature tags are a way to define different export configurations for your project. They allow you to specify which features are enabled or disabled for a particular export build. This is useful for creating different versions of your game, such as a demo version, a full version, or versions with different platform-specific features.
+
+You can define feature tags in the Project Settings under the "Export" section. For each export preset, you can add a list of feature tags. These tags can be any string you choose.
+
+For example, you might have the following feature tags for a game:
+
+*   `demo`: Indicates that this is a demo version of the game.
+*   `vr`: Indicates that the game has VR support enabled.
+*   `console`: Indicates that this build is for a console platform.
+
+When you export your project, you can specify which feature tags should be included in the build. This will determine which features are enabled or disabled based on your project settings.
+
+You can also use feature tags in your GDScript code to conditionally enable or disable features. For example, you could use a feature tag to disable certain UI elements in a demo version of your game.
+
+Here's an example of how you might use feature tags in GDScript:
+
+GDScript:
+```gdscript
+if "demo" in OS.get_feature_list():
+    # Disable certain features for the demo version
+    $MainMenu.hide_buy_button()
+```
+
+This code checks if the "demo" feature tag is present in the list of enabled features for the current build. If it is, the "buy button" is hidden.
+
+Feature tags are a powerful tool for managing your export configurations and creating flexible builds of your game. They allow you to tailor your game to different platforms and user needs without having to maintain separate codebases.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: Explains Godot's feature tagging system for platform and build-specific features, and how to check for them at runtime.
+Features can be queried at runtime from the singleton API by calling:
+GDScript:
+OS.has_feature(name)
+C#:
+OS.HasFeature(name);
+OS feature tags are used by GDExtension to determine which libraries to load. For example, a library for ``linux.debug.editor.x86_64`` will be loaded only on a debug editor build for Linux x86_64.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: This document lists and describes the default feature tags available in Godot Engine for conditional compilation and runtime checks.
+
+Feature tags are case-sensitive identifiers used to determine the runtime environment of a Godot project.
+
+*   **android**: Running on Android (but not within a Web browser).
+*   **bsd**: Running on \*BSD (but not within a Web browser).
+*   **linux**: Running on Linux (but not within a Web browser).
+*   **macos**: Running on macOS (but not within a Web browser).
+*   **ios**: Running on iOS (but not within a Web browser).
+*   **visionos**: Running on visionOS (but not within a Web browser).
+*   **windows**: Running on Windows.
+*   **linuxbsd**: Running on Linux or \*BSD.
+*   **debug**: Running on a debug build (including the editor).
+*   **release**: Running on a release build.
+*   **editor**: Running on an editor build.
+*   **editor_hint**: Running on an editor build, and inside the editor.
+*   **editor_runtime**: Running on an editor build, and running the project.
+*   **template**: Running on a non-editor (export template) build.
+*   **double**: Running on a double-precision build.
+*   **single**: Running on a single-precision build.
+*   **64**: Running on a 64-bit build (any architecture).
+*   **32**: Running on a 32-bit build (any architecture).
+*   **x86_64**: Running on a 64-bit x86 build.
+*   **x86_32**: Running on a 32-bit x86 build.
+*   **x86**: Running on an x86 build (any bitness).
+*   **arm64**: Running on a 64-bit ARM build.
+*   **arm32**: Running on a 32-bit ARM build.
+*   **arm**: Running on an ARM build (any bitness).
+*   **rv64**: Running on a 64-bit RISC-V build.
+*   **riscv**: Running on a RISC-V build (any bitness).
+*   **ppc64**: Running on a 64-bit PowerPC build.
+*   **ppc32**: Running on a 32-bit PowerPC build.
+*   **ppc**: Running on a PowerPC build (any bitness).
+*   **wasm64**: Running on a 64-bit WebAssembly build (not yet possible).
+*   **wasm32**: Running on a 32-bit WebAssembly build.
+*   **wasm**: Running on a WebAssembly build (any bitness).
+*   **mobile**: Host OS is a mobile platform.
+*   **pc**: Host OS is a PC platform (desktop/laptop).
+*   **web**: Host OS is a Web browser.
+*   **nothreads**: Running without threading support.
+*   **threads**: Running with threading support.
+*   **web_android**: Host OS is a Web browser running on Android.
+*   **web_ios**: Host OS is a Web browser running on iOS.
+*   **web_linuxbsd**: Host OS is a Web browser running on Linux or \*BSD.
+*   **web_macos**: Host OS is a Web browser running on macOS.
+*   **web_windows**: Host OS is a Web browser running on Windows.
+*   **etc**: Textures using ETC1 compression are supported.
+*   **etc2**: Textures using ETC2 compression are supported.
+*   **s3tc**: Textures using S3TC (DXT/BC) compression are supported.
+*   **movie**: Movie Maker mode is active.
+*   **shader_baker**: Project was exported with shader baking enabled (only applies to the exported project, not when running in the editor).
+*   **dedicated_server**: Project was exported as a dedicated server (only applies to the exported project, not when running in the editor).
+
+Warning: With the exception of texture compression, `web_<platform>` and `movie` feature tags, default feature tags are immutable. This means that they will not change depending on runtime conditions. For example, `OS.has_feature("mobile")` will return `false` when running a project exported to Web on a mobile device. To check whether a project exported to Web is running on a mobile device, use `OS.has_feature("web_android") or OS.has_feature("web_ios")`.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: This section explains how to add custom feature tags to exported Godot projects.
+Custom features can be added to a build by using the relevant field in the export preset.
+Note: Custom feature tags are only used when running the exported project, not when running from the editor. They are also not used in EditorExportPlugin scripts, which reflect the device the editor is running on.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: This section explains how feature tags can be used to override project settings for specific builds.
+Features can be used to override specific configuration values in the Project Settings. This allows you to better customize any configuration when doing a build.
+
+In the following example, a different icon is added for the demo build of the game (which was customized in a special export preset, which, in turn, includes only demo levels).
+
+After overriding, a new field is added for this specific configuration.
+
+Note: When using the project settings "override.cfg" functionality (which is unrelated to feature tags), remember that feature tags still apply. Therefore, make sure to also override the setting with the desired feature tag(s) if you want them to override base project settings on all platforms and configurations.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: This section explains that many project settings have default overrides.
+There are already a lot of settings that come with overrides by default; they can be found in many sections of the project settings.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: Explains how to use feature tags when accessing project settings in Godot.
+Taking feature tags into account when reading project settings
+By default, feature tags are not taken into account when reading project settings using the typical approaches ProjectSettings.get_setting or ProjectSettings.get. Instead, you must use ProjectSettings.get_setting_with_override.
+
+For example, with the following project settings:
+
+[section]
+
+subsection/example = "Release"
+subsection/example.debug = "Debug"
+
+Using ProjectSettings.get_setting("section/subsection/example") will return "Release" regardless of whether a debug build is currently running. On the other hand, ProjectSettings.get_setting_with_override("section/subsection/example") will obey feature tags and will return "Debug" if using a debug build.
+---CHUNK---
+Document: Feature Tags
+Path: godot/tutorials/export/feature_tags.rst
+Summary: This section explains how feature tags can be used to customize build processes and specify shared libraries for GDExtension.
+Feature tags can be used to customize a build process too, by writing a custom ExportPlugin. They are also used to specify which shared library is loaded and exported in GDExtension.

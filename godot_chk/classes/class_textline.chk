@@ -1,0 +1,159 @@
+Document: TextLine
+Path: godot/classes/class_textline.rst
+Summary: Overview of the TextLine class.
+---CHUNK---
+Document: TextLine
+Path: godot/classes/class_textline.rst
+Summary: Holds a line of text.
+Inherits: RefCounted < Object
+
+Holds a line of text.
+---CHUNK---
+Document: TextLine
+Path: godot/classes/class_textline.rst
+Summary: Abstraction over TextServer for handling a single line of text.
+
+Abstraction over TextServer for handling a single line of text.
+---CHUNK---
+Document: TextLine
+Path: godot/classes/class_textline.rst
+Summary: This section lists the properties available for the TextLine class, including their types and default values.
+
+Properties:
+* alignment (HorizontalAlignment): . Default: 0
+* direction (Direction): . Default: 0
+* ellipsis_char (String): . Default: "…"
+* flags (bitfield[JustificationFlag]): . Default: 3
+* orientation (Orientation): . Default: 0
+* preserve_control (bool): . Default: false
+* preserve_invalid (bool): . Default: true
+* text_overrun_behavior (OverrunBehavior): . Default: 3
+* width (float): . Default: -1.0
+---CHUNK---
+Document: TextLine
+Path: godot/classes/class_textline.rst
+Summary: This section lists the methods available in the TextLine class for managing and drawing text lines.
+
+Methods:
+- Method: add_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, length: int = 1, baseline: float = 0.0) -> bool
+- Method: add_string(text: String, font: Font, font_size: int, language: String = "", meta: Variant = null) -> bool
+- Method: clear() -> void
+- Method: draw(canvas: RID, pos: Vector2, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+- Method: draw_outline(canvas: RID, pos: Vector2, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+- Method: duplicate() -> TextLine
+- Method: get_inferred_direction() -> Direction
+- Method: get_line_ascent() -> float
+- Method: get_line_descent() -> float
+- Method: get_line_underline_position() -> float
+- Method: get_line_underline_thickness() -> float
+- Method: get_line_width() -> float
+- Method: get_object_rect(key: Variant) -> Rect2
+- Method: get_objects() -> Array
+- Method: get_rid() -> RID
+- Method: get_size() -> Vector2
+- Method: has_object(key: Variant) -> bool
+- Method: hit_test(coords: float) -> int
+- Method: resize_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, baseline: float = 0.0) -> bool
+- Method: set_bidi_override(override: Array) -> void
+- Method: tab_align(tab_stops: PackedFloat32Array) -> void
+---CHUNK---
+Document: TextLine
+Path: godot/classes/class_textline.rst
+Summary: This section describes the properties available for configuring a TextLine object, including text alignment, direction, clipping behavior, and character preservation.
+
+Property Descriptions
+
+*   **alignment** (HorizontalAlignment): Sets text alignment within the line as if the line was horizontal. Default: 0.
+    *   Method: set_horizontal_alignment(value: HorizontalAlignment)
+    *   Method: get_horizontal_alignment()
+*   **direction** (Direction): Text writing direction. Default: 0.
+    *   Method: set_direction(value: Direction)
+    *   Method: get_direction()
+*   **ellipsis_char** (String): Ellipsis character used for text clipping. Default: "…".
+    *   Method: set_ellipsis_char(value: String)
+    *   Method: get_ellipsis_char()
+*   **flags** (bitfield[JustificationFlag]): Line alignment rules. For more info see TextServer. Default: 3.
+    *   Method: set_flags(value: bitfield[JustificationFlag])
+    *   Method: get_flags()
+*   **orientation** (Orientation): Text orientation. Default: 0.
+    *   Method: set_orientation(value: Orientation)
+    *   Method: get_orientation()
+*   **preserve_control** (bool): If set to true text will display control characters. Default: false.
+    *   Method: set_preserve_control(value: bool)
+    *   Method: get_preserve_control()
+*   **preserve_invalid** (bool): If set to true text will display invalid characters. Default: true.
+    *   Method: set_preserve_invalid(value: bool)
+    *   Method: get_preserve_invalid()
+*   **text_overrun_behavior** (OverrunBehavior): The clipping behavior when the text exceeds the text line's set width. Default: 3.
+    *   Method: set_text_overrun_behavior(value: OverrunBehavior)
+    *   Method: get_text_overrun_behavior()
+*   **width** (float): Text line width. Default: -1.0.
+    *   Method: set_width(value: float)
+    *   Method: get_width()
+---CHUNK---
+Document: TextLine
+Path: godot/classes/class_textline.rst
+Summary: This section describes methods available in the TextLine class for managing text, inline objects, and drawing operations.
+
+Method: add_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, length: int = 1, baseline: float = 0.0) -> bool
+Adds inline object to the text buffer, key must be unique. In the text, object is represented as length object replacement characters.
+
+Method: add_string(text: String, font: Font, font_size: int, language: String = "", meta: Variant = null) -> bool
+Adds text span and font to draw it.
+
+Method: clear() -> void
+Clears text line (removes text and inline objects).
+
+Method: draw(canvas: RID, pos: Vector2, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw text into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: draw_outline(canvas: RID, pos: Vector2, outline_size: int = 1, color: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draw text into a canvas item at a given position, with color. pos specifies the top left corner of the bounding box. If oversampling is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used.
+
+Method: duplicate() -> TextLine
+Duplicates this TextLine.
+
+Method: get_inferred_direction() -> Direction
+Returns the text writing direction inferred by the BiDi algorithm.
+
+Method: get_line_ascent() -> float
+Returns the text ascent (number of pixels above the baseline for horizontal layout or to the left of baseline for vertical).
+
+Method: get_line_descent() -> float
+Returns the text descent (number of pixels below the baseline for horizontal layout or to the right of baseline for vertical).
+
+Method: get_line_underline_position() -> float
+Returns pixel offset of the underline below the baseline.
+
+Method: get_line_underline_thickness() -> float
+Returns thickness of the underline.
+
+Method: get_line_width() -> float
+Returns width (for horizontal layout) or height (for vertical) of the text.
+
+Method: get_object_rect(key: Variant) -> Rect2
+Returns bounding rectangle of the inline object.
+
+Method: get_objects() -> Array
+Returns array of inline objects.
+
+Method: get_rid() -> RID
+Returns TextServer buffer RID.
+
+Method: get_size() -> Vector2
+Returns size of the bounding box of the text.
+
+Method: has_object(key: Variant) -> bool
+Returns true if an object with key is embedded in this line.
+
+Method: hit_test(coords: float) -> int
+Returns caret character offset at the specified pixel offset at the baseline. This function always returns a valid position.
+
+Method: resize_object(key: Variant, size: Vector2, inline_align: InlineAlignment = 5, baseline: float = 0.0) -> bool
+Sets new size and alignment of embedded object.
+
+Method: set_bidi_override(override: Array) -> void
+Overrides BiDi for the structured text. Override ranges should cover full source text without overlaps. BiDi algorithm will be used on each range separately.
+
+Method: tab_align(tab_stops: PackedFloat32Array) -> void
+Aligns text to the given tab-stops.

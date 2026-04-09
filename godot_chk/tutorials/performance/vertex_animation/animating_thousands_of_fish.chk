@@ -1,0 +1,131 @@
+Document: Animating Thousands of Fish
+Path: godot/tutorials/performance/vertex_animation/animating_thousands_of_fish.rst
+Summary: This tutorial covers techniques for animating a large number of objects efficiently using vertex animation in Godot.
+---CHUNK---
+Document: Animating thousands of fish with MultiMeshInstance3D
+Path: godot/tutorials/performance/vertex_animation/animating_thousands_of_fish.rst
+Summary: This tutorial explains how to animate thousands of fish using vertex animation and MultiMeshInstance3D in Godot.
+
+This tutorial explores a technique used in the game ABZU for rendering and animating thousands of fish using vertex animation and static mesh instancing. In Godot, this can be accomplished with a custom Shader and a MultiMeshInstance3D. Using the following technique you can render thousands of animated objects, even on low-end hardware. We will start by animating one fish. Then, we will see how to extend that animation to thousands of fish.
+---CHUNK---
+Document: Animating Thousands of Fish
+Path: godot/tutorials/performance/vertex_animation/animating_thousands_of_fish.rst
+Summary: This section explains how to create a vertex animation for a single fish using GLSL shaders in Godot, focusing on side-to-side motion, pivoting, wave motion, and twisting, and how to mask these effects to the rear half of the fish.
+
+Animating one Fish
+Load your fish model into a MeshInstance3D and add a new ShaderMaterial.
+Note: The fish model in this tutorial is made by QuaterniusDev and is shared with a creative commons license. CC0 1.0 Universal (CC0 1.0) Public Domain Dedication.
+Typically, you would use bones and a Skeleton3D to animate objects. However, bones are animated on the CPU, leading to thousands of operations per frame, making it impossible for thousands of objects. Vertex animation in a vertex shader avoids bones, allowing animation calculations on the GPU with minimal code.
+
+The animation will consist of four key motions:
+1. A side-to-side motion.
+2. A pivot motion around the fish's center.
+3. A panning wave motion along the fish's length.
+4. A panning twist motion along the fish's length.
+
+All animation code resides in the vertex shader, controlled by uniforms for real-time tweaking without recompilation. Motions are based on cosine waves applied to VERTEX in model space, ensuring animation is relative to the fish's orientation.
+
+To control animation speed, a custom time variable is defined using TIME and a uniform `time_scale`.
+GDScript:
+  float time = TIME * time_scale;
+
+The first motion, side-to-side, offsets VERTEX.x by cos(time) multiplied by a uniform `side_to_side`.
+GDScript:
+  VERTEX.x += cos(time) * side_to_side;
+
+Next, the pivot motion rotates the fish around its center (0, 0). A rotation matrix is constructed using a `pivot_angle` scaled by a uniform `pivot`.
+GDScript:
+  float pivot_angle = cos(time) * 0.1 * pivot;
+  mat2 rotation_matrix = mat2(vec2(cos(pivot_angle), -sin(pivot_angle)), vec2(sin(pivot_angle), cos(pivot_angle)));
+This matrix is applied to VERTEX.xz.
+GDScript:
+  VERTEX.xz = rotation_matrix * VERTEX.xz;
+
+The next two motions pan down the fish's spine. A variable `body` is introduced, ranging from 0 at the tail to 1 at the head, calculated based on VERTEX.z.
+GDScript:
+  float body = (VERTEX.z + 1.0) / 2.0; // for a fish centered at (0, 0) with a length of 2
+
+The wave motion offsets VERTEX.x using cos(time + body) multiplied by a uniform `wave`. The `body` variable ensures each vertex along the spine has a different position in the wave, creating a wave effect.
+GDScript:
+  VERTEX.x += cos(time + body) * wave;
+
+The twist motion is a panning roll along the spine. A `twist_angle` is calculated similarly to `pivot_angle` but uses `cos(time + body)` and is scaled by a uniform `twist`. A `twist_matrix` is created and applied to VERTEX.xy.
+GDScript:
+  float twist_angle = cos(time + body) * 0.3 * twist;
+  mat2 twist_matrix = mat2(vec2(cos(twist_angle), -sin(twist_angle)), vec2(sin(twist_angle), cos(twist_angle)));
+GDScript:
+  VERTEX.xy = twist_matrix * VERTEX.xy;
+
+To make the animation more realistic, the panning motions (wave and twist) are limited to the back half of the fish using a `mask`. The `mask` variable goes from 0 at the front to 1 at the end, using `smoothstep` with uniforms `mask_black` and `mask_white` to control the transition.
+GDScript:
+  float mask = smoothstep(mask_black, mask_white, 1.0 - body);
+
+The wave motion is multiplied by `mask`.
+GDScript:
+  VERTEX.x += cos(time + body) * mask * wave;
+
+For the twist motion, `mix` is used to blend between the original vertex position and the rotated position based on the `mask`. This prevents shrinking the fish.
+GDScript:
+  VERTEX.xy = mix(VERTEX.xy, twist_matrix * VERTEX.xy, mask);
+
+Combining these four motions results in the final animation. Experiment with the uniforms to alter the swim cycle and create various fish swimming styles.
+---CHUNK---
+Document: Animating Thousands of Fish
+Path: godot/tutorials/performance/vertex_animation/animating_thousands_of_fish.rst
+Summary: This section explains how to use the MultiMeshInstance3D node in Godot to render thousands of identical objects, specifically focusing on creating a school of fish with randomized positions.
+
+A MultiMeshInstance3D node is used similarly to a MeshInstance3D node. For this tutorial, it's named "School".
+To configure the MultiMeshInstance3D, you need to add a MultiMesh resource to it. Then, assign your Mesh resource and the appropriate shader to this MultiMesh.
+
+MultiMeshes allow rendering a Mesh with per-instance properties: Transform (rotation, translation, scale), Color, and Custom data. The Custom data uses a Color type to pass up to 4 variables to the shader.
+
+The `instance_count` property determines the number of mesh instances to render. It's recommended to initially set `instance_count` to 0, as other parameters cannot be modified when it's greater than 0. The actual instance count will be set later via GDScript.
+
+The `transform_format` property specifies whether transforms are 3D or 2D. For this tutorial, 3D is selected.
+
+For `color_format` and `custom_data_format`, options include `None`, `Byte`, and `Float`.
+- `None`: No per-instance color or custom data is passed to the shader.
+- `Byte`: Each component of the color/custom data is stored using 8 bits. This is memory-efficient and faster but may introduce visual artifacts.
+- `Float`: Each component is stored using a 32-bit floating-point number. This offers more precision but is slower and consumes more memory.
+
+After setting the formats, set `instance_count` to the desired number of fish.
+
+Per-instance transforms can be set either entirely in the editor or through code. The following GDScript example demonstrates setting random positions for each instance:
+
+GDScript:
+  for i in $School.multimesh.instance_count:
+    var position = Transform3D()
+    position = position.translated(Vector3(randf() * 100 - 50, randf() * 50 - 25, randf() * 50 - 25))
+    $School.multimesh.set_instance_transform(i, position)
+
+This script places the fish within a randomized box around the MultiMeshInstance3D's origin.
+
+Note: If performance becomes an issue, consider reducing the number of fish.
+
+Currently, all fish appear at the same point in their animation cycle, making them look robotic. The next step is to introduce variation in their animation cycles for a more organic school appearance.
+---CHUNK---
+Document: Animating thousands of fish
+Path: godot/tutorials/performance/vertex_animation/animating_thousands_of_fish.rst
+Summary: This section explains how to animate a school of fish using per-instance custom data to offset their animation cycles and vary their speeds.
+
+To animate a school of fish, each fish can be animated using a single parameter, `time`. To ensure each fish has a unique position in the swim cycle, `time` is offset by adding a per-instance custom value, `INSTANCE_CUSTOM`.
+
+GDScript:
+  float time = (TIME * time_scale) + (6.28318 * INSTANCE_CUSTOM.x);
+
+This custom value is passed into `INSTANCE_CUSTOM` by assigning each instance a set of four random floats within the `for` loop.
+
+GDScript:
+  $School.multimesh.set_instance_custom_data(i, Color(randf(), randf(), randf(), randf()))
+
+With this setup, the fish will have unique positions in their swim cycles. Further individuality can be achieved by using `INSTANCE_CUSTOM` to control their swimming speed, making them swim faster or slower by multiplying `TIME`.
+
+GDScript:
+  //set speed from 50% - 150% of regular speed
+  float time = (TIME * (0.5 + INSTANCE_CUSTOM.y) * time_scale) + (6.28318 * INSTANCE_CUSTOM.x);
+
+Experimentation with changing the per-instance color in the same way as the per-instance custom value is also encouraged.
+
+A potential issue is that while the fish are animated, they are not moving. Moving them by updating the per-instance transform for each fish every frame, though faster than using individual `MeshInstance3D` nodes, can still be slow for thousands of fish.
+
+The next tutorial will cover using `GPUParticles3D` to leverage the GPU for individual fish movement while maintaining the benefits of instancing.

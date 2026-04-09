@@ -1,0 +1,158 @@
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: The Timer node is used to create timed events.
+
+Inherits: Node < Object
+
+The Timer node is used to create timed events. It emits a timeout() signal when the specified wait time has elapsed. This can be used for a variety of purposes, such as:
+
+*   Implementing delays between actions.
+*   Creating repeating events.
+*   Controlling the timing of animations or game logic.
+
+The Timer node has several properties that can be configured:
+
+*   wait_time (float): The time in seconds to wait before emitting the timeout() signal.
+*   one_shot (bool): If true, the timer will stop after emitting the timeout() signal once. If false, the timer will repeat.
+*   autostart (bool): If true, the timer will start automatically when the scene is loaded.
+*   editable (bool): If true, the timer can be edited in the editor.
+
+The Timer node also has several methods that can be used to control its behavior:
+
+*   start(): Starts the timer.
+*   stop(): Stops the timer.
+*   pause(): Pauses the timer.
+*   unpause(): Unpauses the timer.
+*   is_stopped(): Returns true if the timer is stopped, false otherwise.
+*   is_paused(): Returns true if the timer is paused, false otherwise.
+
+The Timer node emits the following signals:
+
+*   timeout(): Emitted when the wait time has elapsed.
+---CHUNK---
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: A countdown timer node in Godot Engine.
+
+Timer
+Inherits: Node < Object
+
+A countdown timer.
+---CHUNK---
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: Describes the Timer node's functionality as a countdown timer for time-based logic in Godot.
+
+Inherits: Node
+The **Timer** node is a countdown timer and is the simplest way to handle time-based logic in the engine. When a timer reaches the end of its wait_time, it will emit the timeout signal.
+
+After a timer enters the scene tree, it can be manually started with start(). A timer node is also started automatically if autostart is true.
+
+Without requiring much code, a timer node can be added and configured in the editor. The timeout signal it emits can also be connected through the Signals dock in the editor:
+
+GDScript:
+    func _on_timer_timeout():
+        print("Time to attack!")
+
+Note: To create a one-shot timer without instantiating a node, use SceneTree.create_timer().
+
+Note: Timers are affected by Engine.time_scale unless ignore_time_scale is true. The higher the time scale, the sooner timers will end. How often a timer processes may depend on the framerate or Engine.physics_ticks_per_second.
+---CHUNK---
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: This section provides a link to a tutorial that uses the Timer node.
+
+Tutorials
+- 2D Dodge The Creeps Demo
+---CHUNK---
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: Describes the properties available for the Timer node in Godot Engine.
+
+Properties
+- autostart (bool): If true, the Timer will start automatically when it enters the scene tree. Default: false.
+- ignore_time_scale (bool): If true, the Timer will not be affected by the global time scale. Default: false.
+- one_shot (bool): If true, the Timer will stop after timing out once. Default: false.
+- paused (bool): If true, the Timer will not count down.
+- process_callback (TimerProcessCallback): Specifies when the Timer's timeout signal should be emitted. Default: 1.
+- time_left (float): The remaining time in seconds until the Timer times out.
+- wait_time (float): The time in seconds the Timer waits before timing out. Default: 1.0.
+---CHUNK---
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: Describes the methods, signals, and enumerations available for the Timer class in Godot Engine.
+
+Methods
+Method: is_stopped() → bool
+Stops the timer.
+
+Method: start(time_sec: float = -1) → void
+Starts the timer.
+
+Method: stop() → void
+Stops the timer.
+
+Signals
+timeout()
+Emitted when the timer reaches the end.
+
+Enumerations
+enum TimerProcessCallback:
+TIMER_PROCESS_PHYSICS = 0
+Update the timer every physics process frame (see Node.NOTIFICATION_INTERNAL_PHYSICS_PROCESS).
+TIMER_PROCESS_IDLE = 1
+Update the timer every process (rendered) frame (see Node.NOTIFICATION_INTERNAL_PROCESS).
+---CHUNK---
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: Describes the properties of the Timer node, including autostart, ignore_time_scale, one_shot, paused, process_callback, time_left, and wait_time.
+
+Property Descriptions
+autostart (bool): If true, the timer will start immediately when it enters the scene tree. Note: After the timer enters the tree, this property is automatically set to false. Note: This property does nothing when the timer is running in the editor.
+  Methods:
+  - set_autostart(value: bool)
+  - has_autostart() -> bool
+
+ignore_time_scale (bool): If true, the timer will ignore Engine.time_scale and update with the real, elapsed time.
+  Methods:
+  - set_ignore_time_scale(value: bool)
+  - is_ignoring_time_scale() -> bool
+
+one_shot (bool): If true, the timer will stop after reaching the end. Otherwise, as by default, the timer will automatically restart.
+  Methods:
+  - set_one_shot(value: bool)
+  - is_one_shot() -> bool
+
+paused (bool): If true, the timer is paused. A paused timer does not process until this property is set back to false, even when start() is called. See also stop().
+  Methods:
+  - set_paused(value: bool)
+  - is_paused() -> bool
+
+process_callback (TimerProcessCallback): Specifies when the timer is updated during the main loop.
+  Methods:
+  - set_timer_process_callback(value: TimerProcessCallback)
+  - get_timer_process_callback() -> TimerProcessCallback
+
+time_left (float): The timer's remaining time in seconds. This is always 0 if the timer is stopped. Note: This property is read-only and cannot be modified. It is based on wait_time.
+  Methods:
+  - get_time_left() -> float
+
+wait_time (float): The time required for the timer to end, in seconds. This property can also be set every time start() is called. Note: Timers can only process once per physics or process frame (depending on the process_callback). An unstable framerate may cause the timer to end inconsistently, which is especially noticeable if the wait time is lower than roughly 0.05 seconds. For very short timers, it is recommended to write your own code instead of using a Timer node. Timers are also affected by Engine.time_scale.
+  Methods:
+  - set_wait_time(value: float)
+  - get_wait_time() -> float
+---CHUNK---
+Document: Timer
+Path: godot/classes/class_timer.rst
+Summary: Describes the methods available for controlling a Timer node in Godot.
+
+Method: is_stopped() → bool
+Returns true if the timer is stopped or has not started.
+
+Method: start(time_sec: float = -1) → void
+Starts the timer, or resets the timer if it was started already. Fails if the timer is not inside the scene tree. If time_sec is greater than 0, this value is used for the wait_time.
+Note: This method does not resume a paused timer. See paused.
+
+Method: stop() → void
+Stops the timer. See also paused. Unlike start, this can safely be called if the timer is not inside the scene tree.
+Note: Calling stop does not emit the timeout signal, as the timer is not considered to have timed out. If this is desired, use $Timer.timeout.emit() after calling stop to manually emit the signal.

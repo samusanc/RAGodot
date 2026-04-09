@@ -1,0 +1,90 @@
+Document: Time
+Path: godot/classes/class_time.rst
+Summary: This chunk defines the Time class.
+---CHUNK---
+Document: Time
+Path: godot/classes/class_time.rst
+Summary: A singleton for working with time data.
+Inherits: Object
+
+A singleton for working with time data.
+---CHUNK---
+Document: Time
+Path: godot/classes/class_time.rst
+Summary: The Time singleton provides methods for converting time formats and retrieving system time, adhering to ISO 8601 standards.
+
+The Time singleton allows converting time between various formats and also getting time information from the system.
+
+This class conforms with as many of the ISO 8601 standards as possible. All dates follow the Proleptic Gregorian calendar. As such, the day before `1582-10-15` is `1582-10-14`, not `1582-10-04`. The year before 1 AD (aka 1 BC) is number `0`, with the year before that (2 BC) being `-1`, etc.
+
+Conversion methods assume "the same timezone", and do not handle timezone conversions or DST automatically. Leap seconds are also not handled, they must be done manually if desired. Suffixes such as "Z" are not handled, you need to strip them away manually.
+
+When getting time information from the system, the time can either be in the local timezone or UTC depending on the `utc` parameter. However, the get_unix_time_from_system() method always uses UTC as it returns the seconds passed since the Unix epoch.
+
+Key Rule: The `_from_system` methods use the system clock that the user can manually set. Never use this method for precise time calculation since its results are subject to automatic adjustments by the user or the operating system. Always use get_ticks_usec() or get_ticks_msec() for precise time calculation instead, since they are guaranteed to be monotonic (i.e. never decrease).
+---CHUNK---
+Document: Time
+Path: godot/classes/class_time.rst
+Summary: This section details methods for retrieving date and time information in various formats, and defines enumerations for months and weekdays.
+
+Method: get_date_dict_from_system(utc: bool = false) → Dictionary
+Method: get_date_dict_from_unix_time(unix_time_val: int) → Dictionary
+Method: get_date_string_from_system(utc: bool = false) → String
+Method: get_date_string_from_unix_time(unix_time_val: int) → String
+Method: get_datetime_dict_from_datetime_string(datetime: String, weekday: bool) → Dictionary
+Method: get_datetime_dict_from_system(utc: bool = false) → Dictionary
+Method: get_datetime_dict_from_unix_time(unix_time_val: int) → Dictionary
+Method: get_datetime_string_from_datetime_dict(datetime: Dictionary, use_space: bool) → String
+Method: get_datetime_string_from_system(utc: bool = false, use_space: bool = false) → String
+Method: get_datetime_string_from_unix_time(unix_time_val: int, use_space: bool = false) → String
+Method: get_offset_string_from_offset_minutes(offset_minutes: int) → String
+Method: get_ticks_msec() → int
+Method: get_ticks_usec() → int
+Method: get_time_dict_from_system(utc: bool = false) → Dictionary
+Method: get_time_dict_from_unix_time(unix_time_val: int) → Dictionary
+Method: get_time_string_from_system(utc: bool = false) → String
+Method: get_time_string_from_unix_time(unix_time_val: int) → String
+Method: get_time_zone_from_system() → Dictionary
+Method: get_unix_time_from_datetime_dict(datetime: Dictionary) → int
+Method: get_unix_time_from_datetime_string(datetime: String) → int
+Method: get_unix_time_from_system() → float
+
+Enumerations
+enum Month:
+MONTH_JANUARY = 1: The month of January, represented numerically as 01.
+MONTH_FEBRUARY = 2: The month of February, represented numerically as 02.
+MONTH_MARCH = 3: The month of March, represented numerically as 03.
+MONTH_APRIL = 4: The month of April, represented numerically as 04.
+MONTH_MAY = 5: The month of May, represented numerically as 05.
+MONTH_JUNE = 6: The month of June, represented numerically as 06.
+MONTH_JULY = 7: The month of July, represented numerically as 07.
+MONTH_AUGUST = 8: The month of August, represented numerically as 08.
+MONTH_SEPTEMBER = 9: The month of September, represented numerically as 09.
+MONTH_OCTOBER = 10: The month of October, represented numerically as 10.
+MONTH_NOVEMBER = 11: The month of November, represented numerically as 11.
+MONTH_DECEMBER = 12: The month of December, represented numerically as 12.
+
+enum Weekday:
+WEEKDAY_SUNDAY = 0: The day of the week Sunday, represented numerically as 0.
+WEEKDAY_MONDAY = 1: The day of the week Monday, represented numerically as 1.
+WEEKDAY_TUESDAY = 2: The day of the week Tuesday, represented numerically as 2.
+WEEKDAY_WEDNESDAY = 3: The day of the week Wednesday, represented numerically as 3.
+WEEKDAY_THURSDAY = 4: The day of the week Thursday, represented numerically as 4.
+WEEKDAY_FRIDAY = 5: The day of the week Friday, represented numerically as 5.
+WEEKDAY_SATURDAY = 6: The day of the week Saturday, represented numerically as 6.
+---CHUNK---
+Document: Time
+Path: godot/classes/class_time.rst
+Summary: This section describes methods for retrieving date information from the system or Unix timestamps.
+
+Method: get_date_dict_from_system(utc: bool = false) -> Dictionary
+Returns the current date as a dictionary of keys: `year`, `month`, `day`, and `weekday`. The returned values are in the system's local time when `utc` is `false`, otherwise they are in UTC.
+
+Method: get_date_dict_from_unix_time(unix_time_val: int) -> Dictionary
+Converts the given Unix timestamp to a dictionary of keys: `year`, `month`, `day`, and `weekday`.
+
+Method: get_date_string_from_system(utc: bool = false) -> String
+Returns the current date as an ISO 8601 date string (YYYY-MM-DD). The returned values are in the system's local time when `utc` is `false`, otherwise they are in UTC.
+
+Method: get_date_string_from_unix_time(unix_time_val: int) -> String
+Converts the given Unix timestamp to an ISO 8601 date string (YYYY-MM-DD).

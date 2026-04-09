@@ -1,0 +1,105 @@
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: Defines a physics shape for a GLTF node.
+Inherits: Resource < RefCounted
+---CHUNK---
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: Represents a glTF physics shape.
+
+GLTFPhysicsShape
+Inherits: Resource < RefCounted < Object
+
+Represents a glTF physics shape.
+---CHUNK---
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: Describes the GLTFPhysicsShape class, which represents physics shapes from glTF extensions.
+Represents a physics shape as defined by the OMI_physics_shape or OMI_collider glTF extensions. This class is an intermediary between the glTF data and Godot's nodes, and it's abstracted in a way that allows adding support for different glTF physics extensions in the future.
+---CHUNK---
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: This document describes the GLTFPhysicsShape class, which is used to define physics shapes within glTF files.
+
+This class is part of the glTF physics extensions, specifically related to defining physics shapes and colliders within glTF files. It allows for the integration of physics properties directly into 3D models exported from DCC tools.
+
+Related Tutorials:
+* Runtime file loading and saving
+
+Related glTF Extensions:
+* OMI_physics_shape glTF extension
+* OMI_collider glTF extension
+---CHUNK---
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: Defines the properties of a physics shape within a GLTF model.
+
+Properties:
+* height (float): The height of the shape. Default: 2.0
+* importer_mesh (ImporterMesh): The ImporterMesh resource associated with this shape.
+* is_trigger (bool): Whether this shape acts as a trigger. Default: false
+* mesh_index (int): The index of the mesh within the importer_mesh. Default: -1
+* radius (float): The radius of the shape. Default: 0.5
+* shape_type (String): The type of the shape.
+* size (Vector3): The size of the shape. Default: Vector3(1, 1, 1)
+---CHUNK---
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: Provides methods for converting between GLTFPhysicsShape objects and various Godot resource types.
+
+Methods:
+* Method: from_dictionary(dictionary: Dictionary) → GLTFPhysicsShape |static|: Creates a GLTFPhysicsShape from a dictionary representation.
+* Method: from_node(shape_node: CollisionShape3D) → GLTFPhysicsShape |static|: Creates a GLTFPhysicsShape from a CollisionShape3D node.
+* Method: from_resource(shape_resource: Shape3D) → GLTFPhysicsShape |static|: Creates a GLTFPhysicsShape from a Shape3D resource.
+* Method: to_dictionary() → Dictionary |const|: Converts the GLTFPhysicsShape to a dictionary representation.
+* Method: to_node(cache_shapes: bool = false) → CollisionShape3D: Converts the GLTFPhysicsShape to a CollisionShape3D node.
+* Method: to_resource(cache_shapes: bool = false) → Shape3D: Converts the GLTFPhysicsShape to a Shape3D resource.
+---CHUNK---
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: Describes the properties of a GLTF physics shape, including its type, dimensions, and associated mesh data.
+
+Property Descriptions
+Method: set_height(value: float)
+Method: get_height() → float
+The height of the shape, in meters. This is only used when the shape type is "capsule" or "cylinder". This value should not be negative, and for "capsule" it should be at least twice the radius.
+
+Method: set_importer_mesh(value: ImporterMesh)
+Method: get_importer_mesh() → ImporterMesh
+The ImporterMesh resource of the shape. This is only used when the shape type is "hull" (convex hull) or "trimesh" (concave trimesh).
+
+Method: set_is_trigger(value: bool)
+Method: get_is_trigger() → bool
+If true, indicates that this shape is a trigger. For Godot, this means that the shape should be a child of an Area3D node. This is the only variable not used in the to_node method, it's intended to be used alongside when deciding where to add the generated node as a child.
+
+Method: set_mesh_index(value: int)
+Method: get_mesh_index() → int
+The index of the shape's mesh in the glTF file. This is only used when the shape type is "hull" (convex hull) or "trimesh" (concave trimesh).
+
+Method: set_radius(value: float)
+Method: get_radius() → float
+The radius of the shape, in meters. This is only used when the shape type is "capsule", "cylinder", or "sphere". This value should not be negative.
+
+Method: set_shape_type(value: String)
+Method: get_shape_type() → String
+The type of shape this shape represents. Valid values are "box", "capsule", "cylinder", "sphere", "hull", and "trimesh".
+
+Method: set_size(value: Vector3)
+Method: get_size() → Vector3
+The size of the shape, in meters. This is only used when the shape type is "box", and it represents the "diameter" of the box. This value should not be negative.
+---CHUNK---
+Document: GLTFPhysicsShape
+Path: godot/classes/class_gltfphysicsshape.rst
+Summary: This section describes the methods available for the GLTFPhysicsShape class, including methods for creating instances from dictionaries, nodes, and resources, as well as methods for converting instances back into dictionaries, nodes, and resources.
+Method: from_dictionary(dictionary: Dictionary) → GLTFPhysicsShape |static|
+Creates a new GLTFPhysicsShape instance by parsing the given Dictionary.
+Method: from_node(shape_node: CollisionShape3D) → GLTFPhysicsShape |static|
+Creates a new GLTFPhysicsShape instance from the given Godot CollisionShape3D node.
+Method: from_resource(shape_resource: Shape3D) → GLTFPhysicsShape |static|
+Creates a new GLTFPhysicsShape instance from the given Godot Shape3D resource.
+Method: to_dictionary() → Dictionary |const|
+Serializes this GLTFPhysicsShape instance into a Dictionary in the format defined by ``OMI_physics_shape``.
+Method: to_node(cache_shapes: bool = false) → CollisionShape3D
+Converts this GLTFPhysicsShape instance into a Godot CollisionShape3D node.
+Method: to_resource(cache_shapes: bool = false) → Shape3D
+Converts this GLTFPhysicsShape instance into a Godot Shape3D resource.

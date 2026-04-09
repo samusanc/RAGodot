@@ -1,0 +1,281 @@
+Document: int
+Path: godot/classes/class_int.rst
+Summary: This document describes the int data type.
+---CHUNK---
+Document: int
+Path: godot/classes/class_int.rst
+Summary: A built-in type for integers.
+
+A built-in type for integers.
+---CHUNK---
+Document: int
+Path: godot/classes/class_int.rst
+Summary: Describes the signed 64-bit integer type, its range, automatic conversions, and literal representations.
+
+Signed 64-bit integer type. This means that it can take values from -2^63 to 2^63 - 1, i.e. from -9223372036854775808 to 9223372036854775807. When it exceeds these bounds, it will wrap around.
+
+ints can be automatically converted to floats when necessary, for example when passing them as arguments in functions. The float will be as close to the original integer as possible.
+
+Likewise, floats can be automatically converted into ints. This will truncate the float, discarding anything after the floating-point.
+
+Key Rule: In a boolean context, an int will evaluate to false if it equals 0, and to true otherwise.
+
+GDScript:
+var x: int = 1 # x is 1
+x = 4.2 # x is 4, because 4.2 gets truncated
+var max_int = 9223372036854775807 # Biggest value an int can store
+max_int += 1 # max_int is -9223372036854775808, because it wrapped around
+
+C#:
+int x = 1; // x is 1
+x = (int)4.2; // x is 4, because 4.2 gets truncated
+// We use long below, because GDScript's int is 64-bit while C#'s int is 32-bit.
+long maxLong = 9223372036854775807; // Biggest value a long can store
+maxLong++; // maxLong is now -9223372036854775808, because it wrapped around.
+
+// Alternatively with C#'s 32-bit int type, which has a smaller maximum value.
+int maxInt = 2147483647; // Biggest value an int can store
+maxInt++; // maxInt is now -2147483648, because it wrapped around
+
+You can use the 0b literal for binary representation, the 0x literal for hexadecimal representation, and the _ symbol to separate long numbers and improve readability.
+
+GDScript:
+var x = 0b1001 # x is 9
+var y = 0xF5 # y is 245
+var z = 10_000_000 # z is 10000000
+
+C#:
+int x = 0b1001; // x is 9
+int y = 0xF5; // y is 245
+int z = 10_000_000; // z is 10000000
+---CHUNK---
+Document: int
+Path: godot/classes/class_int.rst
+Summary: This section details the constructors and operators available for the int data type.
+
+Constructors:
+* int()
+* int(from: int)
+* int(from: String)
+* int(from: bool)
+* int(from: float)
+
+Operators:
+* bool operator !=(right: float)
+* bool operator !=(right: int)
+* int operator %(right: int)
+* int operator &(right: int)
+* Color operator *(right: Color)
+* Quaternion operator *(right: Quaternion)
+* Vector2 operator *(right: Vector2)
+* Vector2i operator *(right: Vector2i)
+* Vector3 operator *(right: Vector3)
+* Vector3i operator *(right: Vector3i)
+* Vector4 operator *(right: Vector4)
+* Vector4i operator *(right: Vector4i)
+* float operator *(right: float)
+* int operator *(right: int)
+* float operator **(right: float)
+* int operator **(right: int)
+* float operator +(right: float)
+* int operator +(right: int)
+* float operator -(right: float)
+* int operator -(right: int)
+* float operator /(right: float)
+* int operator /(right: int)
+* bool operator <(right: float)
+* bool operator <(right: int)
+* int operator <<(right: int)
+* bool operator <=(right: float)
+* bool operator <=(right: int)
+* bool operator ==(right: float)
+* bool operator ==(right: int)
+* bool operator >(right: float)
+* bool operator >(right: int)
+* bool operator >=(right: float)
+* bool operator >=(right: int)
+* int operator >>(right: int)
+* int operator ^(right: int)
+* int operator unary+()
+* int operator unary-()
+* int operator |(right: int)
+* int operator ~()
+
+Constructor Descriptions:
+Method: int()
+Constructs an int set to 0.
+
+Method: int(from: int)
+Constructs an int as a copy of the given int.
+
+Method: int(from: String)
+Constructs a new int from a String, following the same rules as String.to_int().
+
+Method: int(from: bool)
+Constructs a new int from a bool. true is converted to 1 and false is converted to 0.
+
+Method: int(from: float)
+Constructs a new int from a float. This will truncate the float, discarding anything after the floating point.
+---CHUNK---
+Document: int
+Path: godot/classes/class_int.rst
+Summary: This section describes the various operators available for the int type, including comparison, arithmetic, bitwise, and unary operations, and their interactions with other types like float, Color, Quaternion, and Vector types.
+
+Operator Descriptions
+
+Method: operator != (right: float) → bool
+Returns true if the int is not equivalent to the float.
+
+Method: operator != (right: int) → bool
+Returns true if the ints are not equal.
+
+Method: operator % (right: int) → int
+Returns the remainder after dividing two ints. Uses truncated division, which returns a negative number if the dividend is negative. If this is not desired, consider using @GlobalScope.posmod().
+GDScript:
+    print(6 % 2) # Prints 0
+    print(11 % 4) # Prints 3
+    print(-5 % 3) # Prints -2
+
+Method: operator & (right: int) → int
+Performs the bitwise AND operation.
+GDScript:
+    print(0b1100 & 0b1010) # Prints 8 (binary 1000)
+This is useful for retrieving binary flags from a variable.
+GDScript:
+    var flags = 0b101
+    # Check if the first or second bit are enabled.
+    if flags & 0b011:
+        do_stuff() # This line will run.
+
+Method: operator * (right: Color) → Color
+Multiplies each component of the Color by the int.
+
+Method: operator * (right: Quaternion) → Quaternion
+Multiplies each component of the Quaternion by the int. This operation is not meaningful on its own, but it can be used as a part of a larger expression.
+
+Method: operator * (right: Vector2) → Vector2
+Multiplies each component of the Vector2 by the int.
+GDScript:
+    print(2 * Vector2(1, 4)) # Prints (2, 8)
+
+Method: operator * (right: Vector2i) → Vector2i
+Multiplies each component of the Vector2i by the int.
+
+Method: operator * (right: Vector3) → Vector3
+Multiplies each component of the Vector3 by the int.
+
+Method: operator * (right: Vector3i) → Vector3i
+Multiplies each component of the Vector3i by the int.
+
+Method: operator * (right: Vector4) → Vector4
+Multiplies each component of the Vector4 by the int.
+
+Method: operator * (right: Vector4i) → Vector4i
+Multiplies each component of the Vector4i by the int.
+
+Method: operator * (right: float) → float
+Multiplies the float by the int. The result is a float.
+
+Method: operator * (right: int) → int
+Multiplies the two ints.
+
+Method: operator ** (right: float) → float
+Raises an int to a power of a float. The result is a float.
+GDScript:
+    print(2 ** 0.5) # Prints 1.4142135623731
+
+Method: operator ** (right: int) → int
+Raises the left int to a power of the right int.
+GDScript:
+    print(3 ** 4) # Prints 81
+
+Method: operator + (right: float) → float
+Adds the int and the float. The result is a float.
+
+Method: operator + (right: int) → int
+Adds the two ints.
+
+Method: operator - (right: float) → float
+Subtracts the float from the int. The result is a float.
+
+Method: operator - (right: int) → int
+Subtracts the two ints.
+
+Method: operator / (right: float) → float
+Divides the int by the float. The result is a float.
+GDScript:
+    print(10 / 3.0) # Prints 3.33333333333333
+
+Method: operator / (right: int) → int
+Divides the two ints. The result is an int. This will truncate the float, discarding anything after the floating point.
+GDScript:
+    print(6 / 2) # Prints 3
+    print(5 / 3) # Prints 1
+
+Method: operator < (right: float) → bool
+Returns true if the int is less than the float.
+
+Method: operator < (right: int) → bool
+Returns true if the left int is less than the right int.
+
+Method: operator << (right: int) → int
+Performs the bitwise shift left operation. Effectively the same as multiplying by a power of 2.
+GDScript:
+    print(0b1010 << 1) # Prints 20 (binary 10100)
+    print(0b1010 << 3) # Prints 80 (binary 1010000)
+
+Method: operator <= (right: float) → bool
+Returns true if the int is less than or equal to the float.
+
+Method: operator <= (right: int) → bool
+Returns true if the left int is less than or equal to the right int.
+
+Method: operator == (right: float) → bool
+Returns true if the int is equal to the float.
+
+Method: operator == (right: int) → bool
+Returns true if the two ints are equal.
+
+Method: operator > (right: float) → bool
+Returns true if the int is greater than the float.
+
+Method: operator > (right: int) → bool
+Returns true if the left int is greater than the right int.
+
+Method: operator >= (right: float) → bool
+Returns true if the int is greater than or equal to the float.
+
+Method: operator >= (right: int) → bool
+Returns true if the left int is greater than or equal to the right int.
+
+Method: operator >> (right: int) → int
+Performs the bitwise shift right operation. Effectively the same as dividing by a power of 2.
+GDScript:
+    print(0b1010 >> 1) # Prints 5 (binary 101)
+    print(0b1010 >> 2) # Prints 2 (binary 10)
+
+Method: operator ^ (right: int) → int
+Performs the bitwise XOR operation.
+GDScript:
+    print(0b1100 ^ 0b1010) # Prints 6 (binary 110)
+
+Method: operator unary+ () → int
+Returns the same value as if the + was not there. Unary + does nothing, but sometimes it can make your code more readable.
+
+Method: operator unary- () → int
+Returns the negated value of the int. If positive, turns the number negative. If negative, turns the number positive. If zero, does nothing.
+
+Method: operator | (right: int) → int
+Performs the bitwise OR operation.
+GDScript:
+    print(0b1100 | 0b1010) # Prints 14 (binary 1110)
+This is useful for storing binary flags in a variable.
+GDScript:
+    var flags = 0
+    flags |= 0b101 # Turn the first and third bits on.
+
+Method: operator ~ () → int
+Performs the bitwise NOT operation on the int. Due to 2's complement, it's effectively equal to -(int + 1).
+GDScript:
+    print(~4) # Prints -5
+    print(~(-7)) # Prints 6

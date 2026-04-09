@@ -1,0 +1,199 @@
+Document: Renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section defines an internal reference for renderers documentation.
+---CHUNK---
+Document: Overview of renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This chunk provides an overview of Godot's renderers, focusing on their rendering features.
+
+This page gives an overview of Godot's renderers, focusing on the differences between their rendering features. For more technical details on the renderers, see internal rendering architecture.
+---CHUNK---
+Document: Introduction
+Path: godot/tutorials/rendering/renderers.rst
+Summary: A brief overview of the three renderers available in Godot 4: Forward+, Mobile, and Compatibility.
+
+Godot 4 includes three renderers:
+
+*   Forward+. The most advanced renderer, suited for desktop platforms only. Used by default on desktop platforms. This renderer uses Vulkan, Direct3D 12, or Metal as the rendering driver, and it uses the RenderingDevice backend.
+*   Mobile. Fewer features, but renders simple scenes faster. Suited for mobile and desktop platforms. Used by default on mobile platforms. This renderer uses Vulkan, Direct3D 12, or Metal as the rendering driver, and it uses the RenderingDevice backend.
+*   Compatibility, sometimes called GL Compatibility. The least advanced renderer, suited for low-end desktop and mobile platforms. Used by default on the web platform. This renderer uses OpenGL as the rendering driver.
+---CHUNK---
+Document: Renderers, rendering drivers, and RenderingDevice
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section explains the different rendering components in Godot, including renderers (Forward+, Mobile, Compatibility), rendering drivers (OpenGL, Vulkan, Direct3D 12, Metal), and the RenderingDevice backend.
+
+The renderer, or rendering method, determines which features are available. Most of the time, this is the only thing you need to think about. Godot's renderers are Forward+, Mobile, and Compatibility.
+
+The rendering driver tells the GPU what to do, using a graphics API. Godot can use the OpenGL, Vulkan, Direct3D 12, and Metal rendering drivers. Not every GPU supports every rendering driver, and therefore not every GPU supports all renderers. Vulkan, Direct3D 12, and Metal are modern, low-level graphics APIs, and requires newer hardware. OpenGL is an older graphics API that runs on most hardware.
+
+RenderingDevice is a rendering backend, an abstraction layer between the renderer and the rendering driver. It is used by the Forward+ and Mobile renderers, and these renderers are sometimes called "RenderingDevice-based renderers".
+---CHUNK---
+Document: Renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section provides guidance on choosing the appropriate renderer (Forward+, Mobile, Compatibility) based on hardware, platform, and desired features.
+
+Choosing a renderer is a complex question, and depends on your hardware and the platforms you are developing for. As a starting point:
+
+Choose **Forward+** if:
+*   You are developing for desktop.
+*   You have relatively new hardware which supports Vulkan, Direct3D 12, or Metal.
+*   You are developing a 3D game.
+*   You want to use the most advanced rendering features.
+
+Choose **Mobile** if:
+*   You are developing for newer mobile devices, desktop XR, or desktop.
+*   You have relatively new hardware which supports Vulkan, Direct3D 12, or Metal.
+*   You are developing a 3D game.
+*   You want to use advanced rendering features, subject to the limitations of mobile hardware.
+
+Choose **Compatibility** if:
+*   You are developing for older mobile devices, older desktop devices, or standalone XR. The Compatibility renderer supports the widest range of hardware.
+*   You are developing for web. In this case, Compatibility is the only choice.
+*   You have older hardware which does not support Vulkan. In this case, Compatibility is the only choice.
+*   You are developing a 2D game, or a 3D game which does not need advanced rendering features.
+*   You want the best performance possible on all devices and don't need advanced rendering features.
+
+Keep in mind every game is unique, and this is only a starting point. For example, you might choose to use the Compatibility renderer even though you have the latest GPU, so you can support the widest range of hardware. Or you might want to use the Forward+ renderer for a 2D game, so you can use advanced features like compute shaders.
+---CHUNK---
+Document: Renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section explains how to switch between renderers in the Godot editor and the automatic fallback behavior for rendering devices.
+
+In the editor, you can always switch between renderers by clicking on the renderer name in the upper-right corner of the editor.
+
+Switching between renderers may require some manual tweaks to your scene, lighting, and environment, since each renderer is different. In general, switching between the Mobile and Forward+ renderers will require fewer adjustments than switching between the Compatibility renderer and the Forward+ or Mobile renderers.
+
+Since Godot 4.4, when using Forward+ or Mobile, if Vulkan is not supported, the engine will fall back to Direct3D 12 and vice versa. If the attempted fallback driver is not supported either, the engine will then fall back to Compatibility when the RenderingDevice backend is not supported. This allows the project to run anyway, but it may look different than the intended appearance due to the more limited renderer. This behavior can be disabled in the project settings by unchecking Rendering > Rendering Device > Fallback to OpenGL 3.
+---CHUNK---
+Document: Tutorial
+Path: godot/tutorials/rendering/renderers.rst
+Summary: Compares features across different Godot renderers and defines hardware with RenderingDevice support.
+
+Feature comparison. This is not a complete list of the features of each renderer. If a feature is not listed here, it is available in all renderers, though it may be much faster on some renderers. For a list of *all* features in Godot, see list of all features. Hardware with RenderingDevice support is hardware which can run Vulkan, Direct3D 12, or Metal.
+---CHUNK---
+Document: Renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section provides an overall comparison of Godot's Compatibility, Mobile, and Forward+ renderers across various features, hardware requirements, target platforms, and capabilities.
+
+Required hardware: Compatibility renderer is for older or low-end hardware. Mobile and Forward+ renderers are for newer or high-end hardware, requiring Vulkan, Direct3D 12, or Metal support. All renderers run on new hardware. Compatibility runs on old and low-end hardware, while Mobile runs on it but slower than Compatibility, and Forward+ is the slowest. Compatibility runs on hardware without RenderingDevice support, but Mobile and Forward+ do not.
+
+Target platforms: Compatibility targets mobile, low-end desktop, and web. Mobile targets mobile and desktop. Forward+ targets desktop.
+Desktop: All renderers support desktop.
+Mobile: Compatibility supports low-end mobile. Mobile supports high-end mobile. Forward+ supports mobile but is poorly optimized; use Mobile or Compatibility instead.
+XR: Compatibility supports XR and is recommended for standalone headsets. Mobile supports XR and is recommended for desktop headsets. Forward+ supports XR but is poorly optimized; use Mobile or Compatibility instead.
+Web: Compatibility supports web. Mobile and Forward+ do not.
+2D Games: All renderers support 2D games, but Compatibility is usually sufficient for 2D.
+3D Games: All renderers support 3D games.
+
+Feature set: Compatibility offers 2D and core 3D features. Mobile offers most rendering features. Forward+ offers all rendering features.
+2D rendering features: All renderers support 2D rendering features.
+Core 3D rendering features: All renderers support core 3D rendering features.
+Advanced rendering features: Compatibility does not support advanced rendering features. Mobile supports them, but limited by mobile hardware. Forward+ supports all advanced rendering features.
+New features: Some new rendering features are added to Compatibility, typically after Mobile and Forward+. Most new rendering features are added to Mobile, usually at the same time as Forward+. All new features are added to Forward+ first, as it is the focus of new development.
+
+Rendering cost: Compatibility has a low base cost but high scaling cost. Mobile has a medium base cost and medium scaling cost. Forward+ has the highest base cost but low scaling cost.
+Rendering driver: Compatibility uses OpenGL. Mobile and Forward+ use Vulkan, Direct3D 12, or Metal.
+---CHUNK---
+Document: Renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section compares light and shadow features across Godot's rendering backends: Forward, Mobile, and Forward+.
+
+Lights and shadows. See Lights and shadows for more information.
+
+*   Lighting approach: Forward (Forward), Forward (Mobile), Clustered Forward (Forward+).
+*   Maximum OmniLights: 8 per mesh (Forward, can be increased), 8 per mesh and 256 per view (Mobile), 512 per cluster (Forward+, can be increased).
+*   Maximum SpotLights: 8 per mesh (Forward, can be increased), 8 per mesh and 256 per view (Mobile), 512 per cluster (Forward+, can be increased).
+*   Maximum DirectionalLights: 8 (Forward, Mobile, Forward+).
+*   PCSS for OmniLight and SpotLight: Not supported (Forward), Supported (Mobile, Forward+).
+*   PCSS for DirectionalLight: Not supported (Forward, Mobile), Supported (Forward+).
+*   Light projector textures: Not supported (Forward), Supported (Mobile, Forward+).
+---CHUNK---
+Document: Global Illumination
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section details the compatibility of various global illumination features across different Godot renderers.
+
+Global Illumination. See introduction to global illumination for more information.
+- ReflectionProbe (Compatibility): Supported, 2 per mesh.
+- ReflectionProbe (Mobile): Supported, 8 per mesh.
+- ReflectionProbe (Forward+): Supported, unlimited.
+- LightmapGI (Compatibility): Rendering of baked lightmaps is supported. Baking requires hardware with RenderingDevice support.
+- LightmapGI (Mobile): Supported.
+- LightmapGI (Forward+): Supported.
+- VoxelGI (Compatibility): Not supported.
+- VoxelGI (Mobile): Not supported.
+- VoxelGI (Forward+): Supported.
+- Screen-Space Indirect Lighting (SSIL) (Compatibility): Not supported.
+- Screen-Space Indirect Lighting (SSIL) (Mobile): Not supported.
+- Screen-Space Indirect Lighting (SSIL) (Forward+): Supported.
+- Signed Distance Field Global Illumination (SDFGI) (Compatibility): Not supported.
+- Signed Distance Field Global Illumination (SDFGI) (Mobile): Not supported.
+- Signed Distance Field Global Illumination (SDFGI) (Forward+): Supported.
+---CHUNK---
+Document: Environment and post-processing
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section outlines the compatibility of various environment and post-processing features across different Godot renderers.
+
+Environment and post-processing. See doc_environment_and_post_processing for more information.
+
+Feature compatibility:
+*   Fog (Depth and Height): Supported on Compatibility, Mobile, and Forward+.
+*   Volumetric Fog: Not supported on Compatibility or Mobile, supported on Forward+.
+*   Tonemapping: Supported on Compatibility, Mobile, and Forward+.
+*   Screen-Space Reflections: Not supported on Compatibility or Mobile, supported on Forward+.
+*   Screen-Space Ambient Occlusion (SSAO): Supported on Compatibility, not supported on Mobile, supported on Forward+.
+*   Screen-Space Indirect Lighting (SSIL): Not supported on Compatibility or Mobile, supported on Forward+.
+*   Signed Distance Field Global Illumination (SDFGI): Not supported on Compatibility or Mobile, supported on Forward+.
+*   Glow: Supported on Compatibility, Mobile, and Forward+.
+*   Adjustments: Supported on Compatibility, Mobile, and Forward+.
+*   Custom post-processing with fullscreen quad: Supported on Compatibility, Mobile, and Forward+.
+*   Custom post-processing with CompositorEffects: Not supported on Compatibility, supported on Mobile and Forward+.
+---CHUNK---
+Document: Antialiasing
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section provides a compatibility matrix for various antialiasing features across Godot's Compatibility, Mobile, and Forward+ renderers.
+
+Antialiasing. See 3D antialiasing for more information.
+
+Compatibility of antialiasing features across renderers:
+*   MSAA 3D: Supported in Compatibility, Mobile, and Forward+ renderers.
+*   MSAA 2D: Not supported in Compatibility, but supported in Mobile and Forward+ renderers.
+*   TAA: Not supported in Compatibility or Mobile, but supported in Forward+ renderer.
+*   FSR2: Not supported in Compatibility or Mobile, but supported in Forward+ renderer.
+*   FXAA: Not supported in Compatibility, but supported in Mobile and Forward+ renderers.
+*   SMAA: Not supported in Compatibility, but supported in Mobile and Forward+ renderers.
+*   SSAA: Supported in Compatibility, Mobile, and Forward+ renderers.
+*   Screen-space roughness limiter: Not supported in Compatibility, but supported in Mobile and Forward+ renderers.
+---CHUNK---
+Document: StandardMaterial features
+Path: godot/tutorials/rendering/renderers.rst
+Summary: Describes StandardMaterial features and their renderer compatibility.
+
+See StandardMaterial3D for more information.
+
+- Sub-surface scattering: Not supported for general compatibility, not supported on Mobile, supported in Forward+.
+---CHUNK---
+Document: Rendering Renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section describes shader features and their compatibility across different renderers.
+
+Shader features
+See doc_shading_reference for more information.
+
+*   Screen texture: Supported in Compatibility, Mobile, and Forward+ renderers.
+*   Depth texture: Supported in Compatibility, Mobile, and Forward+ renderers.
+*   Normal/Roughness buffer: Not supported in Compatibility and Mobile renderers, but supported in Forward+.
+*   Compute shaders: Not supported in Compatibility. Supported in Mobile, but comes with a performance penalty on older devices. Supported in Forward+.
+---CHUNK---
+Document: renderers
+Path: godot/tutorials/rendering/renderers.rst
+Summary: This section details the compatibility of various rendering features across the Compatibility, Mobile, and Forward+ renderers.
+
+Other features and their renderer compatibility:
+*   **Variable rate shading**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.
+*   **Decals**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.
+*   **Particle trails**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.
+*   **Particle SDF collision**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.
+*   **Depth of field blur**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.
+*   **Adaptive and Mailbox VSync modes**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.
+*   **2D HDR Viewport**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.
+*   **RenderingDevice access**: Not supported by the Compatibility renderer. Supported by the Mobile renderer. Supported by the Forward+ renderer.

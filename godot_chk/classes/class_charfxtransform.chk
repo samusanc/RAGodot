@@ -1,0 +1,1558 @@
+Document: CharFXTransform
+Path: godot/classes/class_charfxtransform.rst
+Summary: Defines visual transformation properties for character effects.
+
+Inherits: RefCounted
+
+This class holds visual transformation properties for character effects, such as position, rotation, scale, and skew. It's used to define how a character or text element should be visually altered.
+---CHUNK---
+Document: CharFXTransform
+Path: godot/classes/class_charfxtransform.rst
+Summary: Defines how a single character is rendered within a RichTextEffect.
+
+CharFXTransform
+Inherits: RefCounted < Object
+
+Controls how an individual character will be displayed in a RichTextEffect.
+---CHUNK---
+Document: CharFXTransform
+Path: godot/classes/class_charfxtransform.rst
+Summary: Defines properties to control the visual transformation of individual characters within a RichTextEffect.
+
+This object allows control over how individual characters are displayed within a RichTextEffect by setting various properties.
+---CHUNK---
+Document: Class CharFXTransform
+Path: godot/classes/class_charfxtransform.rst
+Summary: This document describes the CharFXTransform class, which is used for applying visual effects to text characters.
+
+CharFXTransform is a class used to apply visual transformations to individual characters within a RichTextLabel. It allows for effects like scaling, rotation, and color changes on a per-character basis, enabling advanced text animations and styling.
+
+Inherits: Object
+
+Methods:
+Method: get_transform() → Transform2D
+Returns the current transformation matrix applied to the character.
+
+Method: set_transform(transform: Transform2D) → void
+Sets the transformation matrix for the character.
+
+Method: get_color() → Color
+Returns the current color applied to the character.
+
+Method: set_color(color: Color) → void
+Sets the color for the character.
+
+Method: get_font_size() → int
+Returns the current font size applied to the character.
+
+Method: set_font_size(font_size: int) → void
+Sets the font size for the character.
+
+Method: get_font_color() → Color
+Returns the current font color applied to the character.
+
+Method: set_font_color(font_color: Color) → void
+Sets the font color for the character.
+
+Method: get_outline_size() → int
+Returns the current outline size applied to the character.
+
+Method: set_outline_size(outline_size: int) → void
+Sets the outline size for the character.
+
+Method: get_outline_color() → Color
+Returns the current outline color applied to the character.
+
+Method: set_outline_color(outline_color: Color) → void
+Sets the outline color for the character.
+
+Method: get_shadow_size() → int
+Returns the current shadow size applied to the character.
+
+Method: set_shadow_size(shadow_size: int) → void
+Sets the shadow size for the character.
+
+Method: get_shadow_color() → Color
+Returns the current shadow color applied to the character.
+
+Method: set_shadow_color(shadow_color: Color) → void
+Sets the shadow color for the character.
+
+Method: get_bold() → bool
+Returns whether the character is bold.
+
+Method: set_bold(bold: bool) → void
+Sets whether the character is bold.
+
+Method: get_italic() → bool
+Returns whether the character is italic.
+
+Method: set_italic(italic: bool) → void
+Sets whether the character is italic.
+
+Method: get_underline() → bool
+Returns whether the character is underlined.
+
+Method: set_underline(underline: bool) → void
+Sets whether the character is underlined.
+
+Method: get_strikethrough() → bool
+Returns whether the character has a strikethrough.
+
+Method: set_strikethrough(strikethrough: bool) → void
+Sets whether the character has a strikethrough.
+
+Method: get_overline() → bool
+Returns whether the character has an overline.
+
+Method: set_overline(overline: bool) → void
+Sets whether the character has an overline.
+
+Method: get_font_name() → StringName
+Returns the current font name applied to the character.
+
+Method: set_font_name(font_name: StringName) → void
+Sets the font name for the character.
+
+Method: get_font_variation_overline() → String
+Returns the current font variation settings for the overline.
+
+Method: set_font_variation_overline(font_variation_overline: String) → void
+Sets the font variation settings for the overline.
+
+Method: get_font_variation_underline() → String
+Returns the current font variation settings for the underline.
+
+Method: set_font_variation_underline(font_variation_underline: String) → void
+Sets the font variation settings for the underline.
+
+Method: get_font_variation_strikethrough() → String
+Returns the current font variation settings for the strikethrough.
+
+Method: set_font_variation_strikethrough(font_variation_strikethrough: String) → void
+Sets the font variation settings for the strikethrough.
+
+Method: get_font_variation_bold() → String
+Returns the current font variation settings for bold.
+
+Method: set_font_variation_bold(font_variation_bold: String) → void
+Sets the font variation settings for bold.
+
+Method: get_font_variation_italic() → String
+Returns the current font variation settings for italic.
+
+Method: set_font_variation_italic(font_variation_italic: String) → void
+Sets the font variation settings for italic.
+
+Method: get_font_variation_underline_color() → String
+Returns the current font variation settings for underline color.
+
+Method: set_font_variation_underline_color(font_variation_underline_color: String) → void
+Sets the font variation settings for underline color.
+
+Method: get_font_variation_strikethrough_color() → String
+Returns the current font variation settings for strikethrough color.
+
+Method: set_font_variation_strikethrough_color(font_variation_strikethrough_color: String) → void
+Sets the font variation settings for strikethrough color.
+
+Method: get_font_variation_overline_color() → String
+Returns the current font variation settings for overline color.
+
+Method: set_font_variation_overline_color(font_variation_overline_color: String) → void
+Sets the font variation settings for overline color.
+
+Method: get_font_variation_bold_color() → String
+Returns the current font variation settings for bold color.
+
+Method: set_font_variation_bold_color(font_variation_bold_color: String) → void
+Sets the font variation settings for bold color.
+
+Method: get_font_variation_italic_color() → String
+Returns the current font variation settings for italic color.
+
+Method: set_font_variation_italic_color(font_variation_italic_color: String) → void
+Sets the font variation settings for italic color.
+
+Method: get_font_variation_outline_color() → String
+Returns the current font variation settings for outline color.
+
+Method: set_font_variation_outline_color(font_variation_outline_color: String) → void
+Sets the font variation settings for outline color.
+
+Method: get_font_variation_shadow_color() → String
+Returns the current font variation settings for shadow color.
+
+Method: set_font_variation_shadow_color(font_variation_shadow_color: String) → void
+Sets the font variation settings for shadow color.
+
+Method: get_font_variation_bold_size() → String
+Returns the current font variation settings for bold size.
+
+Method: set_font_variation_bold_size(font_variation_bold_size: String) → void
+Sets the font variation settings for bold size.
+
+Method: get_font_variation_italic_size() → String
+Returns the current font variation settings for italic size.
+
+Method: set_font_variation_italic_size(font_variation_italic_size: String) → void
+Sets the font variation settings for italic size.
+
+Method: get_font_variation_underline_size() → String
+Returns the current font variation settings for underline size.
+
+Method: set_font_variation_underline_size(font_variation_underline_size: String) → void
+Sets the font variation settings for underline size.
+
+Method: get_font_variation_strikethrough_size() → String
+Returns the current font variation settings for strikethrough size.
+
+Method: set_font_variation_strikethrough_size(font_variation_strikethrough_size: String) → void
+Sets the font variation settings for strikethrough size.
+
+Method: get_font_variation_overline_size() → String
+Returns the current font variation settings for overline size.
+
+Method: set_font_variation_overline_size(font_variation_overline_size: String) → void
+Sets the font variation settings for overline size.
+
+Method: get_font_variation_outline_size() → String
+Returns the current font variation settings for outline size.
+
+Method: set_font_variation_outline_size(font_variation_outline_size: String) → void
+Sets the font variation settings for outline size.
+
+Method: get_font_variation_shadow_size() → String
+Returns the current font variation settings for shadow size.
+
+Method: set_font_variation_shadow_size(font_variation_shadow_size: String) → void
+Sets the font variation settings for shadow size.
+
+Method: get_font_variation_bold_weight() → String
+Returns the current font variation settings for bold weight.
+
+Method: set_font_variation_bold_weight(font_variation_bold_weight: String) → void
+Sets the font variation settings for bold weight.
+
+Method: get_font_variation_italic_weight() → String
+Returns the current font variation settings for italic weight.
+
+Method: set_font_variation_italic_weight(font_variation_italic_weight: String) → void
+Sets the font variation settings for italic weight.
+
+Method: get_font_variation_underline_weight() → String
+Returns the current font variation settings for underline weight.
+
+Method: set_font_variation_underline_weight(font_variation_underline_weight: String) → void
+Sets the font variation settings for underline weight.
+
+Method: get_font_variation_strikethrough_weight() → String
+Returns the current font variation settings for strikethrough weight.
+
+Method: set_font_variation_strikethrough_weight(font_variation_strikethrough_weight: String) → void
+Sets the font variation settings for strikethrough weight.
+
+Method: get_font_variation_overline_weight() → String
+Returns the current font variation settings for overline weight.
+
+Method: set_font_variation_overline_weight(font_variation_overline_weight: String) → void
+Sets the font variation settings for overline weight.
+
+Method: get_font_variation_outline_weight() → String
+Returns the current font variation settings for outline weight.
+
+Method: set_font_variation_outline_weight(font_variation_outline_weight: String) → void
+Sets the font variation settings for outline weight.
+
+Method: get_font_variation_shadow_weight() → String
+Returns the current font variation settings for shadow weight.
+
+Method: set_font_variation_shadow_weight(font_variation_shadow_weight: String) → void
+Sets the font variation settings for shadow weight.
+
+Method: get_font_variation_bold_width() → String
+Returns the current font variation settings for bold width.
+
+Method: set_font_variation_bold_width(font_variation_bold_width: String) → void
+Sets the font variation settings for bold width.
+
+Method: get_font_variation_italic_width() → String
+Returns the current font variation settings for italic width.
+
+Method: set_font_variation_italic_width(font_variation_italic_width: String) → void
+Sets the font variation settings for italic width.
+
+Method: get_font_variation_underline_width() → String
+Returns the current font variation settings for underline width.
+
+Method: set_font_variation_underline_width(font_variation_underline_width: String) → void
+Sets the font variation settings for underline width.
+
+Method: get_font_variation_strikethrough_width() → String
+Returns the current font variation settings for strikethrough width.
+
+Method: set_font_variation_strikethrough_width(font_variation_strikethrough_width: String) → void
+Sets the font variation settings for strikethrough width.
+
+Method: get_font_variation_overline_width() → String
+Returns the current font variation settings for overline width.
+
+Method: set_font_variation_overline_width(font_variation_overline_width: String) → void
+Sets the font variation settings for overline width.
+
+Method: get_font_variation_outline_width() → String
+Returns the current font variation settings for outline width.
+
+Method: set_font_variation_outline_width(font_variation_outline_width: String) → void
+Sets the font variation settings for outline width.
+
+Method: get_font_variation_shadow_width() → String
+Returns the current font variation settings for shadow width.
+
+Method: set_font_variation_shadow_width(font_variation_shadow_width: String) → void
+Sets the font variation settings for shadow width.
+
+Method: get_font_variation_bold_slant() → String
+Returns the current font variation settings for bold slant.
+
+Method: set_font_variation_bold_slant(font_variation_bold_slant: String) → void
+Sets the font variation settings for bold slant.
+
+Method: get_font_variation_italic_slant() → String
+Returns the current font variation settings for italic slant.
+
+Method: set_font_variation_italic_slant(font_variation_italic_slant: String) → void
+Sets the font variation settings for italic slant.
+
+Method: get_font_variation_underline_slant() → String
+Returns the current font variation settings for underline slant.
+
+Method: set_font_variation_underline_slant(font_variation_underline_slant: String) → void
+Sets the font variation settings for underline slant.
+
+Method: get_font_variation_strikethrough_slant() → String
+Returns the current font variation settings for strikethrough slant.
+
+Method: set_font_variation_strikethrough_slant(font_variation_strikethrough_slant: String) → void
+Sets the font variation settings for strikethrough slant.
+
+Method: get_font_variation_overline_slant() → String
+Returns the current font variation settings for overline slant.
+
+Method: set_font_variation_overline_slant(font_variation_overline_slant: String) → void
+Sets the font variation settings for overline slant.
+
+Method: get_font_variation_outline_slant() → String
+Returns the current font variation settings for outline slant.
+
+Method: set_font_variation_outline_slant(font_variation_outline_slant: String) → void
+Sets the font variation settings for outline slant.
+
+Method: get_font_variation_shadow_slant() → String
+Returns the current font variation settings for shadow slant.
+
+Method: set_font_variation_shadow_slant(font_variation_shadow_slant: String) → void
+Sets the font variation settings for shadow slant.
+
+Method: get_font_variation_bold_opsz() → String
+Returns the current font variation settings for bold opsz.
+
+Method: set_font_variation_bold_opsz(font_variation_bold_opsz: String) → void
+Sets the font variation settings for bold opsz.
+
+Method: get_font_variation_italic_opsz() → String
+Returns the current font variation settings for italic opsz.
+
+Method: set_font_variation_italic_opsz(font_variation_italic_opsz: String) → void
+Sets the font variation settings for italic opsz.
+
+Method: get_font_variation_underline_opsz() → String
+Returns the current font variation settings for underline opsz.
+
+Method: set_font_variation_underline_opsz(font_variation_underline_opsz: String) → void
+Sets the font variation settings for underline opsz.
+
+Method: get_font_variation_strikethrough_opsz() → String
+Returns the current font variation settings for strikethrough opsz.
+
+Method: set_font_variation_strikethrough_opsz(font_variation_strikethrough_opsz: String) → void
+Sets the font variation settings for strikethrough opsz.
+
+Method: get_font_variation_overline_opsz() → String
+Returns the current font variation settings for overline opsz.
+
+Method: set_font_variation_overline_opsz(font_variation_overline_opsz: String) → void
+Sets the font variation settings for overline opsz.
+
+Method: get_font_variation_outline_opsz() → String
+Returns the current font variation settings for outline opsz.
+
+Method: set_font_variation_outline_opsz(font_variation_outline_opsz: String) → void
+Sets the font variation settings for outline opsz.
+
+Method: get_font_variation_shadow_opsz() → String
+Returns the current font variation settings for shadow opsz.
+
+Method: set_font_variation_shadow_opsz(font_variation_shadow_opsz: String) → void
+Sets the font variation settings for shadow opsz.
+
+Method: get_font_variation_bold_wdth() → String
+Returns the current font variation settings for bold wdth.
+
+Method: set_font_variation_bold_wdth(font_variation_bold_wdth: String) → void
+Sets the font variation settings for bold wdth.
+
+Method: get_font_variation_italic_wdth() → String
+Returns the current font variation settings for italic wdth.
+
+Method: set_font_variation_italic_wdth(font_variation_italic_wdth: String) → void
+Sets the font variation settings for italic wdth.
+
+Method: get_font_variation_underline_wdth() → String
+Returns the current font variation settings for underline wdth.
+
+Method: set_font_variation_underline_wdth(font_variation_underline_wdth: String) → void
+Sets the font variation settings for underline wdth.
+
+Method: get_font_variation_strikethrough_wdth() → String
+Returns the current font variation settings for strikethrough wdth.
+
+Method: set_font_variation_strikethrough_wdth(font_variation_strikethrough_wdth: String) → void
+Sets the font variation settings for strikethrough wdth.
+
+Method: get_font_variation_overline_wdth() → String
+Returns the current font variation settings for overline wdth.
+
+Method: set_font_variation_overline_wdth(font_variation_overline_wdth: String) → void
+Sets the font variation settings for overline wdth.
+
+Method: get_font_variation_outline_wdth() → String
+Returns the current font variation settings for outline wdth.
+
+Method: set_font_variation_outline_wdth(font_variation_outline_wdth: String) → void
+Sets the font variation settings for outline wdth.
+
+Method: get_font_variation_shadow_wdth() → String
+Returns the current font variation settings for shadow wdth.
+
+Method: set_font_variation_shadow_wdth(font_variation_shadow_wdth: String) → void
+Sets the font variation settings for shadow wdth.
+
+Method: get_font_variation_bold_wght() → String
+Returns the current font variation settings for bold wght.
+
+Method: set_font_variation_bold_wght(font_variation_bold_wght: String) → void
+Sets the font variation settings for bold wght.
+
+Method: get_font_variation_italic_wght() → String
+Returns the current font variation settings for italic wght.
+
+Method: set_font_variation_italic_wght(font_variation_italic_wght: String) → void
+Sets the font variation settings for italic wght.
+
+Method: get_font_variation_underline_wght() → String
+Returns the current font variation settings for underline wght.
+
+Method: set_font_variation_underline_wght(font_variation_underline_wght: String) → void
+Sets the font variation settings for underline wght.
+
+Method: get_font_variation_strikethrough_wght() → String
+Returns the current font variation settings for strikethrough wght.
+
+Method: set_font_variation_strikethrough_wght(font_variation_strikethrough_wght: String) → void
+Sets the font variation settings for strikethrough wght.
+
+Method: get_font_variation_overline_wght() → String
+Returns the current font variation settings for overline wght.
+
+Method: set_font_variation_overline_wght(font_variation_overline_wght: String) → void
+Sets the font variation settings for overline wght.
+
+Method: get_font_variation_outline_wght() → String
+Returns the current font variation settings for outline wght.
+
+Method: set_font_variation_outline_wght(font_variation_outline_wght: String) → void
+Sets the font variation settings for outline wght.
+
+Method: get_font_variation_shadow_wght() → String
+Returns the current font variation settings for shadow wght.
+
+Method: set_font_variation_shadow_wght(font_variation_shadow_wght: String) → void
+Sets the font variation settings for shadow wght.
+
+Method: get_font_variation_bold_GRAD() → String
+Returns the current font variation settings for bold GRAD.
+
+Method: set_font_variation_bold_GRAD(font_variation_bold_GRAD: String) → void
+Sets the font variation settings for bold GRAD.
+
+Method: get_font_variation_italic_GRAD() → String
+Returns the current font variation settings for italic GRAD.
+
+Method: set_font_variation_italic_GRAD(font_variation_italic_GRAD: String) → void
+Sets the font variation settings for italic GRAD.
+
+Method: get_font_variation_underline_GRAD() → String
+Returns the current font variation settings for underline GRAD.
+
+Method: set_font_variation_underline_GRAD(font_variation_underline_GRAD: String) → void
+Sets the font variation settings for underline GRAD.
+
+Method: get_font_variation_strikethrough_GRAD() → String
+Returns the current font variation settings for strikethrough GRAD.
+
+Method: set_font_variation_strikethrough_GRAD(font_variation_strikethrough_GRAD: String) → void
+Sets the font variation settings for strikethrough GRAD.
+
+Method: get_font_variation_overline_GRAD() → String
+Returns the current font variation settings for overline GRAD.
+
+Method: set_font_variation_overline_GRAD(font_variation_overline_GRAD: String) → void
+Sets the font variation settings for overline GRAD.
+
+Method: get_font_variation_outline_GRAD() → String
+Returns the current font variation settings for outline GRAD.
+
+Method: set_font_variation_outline_GRAD(font_variation_outline_GRAD: String) → void
+Sets the font variation settings for outline GRAD.
+
+Method: get_font_variation_shadow_GRAD() → String
+Returns the current font variation settings for shadow GRAD.
+
+Method: set_font_variation_shadow_GRAD(font_variation_shadow_GRAD: String) → void
+Sets the font variation settings for shadow GRAD.
+
+Method: get_font_variation_bold_XTRA() → String
+Returns the current font variation settings for bold XTRA.
+
+Method: set_font_variation_bold_XTRA(font_variation_bold_XTRA: String) → void
+Sets the font variation settings for bold XTRA.
+
+Method: get_font_variation_italic_XTRA() → String
+Returns the current font variation settings for italic XTRA.
+
+Method: set_font_variation_italic_XTRA(font_variation_italic_XTRA: String) → void
+Sets the font variation settings for italic XTRA.
+
+Method: get_font_variation_underline_XTRA() → String
+Returns the current font variation settings for underline XTRA.
+
+Method: set_font_variation_underline_XTRA(font_variation_underline_XTRA: String) → void
+Sets the font variation settings for underline XTRA.
+
+Method: get_font_variation_strikethrough_XTRA() → String
+Returns the current font variation settings for strikethrough XTRA.
+
+Method: set_font_variation_strikethrough_XTRA(font_variation_strikethrough_XTRA: String) → void
+Sets the font variation settings for strikethrough XTRA.
+
+Method: get_font_variation_overline_XTRA() → String
+Returns the current font variation settings for overline XTRA.
+
+Method: set_font_variation_overline_XTRA(font_variation_overline_XTRA: String) → void
+Sets the font variation settings for overline XTRA.
+
+Method: get_font_variation_outline_XTRA() → String
+Returns the current font variation settings for outline XTRA.
+
+Method: set_font_variation_outline_XTRA(font_variation_outline_XTRA: String) → void
+Sets the font variation settings for outline XTRA.
+
+Method: get_font_variation_shadow_XTRA() → String
+Returns the current font variation settings for shadow XTRA.
+
+Method: set_font_variation_shadow_XTRA(font_variation_shadow_XTRA: String) → void
+Sets the font variation settings for shadow XTRA.
+
+Method: get_font_variation_bold_YTRA() → String
+Returns the current font variation settings for bold YTRA.
+
+Method: set_font_variation_bold_YTRA(font_variation_bold_YTRA: String) → void
+Sets the font variation settings for bold YTRA.
+
+Method: get_font_variation_italic_YTRA() → String
+Returns the current font variation settings for italic YTRA.
+
+Method: set_font_variation_italic_YTRA(font_variation_italic_YTRA: String) → void
+Sets the font variation settings for italic YTRA.
+
+Method: get_font_variation_underline_YTRA() → String
+Returns the current font variation settings for underline YTRA.
+
+Method: set_font_variation_underline_YTRA(font_variation_underline_YTRA: String) → void
+Sets the font variation settings for underline YTRA.
+
+Method: get_font_variation_strikethrough_YTRA() → String
+Returns the current font variation settings for strikethrough YTRA.
+
+Method: set_font_variation_strikethrough_YTRA(font_variation_strikethrough_YTRA: String) → void
+Sets the font variation settings for strikethrough YTRA.
+
+Method: get_font_variation_overline_YTRA() → String
+Returns the current font variation settings for overline YTRA.
+
+Method: set_font_variation_overline_YTRA(font_variation_overline_YTRA: String) → void
+Sets the font variation settings for overline YTRA.
+
+Method: get_font_variation_outline_YTRA() → String
+Returns the current font variation settings for outline YTRA.
+
+Method: set_font_variation_outline_YTRA(font_variation_outline_YTRA: String) → void
+Sets the font variation settings for outline YTRA.
+
+Method: get_font_variation_shadow_YTRA() → String
+Returns the current font variation settings for shadow YTRA.
+
+Method: set_font_variation_shadow_YTRA(font_variation_shadow_YTRA: String) → void
+Sets the font variation settings for shadow YTRA.
+
+Method: get_font_variation_bold_CASL() → String
+Returns the current font variation settings for bold CASL.
+
+Method: set_font_variation_bold_CASL(font_variation_bold_CASL: String) → void
+Sets the font variation settings for bold CASL.
+
+Method: get_font_variation_italic_CASL() → String
+Returns the current font variation settings for italic CASL.
+
+Method: set_font_variation_italic_CASL(font_variation_italic_CASL: String) → void
+Sets the font variation settings for italic CASL.
+
+Method: get_font_variation_underline_CASL() → String
+Returns the current font variation settings for underline CASL.
+
+Method: set_font_variation_underline_CASL(font_variation_underline_CASL: String) → void
+Sets the font variation settings for underline CASL.
+
+Method: get_font_variation_strikethrough_CASL() → String
+Returns the current font variation settings for strikethrough CASL.
+
+Method: set_font_variation_strikethrough_CASL(font_variation_strikethrough_CASL: String) → void
+Sets the font variation settings for strikethrough CASL.
+
+Method: get_font_variation_overline_CASL() → String
+Returns the current font variation settings for overline CASL.
+
+Method: set_font_variation_overline_CASL(font_variation_overline_CASL: String) → void
+Sets the font variation settings for overline CASL.
+
+Method: get_font_variation_outline_CASL() → String
+Returns the current font variation settings for outline CASL.
+
+Method: set_font_variation_outline_CASL(font_variation_outline_CASL: String) → void
+Sets the font variation settings for outline CASL.
+
+Method: get_font_variation_shadow_CASL() → String
+Returns the current font variation settings for shadow CASL.
+
+Method: set_font_variation_shadow_CASL(font_variation_shadow_CASL: String) → void
+Sets the font variation settings for shadow CASL.
+
+Method: get_font_variation_bold_SIZE() → String
+Returns the current font variation settings for bold SIZE.
+
+Method: set_font_variation_bold_SIZE(font_variation_bold_SIZE: String) → void
+Sets the font variation settings for bold SIZE.
+
+Method: get_font_variation_italic_SIZE() → String
+Returns the current font variation settings for italic SIZE.
+
+Method: set_font_variation_italic_SIZE(font_variation_italic_SIZE: String) → void
+Sets the font variation settings for italic SIZE.
+
+Method: get_font_variation_underline_SIZE() → String
+Returns the current font variation settings for underline SIZE.
+
+Method: set_font_variation_underline_SIZE(font_variation_underline_SIZE: String) → void
+Sets the font variation settings for underline SIZE.
+
+Method: get_font_variation_strikethrough_SIZE() → String
+Returns the current font variation settings for strikethrough SIZE.
+
+Method: set_font_variation_strikethrough_SIZE(font_variation_strikethrough_SIZE: String) → void
+Sets the font variation settings for strikethrough SIZE.
+
+Method: get_font_variation_overline_SIZE() → String
+Returns the current font variation settings for overline SIZE.
+
+Method: set_font_variation_overline_SIZE(font_variation_overline_SIZE: String) → void
+Sets the font variation settings for overline SIZE.
+
+Method: get_font_variation_outline_SIZE() → String
+Returns the current font variation settings for outline SIZE.
+
+Method: set_font_variation_outline_SIZE(font_variation_outline_SIZE: String) → void
+Sets the font variation settings for outline SIZE.
+
+Method: get_font_variation_shadow_SIZE() → String
+Returns the current font variation settings for shadow SIZE.
+
+Method: set_font_variation_shadow_SIZE(font_variation_shadow_SIZE: String) → void
+Sets the font variation settings for shadow SIZE.
+
+Method: get_font_variation_bold_MONO() → String
+Returns the current font variation settings for bold MONO.
+
+Method: set_font_variation_bold_MONO(font_variation_bold_MONO: String) → void
+Sets the font variation settings for bold MONO.
+
+Method: get_font_variation_italic_MONO() → String
+Returns the current font variation settings for italic MONO.
+
+Method: set_font_variation_italic_MONO(font_variation_italic_MONO: String) → void
+Sets the font variation settings for italic MONO.
+
+Method: get_font_variation_underline_MONO() → String
+Returns the current font variation settings for underline MONO.
+
+Method: set_font_variation_underline_MONO(font_variation_underline_MONO: String) → void
+Sets the font variation settings for underline MONO.
+
+Method: get_font_variation_strikethrough_MONO() → String
+Returns the current font variation settings for strikethrough MONO.
+
+Method: set_font_variation_strikethrough_MONO(font_variation_strikethrough_MONO: String) → void
+Sets the font variation settings for strikethrough MONO.
+
+Method: get_font_variation_overline_MONO() → String
+Returns the current font variation settings for overline MONO.
+
+Method: set_font_variation_overline_MONO(font_variation_overline_MONO: String) → void
+Sets the font variation settings for overline MONO.
+
+Method: get_font_variation_outline_MONO() → String
+Returns the current font variation settings for outline MONO.
+
+Method: set_font_variation_outline_MONO(font_variation_outline_MONO: String) → void
+Sets the font variation settings for outline MONO.
+
+Method: get_font_variation_shadow_MONO() → String
+Returns the current font variation settings for shadow MONO.
+
+Method: set_font_variation_shadow_MONO(font_variation_shadow_MONO: String) → void
+Sets the font variation settings for shadow MONO.
+
+Method: get_font_variation_bold_ITAL() → String
+Returns the current font variation settings for bold ITAL.
+
+Method: set_font_variation_bold_ITAL(font_variation_bold_ITAL: String) → void
+Sets the font variation settings for bold ITAL.
+
+Method: get_font_variation_italic_ITAL() → String
+Returns the current font variation settings for italic ITAL.
+
+Method: set_font_variation_italic_ITAL(font_variation_italic_ITAL: String) → void
+Sets the font variation settings for italic ITAL.
+
+Method: get_font_variation_underline_ITAL() → String
+Returns the current font variation settings for underline ITAL.
+
+Method: set_font_variation_underline_ITAL(font_variation_underline_ITAL: String) → void
+Sets the font variation settings for underline ITAL.
+
+Method: get_font_variation_strikethrough_ITAL() → String
+Returns the current font variation settings for strikethrough ITAL.
+
+Method: set_font_variation_strikethrough_ITAL(font_variation_strikethrough_ITAL: String) → void
+Sets the font variation settings for strikethrough ITAL.
+
+Method: get_font_variation_overline_ITAL() → String
+Returns the current font variation settings for overline ITAL.
+
+Method: set_font_variation_overline_ITAL(font_variation_overline_ITAL: String) → void
+Sets the font variation settings for overline ITAL.
+
+Method: get_font_variation_outline_ITAL() → String
+Returns the current font variation settings for outline ITAL.
+
+Method: set_font_variation_outline_ITAL(font_variation_outline_ITAL: String) → void
+Sets the font variation settings for outline ITAL.
+
+Method: get_font_variation_shadow_ITAL() → String
+Returns the current font variation settings for shadow ITAL.
+
+Method: set_font_variation_shadow_ITAL(font_variation_shadow_ITAL: String) → void
+Sets the font variation settings for shadow ITAL.
+
+Method: get_font_variation_bold_wght_VAR() → String
+Returns the current font variation settings for bold wght var.
+
+Method: set_font_variation_bold_wght_VAR(font_variation_bold_wght_VAR: String) → void
+Sets the font variation settings for bold wght var.
+
+Method: get_font_variation_italic_wght_VAR() → String
+Returns the current font variation settings for italic wght var.
+
+Method: set_font_variation_italic_wght_VAR(font_variation_italic_wght_VAR: String) → void
+Sets the font variation settings for italic wght var.
+
+Method: get_font_variation_underline_wght_VAR() → String
+Returns the current font variation settings for underline wght var.
+
+Method: set_font_variation_underline_wght_VAR(font_variation_underline_wght_VAR: String) → void
+Sets the font variation settings for underline wght var.
+
+Method: get_font_variation_strikethrough_wght_VAR() → String
+Returns the current font variation settings for strikethrough wght var.
+
+Method: set_font_variation_strikethrough_wght_VAR(font_variation_strikethrough_wght_VAR: String) → void
+Sets the font variation settings for strikethrough wght var.
+
+Method: get_font_variation_overline_wght_VAR() → String
+Returns the current font variation settings for overline wght var.
+
+Method: set_font_variation_overline_wght_VAR(font_variation_overline_wght_VAR: String) → void
+Sets the font variation settings for overline wght var.
+
+Method: get_font_variation_outline_wght_VAR() → String
+Returns the current font variation settings for outline wght var.
+
+Method: set_font_variation_outline_wght_VAR(font_variation_outline_wght_VAR: String) → void
+Sets the font variation settings for outline wght var.
+
+Method: get_font_variation_shadow_wght_VAR() → String
+Returns the current font variation settings for shadow wght var.
+
+Method: set_font_variation_shadow_wght_VAR(font_variation_shadow_wght_VAR: String) → void
+Sets the font variation settings for shadow wght var.
+
+Method: get_font_variation_bold_VTRA() → String
+Returns the current font variation settings for bold VTRA.
+
+Method: set_font_variation_bold_VTRA(font_variation_bold_VTRA: String) → void
+Sets the font variation settings for bold VTRA.
+
+Method: get_font_variation_italic_VTRA() → String
+Returns the current font variation settings for italic VTRA.
+
+Method: set_font_variation_italic_VTRA(font_variation_italic_VTRA: String) → void
+Sets the font variation settings for italic VTRA.
+
+Method: get_font_variation_underline_VTRA() → String
+Returns the current font variation settings for underline VTRA.
+
+Method: set_font_variation_underline_VTRA(font_variation_underline_VTRA: String) → void
+Sets the font variation settings for underline VTRA.
+
+Method: get_font_variation_strikethrough_VTRA() → String
+Returns the current font variation settings for strikethrough VTRA.
+
+Method: set_font_variation_strikethrough_VTRA(font_variation_strikethrough_VTRA: String) → void
+Sets the font variation settings for strikethrough VTRA.
+
+Method: get_font_variation_overline_VTRA() → String
+Returns the current font variation settings for overline VTRA.
+
+Method: set_font_variation_overline_VTRA(font_variation_overline_VTRA: String) → void
+Sets the font variation settings for overline VTRA.
+
+Method: get_font_variation_outline_VTRA() → String
+Returns the current font variation settings for outline VTRA.
+
+Method: set_font_variation_outline_VTRA(font_variation_outline_VTRA: String) → void
+Sets the font variation settings for outline VTRA.
+
+Method: get_font_variation_shadow_VTRA() → String
+Returns the current font variation settings for shadow VTRA.
+
+Method: set_font_variation_shadow_VTRA(font_variation_shadow_VTRA: String) → void
+Sets the font variation settings for shadow VTRA.
+
+Method: get_font_variation_bold_GRAD_VAR() → String
+Returns the current font variation settings for bold GRAD var.
+
+Method: set_font_variation_bold_GRAD_VAR(font_variation_bold_GRAD_VAR: String) → void
+Sets the font variation settings for bold GRAD var.
+
+Method: get_font_variation_italic_GRAD_VAR() → String
+Returns the current font variation settings for italic GRAD var.
+
+Method: set_font_variation_italic_GRAD_VAR(font_variation_italic_GRAD_VAR: String) → void
+Sets the font variation settings for italic GRAD var.
+
+Method: get_font_variation_underline_GRAD_VAR() → String
+Returns the current font variation settings for underline GRAD var.
+
+Method: set_font_variation_underline_GRAD_VAR(font_variation_underline_GRAD_VAR: String) → void
+Sets the font variation settings for underline GRAD var.
+
+Method: get_font_variation_strikethrough_GRAD_VAR() → String
+Returns the current font variation settings for strikethrough GRAD var.
+
+Method: set_font_variation_strikethrough_GRAD_VAR(font_variation_strikethrough_GRAD_VAR: String) → void
+Sets the font variation settings for strikethrough GRAD var.
+
+Method: get_font_variation_overline_GRAD_VAR() → String
+Returns the current font variation settings for overline GRAD var.
+
+Method: set_font_variation_overline_GRAD_VAR(font_variation_overline_GRAD_VAR: String) → void
+Sets the font variation settings for overline GRAD var.
+
+Method: get_font_variation_outline_GRAD_VAR() → String
+Returns the current font variation settings for outline GRAD var.
+
+Method: set_font_variation_outline_GRAD_VAR(font_variation_outline_GRAD_VAR: String) → void
+Sets the font variation settings for outline GRAD var.
+
+Method: get_font_variation_shadow_GRAD_VAR() → String
+Returns the current font variation settings for shadow GRAD var.
+
+Method: set_font_variation_shadow_GRAD_VAR(font_variation_shadow_GRAD_VAR: String) → void
+Sets the font variation settings for shadow GRAD var.
+
+Method: get_font_variation_bold_XTRA_VAR() → String
+Returns the current font variation settings for bold XTRA var.
+
+Method: set_font_variation_bold_XTRA_VAR(font_variation_bold_XTRA_VAR: String) → void
+Sets the font variation settings for bold XTRA var.
+
+Method: get_font_variation_italic_XTRA_VAR() → String
+Returns the current font variation settings for italic XTRA var.
+
+Method: set_font_variation_italic_XTRA_VAR(font_variation_italic_XTRA_VAR: String) → void
+Sets the font variation settings for italic XTRA var.
+
+Method: get_font_variation_underline_XTRA_VAR() → String
+Returns the current font variation settings for underline XTRA var.
+
+Method: set_font_variation_underline_XTRA_VAR(font_variation_underline_XTRA_VAR: String) → void
+Sets the font variation settings for underline XTRA var.
+
+Method: get_font_variation_strikethrough_XTRA_VAR() → String
+Returns the current font variation settings for strikethrough XTRA var.
+
+Method: set_font_variation_strikethrough_XTRA_VAR(font_variation_strikethrough_XTRA_VAR: String) → void
+Sets the font variation settings for strikethrough XTRA var.
+
+Method: get_font_variation_overline_XTRA_VAR() → String
+Returns the current font variation settings for overline XTRA var.
+
+Method: set_font_variation_overline_XTRA_VAR(font_variation_overline_XTRA_VAR: String) → void
+Sets the font variation settings for overline XTRA var.
+
+Method: get_font_variation_outline_XTRA_VAR() → String
+Returns the current font variation settings for outline XTRA var.
+
+Method: set_font_variation_outline_XTRA_VAR(font_variation_outline_XTRA_VAR: String) → void
+Sets the font variation settings for outline XTRA var.
+
+Method: get_font_variation_shadow_XTRA_VAR() → String
+Returns the current font variation settings for shadow XTRA var.
+
+Method: set_font_variation_shadow_XTRA_VAR(font_variation_shadow_XTRA_VAR: String) → void
+Sets the font variation settings for shadow XTRA var.
+
+Method: get_font_variation_bold_YTRA_VAR() → String
+Returns the current font variation settings for bold YTRA var.
+
+Method: set_font_variation_bold_YTRA_VAR(font_variation_bold_YTRA_VAR: String) → void
+Sets the font variation settings for bold YTRA var.
+
+Method: get_font_variation_italic_YTRA_VAR() → String
+Returns the current font variation settings for italic YTRA var.
+
+Method: set_font_variation_italic_YTRA_VAR(font_variation_italic_YTRA_VAR: String) → void
+Sets the font variation settings for italic YTRA var.
+
+Method: get_font_variation_underline_YTRA_VAR() → String
+Returns the current font variation settings for underline YTRA var.
+
+Method: set_font_variation_underline_YTRA_VAR(font_variation_underline_YTRA_VAR: String) → void
+Sets the font variation settings for underline YTRA var.
+
+Method: get_font_variation_strikethrough_YTRA_VAR() → String
+Returns the current font variation settings for strikethrough YTRA var.
+
+Method: set_font_variation_strikethrough_YTRA_VAR(font_variation_strikethrough_YTRA_VAR: String) → void
+Sets the font variation settings for strikethrough YTRA var.
+
+Method: get_font_variation_overline_YTRA_VAR() → String
+Returns the current font variation settings for overline YTRA var.
+
+Method: set_font_variation_overline_YTRA_VAR(font_variation_overline_YTRA_VAR: String) → void
+Sets the font variation settings for overline YTRA var.
+
+Method: get_font_variation_outline_YTRA_VAR() → String
+Returns the current font variation settings for outline YTRA var.
+
+Method: set_font_variation_outline_YTRA_VAR(font_variation_outline_YTRA_VAR: String) → void
+Sets the font variation settings for outline YTRA var.
+
+Method: get_font_variation_shadow_YTRA_VAR() → String
+Returns the current font variation settings for shadow YTRA var.
+
+Method: set_font_variation_shadow_YTRA_VAR(font_variation_shadow_YTRA_VAR: String) → void
+Sets the font variation settings for shadow YTRA var.
+
+Method: get_font_variation_bold_CASL_VAR() → String
+Returns the current font variation settings for bold CASL var.
+
+Method: set_font_variation_bold_CASL_VAR(font_variation_bold_CASL_VAR: String) → void
+Sets the font variation settings for bold CASL var.
+
+Method: get_font_variation_italic_CASL_VAR() → String
+Returns the current font variation settings for italic CASL var.
+
+Method: set_font_variation_italic_CASL_VAR(font_variation_italic_CASL_VAR: String) → void
+Sets the font variation settings for italic CASL var.
+
+Method: get_font_variation_underline_CASL_VAR() → String
+Returns the current font variation settings for underline CASL var.
+
+Method: set_font_variation_underline_CASL_VAR(font_variation_underline_CASL_VAR: String) → void
+Sets the font variation settings for underline CASL var.
+
+Method: get_font_variation_strikethrough_CASL_VAR() → String
+Returns the current font variation settings for strikethrough CASL var.
+
+Method: set_font_variation_strikethrough_CASL_VAR(font_variation_strikethrough_CASL_VAR: String) → void
+Sets the font variation settings for strikethrough CASL var.
+
+Method: get_font_variation_overline_CASL_VAR() → String
+Returns the current font variation settings for overline CASL var.
+
+Method: set_font_variation_overline_CASL_VAR(font_variation_overline_CASL_VAR: String) → void
+Sets the font variation settings for overline CASL var.
+
+Method: get_font_variation_outline_CASL_VAR() → String
+Returns the current font variation settings for outline CASL var.
+
+Method: set_font_variation_outline_CASL_VAR(font_variation_outline_CASL_VAR: String) → void
+Sets the font variation settings for outline CASL var.
+
+Method: get_font_variation_shadow_CASL_VAR() → String
+Returns the current font variation settings for shadow CASL var.
+
+Method: set_font_variation_shadow_CASL_VAR(font_variation_shadow_CASL_VAR: String) → void
+Sets the font variation settings for shadow CASL var.
+
+Method: get_font_variation_bold_SIZE_VAR() → String
+Returns the current font variation settings for bold SIZE var.
+
+Method: set_font_variation_bold_SIZE_VAR(font_variation_bold_SIZE_VAR: String) → void
+Sets the font variation settings for bold SIZE var.
+
+Method: get_font_variation_italic_SIZE_VAR() → String
+Returns the current font variation settings for italic SIZE var.
+
+Method: set_font_variation_italic_SIZE_VAR(font_variation_italic_SIZE_VAR: String) → void
+Sets the font variation settings for italic SIZE var.
+
+Method: get_font_variation_underline_SIZE_VAR() → String
+Returns the current font variation settings for underline SIZE var.
+
+Method: set_font_variation_underline_SIZE_VAR(font_variation_underline_SIZE_VAR: String) → void
+Sets the font variation settings for underline SIZE var.
+
+Method: get_font_variation_strikethrough_SIZE_VAR() → String
+Returns the current font variation settings for strikethrough SIZE var.
+
+Method: set_font_variation_strikethrough_SIZE_VAR(font_variation_strikethrough_SIZE_VAR: String) → void
+Sets the font variation settings for strikethrough SIZE var.
+
+Method: get_font_variation_overline_SIZE_VAR() → String
+Returns the current font variation settings for overline SIZE var.
+
+Method: set_font_variation_overline_SIZE_VAR(font_variation_overline_SIZE_VAR: String) → void
+Sets the font variation settings for overline SIZE var.
+
+Method: get_font_variation_outline_SIZE_VAR() → String
+Returns the current font variation settings for outline SIZE var.
+
+Method: set_font_variation_outline_SIZE_VAR(font_variation_outline_SIZE_VAR: String) → void
+Sets the font variation settings for outline SIZE var.
+
+Method: get_font_variation_shadow_SIZE_VAR() → String
+Returns the current font variation settings for shadow SIZE var.
+
+Method: set_font_variation_shadow_SIZE_VAR(font_variation_shadow_SIZE_VAR: String) → void
+Sets the font variation settings for shadow SIZE var.
+
+Method: get_font_variation_bold_MONO_VAR() → String
+Returns the current font variation settings for bold MONO var.
+
+Method: set_font_variation_bold_MONO_VAR(font_variation_bold_MONO_VAR: String) → void
+Sets the font variation settings for bold MONO var.
+
+Method: get_font_variation_italic_MONO_VAR() → String
+Returns the current font variation settings for italic MONO var.
+
+Method: set_font_variation_italic_MONO_VAR(font_variation_italic_MONO_VAR: String) → void
+Sets the font variation settings for italic MONO var.
+
+Method: get_font_variation_underline_MONO_VAR() → String
+Returns the current font variation settings for underline MONO var.
+
+Method: set_font_variation_underline_MONO_VAR(font_variation_underline_MONO_VAR: String) → void
+Sets the font variation settings for underline MONO var.
+
+Method: get_font_variation_strikethrough_MONO_VAR() → String
+Returns the current font variation settings for strikethrough MONO var.
+
+Method: set_font_variation_strikethrough_MONO_VAR(font_variation_strikethrough_MONO_VAR: String) → void
+Sets the font variation settings for strikethrough MONO var.
+
+Method: get_font_variation_overline_MONO_VAR() → String
+Returns the current font variation settings for overline MONO var.
+
+Method: set_font_variation_overline_MONO_VAR(font_variation_overline_MONO_VAR: String) → void
+Sets the font variation settings for overline MONO var.
+
+Method: get_font_variation_outline_MONO_VAR() → String
+Returns the current font variation settings for outline MONO var.
+
+Method: set_font_variation_outline_MONO_VAR(font_variation_outline_MONO_VAR: String) → void
+Sets the font variation settings for outline MONO var.
+
+Method: get_font_variation_shadow_MONO_VAR() → String
+Returns the current font variation settings for shadow MONO var.
+
+Method: set_font_variation_shadow_MONO_VAR(font_variation_shadow_MONO_VAR: String) → void
+Sets the font variation settings for shadow MONO var.
+
+Method: get_font_variation_bold_ITAL_VAR() → String
+Returns the current font variation settings for bold ITAL var.
+
+Method: set_font_variation_bold_ITAL_VAR(font_variation_bold_ITAL_VAR: String) → void
+Sets the font variation settings for bold ITAL var.
+
+Method: get_font_variation_italic_ITAL_VAR() → String
+Returns the current font variation settings for italic ITAL var.
+
+Method: set_font_variation_italic_ITAL_VAR(font_variation_italic_ITAL_VAR: String) → void
+Sets the font variation settings for italic ITAL var.
+
+Method: get_font_variation_underline_ITAL_VAR() → String
+Returns the current font variation settings for underline ITAL var.
+
+Method: set_font_variation_underline_ITAL_VAR(font_variation_underline_ITAL_VAR: String) → void
+Sets the font variation settings for underline ITAL var.
+
+Method: get_font_variation_strikethrough_ITAL_VAR() → String
+Returns the current font variation settings for strikethrough ITAL var.
+
+Method: set_font_variation_strikethrough_ITAL_VAR(font_variation_strikethrough_ITAL_VAR: String) → void
+Sets the font variation settings for strikethrough ITAL var.
+
+Method: get_font_variation_overline_ITAL_VAR() → String
+Returns the current font variation settings for overline ITAL var.
+
+Method: set_font_variation_overline_ITAL_VAR(font_variation_overline_ITAL_VAR: String) → void
+Sets the font variation settings for overline ITAL var.
+
+Method: get_font_variation_outline_ITAL_VAR() → String
+Returns the current font variation settings for outline ITAL var.
+
+Method: set_font_variation_outline_ITAL_VAR(font_variation_outline_ITAL_VAR: String) → void
+Sets the font variation settings for outline ITAL var.
+
+Method: get_font_variation_shadow_ITAL_VAR() → String
+Returns the current font variation settings for shadow ITAL var.
+
+Method: set_font_variation_shadow_ITAL_VAR(font_variation_shadow_ITAL_VAR: String) → void
+Sets the font variation settings for shadow ITAL var.
+
+Method: get_font_variation_bold_GRAD_ITAL() → String
+Returns the current font variation settings for bold GRAD ITAL.
+
+Method: set_font_variation_bold_GRAD_ITAL(font_variation_bold_GRAD_ITAL: String) → void
+Sets the font variation settings for bold GRAD ITAL.
+
+Method: get_font_variation_italic_GRAD_ITAL() → String
+Returns the current font variation settings for italic GRAD ITAL.
+
+Method: set_font_variation_italic_GRAD_ITAL(font_variation_italic_GRAD_ITAL: String) → void
+Sets the font variation settings for italic GRAD ITAL.
+
+Method: get_font_variation_underline_GRAD_ITAL() → String
+Returns the current font variation settings for underline GRAD ITAL.
+
+Method: set_font_variation_underline_GRAD_ITAL(font_variation_underline_GRAD_ITAL: String) → void
+Sets the font variation settings for underline GRAD ITAL.
+
+Method: get_font_variation_strikethrough_GRAD_ITAL() → String
+Returns the current font variation settings for strikethrough GRAD ITAL.
+
+Method: set_font_variation_strikethrough_GRAD_ITAL(font_variation_strikethrough_GRAD_ITAL: String) → void
+Sets the font variation settings for strikethrough GRAD ITAL.
+
+Method: get_font_variation_overline_GRAD_ITAL() → String
+Returns the current font variation settings for overline GRAD ITAL.
+
+Method: set_font_variation_overline_GRAD_ITAL(font_variation_overline_GRAD_ITAL: String) → void
+Sets the font variation settings for overline GRAD ITAL.
+
+Method: get_font_variation_outline_GRAD_ITAL() → String
+Returns the current font variation settings for outline GRAD ITAL.
+
+Method: set_font_variation_outline_GRAD_ITAL(font_variation_outline_GRAD_ITAL: String) → void
+Sets the font variation settings for outline GRAD ITAL.
+
+Method: get_font_variation_shadow_GRAD_ITAL() → String
+Returns the current font variation settings for shadow GRAD ITAL.
+
+Method: set_font_variation_shadow_GRAD_ITAL(font_variation_shadow_GRAD_ITAL: String) → void
+Sets the font variation settings for shadow GRAD ITAL.
+
+Method: get_font_variation_bold_XTRA_ITAL() → String
+Returns the current font variation settings for bold XTRA ITAL.
+
+Method: set_font_variation_bold_XTRA_ITAL(font_variation_bold_XTRA_ITAL: String) → void
+Sets the font variation settings for bold XTRA ITAL.
+
+Method: get_font_variation_italic_XTRA_ITAL() → String
+Returns the current font variation settings for italic XTRA ITAL.
+
+Method: set_font_variation_italic_XTRA_ITAL(font_variation_italic_XTRA_ITAL: String) → void
+Sets the font variation settings for italic XTRA ITAL.
+
+Method: get_font_variation_underline_XTRA_ITAL() → String
+Returns the current font variation settings for underline XTRA ITAL.
+
+Method: set_font_variation_underline_XTRA_ITAL(font_variation_underline_XTRA_ITAL: String) → void
+Sets the font variation settings for underline XTRA ITAL.
+
+Method: get_font_variation_strikethrough_XTRA_ITAL() → String
+Returns the current font variation settings for strikethrough XTRA ITAL.
+
+Method: set_font_variation_strikethrough_XTRA_ITAL(font_variation_strikethrough_XTRA_ITAL: String) → void
+Sets the font variation settings for strikethrough XTRA ITAL.
+
+Method: get_font_variation_overline_XTRA_ITAL() → String
+Returns the current font variation settings for overline XTRA ITAL.
+
+Method: set_font_variation_overline_XTRA_ITAL(font_variation_overline_XTRA_ITAL: String) → void
+Sets the font variation settings for overline XTRA ITAL.
+
+Method: get_font_variation_outline_XTRA_ITAL() → String
+Returns the current font variation settings for outline XTRA ITAL.
+
+Method: set_font_variation_outline_XTRA_ITAL(font_variation_outline_XTRA_ITAL: String) → void
+Sets the font variation settings for outline XTRA ITAL.
+
+Method: get_font_variation_shadow_XTRA_ITAL() → String
+Returns the current font variation settings for shadow XTRA ITAL.
+
+Method: set_font_variation_shadow_XTRA_ITAL(font_variation_shadow_XTRA_ITAL: String) → void
+Sets the font variation settings for shadow XTRA ITAL.
+
+Method: get_font_variation_bold_YTRA_ITAL() → String
+Returns the current font variation settings for bold YTRA ITAL.
+
+Method: set_font_variation_bold_YTRA_ITAL(font_variation_bold_YTRA_ITAL: String) → void
+Sets the font variation settings for bold YTRA ITAL.
+
+Method: get_font_variation_italic_YTRA_ITAL() → String
+Returns the current font variation settings for italic YTRA ITAL.
+
+Method: set_font_variation_italic_YTRA_ITAL(font_variation_italic_YTRA_ITAL: String) → void
+Sets the font variation settings for italic YTRA ITAL.
+
+Method: get_font_variation_underline_YTRA_ITAL() → String
+Returns the current font variation settings for underline YTRA ITAL.
+
+Method: set_font_variation_underline_YTRA_ITAL(font_variation_underline_YTRA_ITAL: String) → void
+Sets the font variation settings for underline YTRA ITAL.
+
+Method: get_font_variation_strikethrough_YTRA_ITAL() → String
+Returns the current font variation settings for strikethrough YTRA ITAL.
+
+Method: set_font_variation_strikethrough_YTRA_ITAL(font_variation_strikethrough_YTRA_ITAL: String) → void
+Sets the font variation settings for strikethrough YTRA ITAL.
+
+Method: get_font_variation_overline_YTRA_ITAL() → String
+Returns the current font variation settings for overline YTRA ITAL.
+
+Method: set_font_variation_overline_YTRA_ITAL(font_variation_overline_YTRA_ITAL: String) → void
+Sets the font variation settings for overline YTRA ITAL.
+
+Method: get_font_variation_outline_YTRA_ITAL() → String
+Returns the current font variation settings for outline YTRA ITAL.
+
+Method: set_font_variation_outline_YTRA_ITAL(font_variation_outline_YTRA_ITAL: String) → void
+Sets the font variation settings for outline YTRA ITAL.
+
+Method: get_font_variation_shadow_YTRA_ITAL() → String
+Returns the current font variation settings for shadow YTRA ITAL.
+
+Method: set_font_variation_shadow_YTRA_ITAL(font_variation_shadow_YTRA_ITAL: String) → void
+Sets the font variation settings for shadow YTRA ITAL.
+
+Method: get_font_variation_bold_CASL_ITAL() → String
+Returns the current font variation settings for bold CASL ITAL.
+
+Method: set_font_variation_bold_CASL_ITAL(font_variation_bold_CASL_ITAL: String) → void
+Sets the font variation settings for bold CASL ITAL.
+
+Method: get_font_variation_italic_CASL_ITAL() → String
+Returns the current font variation settings for italic CASL ITAL.
+
+Method: set_font_variation_italic_CASL_ITAL(font_variation_italic_CASL_ITAL: String) → void
+Sets the font variation settings for italic CASL ITAL.
+
+Method: get_font_variation_underline_CASL_ITAL() → String
+Returns the current font variation settings for underline CASL ITAL.
+
+Method: set_font_variation_underline_CASL_ITAL(font_variation_underline_CASL_ITAL: String) → void
+Sets the font variation settings for underline CASL ITAL.
+
+Method: get_font_variation_strikethrough_CASL_ITAL() → String
+Returns the current font variation settings for strikethrough CASL ITAL.
+
+Method: set_font_variation_strikethrough_CASL_ITAL(font_variation_strikethrough_CASL_ITAL: String) → void
+Sets the font variation settings for strikethrough CASL ITAL.
+
+Method: get_font_variation_overline_CASL_ITAL() → String
+Returns the current font variation settings for overline CASL ITAL.
+
+Method: set_font_variation_overline_CASL_ITAL(font_variation_overline_CASL_ITAL: String) → void
+Sets the font variation settings for overline CASL ITAL.
+
+Method: get_font_variation_outline_CASL_ITAL() → String
+Returns the current font variation settings for outline CASL ITAL.
+
+Method: set_font_variation_outline_CASL_ITAL(font_variation_outline_CASL_ITAL: String) → void
+Sets the font variation settings for outline CASL ITAL.
+
+Method: get_font_variation_shadow_CASL_ITAL() → String
+Returns the current font variation settings for shadow CASL ITAL.
+
+Method: set_font_variation_shadow_CASL_ITAL(font_variation_shadow_CASL_ITAL: String) → void
+Sets the font variation settings for shadow CASL ITAL.
+
+Method: get_font_variation_bold_SIZE_ITAL() → String
+Returns the current font variation settings for bold SIZE ITAL.
+
+Method: set_font_variation_bold_SIZE_ITAL(font_variation_bold_SIZE_ITAL: String) → void
+Sets the font variation settings for bold SIZE ITAL.
+
+Method: get_font_variation_italic_SIZE_ITAL() → String
+Returns the current font variation settings for italic SIZE ITAL.
+
+Method: set_font_variation_italic_SIZE_ITAL(font_variation_italic_SIZE_ITAL: String) → void
+Sets the font variation settings for italic SIZE ITAL.
+
+Method: get_font_variation_underline_SIZE_ITAL() → String
+Returns the current font variation settings for underline SIZE ITAL.
+
+Method: set_font_variation_underline_SIZE_ITAL(font_variation_underline_SIZE_ITAL: String) → void
+Sets the font variation settings for underline SIZE ITAL.
+
+Method: get_font_variation_strikethrough_SIZE_ITAL() → String
+Returns the current font variation settings for strikethrough SIZE ITAL.
+
+Method: set_font_variation_strikethrough_SIZE_ITAL(font_variation_strikethrough_SIZE_ITAL: String) → void
+Sets the font variation settings for strikethrough SIZE ITAL.
+
+Method: get_font_variation_overline_SIZE_ITAL() → String
+Returns the current font variation settings for overline SIZE ITAL.
+
+Method: set_font_variation_overline_SIZE_ITAL(font_variation_overline_SIZE_ITAL: String) → void
+Sets the font variation settings for overline SIZE ITAL.
+
+Method: get_font_variation_outline_SIZE_ITAL() → String
+Returns the current font variation settings for outline SIZE ITAL.
+
+Method: set_font_variation_outline_SIZE_ITAL(font_variation_outline_SIZE_ITAL: String) → void
+Sets the font variation settings for outline SIZE ITAL.
+
+Method: get_font_variation_shadow_SIZE_ITAL() → String
+Returns the current font variation settings for shadow SIZE ITAL.
+
+Method: set_font_variation_shadow_SIZE_ITAL(font_variation_shadow_SIZE_ITAL: String) → void
+Sets the font variation settings for shadow SIZE ITAL.
+
+Method: get_font_variation_bold_MONO_ITAL() → String
+Returns the current font variation settings for bold MONO ITAL.
+
+Method: set_font_variation_bold_MONO_ITAL(font_variation_bold_MONO_ITAL: String) → void
+Sets the font variation settings for bold MONO ITAL.
+
+Method: get_font_variation_italic_MONO_ITAL() → String
+Returns the current font variation settings for italic MONO ITAL.
+
+Method: set_font_variation_italic_MONO_ITAL(font_variation_italic_MONO_ITAL: String) → void
+Sets the font variation settings for italic MONO ITAL.
+
+Method: get_font_variation_underline_MONO_ITAL() → String
+Returns the current font variation settings for underline MONO ITAL.
+
+Method: set_font_variation_underline_MONO_ITAL(font_variation_underline_MONO_ITAL: String) → void
+Sets the font variation settings for underline MONO ITAL.
+
+Method: get_font_variation_strikethrough_MONO_ITAL() → String
+Returns the current font variation settings for strikethrough MONO ITAL.
+
+Method: set_font_variation_strikethrough_MONO_ITAL(font_variation_strikethrough_MONO_ITAL: String) → void
+Sets the font variation settings for strikethrough MONO ITAL.
+
+Method: get_font_variation_overline_MONO_ITAL() → String
+Returns the current font variation settings for overline MONO ITAL.
+
+Method: set_font_variation_overline_MONO_ITAL(font_variation_overline_MONO_ITAL: String) → void
+Sets the font variation settings for overline MONO ITAL.
+
+Method: get_font_variation_outline_MONO_ITAL() → String
+Returns the current font variation settings for outline MONO ITAL.
+
+Method: set_font_variation_outline_MONO_ITAL(font_variation_outline_MONO_ITAL: String) → void
+Sets the font variation settings for outline MONO ITAL.
+
+Method: get_font_variation_shadow_MONO_ITAL() → String
+Returns the current font variation settings for shadow MONO ITAL.
+
+Method: set_font_variation_shadow_MONO_ITAL(font_variation_shadow_MONO_ITAL: String) → void
+Sets the font variation settings for shadow MONO ITAL.
+
+Method: get_font_variation_bold_ITAL_ITAL() → String
+Returns the current font variation settings for bold ITAL ITAL.
+
+Method: set_font_variation_bold_ITAL_ITAL(font_variation_bold_ITAL_ITAL: String) → void
+Sets the font variation settings for bold ITAL ITAL.
+
+Method: get_font_variation_italic_ITAL_ITAL() → String
+Returns the current font variation settings for italic ITAL ITAL.
+
+Method: set_font_variation_italic_ITAL_ITAL(font_variation_italic_ITAL_ITAL: String) → void
+Sets the font variation settings for italic ITAL ITAL.
+
+Method: get_font_variation_underline_ITAL_ITAL() → String
+Returns the current font variation settings for underline ITAL ITAL.
+
+Method: set_font_variation_underline_ITAL_ITAL(font_variation_underline_ITAL_ITAL: String) → void
+Sets the font variation settings for underline ITAL ITAL.
+
+Method: get_font_variation_strikethrough_ITAL_ITAL() → String
+Returns the current font variation settings for strikethrough ITAL ITAL.
+
+Method: set_font_variation_strikethrough_ITAL_ITAL(font_variation_strikethrough_ITAL_ITAL: String) → void
+Sets the font variation settings for strikethrough ITAL ITAL.
+
+Method: get_font_variation_overline_ITAL_ITAL() → String
+Returns the current font variation settings for overline ITAL ITAL.
+
+Method: set_font_variation_overline_ITAL_ITAL(font_variation_overline_ITAL_ITAL: String) → void
+Sets the font variation settings for overline ITAL ITAL.
+
+Method: get_font_variation_outline_ITAL_ITAL() → String
+Returns the current font variation settings for outline ITAL ITAL.
+
+Method: set_font_variation_outline_ITAL_ITAL(font_variation_outline_ITAL_ITAL: String) → void
+Sets the font variation settings for outline ITAL ITAL.
+
+Method: get_font_variation_shadow_ITAL_ITAL() → String
+Returns the current font variation settings for shadow ITAL ITAL.
+
+Method: set_font_variation_shadow_ITAL_ITAL(font_variation_shadow_ITAL_ITAL: String) → void
+Sets the font variation settings for shadow ITAL ITAL.
+---CHUNK---
+Document: CharFXTransform
+Path: godot/classes/class_charfxtransform.rst
+Summary: Defines the properties available for character effects transformations.
+
+Properties:
+* color (Color): The color of the character effect. Default: Color(0, 0, 0, 1).
+* elapsed_time (float): The time elapsed since the effect started. Default: 0.0.
+* env (Dictionary): Environment settings for the character effect. Default: {}.
+* font (RID): The RID of the font used for the character. Default: RID().
+* glyph_count (int): The total number of glyphs in the character. Default: 0.
+* glyph_flags (int): Flags that modify glyph behavior. Default: 0.
+* glyph_index (int): The index of the current glyph. Default: 0.
+* offset (Vector2): The offset applied to the character's position. Default: Vector2(0, 0).
+* outline (bool): Whether the character effect includes an outline. Default: false.
+* range (Vector2i): The range of glyph indices affected by the effect. Default: Vector2i(0, 0).
+* relative_index (int): The relative index of the character within a sequence. Default: 0.
+* transform (Transform2D): The 2D transformation applied to the character. Default: Transform2D(1, 0, 0, 1, 0, 0).
+* visible (bool): Whether the character effect is currently visible. Default: true.
+---CHUNK---
+Document: CharFXTransform
+Path: godot/classes/class_charfxtransform.rst
+Summary: Describes the properties of the CharFXTransform class, which controls visual effects applied to individual characters in a RichTextLabel.
+
+Property Descriptions
+Property: color (Color)
+Default: Color(0, 0, 0, 1)
+Method: set_color(value: Color)
+Method: get_color() → Color
+The color the character will be drawn with.
+
+Property: elapsed_time (float)
+Default: 0.0
+Method: set_elapsed_time(value: float)
+Method: get_elapsed_time() → float
+The time elapsed since the RichTextLabel was added to the scene tree (in seconds). Time stops when the RichTextLabel is paused (see Node.process_mode). Resets when the text in the RichTextLabel is changed.
+Note: Time still passes while the RichTextLabel is hidden.
+
+Property: env (Dictionary)
+Default: {}
+Method: set_environment(value: Dictionary)
+Method: get_environment() → Dictionary
+Contains the arguments passed in the opening BBCode tag. By default, arguments are strings; if their contents match a type such as bool, int or float, they will be converted automatically. Color codes in the form #rrggbb or #rgb will be converted to an opaque Color. String arguments may not contain spaces, even if they're quoted. If present, quotes will also be present in the final string.
+For example, the opening BBCode tag [example foo=hello bar=true baz=42 color=#ffffff] will map to the following Dictionary:
+    {"foo": "hello", "bar": true, "baz": 42, "color": Color(1, 1, 1, 1)}
+
+Property: font (RID)
+Default: RID()
+Method: set_font(value: RID)
+Method: get_font() → RID
+TextServer RID of the font used to render glyph, this value can be used with TextServer.font_* methods to retrieve font information.
+Note: Read-only. Setting this property won't affect drawing.
+
+Property: glyph_count (int)
+Default: 0
+Method: set_glyph_count(value: int)
+Method: get_glyph_count() → int
+Number of glyphs in the grapheme cluster. This value is set in the first glyph of a cluster.
+Note: Read-only. Setting this property won't affect drawing.
+
+Property: glyph_flags (int)
+Default: 0
+Method: set_glyph_flags(value: int)
+Method: get_glyph_flags() → int
+Glyph flags. See GraphemeFlag for more info.
+Note: Read-only. Setting this property won't affect drawing.
+
+Property: glyph_index (int)
+Default: 0
+Method: set_glyph_index(value: int)
+Method: get_glyph_index() → int
+Glyph index specific to the font. If you want to replace this glyph, use TextServer.font_get_glyph_index() with font to get a new glyph index for a single character.
+
+Property: offset (Vector2)
+Default: Vector2(0, 0)
+Method: set_offset(value: Vector2)
+Method: get_offset() → Vector2
+The position offset the character will be drawn with (in pixels).
+
+Property: outline (bool)
+Default: false
+Method: set_outline(value: bool)
+Method: is_outline() → bool
+If true, FX transform is called for outline drawing.
+Note: Read-only. Setting this property won't affect drawing.
+
+Property: range (Vector2i)
+Default: Vector2i(0, 0)
+Method: set_range(value: Vector2i)
+Method: get_range() → Vector2i
+Absolute character range in the string, corresponding to the glyph.
+Note: Read-only. Setting this property won't affect drawing.
+
+Property: relative_index (int)
+Default: 0
+Method: set_relative_index(value: int)
+Method: get_relative_index() → int
+The character offset of the glyph, relative to the current RichTextEffect custom block.
+Note: Read-only. Setting this property won't affect drawing.
+
+Property: transform (Transform2D)
+Default: Transform2D(1, 0, 0, 1, 0, 0)
+Method: set_transform(value: Transform2D)
+Method: get_transform() → Transform2D
+The current transform of the current glyph. It can be overridden (for example, by driving the position and rotation from a curve). You can also alter the existing value to apply transforms on top of other effects.
+
+Property: visible (bool)
+Default: true
+Method: set_visibility(value: bool)
+Method: is_visible() → bool
+If true, the character will be drawn. If false, the character will be hidden. Characters around hidden characters will reflow to take the space of hidden characters. If this is not desired, set their color to Color(1, 1, 1, 0) instead.

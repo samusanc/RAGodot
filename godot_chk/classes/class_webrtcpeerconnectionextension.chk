@@ -1,0 +1,33 @@
+Document: WebRTCPeerConnectionExtension
+Path: godot/classes/class_webrtcpeerconnectionextension.rst
+Summary: Base class for WebRTC peer connection implementations.
+
+Inherits: Object < Object
+
+This class is the base for all WebRTC peer connection implementations. It defines the core API for establishing and managing peer-to-peer connections using the WebRTC protocol. You typically won't interact with this class directly, but rather with its concrete implementations like WebRTCPeerConnection.
+
+Key Rule: This class serves as an abstract base class and cannot be instantiated directly. Use its derived classes for actual WebRTC functionality.
+---CHUNK---
+Document: WebRTCPeerConnectionExtension
+Path: godot/classes/class_webrtcpeerconnectionextension.rst
+Summary: This document describes the WebRTCPeerConnectionExtension class, which inherits from WebRTCPeerConnection and RefCounted.
+
+Inherits: WebRTCPeerConnection < RefCounted < Object
+
+There is currently no description for this class. Please help us by contributing one!
+---CHUNK---
+Document: WebRTCPeerConnectionExtension
+Path: godot/classes/class_webrtcpeerconnectionextension.rst
+Summary: This section details the methods available for the WebRTCPeerConnectionExtension class, including their signatures and return types.
+
+Method: _add_ice_candidate(p_sdp_mid_name: String, p_sdp_mline_index: int, p_sdp_name: String) → Error
+Method: _close() → void
+Method: _create_data_channel(p_label: String, p_config: Dictionary) → WebRTCDataChannel
+Method: _create_offer() → Error
+Method: _get_connection_state() → ConnectionState
+Method: _get_gathering_state() → GatheringState
+Method: _get_signaling_state() → SignalingState
+Method: _initialize(p_config: Dictionary) → Error
+Method: _poll() → Error
+Method: _set_local_description(p_type: String, p_sdp: String) → Error
+Method: _set_remote_description(p_type: String, p_sdp: String) → Error

@@ -1,0 +1,71 @@
+Document: DrawableTexture2D
+Path: godot/classes/class_drawabletexture2d.rst
+Summary: Defines a texture that can be drawn to.
+
+Inherits: Texture2D < Texture < Resource < RefCounted
+---CHUNK---
+Document: DrawableTexture2D
+Path: godot/classes/class_drawabletexture2d.rst
+Summary: Introduces the DrawableTexture2D class, a Texture2D that allows direct drawing operations.
+DrawableTexture2D
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+
+A 2D texture that supports drawing to itself via Blit calls.
+---CHUNK---
+Document: DrawableTexture2D
+Path: godot/classes/class_drawabletexture2d.rst
+Summary: Describes a 2D texture that can be modified via blit calls, intended for code management and custom shader use.
+
+DrawableTexture2D is a 2D texture that can be modified via blit calls, copying from a target texture to itself. Primarily intended to be managed in code, a user must call setup() to initialize the state before drawing. Each blit_rect() call takes at least a rectangle, the area to draw to, and another texture, what to be drawn. The draw calls use a Texture_Blit Shader to process and calculate the result, pixel by pixel. Users can supply their own ShaderMaterial with custom Texture_Blit shaders for more complex behaviors.
+---CHUNK---
+Document: DrawableTexture2D
+Path: godot/classes/class_drawabletexture2d.rst
+Summary: Defines properties for the DrawableTexture2D class, specifically focusing on resource localization.
+
+Properties
+* resource_local_to_scene (bool): If true, the resource will be saved locally to the scene. Default: false. This property overrides the one inherited from Resource.
+---CHUNK---
+Document: DrawableTexture2D
+Path: godot/classes/class_drawabletexture2d.rst
+Summary: This section details the methods available for the DrawableTexture2D class in Godot Engine, including texture manipulation and setup.
+
+Method: blit_rect(rect: Rect2i, source: Texture2D, modulate: Color = Color(1, 1, 1, 1), mipmap: int = 0, material: Material = null) → void
+Experimental: This function and its parameters are likely to change in the 4.7 Dev Cycle
+Draws to given rect on this texture by copying from the given source. A modulate color can be passed in for the shader to use, but defaults to White. The mipmap value can specify a draw to a lower mipmap level. The material parameter can take a ShaderMaterial with a TextureBlit Shader for custom drawing behavior.
+
+Method: blit_rect_multi(rect: Rect2i, sources: Array[Texture2D], extra_targets: Array[DrawableTexture2D], modulate: Color = Color(1, 1, 1, 1), mipmap: int = 0, material: Material = null) → void
+Experimental: This function and its parameters are likely to change in the 4.7 Dev Cycle
+Draws to the given rect on this texture, as well as on up to 3 DrawableTexture extra_targets. All extra_targets must be the same size and DrawableFormat as the original target, otherwise the Shader may fail. Expects up to 4 Texture sources, but will replace missing sources with default Black Textures.
+
+Method: generate_mipmaps() → void
+Re-calculates the mipmaps for this texture on demand.
+
+Method: get_use_mipmaps() → bool
+Returns true if mipmaps are set to be used on this DrawableTexture.
+
+Method: set_format(format: DrawableFormat) → void
+Sets the format of this DrawableTexture.
+
+Method: set_height(height: int) → void
+Sets the height of this DrawableTexture.
+
+Method: set_use_mipmaps(mipmaps: bool) → void
+Sets if mipmaps should be used on this DrawableTexture.
+
+Method: set_width(width: int) → void
+Sets the width of this DrawableTexture.
+
+Method: setup(width: int, height: int, format: DrawableFormat, color: Color = Color(1, 1, 1, 1), use_mipmaps: bool = false) → void
+Experimental: This function and its parameters are likely to change in the 4.7 Dev Cycle
+Initializes the DrawableTexture to a White texture of the given width, height, and format.
+
+Enumerations:
+DrawableFormat:
+DRAWABLE_FORMAT_RGBA8 = 0
+OpenGL texture format RGBA with four components, each with a bitdepth of 8.
+DRAWABLE_FORMAT_RGBA8_SRGB = 1
+OpenGL texture format RGBA with four components, each with a bitdepth of 8. When drawn to, an sRGB to linear color space conversion is performed.
+DRAWABLE_FORMAT_RGBAH = 2
+OpenGL texture format GL_RGBA16F where there are four components, each a 16-bit "half-precision" floating-point value.
+DRAWABLE_FORMAT_RGBAF = 3
+OpenGL texture format GL_RGBA32F where there are four components, each a 32-bit floating-point value.

@@ -1,0 +1,99 @@
+Document: GPUParticlesCollisionSDF3D
+Path: godot/classes/class_gpuparticlescollisionsdf3d.rst
+Summary: Provides 3D GPU-based particle collision using Signed Distance Fields.
+
+GPUParticlesCollisionSDF3D
+
+Inherits: GPUParticlesCollision3D < Node < Object
+
+This node implements 3D GPU-based particle collision using Signed Distance Fields (SDF). It allows particles to collide with custom 3D shapes defined by SDF data, offering more complex and performant collision scenarios compared to traditional bounding box or sphere methods. The collision behavior is controlled by the properties of this node and the SDF data it references.
+---CHUNK---
+Document: GPUParticlesCollisionSDF3D
+Path: godot/classes/class_gpuparticlescollisionsdf3d.rst
+Summary: Defines a 3D particle collision shape using a baked signed distance field for GPUParticles3D nodes.
+
+GPUParticlesCollisionSDF3D
+Inherits: GPUParticlesCollision3D < VisualInstance3D < Node3D < Node < Object
+
+A baked signed distance field 3D particle collision shape affecting GPUParticles3D nodes.
+---CHUNK---
+Document: GPUParticlesCollisionSDF3D
+Path: godot/classes/class_gpuparticlescollisionsdf3d.rst
+Summary: Describes the GPUParticlesCollisionSDF3D node, which uses signed distance fields for 3D particle collisions.
+A baked signed distance field 3D particle collision shape affecting GPUParticles3D nodes.
+
+Signed distance fields (SDF) allow for efficiently representing approximate collision shapes for convex and concave objects of any shape. This is more flexible than GPUParticlesCollisionHeightField3D, but it requires a baking step.
+
+Baking: The signed distance field texture can be baked by selecting the GPUParticlesCollisionSDF3D node in the editor, then clicking Bake SDF at the top of the 3D viewport. Any visible MeshInstance3D's within the size will be taken into account for baking, regardless of their GeometryInstance3D.gi_mode.
+
+Note: Baking a GPUParticlesCollisionSDF3D's texture is only possible within the editor, as there is no bake method exposed for use in exported projects. However, it's still possible to load pre-baked Texture3D's into its texture property in an exported project.
+
+Note: ParticleProcessMaterial.collision_mode must be ParticleProcessMaterial.COLLISION_RIGID or ParticleProcessMaterial.COLLISION_HIDE_ON_CONTACT on the GPUParticles3D's process material for collision to work.
+
+Note: Particle collision only affects GPUParticles3D, not CPUParticles3D.
+---CHUNK---
+Document: GPUParticlesCollisionSDF3D
+Path: godot/classes/class_gpuparticlescollisionsdf3d.rst
+Summary: Defines the properties for the GPUParticlesCollisionSDF3D node, which handles SDF-based collision for GPU particles.
+
+Properties:
+* bake_mask (int): Controls which layers are included in the SDF bake. Default: 4294967295.
+* resolution (Resolution): The resolution of the SDF texture. Default: 2.
+* size (Vector3): The size of the collision volume in 3D space. Default: Vector3(2, 2, 2).
+* texture (Texture3D): The 3D texture used for SDF collision.
+* thickness (float): The thickness of the collision surface. Default: 1.0.
+---CHUNK---
+Document: GPUParticlesCollisionSDF3D
+Path: godot/classes/class_gpuparticlescollisionsdf3d.rst
+Summary: Defines constants for the resolution of the SDF bake and methods to get and set bake mask values.
+
+Enumerations
+enum Resolution:
+  RESOLUTION_16 (0): Bake a 16×16×16 signed distance field. This is the fastest option, but also the least precise.
+  RESOLUTION_32 (1): Bake a 32×32×32 signed distance field.
+  RESOLUTION_64 (2): Bake a 64×64×64 signed distance field.
+  RESOLUTION_128 (3): Bake a 128×128×128 signed distance field.
+  RESOLUTION_256 (4): Bake a 256×256×256 signed distance field.
+  RESOLUTION_512 (5): Bake a 512×512×512 signed distance field. This is the slowest option, but also the most precise.
+  RESOLUTION_MAX (6): Represents the size of the Resolution enum.
+
+Methods
+Method: get_bake_mask_value(layer_number: int) → bool
+Returns the value of the bake mask for the given layer.
+Method: set_bake_mask_value(layer_number: int, value: bool)
+Sets the value of the bake mask for the given layer.
+---CHUNK---
+Document: GPUParticlesCollisionSDF3D
+Path: godot/classes/class_gpuparticlescollisionsdf3d.rst
+Summary: Describes the properties of the GPUParticlesCollisionSDF3D node, which controls particle collisions using a 3D signed distance field.
+
+Property Descriptions
+bake_mask (int): The visual layers to account for when baking the particle collision SDF. Only MeshInstance3D nodes whose VisualInstance3D.layers match with this bake_mask will be included in the generated particle collision SDF. By default, all objects are taken into account for the particle collision SDF baking. Default: 4294967295.
+Method: set_bake_mask(value: int)
+Method: get_bake_mask() -> int
+
+resolution (Resolution): The bake resolution to use for the signed distance field texture. The texture must be baked again for changes to the resolution property to be effective. Higher resolutions have a greater performance cost and take more time to bake. Higher resolutions also result in larger baked textures, leading to increased VRAM and storage space requirements. To improve performance and reduce bake times, use the lowest resolution possible for the object you're representing the collision of. Default: 2.
+Method: set_resolution(value: Resolution)
+Method: get_resolution() -> Resolution
+
+size (Vector3): The collision SDF's size in 3D units. To improve SDF quality, the size should be set as small as possible while covering the parts of the scene you need. Default: Vector3(2, 2, 2).
+Method: set_size(value: Vector3)
+Method: get_size() -> Vector3
+
+texture (Texture3D): The 3D texture representing the signed distance field.
+Method: set_texture(value: Texture3D)
+Method: get_texture() -> Texture3D
+
+thickness (float): The collision shape's thickness. Unlike other particle colliders, GPUParticlesCollisionSDF3D is actually hollow on the inside. thickness can be increased to prevent particles from tunneling through the collision shape at high speeds, or when the GPUParticlesCollisionSDF3D is moved. Default: 1.0.
+Method: set_thickness(value: float)
+Method: get_thickness() -> float
+---CHUNK---
+Document: GPUParticlesCollisionSDF3D
+Path: godot/classes/class_gpuparticlescollisionsdf3d.rst
+Summary: Methods for managing bake mask layer values in GPUParticlesCollisionSDF3D.
+
+Method: get_bake_mask_value(layer_number: int) → bool
+Returns whether or not the specified layer of the bake_mask is enabled, given a layer_number between 1 and 32.
+
+Method: set_bake_mask_value(layer_number: int, value: bool) → void
+Based on value, enables or disables the specified layer in the bake_mask, given a layer_number between 1 and 32.

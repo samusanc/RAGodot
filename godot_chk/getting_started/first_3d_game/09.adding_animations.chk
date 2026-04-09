@@ -1,0 +1,174 @@
+Document: Character animation
+Path: godot/getting_started/first_3d_game/09.adding_animations.rst
+Summary: This section introduces character animation in Godot, focusing on using the animation editor to make characters float and flap.
+
+In this final lesson, we'll use Godot's built-in animation tools to make our characters float and flap. You'll learn to design animations in the editor and use code to make your game feel alive. We'll start with an introduction to using the animation editor.
+---CHUNK---
+Document: Adding Animations
+Path: godot/getting_started/first_3d_game/09.adding_animations.rst
+Summary: This section explains how to use the AnimationPlayer node and editor to create and configure animations, including setting duration, autoplay, and looping.
+
+Using the animation editor. The engine comes with tools to author animations in the editor. You can then use the code to play and control them at runtime.
+
+Open the player scene, select the Player node, and add an AnimationPlayer node.
+
+The Animation dock appears in the bottom panel.
+
+It features a toolbar and the animation drop-down menu at the top, a track editor in the middle that's currently empty, and filter, snap, and zoom options at the bottom.
+
+Let's create an animation. Click on Animation -> New.
+
+Name the animation "float".
+
+Once you've created the animation, the timeline appears with numbers representing time in seconds.
+
+We want the animation to start playback automatically at the start of the game. Also, it should loop.
+
+To do so, you can click the autoplay button in the animation toolbar and the looping arrows, respectively.
+
+You can also pin the animation editor by clicking the pin icon in the top-right. This prevents it from folding when you click on the viewport and deselect the nodes.
+
+Set the animation duration to 1.2 seconds in the top-right of the dock.
+
+You should see the gray ribbon widen a bit. It shows you the start and end of your animation and the vertical blue line is your time cursor.
+
+You can click and drag the slider in the bottom-right to zoom in and out of the timeline.
+---CHUNK---
+Document: Adding Animations
+Path: godot/getting_started/first_3d_game/09.adding_animations.rst
+Summary: This section explains how to create float animations for a character using keyframes, timing, and easing curves in Godot's AnimationPlayer.
+
+The float animation
+With the animation player node, you can animate most properties on as many nodes as you need. Notice the key icon next to properties in the Inspector. You can click any of them to create a keyframe, a time and value pair for the corresponding property. The keyframe gets inserted where your time cursor is in the timeline.
+
+Let's insert our first keys. Here, we will animate both the position and the rotation of the Character node.
+
+Select the Character and in the Inspector expand the Transform section. Click the key icon next to Position, and Rotation.
+
+For this tutorial, just create RESET Track(s) which is the default choice
+
+Two tracks appear in the editor with a diamond icon representing each keyframe.
+
+You can click and drag on the diamonds to move them in time. Move the position key to 0.3 seconds and the rotation key to 0.1 seconds.
+
+Move the time cursor to 0.5 seconds by clicking and dragging on the gray timeline, or by entering it into the input field.
+
+In the Inspector, set the Position's Y axis to 0.65 meters and the Rotation' X axis to 8.
+
+If you don't see the properties in the Inspector panel, first click on the Character node again in the Scene dock.
+
+Create a keyframe for both properties
+
+Now, move the position keyframe to 0.7 seconds by dragging it on the timeline.
+
+Note: A lecture on the principles of animation is beyond the scope of this tutorial. Just note that you don't want to time and space everything evenly. Instead, animators play with timing and spacing, two core animation principles. You want to offset and contrast in your character's motion to make them feel alive.
+
+Move the time cursor to the end of the animation, at 1.2 seconds. Set the Y position to about 0.35 and the X rotation to -9 degrees. Once again, create a key for both properties.
+
+You can preview the result by clicking the play button or pressing Shift + D. Click the stop button or pressing S to stop playback.
+
+You can see that the engine interpolates between your keyframes to produce a continuous animation. At the moment, though, the motion feels very robotic. This is because the default interpolation is linear, causing constant transitions, unlike how living things move in the real world.
+
+We can control the transition between keyframes using easing curves.
+
+Click and drag around the first two keys in the timeline to box select them.
+
+You can edit the properties of both keys simultaneously in the Inspector, where you can see an Easing property.
+
+Click and drag on the curve, pulling it towards the left. This will make it ease-out, that is to say, transition fast initially and slow down as the time cursor reaches the next keyframe.
+
+Play the animation again to see the difference. The first half should already feel a bit bouncier.
+
+Apply an ease-out to the second keyframe in the rotation track.
+
+Do the opposite for the second position keyframe, dragging it to the right.
+
+Your animation should look something like this.
+
+Note: Animations update the properties of the animated nodes every frame, overriding initial values. If we directly animated the Player node, it would prevent us from moving it in code. This is where the Pivot node comes in handy: even though we animated the Character, we can still move and rotate the Pivot and layer changes on top of the animation in a script.
+
+If you play the game, the player's creature will now float!
+
+If the creature is a little too close to the floor, you can move the Pivot up to offset it.
+---CHUNK---
+Document: Player
+Path: godot/getting_started/first_3d_game/09.adding_animations.rst
+Summary: This section explains how to control animation playback speed and add a jumping arc to the Player character using code in Godot.
+
+Controlling the animation in code
+We can use code to control the animation playback based on the player's input. Let's change the animation speed when the character is moving.
+
+Open the Player's script by clicking the script icon next to it.
+
+In _physics_process(), after the line where we check the direction vector, add the following code.
+
+GDScript:
+   func _physics_process(delta):
+       #...
+       if direction != Vector3.ZERO:
+           #...
+           $AnimationPlayer.speed_scale = 4
+       else:
+           $AnimationPlayer.speed_scale = 1
+
+C#:
+    public override void _PhysicsProcess(double delta)
+    {
+        // ...
+        if (direction != Vector3.Zero)
+        {
+            // ...
+            GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 4;
+        }
+        else
+        {
+            GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = 1;
+        }
+    }
+
+This code makes it so when the player moves, we multiply the playback speed by 4. When they stop, we reset it to normal.
+
+We mentioned that the Pivot could layer transforms on top of the animation. We can make the character arc when jumping using the following line of code. Add it at the end of _physics_process().
+
+GDScript:
+   func _physics_process(delta):
+       #...
+       $Pivot.rotation.x = PI / 6 * velocity.y / jump_impulse
+
+C#:
+    public override void _PhysicsProcess(double delta)
+    {
+        // ...
+        var pivot = GetNode<Node3D>("Pivot");
+        pivot.Rotation = new Vector3(Mathf.Pi / 6.0f * Velocity.Y / JumpImpulse, pivot.Rotation.Y, pivot.Rotation.Z);
+    }
+---CHUNK---
+Document: Animating the mobs
+Path: godot/getting_started/first_3d_game/09.adding_animations.rst
+Summary: This section explains how to reuse animations between different scenes and adjust animation playback speed.
+
+Animating the mobs. Here's another nice trick with animations in Godot: as long as you use a similar node structure, you can copy them to different scenes. For example, both the Mob and the Player scenes have a Pivot and a Character node, so we can reuse animations between them.
+
+Open the Player scene, select the AnimationPlayer node and then click on Animation > Manage Animations.... Click the Copy animation to clipboard button alongside the float animation. Click OK to close the window.
+
+Then open mob.tscn, create an AnimationPlayer child node and select it. Click Animation > Manage Animations, then New Library. You should see the message "Global library will be created." Leave the text field blank and click OK. Click the Paste icon and it should appear in the window. Click OK to close the window.
+
+Next, make sure that the autoplay button and the looping arrows (Animation looping) are also turned on in the animation editor in the bottom panel. That's it; all monsters will now play the float animation.
+
+We can change the playback speed based on the creature's random_speed. Open the Mob's script and at the end of the initialize() function, add the following line.
+
+GDScript:
+    func initialize(start_position, player_position):
+        #...
+        $AnimationPlayer.speed_scale = random_speed / min_speed
+
+C#:
+    public void Initialize(Vector3 startPosition, Vector3 playerPosition)
+    {
+        // ...
+        GetNode<AnimationPlayer>("AnimationPlayer").SpeedScale = randomSpeed / MinSpeed;
+    }
+
+And with that, you finished coding your first complete 3D game. Congratulations!
+
+In the next part, we'll quickly recap what you learned and give you some links to keep learning more.

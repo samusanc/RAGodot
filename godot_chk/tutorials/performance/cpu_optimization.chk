@@ -1,0 +1,144 @@
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This document provides an overview of CPU optimization techniques in Godot Engine.
+
+This document provides an overview of CPU optimization techniques in Godot Engine. It covers various strategies to improve the performance of your game by reducing the workload on the CPU.
+
+Key areas of optimization include:
+
+*   **Algorithm Choice:** Selecting efficient algorithms for common tasks like pathfinding, collision detection, and data management.
+*   **Data Structures:** Utilizing appropriate data structures that offer fast lookups, insertions, and deletions.
+*   **Rendering Optimization:** While primarily GPU-bound, certain rendering aspects can impact the CPU, such as excessive draw calls or complex shader calculations.
+*   **Physics Optimization:** Optimizing physics simulations by reducing the number of active rigid bodies, simplifying collision shapes, and adjusting physics tick rates.
+*   **Scripting Efficiency:** Writing optimized GDScript or C# code, avoiding unnecessary computations in `_process` or `_physics_process`, and leveraging Godot's built-in optimized functions.
+*   **Multithreading:** Utilizing Godot's threading capabilities to distribute tasks across multiple CPU cores, especially for computationally intensive operations.
+*   **Profiling:** Using Godot's built-in profiler to identify performance bottlenecks and pinpoint areas of the code that consume the most CPU time.
+
+By understanding and applying these optimization techniques, developers can significantly improve the responsiveness and overall performance of their Godot projects.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This document provides an overview of CPU optimization techniques in Godot Engine.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: Explains the concept of performance bottlenecks and introduces profiling as a method for identifying them in CPU-bound applications.
+
+Measuring performance
+We have to know where the "bottlenecks" are to know how to speed up our program. Bottlenecks are the slowest parts of the program that limit the rate that everything can progress. Focusing on bottlenecks allows us to concentrate our efforts on optimizing the areas which will give us the greatest speed improvement, instead of spending a lot of time optimizing functions that will lead to small performance improvements.
+
+For the CPU, the easiest way to identify bottlenecks is to use a profiler.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section explains how to use Godot's built-in CPU profiler to identify performance bottlenecks in your project.
+CPU profilers run alongside your program and take timing measurements to determine the proportion of time spent in each function. The Godot IDE has a built-in profiler that must be manually started and stopped, as recording timing measurements can significantly slow down your project. After profiling, you can review the results for a frame.
+
+Note: We can see the cost of built-in processes such as physics and audio, as well as the cost of our own scripting functions. Note: Time spent waiting for various built-in servers may not be counted in the profilers; this is a known bug.
+
+When a project is running slowly, you will often see an obvious function or process taking a lot more time than others. This is your primary bottleneck, and you can usually increase speed by optimizing this area. For more information about using Godot's built-in profiler, see the debugger panel documentation.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section discusses using external C++ profilers like Valgrind's Callgrind to analyze Godot Engine's performance by examining function call times and identifying bottlenecks, particularly in graphics driver interactions.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section explains how to manually time functions in GDScript and C# to identify performance bottlenecks.
+
+Manually timing functions is a useful technique, especially after using a profiler to pinpoint bottlenecks. In GDScript, you can record the start time using `Time.get_ticks_usec()`, execute the function, and then record the end time to calculate the duration.
+
+GDScript:
+```gdscript
+    var time_start = Time.get_ticks_usec()
+
+    # Your function you want to time
+    update_enemies()
+
+    var time_end = Time.get_ticks_usec()
+    print("update_enemies() took %d microseconds" % (time_end - time_start))
+```
+
+In C#, the process is similar, using `Time.GetTicksUsec()` for timing.
+
+C#:
+```csharp
+    var timeStart = Time.GetTicksUsec();
+
+    // Your function you want to time.
+    UpdateEnemies();
+
+    var timeEnd = Time.GetTicksUsec();
+    GD.Print($"UpdateEnemies() took {timeEnd - timeStart} microseconds");
+```
+
+When manually timing functions, it's recommended to run them many times (e.g., 1,000 or more) rather than just once. This is because timer accuracy can be limited, and CPU scheduling can be unpredictable. Averaging the results over multiple runs provides a more reliable measurement than a single run.
+
+As you work on optimizing functions, consistently profile or time them throughout the process. This provides essential feedback on the effectiveness of your optimizations.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: Explains how CPU caches affect performance and how to optimize data access patterns.
+
+CPU caches are small, fast memory banks used by CPUs to store frequently accessed data, significantly speeding up operations compared to accessing slower system RAM. When data is not found in the cache, it results in a "cache miss," causing the CPU to wait for data to be loaded from main memory, which can lead to performance degradation.
+
+The timing results of code can be influenced by whether the data is already in the CPU cache. The first execution of a function might be slower because the necessary data is not cached, while subsequent executions can be much faster due to cached data. Therefore, it's important to use averages when timing code and be mindful of cache effects.
+
+Optimizing for caching involves structuring data access to minimize cache misses. Algorithms that access small, randomly scattered data bits from main memory are prone to frequent cache misses. Conversely, algorithms that access data in a localized or linear fashion (e.g., sequential access in a list) allow the cache to operate more efficiently, maximizing CPU performance.
+
+While Godot's Server APIs (like those for rendering and physics) often handle data optimization for caching automatically, developers should pay close attention to caching when writing GDExtensions.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: Discusses the performance implications of different scripting languages in Godot.
+Languages
+Godot supports a number of different languages, and it is worth bearing in mind that there are trade-offs involved. Some languages are designed for ease of use at the cost of speed, and others are faster but more difficult to work with.
+
+Built-in engine functions run at the same speed regardless of the scripting language you choose. If your project is making a lot of calculations in its own code, consider moving those calculations to a faster language.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section discusses the performance implications of using GDScript and C# for CPU-intensive tasks in Godot.
+GDScript is designed for ease of use and rapid iteration, prioritizing simplicity over raw performance. For computationally heavy tasks, consider using other languages.
+C# offers a good balance between performance and ease of use and has first-class support in Godot. However, be mindful of potential garbage collection pauses and memory leaks during gameplay. Object pooling is a common technique to mitigate garbage collection issues, though it is not covered in this guide.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section briefly mentions third-party language support for Godot.
+Other languages
+Third parties provide support for several other languages, including Rust.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: Discusses using C++ for performance optimization in Godot, mentioning GDExtensions and custom modules.
+C++
+Godot is written in C++. Using C++ will usually result in the fastest code. However, on a practical level, it is the most difficult to deploy to end users' machines on different platforms. Options for using C++ include GDExtensions and custom modules.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section discusses the use of threads for CPU optimization, highlighting their benefits and potential drawbacks.
+Threads can be used to perform calculations in parallel, leveraging multiple CPU cores to improve efficiency. However, threads introduce the risk of race conditions, where multiple threads attempt to access the same memory simultaneously, leading to unpredictable behavior. Developers must understand these dangers and implement strategies to prevent race conditions before using threads. Threads can also complicate debugging. For further details on threads, refer to the documentation on using multiple threads.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section discusses the performance implications of the SceneTree and node management in Godot.
+
+Every node in Godot has an associated cost, and built-in functions like _process() and _physics_process() propagate through the SceneTree. This can impact performance when dealing with a large number of nodes, potentially ranging from thousands to tens of thousands depending on the target platform. Profiling on all target platforms during development is crucial.
+
+The Godot renderer handles each node individually. Consequently, having fewer nodes with more complexity within each can result in better performance.
+
+A notable optimization technique involves detaching nodes from the SceneTree instead of pausing or hiding them. A detached node can be reattached later. This is achieved by removing a node using Node.remove_child(node) and then reinserting it with Node.add_child(node). This method is particularly effective for dynamically adding and removing game elements, such as areas.
+
+For scenarios where the SceneTree overhead is a concern, utilizing the Server APIs can provide an alternative approach that bypasses the SceneTree entirely. Further details can be found in the documentation on using servers.
+---CHUNK---
+Document: CPU Optimization
+Path: godot/tutorials/performance/cpu_optimization.rst
+Summary: This section discusses techniques for optimizing physics performance in Godot, including simplifying collision shapes, managing physics objects, adjusting the physics tick rate, and using fixed timestep interpolation.
+
+Physics can become a performance bottleneck, especially in complex worlds with many physics objects. To improve physics speed:
+* Use simplified collision shapes that approximate the rendered geometry. This often goes unnoticed by players but significantly boosts performance.
+* Remove objects from physics simulation when they are off-screen or outside the active area. Alternatively, reuse physics objects, such as limiting the number of active monsters in an area.
+
+The physics tick rate is another critical factor. Reducing the tick rate (e.g., from 60 Hz to 30 or 20 Hz) can substantially decrease CPU load. However, lowering the tick rate can lead to jerky movement or jitter if it doesn't align with the frame rate. It also increases input lag. For games with real-time player movement, sticking to the default physics tick rate of 60 Hz is generally recommended.
+
+Jitter can be mitigated using fixed timestep interpolation. This technique smooths rendered positions and rotations across multiple frames to align with physics updates. Godot includes built-in physics interpolation, which is a computationally inexpensive operation compared to running additional physics ticks, offering a significant performance advantage and reducing jitter.

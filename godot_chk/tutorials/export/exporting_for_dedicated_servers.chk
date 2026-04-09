@@ -1,0 +1,216 @@
+Document: Exporting for Dedicated Servers
+Path: godot/tutorials/export/exporting_for_dedicated_servers.rst
+Summary: This document explains how to export Godot projects for dedicated servers.
+
+Exporting for Dedicated Servers
+
+This page explains how to export Godot projects for dedicated servers.
+
+Dedicated servers are a common way to host multiplayer games. They run the game logic without any graphical interface, making them more efficient and stable. Godot provides built-in support for exporting dedicated server builds.
+
+Exporting a dedicated server build involves a few steps:
+
+1.  **Enable Dedicated Server Export:** In the Project Settings, under the "Export" tab, you'll find an option to enable dedicated server export. This will create a new export preset specifically for dedicated servers.
+
+2.  **Configure Export Preset:** Once enabled, you can configure the dedicated server export preset like any other export preset. This includes choosing the target platform, architecture, and other relevant settings.
+
+3.  **Build the Server:** After configuring the preset, you can build the dedicated server executable by clicking the "Export Project" button in the Project Manager.
+
+The resulting executable will be a headless version of your game, suitable for running on a server. You can then use this executable with your game's networking code to host multiplayer sessions.
+
+Key Rule: Dedicated server builds do not include the game's rendering or input systems, making them lighter and more performant for server-side logic.
+
+When developing for dedicated servers, it's important to ensure that your game logic is independent of any graphical elements. This means avoiding direct manipulation of nodes that are only relevant for the client, such as `Camera` or `Sprite3D` nodes, unless they are specifically used for server-side visualization or debugging.
+
+GDScript:
+```gdscript
+# Example of server-side logic
+extends Node
+
+var players = {}
+
+func _ready():
+    # Start a network server or connect to an existing one
+    pass
+
+func _on_player_connected(player_id):
+    players[player_id] = {}
+    print("Player connected: ", player_id)
+
+func _on_player_disconnected(player_id):
+    if players.has(player_id):
+        players.erase(player_id)
+        print("Player disconnected: ", player_id)
+
+func _process(delta):
+    # Update game state, process player inputs, etc.
+    pass
+```
+
+C#:
+```csharp
+// Example of server-side logic
+using Godot;
+using System;
+using System.Collections.Generic;
+
+public class GameServer : Node
+{
+    private Dictionary<int, object> players = new Dictionary<int, object>();
+
+    public override void _Ready()
+    {
+        // Start a network server or connect to an existing one
+    }
+
+    public void OnPlayerConnected(int playerId)
+    {
+        players[playerId] = new object(); // Placeholder for player data
+        GD.Print($"Player connected: {playerId}");
+    }
+
+    public void OnPlayerDisconnected(int playerId)
+    {
+        if (players.ContainsKey(playerId))
+        {
+            players.Remove(playerId);
+            GD.Print($"Player disconnected: {playerId}");
+        }
+    }
+
+    public override void _Process(float delta)
+    {
+        // Update game state, process player inputs, etc.
+    }
+}
+```
+---CHUNK---
+Document: Exporting for Dedicated Servers
+Path: godot/tutorials/export/exporting_for_dedicated_servers.rst
+Summary: This section explains how to export Godot projects for dedicated servers, focusing on the headless display server and dummy audio driver.
+To run a dedicated server for your project on a machine without a GPU or display server, you need to run Godot with the ``headless`` display server and ``Dummy`` audio driver.
+
+Since Godot 4.0, this is achieved by running a Godot binary with the ``--headless`` command line argument or by running a project exported as a dedicated server. A specialized server binary is no longer required, unlike in Godot 3.x.
+---CHUNK---
+Document: Exporting for Dedicated Servers
+Path: godot/tutorials/export/exporting_for_dedicated_servers.rst
+Summary: This section explains the difference between using the Godot editor and export templates for running dedicated servers.
+
+When running dedicated servers, you can use either the Godot editor binary or an export template (debug or release) binary in headless mode. The choice depends on your specific use case:
+
+*   **Export template:** This is the recommended option for running dedicated servers. Export templates do not include editor functionality, making them smaller and more optimized for this purpose.
+*   **Editor:** The editor binary includes editor functionality and is primarily intended for exporting projects. While it can technically be used to run dedicated servers, it is not advised due to its larger size and reduced optimization compared to export templates.
+---CHUNK---
+Document: Exporting for Dedicated Servers
+Path: godot/tutorials/export/exporting_for_dedicated_servers.rst
+Summary: This section describes two methods for exporting a Godot project for use as a dedicated server.
+Export approaches
+There are two ways to export a project for a server:
+
+- Create a separate export preset for the platform that will host the server, then export your project as usual.
+- Export a PCK file only, preferably for the platform that matches the platform that will host the server. Place this PCK file in the same folder as an export template binary, rename the binary to have the same name as the PCK (minus the file extension), then run the binary.
+
+Both methods should result in identical output. The rest of the page will focus on the first approach.
+See exporting projects for more information.
+---CHUNK---
+Document: Exporting for Dedicated Servers
+Path: godot/tutorials/export/exporting_for_dedicated_servers.rst
+Summary: This document explains how to optimize project exports for dedicated servers by stripping unnecessary resources like textures and materials.
+
+When exporting a project for a dedicated server, the default PCK file size is large because it includes all client-specific resources. To reduce this size, Godot allows selective resource stripping.
+
+To configure this, create a dedicated export preset for your server. In the preset's **Resources** tab, change the export mode to **Export as dedicated server**. This automatically adds the `dedicated_server` feature tag, which also forces `--headless` mode when running the exported project. If you prefer not to use this export mode but still want the feature tag, you can manually add `dedicated_server` to the **Features** tab of the export preset.
+
+After selecting the dedicated server export mode, a list of project resources appears, allowing you to override export options for specific files or folders. These options do not affect which files are exported but rather how they are handled:
+
+*   **Strip Visuals:** Exports the resource but replaces visual files (textures, materials) with placeholder classes. These placeholders retain the resource's dimensions but not its visual data.
+*   **Keep:** Exports the resource with all its visual files intact.
+*   **Remove:** Excludes the file entirely from the PCK. This is useful for client-only resources, but ensure the server does not reference them.
+
+Files within a folder automatically inherit the parent folder's option, indicated by "(Inherited)". To change an inherited option, you must first tick the box next to the file or folder.
+
+The general recommendation is to use **Strip Visuals** unless the server requires access to image data (e.g., for collision generation). For resources like audio or those not yet supported for placeholder replacement, use **Remove** cautiously, ensuring references are handled via script's `load()` to maintain scene loading. Removing textures often yields the most significant PCK size reduction.
+
+To inspect the PCK file structure, use the **Export PCK/ZIP...** button with a `.zip` extension.
+
+Warning: Using **Remove** mode can break scenes or resources that reference the removed file. If you need to remove specific resources while keeping scenes loadable, remove the reference in the scene file and load the resource via script using `load()`.
+
+The document provides example file structures for both client and server PCK exports, illustrating how resources are handled differently. The server PCK shows stripped visual resources and removed client-only files, resulting in a smaller package.
+---CHUNK---
+Document: Exporting for Dedicated Servers
+Path: godot/tutorials/export/exporting_for_dedicated_servers.rst
+Summary: This section explains how to start a dedicated server using command-line arguments and feature tags in Godot.
+
+To start a dedicated server, you can use command-line arguments or feature tags. If your client and server are part of the same Godot project, you need to add a way to start the server using a command-line argument.
+
+You can detect if a dedicated server PCK is being used by checking for the "dedicated_server" feature tag. This is useful if you exported the project using the "Export as dedicated server" mode or added "dedicated_server" as a custom feature tag.
+
+GDScript:
+if OS.has_feature("dedicated_server"):
+    # Run your server startup code here...
+    pass
+
+C#:
+if (OS.HasFeature("dedicated_server"))
+{
+    // Run your server startup code here...
+}
+
+Note: Feature tags are case-sensitive.
+
+If you want to host a server using the built-in `--headless` command-line argument, add the following code to your main scene's or autoload's `_ready()` method:
+
+GDScript:
+if DisplayServer.get_name() == "headless":
+    # Run your server startup code here...
+    #
+    # Using this check, you can start a dedicated server by running
+    # a Godot binary (editor or export template) with the `--headless`
+    # command-line argument.
+    pass
+
+C#:
+using System.Linq;
+
+if (DisplayServer.GetName() == "headless")
+{
+    // Run your server startup code here...
+    //
+    # Using this check, you can start a dedicated server by running
+    # a Godot binary (editor or export template) with the `--headless`
+    # command-line argument.
+}
+
+To use a custom command-line argument, such as "--server", add this code to your main scene's or autoload's `_ready()` method:
+
+GDScript:
+if "--server" in OS.get_cmdline_user_args():
+    # Run your server startup code here...
+    #
+    # Using this check, you can start a dedicated server by running
+    # a Godot binary (editor or export template) with the `--server`
+    # command-line argument.
+    pass
+
+C#:
+using System.Linq;
+
+if (OS.GetCmdlineUserArgs().Contains("--server"))
+{
+    # Run your server startup code here...
+    #
+    # Using this check, you can start a dedicated server by running
+    # a Godot binary (editor or export template) with the `--server`
+    # command-line argument.
+}
+
+Adding at least one of these command-line arguments is recommended for testing server functionality directly from the command line without needing to export the project.
+
+If your client and server are separate Godot projects, your server project should typically be configured to start a server automatically when its main scene is run.
+---CHUNK---
+Document: Exporting for Dedicated Servers
+Path: godot/tutorials/export/exporting_for_dedicated_servers.rst
+Summary: This section provides guidance on making dedicated servers more robust on Linux using systemd services and optionally Docker containers.
+On Linux, to make your dedicated server restart after a crash or system reboot, you can create a systemd service. This also lets you view server logs in a more convenient fashion, with automatic log rotation provided by systemd. When making your project hostable as a systemd service, you should also enable the application/run/flush_stdout_on_print project setting. This way, journald (the systemd logging service) can collect logs while the process is running.
+
+If you have experience with containers, you could also look into wrapping your dedicated server in a Docker container. This way, it can be used more easily in an automatic scaling setup.

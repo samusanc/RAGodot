@@ -1,0 +1,115 @@
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: This document describes the Line2D class.
+---CHUNK---
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: Describes the Line2D node, a 2D polyline that can be textured.
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A 2D polyline that can optionally be textured.
+---CHUNK---
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: This section describes the Line2D node, its purpose, and drawing characteristics.
+
+This node draws a 2D polyline, i.e. a shape consisting of several points connected by segments. Line2D is not a mathematical polyline, i.e. the segments are not infinitely thin. It is intended for rendering and it can be colored and optionally textured. Warning: Certain configurations may be impossible to draw nicely, such as very sharp angles. In these situations, the node uses fallback drawing logic to look decent. Note: Line2D is drawn using a 2D mesh.
+---CHUNK---
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: This section lists related tutorials for Line2D.
+
+Tutorials
+- Matrix Transform Demo
+- 2.5D Game Demo
+---CHUNK---
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: This section lists the properties available for configuring a Line2D node.
+
+Properties:
+* antialiased (bool). Default: false.
+* begin_cap_mode (LineCapMode). Default: 0.
+* closed (bool). Default: false.
+* default_color (Color). Default: Color(1, 1, 1, 1).
+* end_cap_mode (LineCapMode). Default: 0.
+* gradient (Gradient).
+* joint_mode (LineJointMode). Default: 0.
+* points (PackedVector2Array). Default: PackedVector2Array().
+* round_precision (int). Default: 8.
+* sharp_limit (float). Default: 2.0.
+* texture (Texture2D).
+* texture_mode (LineTextureMode). Default: 0.
+* width (float). Default: 10.0.
+* width_curve (Curve).
+---CHUNK---
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: This section describes the methods and enumerations for configuring Line2D appearance, including joint modes, cap modes, and texture modes.
+
+Method: add_point(position: Vector2, index: int = -1) → void
+Method: clear_points() → void
+Method: get_point_count() → int
+Method: get_point_position(index: int) → Vector2
+Method: remove_point(index: int) → void
+Method: set_point_position(index: int, position: Vector2) → void
+
+Enumerations
+
+enum LineJointMode:
+- LINE_JOINT_SHARP = 0: Makes the polyline's joints pointy, connecting the sides of the two segments by extending them until they intersect. If the rotation of a joint is too big (based on sharp_limit), the joint falls back to LINE_JOINT_BEVEL to prevent very long miters.
+- LINE_JOINT_BEVEL = 1: Makes the polyline's joints bevelled/chamfered, connecting the sides of the two segments with a simple line.
+- LINE_JOINT_ROUND = 2: Makes the polyline's joints rounded, connecting the sides of the two segments with an arc. The detail of this arc depends on round_precision.
+
+enum LineCapMode:
+- LINE_CAP_NONE = 0: Draws no line cap.
+- LINE_CAP_BOX = 1: Draws the line cap as a box, slightly extending the first/last segment.
+- LINE_CAP_ROUND = 2: Draws the line cap as a semicircle attached to the first/last segment.
+
+enum LineTextureMode:
+- LINE_TEXTURE_NONE = 0: Takes the left pixels of the texture and renders them over the whole polyline.
+- LINE_TEXTURE_TILE = 1: Tiles the texture over the polyline. CanvasItem.texture_repeat of the Line2D node must be CanvasItem.TEXTURE_REPEAT_ENABLED or CanvasItem.TEXTURE_REPEAT_MIRROR for it to work properly.
+- LINE_TEXTURE_STRETCH = 2: Stretches the texture across the polyline. CanvasItem.texture_repeat of the Line2D node must be CanvasItem.TEXTURE_REPEAT_DISABLED for best results.
+---CHUNK---
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: This section describes the properties available for configuring a Line2D node, including appearance, geometry, and texture settings.
+
+Property Descriptions:
+*   **antialiased** (bool): If true, the polyline's border will be anti-aliased. Default: false. Note: Line2D is not accelerated by batching when being anti-aliased.
+*   **begin_cap_mode** (LineCapMode): The style of the beginning of the polyline, if closed is false. Default: 0.
+*   **closed** (bool): If true and the polyline has more than 2 points, the last point and the first one will be connected by a segment. Default: false. Note: The shape of the closing segment is not guaranteed to be seamless if a width_curve is provided. Note: The joint between the closing segment and the first segment is drawn first and it samples the gradient and the width_curve at the beginning. This is an implementation detail that might change in a future version.
+*   **default_color** (Color): The color of the polyline. Will not be used if a gradient is set. Default: Color(1, 1, 1, 1).
+*   **end_cap_mode** (LineCapMode): The style of the end of the polyline, if closed is false. Default: 0.
+*   **gradient** (Gradient): The gradient is drawn through the whole line from start to finish. The default_color will not be used if this property is set.
+*   **joint_mode** (LineJointMode): The style of the connections between segments of the polyline. Default: 0.
+*   **points** (PackedVector2Array): The points of the polyline, interpreted in local 2D coordinates. Segments are drawn between the adjacent points in this array. Default: PackedVector2Array(). Note: The returned array is copied and any changes to it will not update the original property value. See PackedVector2Array for more details.
+*   **round_precision** (int): The smoothness used for rounded joints and caps. Higher values result in smoother corners, but are more demanding to render and update. Default: 8.
+*   **sharp_limit** (float): Determines the miter limit of the polyline. Normally, when joint_mode is set to LINE_JOINT_SHARP, sharp angles fall back to using the logic of LINE_JOINT_BEVEL joints to prevent very long miters. Higher values of this property mean that the fallback to a bevel joint will happen at sharper angles. Default: 2.0.
+*   **texture** (Texture2D): The texture used for the polyline. Uses texture_mode for drawing style.
+*   **texture_mode** (LineTextureMode): The style to render the texture of the polyline. Default: 0.
+*   **width** (float): The polyline's width. Default: 10.0.
+*   **width_curve** (Curve): The polyline's width curve. The width of the polyline over its length will be equivalent to the value of the width curve over its domain. The width curve should be a unit Curve.
+---CHUNK---
+Document: Line2D
+Path: godot/classes/class_line2d.rst
+Summary: This section describes methods for managing points in a Line2D node, including adding, removing, clearing, and getting point information.
+
+Method: add_point(position: Vector2, index: int = -1) → void
+Adds a point with the specified `position` relative to the polyline's own position. If no `index` is provided, the new point will be added to the end of the points array. If `index` is given, the new point is inserted before the existing point identified by index `index`. The indices of the points after the new point get increased by 1. The provided `index` must not exceed the number of existing points in the polyline. See get_point_count().
+
+Method: clear_points() → void
+Removes all points from the polyline, making it empty.
+
+Method: get_point_count() → int
+Returns the number of points in the polyline.
+
+Method: get_point_position(index: int) → Vector2
+Returns the position of the point at index `index`.
+
+Method: remove_point(index: int) → void
+Removes the point at index `index` from the polyline.
+
+Method: set_point_position(index: int, position: Vector2) → void
+Overwrites the position of the point at the given `index` with the supplied `position`.

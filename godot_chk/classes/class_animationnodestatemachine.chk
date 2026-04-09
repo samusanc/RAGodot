@@ -1,0 +1,150 @@
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: This section serves as a reference label for the AnimationNodeStateMachine class.
+---CHUNK---
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: A state machine with multiple AnimationRootNodes, used by AnimationTree.
+Inherits: AnimationRootNode < AnimationNode < Resource < RefCounted < Object
+
+A state machine with multiple AnimationRootNodes, used by AnimationTree.
+---CHUNK---
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: Describes the AnimationNodeStateMachine, which manages animation states and transitions in a graph.
+
+Contains multiple AnimationRootNodes representing animation states, connected in a graph. State transitions can be configured to happen automatically or via code, using a shortest-path algorithm. Retrieve the AnimationNodeStateMachinePlayback object from the AnimationTree node to control it programmatically.
+
+GDScript:
+var state_machine = $AnimationTree.get("parameters/playback")
+state_machine.travel("some_state")
+
+C#:
+var stateMachine = GetNode<AnimationTree>("AnimationTree").Get("parameters/playback") as AnimationNodeStateMachinePlayback;
+stateMachine.Travel("some_state");
+---CHUNK---
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: This chunk lists related tutorials for AnimationNodeStateMachine.
+
+Tutorials
+- Using AnimationTree
+---CHUNK---
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: This section describes the properties of the AnimationNodeStateMachine class.
+
+Properties:
+* allow_transition_to_self (bool): Default: false.
+* reset_ends (bool): Default: false.
+* state_machine_type (StateMachineType): Default: 0.
+---CHUNK---
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: This section details the methods and enumerations available for managing nodes and transitions within an AnimationNodeStateMachine.
+
+Method: add_node(name: StringName, node: AnimationNode, position: Vector2 = Vector2(0, 0)) -> void
+Method: add_transition(from: StringName, to: StringName, transition: AnimationNodeStateMachineTransition) -> void
+Method: get_graph_offset() -> Vector2
+Method: get_node(name: StringName) -> AnimationNode
+Method: get_node_list() -> Array[StringName]
+Method: get_node_name(node: AnimationNode) -> StringName
+Method: get_node_position(name: StringName) -> Vector2
+Method: get_transition(idx: int) -> AnimationNodeStateMachineTransition
+Method: get_transition_count() -> int
+Method: get_transition_from(idx: int) -> StringName
+Method: get_transition_to(idx: int) -> StringName
+Method: has_node(name: StringName) -> bool
+Method: has_transition(from: StringName, to: StringName) -> bool
+Method: remove_node(name: StringName) -> void
+Method: remove_transition(from: StringName, to: StringName) -> void
+Method: remove_transition_by_index(idx: int) -> void
+Method: rename_node(name: StringName, new_name: StringName) -> void
+Method: replace_node(name: StringName, node: AnimationNode) -> void
+Method: set_graph_offset(offset: Vector2) -> void
+Method: set_node_position(name: StringName, position: Vector2) -> void
+
+Enumerations
+StateMachineType enum:
+STATE_MACHINE_TYPE_ROOT = 0: Seeking to the beginning is treated as playing from the start state. Transition to the end state is treated as exiting the state machine.
+STATE_MACHINE_TYPE_NESTED = 1: Seeking to the beginning is treated as seeking to the beginning of the animation in the current state. Transition to the end state, or the absence of transitions in each state, is treated as exiting the state machine.
+STATE_MACHINE_TYPE_GROUPED = 2: This is a grouped state machine that can be controlled from a parent state machine. It does not work independently. There must be a state machine with state_machine_type of STATE_MACHINE_TYPE_ROOT or STATE_MACHINE_TYPE_NESTED in the parent or ancestor.
+---CHUNK---
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: This section describes properties of the AnimationNodeStateMachine class, including options for self-transitions, resetting end nodes, and defining state machine transition types.
+
+Properties:
+*   allow_transition_to_self (bool): If true, allows teleport to the self state with AnimationNodeStateMachinePlayback.travel(). When the reset option is enabled in AnimationNodeStateMachinePlayback.travel(), the animation is restarted. If false, nothing happens on the teleportation to the self state. Default: false.
+    *   Method: set_allow_transition_to_self(value: bool)
+    *   Method: is_allow_transition_to_self()
+*   reset_ends (bool): If true, treat the cross-fade to the start and end nodes as a blend with the RESET animation. In most cases, when additional cross-fades are performed in the parent AnimationNode of the state machine, setting this property to false and matching the cross-fade time of the parent AnimationNode and the state machine's start node and end node gives good results. Default: false.
+    *   Method: set_reset_ends(value: bool)
+    *   Method: are_ends_reset()
+*   state_machine_type (StateMachineType): This property can define the process of transitions for different use cases. See also StateMachineType. Default: 0.
+    *   Method: set_state_machine_type(value: StateMachineType)
+    *   Method: get_state_machine_type()
+---CHUNK---
+Document: AnimationNodeStateMachine
+Path: godot/classes/class_animationnodestatemachine.rst
+Summary: This section details methods for managing nodes and transitions within an AnimationNodeStateMachine, including adding, removing, renaming, and querying their properties.
+
+Method: add_node(name: StringName, node: AnimationNode, position: Vector2 = Vector2(0, 0)) → void
+Adds a new animation node to the graph. The position is used for display in the editor.
+
+Method: add_transition(from: StringName, to: StringName, transition: AnimationNodeStateMachineTransition) → void
+Adds a transition between the given animation nodes.
+
+Method: get_graph_offset() → Vector2
+Returns the draw offset of the graph. Used for display in the editor.
+
+Method: get_node(name: StringName) → AnimationNode
+Returns the animation node with the given name.
+
+Method: get_node_list() → Array[StringName]
+Returns a list containing the names of all animation nodes in this state machine.
+
+Method: get_node_name(node: AnimationNode) → StringName
+Returns the given animation node's name.
+
+Method: get_node_position(name: StringName) → Vector2
+Returns the given animation node's coordinates. Used for display in the editor.
+
+Method: get_transition(idx: int) → AnimationNodeStateMachineTransition
+Returns the given transition.
+
+Method: get_transition_count() → int
+Returns the number of connections in the graph.
+
+Method: get_transition_from(idx: int) → StringName
+Returns the given transition's start node.
+
+Method: get_transition_to(idx: int) → StringName
+Returns the given transition's end node.
+
+Method: has_node(name: StringName) → bool
+Returns true if the graph contains the given animation node.
+
+Method: has_transition(from: StringName, to: StringName) → bool
+Returns true if there is a transition between the given animation nodes.
+
+Method: remove_node(name: StringName) → void
+Deletes the given animation node from the graph.
+
+Method: remove_transition(from: StringName, to: StringName) → void
+Deletes the transition between the two specified animation nodes.
+
+Method: remove_transition_by_index(idx: int) → void
+Deletes the given transition by index.
+
+Method: rename_node(name: StringName, new_name: StringName) → void
+Renames the given animation node.
+
+Method: replace_node(name: StringName, node: AnimationNode) → void
+Replaces the given animation node with a new animation node.
+
+Method: set_graph_offset(offset: Vector2) → void
+Sets the draw offset of the graph. Used for display in the editor.
+
+Method: set_node_position(name: StringName, position: Vector2) → void
+Sets the animation node's coordinates. Used for display in the editor.

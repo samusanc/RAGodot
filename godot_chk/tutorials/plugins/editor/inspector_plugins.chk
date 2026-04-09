@@ -1,0 +1,308 @@
+Document: Inspector Plugins
+Path: godot/tutorials/plugins/editor/inspector_plugins.rst
+Summary: This document explains how to create and use Inspector plugins in Godot to customize the editor's property inspector.
+
+Inspector plugins allow you to extend the functionality of Godot's editor by adding custom drawing and interaction logic to the Inspector dock. This is useful for creating custom property editors, visualizing data in unique ways, or adding editor-specific tools.
+
+To create an Inspector plugin, you need to extend the `EditorInspectorPlugin` class. This class provides several virtual methods that you can override to hook into the inspector's lifecycle and drawing process.
+
+Key methods to override:
+
+*   `_can_handle(object, type, name, property_usage)`: This method is called for every property in the inspector. If it returns `true`, the plugin will be used to draw that property. You should check the `object`, `type`, `name`, and `property_usage` to determine if your plugin should handle the property.
+*   `_parse_begin(object, type, name, property_usage)`: Called when the plugin starts processing a property that it can handle. You can use this to set up any necessary state or create custom controls.
+*   `_parse_property(object, type, name, property_usage, value)`: Called for each property that the plugin handles. This is where you typically add your custom controls or drawing logic to the inspector. You can use `add_property_element` to insert custom controls.
+*   `_parse_end(object, type, name, property_usage)`: Called when the plugin finishes processing a property. Use this to clean up any resources or state.
+
+Example of a simple Inspector plugin that adds a button next to a specific property:
+
+GDScript:
+```gdscript
+@tool
+extends EditorInspectorPlugin
+
+func _can_handle(object, type, name, property_usage):
+    # Handle properties of type String named "my_string_property"
+    return type == TYPE_STRING and name == "my_string_property"
+
+func _parse_property(object, type, name, property_usage, value):
+    # Add a button to the inspector
+    var button = Button.new()
+    button.text = "Click Me"
+    button.pressed.connect(Callable(self, "_on_button_pressed").bind(object, name))
+    add_property_element(button)
+
+    # Call the default drawing for the property
+    draw_property_row(object, type, name, property_usage, value)
+
+func _on_button_pressed(object, name):
+    print("Button pressed for property: ", name, " on object: ", object)
+```
+
+To use this plugin, save it as a `.gd` file in an `addons` folder within your project. Then, enable it in the Project Settings under "Plugins".
+
+When you attach a script with a `my_string_property` to a node and select that node, you will see the "Click Me" button next to the string property in the Inspector. Clicking the button will print a message to the output console.
+
+Inspector plugins can also be used to draw custom visualizations directly within the inspector, without necessarily editing a specific property. For this, you can use the `_get_custom_name` and `_draw_property` methods.
+
+*   `_get_custom_name(object, type, name, property_usage)`: If you want to draw a custom row that doesn't correspond to a specific property, you can return a custom name here. This name will be displayed as the label for your custom row.
+*   `_draw_property(object, type, name, property_usage, rect)`: This method is called when the inspector needs to draw your custom property row. You receive a `rect` which defines the area available for drawing. You can use the `draw_*` methods of the `Control` class to draw directly into this area.
+
+This allows for powerful visual feedback and custom editor tools directly integrated into the inspector.
+---CHUNK---
+Document: Inspector Plugins
+Path: godot/tutorials/plugins/editor/inspector_plugins.rst
+Summary: This guide explains how to create custom inspector widgets using EditorInspectorPlugin and EditorProperty to modify how properties are displayed and edited in the Godot editor.
+---CHUNK---
+Document: Inspector Plugins Tutorial
+Path: godot/tutorials/plugins/editor/inspector_plugins.rst
+Summary: This section explains how to set up a basic inspector plugin by creating the necessary files and implementing the _enter_tree and _exit_tree methods in the plugin script.
+
+Setting up your plugin
+Create a new empty plugin to get started.
+
+See the "Making Plugins" guide to set up your new plugin.
+
+Let's assume you've called your plugin folder `my_inspector_plugin`. If so, you should end up with a new `addons/my_inspector_plugin` folder that contains two files: `plugin.cfg` and `plugin.gd`.
+
+As before, `plugin.gd` is a script extending `EditorPlugin` and you need to introduce new code for its `_enter_tree` and `_exit_tree` methods. To set up your inspector plugin, you must load its script, then create and add the instance by calling `add_inspector_plugin()`. If the plugin is disabled, you should remove the instance you have added by calling `remove_inspector_plugin()`.
+
+Note: Here, you are loading a script and not a packed scene. Therefore you should use `new()` instead of `instantiate()`.
+
+GDScript:
+# plugin.gd
+@tool
+extends EditorPlugin
+
+var plugin
+
+
+func _enter_tree():
+    plugin = preload("res://addons/my_inspector_plugin/my_inspector_plugin.gd").new()
+    add_inspector_plugin(plugin)
+
+
+func _exit_tree():
+    remove_inspector_plugin(plugin)
+
+C#:
+// Plugin.cs
+#if TOOLS
+using Godot;
+
+[Tool]
+public partial class Plugin : EditorPlugin
+{
+    private MyInspectorPlugin _plugin;
+
+    public override void _EnterTree()
+    {
+        _plugin = new MyInspectorPlugin();
+        AddInspectorPlugin(_plugin);
+    }
+
+    public override void _ExitTree()
+    {
+        RemoveInspectorPlugin(_plugin);
+    }
+}
+#endif
+---CHUNK---
+Document: Inspector Plugins
+Path: godot/tutorials/plugins/editor/inspector_plugins.rst
+Summary: This section explains how to create editor inspector plugins in Godot by extending the EditorInspectorPlugin class and implementing virtual methods to customize the inspector's behavior.
+
+To interact with the inspector dock, your script must extend the EditorInspectorPlugin class. This class provides several virtual methods that affect how the inspector handles properties.
+
+To have any effect at all, the script must implement the _can_handle() method. This function is called for each edited Object and must return true if this plugin should handle the object or its properties.
+Note: This includes any Resource attached to the object.
+
+You can implement four other methods to add controls to the inspector at specific positions. The _parse_begin() and _parse_end() methods are called only once at the beginning and the end of parsing for each object, respectively. They can add controls at the top or bottom of the inspector layout by calling add_custom_control().
+
+As the editor parses the object, it calls the _parse_category() and _parse_property() methods. There, in addition to add_custom_control(), you can call both add_property_editor() and add_property_editor_for_multiple_properties(). Use these last two methods to specifically add EditorProperty-based controls.
+
+GDScript:
+# my_inspector_plugin.gd
+extends EditorInspectorPlugin
+
+var RandomIntEditor = preload("res://addons/my_inspector_plugin/random_int_editor.gd")
+
+
+func _can_handle(object):
+    # We support all objects in this example.
+    return true
+
+
+func _parse_property(object, type, name, hint_type, hint_string, usage_flags, wide):
+    # We handle properties of type integer.
+    if type == TYPE_INT:
+        # Create an instance of the custom property editor and register
+        # it to a specific property path.
+        add_property_editor(name, RandomIntEditor.new())
+        # Inform the editor to remove the default property editor for
+        # this property type.
+        return true
+    else:
+        return false
+C#:
+// MyInspectorPlugin.cs
+#if TOOLS
+using Godot;
+
+public partial class MyInspectorPlugin : EditorInspectorPlugin
+{
+    public override bool _CanHandle(GodotObject @object)
+    {
+        // We support all objects in this example.
+        return true;
+    }
+
+    public override bool _ParseProperty(GodotObject @object, Variant.Type type,
+        string name, PropertyHint hintType, string hintString,
+        PropertyUsageFlags usageFlags, bool wide)
+    {
+        // We handle properties of type integer.
+        if (type == Variant.Type.Int)
+        {
+            // Create an instance of the custom property editor and register
+            // it to a specific property path.
+            AddPropertyEditor(name, new RandomIntEditor());
+            // Inform the editor to remove the default property editor for
+            // this property type.
+            return true;
+        }
+
+        return false;
+    }
+}
+#endif
+---CHUNK---
+Document: Inspector Plugins
+Path: godot/tutorials/plugins/editor/inspector_plugins.rst
+Summary: This section explains how to create custom editor properties in Godot using the EditorProperty class, allowing for unique ways to edit script properties within the inspector dock.
+
+The `EditorProperty` class is a specialized `Control` node designed to interact with the inspector dock's edited objects. It acts as a container for other control nodes, enabling the creation of complex custom editing interfaces for properties.
+
+Key components for extending `EditorProperty`:
+*   `_init()`: Used to set up the initial structure of the control nodes within the `EditorProperty`.
+*   `_update_property()`: Handles incoming changes to the property's data from external sources.
+*   `emit_changed()`: A signal that must be emitted to notify the inspector when the property's value has been modified by the custom control.
+
+Custom widgets can be displayed in two ways:
+*   Directly to the right of the property name by using `add_child()`.
+*   Below the property name by using `add_child()` followed by `set_bottom_editor()`.
+
+GDScript:
+```gdscript
+# random_int_editor.gd
+extends EditorProperty
+
+
+# The main control for editing the property.
+var property_control = Button.new()
+# An internal value of the property.
+var current_value = 0
+# A guard against internal changes when the property is updated.
+var updating = false
+
+
+func _init():
+	# Add the control as a direct child of EditorProperty node.
+	add_child(property_control)
+	# Make sure the control is able to retain the focus.
+	add_focusable(property_control)
+	# Setup the initial state and connect to the signal to track changes.
+	refresh_control_text()
+	property_control.pressed.connect(_on_button_pressed)
+
+
+func _on_button_pressed():
+	# Ignore the signal if the property is currently being updated.
+	if (updating):
+		return
+
+	# Generate a new random integer between 0 and 99.
+	current_value = randi() % 100
+	refresh_control_text()
+	emit_changed(get_edited_property(), current_value)
+
+
+func _update_property():
+	# Read the current value from the property.
+	var new_value = get_edited_object()[get_edited_property()]
+	if (new_value == current_value):
+		return
+
+	# Update the control with the new value.
+	updating = true
+	current_value = new_value
+	refresh_control_text()
+	updating = false
+
+func refresh_control_text():
+	property_control.text = "Value: " + str(current_value)
+```
+
+C#:
+```csharp
+// RandomIntEditor.cs
+#if TOOLS
+using Godot;
+
+public partial class RandomIntEditor : EditorProperty
+{
+	// The main control for editing the property.
+	private Button _propertyControl = new Button();
+	// An internal value of the property.
+	private int _currentValue = 0;
+	// A guard against internal changes when the property is updated.
+	private bool _updating = false;
+
+	public RandomIntEditor()
+	{
+		// Add the control as a direct child of EditorProperty node.
+		AddChild(_propertyControl);
+		// Make sure the control is able to retain the focus.
+		AddFocusable(_propertyControl);
+		// Setup the initial state and connect to the signal to track changes.
+		RefreshControlText();
+		_propertyControl.Pressed += OnButtonPressed;
+	}
+
+	private void OnButtonPressed()
+	{
+		// Ignore the signal if the property is currently being updated.
+		if (_updating)
+		{
+			return;
+		}
+
+		// Generate a new random integer between 0 and 99.
+		_currentValue = (int)GD.Randi() % 100;
+		RefreshControlText();
+		EmitChanged(GetEditedProperty(), _currentValue);
+	}
+
+	public override void _UpdateProperty()
+	{
+		// Read the current value from the property.
+		var newValue = (int)GetEditedObject().Get(GetEditedProperty());
+		if (newValue == _currentValue)
+		{
+			return;
+		}
+
+		// Update the control with the new value.
+		_updating = true;
+		_currentValue = newValue;
+		RefreshControlText();
+		_updating = false;
+	}
+
+	private void RefreshControlText()
+	{
+		_propertyControl.Text = $"Value: {_currentValue}";
+	}
+}
+#endif
+```
+This example demonstrates how to replace the default integer editor with a button that generates random values, showcasing the flexibility of custom `EditorProperty` implementations.

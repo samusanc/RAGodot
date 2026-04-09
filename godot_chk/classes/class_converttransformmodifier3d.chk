@@ -1,0 +1,151 @@
+Document: ConvertTransformModifier3D
+Path: godot/classes/class_converttransformmodifier3d.rst
+Summary: This document describes the ConvertTransformModifier3D class.
+---CHUNK---
+Document: ConvertTransformModifier3D
+Path: godot/classes/class_converttransformmodifier3d.rst
+Summary: A SkeletonModifier3D that applies a transform to a bone converted from a reference.
+
+Inherits: BoneConstraint3D < SkeletonModifier3D < Node3D < Node < Object
+
+A SkeletonModifier3D that apply transform to the bone which converted from reference.
+---CHUNK---
+Document: ConvertTransformModifier3D
+Path: godot/classes/class_converttransformmodifier3d.rst
+Summary: This section describes how ConvertTransformModifier3D applies bone transforms with various options.
+
+Apply the copied transform of the bone set by BoneConstraint3D.set_reference_bone() to the bone set by BoneConstraint3D.set_apply_bone() about the specific axis with remapping it with some options.
+
+There are 4 ways to apply the transform, depending on the combination of set_relative() and set_additive().
+
+Relative + Additive:
+- Extract reference pose relative to the rest and add it to the apply bone's pose.
+
+Relative + Not Additive:
+- Extract reference pose relative to the rest and add it to the apply bone's rest.
+
+Not Relative + Additive:
+- Extract reference pose absolutely and add it to the apply bone's pose.
+
+Not Relative + Not Additive:
+- Extract reference pose absolutely and the apply bone's pose is replaced with it.
+
+Note: Relative option is available only in the case BoneConstraint3D.get_reference_type() is BoneConstraint3D.REFERENCE_TYPE_BONE. See also ReferenceType.
+Note: If there is a rotation greater than 180 degrees with constrained axes, flipping may occur.
+---CHUNK---
+Document: ConvertTransformModifier3D
+Path: godot/classes/class_converttransformmodifier3d.rst
+Summary: This section lists the properties of the ConvertTransformModifier3D class.
+
+Properties:
+* setting_count (int): Default: 0.
+---CHUNK---
+Document: ConvertTransformModifier3D
+Path: godot/classes/class_converttransformmodifier3d.rst
+Summary: This section details the methods and enumerations available for ConvertTransformModifier3D.
+
+Method: get_apply_axis(index: int) → Axis
+Method: get_apply_range_max(index: int) → float
+Method: get_apply_range_min(index: int) → float
+Method: get_apply_transform_mode(index: int) → TransformMode
+Method: get_reference_axis(index: int) → Axis
+Method: get_reference_range_max(index: int) → float
+Method: get_reference_range_min(index: int) → float
+Method: get_reference_transform_mode(index: int) → TransformMode
+Method: is_additive(index: int) → bool
+Method: is_relative(index: int) → bool
+Method: set_additive(index: int, enabled: bool)
+Method: set_apply_axis(index: int, axis: Axis)
+Method: set_apply_range_max(index: int, range_max: float)
+Method: set_apply_range_min(index: int, range_min: float)
+Method: set_apply_transform_mode(index: int, transform_mode: TransformMode)
+Method: set_reference_axis(index: int, axis: Axis)
+Method: set_reference_range_max(index: int, range_max: float)
+Method: set_reference_range_min(index: int, range_min: float)
+Method: set_reference_transform_mode(index: int, transform_mode: TransformMode)
+Method: set_relative(index: int, enabled: bool)
+
+Enumerations
+enum TransformMode:
+*   TRANSFORM_MODE_POSITION = 0: Convert with position. Transfer the difference.
+*   TRANSFORM_MODE_ROTATION = 1: Convert with rotation. The angle is the roll for the specified axis.
+*   TRANSFORM_MODE_SCALE = 2: Convert with scale. Transfers the ratio, not the difference.
+---CHUNK---
+Document: ConvertTransformModifier3D
+Path: godot/classes/class_converttransformmodifier3d.rst
+Summary: This section describes the `setting_count` property of the ConvertTransformModifier3D class.
+
+Properties:
+*   setting_count (int): The number of settings in the modifier. Default: 0.
+
+Methods:
+*   Method: set_setting_count(value: int)
+*   Method: get_setting_count() → int
+---CHUNK---
+Document: ConvertTransformModifier3D
+Path: godot/classes/class_converttransformmodifier3d.rst
+Summary: This section describes methods for getting and setting properties related to transform remapping, including axes, ranges, transform modes, and additive/relative options.
+
+Method: get_apply_axis(index: int) -> Axis
+Returns the axis of the remapping destination transform.
+
+Method: get_apply_range_max(index: int) -> float
+Returns the maximum value of the remapping destination range.
+
+Method: get_apply_range_min(index: int) -> float
+Returns the minimum value of the remapping destination range.
+
+Method: get_apply_transform_mode(index: int) -> TransformMode
+Returns the operation of the remapping destination transform.
+
+Method: get_reference_axis(index: int) -> Axis
+Returns the axis of the remapping source transform.
+
+Method: get_reference_range_max(index: int) -> float
+Returns the maximum value of the remapping source range.
+
+Method: get_reference_range_min(index: int) -> float
+Returns the minimum value of the remapping source range.
+
+Method: get_reference_transform_mode(index: int) -> TransformMode
+Returns the operation of the remapping source transform.
+
+Method: is_additive(index: int) -> bool
+Returns true if the additive option is enabled in the setting at index.
+
+Method: is_relative(index: int) -> bool
+Returns true if the relative option is enabled in the setting at index.
+
+Method: set_additive(index: int, enabled: bool) -> void
+Sets additive option in the setting at index to enabled. This mainly affects the process of applying transform to the BoneConstraint3D.set_apply_bone().
+If sets enabled to true, the processed transform is added to the pose of the current apply bone.
+If sets enabled to false, the pose of the current apply bone is replaced with the processed transform. However, if set set_relative() to true, the transform is relative to rest.
+
+Method: set_apply_axis(index: int, axis: Axis) -> void
+Sets the axis of the remapping destination transform.
+
+Method: set_apply_range_max(index: int, range_max: float) -> void
+Sets the maximum value of the remapping destination range.
+
+Method: set_apply_range_min(index: int, range_min: float) -> void
+Sets the minimum value of the remapping destination range.
+
+Method: set_apply_transform_mode(index: int, transform_mode: TransformMode) -> void
+Sets the operation of the remapping destination transform.
+
+Method: set_reference_axis(index: int, axis: Axis) -> void
+Sets the axis of the remapping source transform.
+
+Method: set_reference_range_max(index: int, range_max: float) -> void
+Sets the maximum value of the remapping source range.
+
+Method: set_reference_range_min(index: int, range_min: float) -> void
+Sets the minimum value of the remapping source range.
+
+Method: set_reference_transform_mode(index: int, transform_mode: TransformMode) -> void
+Sets the operation of the remapping source transform.
+
+Method: set_relative(index: int, enabled: bool) -> void
+Sets relative option in the setting at index to enabled.
+If sets enabled to true, the extracted and applying transform is relative to the rest.
+If sets enabled to false, the extracted transform is absolute.

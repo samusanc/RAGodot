@@ -1,0 +1,177 @@
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: This document describes the TranslationServer class.
+---CHUNK---
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: Describes the TranslationServer class, which manages language translations.
+
+TranslationServer
+Inherits: Object
+
+The server responsible for language translations.
+---CHUNK---
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: Describes the TranslationServer, its role in managing translations, and the use of TranslationDomains.
+The translation server is the API backend that manages all language translations. Translations are stored in TranslationDomains, which can be accessed by name. The most commonly used translation domain is the main translation domain. It always exists and can be accessed using an empty StringName. The translation server provides wrapper methods for accessing the main translation domain directly, without having to fetch the translation domain first. Custom translation domains are mainly for advanced usages like editor plugins. Names starting with `godot.` are reserved for engine internals.
+---CHUNK---
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: Lists related tutorials for internationalization and locales.
+
+Tutorials
+- Internationalizing games
+- Locales
+---CHUNK---
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: This section describes the properties available in the TranslationServer class.
+
+Properties:
+* pseudolocalization_enabled (bool): Default: false.
+---CHUNK---
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: This section lists and describes the methods available in the TranslationServer class for managing translations and locale-specific data.
+
+Method: add_translation(translation: Translation) → void
+Method: clear() → void
+Method: compare_locales(locale_a: String, locale_b: String) → int
+Method: find_translations(locale: String, exact: bool) → Array[Translation]
+Method: format_number(number: String, locale: String) → String
+Method: get_all_countries() → PackedStringArray
+Method: get_all_languages() → PackedStringArray
+Method: get_all_scripts() → PackedStringArray
+Method: get_country_name(country: String) → String
+Method: get_language_name(language: String) → String
+Method: get_loaded_locales() → PackedStringArray
+Method: get_locale() → String
+Method: get_locale_name(locale: String) → String
+Method: get_or_add_domain(domain: StringName) → TranslationDomain
+Method: get_percent_sign(locale: String) → String
+Method: get_plural_rules(locale: String) → String
+Method: get_script_name(script: String) → String
+Method: get_tool_locale() → String
+Method: get_translation_object(locale: String) → Translation
+Method: get_translations() → Array[Translation]
+Method: has_domain(domain: StringName) → bool
+Method: has_translation(translation: Translation) → bool
+Method: has_translation_for_locale(locale: String, exact: bool) → bool
+Method: parse_number(number: String, locale: String) → String
+Method: pseudolocalize(message: StringName) → StringName
+Method: reload_pseudolocalization() → void
+Method: remove_domain(domain: StringName) → void
+Method: remove_translation(translation: Translation) → void
+Method: set_locale(locale: String) → void
+Method: standardize_locale(locale: String, add_defaults: bool = false) → String
+Method: translate(message: StringName, context: StringName = &"") → StringName
+Method: translate_plural(message: StringName, plural_message: StringName, n: int, context: StringName = &"") → StringName
+---CHUNK---
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: Describes the `pseudolocalization_enabled` property of TranslationServer.
+
+pseudolocalization_enabled (bool): If `true`, enables the use of pseudolocalization on the main translation domain. See ProjectSettings.internationalization/pseudolocalization/use_pseudolocalization for details. Default: false.
+Method: set_pseudolocalization_enabled(value: bool)
+Method: is_pseudolocalization_enabled() -> bool
+---CHUNK---
+Document: TranslationServer
+Path: godot/classes/class_translationserver.rst
+Summary: This section details methods for managing translations, locales, and pluralization within the TranslationServer.
+
+Method: add_translation(translation: Translation) → void
+Adds a translation to the main translation domain.
+
+Method: clear() → void
+Removes all translations from the main translation domain.
+
+Method: compare_locales(locale_a: String, locale_b: String) → int
+Compares two locales and returns a similarity score between `0` (no match) and `10` (full match).
+
+Method: find_translations(locale: String, exact: bool) → Array[Translation]
+Returns the Translation instances in the main translation domain that match `locale` (see compare_locales()). If `exact` is `true`, only instances whose locale exactly equals `locale` will be returned.
+
+Method: format_number(number: String, locale: String) → String
+Converts a number from Western Arabic (0..9) to the numeral system used in the given `locale`.
+
+Method: get_all_countries() → PackedStringArray
+Returns an array of known country codes.
+
+Method: get_all_languages() → PackedStringArray
+Returns array of known language codes.
+
+Method: get_all_scripts() → PackedStringArray
+Returns an array of known script codes.
+
+Method: get_country_name(country: String) → String
+Returns a readable country name for the `country` code.
+
+Method: get_language_name(language: String) → String
+Returns a readable language name for the `language` code.
+
+Method: get_loaded_locales() → PackedStringArray
+Returns an array of all loaded locales of the project.
+
+Method: get_locale() → String
+Returns the current locale of the project. See also OS.get_locale() and OS.get_locale_language() to query the locale of the user system.
+
+Method: get_locale_name(locale: String) → String
+Returns a locale's language and its variant (e.g. `"en_US"` would return `"English (United States)"`).
+
+Method: get_or_add_domain(domain: StringName) → TranslationDomain
+Returns the translation domain with the specified name. An empty translation domain will be created and added if it does not exist.
+
+Method: get_percent_sign(locale: String) → String
+Returns the percent sign used in the given `locale`.
+
+Method: get_plural_rules(locale: String) → String
+Returns the default plural rules for the `locale`.
+
+Method: get_script_name(script: String) → String
+Returns a readable script name for the `script` code.
+
+Method: get_tool_locale() → String
+Returns the current locale of the editor. Note: When called from an exported project returns the same value as get_locale().
+
+Method: get_translation_object(locale: String) → Translation
+Deprecated: Use find_translations() instead. Returns the Translation instance that best matches `locale` in the main translation domain. Returns `null` if there are no matches.
+
+Method: get_translations() → Array[Translation]
+Returns all available Translation instances in the main translation domain as added by add_translation().
+
+Method: has_domain(domain: StringName) → bool
+Returns `true` if a translation domain with the specified name exists.
+
+Method: has_translation(translation: Translation) → bool
+Returns `true` if the main translation domain contains the given `translation`.
+
+Method: has_translation_for_locale(locale: String, exact: bool) → bool
+Returns `true` if there are any Translation instances in the main translation domain that match `locale` (see compare_locales()). If `exact` is `true`, only instances whose locale exactly equals `locale` are considered.
+
+Method: parse_number(number: String, locale: String) → String
+Converts `number` from the numeral system used in the given `locale` to Western Arabic (0..9).
+
+Method: pseudolocalize(message: StringName) → StringName
+Returns the pseudolocalized string based on the `message` passed in. Note: This method always uses the main translation domain.
+
+Method: reload_pseudolocalization() → void
+Reparses the pseudolocalization options and reloads the translation for the main translation domain.
+
+Method: remove_domain(domain: StringName) → void
+Removes the translation domain with the specified name. Note: Trying to remove the main translation domain is an error.
+
+Method: remove_translation(translation: Translation) → void
+Removes the given translation from the main translation domain.
+
+Method: set_locale(locale: String) → void
+Sets the locale of the project. The `locale` string will be standardized to match known locales (e.g. `en-US` would be matched to `en_US`). If translations have been loaded beforehand for the new locale, they will be applied.
+
+Method: standardize_locale(locale: String, add_defaults: bool = false) → String
+Returns a `locale` string standardized to match known locales (e.g. `en-US` would be matched to `en_US`). If `add_defaults` is `true`, the locale may have a default script or country added.
+
+Method: translate(message: StringName, context: StringName = "") → StringName
+Returns the current locale's translation for the given message and context. Note: This method always uses the main translation domain.
+
+Method: translate_plural(message: StringName, plural_message: StringName, n: int, context: StringName = "") → StringName
+Returns the current locale's translation for the given message, plural message and context. The number `n` is the number or quantity of the plural object. It will be used to guide the translation system to fetch the correct plural form for the selected language. Note: This method always uses the main translation domain.

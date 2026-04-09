@@ -1,0 +1,133 @@
+Document: OpenXR Render Models
+Path: godot/tutorials/xr/openxr_render_models.rst
+Summary: This document explains how to render controller models in OpenXR applications using Godot.
+
+This tutorial covers rendering controller models in OpenXR applications.
+
+OpenXR provides a way to render controller models. This is useful for visualizing the user's controllers within the virtual environment.
+
+To enable controller model rendering, you need to configure the OpenXR plugin.
+
+GDScript:
+```gdscript
+# Example GDScript for enabling controller models (conceptual)
+func _ready():
+    if OpenXRAPI.is_available():
+        OpenXRAPI.set_render_controller_models(true)
+```
+
+C#:
+```csharp
+// Example C# for enabling controller models (conceptual)
+public override void _Ready()
+{
+    if (OpenXRAPI.IsAvailable())
+    {
+        OpenXRAPI.SetRenderControllerModels(true);
+    }
+}
+```
+
+The rendering of controller models is typically handled by the OpenXR runtime itself. Godot's OpenXR plugin acts as an interface to this functionality. When enabled, the runtime will attempt to load and display appropriate 3D models for the connected controllers.
+
+Key Rule: The actual 3D models used for controllers are determined by the OpenXR runtime and the hardware manufacturer, not directly by Godot. Godot facilitates the request to render these models.
+
+If controller models are not appearing, ensure that:
+*   The OpenXR plugin is correctly installed and enabled.
+*   Your OpenXR runtime is properly configured and supports controller model rendering.
+*   The necessary drivers and SDKs for your VR hardware are installed.
+
+Some runtimes may offer options to customize or disable controller model rendering. Refer to your specific OpenXR runtime's documentation for details.
+---CHUNK---
+Document: OpenXR Render Models
+Path: godot/tutorials/xr/openxr_render_models.rst
+Summary: Explains how OpenXR's render models API allows querying for and displaying accurate 3D assets for physical XR hardware, including controller positioning and hand tracking integration.
+OpenXR's action map system and core interaction profiles ensure platform agnosticism, allowing applications to function on various hardware. However, this means developers don't know the exact hardware being used, making it difficult to display relevant information like controller models.
+
+The OpenXR render models API addresses this by enabling developers to query the XR runtime for 3D assets that match the physical hardware. This API also provides information for correctly positioning hardware and its subcomponents within the tracking volume, allowing for accurate representation of actions like trigger presses or button animations.
+
+For runtimes supporting the controller data source for hand tracking, the render models API can also position the user's fingers and hand accurately based on the controller's shape. This functionality works in conjunction with the hand joints motion range extension to prevent finger clipping.
+---CHUNK---
+Document: OpenXR Render models node
+Path: godot/tutorials/xr/openxr_render_models.rst
+Summary: Explains how to use the OpenXRRenderModelManager node to display render models for XR devices.
+The OpenXRRenderModelManager node automates render model functionality by tracking active render models provided by the XR runtime and creating child nodes for each. This node requires an XROrigin3D node as an ancestor.
+
+The behavior of the OpenXRRenderModelManager node depends on its `tracker` property:
+*   If `tracker` is set to `Any`, it displays all currently tracked render models. In this case, the node must be a direct child of the XROrigin3D node.
+*   If `tracker` is set to `None set`, it displays render models for which no tracker has been identified. This node must also be a direct child of the XROrigin3D node.
+*   If `tracker` is set to `Left Hand` or `Right Hand`, it displays render models associated with the respective hand. In this scenario, the node can be placed deeper within the scene tree.
+
+Warning: For most XR runtimes, this means the render model represents a controller being held by the user, but this is not guaranteed. Some XR runtimes may always set the tracker to left or right hand even if the controller is not held but is being tracked. Always test this to avoid unwanted behavior.
+
+When `tracker` is set to `Left Hand` or `Right Hand`, you can specify an action for a pose in the action map by setting the `make_local_to_pose` property to the desired pose action. When used with an XRController3D node utilizing the same pose, this allows for a layer that deviates from the tracked position of both the controller and its render model.
+
+Note: Combining this with hand tracking presents a challenge because hand tracking is independent of the action map system. You will need to combine hand tracking and controller tracking poses to correctly offset the render models. This is beyond the scope of this documentation.
+---CHUNK---
+Document: OpenXR Render Models Tutorial
+Path: godot/tutorials/xr/openxr_render_models.rst
+Summary: This section describes a setup for rendering hand models in OpenXR, including node hierarchy, physics considerations, and a GDScript example.
+
+In this setup, an OpenXRRenderModelManager node is placed directly under the XROrigin3D node. Its target property is set to None, allowing it to manage render models not associated with the left or right hand controllers.
+
+A similar setup is used for the left and right hands. For the left hand, an XRController3D node tracks the hand's location.
+Note: The grip pose is used in this example, but the palm pose is often more suitable and predictable, though not universally supported by all XR runtimes. A hand tracking demo project offers a solution for switching between poses based on runtime support.
+
+As a child of the XRController3D node, an AnimatableBody3D node follows the tracked hand location. This node interacts with physics objects to prevent the player's hand from passing through walls. It includes a collision shape that encloses the hand.
+Note: It is important to set the physics priority to ensure this logic runs after any physics logic that moves the XROrigin3D node, preventing the hand from lagging by a frame.
+
+The following GDScript shows a basic implementation for this:
+GDScript:
+    class_name CollisionHands3D
+    extends AnimatableBody3D
+
+    func _ready():
+        # Make sure these are set correctly.
+        top_level = true
+        sync_to_physics = false
+        process_physics_priority = -90
+
+    func _physics_process(_delta):
+        # Follow our parent node around.
+        var dest_transform = get_parent().global_transform
+
+        # We just apply rotation for this example.
+        global_basis = dest_transform.basis
+
+        # Attempt to move to where our tracked hand is.
+        move_and_collide(dest_transform.origin - global_position)
+
+Finally, another OpenXRRenderModelManager node is used. This node has its target set to the appropriate hand and make_local_to_pose set to the correct pose. This ensures that the render models associated with this hand are displayed correctly and are offset if the collision handler has modified the location.
+---CHUNK---
+Document: OpenXR Render Models
+Path: godot/tutorials/xr/openxr_render_models.rst
+Summary: This section describes the OpenXRRenderModel node, its purpose in displaying and positioning render models, and how to interact with its properties and signals.
+The OpenXRRenderModel node implements the logic to display and position a given render model provided by the render models API. Instances of this node are typically added by the OpenXRRenderModelManager node, but they can be interacted with directly.
+
+When Godot obtains information about a new render model, an RID is created to reference it. Assigning this RID to the `render_model` property of an OpenXRRenderModel node will cause the node to display the render model. It will also manage the transform to place the render model correctly and animate its sub-objects.
+
+The `get_top_level_path()` function returns the top-level path associated with the render model, which points to either the left or right hand. Since the top-level path can change when the user picks up or puts down a controller, you can connect to the `render_model_top_level_path_changes` signal to react to these changes.
+
+Depending on the configuration of the OpenXRRenderModelManager nodes, render models may be added or removed as their top-level path changes.
+---CHUNK---
+Document: OpenXR Render Models
+Path: godot/tutorials/xr/openxr_render_models.rst
+Summary: This section details how to directly interact with OpenXR render model data and use its core API functions.
+
+You can access the OpenXRRenderModelExtension singleton to interact with the data that drives render models directly. This object allows you to query if render models are supported and enabled on the current device by calling the `is_active` function. The built-in logic implements the interaction render model API, which lists render models related to controllers and similar devices present in the action map. It automatically creates and removes render model entities exposed through this API.
+
+New extensions can be implemented in a GDExtension plugin. Such a plugin can call `render_model_create` and `render_model_destroy` to create objects that provide access to render models through the core render models API. You should not destroy a render model outside of this logic.
+
+You can connect to the `render_model_added` and `render_model_removed` signals to be notified when new render models are added or removed.
+
+The core methods for working with this API are:
+* render_model_get_all: Provides an array of RIDs for all render models being tracked.
+* render_model_new_scene_instance: Provides a new scene containing all meshes needed to display the render model.
+* render_model_get_subaction_paths: Provides a list of subaction paths from your action map related to this render mode.
+* render_model_get_top_level_path: Returns the top-level path associated with this render model. Use the `render_model_top_level_path_changed` signal to react to changes.
+* render_model_get_confidence: Returns the tracking confidence for the tracking data of this render model.
+* render_model_get_root_transform: Returns the root transform for this render model within the current reference space, which can be used to place the render model in space.
+* render_model_get_animatable_node_count: Returns the number of nodes in the render model scene that can be animated.
+* render_model_get_animatable_node_name: Returns the name of a node that can be animated. This node can be nested at any depth within the scene.
+* render_model_is_animatable_node_visible: Returns true if this animatable node should be visible.
+* render_model_get_animatable_node_transform: Returns the local transform for this animatable node, which can be directly applied.

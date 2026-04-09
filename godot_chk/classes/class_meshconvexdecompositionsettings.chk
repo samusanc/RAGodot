@@ -1,0 +1,127 @@
+Document: MeshConvexDecompositionSettings
+Path: godot/classes/class_meshconvexdecompositionsettings.rst
+Summary: Provides settings for convex decomposition of meshes.
+
+Inherits: Resource < RefCounted < Object
+
+This class holds settings for the convex decomposition of a mesh. It's used by the `Mesh.convex_decomposition()` method.
+
+Properties:
+
+mesh_path (String): The path to the mesh resource to decompose.
+max_concavity (float): The maximum concavity allowed. A lower value results in more, smaller convex shapes. Default: 2.0.
+max_iterations (int): The maximum number of iterations to perform. A higher value can lead to better results but takes longer. Default: 100.
+voxel_size (float): The size of the voxels to use for the decomposition. A smaller voxel size can capture finer details but increases computation time. Default: 0.01.
+merge_clipping (bool): Whether to merge clipping planes. This can help reduce the number of convex shapes. Default: false.
+merge_neutral_islands (bool): Whether to merge neutral islands. This can help reduce the number of convex shapes. Default: true.
+merge_ghost_cliques (bool): Whether to merge ghost cliques. This can help reduce the number of convex shapes. Default: true.
+max_convex_hulls (int): The maximum number of convex hulls to generate. Default: 4.
+alpha (float): The alpha value for the decomposition. Default: 0.95.
+beta (float): The beta value for the decomposition. Default: 0.01.
+theta (float): The theta value for the decomposition. Default: 0.01.
+pca_normalize (bool): Whether to normalize the PCA. Default: false.
+convexhull_downsampling (bool): Whether to downsample the convex hull. Default: false.
+ocd_simplify_hulls (bool): Whether to simplify the hulls using OCD. Default: false.
+add_unnamed_polygon_models_to_all_islands (bool): Whether to add unnamed polygon models to all islands. Default: false.
+min_volume_per_hull (float): The minimum volume per hull. Default: 0.0001.
+callback (String): The callback function to call during decomposition. Default: "".
+---CHUNK---
+Document: MeshConvexDecompositionSettings
+Path: godot/classes/class_meshconvexdecompositionsettings.rst
+Summary: Provides parameters for Mesh convex decomposition operations.
+
+Inherits: RefCounted < Object
+
+Parameters to be used with a Mesh convex decomposition operation.
+---CHUNK---
+Document: MeshConvexDecompositionSettings
+Path: godot/classes/class_meshconvexdecompositionsettings.rst
+Summary: Provides parameters for Mesh convex decomposition operations.
+
+MeshConvexDecompositionSettings is a class that holds parameters for performing convex decomposition on a Mesh resource. This allows complex meshes to be broken down into simpler convex shapes, which can be beneficial for physics simulations and other performance-critical operations.
+---CHUNK---
+Document: MeshConvexDecompositionSettings
+Path: godot/classes/class_meshconvexdecompositionsettings.rst
+Summary: Defines properties for configuring convex decomposition settings for meshes.
+
+Properties:
+* convex_hull_approximation (bool): If true, uses an approximation for convex hull generation. Default: true.
+* convex_hull_downsampling (int): Controls the downsampling factor for convex hull generation. Default: 4.
+* max_concavity (float): The maximum concavity allowed for generated convex hulls. Default: 1.0.
+* max_convex_hulls (int): The maximum number of convex hulls to generate. Default: 1.
+* max_num_vertices_per_convex_hull (int): The maximum number of vertices allowed per generated convex hull. Default: 32.
+* min_volume_per_convex_hull (float): The minimum volume required for a generated convex hull. Default: 0.0001.
+* mode (Mode): The decomposition mode to use. Default: 0.
+* normalize_mesh (bool): If true, the mesh will be normalized before decomposition. Default: false.
+* plane_downsampling (int): Controls the downsampling factor for plane generation. Default: 4.
+* project_hull_vertices (bool): If true, hull vertices will be projected onto the hull. Default: true.
+* resolution (int): The resolution used for decomposition. Default: 10000.
+* revolution_axes_clipping_bias (float): Clipping bias for revolution axes. Default: 0.05.
+* symmetry_planes_clipping_bias (float): Clipping bias for symmetry planes. Default: 0.05.
+---CHUNK---
+Document: MeshConvexDecompositionSettings
+Path: godot/classes/class_meshconvexdecompositionsettings.rst
+Summary: Defines the available modes for convex decomposition in MeshConvexDecompositionSettings.
+
+Enumerations
+enum Mode:
+  CONVEX_DECOMPOSITION_MODE_VOXEL = 0
+    Constant for voxel-based approximate convex decomposition.
+  CONVEX_DECOMPOSITION_MODE_TETRAHEDRON = 1
+    Constant for tetrahedron-based approximate convex decomposition.
+---CHUNK---
+Document: MeshConvexDecompositionSettings
+Path: godot/classes/class_meshconvexdecompositionsettings.rst
+Summary: Describes the properties available for configuring convex decomposition settings in Godot.
+
+Property: convex_hull_approximation (bool)
+Description: If true, uses approximation for computing convex hulls.
+Default: true
+
+Property: convex_hull_downsampling (int)
+Description: Controls the precision of the convex-hull generation process during the clipping plane selection stage. Ranges from 1 to 16.
+Default: 4
+
+Property: max_concavity (float)
+Description: Maximum concavity. Ranges from 0.0 to 1.0.
+Default: 1.0
+
+Property: max_convex_hulls (int)
+Description: The maximum number of convex hulls to produce from the merge operation.
+Default: 1
+
+Property: max_num_vertices_per_convex_hull (int)
+Description: Controls the maximum number of triangles per convex-hull. Ranges from 4 to 1024.
+Default: 32
+
+Property: min_volume_per_convex_hull (float)
+Description: Controls the adaptive sampling of the generated convex-hulls. Ranges from 0.0 to 0.01.
+Default: 0.0001
+
+Property: mode (Mode)
+Description: Mode for the approximate convex decomposition.
+Default: 0
+
+Property: normalize_mesh (bool)
+Description: If true, normalizes the mesh before applying the convex decomposition.
+Default: false
+
+Property: plane_downsampling (int)
+Description: Controls the granularity of the search for the "best" clipping plane. Ranges from 1 to 16.
+Default: 4
+
+Property: project_hull_vertices (bool)
+Description: If true, projects output convex hull vertices onto the original source mesh to increase floating-point accuracy of the results.
+Default: true
+
+Property: resolution (int)
+Description: Maximum number of voxels generated during the voxelization stage.
+Default: 10000
+
+Property: revolution_axes_clipping_bias (float)
+Description: Controls the bias toward clipping along revolution axes. Ranges from 0.0 to 1.0.
+Default: 0.05
+
+Property: symmetry_planes_clipping_bias (float)
+Description: Controls the bias toward clipping along symmetry planes. Ranges from 0.0 to 1.0.
+Default: 0.05

@@ -1,0 +1,85 @@
+Document: SceneReplicationConfig
+Path: godot/classes/class_scenereplicationconfig.rst
+Summary: Defines configuration for scene replication in Godot.
+
+SceneReplicationConfig
+
+Inherits: Resource < Object
+
+This class allows you to define custom configuration for how scenes are replicated across a network. It provides a way to specify which properties of nodes should be synchronized and how they should be handled during replication. This is particularly useful for multiplayer games where you need fine-grained control over network synchronization.
+
+You can use SceneReplicationConfig to:
+
+*   Specify which properties of a node should be replicated.
+*   Define custom replication logic for specific properties.
+*   Control the frequency and method of property updates.
+*   Manage the replication of node groups or entire sub-trees.
+
+By creating and assigning instances of SceneReplicationConfig to your networked scenes, you can optimize network traffic and ensure consistent game state across all connected clients and the server. This class is a core component of Godot's high-level multiplayer API, enabling developers to build robust and scalable networked applications.
+---CHUNK---
+Document: SceneReplicationConfig
+Path: godot/classes/class_scenereplicationconfig.rst
+Summary: Configuration for properties to synchronize with a MultiplayerSynchronizer.
+
+SceneReplicationConfig
+Inherits: Resource < RefCounted < Object
+
+Configuration for properties to synchronize with a MultiplayerSynchronizer.
+---CHUNK---
+Document: SceneReplicationConfig
+Path: godot/classes/class_scenereplicationconfig.rst
+Summary: This section details the methods available for configuring scene replication properties, including adding, removing, and querying synchronization settings.
+
+Enumerations
+enum **ReplicationMode**:
+REPLICATION_MODE_NEVER = 0
+Do not keep the given property synchronized.
+REPLICATION_MODE_ALWAYS = 1
+Replicate the given property on process by constantly sending updates using unreliable transfer mode.
+REPLICATION_MODE_ON_CHANGE = 2
+Replicate the given property on process by sending updates using reliable transfer mode when its value changes.
+
+Method Descriptions
+Method: add_property(path: NodePath, index: int = -1)
+Adds the property identified by the given path to the list of the properties being synchronized, optionally passing an index.
+Note: For details on restrictions and limitations on property synchronization, see MultiplayerSynchronizer.
+
+Method: get_properties() -> Array[NodePath]
+Returns a list of synchronized property NodePaths.
+
+Method: has_property(path: NodePath) -> bool
+Returns true if the given path is configured for synchronization.
+
+Method: property_get_index(path: NodePath) -> int
+Finds the index of the given path.
+
+Method: property_get_replication_mode(path: NodePath) -> ReplicationMode
+Returns the replication mode for the property identified by the given path.
+
+Method: property_get_spawn(path: NodePath) -> bool
+Returns true if the property identified by the given path is configured to be synchronized on spawn.
+
+Method: property_get_sync(path: NodePath) -> bool
+Deprecated: Use property_get_replication_mode() instead.
+Returns true if the property identified by the given path is configured to be synchronized on process.
+
+Method: property_get_watch(path: NodePath) -> bool
+Deprecated: Use property_get_replication_mode() with REPLICATION_MODE_ON_CHANGE instead.
+Returns true if the property identified by the given path is configured to be reliably synchronized when changes are detected on process.
+
+Method: property_set_replication_mode(path: NodePath, mode: ReplicationMode)
+Sets the synchronization mode for the property identified by the given path.
+
+Method: property_set_spawn(path: NodePath, enabled: bool)
+Sets whether the property identified by the given path is configured to be synchronized on spawn.
+
+Method: property_set_sync(path: NodePath, enabled: bool)
+Deprecated: Use property_set_replication_mode() with REPLICATION_MODE_ALWAYS instead.
+Sets whether the property identified by the given path is configured to be synchronized on process.
+
+Method: property_set_watch(path: NodePath, enabled: bool)
+Deprecated: Use property_set_replication_mode() with REPLICATION_MODE_ON_CHANGE instead.
+Sets whether the property identified by the given path is configured to be reliably synchronized when changes are detected on process.
+
+Method: remove_property(path: NodePath)
+Removes the property identified by the given path from the configuration.

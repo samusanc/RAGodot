@@ -1,0 +1,130 @@
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This document provides guidance on common physics issues in Godot and how to resolve them.
+
+This page covers common physics issues and how to solve them.
+
+Common Issues
+-------------
+
+*   **Objects falling through each other:** This is usually caused by one of two things:
+    *   **Collision layers and masks:** Ensure that the collision layers and masks of the objects are set up correctly so they can interact.
+    *   **Physics step size:** If objects are moving very fast, they might pass through each other between physics steps. You can increase the physics tick rate in Project Settings -> Physics -> 2D/3D -> Physics Ticks Per Second.
+
+*   **Objects jittering or vibrating:** This can happen when objects have conflicting physics properties or when there are multiple physics bodies trying to occupy the same space.
+    *   **Check for overlapping colliders:** Ensure that colliders are not overlapping in a way that causes instability.
+    *   **Adjust physics material friction:** Sometimes, high friction values can cause jittering. Try reducing the friction in the PhysicsMaterial.
+    *   **Use continuous collision detection:** For fast-moving objects, enabling continuous collision detection (CCD) can help prevent tunneling and reduce jittering. This can be enabled on RigidBody nodes.
+
+*   **Objects not colliding when expected:**
+    *   **Verify collision shapes:** Make sure that the collision shapes attached to your physics bodies accurately represent the visual mesh or sprite.
+    *   **Check physics layers and masks:** As mentioned before, ensure layers and masks are configured correctly.
+    *   **StaticBody vs. KinematicBody vs. RigidBody:** Understand the difference between these body types and use the appropriate one for your needs. StaticBodies are for immovable objects, KinematicBodies for player-controlled or animated objects that don't respond to forces, and RigidBodies for objects that should react realistically to physics.
+
+*   **Performance issues with physics:**
+    *   **Reduce the number of physics bodies:** If you have a large number of physics bodies, consider optimizing your scene by reducing their count or using simpler collision shapes.
+    *   **Optimize collision shapes:** Complex collision shapes are more computationally expensive. Use simpler shapes (like boxes and spheres) whenever possible. Concave shapes are particularly costly.
+    *   **Adjust physics tick rate:** While increasing the tick rate can improve accuracy, it also increases CPU usage. Find a balance that works for your project.
+
+Troubleshooting Steps
+---------------------
+
+1.  **Isolate the problem:** Try to reproduce the issue with the simplest possible scene. Remove unnecessary nodes and scripts to pinpoint the cause.
+2.  **Check the Inspector:** Carefully review the properties of your physics bodies, collision shapes, and physics materials in the Inspector panel.
+3.  **Use the Debugger:** Godot's debugger can be invaluable. You can visualize collision shapes and physics states. Enable "Visible Collision Shapes" in the Debug menu.
+4.  **Print values:** Use `print()` statements in your scripts to check the positions, velocities, and other physics-related properties of your nodes at runtime.
+5.  **Consult the documentation:** Refer to the official Godot documentation for detailed information on physics nodes and their properties.
+
+By systematically checking these common issues and following the troubleshooting steps, you should be able to resolve most physics-related problems in your Godot projects.
+---CHUNK---
+Document: Troubleshooting physics issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This section provides guidance on resolving unexpected physics behavior in Godot, including configuration adjustments and checking known engine issues.
+When working with a physics engine, you may encounter unexpected results. While many of these issues can be resolved through configuration, some of them are the result of engine bugs. For known issues related to the physics engine, see open physics-related issues on GitHub. Looking through closed issues can also help answer questions related to physics engine behavior.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This section explains how to resolve the tunneling issue in Godot's physics engine where objects pass through each other at high speeds.
+
+Objects are passing through each other at high speeds. This is known as tunneling. Enabling Continuous CD in the RigidBody properties can sometimes resolve this issue. If this does not help, there are other solutions you can try:
+
+*   Make your static collision shapes thicker. For example, if you have a thin floor that the player can't get below in some way, you can make the collider thicker than the floor's visual representation.
+*   Modify your fast-moving object's collision shape depending on its movement speed. The faster the object moves, the larger the collision shape should extend outside of the object to ensure it can collide with thin walls more reliably.
+*   Increase Physics Ticks per Second in the advanced Project Settings. Note: While this has other benefits, such as more stable simulation and reduced input lag, this increases CPU utilization and may not be viable for mobile/web platforms. Multipliers of the default value of 60 (such as 120, 180 or 240) should be preferred for a smooth appearance on most displays.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This section explains why stacked rigid bodies can become unstable and wobble, and provides solutions to mitigate this issue.
+Stacked objects are unstable and wobbly. This is a common difficulty in physics engines where integrating opposing forces causes instability, especially with many stacked objects. The simulation can become wobbly, preventing objects from resting stably on each other.
+
+To help alleviate this issue, increase the physics simulation rate by adjusting the "Physics Ticks per Second" property in the advanced Project Settings. Note that this increases CPU usage and might not be suitable for mobile or web platforms. Using multipliers of the default value of 60, such as 120, 180, or 240, is recommended for smoother visuals on most displays.
+
+In 3D projects, switching the physics engine from the default GodotPhysics to Jolt can also enhance stability. Refer to the documentation on using Jolt physics for further details.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: Explains how to work around the limitation of not being able to scale physics bodies or collision shapes directly.
+Scaled physics bodies or collision shapes do not collide correctly. Godot does not currently support scaling of physics bodies or collision shapes. As a workaround, change the collision shape's extents instead of changing its scale. If you want the visual representation's scale to change as well, change the scale of the underlying visual representation (Sprite2D, MeshInstance3D, …) and change the collision shape's extents separately. Make sure the collision shape is not a child of the visual representation in this case.
+
+Since resources are shared by default, you'll have to make the collision shape resource unique if you don't want the change to be applied to all nodes using the same collision shape resource in the scene. This can be done in two ways:
+- In the editor, by clicking Make Unique in the CollisionShape resource dropdown in the inspector, then changing its size.
+- In a script, by calling duplicate() in a script on the collision shape resource before changing its size.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This section explains why thin objects can appear wobbly in physics simulations and how to fix it.
+Thin objects are wobbly when resting on the floor. This can be due to one of two causes:
+* The floor's collision shape is too thin.
+* The RigidBody's collision shape is too thin.
+
+In the first case, this can be alleviated by making the floor's collision shape thicker. For example, if you have a thin floor that the player can't get below in some way, you can make the collider thicker than the floor's visual representation.
+
+In the second case, this can usually only be resolved by increasing the physics simulation rate (as making the shape thicker would cause a disconnect between the RigidBody's visual representation and its collision).
+
+In both cases, increasing the physics simulation rate can also help alleviate this issue. To do so, increase Physics Ticks per Second in the advanced Project Settings. Note: this increases CPU utilization and may not be viable for mobile/web platforms. Multipliers of the default value of 60 (such as 120, 180 or 240) should be preferred for a smooth appearance on most displays.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This section discusses instability issues with cylinder collision shapes in GodotPhysics and suggests using alternative shapes or the Jolt physics engine.
+
+Cylinder collision shapes can be unstable. Switching the physics engine from the default GodotPhysics to Jolt may improve cylinder collision shape reliability. For more information, see Using Jolt Physics.
+
+During the transition from Bullet to GodotPhysics in Godot 4, cylinder collision shapes were reimplemented. Cylinder collision shapes are complex to support, leading to known bugs in GodotPhysics.
+
+If using GodotPhysics, consider using box or capsule collision shapes for characters. Box shapes offer the best reliability but increase the character's diagonal footprint. Capsule shapes avoid this issue but can complicate precision platforming.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This section explains how to address instability in VehicleBody simulations, particularly at high speeds, by adjusting the physics tick rate.
+
+When a physics body moves at high speed, it covers a significant distance between physics steps. For example, at 360 km/h (100 units/sec with 1 unit = 1 meter), a vehicle moves approximately 1.67 units per physics tick at the default 60 Hz rate. This can cause small objects to be missed (tunneling) and reduces the simulation's available data.
+
+Fast-moving vehicles can be stabilized by increasing the physics simulation rate. This is done by increasing the Project Settings property `physics/common/physics_ticks_per_second`. Be aware that this increases CPU usage and might not be suitable for mobile or web platforms. Using multipliers of the default value (e.g., 120, 180, or 240) is recommended for smoother visual results on most displays.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: Explains how to resolve collision bumps on tile edges by using composite colliders.
+When an object moves across tiles, it can result in bumps due to the physics engine encountering edges of individual shapes, even when those edges are covered by other shapes. This issue affects both 2D and 3D physics.
+
+The recommended solution is to implement a "composite" collider. Instead of each tile having its own collision shape, a single collision shape is created to represent the collision area for a group of tiles. Generally, composite colliders should be divided on a per-island basis, meaning each connected group of tiles receives its own collider.
+
+Employing a composite collider can also enhance physics simulation performance in specific scenarios. However, due to the increased complexity of a composite collision shape, this may not always lead to a net performance improvement.
+
+Tip: In Godot 4.5 and later versions, composite colliders are automatically generated when utilizing a TileMapLayer node. The size of these chunks, which is 16 tiles on each axis by default, can be adjusted via the "Physics Quadrant Size" property in the TileMapLayer inspector. Larger quadrant sizes generally result in more dependable collision detection but may slow down updates when the TileMap is modified.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: This section explains common causes of framerate drops in physics simulations, particularly when objects collide, and suggests solutions.
+Framerate drops when an object touches another object. This is likely due to one of the objects using a collision shape that is too complex. Convex collision shapes should use a number of shapes as low as possible for performance reasons. When relying on Godot's automatic generation, it's possible that you ended up with dozens if not hundreds of shapes created for a single convex shape collision resource. In some cases, replacing a convex collider with a couple of primitive collision shapes (box, sphere, or capsule) can deliver better performance. This issue can also occur with StaticBodies that use very detailed trimesh (concave) collisions. In this case, use a simplified representation of the level geometry as a collider. Not only this will improve physics simulation performance significantly, but this can also improve stability by letting you remove small fixtures and crevices from being considered by collision. In 3D, switching the physics engine from the default GodotPhysics to Jolt can also improve performance. See Using Jolt Physics for more information.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: Explains the "physics spiral of death" and how to mitigate it by adjusting physics settings.
+The framerate can suddenly drop to a very low value when the physics engine cannot keep up with the expected simulation rate. This leads to the "physics spiral of death," where the engine simulates a limited number of physics steps per rendered frame, causing the framerate to drop until it reaches a very low value (typically 1-2 FPS).
+
+To avoid this, check your project for situations that cause an excessive number of physics simulations simultaneously or involve overly complex collision shapes. If these situations cannot be avoided, you can increase the **Max Physics Steps per Frame** project setting and/or reduce **Physics Ticks per Second** to alleviate the issue.
+---CHUNK---
+Document: Troubleshooting Physics Issues
+Path: godot/tutorials/physics/troubleshooting_physics_issues.rst
+Summary: Explains why physics simulation can be unreliable when far from the world origin due to floating-point precision errors.
+Physics simulation is unreliable when far away from the world origin. This is caused by floating-point precision errors, which become more pronounced as the physics simulation occurs further away from the world origin. This issue also affects rendering, which results in wobbly camera movement when far away from the world origin. See large world coordinates for more information.

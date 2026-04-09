@@ -1,0 +1,210 @@
+Document: GDExtension File
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: This document explains the structure and purpose of the GDExtension configuration file.
+
+The GDExtension configuration file is a JSON file that tells Godot how to load and use your GDExtension. It's the entry point for your extension, and it contains all the necessary information for Godot to find and initialize your native code.
+
+The file must be named `extension.json` and placed in the root directory of your GDExtension project.
+
+Here's an example of a basic `extension.json` file:
+
+```json
+{
+    "entry_point": "bin/libmyextension.so",
+    "gdextension_cpp_api_version": "1.0",
+    "gdextension_version": "1.0",
+    "capabilities": [
+        "core",
+        "editor"
+    ],
+    "classes": [
+        {
+            "name": "MyCustomNode",
+            "base_class": "Node",
+            "api_version": "1.0",
+            "script_path": "res://my_custom_node.gd"
+        }
+    ]
+}
+```
+
+Let's break down the fields:
+
+*   `entry_point`: This is the path to your compiled GDExtension library. The path is relative to the `extension.json` file. Godot will load this library when the extension is initialized.
+*   `gdextension_cpp_api_version`: This specifies the version of the GDExtension C++ API that your extension was compiled against. This is important for compatibility.
+*   `gdextension_version`: This specifies the version of your GDExtension itself. This is useful for version management.
+*   `capabilities`: This is an array of strings that define the capabilities of your GDExtension. Common capabilities include:
+    *   `core`: The extension provides core functionality that is always available.
+    *   `editor`: The extension provides functionality that is only available in the Godot editor.
+*   `classes`: This is an array of objects, where each object defines a custom class that your GDExtension exposes to Godot. For each class, you can specify:
+    *   `name`: The name of the custom class. This is the name you will use in GDScript or C# to instantiate the class.
+    *   `base_class`: The base class of your custom class. This determines the inheritance hierarchy.
+    *   `api_version`: The version of the GDExtension API used for this specific class.
+    *   `script_path`: The path to the script file (e.g., `.gd`) that implements the custom class. This is optional and only needed if you are binding a script to your native class.
+
+This `extension.json` file is crucial for Godot to recognize and load your GDExtension correctly. Ensure that the paths and versions specified are accurate to avoid loading errors.
+---CHUNK---
+Document: GDExtension
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: This section describes the purpose and structure of the .gdextension file used to configure GDExtension libraries.
+
+The .gdextension file is a JSON file that Godot uses to load and configure GDExtension libraries. It tells Godot where to find the shared library file and what classes it exposes.
+
+Here's an example of a .gdextension file:
+
+```json
+{
+    "__comment__": "This is a comment. Comments are not allowed in valid JSON, but Godot allows them in .gdextension files.",
+    "config_version": "v1.0",
+    "entry_point": "res://my_library.gdextension",
+    "libraries": {
+        "linux.x86_64": "res://bin/linux/x86_64/my_library.so",
+        "macos.x86_64": "res://bin/macos/x86_64/my_library.dylib",
+        "windows.x86_64": "res://bin/windows/x86_64/my_library.dll"
+    },
+    "classes": {
+        "MyCustomNode": {
+            "language": "gdscript",
+            "path": "res://my_custom_node.gd"
+        },
+        "MyCustomClass": {
+            "language": "csharp",
+            "path": "res://MyCustomClass.cs"
+        }
+    }
+}
+```
+
+Let's break down the structure:
+
+*   `__comment__`: This field is optional and can contain comments. Note that standard JSON does not support comments, but Godot allows them in .gdextension files for convenience.
+*   `config_version`: Specifies the version of the .gdextension file format. Currently, "v1.0" is the only supported version.
+*   `entry_point`: This field is optional and specifies the path to the .gdextension file itself. It's mainly used for debugging purposes.
+*   `libraries`: This is a dictionary where keys are platform identifiers (e.g., "linux.x86_64", "macos.x86_64", "windows.x86_64") and values are the paths to the shared library files for each platform. Godot will automatically load the correct library based on the operating system and architecture it's running on.
+*   `classes`: This is a dictionary where keys are the names of the classes exposed by the GDExtension library. The values are dictionaries containing:
+    *   `language`: The scripting language used for the class (e.g., "gdscript", "csharp").
+    *   `path`: The path to the script file that defines the class.
+
+When Godot loads a .gdextension file, it reads this configuration to understand how to load and use the GDExtension library. It maps the class names to their respective script files and loads the appropriate shared library for the current platform.
+---CHUNK---
+Document: GDExtension File
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: This section provides an overview of the `.gdextension` file, which contains instructions for loading GDExtensions.
+---CHUNK---
+Document: GDExtension File
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: Describes the configuration options available in a GDExtension file.
+Configuration section
+*   entry_symbol (String): Name of the entry function for initializing the GDExtension. This function should be defined in the register_types.cpp file when using godot-cpp. Adding this is necessary for the extension to work.
+*   compatibility_minimum (String): Minimum compatible version. This prevents older versions of Godot from loading extensions that depend on features from newer versions of Godot. Key Rule: Only supported in Godot 4.1 or later.
+*   compatibility_maximum (String): Maximum compatible version. This prevents newer versions of Godot from loading the extension. Key Rule: Only supported in Godot 4.3 or later.
+*   reloadable (Boolean): Reloads the extension upon recompilation. Reloading is supported for the godot-cpp binding in Godot 4.2 or later. Other language bindings may or may not support it as well. This flag should be mainly used for developing or debugging an extension.
+*   android_aar_plugin (Boolean): The GDExtension is part of a v2 Android plugin. During export this flag will indicate to the editor that the GDExtension native shared libraries are exported by the Android plugin AAR binaries.
+---CHUNK---
+Document: GDExtension File
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: This section of the GDExtension configuration file specifies the paths to compiled GDExtension library binaries and how to filter them using feature flags.
+
+The `[libraries]` section in the GDExtension configuration file allows you to define the paths to your compiled GDExtension library binaries. You can use feature flags to filter which version of the library should be loaded and exported with your game, based on active feature flags. Each feature flag must match Godot's built-in feature flags or your custom export flags for the library to be loaded in an exported game. For example, `macos.debug` means the library will be loaded if both the `macos` and `debug` flags are active. The engine evaluates each line in this section from top to bottom.
+
+Example configuration:
+
+GDScript:
+    ; A comment line starts with a semicolon. This line is ignored by the engine.
+    [libraries]
+
+    macos.debug = "./bin/libgdexample.macos.template_debug.dylib" ; Inline comments are also allowed.
+    macos.release = "./bin/libgdexample.macos.template_release.dylib"
+    windows.debug.x86_32 = "./bin/libgdexample.windows.template_debug.x86_32.dll"
+    windows.release.x86_32 = "./bin/libgdexample.windows.template_release.x86_32.dll"
+    windows.debug.x86_64 = "./bin/libgdexample.windows.template_debug.x86_64.dll"
+    windows.release.x86_64 = "./bin/libgdexample.windows.template_release.x86_64.dll"
+    linux.debug.x86_64 = "./bin/libgdexample.linux.template_debug.x86_64.so"
+    linux.release.x86_64 = "./bin/libgdexample.linux.template_release.x86_64.so"
+    linux.debug.arm64 = "./bin/libgdexample.linux.template_debug.arm64.so"
+    linux.release.arm64 = "./bin/libgdexample.linux.template_release.arm64.so"
+    linux.debug.rv64 = "./bin/libgdexample.linux.template_debug.rv64.so"
+    linux.release.rv64 = "./bin/libgdexample.linux.template_release.rv64.so"
+
+Paths specified can be relative or absolute (starting with `res://`). Relative paths are recommended because they ensure the extension continues to function even if it's installed in a different folder than the one specified in the path.
+
+Entries are matched in the order they appear. Therefore, if two sets of feature tags could potentially match the same system, ensure that the more specific tags are listed first.
+
+Example of specific tag ordering:
+
+GDScript:
+    [libraries]
+
+    linux.release.editor.x86_64 = "./bin/libgdexample.linux.template_release.x86_64.so"
+    linux.release.x86_64 = "./bin/libgdexample.linux.noeditor.template_release.x86_64.so"
+
+Available built-in feature flags include options for operating systems (e.g., `macos`, `windows`, `linux`), build types (e.g., `debug`, `release`), architecture (e.g., `x86_32`, `x86_64`, `arm64`, `rv64`), and editor status (e.g., `editor`). For a comprehensive list, refer to the feature tags documentation.
+---CHUNK---
+Document: GDExtension
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: Lists the supported operating systems for GDExtension.
+- windows (Windows operating system)
+- macos (Mac operating system)
+- linux (Linux operating system)
+- bsd (BSD operating system)
+- linuxbsd (Linux or BSD operating system)
+- android (Android operating system)
+- ios (iOS operating system)
+- web (Web browser)
+---CHUNK---
+Document: GDExtension File
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: Describes the build flags available for GDExtension.
+Build Flags:
+* debug (Description: Build with debugging features (editor builds always have debugging features))
+* release (Description: Optimized build without debugging features)
+* editor (Description: Editor build)
+---CHUNK---
+Document: GDExtension
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: Lists and describes the available architecture flags for GDExtension builds.
+Architecture Flags:
+* double (double-precision build)
+* single (single-precision build)
+* x86_64 (64-bit x86 build)
+* arm64 (64-bit ARM build)
+* rv64 (64-bit RISC-V build)
+* riscv (RISC-V build (any bitness))
+* wasm32 (32-bit WebAssembly build)
+---CHUNK---
+Document: GDExtension
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: This section explains how to set a custom icon for GDExtension nodes in the scene dock.
+[icons]
+
+GDExample = "res://icons/gd_example.svg"
+
+The path should point to a 16×16 pixel SVG image, with two options enabled on the image in the Import dock: Editor > Scale with Editor Scale, and Editor > Convert Colors with Editor Theme. Enabling both options ensures the icon behaves as closely as possible to the stock editor icons. Read the guide for creating icons for more information.
+---CHUNK---
+Document: GDExtension File
+Path: godot/tutorials/scripting/gdextension/gdextension_file.rst
+Summary: This section describes how to configure GDExtension dependencies in the .gdextension file, including platform-specific paths and optional subdirectories.
+The [dependencies] section in the .gdextension file specifies the paths for GDExtension dependencies. These paths are used internally when exporting your game executable. You can define which dependency is loaded based on the feature flags of the exported executable. Additionally, you can specify an optional subdirectory to place your dependencies. If no subdirectory is provided, Godot will place the libraries in the same directory as your game executable.
+
+Warning: On macOS, shared libraries must be located within a folder named "Frameworks" following the structure "Game.app/Contents/Frameworks".
+
+The following examples illustrate the configuration for different platforms and build types:
+
+macos.debug:
+    "res://bin/libdependency.macos.template_debug.framework" : "Contents/Frameworks"
+macos.release:
+    "res://bin/libdependency.macos.template_release.framework" : "Contents/Frameworks"
+windows.debug:
+    "res://bin/libdependency.windows.template_debug.x86_64.dll" : ""
+    "res://bin/libdependency.windows.template_debug.x86_32.dll" : ""
+windows.release:
+    "res://bin/libdependency.windows.template_release.x86_64.dll" : ""
+    "res://bin/libdependency.windows.template_release.x86_32.dll" : ""
+linux.debug:
+    "res://bin/libdependency.linux.template_debug.x86_64.so" : ""
+    "res://bin/libdependency.linux.template_debug.arm64.so" : ""
+    "res://bin/libdependency.linux.template_debug.rv64.so" : ""
+linux.release:
+    "res://bin/libdependency.linux.template_release.x86_64.so" : ""
+    "res://bin/libdependency.linux.template_release.arm64.so" : ""
+    "res://bin/libdependency.linux.template_release.rv64.so" : ""

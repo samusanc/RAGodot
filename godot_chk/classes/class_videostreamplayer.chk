@@ -1,0 +1,194 @@
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: Provides a node for playing back video streams within a Godot project.
+
+Inherits: Node < Object
+
+VideoStreamPlayer is a node that plays back video streams. It can play back video files or streams from a URL. The video can be played in a loop, and its playback can be controlled by code.
+
+Properties:
+- autoplay (bool): If true, the video will start playing automatically when the scene loads. Default: false.
+- buffering_msec (int): The number of milliseconds to buffer before starting playback. Default: 100.
+- stream (VideoStream): The VideoStream resource to play.
+- stream_paused (bool): If true, the video stream is paused. Default: false.
+- volume (float): The volume of the audio track, from 0.0 (silent) to 1.0 (full volume). Default: 1.0.
+- volume_db (float): The volume of the audio track in decibels, from -60.0 (silent) to 0.0 (full volume). Default: 0.0.
+
+Methods:
+- get_stream_name() → StringName: Returns the name of the currently playing stream.
+- is_buffering_active() → bool: Returns true if buffering is currently active.
+- is_playing() → bool: Returns true if the video stream is currently playing.
+- pause() → void: Pauses the video stream.
+- play() → void: Starts playing the video stream.
+- stop() → void: Stops the video stream.
+---CHUNK---
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: Introduces the VideoStreamPlayer node for video playback in Godot.
+VideoStreamPlayer
+Inherits: Control < CanvasItem < Node < Object
+
+A control used for video playback.
+---CHUNK---
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: Describes the VideoStreamPlayer node, its purpose for playing VideoStream resources, supported formats, and a warning about web performance.
+A control used for playback of VideoStream resources. Supported video formats are Ogg Theora (ogv, VideoStreamTheora) and any format exposed via a GDExtension plugin. Warning: On Web, video playback will perform poorly due to missing architecture-specific assembly optimizations.
+---CHUNK---
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: This section provides a link to a tutorial on playing videos in Godot.
+Tutorials
+- Playing videos
+---CHUNK---
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: Defines the properties available for the VideoStreamPlayer node, including audio track selection, autoplay, buffering, audio bus, expansion, looping, pausing, playback speed, the video stream itself, playback position, and volume controls.
+
+Properties
+* audio_track (int): Index of the audio track to play. Default: 0
+* autoplay (bool): If true, the video will start playing automatically when the scene loads. Default: false
+* buffering_msec (int): The buffering time in milliseconds. Default: 500
+* bus (StringName): The audio bus to which the video's audio will be routed. Default: "Master"
+* expand (bool): If true, the video will expand to fill the available space. Default: false
+* loop (bool): If true, the video will loop automatically when it finishes. Default: false
+* paused (bool): If true, the video playback is paused. Default: false
+* speed_scale (float): The playback speed multiplier. 1.0 is normal speed. Default: 1.0
+* stream (VideoStream): The VideoStream resource to play.
+* stream_position (float): The current playback position in seconds.
+* volume (float): The volume of the video, ranging from 0.0 (silent) to 1.0 (full volume).
+* volume_db (float): The volume of the video in decibels. Default: 0.0
+---CHUNK---
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: This section details the methods and signals available for the VideoStreamPlayer class in Godot Engine.
+
+Method: get_stream_length() → float
+Returns the total length of the video stream in seconds.
+
+Method: get_stream_name() → String
+Returns the name of the video stream.
+
+Method: get_video_texture() → Texture2D
+Returns the current video frame as a Texture2D.
+
+Method: is_playing() → bool
+Returns true if the video stream is currently playing, false otherwise.
+
+Method: play() → void
+Starts or resumes playback of the video stream.
+
+Method: stop() → void
+Stops playback of the video stream.
+
+Signal: finished()
+Emitted when playback is finished.
+---CHUNK---
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: Describes the properties of the VideoStreamPlayer node for controlling video playback.
+
+Property: audio_track
+Type: int
+Default: 0
+Description: The embedded audio track to play.
+Setter: set_audio_track(value: int)
+Getter: get_audio_track() -> int
+
+Property: autoplay
+Type: bool
+Default: false
+Description: If true, playback starts when the scene loads.
+Setter: set_autoplay(value: bool)
+Getter: has_autoplay() -> bool
+
+Property: buffering_msec
+Type: int
+Default: 500
+Description: Amount of time in milliseconds to store in buffer while playing.
+Setter: set_buffering_msec(value: int)
+Getter: get_buffering_msec() -> int
+
+Property: bus
+Type: StringName
+Default: "Master"
+Description: Audio bus to use for sound playback.
+Setter: set_bus(value: StringName)
+Getter: get_bus() -> StringName
+
+Property: expand
+Type: bool
+Default: false
+Description: If true, the video scales to the control size. Otherwise, the control minimum size will be automatically adjusted to match the video stream's dimensions.
+Setter: set_expand(value: bool)
+Getter: has_expand() -> bool
+
+Property: loop
+Type: bool
+Default: false
+Description: If true, the video restarts when it reaches its end.
+Setter: set_loop(value: bool)
+Getter: has_loop() -> bool
+
+Property: paused
+Type: bool
+Default: false
+Description: If true, the video is paused.
+Setter: set_paused(value: bool)
+Getter: is_paused() -> bool
+
+Property: speed_scale
+Type: float
+Default: 1.0
+Description: The stream's current speed scale. 1.0 is the normal speed, while 2.0 is double speed and 0.5 is half speed. A speed scale of 0.0 pauses the video, similar to setting paused to true.
+Setter: set_speed_scale(value: float)
+Getter: get_speed_scale() -> float
+
+Property: stream
+Type: VideoStream
+Description: The assigned video stream. See description for supported formats.
+Setter: set_stream(value: VideoStream)
+Getter: get_stream() -> VideoStream
+
+Property: stream_position
+Type: float
+Description: The current position of the stream, in seconds.
+Setter: set_stream_position(value: float)
+Getter: get_stream_position() -> float
+
+Property: volume
+Type: float
+Description: Audio volume as a linear value.
+Setter: set_volume(value: float)
+Getter: get_volume() -> float
+
+Property: volume_db
+Type: float
+Default: 0.0
+Description: Audio volume in dB.
+Setter: set_volume_db(value: float)
+Getter: get_volume_db() -> float
+---CHUNK---
+Document: VideoStreamPlayer
+Path: godot/classes/class_videostreamplayer.rst
+Summary: Provides methods for controlling video playback, retrieving stream information, and accessing the current video frame.
+
+Method: get_stream_length() → float
+The length of the current stream, in seconds.
+
+Method: get_stream_name() → String
+Returns the video stream's name, or "<No Stream>" if no video stream is assigned.
+
+Method: get_video_texture() → Texture2D
+Returns the current frame as a Texture2D.
+
+Method: is_playing() → bool
+Returns true if the video is playing.
+Note: The video is still considered playing if paused during playback.
+
+Method: play() → void
+Starts the video playback from the beginning. If the video is paused, this will not unpause the video.
+
+Method: stop() → void
+Stops the video playback and sets the stream position to 0.
+Note: Although the stream position will be set to 0, the first frame of the video stream won't become the current frame.

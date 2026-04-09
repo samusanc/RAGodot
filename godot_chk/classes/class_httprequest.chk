@@ -1,0 +1,283 @@
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: Overview of the HTTPRequest class.
+---CHUNK---
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: A node for sending HTTP(S) requests.
+
+HTTPRequest
+Inherits: Node < Object
+
+A node with the ability to send HTTP(S) requests.
+---CHUNK---
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: This section describes the HTTPRequest node, its usage for sending HTTP requests, and provides examples for contacting REST APIs and loading images.
+
+A node with the ability to send HTTP requests. Uses HTTPClient internally. Can be used to make HTTP requests, i.e. download or upload files or web content via HTTP.
+
+Warning: See the notes and warnings on HTTPClient for limitations, especially regarding TLS security.
+
+Note: When exporting to Android, make sure to enable the INTERNET permission in the Android export preset before exporting the project or using one-click deploy. Otherwise, network communication of any kind will be blocked by Android.
+
+Example: Contact a REST API and print one of its returned fields:
+
+GDScript:
+func _ready():
+    # Create an HTTP request node and connect its completion signal.
+    var http_request = HTTPRequest.new()
+    add_child(http_request)
+    http_request.request_completed.connect(self._http_request_completed)
+
+    # Perform a GET request. The URL below returns JSON as of writing.
+    var error = http_request.request("https://httpbin.org/get")
+    if error != OK:
+        push_error("An error occurred in the HTTP request.")
+
+    # Perform a POST request. The URL below returns JSON as of writing.
+    # Note: Don't make simultaneous requests using a single HTTPRequest node.
+    # The snippet below is provided for reference only.
+    var body = JSON.new().stringify({"name": "Godette"})
+    error = http_request.request("https://httpbin.org/post", [], HTTPClient.METHOD_POST, body)
+    if error != OK:
+        push_error("An error occurred in the HTTP request.")
+
+# Called when the HTTP request is completed.
+func _http_request_completed(result, response_code, headers, body):
+    var json = JSON.new()
+    json.parse(body.get_string_from_utf8())
+    var response = json.get_data()
+
+    # Will print the user agent string used by the HTTPRequest node (as recognized by httpbin.org).
+    print(response.headers["User-Agent"])
+
+C#:
+public override void _Ready()
+{
+    // Create an HTTP request node and connect its completion signal.
+    var httpRequest = new HttpRequest();
+    AddChild(httpRequest);
+    httpRequest.RequestCompleted += HttpRequestCompleted;
+
+    // Perform a GET request. The URL below returns JSON as of writing.
+    Error error = httpRequest.Request("https://httpbin.org/get");
+    if (error != Error.Ok)
+    {
+        GD.PushError("An error occurred in the HTTP request.");
+    }
+
+    // Perform a POST request. The URL below returns JSON as of writing.
+    // Note: Don't make simultaneous requests using a single HTTPRequest node.
+    // The snippet below is provided for reference only.
+    string body = new Json().Stringify(new Godot.Collections.Dictionary
+    {
+        { "name", "Godette" }
+    });
+    error = httpRequest.Request("https://httpbin.org/post", null, HttpClient.Method.Post, body);
+    if (error != Error.Ok)
+    {
+        GD.PushError("An error occurred in the HTTP request.");
+    }
+}
+
+// Called when the HTTP request is completed.
+private void HttpRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
+{
+    var json = new Json();
+    json.Parse(body.GetStringFromUtf8());
+    var response = json.GetData().AsGodotDictionary();
+
+    // Will print the user agent string used by the HTTPRequest node (as recognized by httpbin.org).
+    GD.Print((response["headers"].AsGodotDictionary())["User-Agent"]);
+}
+
+Example: Load an image using HTTPRequest and display it:
+
+GDScript:
+func _ready():
+    # Create an HTTP request node and connect its completion signal.
+    var http_request = HTTPRequest.new()
+    add_child(http_request)
+    http_request.request_completed.connect(self._http_request_completed)
+
+    # Perform the HTTP request. The URL below returns a PNG image as of writing.
+    var error = http_request.request("https://placehold.co/512.png")
+    if error != OK:
+        push_error("An error occurred in the HTTP request.")
+
+# Called when the HTTP request is completed.
+func _http_request_completed(result, response_code, headers, body):
+    if result != HTTPRequest.RESULT_SUCCESS:
+        push_error("Image couldn't be downloaded. Try a different image.")
+
+    var image = Image.new()
+    var error = image.load_png_from_buffer(body)
+    if error != OK:
+        push_error("Couldn't load the image.")
+
+    var texture = ImageTexture.create_from_image(image)
+
+    # Display the image in a TextureRect node.
+    var texture_rect = TextureRect.new()
+    add_child(texture_rect)
+    texture_rect.texture = texture
+
+C#:
+public override void _Ready()
+{
+    // Create an HTTP request node and connect its completion signal.
+    var httpRequest = new HttpRequest();
+    AddChild(httpRequest);
+    httpRequest.RequestCompleted += HttpRequestCompleted;
+
+    // Perform the HTTP request. The URL below returns a PNG image as of writing.
+    Error error = httpRequest.Request("https://placehold.co/512.png");
+    if (error != Error.Ok)
+    {
+        GD.PushError("An error occurred in the HTTP request.");
+    }
+}
+
+// Called when the HTTP request is completed.
+private void HttpRequestCompleted(long result, long responseCode, string[] headers, byte[] body)
+{
+    if (result != (long)HttpRequest.Result.Success)
+    {
+        GD.PushError("Image couldn't be downloaded. Try a different image.");
+    }
+    var image = new Image();
+    Error error = image.LoadPngFromBuffer(body);
+    if (error != Error.Ok)
+    {
+        GD.PushError("Couldn't load the image.");
+    }
+
+    var texture = ImageTexture.CreateFromImage(image);
+
+    // Display the image in a TextureRect node.
+    var textureRect = new TextureRect();
+    AddChild(textureRect);
+    textureRect.Texture = texture;
+}
+
+Note: HTTPRequest nodes will automatically handle decompression of response bodies. An Accept-Encoding header will be automatically added to each of your requests, unless one is already specified. Any response with a Content-Encoding: gzip header will automatically be decompressed and delivered to you as uncompressed bytes.
+---CHUNK---
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: Lists related tutorials for making HTTP requests and handling TLS certificates.
+
+Tutorials
+* Making HTTP requests
+* TLS certificates
+---CHUNK---
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: This section lists the properties available for the HTTPRequest node, including their types and default values.
+
+Properties:
+* accept_gzip (bool). Default: true
+* body_size_limit (int). Default: -1
+* download_chunk_size (int). Default: 65536
+* download_file (String). Default: ""
+* max_redirects (int). Default: 8
+* timeout (float). Default: 0.0
+* use_threads (bool). Default: false
+---CHUNK---
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: This section details the methods, signals, and enumerations available for the HTTPRequest class.
+
+Methods:
+*   cancel_request(): void
+*   get_body_size(): int (const)
+*   get_downloaded_bytes(): int (const)
+*   get_http_client_status(): HTTPClient.Status (const)
+*   request(url: String, custom_headers: PackedStringArray = PackedStringArray(), method: HTTPClient.Method = 0, request_data: String = ""): Error
+*   request_raw(url: String, custom_headers: PackedStringArray = PackedStringArray(), method: HTTPClient.Method = 0, request_data_raw: PackedByteArray = PackedByteArray()): Error
+*   set_http_proxy(host: String, port: int): void
+*   set_https_proxy(host: String, port: int): void
+*   set_tls_options(client_options: TLSOptions): void
+
+Signals:
+request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray)
+Emitted when a request is completed.
+
+Enumerations:
+enum Result:
+*   RESULT_SUCCESS = 0: Request successful.
+*   RESULT_CHUNKED_BODY_SIZE_MISMATCH = 1: Request failed due to a mismatch between the expected and actual chunked body size during transfer. Possible causes include network errors, server misconfiguration, or issues with chunked encoding.
+*   RESULT_CANT_CONNECT = 2: Request failed while connecting.
+*   RESULT_CANT_RESOLVE = 3: Request failed while resolving.
+*   RESULT_CONNECTION_ERROR = 4: Request failed due to connection (read/write) error.
+*   RESULT_TLS_HANDSHAKE_ERROR = 5: Request failed on TLS handshake.
+*   RESULT_NO_RESPONSE = 6: Request does not have a response (yet).
+*   RESULT_BODY_SIZE_LIMIT_EXCEEDED = 7: Request exceeded its maximum size limit, see body_size_limit.
+*   RESULT_BODY_DECOMPRESS_FAILED = 8: Request failed due to an error while decompressing the response body. Possible causes include unsupported or incorrect compression format, corrupted data, or incomplete transfer.
+*   RESULT_REQUEST_FAILED = 9: Request failed (currently unused).
+*   RESULT_DOWNLOAD_FILE_CANT_OPEN = 10: HTTPRequest couldn't open the download file.
+*   RESULT_DOWNLOAD_FILE_WRITE_ERROR = 11: HTTPRequest couldn't write to the download file.
+*   RESULT_REDIRECT_LIMIT_REACHED = 12: Request reached its maximum redirect limit, see max_redirects.
+*   RESULT_TIMEOUT = 13: Request failed due to a timeout. If you expect requests to take a long time, try increasing the value of timeout or setting it to 0.0 to remove the timeout completely.
+---CHUNK---
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: This section describes the properties available for configuring HTTPRequest behavior, including compression, size limits, download settings, redirects, and timeouts.
+
+Properties:
+*   **accept_gzip** (bool): If true (default), the `Accept-Encoding: gzip, deflate` header is added to requests, and gzip/deflate response bodies are automatically decompressed. If the user provides their own `Accept-Encoding` header, this property is ignored. If false, no header is added, and no decompression occurs; raw bytes are returned. Default: true.
+    *   Method: set_accept_gzip(value: bool)
+    *   Method: is_accepting_gzip()
+*   **body_size_limit** (int): Maximum allowed size for response bodies. If the response body is compressed, this limit applies to the decompressed size. Default: -1.
+    *   Method: set_body_size_limit(value: int)
+    *   Method: get_body_size_limit()
+*   **download_chunk_size** (int): The size of the buffer used and maximum bytes to read per iteration. This relates to HTTPClient.read_chunk_size. Setting a lower value (e.g., 4096) can decrease memory usage for small files at the cost of download speed. Default: 65536.
+    *   Method: set_download_chunk_size(value: int)
+    *   Method: get_download_chunk_size()
+*   **download_file** (String): The file path where any received data will be downloaded into. Default: "".
+    *   Method: set_download_file(value: String)
+    *   Method: get_download_file()
+*   **max_redirects** (int): Maximum number of allowed HTTP redirects. Default: 8.
+    *   Method: set_max_redirects(value: int)
+    *   Method: get_max_redirects()
+*   **timeout** (float): The duration in seconds to wait before a request times out. This is independent of Engine.time_scale. A value of 0.0 disables the timeout. For simple requests like REST API calls, a timeout between 1.0 and 10.0 seconds is recommended. For large file downloads, setting timeout to 0.0 is recommended to prevent premature failures. Default: 0.0.
+    *   Method: set_timeout(value: float)
+    *   Method: get_timeout()
+*   **use_threads** (bool): If true, multithreading is utilized to enhance performance. Default: false.
+    *   Method: set_use_threads(value: bool)
+    *   Method: is_using_threads()
+---CHUNK---
+Document: HTTPRequest
+Path: godot/classes/class_httprequest.rst
+Summary: This section describes the methods available for the HTTPRequest class, including canceling requests, getting download status, initiating requests, and configuring proxy and TLS options.
+
+Method: cancel_request() → void
+Cancels the current request.
+
+Method: get_body_size() → int
+Returns the response body length. Note: Some Web servers may not send a body length. In this case, the value returned will be -1. If using chunked transfer encoding, the body length will also be -1.
+
+Method: get_downloaded_bytes() → int
+Returns the number of bytes this HTTPRequest downloaded.
+
+Method: get_http_client_status() → Status
+Returns the current status of the underlying HTTPClient.
+
+Method: request(url: String, custom_headers: PackedStringArray = PackedStringArray(), method: Method = 0, request_data: String = "") → Error
+Creates a request on the underlying HTTPClient. If there are no configuration errors, it tries to connect using HTTPClient.connect_to_host() and passes parameters onto HTTPClient.request().
+Returns OK if the request is successfully created (does not imply that the server has responded), ERR_UNCONFIGURED if not in the tree, ERR_BUSY if still processing a previous request, ERR_INVALID_PARAMETER if the given string is not a valid URL format, or ERR_CANT_CONNECT if not using a thread and the HTTPClient cannot connect to the host.
+Note: When method is HTTPClient.METHOD_GET, the payload sent via request_data might be ignored by the server or even cause the server to reject the request (check RFC 7231 section 4.3.1 for more details). As a workaround, you can send data as a query string in the URL (see String.uri_encode() for an example).
+Note: It's recommended to use transport encryption (TLS) and to avoid sending sensitive information (such as login credentials) in HTTP GET URL parameters. Consider using HTTP POST requests or HTTP headers for such information instead.
+
+Method: request_raw(url: String, custom_headers: PackedStringArray = PackedStringArray(), method: Method = 0, request_data_raw: PackedByteArray = PackedByteArray()) → Error
+Creates a request on the underlying HTTPClient using a raw array of bytes for the request body. If there are no configuration errors, it tries to connect using HTTPClient.connect_to_host() and passes parameters onto HTTPClient.request().
+Returns OK if the request is successfully created (does not imply that the server has responded), ERR_UNCONFIGURED if not in the tree, ERR_BUSY if still processing a previous request, ERR_INVALID_PARAMETER if the given string is not a valid URL format, or ERR_CANT_CONNECT if not using a thread and the HTTPClient cannot connect to the host.
+
+Method: set_http_proxy(host: String, port: int) → void
+Sets the proxy server for HTTP requests. The proxy server is unset if host is empty or port is -1.
+
+Method: set_https_proxy(host: String, port: int) → void
+Sets the proxy server for HTTPS requests. The proxy server is unset if host is empty or port is -1.
+
+Method: set_tls_options(client_options: TLSOptions) → void
+Sets the TLSOptions to be used when connecting to an HTTPS server. See TLSOptions.client().

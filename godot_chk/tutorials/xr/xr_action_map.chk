@@ -1,0 +1,243 @@
+Document: XR Action Map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This section defines an internal RST label for the XR Action Map tutorial.
+---CHUNK---
+Document: The XR action map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This section introduces Godot's XR action map system, explaining its purpose, how to enable it, and why it is separate from the engine's built-in input system.
+
+Godot has an action map feature as part of the XR system. Currently, this system is part of the OpenXR module, with plans to encompass WebXR in the near future, hence it is called the XR action map system. It implements the built-in action map system of OpenXR mostly exactly as it is offered.
+
+The XR action map system exposes input, positional data, and output for XR controllers to your game/application. It does this by exposing named actions that can be tailored to your game/application and binding these to the actual inputs and outputs on your XR devices.
+
+As the XR action map is currently part of the OpenXR module, OpenXR needs to be enabled in your project settings to expose it. You will then find the XR Action Map interface at the bottom of the screen.
+
+Note: Godot's built-in input system has many things in common with the XR action map system. The original idea was to add functionality to the existing input system and expose data to the OpenXR action map system, but this was not pursued due to several problems:
+*   Godot's input system mainly centers around button inputs, while XR adds triggers, axis, poses, and haptics (output), which would greatly complicate the input system and potentially confuse users.
+*   Godot's input system works with raw input data, whereas OpenXR completely hides raw data and provides parsed action data, creating an inconsistency that could lead to bugs.
+*   Godot's input system allows runtime changes to input bindings, but OpenXR does not.
+*   Godot's input system is based on device IDs, which are meaningless in OpenXR.
+This separation means that games/applications mixing traditional inputs with XR controllers will have a distinct handling for each. For most applications, this is not a problem as either one or the other is primarily used, but it is a limitation of the system.
+---CHUNK---
+Document: XR Action Map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: Explains the default XR action map and how to start with a blank one.
+
+Godot will automatically create a default action map if no action map file is found. Warning: This default map was designed to help developers port their XR games/applications from Godot 3 to Godot 4. As a result this map essentially binds all known inputs on all controllers supported by default, to actions one on one. This is not a good example of setting up an action map. It does allow a new developer to have a starting point when they want to become familiar with Godot XR. It prevents having to design a proper action map for their game/application first.
+
+For this walkthrough we're going to start with a blank action map. You can delete the "Godot action set" entry at the top by pressing the trash can icon. This will clear out all actions. You might also want to remove the controllers that you do not wish to setup, more on this later.
+---CHUNK---
+Document: Action sets
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: Action sets organize XR actions, allowing different bindings for various scenarios, with OpenXR prioritizing actions in active sets based on their priority value.
+
+Note: Before we dive in, you will see the term XR runtime used throughout this document. With XR runtime we mean the software that is controlling and interacting with the AR or VR headset. The XR runtime then exposes this to us through an API such as OpenXR. Examples include SteamVR for Steam, Oculus Client for Meta on desktop, Quest's native OpenXR client for Meta on Quest, and Monado on Linux.
+
+The action map allows us to organize our actions in sets. Each set can be enabled or disabled on its own.
+
+The concept here is that you could have different sets that provide bindings in different scenarios. You could have:
+- a Character control set for when you're walking around,
+- a Vehicle control set for when you're operating a vehicle,
+- a Menu set for when a menu is open.
+
+Only the action set applicable to the current state of your game/application can then be enabled.
+
+This is especially important if you wish to bind the same input on a controller to a different action. For instance:
+- in your Character control set you may have an action Jump,
+- in your Vehicle control set you may have an action Accelerate,
+- in your Menu set you may have an action Select.
+
+All are bound to the trigger on your controller.
+
+OpenXR will only bind an input or output to a single action. If the same input or output is bound to multiple actions the one in the active action set with the highest priority will be the one updated/used. So in our above example it will thus be important that only one action set is active.
+
+For your first XR game/application we highly recommend starting with just a single action set and to not over-engineer things.
+
+For our walkthrough in this document we will thus create a single action set called my_first_action_set. We do this by pressing the Add action set button:
+
+The columns in our table are as follows:
+- my_first_action_set: This is the internal name of the action set. OpenXR doesn't specify specific restrictions on this name other than size, however some XR runtimes will not like spaces or special characters.
+- My first action set: This is a human-readable name for the action set. Some XR runtimes will display this name to the end user, for example in configuration dialogs.
+- 0: This is the priority of the action set. If multiple active action sets have actions bound to the same controller's inputs or outputs, the action set with the highest priority value will determine the action that is updated.
+---CHUNK---
+Document: XR Action Map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This section describes actions in the XR action map, their types, and how they are used for input and output.
+
+Actions are the entities your game/application will interact with in the XR action map. For instance, defining an action `Shoot` will trigger the `button_pressed` signal on the relevant XRController3D node with `Shoot` as the `name` parameter. You can also poll the current state of an action; XRController3D, for example, has an `is_button_pressed` method.
+
+Actions can be used for both input and output, and each action has a type that defines its behavior.
+*   The `Bool` type is used for discrete input like buttons.
+*   The `Float` type is used for analogue input like triggers.
+These two are special as they are the only ones that are interchangeable. OpenXR will handle conversions between `Bool` and `Float` inputs and actions. You can get the value of a `Float` type action by calling the method `get_float` on your XRController3D node. It emits the `input_float_changed` signal when changed.
+Note: Where analogue inputs are queried as buttons a threshold is applied. This threshold is currently managed exclusively by the XR runtime. There are plans to extend Godot to provide some level of control over these thresholds in the future.
+
+The `Vector2` type defines the input as an axis input. Touchpads, thumbsticks, and similar inputs are exposed as vectors. You can get the value of a `Vector2` type action by calling the method `get_vector2` on your XRController3D node. It emits the `input_vector2_changed` signal when changed.
+
+The `Pose` type defines a spatially tracked input. Multiple "pose" inputs are available in OpenXR: `aim`, `grip`, and `palm`. Your XRController3D node is automatically positioned based on the pose action assigned to the `pose` property of this node. More about poses later.
+Note: The OpenXR implementation in Godot also exposes a special pose called `Skeleton`. This is part of the hand tracking implementation. This pose is exposed through the `skeleton` action that is supported outside of the action map system. It is thus always present if hand tracking is supported. You don't need to bind actions to this pose to use it.
+
+Finally, the only output type is `Haptic`, and it allows us to set the intensity of haptic feedback, such as controller vibration. Controllers can have multiple haptic outputs, and support for haptic vests is coming to OpenXR.
+
+To add an action for an aim pose, click the `+` button for the action set. The columns for defining an action are:
+*   aim_pose: This is the internal name of the action. OpenXR doesn't specify specific restrictions on this name other than size, however some XR runtimes will not like spaces or special characters.
+*   Aim pose: This is a human-readable name for the action. Some XR runtimes will display this name to the end user, for example in configuration dialogs.
+*   Pose: The type of this action.
+
+OpenXR defines a number of bindable input poses that are commonly available for controllers. There are no rules for which poses are supported for different controllers. The poses OpenXR currently defines are:
+*   The aim pose on most controllers is positioned slightly in front of the controller and aims forward. This is a great pose to use for laser pointers or to align the muzzle of a weapon.
+*   The grip pose on most controllers is positioned where the grip button is placed on the controller. The orientation of this pose differs between controllers and can differ for the same controller on different XR runtimes.
+*   The palm pose on most controllers is positioned in the center of the palm of the hand holding the controller. This is a new pose that is not available on all XR runtimes.
+Note: If hand tracking is used, there are currently big differences in implementations between the different XR runtimes. As a result the action map is currently not suitable for hand tracking. Work is being done on this so stay tuned.
+
+For a simple shooting game/application, example actions include:
+*   `movement`, which allows the user to move around outside of normal room scale tracking.
+*   `grab`, which detects that the user wants to hold something.
+*   `shoot`, which detects that the user wants to fire the weapon they are holding.
+*   `haptic`, which allows us to output haptic feedback.
+
+Note that left and right hands are not distinguished at this stage; this is determined later. The action system allows binding the same action to both hands, and the appropriate XRController3D node will emit the signal.
+Warning: For both `grab` and `shoot`, the `Bool` type was used. As mentioned, OpenXR does automatic conversions from analogue controls, however not all XR Runtimes currently apply sensible thresholds. We recommend as a workaround to use the `Float` type when interacting with triggers and grip buttons and apply your own threshold. For buttons like A/B/X/Y and similar where there is no analogue option, the `Bool` type works fine.
+Note: You can bind the same action to multiple inputs for the same controller on the same profile. In this case the XR runtime will attempt to combine the inputs: For `Bool` inputs, this will perform an `OR` operation between the buttons; For `Float` inputs, this will take the highest value of the bound inputs; The behavior for `Pose` inputs is undefined, but the first bound input is likely to be used. You shouldn't bind multiple actions of the same action set to the same controller input. If you do this, or if actions are bound from multiple action sets but they have overlapping priorities, the behavior is undefined. The XR runtime may simply not accept your action map, or it may take this on a first come first serve basis. We are still investigating the restrictions around binding multiple actions to the same output as this scenario makes sense. The OpenXR specification seems to not allow this.
+
+Now that basic actions are defined, it's time to hook them up.
+---CHUNK---
+Document: XR Action Map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This section explains OpenXR interaction profiles, their generic nature, strict checking by runtimes, and how Godot handles device support and runtime-specific binding customizations.
+
+Profiles
+In OpenXR controller bindings are captured in so-called "Interaction Profiles". We've shortened it to "Profiles" because it takes up less space.
+
+This generic name is chosen because controllers don't cover the entire system. Currently there are also profiles for trackers, remotes and tracked pens. There are also provisions for devices such as treadmills, haptic vests and such even though those are not part of the specification yet.
+
+Warning: It is important to know that OpenXR has strict checking on supported devices. The core specification identifies a number of controllers and similar devices with their supported inputs and outputs. Every XR runtime must accept these interaction profiles even if they aren't applicable. New devices are added through extensions and XR runtimes must specify which ones they support. XR runtimes that do not support a device added through extensions will not accept these profiles. XR runtimes that do not support added input or output types will often crash if supplied. As such Godot keeps meta data of all available devices, their inputs and outputs and which extension adds support for them. You can create interaction profiles for all devices you wish to support. Godot will filter out those not supported by the XR runtime the user is using. This does mean that in order to support new devices, you might need to update to a more recent version of Godot.
+
+It is however also important to note that the action map has been designed with this in mind. When new devices enter the market, or when your users use devices that you do not have access to, the action map system relies on the XR runtime. It is the XR runtime's job to choose the best fitting interaction profile that has been specified and adapt it for the controller the user is using.
+
+How the XR runtime does this is left to the implementation of the runtime and there are thus vast differences between the runtimes. Some runtimes might even permit users to edit the bindings themselves.
+
+A common approach for a runtime is to look for a matching interaction profile first. If this is not found it will check the most common profiles such as that of the "Touch controller" and do a conversion. If all else fails, it will check the generic "Simple controller".
+
+Note: When a controller is found, and the action map is applied to it, the XR runtime is not limited to the exact configurations you set up in Godot's action map editor. While the runtime will generally choose a suitable mapping based on one of the bindings you set up in the action map, it can deviate from it. For example, when the Touch controller profile is used any of the following scenarios could be true: we could be using a Quest 1 controller, we could be using a Quest 2 controller, we could be using a Quest Pro controller but no Quest Pro profile was given or the XR runtime being used does not support the Quest Pro controller, it could be a completely different controller for which no profile was given but the XR runtime is using the touch bindings as a base. Ergo, there currently is no way to know with certainty, which controller the user is actually using.
+
+Warning: The bindings aren't set in stone. It is fully allowed, and even expected, that an XR runtime allows a user to customise the bindings. At the moment none of the XR runtimes offer this functionality though SteamVR has an existing UI from OpenVRs action map system that is still accessible. This is actively being worked on however.
+---CHUNK---
+Document: XR Action Map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: Describes how to set up controller bindings for XR, focusing on Touch controllers and different input types.
+
+Our first controller binding. Let's set up our first controller binding, using the Touch controller as an example.
+
+Press "Add profile", find the Touch controller, and add it. If it is not in the list, then it may already have been added.
+
+Our UI now shows panels for both the left and right controllers. The panels contain all of the possible inputs and outputs for each controller. We can use the `+` next to each entry to bind it to an action:
+
+Let's finish our configuration:
+
+Each action is bound the given input or output for both controllers to indicate that we support the action on either controller. The exception is the movement action which is bound only to the right hand controller. It is likely that we would want to use the left hand thumbstick for a different purpose, say a teleport function.
+
+In developing your game/application you have to account for the possibility that the user changes the binding and binds the movement to the left hand thumbstick.
+
+Also note that our shoot and grab boolean actions are linked to inputs of type `Float`. As mentioned before OpenXR will do conversions between the two, but do read the warning given on that subject earlier in this document.
+
+Note: Some of the inputs seem to appear in our list multiple times. For instance we can find the `X` button twice, once as `X click` and then as `X touch`. This is due to the Touch controller having a capacitive sensor. `X touch` will be true if the user is merely touching the X button. `X click` will be true when the user is actually pressing down on the button. Similarly for the thumbstick we have: `Thumbstick touch` which will be true if the user is touching the thumbstick. `Thumbstick` which gives a value for the direction the thumbstick is pushed to. `Thumbstick click` which is true when the user is pressing down on the thumbstick. It is important to note that only a select number of XR controllers support touch sensors or have click features on thumbsticks. Keep that in mind when designing your game/application. Make sure these are used for optional features of your game/application.
+---CHUNK---
+Document: The simple controller
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: Describes the "Simple controller" in OpenXR, its limitations, and recommendations for action mapping.
+
+The "Simple controller" is a generic controller that OpenXR offers as a fallback. We'll apply our mapping:
+
+As becomes painfully clear, the simple controller is often far too simple and falls short for anything but the simplest of VR games/applications.
+
+This is why many XR runtimes only use it as a last resort and will attempt to use bindings from one of the more popular systems as a fallback first.
+
+Note: Due to the simple controller likely not covering the needs of your game, it is tempting to provide bindings for every controller supported by OpenXR. The default action map seems to suggest this as a valid course of action. As mentioned before, the default action map was designed for ease of migration from Godot 3. It is the recommendation from the OpenXR Working Group that only bindings for controllers actually tested by the developer are setup. The XR runtimes are designed with this in mind. They can perform a better job of rebinding a provided binding than a developer can make educated guesses. Especially as the developer can't test if this leads to a comfortable experience for the end user. This is our advice as well: limit your action map to the interaction profiles for devices you have actually tested your game with. The Oculus Touch controller is widely used as a fallback controller by many runtimes. If you are able to test your game using a Meta Rift or Quest and add this profile there is a high probability your game will work with other headsets.
+---CHUNK---
+Document: XR Action Map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This chunk explains binding modifiers in XR action maps, their purpose, and how they are enabled and used.
+
+Binding modifiers aim to remove the need for the application to know the specific hardware used. Sometimes, hardware has physical differences that require inputs to be altered in ways beyond how they are bound to actions, such as setting thresholds or modifying available inputs on a controller.
+
+Binding modifiers are not enabled by default and must be enabled in the OpenXR project settings. There is no guarantee that these modifiers are supported by every runtime. You will need to consult the support for your target runtimes and decide whether to rely on modifiers or implement a fallback mechanism.
+
+If you are targeting multiple runtimes that support the same controllers, you may need to create separate action maps for each runtime. You can control which action map Godot uses by employing different export templates for each runtime and using a custom feature tag to set the action map.
+
+In Godot, binding modifiers are categorized into two groups: modifiers that operate on the interaction profile level, and modifiers that operate on individual bindings.
+---CHUNK---
+Document: XR Action Map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This section explains how to bind modifiers to an interaction profile.
+
+Binding modifiers on an interaction profile. Binding modifiers that are applied to the whole interaction profile can be accessed through the modifier button on the right side of the interaction profile editor.
+
+You can add a new modifier by pressing the Add binding modifier button.
+
+Warning: As Godot doesn't know which controllers and runtimes support a modifier, there is no restriction to adding modifiers. Unsupported modifiers will be ignored.
+---CHUNK---
+Document: Dpad Binding modifier
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This section explains the Dpad Binding modifier, its functionality, and configuration settings for converting joystick/thumbpad inputs into dpad actions.
+
+Dpad Binding modifier
+The dpad binding modifier adds new inputs to an interaction profile for each joystick and thumbpad input on this controller. It turns the input into a dpad with separate up, down, left and right inputs that are exposed as buttons:
+
+Note: Inputs related to extensions are denoted with an asterix.
+
+In order to use the dpad binding modifier you need to enable the dpad binding modifier extension in project settings:
+
+Enabling the extension is enough to make this functionality work using default settings.
+
+Adding the modifier is optional and allows you to fine tune the way the dpad functionality behaves. You can add the modifier multiple times to set different settings for different inputs.
+
+These settings are used as follows:
+* Action Set: defines the action set to which these settings are applied.
+* Input Path: defines the original input that is mapped to the new dpad inputs.
+* Threshold: specifies the threshold value that will enable a dpad action, e.g. a value of 0.6 means that if the distance from center goes above 0.6 the dpad action is pressed.
+* Threshold Released: specifies the threshold value that will disable a dpad action, e.g. a value of 0.4 means that if the distance from center goes below 0.4 the dpad action is released.
+* Center Region: specifies the distance from center that enabled the center action, this is only supported for trackpads.
+* Wedge Angle: specifies the angle of each wedge. A value of 90 degrees or lower means that up, down, left and right each have a separate slice in which they are in the pressed state. A value above 90 degrees means that the slices overlap and that multiple actions can be in the pressed state.
+* Is Sticky: when enabled means that an action stays in the pressed state until the thumbstick or trackpad moves into another wedge even if it has left the wedge for that action.
+* On Haptic: lets us define a haptic output that is automatically activated when an action becomes pressed.
+* Off Haptic: lets us define a haptic output that is automatically activated when an action is released.
+---CHUNK---
+Document: xr_action_map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: This section explains how to access and add binding modifiers to individual input bindings within the XR action map, and provides a warning about their runtime behavior.
+
+Binding modifiers on individual bindings
+Binding modifiers that are applied to individual bindings can be accessed through the binding modifier button next to action attached to an input. You can add a new modifier by pressing the Add binding modifier button. Warning: As Godot doesn't know which inputs on each runtime support a modifier, there is no restriction to adding modifiers. If the modifier extension is unsupported, modifiers will be filtered out at runtime. Modifiers added to the wrong input may result in a runtime error. You should test your action map on the actual hardware and runtime to verify the proper setup.
+---CHUNK---
+Document: Analog threshold modifier
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: Explains the analog threshold modifier for XR input, its settings, and how it controls boolean input from analog sources.
+
+The analog threshold modifier allows you to specify the thresholds used for any analog input, like a trigger, that has a boolean output. This controls when the input is in the pressed state.
+
+To use this modifier, you must enable the analog threshold extension in the project settings.
+
+The analog threshold modifier has the following settings:
+*   On Threshold: specifies the threshold value that will enable the action. For example, a value of 0.6 means that when the analog value gets above 0.6, the action is set to the pressed state.
+*   Off Threshold: specifies the threshold value that will disable the action. For example, a value of 0.4 means that when the analog value goes below 0.4, the action is set to the released state.
+*   On Haptic: defines a haptic output that is automatically activated when the input is pressed.
+*   Off Haptic: defines a haptic output that is automatically activated when the input is released.
+---CHUNK---
+Document: xr_action_map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: Haptics on modifiers in XR action maps.
+
+Haptics on modifiers
+Modifiers can support automatic haptic output that is triggered when thresholds are reached. Note: Currently both available modifiers support this feature, however there is no rule future modifiers also have this capability. Only one type of haptic feedback is supported but in the future other options may become available.
+---CHUNK---
+Document: xr_action_map
+Path: godot/tutorials/xr/xr_action_map.rst
+Summary: Describes the options for haptic vibration in XR.
+
+Haptic vibration
+The haptic vibration allows us to specify a simple haptic pulse.
+It has the following options:
+* Duration: The duration of the pulse in nanoseconds. -1 lets the runtime choose an optimal value for a short pulse suitable for the current hardware.
+* Frequency: The frequency of the pulse in Hz. 0 lets the runtime choose an optimal frequency for a short pulse suitable for the current hardware.
+* Amplitude: The amplitude of the pulse.

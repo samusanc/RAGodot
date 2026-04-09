@@ -1,0 +1,146 @@
+Document: SkeletonModification2DTwoBoneIK
+Path: godot/classes/class_skeletonmodification2dtwoboneik.rst
+Summary: Provides a 2-bone inverse kinematics (IK) modification for Skeleton2D nodes.
+
+Inherits: SkeletonModification2D < SkeletonModification2D < Resource < Object
+
+This modification allows you to control the position of the end effector of a chain of two bones using inverse kinematics. It's useful for tasks like making a character's arm reach for a target or controlling the leg of a character.
+
+The modification works by calculating the necessary joint rotations to place the end effector at a desired target position. It takes into account the lengths of the two bones and the constraints of the joints.
+
+Key Rule: The modification is applied to a Skeleton2D node, affecting the rotations of the bones within that skeleton.
+
+Properties:
+
+- target_nodepath (NodePath): The NodePath to the Node2D that represents the target position for the end effector.
+- pole_nodepath (NodePath): The NodePath to the Node2D that represents the pole target. The pole target influences the direction of the middle joint, preventing unwanted flipping.
+- bone_idx0 (int): The index of the first bone in the chain (the one attached to the root of the IK chain). Default: -1.
+- bone_idx1 (int): The index of the second bone in the chain (the one whose end is the end effector). Default: -1.
+- interpolation (float): Controls the interpolation speed between the current bone poses and the IK-calculated poses. A value of 1.0 means no interpolation (instantaneous change), while a value of 0.0 means no IK effect. Default: 1.0.
+- use_target_nodepath_as_pole (bool): If true, the target NodePath will also be used as the pole target. This can be useful for simple setups where a separate pole target is not needed. Default: false.
+- invert_target_nodepath (bool): If true, the target NodePath will be inverted, meaning the IK will try to reach the opposite direction of the target. Default: false.
+- invert_pole_nodepath (bool): If true, the pole NodePath will be inverted, meaning the pole target's influence will be inverted. Default: false.
+- reset_to_rest_inplace (bool): If true, the IK will reset to the rest pose before applying the IK calculation. This can help prevent issues with accumulated rotations. Default: false.
+- is_enabled (bool): Whether this modification is currently active. Default: true.
+
+Methods:
+
+- _get_configuration_warnings() → Array[StringName]: Returns a list of warnings for the configuration.
+- _set_bone_idx0(value: int)
+- _get_bone_idx0() → int
+- _set_bone_idx1(value: int)
+- _get_bone_idx1() → int
+- _set_target_nodepath(value: NodePath)
+- _get_target_nodepath() → NodePath
+- _set_pole_nodepath(value: NodePath)
+- _get_pole_nodepath() → NodePath
+- _set_interpolation(value: float)
+- _get_interpolation() → float
+- _set_use_target_nodepath_as_pole(value: bool)
+- _get_use_target_nodepath_as_pole() → bool
+- _set_invert_target_nodepath(value: bool)
+- _get_invert_target_nodepath() → bool
+- _set_invert_pole_nodepath(value: bool)
+- _get_invert_pole_nodepath() → bool
+- _set_reset_to_rest_inplace(value: bool)
+- _get_reset_to_rest_inplace() → bool
+- _set_is_enabled(value: bool)
+- _get_is_enabled() → bool
+---CHUNK---
+Document: SkeletonModification2DTwoBoneIK
+Path: godot/classes/class_skeletonmodification2dtwoboneik.rst
+Summary: A modification that rotates two bones using the law of cosines to reach a target in 2D.
+
+Inherits: SkeletonModification2D < Resource < RefCounted < Object
+
+This modification rotates two bones using the law of cosines to reach the target. It's experimental and may be changed or removed in future versions.
+---CHUNK---
+Document: SkeletonModification2DTwoBoneIK
+Path: godot/classes/class_skeletonmodification2dtwoboneik.rst
+Summary: Describes the TwoBoneIK algorithm for SkeletonModification2D, explaining its mechanics, use cases, and comparison to FABRIK.
+
+This SkeletonModification2D uses an algorithm typically called TwoBoneIK. This algorithm works by leveraging the law of cosines and the lengths of the bones to figure out what rotation the bones currently have, and what rotation they need to make a complete triangle, where the first bone, the second bone, and the target form the three vertices of the triangle. Because the algorithm works by making a triangle, it can only operate on two bones.
+
+TwoBoneIK is great for arms, legs, and really any joints that can be represented by just two bones that bend to reach a target. This solver is more lightweight than SkeletonModification2DFABRIK, but gives similar, natural looking results.
+---CHUNK---
+Document: SkeletonModification2DTwoBoneIK
+Path: godot/classes/class_skeletonmodification2dtwoboneik.rst
+Summary: Defines the properties for the Two Bone IK modification in Skeleton2D.
+
+Properties
+* flip_bend_direction (bool): If true, the IK chain will bend in the opposite direction. Default: false.
+* target_maximum_distance (float): The maximum distance the target can be from the end effector before the IK chain fully extends. Default: 0.0.
+* target_minimum_distance (float): The minimum distance the target can be from the end effector before the IK chain fully contracts. Default: 0.0.
+* target_nodepath (NodePath): The NodePath to the target Node2D that controls the IK chain. Default: NodePath("").
+---CHUNK---
+Document: SkeletonModification2DTwoBoneIK
+Path: godot/classes/class_skeletonmodification2dtwoboneik.rst
+Summary: This section details the methods available for the SkeletonModification2DTwoBoneIK class, focusing on setting and getting bone indices and NodePaths for the two bones involved in the IK chain.
+
+Methods
+* get_joint_one_bone2d_node() → NodePath: Returns the NodePath of the first bone in the IK chain.
+* get_joint_one_bone_idx() → int: Returns the index of the first bone in the IK chain.
+* get_joint_two_bone2d_node() → NodePath: Returns the NodePath of the second bone in the IK chain.
+* get_joint_two_bone_idx() → int: Returns the index of the second bone in the IK chain.
+* set_joint_one_bone2d_node(bone2d_node: NodePath) → void: Sets the NodePath of the first bone in the IK chain.
+* set_joint_one_bone_idx(bone_idx: int) → void: Sets the index of the first bone in the IK chain.
+* set_joint_two_bone2d_node(bone2d_node: NodePath) → void: Sets the NodePath of the second bone in the IK chain.
+* set_joint_two_bone_idx(bone_idx: int) → void: Sets the index of the second bone in the IK chain.
+---CHUNK---
+Document: SkeletonModification2DTwoBoneIK
+Path: godot/classes/class_skeletonmodification2dtwoboneik.rst
+Summary: Describes the properties of the SkeletonModification2DTwoBoneIK class, including flip_bend_direction, target_maximum_distance, target_minimum_distance, and target_nodepath.
+
+Property Descriptions
+
+Property: flip_bend_direction (bool)
+Default: false
+Setter: set_flip_bend_direction(value: bool)
+Getter: get_flip_bend_direction()
+If true, the bones in the modification will bend outward as opposed to inwards when contracting. If false, the bones will bend inwards when contracting.
+
+Property: target_maximum_distance (float)
+Default: 0.0
+Setter: set_target_maximum_distance(value: float)
+Getter: get_target_maximum_distance()
+The maximum distance the target can be at. If the target is farther than this distance, the modification will solve as if it's at this maximum distance. When set to 0, the modification will solve without distance constraints.
+
+Property: target_minimum_distance (float)
+Default: 0.0
+Setter: set_target_minimum_distance(value: float)
+Getter: get_target_minimum_distance()
+The minimum distance the target can be at. If the target is closer than this distance, the modification will solve as if it's at this minimum distance. When set to 0, the modification will solve without distance constraints.
+
+Property: target_nodepath (NodePath)
+Default: NodePath("")
+Setter: set_target_node(value: NodePath)
+Getter: get_target_node()
+The NodePath to the node that is the target for the TwoBoneIK modification. This node is what the modification will use when bending the Bone2D nodes.
+---CHUNK---
+Document: SkeletonModification2DTwoBoneIK
+Path: godot/classes/class_skeletonmodification2dtwoboneik.rst
+Summary: This section details the methods for getting and setting the bone nodes and their indices for the TwoBoneIK modification in Godot Engine.
+
+Method: get_joint_one_bone2d_node() → NodePath
+Returns the Bone2D node that is being used as the first bone in the TwoBoneIK modification.
+
+Method: get_joint_one_bone_idx() → int
+Returns the index of the Bone2D node that is being used as the first bone in the TwoBoneIK modification.
+
+Method: get_joint_two_bone2d_node() → NodePath
+Returns the Bone2D node that is being used as the second bone in the TwoBoneIK modification.
+
+Method: get_joint_two_bone_idx() → int
+Returns the index of the Bone2D node that is being used as the second bone in the TwoBoneIK modification.
+
+Method: set_joint_one_bone2d_node(bone2d_node: NodePath) → void
+Sets the Bone2D node that is being used as the first bone in the TwoBoneIK modification.
+
+Method: set_joint_one_bone_idx(bone_idx: int) → void
+Sets the index of the Bone2D node that is being used as the first bone in the TwoBoneIK modification.
+
+Method: set_joint_two_bone2d_node(bone2d_node: NodePath) → void
+Sets the Bone2D node that is being used as the second bone in the TwoBoneIK modification.
+
+Method: set_joint_two_bone_idx(bone_idx: int) → void
+Sets the index of the Bone2D node that is being used as the second bone in the TwoBoneIK modification.

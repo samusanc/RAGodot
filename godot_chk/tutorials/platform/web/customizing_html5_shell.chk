@@ -1,0 +1,224 @@
+Document: Customizing HTML5 Shell
+Path: godot/tutorials/platform/web/customizing_html5_shell.rst
+Summary: This document explains how to customize the HTML5 shell for Godot projects.
+
+This tutorial covers how to customize the HTML5 shell for your Godot projects. This allows you to change the appearance and behavior of the web export of your game.
+
+You can find the default HTML5 shell files in the `misc/web/` directory of the Godot Engine source code. To customize it, you should copy these files to your project directory and modify them.
+
+**Key Files:**
+
+*   `index.html`: The main HTML file for your game. You can modify the `<head>` and `<body>` sections to include custom CSS, JavaScript, or meta tags.
+*   `godot.js`: The JavaScript file that runs your Godot game. You can modify this file to hook into game events or change runtime behavior, but this is generally not recommended unless you know what you are doing.
+*   `godot.wasm`: The WebAssembly binary for your game. This file should not be modified.
+*   `style.css`: A basic CSS file for styling the page. You can add your own styles here.
+
+**Customization Steps:**
+
+1.  **Copy Default Files:** Copy the contents of `misc/web/` from the Godot source code to a new folder in your project, for example, `web/`.
+2.  **Modify `index.html`:**
+    *   Add custom CSS links or `<style>` tags in the `<head>` section.
+    *   Add custom HTML elements or content in the `<body>` section.
+    *   You can change the title of the page, add meta descriptions, etc.
+3.  **Modify `style.css`:** Add your own CSS rules to style the game container, loading screen, or any other elements you add to `index.html`.
+4.  **Export Your Project:** When exporting your project for the web, set the "Export Path" to the `web/` folder you created. Godot will then use your customized shell files.
+
+**Example: Adding a custom loading screen:**
+
+In `index.html`, you can add a loading screen element:
+
+```html
+<div id="loading-screen">
+    <img src="loading.gif" alt="Loading...">
+</div>
+```
+
+Then, in `style.css`, style it:
+
+```css
+#loading-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+```
+
+You would also need to add a `loading.gif` file to your `web/` folder.
+
+**Important Considerations:**
+
+*   **Browser Compatibility:** Ensure your customizations are compatible with the target browsers.
+*   **Performance:** Avoid overly complex or resource-intensive customizations that could impact game performance.
+*   **Updates:** When updating Godot, you may need to re-copy and re-apply your customizations to the new default shell files.
+
+By following these steps, you can create a unique and branded experience for your Godot games on the web.
+---CHUNK---
+Document: Customizing HTML5 Shell
+Path: godot/tutorials/platform/web/customizing_html5_shell.rst
+Summary: This document explains how to customize the default HTML page for Godot Web exports to control engine initialization and add custom features.
+Custom HTML page for Web export
+While Web export templates provide a default HTML page fully capable of launching the project without any further customization, it may be beneficial to create a custom HTML page. While the game itself cannot easily be directly controlled from the outside yet, such page allows to customize the initialization process for the engine.
+
+Some use-cases where customizing the default page is useful include:
+- Loading files from a different directory than the page;
+- Loading a .zip file instead of a .pck file as the main pack;
+- Loading the engine from a different directory than the main pack file;
+- Adding a click-to-play button so that games can be started in the fullscreen mode;
+- Loading some extra files before the engine starts, making them available in the project file system as soon as possible;
+- Passing custom command line arguments, e.g. -s to start a MainLoop script.
+
+The default HTML page is available in the Godot Engine repository at /misc/dist/html/full-size.html but the following template can be used as a much simpler example:
+HTML:
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Template</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <canvas id="canvas"></canvas>
+        <script src="$GODOT_URL"></script>
+        <script>
+            var engine = new Engine($GODOT_CONFIG);
+            engine.startGame();
+        </script>
+    </body>
+</html>
+---CHUNK---
+Document: Customizing HTML5 Shell
+Path: godot/tutorials/platform/web/customizing_html5_shell.rst
+Summary: This document describes the placeholders used in custom HTML5 shell templates for Godot Engine exports.
+
+A custom HTML5 shell for Godot Engine exports is primarily a standard HTML document. It requires a few specific placeholders that are replaced during the export process, an HTML canvas element, and some basic JavaScript to interact with the Engine class.
+
+The essential placeholders are:
+
+- $GODOT_URL: This placeholder represents the name of the main JavaScript file that contains the Engine class. This script must be included in the HTML using a script tag to initialize the engine. The filename is determined by the export path during the export process.
+
+- $GODOT_CONFIG: This placeholder is a JavaScript object that holds the export options. These options can be modified later. Refer to EngineConfig for a comprehensive list of available overrides.
+
+Optional placeholders can be used to activate additional features within your custom HTML template:
+
+- $GODOT_PROJECT_NAME: This placeholder inserts the project's name, which is configured in Project Settings > Application > Config under the "Name" setting. It's recommended to use this value for the HTML document's title tag.
+
+- $GODOT_HEAD_INCLUDE: This placeholder allows for the inclusion of custom content just before the closing head tag of the HTML document. This content can be specified in the export options under the "Html / Head Include" section. It's useful for dynamically configuring parts of the HTML head from the Godot Editor, especially when using different web export presets.
+
+- $GODOT_SPLASH: This placeholder inserts the path to the image designated as the boot splash screen. This image is set in Project Settings > Application > Boot Splash under the "Image" setting.
+
+- $GODOT_SPLASH_COLOR: This placeholder provides the background color for the splash screen, as defined in Project Settings > Application > Boot Splash under the "BG Color" setting. The color is converted into a hexadecimal color code.
+
+- $GODOT_SPLASH_CLASSES: This placeholder generates a string of setting names and their corresponding values, which influence the appearance of the splash screen. This string is intended for use as CSS class names, enabling the styling of the splash image based on the project's splash screen settings. The following settings from Project Settings > Application > Boot Splash are included, represented by specific class names depending on their boolean state:
+    - Show Image: "show-image--true" or "show-image--false"
+    - Stretch Mode: "fullsize--true" (if not Disabled) or "fullsize--false"
+    - Use Filter: "use-filter--true" or "use-filter--false"
+
+Once your custom HTML page is prepared, you can select it in the export options within the "Html / Custom Html Shell" section.
+---CHUNK---
+Document: Customizing the HTML5 Shell
+Path: godot/tutorials/platform/web/customizing_html5_shell.rst
+Summary: This section explains how to customize the HTML5 shell for Godot projects, covering engine initialization and starting the game.
+
+To start a Godot project in HTML5, you need a script to initialize the engine. This process involves loading, initializing, and starting the engine.
+
+The simplest approach is to create an instance of the `Engine` class with exported configuration and call the `engine.startGame` method. This method can optionally override `EngineConfig` parameters.
+
+GDScript:
+```js
+const engine = new Engine($GODOT_CONFIG);
+engine.startGame({
+    /* optional override configuration, eg. */
+    // unloadAfterInit: false,
+    // canvasResizePolicy: 0,
+    // ...
+});
+```
+
+The `engine.startGame` method is asynchronous and returns a `Promise`, allowing you to track the loading process without blocking execution.
+
+For more control over startup arguments and dependency files, use the `engine.start` method. This method does not automatically preload the `.pck` file, so you should use `engine.preloadFile` to load it and any other necessary files. You can also manually call `engine.init` to perform actions after module initialization but before the engine starts.
+
+GDScript:
+```js
+const myWasm = 'mygame.wasm';
+const myPck = 'mygame.pck';
+const engine = new Engine();
+Promise.all([
+    // Load and init the engine
+    engine.init(myWasm),
+    // And the pck concurrently
+    engine.preloadFile(myPck),
+]).then(() => {
+    // Now start the engine.
+    return engine.start({ args: ['--main-pack', myPck] });
+}).then(() => {
+    console.log('Engine has started!');
+});
+```
+
+To load the engine manually, call the static method `Engine.load`. This allows multiple engine instances to be spawned if they share the same `.wasm` file.
+
+Note: By default, multiple instances cannot be spawned because the engine is unloaded after initialization. To prevent this, use the `unloadAfterInit` override option. The engine can be unloaded manually later by calling the static method `Engine.unload`, which frees browser memory by unloading unneeded files once the instance is initialized.
+---CHUNK---
+Document: Customizing HTML5 Shell
+Path: godot/tutorials/platform/web/customizing_html5_shell.rst
+Summary: This section explains how to customize the HTML5 shell in Godot, focusing on WebGL availability and executable path overrides.
+In the Web environment, several methods can be used to guarantee that the game will work as intended.
+
+If you target a specific version of WebGL, or just want to check if WebGL is available at all, you can call the Engine.isWebGLAvailable method. It optionally takes an argument that allows to test for a specific major version of WebGL.
+
+As the real executable file does not exist in the Web environment, the engine only stores a virtual filename formed from the base name of loaded engine files. This value affects the output of the OS.get_executable_path() method and defines the name of the automatically started main pack. The executable override option can be used to override this value.
+---CHUNK---
+Document: Customizing HTML5 Shell
+Path: godot/tutorials/platform/web/customizing_html5_shell.rst
+Summary: This section explains how to customize the HTML5 shell for Godot games, including canvas selection, resizing policies, progress tracking, and locale settings.
+
+You can customize the look and behavior of your Godot game on a web page using several configuration options.
+
+By default, the game uses the first canvas element found on the page for rendering. To specify a different canvas element, use the canvas override option. This option requires a reference to the DOM element itself.
+
+GDScript:
+```javascript
+const canvasElement = document.querySelector("#my-canvas-element");
+engine.startGame({ canvas: canvasElement });
+```
+
+The way the engine resizes the canvas can be configured using the canvasResizePolicy override option.
+
+If your game has a significant loading time, you can display a custom loading UI that tracks the progress. This is achieved with the onProgress callback option. You can set up a callback function that will be invoked regularly as the engine loads new bytes.
+
+GDScript:
+```javascript
+function printProgress(current, total) {
+    console.log("Loaded " + current + " of " + total + " bytes");
+}
+engine.startGame({ onProgress: printProgress });
+```
+Note: In some situations, the `total` value can be 0, indicating that it cannot be calculated.
+
+If your game supports multiple languages, you can use the locale override option to enforce a specific locale by providing a valid language code string. It is recommended to use server-side logic to determine the user's preferred language. This logic can involve checking the "Accept-Language" HTTP header or using a GeoIP service.
+---CHUNK---
+Document: Customizing HTML5 Shell
+Path: godot/tutorials/platform/web/customizing_html5_shell.rst
+Summary: This section explains how to customize the HTML5 shell's debugging output by overriding default print and printError functions.
+
+To debug exported projects, it may be useful to read the standard output and error streams generated by the engine. This is similar to the output shown in the editor console window. By default, standard console.log and console.warn are used for the output and error streams respectively. This behavior can be customized by setting your own functions to handle messages.
+
+Use the onPrint override option to set a callback function for the output stream, and the onPrintError override option to set a callback function for the error stream.
+
+GDScript:
+    function print(text) {
+        console.log(text);
+    }
+    function printError(text) {
+        console.warn(text);
+    }
+    engine.startGame({ onPrint: print, onPrintError: printError });
+
+When handling the engine output, keep in mind that it may not be desirable to print it out in the finished product.

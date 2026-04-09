@@ -1,0 +1,295 @@
+Document: Ray Casting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This document explains how to perform ray casting in Godot Engine.
+---CHUNK---
+Document: Ray-casting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This document explains the concept and usage of ray-casting in Godot Engine for detecting collisions.
+
+Ray-casting is a technique used in game development to detect collisions along a straight line, often referred to as a "ray." In Godot Engine, this is primarily achieved using the PhysicsRayQueryParameters3D and PhysicsDirectSpaceState3D classes.
+
+The core idea is to cast a ray from a starting point in a specific direction with a defined length. If the ray intersects with any physics bodies in the scene, it returns information about the first body it hits. This is incredibly useful for a variety of game mechanics, such as:
+
+*   **Line of Sight:** Determining if a character can see another object.
+*   **Targeting:** Aiming weapons or abilities.
+*   **Interaction:** Detecting what the player is looking at to interact with.
+*   **Pathfinding:** Checking for obstacles along a path.
+
+To perform a ray-cast, you need access to the physics space state. This is typically obtained from the PhysicsDirectSpaceState3D class, which can be accessed via the `get_world_3d().direct_space_state` property in a 3D environment.
+
+The process involves creating a PhysicsRayQueryParameters3D object, setting its properties, and then calling the `intersect_ray` method on the physics space state.
+
+Key properties of PhysicsRayQueryParameters3D include:
+
+*   `from`: The starting point of the ray (Vector3).
+*   `to`: The ending point of the ray (Vector3).
+*   `exclude`: An array of objects to exclude from the collision check (Array of RID).
+*   `collision_mask`: A bitmask that determines which physics layers the ray will collide with (int).
+*   `collide_with_bodies`: Whether to collide with physics bodies (bool).
+*   `collide_with_areas`: Whether to collide with physics areas (bool).
+
+The `intersect_ray` method returns a dictionary containing information about the collision if one occurs. This dictionary typically includes:
+
+*   `position`: The point of intersection (Vector3).
+*   `normal`: The surface normal at the point of intersection (Vector3).
+*   `collider`: The object that was hit (Object).
+*   `shape`: The shape index of the collider that was hit (int).
+*   `rid`: The RID of the collider that was hit (RID).
+
+Example of performing a ray-cast in GDScript:
+
+GDScript:
+```gdscript
+var space_state = get_world_3d().direct_space_state
+var from = Vector3(0, 1, 0)
+var to = Vector3(0, -1, 0)
+var query = PhysicsRayQueryParameters3D.create(from, to)
+query.collide_mask = 1 # Collide with layer 1
+var result = space_state.intersect_ray(query)
+
+if result:
+    print("Hit object: ", result.collider)
+    print("Hit position: ", result.position)
+```
+
+This basic setup allows for precise collision detection along a line, forming the foundation for many interactive elements in 3D games.
+---CHUNK---
+Document: Ray Casting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This section introduces ray casting in game development and mentions Godot's RayCast3D and RayCast2D nodes for this purpose.
+This section introduces ray casting, a common game development task used for behaviors like AI, and explains how to implement it in Godot. It notes that Godot's physics information is managed by servers, with nodes like RayCast3D and RayCast2D serving as frontends. These nodes provide raycast results every frame. The tutorial also highlights the need for a code-based, interactive approach to ray casting in many scenarios.
+---CHUNK---
+Document: Ray Casting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: Explains how to access and use physics spaces for ray casting in Godot.
+In the physics world, Godot stores all the low-level collision and physics information in a space. The current 2D space can be obtained by accessing CanvasItem.get_world_2d().space. For 3D, it's Node3D.get_world_3d().space. The resulting space RID can be used in PhysicsServer3D and PhysicsServer2D respectively for 3D and 2D.
+---CHUNK---
+Document: Ray Casting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This section explains how to safely access and query the physics space in Godot using PhysicsDirectSpaceState2D and PhysicsDirectSpaceState3D within the _physics_process callback.
+Accessing physics space is only safe during the Node._physics_process() callback. Accessing it from outside this function may result in an error because the space is locked.
+
+To perform queries into physics space, PhysicsDirectSpaceState2D and PhysicsDirectSpaceState3D must be used.
+
+In 2D, use the following code:
+
+GDScript:
+func _physics_process(delta):
+    var space_rid = get_world_2d().space
+    var space_state = PhysicsServer2D.space_get_direct_state(space_rid)
+
+C#:
+public override void _PhysicsProcess(double delta)
+{
+    var spaceRid = GetWorld2D().Space;
+    var spaceState = PhysicsServer2D.SpaceGetDirectState(spaceRid);
+}
+
+Alternatively, access it more directly:
+
+GDScript:
+func _physics_process(delta):
+    var space_state = get_world_2d().direct_space_state
+
+C#:
+public override void _PhysicsProcess(double delta)
+{
+    var spaceState = GetWorld2D().DirectSpaceState;
+}
+
+In 3D, use the following code:
+
+GDScript:
+func _physics_process(delta):
+    var space_state = get_world_3d().direct_space_state
+
+C#:
+public override void _PhysicsProcess(double delta)
+{
+    var spaceState = GetWorld3D().DirectSpaceState;
+}
+---CHUNK---
+Document: Raycasting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This section explains how to perform 2D and 3D raycast queries in Godot using the PhysicsDirectSpaceState2D and PhysicsDirectSpaceState3D classes.
+
+To perform a 2D raycast query, use the intersect_ray() method of PhysicsDirectSpaceState2D.
+
+GDScript:
+func _physics_process(delta):
+    var space_state = get_world_2d().direct_space_state
+    # use global coordinates, not local to node
+    var query = PhysicsRayQueryParameters2D.create(Vector2(0, 0), Vector2(50, 100))
+    var result = space_state.intersect_ray(query)
+
+C#:
+public override void _PhysicsProcess(double delta)
+{
+    var spaceState = GetWorld2D().DirectSpaceState;
+    // use global coordinates, not local to node
+    var query = PhysicsRayQueryParameters2D.Create(Vector2.Zero, new Vector2(50, 100));
+    var result = spaceState.IntersectRay(query);
+}
+
+The result is a dictionary. If the ray doesn't hit anything, the dictionary will be empty. If it did hit something, it will contain collision information.
+
+GDScript:
+    if result:
+        print("Hit at point: ", result.position)
+
+C#:
+    if (result.Count > 0)
+    {
+        GD.Print("Hit at point: ", result["position"]);
+    }
+
+The result dictionary when a collision occurs contains the following data:
+position: Vector2 # point in world space for collision
+normal: Vector2 # normal in world space for collision
+collider: Object # Object collided or null (if unassociated)
+collider_id: ObjectID # Object it collided against
+rid: RID # RID it collided against
+shape: int # shape index of collider
+metadata: Variant() # metadata of collider
+
+The data is similar in 3D space, using Vector3 coordinates. Note that to enable collisions with Area3D, the boolean parameter collide_with_areas must be set to true.
+
+GDScript:
+    const RAY_LENGTH = 1000
+
+    func _physics_process(delta):
+        var space_state = get_world_3d().direct_space_state
+        var cam = $Camera3D
+        var mousepos = get_viewport().get_mouse_position()
+
+        var origin = cam.project_ray_origin(mousepos)
+        var end = origin + cam.project_ray_normal(mousepos) * RAY_LENGTH
+        var query = PhysicsRayQueryParameters3D.create(origin, end)
+        query.collide_with_areas = true
+
+        var result = space_state.intersect_ray(query)
+
+C#:
+private const int RayLength = 1000;
+
+public override void _PhysicsProcess(double delta)
+{
+    var spaceState = GetWorld3D().DirectSpaceState;
+    var cam = GetNode<Camera3D>("Camera3D");
+    var mousePos = GetViewport().GetMousePosition();
+
+    var origin = cam.ProjectRayOrigin(mousePos);
+    var end = origin + cam.ProjectRayNormal(mousePos) * RayLength;
+    var query = PhysicsRayQueryParameters3D.Create(origin, end);
+    query.CollideWithAreas = true;
+
+    var result = spaceState.IntersectRay(query);
+}
+---CHUNK---
+Document: Ray Casting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This section explains how to exclude specific colliders, like the caster itself, from ray cast results using the `exclude` property of `PhysicsRayQueryParameters2D`.
+
+When performing ray casting, a common scenario is for a character to gather information about its surroundings. A potential issue arises because the character itself has a collider, which the ray might detect first, preventing it from identifying objects further away. This is known as self-intersection.
+
+To prevent the ray from colliding with its own collider, the `intersect_ray()` method accepts an array of exceptions through its `exclude` property. This property can be set using either the node itself or its RID.
+
+Here's an example of how to implement this exclusion in GDScript for a `CharacterBody2D`:
+
+GDScript:
+```gdscript
+extends CharacterBody2D
+
+func _physics_process(delta):
+    var space_state = get_world_2d().direct_space_state
+    var query = PhysicsRayQueryParameters2D.create(global_position, player_position)
+    query.exclude = [self]
+    var result = space_state.intersect_ray(query)
+```
+
+And here's the equivalent in C#:
+
+C#:
+```csharp
+using Godot;
+
+public partial class MyCharacterBody2D : CharacterBody2D
+{
+    public override void _PhysicsProcess(double delta)
+    {
+        var spaceState = GetWorld2D().DirectSpaceSpaceState;
+        var query = PhysicsRayQueryParameters2D.Create(globalPosition, playerPosition);
+        query.Exclude = [GetRid()];
+        var result = spaceState.IntersectRay(query);
+    }
+}
+```
+
+The `exclude` array can contain either node objects or their corresponding Resource IDs (RIDs).
+---CHUNK---
+Document: Ray Casting
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This section explains how to use collision masks with ray casting in Godot to efficiently manage exceptions.
+
+The collision mask system provides a more efficient way to handle a large or dynamic list of exceptions compared to the exceptions method. The `intersect_ray()` parameters object can accept a collision mask. To use the same mask as the parent body, you can utilize the `collision_mask` member variable. The array of exceptions can still be provided as the last argument.
+
+GDScript:
+```gdscript
+extends CharacterBody2D
+
+func _physics_process(delta):
+    var space_state = get_world_2d().direct_space_state
+    var query = PhysicsRayQueryParameters2D.create(global_position, target_position,
+        collision_mask, [self])
+    var result = space_state.intersect_ray(query)
+```
+
+C#:
+```csharp
+using Godot;
+
+public partial class MyCharacterBody2D : CharacterBody2D
+{
+    public override void _PhysicsProcess(double delta)
+    {
+        var spaceState = GetWorld2D().DirectSpaceState;
+        var query = PhysicsRayQueryParameters2D.Create(globalPosition, targetPosition,
+            CollisionMask, [GetRid()]);
+        var result = spaceState.IntersectRay(query);
+    }
+}
+```
+
+For more information on setting the collision mask, refer to the collision layer/mask example.
+---CHUNK---
+Document: 3D ray casting from screen
+Path: godot/tutorials/physics/ray-casting.rst
+Summary: This section explains how to cast a ray from the screen into the 3D physics space for object picking using a Camera3D node.
+
+Casting a ray from screen to 3D physics space is useful for object picking. While CollisionObject3D has an "input_event" signal for this purpose, manual ray casting can be done using a Camera3D node. A Camera3D can be in perspective or orthogonal projection modes, requiring the calculation of both ray origin and direction.
+
+To obtain the ray origin and direction using a camera, the following code can be used:
+
+GDScript:
+    const RAY_LENGTH = 1000.0
+
+    func _input(event):
+        if event is InputEventMouseButton and event.pressed and event.button_index == 1:
+            var camera3d = $Camera3D
+            var from = camera3d.project_ray_origin(event.position)
+            var to = from + camera3d.project_ray_normal(event.position) * RAY_LENGTH
+
+C#:
+    private const float RayLength = 1000.0f;
+
+    public override void _Input(InputEvent @event)
+    {
+        if (@event is InputEventMouseButton eventMouseButton && eventMouseButton.Pressed && eventMouseButton.ButtonIndex == MouseButton.Left)
+        {
+            var camera3D = GetNode<Camera3D>("Camera3D");
+            var from = camera3D.ProjectRayOrigin(eventMouseButton.Position);
+            var to = from + camera3D.ProjectRayNormal(eventMouseButton.Position) * RayLength;
+        }
+    }
+
+Key Rule: During _input(), the physics space may be locked, so ray casting queries should typically be run in _physics_process().

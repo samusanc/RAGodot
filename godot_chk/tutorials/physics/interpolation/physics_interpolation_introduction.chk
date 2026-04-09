@@ -1,0 +1,130 @@
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This document introduces the concept of physics interpolation in Godot Engine, explaining its purpose and how it differs from simple extrapolation.
+
+Physics interpolation is a technique used to smooth out the visual representation of physics objects in games, especially when the physics simulation runs at a different rate than the rendering frame rate. This is particularly important for achieving smooth motion and preventing jittery or jerky movements.
+
+The core idea behind physics interpolation is to render the game world at a point in time that is slightly behind the current physics simulation time. When the game renders a frame, it doesn't just display the physics state from the exact moment the frame started. Instead, it interpolates between the physics states of two previous simulation steps to determine the visual position and rotation of objects.
+
+This approach contrasts with extrapolation, where the system predicts future states based on current velocity. Extrapolation can lead to inaccuracies if the prediction is wrong, causing visual artifacts. Interpolation, by using past states, guarantees that the rendered position is a valid state that the physics engine has already processed or will process.
+
+In Godot Engine, physics interpolation is handled automatically when enabled. The physics engine runs at a fixed timestep (e.g., 60 times per second), while the rendering can run at a variable frame rate. Interpolation ensures that the visual representation aligns smoothly with the physics simulation, regardless of the rendering frame rate.
+
+Key Rule: Physics interpolation renders the game world at a point in time between two previous physics simulation steps, ensuring smooth visual motion.
+
+The benefits of using physics interpolation include:
+*   **Smoother Visuals:** Eliminates jitter and stuttering, especially on lower-end hardware or when physics calculations are demanding.
+*   **Consistent Experience:** Provides a more stable and predictable visual experience for the player.
+*   **Reduced Artifacts:** Avoids the visual errors that can occur with extrapolation.
+
+To enable physics interpolation in Godot, you typically need to configure project settings related to physics and rendering. The engine then manages the interpolation process behind the scenes.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This document introduces the concept of physics interpolation in Godot Engine.
+
+Introduction
+
+Physics interpolation is a technique used to smooth out the visual representation of physics objects in games. When physics simulations run at a fixed timestep (e.g., 60 times per second), and rendering occurs at a variable rate (e.g., 30 to 120 frames per second), visual discrepancies can arise. This can lead to jerky or stuttering motion, especially when the rendering framerate drops below the physics timestep.
+
+Physics interpolation addresses this by rendering frames *between* the physics steps. Instead of rendering at the exact moment of a physics step, the game renders at an intermediate point between two physics steps. This allows the visual position of objects to be smoothly interpolated from their previous physics state to their current physics state, resulting in a much smoother visual experience for the player, regardless of the rendering framerate.
+
+In Godot Engine, physics interpolation is handled automatically when using the `PhysicsServer` or when using nodes that rely on the physics engine, such as `RigidBody3D` or `CharacterBody3D`. The engine calculates the interpolated positions and applies them during the rendering process.
+
+This tutorial will explore how physics interpolation works in Godot and how to leverage it to create smoother-looking physics simulations in your games.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: Explains the difference between fixed physics ticks and variable rendered frames and the resulting visual issues.
+
+Physics ticks and rendered frames
+One key concept to understand in Godot is the distinction between physics ticks (sometimes referred to as iterations or physics frames), and rendered frames. The physics proceeds at a fixed tick rate (set in Project Settings > Physics > Common > Physics Tick per Second), which defaults to 60 ticks per second.
+
+However, the engine does not necessarily render at the same rate. Although many monitors refresh at 60 Hz (cycles per second), many refresh at completely different frequencies (e.g. 75 Hz, 144 Hz, 240 Hz or more). Even though a monitor may be able to show a new frame e.g. 60 times a second, there is no guarantee that the CPU and GPU will be able to supply frames at this rate. For instance, when running with V-Sync, the computer may be too slow for 60 and only reach the deadlines for 30 FPS, in which case the frames you see will change at 30 FPS (resulting in stuttering).
+
+But there is a problem here. What happens if the physics ticks do not coincide with frames? What happens if the physics tick rate is out of phase with the frame rate? Or worse, what happens if the physics tick rate is lower than the rendered frame rate?
+
+This problem is easier to understand if we consider an extreme scenario. If you set the physics tick rate to 10 ticks per second, in a simple game with a rendered frame rate of 60 FPS. If we plot a graph of the positions of an object against the rendered frames, you can see that the positions will appear to "jump" every 1/10th of a second, rather than giving a smooth motion. When the physics calculates a new position for a new object, it is not rendered in this position for just one frame, but for 6 frames.
+
+This jump can be seen in other combinations of tick / frame rate as glitches, or jitter, caused by this staircasing effect due to the discrepancy between physics tick time and rendered frame time.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This section introduces the problem of frame and tick desynchronization in physics simulations.
+What can we do about frames and ticks being out of sync?
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This section discusses the limitations of synchronizing physics ticks with frame rates in modern game development due to performance variations across different hardware.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This section discusses the challenges of adapting the physics tick rate to user hardware and why a fixed tick rate is generally preferred for consistency.
+
+Adapting the tick rate is a potential approach to physics interpolation, where the physics tick rate could scale with the end user's hardware. For instance, a fixed tick rate suitable for the hardware could be used, or the duration of each physics tick could be varied to match a specific frame duration.
+
+However, this approach presents a significant problem. Physics, along with game logic often executed in `_physics_process`, function optimally and most consistently when operating at a fixed, predetermined tick rate. Attempting to run physics designed for 60 ticks per second (TPS) at a much lower rate, such as 10 TPS, will result in drastically different behavior. Controls might become less responsive, and collisions or trajectories could be entirely altered. A game thoroughly tested at 60 TPS might break on end users' machines if it runs at a different tick rate.
+
+This inconsistency complicates quality assurance, leading to hard-to-reproduce bugs, which can be particularly costly in AAA games. It also poses a challenge for multiplayer games aiming for competitive integrity, as certain tick rates might offer an unfair advantage over others.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This section introduces the concept of physics interpolation as a method to smooth visual motion between fixed physics ticks by tracking both current and previous object positions.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: Introduces linear interpolation (lerping) as a method for smoothing physics movement.
+Linear interpolation, or lerping, is the simplest way to achieve smooth movement. Consider only the position: if the previous physics tick's X coordinate was 10 and the current tick's X coordinate is 30, linear interpolation would calculate intermediate positions between these two values. Note: While the mathematics are explained for clarity, Godot may employ more complex interpolation methods internally, but linear interpolation serves as the easiest concept to grasp.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: Explains how to calculate the physics interpolation fraction to smooth motion between physics ticks.
+The physics interpolation fraction is calculated to determine the object's position within a physics tick for smooth motion. If physics ticks occur 10 times per second (0.1 seconds per tick) and a rendered frame occurs at 0.12 seconds, the time elapsed since the last tick is 0.02 seconds (0.12 - 0.1). The fraction through the tick is calculated as:
+
+GDScript:
+	fraction = 0.02 / 0.10
+	fraction = 0.2
+
+This fraction, representing how far through the current physics tick the rendering is, is automatically calculated by Godot and can be accessed using Engine.get_physics_interpolation_fraction().
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This section explains how to calculate an interpolated position using linear interpolation based on previous and current physics states.
+GDScript:
+	x_interpolated = x_prev + ((x_curr - x_prev) * 0.2)
+GDScript:
+	x_interpolated = 10 + ((30 - 10) * 0.2)
+	x_interpolated = 10 + 4
+	x_interpolated = 14
+The calculation involves starting from the previous tick's coordinate (x_prev), determining the difference between the current and previous tick (x_curr - x_prev), and then adding a proportion of this difference based on the progress through the physics tick. Note: Although this example interpolates the position, the same thing can be done with the rotation and scale of objects. It is not necessary to know the details as Godot will do all this for you.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: Explains the concept of interpolating object positions between physics ticks and the resulting time offset.
+Smoothed transformations between physics ticks?
+Putting all this together shows that it should be possible to have a nice smooth estimation of the transform of objects between the current and previous physics tick.
+
+But wait, you may have noticed something. If we are interpolating between the current and previous ticks, we are not estimating the position of the object *now*, we are estimating the position of the object in the past. To be exact, we are estimating the position of the object between 1 and 2 ticks into the past.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: Explains the delay introduced by physics interpolation and when it might be undesirable.
+In the past, this scheme does work, but it does mean we are effectively introducing a delay between what we see on the screen, and where the objects should be. In practice, most people won't notice this delay, or rather, it is typically not objectionable. There are already significant delays involved in games, we just don't typically notice them. The most significant effect is there can be a slight delay to input, which can be a factor in fast twitch games. In some of these fast input situations, you may wish to turn off physics interpolation and use a different scheme, or use a high tick rate, which mitigates these delays.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: This section discusses the alternative approach of extrapolating physics states into the future instead of interpolating from the past, and its potential drawbacks.
+
+Instead of interpolating between the previous and current physics tick, an alternative is to extrapolate into the future, predicting where an object will be. This approach may be offered as an option in the future, but it has significant downsides:
+
+*   The prediction may be incorrect, particularly when an object collides with another during a physics tick.
+*   If a prediction is wrong, the object might extrapolate to an impossible position, such as inside a wall.
+*   Incorrect predictions might be less problematic if the movement speed is slow.
+*   When a prediction is incorrect, the object may need to jump or snap back to the corrected path, which can be visually jarring.
+---CHUNK---
+Document: Physics Interpolation Introduction
+Path: godot/tutorials/physics/interpolation/physics_interpolation_introduction.rst
+Summary: Explains the concept of fixed timestep interpolation and its relation to Godot's physics interpolation system.
+Tip: Although physics interpolation is usually a good choice, there are exceptions where you may choose not to use Godot's built-in physics interpolation (or use it in a limited fashion). An example category is internet multiplayer games. Multiplayer games often receive tick or timing based information from other players or a server and these may not coincide with local physics ticks, so a custom interpolation technique can often be a better fit.
+
+In Godot, this system is referred to as physics interpolation, but it may also be called "fixed timestep interpolation" because it interpolates between objects moved with a fixed timestep (physics ticks per second). This term can also be more accurate as it can be used to interpolate objects not driven by physics.

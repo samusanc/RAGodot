@@ -1,0 +1,229 @@
+Document: OpenXR Composition Layers
+Path: godot/tutorials/xr/openxr_composition_layers.rst
+Summary: This document explains the concept and usage of OpenXR Composition Layers for rendering in XR applications.
+
+OpenXR Composition Layers
+
+OpenXR provides a mechanism for rendering directly to the headset's display compositor using "composition layers." This allows for more advanced rendering techniques and potentially better performance than traditional swapchains.
+
+Composition layers are a way to send rendering results directly to the OpenXR runtime, which then composites them onto the final image displayed to the user. This bypasses the need for the application to handle the final display composition itself.
+
+Types of Composition Layers:
+
+*   **Swapchain Image Layers:** These are the most common type, where the application renders to a texture (swapchain) and sends that texture to the compositor. This is similar to traditional rendering but integrated into the OpenXR pipeline.
+*   **Color Texture Layers:** Allow sending a static color texture.
+*   **Depth Texture Layers:** Allow sending a depth texture.
+*   **Environment Depth Layers:** Used for depth-based effects and occlusion.
+*   **Eye Gazes:** Can provide eye gaze information for foveated rendering or interaction.
+
+Key Rule: Composition layers are submitted per frame to the OpenXR runtime. The runtime is responsible for combining these layers with its own rendering (e.g., the system dashboard, notifications) and presenting the final image.
+
+Using Composition Layers in Godot:
+
+Godot's OpenXR plugin supports composition layers. You can enable and configure them through the XR Project Settings.
+
+When using composition layers, you typically render your scene to a texture provided by the OpenXR runtime. This texture is then included as a composition layer in the submission to the runtime.
+
+GDScript:
+```gdscript
+# Example of submitting a composition layer (conceptual)
+# This is typically handled internally by the XRServer and OpenXR plugin
+
+func _process(delta):
+    if XRServer.has_feature("openxr"):
+        var xr_interface = XRServer.get_interface("OpenXR")
+        if xr_interface and xr_interface.is_session_running():
+            # Get the texture provided by the runtime for composition
+            var composition_texture = xr_interface.get_composition_layer_texture()
+
+            if composition_texture:
+                # Render your scene to this texture
+                # ... rendering code ...
+
+                # Submit the texture as a composition layer
+                xr_interface.submit_composition_layer(composition_texture)
+```
+
+The exact implementation details of submitting composition layers are managed by the OpenXR plugin and the `XRServer`. Developers usually interact with this system by enabling OpenXR and configuring its settings, rather than directly manipulating layer submission in most cases.
+
+Benefits of Composition Layers:
+
+*   **Performance:** Can reduce rendering overhead by allowing the runtime to optimize compositing.
+*   **Advanced Effects:** Enables features like spatial anchors, passthrough rendering, and custom compositor effects.
+*   **Flexibility:** Provides more control over how the final image is presented.
+
+Considerations:
+
+*   **Runtime Support:** Not all OpenXR runtimes may support all types of composition layers.
+*   **Complexity:** Implementing custom composition layers can be more complex than standard rendering.
+
+This system is crucial for advanced XR development, allowing applications to integrate seamlessly with the headset's display pipeline and leverage powerful runtime features.
+---CHUNK---
+Document: OpenXR composition layers
+Path: godot/tutorials/xr/openxr_composition_layers.rst
+Summary: This document explains the concept and usage of OpenXR composition layers for rendering in XR applications.
+
+OpenXR composition layers are a fundamental concept for rendering in XR applications using the OpenXR standard. They provide a mechanism for applications to submit rendered content to the XR runtime, which then composites this content with other layers (like system overlays or passthrough views) before presenting it to the user.
+
+There are several types of composition layers, each suited for different rendering needs:
+
+*   **`XRCompositionLayerProjection`**: This is the most common type. It's used for rendering the main 3D scene of your application. The runtime will typically composite this layer into the user's view based on the predicted head pose.
+*   **`XRCompositionLayerQuad`**: This layer allows you to render a flat quad (a 2D texture) into the 3D scene at a specific pose. This is useful for displaying UI elements, menus, or images within the XR environment.
+*   **`XRCompositionLayerCube`**: Similar to `XRCompositionLayerQuad`, but renders a cube map texture. This is often used for skyboxes or panoramic images.
+*   **`XRCompositionLayerPassthrough`**: This layer enables the display of the real world captured by the headset's cameras. It's crucial for mixed reality experiences where virtual objects are overlaid onto the real environment.
+
+When using OpenXR in Godot, the engine handles much of the low-level interaction with the XR runtime for these composition layers. You typically interact with them through higher-level abstractions provided by the engine's XR modules.
+
+For example, when rendering your main scene, Godot implicitly creates and manages an `XRCompositionLayerProjection`. For UI elements or specific 3D objects you want to display as separate layers, you might use nodes that can be configured to render as `XRCompositionLayerQuad` or `XRCompositionLayerCube`.
+
+The order in which layers are submitted and their associated properties (like opacity, depth, and visibility) are critical for achieving the desired visual result. The XR runtime determines the final composition based on these parameters.
+
+Understanding composition layers is key to effectively integrating custom rendering, UI, and mixed reality features into your OpenXR-compliant Godot applications.
+---CHUNK---
+Document: OpenXR Composition Layers Tutorial
+Path: godot/tutorials/xr/openxr_composition_layers.rst
+Summary: This section explains how to use OpenXR composition layers to render 2D UI elements in XR applications with improved quality.
+
+In XR development, traditional 2D interfaces can be challenging due to the need for depth information and issues with slanted displays on some headsets. The standard approach involves rendering the UI to a SubViewport and displaying it on a 3D mesh using a ViewportTexture and a QuadMesh. However, this method can lead to quality loss when the XR runtime samples the rendered result for lens distortion, making text difficult to read.
+
+OpenXR provides a solution through composition layers, which allow viewport content to be projected onto a surface after lens distortion, significantly improving visual quality.
+
+Note: If not all XR runtimes support composition layers, Godot falls back to rendering the viewport as part of the normal scene, which may have quality limitations.
+
+Warning: When composition layers are supported, the XR runtime presents the subviewport. This means the UI will only be visible in the headset and not accessible on a desktop spectator view.
+
+Godot offers three nodes for implementing composition layers:
+- OpenXRCompositionLayerCylinder: Renders the SubViewport content on the inside of a cylinder.
+- OpenXRCompositionLayerEquirect: Renders the SubViewport content on the interior of a sphere.
+- OpenXRCompositionLayerQuad: Renders the SubViewport content on a flat rectangle.
+---CHUNK---
+Document: OpenXR Composition Layers
+Path: godot/tutorials/xr/openxr_composition_layers.rst
+Summary: This section explains how to set up a SubViewport for 2D UI elements in an OpenXR project, including transparency settings and a warning about update modes.
+The first step is adding a SubViewport for our 2D UI. For this example, we mark the viewport as transparent. You can now create the 2D UI by adding child nodes to the SubViewport as you normally would. It is advisable to save the 2D UI in a subscene, which makes it easier to do your layout.
+Warning: The update mode "When Visible" will not work as Godot can't determine whether the viewport is visible to the user. When assigning our viewport to a composition layer, Godot will automatically adjust this.
+---CHUNK---
+Document: OpenXR Composition Layers Tutorial
+Path: godot/tutorials/xr/openxr_composition_layers.rst
+Summary: This section explains how to add and position a composition layer node within an OpenXR setup.
+We add the composition layer node as a child of the XROrigin3D node, as the XR runtime positions everything relative to the origin. The composition layer should be positioned at eye height and 1 to 1.5 meters away from the player. The SubViewport is assigned to the Layer Viewport property, and Alpha Blend is enabled.
+Note: When the player moves away from the origin, the composition layer needs to be repositioned when the player recenters the view. Using the reference space Local Floor automatically handles this logic.
+---CHUNK---
+Document: OpenXR Composition Layers
+Path: godot/tutorials/xr/openxr_composition_layers.rst
+Summary: This section details how to implement controller-based UI interaction within OpenXR by simulating mouse events.
+
+This code requires a ``MeshInstance3D`` node named ``Pointer`` as a child of the ``OpenXRCompositionLayerQuad`` node, configured with a ``SphereMesh`` of radius 0.01 meters to visualize the pointer's position.
+
+The core functionality is driven by the ``intersects_ray`` function on the composition layer node. This function takes the global position and orientation of the pointer and returns the UV coordinates where the ray intersects the viewport. It returns ``Vector2(-1.0, -1.0)`` if no intersection occurs.
+
+The script starts by defining export variables to link the controller node used for pointing and the button action string for triggering clicks. It also initializes state variables for tracking button presses and intersection status.
+
+GDScript:
+extends OpenXRCompositionLayerQuad
+
+const NO_INTERSECTION = Vector2(-1.0, -1.0)
+
+@export var controller : XRController3D
+@export var button_action : String = "trigger_click"
+
+var was_pressed : bool = false
+var was_intersect : Vector2 = NO_INTERSECTION
+
+A helper function, ``_intersect_to_global_pos``, converts the intersection UV coordinates to a global 3D position relative to the ``OpenXRCompositionLayerQuad`` node.
+
+GDScript:
+func _intersect_to_global_pos(intersect : Vector2) -> Vector3:
+    if intersect != NO_INTERSECTION:
+        var local_pos : Vector2 = (intersect - Vector2(0.5, 0.5)) * quad_size
+        return global_transform * Vector3(local_pos.x, -local_pos.y, 0.0)
+    else:
+        return Vector3()
+
+Another helper function, ``_intersect_to_viewport_pos``, converts the intersection UV coordinates to a 2D integer position within the viewport's local coordinate system.
+
+GDScript:
+func _intersect_to_viewport_pos(intersect : Vector2) -> Vector2i:
+    if layer_viewport and intersect != NO_INTERSECTION:
+        var pos : Vector2 = intersect * Vector2(layer_viewport.size)
+        return Vector2i(pos)
+    else:
+        return Vector2i(-1, -1)
+
+The ``_process`` function contains the main logic. It begins by hiding the pointer and then checks for valid controller and viewport references. It then calls ``intersects_ray`` using the controller's global transform origin and forward vector.
+
+GDScript:
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+    # Hide our pointer, we'll make it visible if we're interacting with the viewport.
+    $Pointer.visible = false
+
+    if controller and layer_viewport:
+        var controller_t : Transform3D = controller.global_transform
+        var intersect : Vector2 = intersects_ray(controller_t.origin, -controller_t.basis.z)
+
+If an intersection with the viewport is detected, the script checks the controller's button state. If the button is pressed, the pointer is made visible and positioned at the intersection point using ``_intersect_to_global_pos``.
+
+GDScript:
+        if intersect != NO_INTERSECTION:
+            var is_pressed : bool = controller.is_button_pressed(button_action)
+
+            # Place our pointer where we're pointing
+            var pos : Vector3 = _intersect_to_global_pos(intersect)
+            $Pointer.visible = true
+            $Pointer.global_position = pos
+
+If the pointer moved since the last frame and the button was pressed, an ``InputEventMouseMotion`` is created and pushed to the viewport to simulate mouse movement. The ``button_mask`` is set if the button is currently pressed.
+
+GDScript:
+            if was_intersect != NO_INTERSECTION and intersect != was_intersect:
+                # Pointer moved
+                var event : InputEventMouseMotion = InputEventMouseMotion.new()
+                var from : Vector2 = _intersect_to_viewport_pos(was_intersect)
+                var to : Vector2 = _intersect_to_viewport_pos(intersect)
+                if was_pressed:
+                    event.button_mask = MOUSE_BUTTON_MASK_LEFT
+                event.relative = to - from
+                event.position = to
+                layer_viewport.push_input(event)
+
+If the button was just released, an ``InputEventMouseButton`` is created with ``pressed`` set to ``false`` and pushed to the viewport.
+
+GDScript:
+            if not is_pressed and was_pressed:
+                # Button was let go?
+                var event : InputEventMouseButton = InputEventMouseButton.new()
+                event.button_index = 1
+                event.pressed = false
+                event.position = _intersect_to_viewport_pos(intersect)
+                layer_viewport.push_input(event)
+
+If the button was just pressed, an ``InputEventMouseButton`` is created with ``pressed`` set to ``true`` and pushed to the viewport.
+
+GDScript:
+                elif is_pressed and not was_pressed:
+                    # Button was pressed?
+                    var event : InputEventMouseButton = InputEventMouseButton.new()
+                    event.button_index = 1
+                    event.button_mask = MOUSE_BUTTON_MASK_LEFT
+                    event.pressed = true
+                    event.position = _intersect_to_viewport_pos(intersect)
+                    layer_viewport.push_input(event)
+
+The script then updates the ``was_pressed`` and ``was_intersect`` variables to store the current state for the next frame.
+
+GDScript:
+                was_pressed = is_pressed
+                was_intersect = intersect
+
+Finally, if no intersection occurred in the current frame, the state variables are reset.
+
+GDScript:
+            else:
+                was_pressed = false
+                was_intersect = NO_INTERSECTION
+---CHUNK---
+Document: OpenXR Composition Layers
+Path: godot/tutorials/xr/openxr_composition_layers.rst
+Summary: Explains how to use hole punching with OpenXR composition layers to correctly render objects in front of the viewport.
+Hole punching: As the composition layer is composited on top of the render result, it can be rendered in front of objects that are actually forward of the viewport. By enabling hole punch, you instruct Godot to render a transparent object where our viewport is displayed. It does this in a way that fills the depth buffer and clears the current rendering result. Anything behind our viewport will now be cleared, while anything in front of our viewport will be rendered as usual. You also need to set Sort Order to a negative value. The XR compositor will now draw the viewport first, and then overlay our rendering result. Use case showing how the user's hand is incorrectly obscured by a composition layer when hole punching is not used.

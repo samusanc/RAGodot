@@ -1,0 +1,342 @@
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: An overview of the ParticleProcessMaterial class, which is a Material used to define particle behavior for GPUParticles2D and GPUParticles3D nodes.
+
+Inherits: Material < Resource < RefCounted < Object
+
+ParticleProcessMaterial is a Material that can be used to control the behavior of a particle system. It is used by GPUParticles2D and GPUParticles3D nodes. The properties of the ParticleProcessMaterial are used to set the initial values of the particles and to control their behavior over time. A number of these properties are floats, but can be extended to a CurveTexture or a GradientTexture1D (for colors). When a texture is used, the value of the property is determined by the texture at the particle's lifetime.
+
+For a more advanced and flexible way to create particles, you can use a ParticleShader with a ShaderMaterial.
+---CHUNK---
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: ParticleProcessMaterial is a resource that holds the configuration for particle systems using GPUParticles2D or GPUParticles3D nodes.
+
+Inherits: Material < Resource < RefCounted < Object
+
+ParticleProcessMaterial holds a particle configuration for GPUParticles2D or GPUParticles3D nodes.
+---CHUNK---
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: An overview of ParticleProcessMaterial, which defines particle properties and behavior for GPUParticles2D and GPUParticles3D nodes.
+
+ParticleProcessMaterial defines particle properties and behavior. It is used in the process_material of the GPUParticles2D and GPUParticles3D nodes. Some of this material's properties are applied to each particle when emitted, while others can have a CurveTexture or a GradientTexture1D applied to vary numerical or color values over the lifetime of the particle.
+---CHUNK---
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: A list of all properties for ParticleProcessMaterial, including their types and default values.
+
+* alpha_curve (Texture2D)
+* angle_curve (Texture2D)
+* angle_max (float): Default: 0.0
+* angle_min (float): Default: 0.0
+* angular_velocity_curve (Texture2D)
+* angular_velocity_max (float): Default: 0.0
+* angular_velocity_min (float): Default: 0.0
+* anim_offset_curve (Texture2D)
+* anim_offset_max (float): Default: 0.0
+* anim_offset_min (float): Default: 0.0
+* anim_speed_curve (Texture2D)
+* anim_speed_max (float): Default: 0.0
+* anim_speed_min (float): Default: 0.0
+* attractor_interaction_enabled (bool): Default: true
+* collision_bounce (float)
+* collision_friction (float)
+* collision_mode (CollisionMode): Default: 0
+* collision_use_scale (bool): Default: false
+* color (Color): Default: Color(1, 1, 1, 1)
+* color_initial_ramp (Texture2D)
+* color_ramp (Texture2D)
+* damping_curve (Texture2D)
+* damping_max (float): Default: 0.0
+* damping_min (float): Default: 0.0
+* direction (Vector3): Default: Vector3(1, 0, 0)
+* directional_velocity_curve (Texture2D)
+* directional_velocity_max (float)
+* directional_velocity_min (float)
+* emission_box_extents (Vector3)
+* emission_color_texture (Texture2D)
+* emission_curve (Texture2D)
+* emission_normal_texture (Texture2D)
+* emission_point_count (int)
+* emission_point_texture (Texture2D)
+* emission_ring_axis (Vector3)
+* emission_ring_cone_angle (float)
+* emission_ring_height (float)
+* emission_ring_inner_radius (float)
+* emission_ring_radius (float)
+* emission_shape (EmissionShape): Default: 0
+* emission_shape_offset (Vector3): Default: Vector3(0, 0, 0)
+* emission_shape_scale (Vector3): Default: Vector3(1, 1, 1)
+* emission_sphere_radius (float)
+* flatness (float): Default: 0.0
+* gravity (Vector3): Default: Vector3(0, -9.8, 0)
+* hue_variation_curve (Texture2D)
+* hue_variation_max (float): Default: 0.0
+* hue_variation_min (float): Default: 0.0
+* inherit_velocity_ratio (float): Default: 0.0
+* initial_velocity_max (float): Default: 0.0
+* initial_velocity_min (float): Default: 0.0
+* lifetime_randomness (float): Default: 0.0
+* linear_accel_curve (Texture2D)
+* linear_accel_max (float): Default: 0.0
+* linear_accel_min (float): Default: 0.0
+* orbit_velocity_curve (Texture2D)
+* orbit_velocity_max (float): Default: 0.0
+* orbit_velocity_min (float): Default: 0.0
+* particle_flag_align_y (bool): Default: false
+* particle_flag_damping_as_friction (bool): Default: false
+* particle_flag_disable_z (bool): Default: false
+* particle_flag_inherit_emitter_scale (bool): Default: false
+* particle_flag_rotate_y (bool): Default: false
+* radial_accel_curve (Texture2D)
+* radial_accel_max (float): Default: 0.0
+* radial_accel_min (float): Default: 0.0
+* radial_velocity_curve (Texture2D)
+* radial_velocity_max (float): Default: 0.0
+* radial_velocity_min (float): Default: 0.0
+* rotation_3d_max (Vector3)
+* rotation_3d_min (Vector3)
+* rotation_velocity_3d_curve (Texture2D)
+* rotation_velocity_3d_max (Vector3)
+* rotation_velocity_3d_min (Vector3)
+* scale_3d_max (Vector3)
+* scale_3d_min (Vector3)
+* scale_curve (Texture2D)
+* scale_max (float): Default: 1.0
+* scale_min (float): Default: 1.0
+* scale_over_velocity_curve (Texture2D)
+* scale_over_velocity_max (float): Default: 0.0
+* scale_over_velocity_min (float): Default: 0.0
+* spread (float): Default: 45.0
+* sub_emitter_amount_at_collision (int)
+* sub_emitter_amount_at_end (int)
+* sub_emitter_amount_at_start (int)
+* sub_emitter_frequency (float)
+* sub_emitter_keep_velocity (bool): Default: false
+* sub_emitter_mode (SubEmitterMode): Default: 0
+* tangential_accel_curve (Texture2D)
+* tangential_accel_max (float): Default: 0.0
+* tangential_accel_min (float): Default: 0.0
+* turbulence_enabled (bool): Default: false
+* turbulence_influence_max (float): Default: 0.1
+* turbulence_influence_min (float): Default: 0.1
+* turbulence_influence_over_life (Texture2D)
+* turbulence_initial_displacement_max (float): Default: 0.0
+* turbulence_initial_displacement_min (float): Default: 0.0
+* turbulence_noise_scale (float): Default: 9.0
+* turbulence_noise_speed (Vector3): Default: Vector3(0, 0, 0)
+* turbulence_noise_speed_random (float): Default: 0.2
+* turbulence_noise_strength (float): Default: 1.0
+* use_rotation_3d (bool): Default: false
+* use_rotation_velocity_3d (bool): Default: false
+* use_scale_3d (bool): Default: false
+* velocity_limit_curve (Texture2D)
+* velocity_pivot (Vector3): Default: Vector3(0, 0, 0)
+---CHUNK---
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: This chunk details the methods for getting and setting particle parameters, flags, and textures, as well as the `emission_shape_changed` signal.
+
+Methods:
+*   get_param(param: Parameter) -> Vector2
+*   get_param_max(param: Parameter) -> float
+*   get_param_min(param: Parameter) -> float
+*   get_param_texture(param: Parameter) -> Texture2D
+*   get_particle_flag(particle_flag: ParticleFlags) -> bool
+*   set_param(param: Parameter, value: Vector2) -> void
+*   set_param_max(param: Parameter, value: float) -> void
+*   set_param_min(param: Parameter, value: float) -> void
+*   set_param_texture(param: Parameter, texture: Texture2D) -> void
+*   set_particle_flag(particle_flag: ParticleFlags, enable: bool) -> void
+
+Signals:
+Signal: emission_shape_changed()
+Emitted when this material's emission shape is changed in any way. This includes changes to emission_shape, emission_shape_scale, or emission_sphere_radius, and any other property that affects the emission shape's offset, size, scale, or orientation. Note: This signal is only emitted inside the editor for performance reasons.
+---CHUNK---
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: This chunk details the enumerations used by ParticleProcessMaterial, including Parameter for particle properties, ParticleFlags for behavior toggles, EmissionShape for spawn patterns, SubEmitterMode for secondary emitters, and CollisionMode for particle interactions.
+
+Enumerations
+
+enum Parameter:
+- PARAM_INITIAL_LINEAR_VELOCITY = 0: Use with set_param_min(), set_param_max(), and set_param_texture() to set initial velocity properties.
+- PARAM_ANGULAR_VELOCITY = 1: Use with set_param_min(), set_param_max(), and set_param_texture() to set angular velocity properties.
+- PARAM_ORBIT_VELOCITY = 2: Use with set_param_min(), set_param_max(), and set_param_texture() to set orbital velocity properties.
+- PARAM_LINEAR_ACCEL = 3: Use with set_param_min(), set_param_max(), and set_param_texture() to set linear acceleration properties.
+- PARAM_RADIAL_ACCEL = 4: Use with set_param_min(), set_param_max(), and set_param_texture() to set radial acceleration properties.
+- PARAM_TANGENTIAL_ACCEL = 5: Use with set_param_min(), set_param_max(), and set_param_texture() to set tangential acceleration properties.
+- PARAM_DAMPING = 6: Use with set_param_min(), set_param_max(), and set_param_texture() to set damping properties.
+- PARAM_ANGLE = 7: Use with set_param_min(), set_param_max(), and set_param_texture() to set angle properties.
+- PARAM_SCALE = 8: Use with set_param_min(), set_param_max(), and set_param_texture() to set scale properties.
+- PARAM_HUE_VARIATION = 9: Use with set_param_min(), set_param_max(), and set_param_texture() to set hue variation properties.
+- PARAM_ANIM_SPEED = 10: Use with set_param_min(), set_param_max(), and set_param_texture() to set animation speed properties.
+- PARAM_ANIM_OFFSET = 11: Use with set_param_min(), set_param_max(), and set_param_texture() to set animation offset properties.
+- PARAM_TURB_INFLUENCE_OVER_LIFE = 12: Use with set_param_texture() to set the turbulence influence over the particle's life time.
+- PARAM_TURB_VEL_INFLUENCE = 13: Use with set_param_min() and set_param_max() to set the turbulence minimum and maximum influence on each particle's velocity.
+- PARAM_TURB_INIT_DISPLACEMENT = 14: Use with set_param_min() and set_param_max() to set the turbulence minimum and maximum displacement of the particle's spawn position.
+- PARAM_RADIAL_VELOCITY = 15: Use with set_param_min(), set_param_max(), and set_param_texture() to set radial velocity properties.
+- PARAM_DIRECTIONAL_VELOCITY = 16: Use with set_param_min(), set_param_max(), and set_param_texture() to set directional velocity properties.
+- PARAM_SCALE_OVER_VELOCITY = 17: Use with set_param_min(), set_param_max(), and set_param_texture() to set scale over velocity properties.
+- PARAM_MAX = 18: Represents the size of the Parameter enum.
+
+enum ParticleFlags:
+- PARTICLE_FLAG_ALIGN_Y_TO_VELOCITY = 0: Use with set_particle_flag() to set particle_flag_align_y.
+- PARTICLE_FLAG_ROTATE_Y = 1: Use with set_particle_flag() to set particle_flag_rotate_y.
+- PARTICLE_FLAG_DISABLE_Z = 2: Use with set_particle_flag() to set particle_flag_disable_z.
+- PARTICLE_FLAG_DAMPING_AS_FRICTION = 3
+- PARTICLE_FLAG_INHERIT_EMITTER_SCALE = 4
+- PARTICLE_FLAG_MAX = 5: Represents the size of the ParticleFlags enum.
+
+enum EmissionShape:
+- EMISSION_SHAPE_POINT = 0: All particles will be emitted from a single point.
+- EMISSION_SHAPE_SPHERE = 1: Particles will be emitted in the volume of a sphere.
+- EMISSION_SHAPE_SPHERE_SURFACE = 2: Particles will be emitted on the surface of a sphere.
+- EMISSION_SHAPE_BOX = 3: Particles will be emitted in the volume of a box.
+- EMISSION_SHAPE_POINTS = 4: Particles are emitted at positions sampled from emission_point_texture. Particle color is modulated by emission_color_texture.
+- EMISSION_SHAPE_DIRECTED_POINTS = 5: Particles are emitted at positions sampled from emission_point_texture. Velocity and rotation are set from emission_normal_texture. Color is modulated by emission_color_texture.
+- EMISSION_SHAPE_RING = 6: Particles will be emitted in a ring or cylinder.
+- EMISSION_SHAPE_MAX = 7: Represents the size of the EmissionShape enum.
+
+enum SubEmitterMode:
+- SUB_EMITTER_DISABLED = 0: The subemitter is disabled.
+- SUB_EMITTER_CONSTANT = 1: The subemitter is emitted at the constant interval defined by sub_emitter_frequency.
+- SUB_EMITTER_AT_END = 2: The subemitter is emitted at the end of the particle's lifetime.
+- SUB_EMITTER_AT_COLLISION = 3: The subemitter is emitted when the particle collides.
+- SUB_EMITTER_AT_START = 4: The subemitter is emitted when the particle spawns.
+- SUB_EMITTER_MAX = 5: Represents the size of the SubEmitterMode enum.
+
+enum CollisionMode:
+- COLLISION_DISABLED = 0: No collision for particles. Particles will go through GPUParticlesCollision3D nodes.
+- COLLISION_RIGID = 1: RigidBody3D-style collision for particles using GPUParticlesCollision3D nodes.
+- COLLISION_HIDE_ON_CONTACT = 2: Hide particles instantly when colliding with a GPUParticlesCollision3D node. This can be combined with a subemitter that uses COLLISION_RIGID to "replace" the parent particle with the subemitter on impact.
+- COLLISION_MAX = 3: Represents the size of the CollisionMode enum.
+---CHUNK---
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: This chunk covers particle properties for alpha, angle, angular velocity, animation, attractor interaction, collision, and color, including their min/max values and lifetime curves.
+
+*   alpha_curve (Texture2D): The alpha value of each particle's color will be multiplied by this CurveTexture over its lifetime.
+    Method: set_alpha_curve(value)
+    Method: get_alpha_curve() -> Texture2D
+    Note: alpha_curve multiplies the particle mesh's vertex colors. To have a visible effect on a BaseMaterial3D, BaseMaterial3D.vertex_color_use_as_albedo must be `true`. For a ShaderMaterial, `ALPHA *= COLOR.a;` must be inserted in the shader's `fragment()` function. Otherwise, alpha_curve will have no visible effect.
+
+*   angle_curve (Texture2D): Each particle's rotation will be animated along this CurveTexture.
+    Method: set_param_texture(param, texture)
+    Method: get_param_texture(param) -> Texture2D
+
+*   angle_max (float): Maximum initial rotation applied to each particle, in degrees. Only applied when particle_flag_disable_z or particle_flag_rotate_y are `true` or the BaseMaterial3D being used to draw the particle is using BaseMaterial3D.BILLBOARD_PARTICLES. Default: `0.0`.
+    Method: set_param_max(param, value)
+    Method: get_param_max(param) -> float
+
+*   angle_min (float): Minimum equivalent of angle_max. Default: `0.0`.
+    Method: set_param_min(param, value)
+    Method: get_param_min(param) -> float
+
+*   angular_velocity_curve (Texture2D): Each particle's angular velocity (rotation speed) will vary along this CurveTexture over its lifetime.
+    Method: set_param_texture(param, texture)
+    Method: get_param_texture(param) -> Texture2D
+
+*   angular_velocity_max (float): Maximum initial angular velocity (rotation speed) applied to each particle in *degrees* per second. Only applied when particle_flag_disable_z or particle_flag_rotate_y are `true` or the BaseMaterial3D being used to draw the particle is using BaseMaterial3D.BILLBOARD_PARTICLES. Default: `0.0`.
+    Method: set_param_max(param, value)
+    Method: get_param_max(param) -> float
+
+*   angular_velocity_min (float): Minimum equivalent of angular_velocity_max. Default: `0.0`.
+    Method: set_param_min(param, value)
+    Method: get_param_min(param) -> float
+
+*   anim_offset_curve (Texture2D): Each particle's animation offset will vary along this CurveTexture.
+    Method: set_param_texture(param, texture)
+    Method: get_param_texture(param) -> Texture2D
+
+*   anim_offset_max (float): Maximum animation offset that corresponds to frame index in the texture. `0` is the first frame, `1` is the last one. See CanvasItemMaterial.particles_animation. Default: `0.0`.
+    Method: set_param_max(param, value)
+    Method: get_param_max(param) -> float
+
+*   anim_offset_min (float): Minimum equivalent of anim_offset_max. Default: `0.0`.
+    Method: set_param_min(param, value)
+    Method: get_param_min(param) -> float
+
+*   anim_speed_curve (Texture2D): Each particle's animation speed will vary along this CurveTexture.
+    Method: set_param_texture(param, texture)
+    Method: get_param_texture(param) -> Texture2D
+
+*   anim_speed_max (float): Maximum particle animation speed. Animation speed of `1` means that the particles will make full `0` to `1` offset cycle during lifetime, `2` means `2` cycles etc. With animation speed greater than `1`, remember to enable CanvasItemMaterial.particles_anim_loop property if you want the animation to repeat. Default: `0.0`.
+    Method: set_param_max(param, value)
+    Method: get_param_max(param) -> float
+
+*   anim_speed_min (float): Minimum equivalent of anim_speed_max. Default: `0.0`.
+    Method: set_param_min(param, value)
+    Method: get_param_min(param) -> float
+
+*   attractor_interaction_enabled (bool): If `true`, interaction with particle attractors is enabled. In 3D, attraction only occurs within the area defined by the GPUParticles3D node's GPUParticles3D.visibility_aabb. Default: `true`.
+    Method: set_attractor_interaction_enabled(value)
+    Method: is_attractor_interaction_enabled() -> bool
+
+*   collision_bounce (float): The particles' bounciness. Values range from `0` (no bounce) to `1` (full bounciness). Only effective if collision_mode is COLLISION_RIGID.
+    Method: set_collision_bounce(value)
+    Method: get_collision_bounce() -> float
+
+*   collision_friction (float): The particles' friction. Values range from `0` (frictionless) to `1` (maximum friction). Only effective if collision_mode is COLLISION_RIGID.
+    Method: set_collision_friction(value)
+    Method: get_collision_friction() -> float
+
+*   collision_mode (CollisionMode): The particles' collision mode. Default: `0`.
+    Method: set_collision_mode(value)
+    Method: get_collision_mode() -> CollisionMode
+    Note: 3D Particles can only collide with GPUParticlesCollision3D nodes, not PhysicsBody3D nodes. To make particles collide with various objects, you can add GPUParticlesCollision3D nodes as children of PhysicsBody3D nodes. In 3D, collisions only occur within the area defined by the GPUParticles3D node's GPUParticles3D.visibility_aabb.
+    Note: 2D Particles can only collide with LightOccluder2D nodes, not PhysicsBody2D nodes.
+
+*   collision_use_scale (bool): If `true`, GPUParticles3D.collision_base_size is multiplied by the particle's effective scale (see scale_min, scale_max, scale_curve, and scale_over_velocity_curve). Default: `false`.
+    Method: set_collision_use_scale(value)
+    Method: is_collision_using_scale() -> bool
+
+*   color (Color): Each particle's initial color. If the GPUParticles2D's `texture` is defined, it will be multiplied by this color. Default: `Color(1, 1, 1, 1)`.
+    Method: set_color(value)
+    Method: get_color() -> Color
+    Note: color multiplies the particle mesh's vertex colors. To have a visible effect on a BaseMaterial3D, BaseMaterial3D.vertex_color_use_as_albedo must be `true`. For a ShaderMaterial, `ALBEDO *= COLOR.rgb;` must be inserted in the shader's `fragment()` function. Otherwise, color will have no visible effect.
+
+*   color_initial_ramp (Texture2D): Each particle's initial color will vary along this GradientTexture1D (multiplied with color).
+    Method: set_color_initial_ramp(value)
+    Method: get_color_initial_ramp() -> Texture2D
+    Note: color_initial_ramp multiplies the particle mesh's vertex colors. To have a visible effect on a BaseMaterial3D, BaseMaterial3D.vertex_color_use_as_albedo must be `true`. For a ShaderMaterial, `ALBEDO *= COLOR.rgb;` must be inserted in the shader's `fragment()` function. Otherwise, color_initial_ramp will have no visible effect.
+
+*   color_ramp (Texture2D): Each particle's color will vary along this GradientTexture1D over its lifetime (multiplied with color).
+    Method: set_color_ramp(value)
+    Method: get_color_ramp() -> Texture2D
+    Note: color_ramp multiplies the particle mesh's vertex colors. To have a visible effect on a BaseMaterial3D, BaseMaterial3D.vertex_color_use_as_albedo must be `true`. For a ShaderMaterial, `ALBEDO *= COLOR.rgb;` must be inserted in the shader's `fragment()` function. Otherwise, color_ramp will have no visible effect.
+---CHUNK---
+Document: ParticleProcessMaterial
+Path: godot/classes/class_particleprocessmaterial.rst
+Summary: This chunk describes methods for getting and setting particle parameters, including their minimum and maximum values, associated textures, and particle flags.
+
+Method: get_param(param: Parameter) -> Vector2
+Returns the minimum and maximum values of the given `param` as a vector. The `x` component of the returned vector corresponds to minimum and the `y` component corresponds to maximum.
+
+Method: get_param_max(param: Parameter) -> float
+Returns the maximum value range for the given parameter.
+
+Method: get_param_min(param: Parameter) -> float
+Returns the minimum value range for the given parameter.
+
+Method: get_param_texture(param: Parameter) -> Texture2D
+Returns the Texture2D used by the specified parameter.
+
+Method: get_particle_flag(particle_flag: ParticleFlags) -> bool
+Returns `true` if the specified particle flag is enabled.
+
+Method: set_param(param: Parameter, value: Vector2) -> void
+Sets the minimum and maximum values of the given `param`. The `x` component of the argument vector corresponds to minimum and the `y` component corresponds to maximum.
+
+Method: set_param_max(param: Parameter, value: float) -> void
+Sets the maximum value range for the given parameter.
+
+Method: set_param_min(param: Parameter, value: float) -> void
+Sets the minimum value range for the given parameter.
+
+Method: set_param_texture(param: Parameter, texture: Texture2D) -> void
+Sets the Texture2D for the specified Parameter.
+
+Method: set_particle_flag(particle_flag: ParticleFlags, enable: bool) -> void
+Sets the `particle_flag` to `enable`.

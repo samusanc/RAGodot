@@ -1,0 +1,210 @@
+Document: MenuButton
+Path: godot/classes/class_menubutton.rst
+Summary: A button that displays a popup menu when clicked.
+
+MenuButton
+
+Inherits: Button < Control < CanvasItem < Node < Object
+
+A button that displays a popup menu when clicked.
+
+The MenuButton is a specialized Button that shows a PopupMenu when pressed. You can add items to the menu by creating PopupMenuItem nodes as children of the MenuButton, or by using the add_item method.
+
+The popup menu is automatically managed by the MenuButton. You can access it via the get_popup method.
+
+Signals:
+
+item_selected(int id)
+Emitted when an item in the menu is selected. The id of the selected item is passed as an argument.
+
+Methods:
+
+bool is_item_disabled(int id) const
+Returns true if the item with the given id is disabled.
+
+void set_item_disabled(int id, bool disabled)
+Disables or enables the item with the given id.
+
+void add_item(String text, int id = -1, int acc_key = 0, bool disabled = false, bool checked = false)
+Adds an item to the menu.
+
+void add_separator()
+Adds a separator line to the menu.
+
+void clear()
+Removes all items from the menu.
+
+int get_item_count() const
+Returns the number of items in the menu.
+
+String get_item_text(int id) const
+Returns the text of the item with the given id.
+
+int get_item_id(int idx) const
+Returns the id of the item at the given index.
+
+int get_selected_id() const
+Returns the id of the currently selected item.
+
+int get_current_index() const
+Returns the index of the currently selected item.
+
+void set_current_index(int index)
+Sets the currently selected item by its index.
+
+void set_disable_shortcuts_in_popup(bool disabled)
+If true, shortcuts will not be processed when the popup is open.
+
+Popupmenu get_popup()
+Returns the PopupMenu instance used by this button.
+
+void set_shortcut_disabled(int id, bool disabled)
+Disables or enables the shortcut for the item with the given id.
+
+bool is_shortcut_disabled(int id) const
+Returns true if the shortcut for the item with the given id is disabled.
+
+void set_item_checked(int id, bool checked)
+Sets whether the item with the given id is checked.
+
+bool is_item_checked(int id) const
+Returns true if the item with the given id is checked.
+
+void set_item_metadata(int id, Variant meta)
+Sets the metadata for the item with the given id.
+
+Variant get_item_metadata(int id) const
+Returns the metadata for the item with the given id.
+
+void set_switch_on_hover(bool enable)
+If true, the button will switch to the "pressed" state when the mouse hovers over it.
+
+bool is_switch_on_hover() const
+Returns true if "switch on hover" is enabled.
+
+void set_hide_on_item_selectable_only(bool hide)
+If true, the popup will only hide if an item that is not selectable is chosen.
+
+bool is_hide_on_item_selectable_only() const
+Returns true if "hide on item selectable only" is enabled.
+---CHUNK---
+Document: MenuButton
+Path: godot/classes/class_menubutton.rst
+Summary: Introduces the MenuButton class, a button that displays a PopupMenu when clicked.
+MenuButton
+Inherits: Button < BaseButton < Control < CanvasItem < Node < Object
+
+A button that brings up a PopupMenu when clicked.
+---CHUNK---
+Document: MenuButton
+Path: godot/classes/class_menubutton.rst
+Summary: A button that displays a popup menu when clicked, allowing for dynamic menu item creation.
+Inherits: Button < BaseButton < Control < CanvasItem < Node < Object
+
+A button that brings up a PopupMenu when clicked. To create new items inside this PopupMenu, use `get_popup().add_item("My Item Name")`. You can also create them directly from Godot editor's inspector.
+
+See also BaseButton which contains common properties and methods associated with this node.
+---CHUNK---
+Document: MenuButton
+Path: godot/classes/class_menubutton.rst
+Summary: Properties of the MenuButton class, including its action mode, focus mode, and properties related to its popup menu items.
+
+Properties:
+* action_mode (ActionMode): Controls how the button reacts to clicks. Overrides BaseButton.action_mode. Default: 0.
+* flat (bool): If true, the button will have no visible background. Overrides Button.flat. Default: true.
+* focus_mode (FocusMode): Determines how the button receives focus. Overrides Control.focus_mode. Default: 3.
+* item_count (int): The number of items in the popup menu. Default: 0.
+* popup/item_{index}/checkable (int): If non-zero, the menu item at the given index is checkable. Default: 0.
+* popup/item_{index}/checked (bool): If true, the menu item at the given index is checked. Default: false.
+* popup/item_{index}/disabled (bool): If true, the menu item at the given index is disabled. Default: false.
+* popup/item_{index}/icon (Texture2D): The icon for the menu item at the given index.
+* popup/item_{index}/id (int): The ID for the menu item at the given index. Default: 0.
+* popup/item_{index}/separator (bool): If true, the menu item at the given index is a separator. Default: false.
+* popup/item_{index}/text (String): The text for the menu item at the given index. Default: "".
+* switch_on_hover (bool): If true, the popup menu will open when the mouse hovers over the button. Default: false.
+* toggle_mode (bool): If true, the button can be toggled on and off. Overrides BaseButton.toggle_mode. Default: true.
+---CHUNK---
+Document: MenuButton
+Path: godot/classes/class_menubutton.rst
+Summary: This section describes the methods available for the MenuButton class in Godot Engine.
+
+Methods
+* get_popup() → PopupMenu: Returns the PopupMenu instance used by this MenuButton.
+* set_disable_shortcuts(disabled: bool): Disables the shortcuts for this MenuButton.
+* show_popup(): Shows the PopupMenu for this MenuButton.
+
+Signals
+* about_to_popup(): Emitted when the PopupMenu of this MenuButton is about to show.
+---CHUNK---
+Document: MenuButton
+Path: godot/classes/class_menubutton.rst
+Summary: Describes the properties and member variables of the MenuButton class in Godot Engine.
+
+Property: item_count
+Type: int
+Default: 0
+Description: The number of items currently in the list.
+Setter: set_item_count(value: int)
+Getter: get_item_count() -> int
+
+Property: popup/item_{index}/checkable
+Type: int
+Default: 0
+Description: The checkable item type of the item at index.
+Note: index is a value in the 0 .. item_count - 1 range.
+
+Property: popup/item_{index}/checked
+Type: bool
+Default: false
+Description: If true, the item at index is checked.
+Note: index is a value in the 0 .. item_count - 1 range.
+
+Property: popup/item_{index}/disabled
+Type: bool
+Default: false
+Description: If true, the item at index is disabled.
+Note: index is a value in the 0 .. item_count - 1 range.
+
+Property: popup/item_{index}/icon
+Type: Texture2D
+Description: The icon of the item at index.
+Note: index is a value in the 0 .. item_count - 1 range.
+
+Property: popup/item_{index}/id
+Type: int
+Default: 0
+Description: The ID of the item at index.
+Note: index is a value in the 0 .. item_count - 1 range.
+
+Property: popup/item_{index}/separator
+Type: bool
+Default: false
+Description: If true, the item at index is a separator.
+Note: index is a value in the 0 .. item_count - 1 range.
+
+Property: popup/item_{index}/text
+Type: String
+Default: ""
+Description: The text of the item at index.
+Note: index is a value in the 0 .. item_count - 1 range.
+
+Property: switch_on_hover
+Type: bool
+Default: false
+Description: If true, when the cursor hovers above another MenuButton within the same parent which also has switch_on_hover enabled, it will close the current MenuButton and open the other one.
+Setter: set_switch_on_hover(value: bool)
+Getter: is_switch_on_hover() -> bool
+---CHUNK---
+Document: MenuButton
+Path: godot/classes/class_menubutton.rst
+Summary: Describes the methods available for the MenuButton class in Godot Engine.
+
+Method: get_popup() → PopupMenu
+Returns the PopupMenu contained in this button.
+Warning: This is a required internal node, removing and freeing it may cause a crash. If you wish to hide it or any of its children, use their Window.visible property.
+
+Method: set_disable_shortcuts(disabled: bool) → void
+If true, shortcuts are disabled and cannot be used to trigger the button.
+
+Method: show_popup() → void
+Adjusts popup position and sizing for the MenuButton, then shows the PopupMenu. Prefer this over using get_popup().popup().

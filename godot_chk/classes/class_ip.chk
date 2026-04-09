@@ -1,0 +1,85 @@
+Document: IP
+Path: godot/classes/class_ip.rst
+Summary: Provides functions for Internet protocol (IP) support, including DNS resolution.
+Inherits: Object
+---CHUNK---
+Document: IP
+Path: godot/classes/class_ip.rst
+Summary: Provides support functions for the Internet Protocol (IP), including DNS hostname resolution.
+
+IP contains support functions for the Internet Protocol (IP). TCP/IP support is in different classes (see StreamPeerTCP and TCPServer). IP provides DNS hostname resolution support, both blocking and threaded.
+---CHUNK---
+Document: IP
+Path: godot/classes/class_ip.rst
+Summary: Provides methods for network-related operations like resolving hostnames and managing local network interfaces.
+
+Methods
+Method: clear_cache(hostname: String = "")
+Method: erase_resolve_item(id: int)
+Method: get_local_addresses() → PackedStringArray
+Method: get_local_interfaces() → Array[Dictionary]
+Method: get_resolve_item_address(id: int) → String
+Method: get_resolve_item_addresses(id: int) → Array
+Method: get_resolve_item_status(id: int) → ResolverStatus
+Method: resolve_hostname(host: String, ip_type: Type = 3) → String
+Method: resolve_hostname_addresses(host: String, ip_type: Type = 3) → PackedStringArray
+Method: resolve_hostname_queue_item(host: String, ip_type: Type = 3) → int
+
+Enumerations
+enum ResolverStatus:
+  RESOLVER_STATUS_NONE = 0
+  RESOLVER_STATUS_WAITING = 1
+  RESOLVER_STATUS_DONE = 2
+  RESOLVER_STATUS_ERROR = 3
+
+enum Type:
+  TYPE_NONE = 0
+  TYPE_IPV4 = 1
+  TYPE_IPV6 = 2
+  TYPE_ANY = 3
+---CHUNK---
+Document: IP
+Path: godot/classes/class_ip.rst
+Summary: Defines constants for IP address resolution, including the maximum number of concurrent DNS queries and an invalid ID indicator.
+
+Constants:
+RESOLVER_MAX_QUERIES (int): Maximum number of concurrent DNS resolver queries allowed. RESOLVER_INVALID_ID is returned if exceeded. Default: 256.
+RESOLVER_INVALID_ID (int): Invalid ID constant. Returned if RESOLVER_MAX_QUERIES is exceeded. Default: -1.
+---CHUNK---
+Document: IP
+Path: godot/classes/class_ip.rst
+Summary: This section details the methods available in the IP class for network address resolution and management.
+
+Method: clear_cache(hostname: String = "") → void
+Removes all of a hostname's cached references. If no hostname is given, all cached IP addresses are removed.
+
+Method: erase_resolve_item(id: int) → void
+Removes a given item id from the queue. This should be used to free a queue after it has completed to enable more queries to happen.
+
+Method: get_local_addresses() → PackedStringArray
+Returns all the user's current IPv4 and IPv6 addresses as an array.
+
+Method: get_local_interfaces() → Array[Dictionary]
+Returns all network adapters as an array. Each adapter is a dictionary containing:
+- "index" (String): Interface index.
+- "name" (String): Interface name.
+- "friendly" (String): A friendly name (might be empty).
+- "addresses" (Array[String]): An array of IP addresses associated with this interface.
+
+Method: get_resolve_item_address(id: int) → String
+Returns a queued hostname's IP address, given its queue id. Returns an empty string on error or if resolution hasn't happened yet.
+
+Method: get_resolve_item_addresses(id: int) → Array
+Returns resolved addresses, or an empty array if an error happened or resolution didn't happen yet.
+
+Method: get_resolve_item_status(id: int) → ResolverStatus
+Returns a queued hostname's status as a ResolverStatus constant, given its queue id.
+
+Method: resolve_hostname(host: String, ip_type: Type = 3) → String
+Returns a given hostname's IPv4 or IPv6 address when resolved (blocking-type method). The address type returned depends on the Type constant given as ip_type.
+
+Method: resolve_hostname_addresses(host: String, ip_type: Type = 3) → PackedStringArray
+Resolves a given hostname in a blocking way. Addresses are returned as an Array of IPv4 or IPv6 addresses depending on ip_type.
+
+Method: resolve_hostname_queue_item(host: String, ip_type: Type = 3) → int
+Creates a queue item to resolve a hostname to an IPv4 or IPv6 address depending on the Type constant given as ip_type. Returns the queue ID if successful, or RESOLVER_INVALID_ID on error.

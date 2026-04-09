@@ -1,0 +1,397 @@
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: Defines the internal documentation anchor for the BaseMaterial3D class.
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: This document describes the abstract base class for defining the 3D rendering properties of meshes.
+
+Inherits: Material < Resource < RefCounted < Object
+Inherited By: ORMMaterial3D, StandardMaterial3D
+
+BaseMaterial3D is an abstract base class used for defining the 3D rendering properties of meshes. It is not used directly but serves as the parent for other material types, such as StandardMaterial3D and ORMMaterial3D.
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: This class serves as a default material with a wide variety of rendering features and properties without the need to write shader code.
+
+This class serves as a default material with a wide variety of rendering features and properties without the need to write shader code.
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: A link to the tutorial for Standard Material 3D and ORM Material 3D.
+
+Tutorials
+- Standard Material 3D and ORM Material 3D
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: A comprehensive list of all properties available for the BaseMaterial3D class, including their types and default values.
+
+* albedo_color (Color): Default: Color(1, 1, 1, 1).
+* albedo_texture (Texture2D).
+* albedo_texture_force_srgb (bool): Default: false.
+* albedo_texture_msdf (bool): Default: false.
+* alpha_antialiasing_edge (float).
+* alpha_antialiasing_mode (AlphaAntiAliasing).
+* alpha_hash_scale (float).
+* alpha_scissor_threshold (float).
+* anisotropy (float): Default: 0.0.
+* anisotropy_enabled (bool): Default: false.
+* anisotropy_flowmap (Texture2D).
+* ao_enabled (bool): Default: false.
+* ao_light_affect (float): Default: 0.0.
+* ao_on_uv2 (bool): Default: false.
+* ao_texture (Texture2D).
+* ao_texture_channel (TextureChannel): Default: 0.
+* backlight (Color): Default: Color(0, 0, 0, 1).
+* backlight_enabled (bool): Default: false.
+* backlight_texture (Texture2D).
+* bent_normal_enabled (bool): Default: false.
+* bent_normal_texture (Texture2D).
+* billboard_keep_scale (bool): Default: false.
+* billboard_mode (BillboardMode): Default: 0.
+* blend_mode (BlendMode): Default: 0.
+* clearcoat (float): Default: 1.0.
+* clearcoat_enabled (bool): Default: false.
+* clearcoat_roughness (float): Default: 0.5.
+* clearcoat_texture (Texture2D).
+* cull_mode (CullMode): Default: 0.
+* depth_draw_mode (DepthDrawMode): Default: 0.
+* depth_test (DepthTest): Default: 0.
+* detail_albedo (Texture2D).
+* detail_blend_mode (BlendMode): Default: 0.
+* detail_enabled (bool): Default: false.
+* detail_mask (Texture2D).
+* detail_normal (Texture2D).
+* detail_uv_layer (DetailUV): Default: 0.
+* diffuse_mode (DiffuseMode): Default: 0.
+* disable_ambient_light (bool): Default: false.
+* disable_fog (bool): Default: false.
+* disable_receive_shadows (bool): Default: false.
+* disable_specular_occlusion (bool): Default: false.
+* distance_fade_max_distance (float): Default: 10.0.
+* distance_fade_min_distance (float): Default: 0.0.
+* distance_fade_mode (DistanceFadeMode): Default: 0.
+* emission (Color): Default: Color(0, 0, 0, 1).
+* emission_enabled (bool): Default: false.
+* emission_energy_multiplier (float): Default: 1.0.
+* emission_intensity (float).
+* emission_on_uv2 (bool): Default: false.
+* emission_operator (EmissionOperator): Default: 0.
+* emission_texture (Texture2D).
+* fixed_size (bool): Default: false.
+* fov_override (float): Default: 75.0.
+* grow (bool): Default: false.
+* grow_amount (float): Default: 0.0.
+* heightmap_deep_parallax (bool): Default: false.
+* heightmap_enabled (bool): Default: false.
+* heightmap_flip_binormal (bool): Default: false.
+* heightmap_flip_tangent (bool): Default: false.
+* heightmap_flip_texture (bool): Default: false.
+* heightmap_max_layers (int).
+* heightmap_min_layers (int).
+* heightmap_scale (float): Default: 5.0.
+* heightmap_texture (Texture2D).
+* metallic (float): Default: 0.0.
+* metallic_specular (float): Default: 0.5.
+* metallic_texture (Texture2D).
+* metallic_texture_channel (TextureChannel): Default: 0.
+* msdf_outline_size (float): Default: 0.0.
+* msdf_pixel_range (float): Default: 4.0.
+* no_depth_test (bool): Default: false.
+* normal_enabled (bool): Default: false.
+* normal_scale (float): Default: 1.0.
+* normal_texture (Texture2D).
+* orm_texture (Texture2D).
+* particles_anim_h_frames (int).
+* particles_anim_loop (bool).
+* particles_anim_v_frames (int).
+* point_size (float): Default: 1.0.
+* proximity_fade_distance (float): Default: 1.0.
+* proximity_fade_enabled (bool): Default: false.
+* refraction_enabled (bool): Default: false.
+* refraction_scale (float): Default: 0.05.
+* refraction_texture (Texture2D).
+* refraction_texture_channel (TextureChannel): Default: 0.
+* rim (float): Default: 1.0.
+* rim_enabled (bool): Default: false.
+* rim_texture (Texture2D).
+* rim_tint (float): Default: 0.5.
+* roughness (float): Default: 1.0.
+* roughness_texture (Texture2D).
+* roughness_texture_channel (TextureChannel): Default: 0.
+* shading_mode (ShadingMode): Default: 1.
+* shadow_to_opacity (bool): Default: false.
+* specular_mode (SpecularMode): Default: 0.
+* stencil_color (Color): Default: Color(0, 0, 0, 1).
+* stencil_compare (StencilCompare): Default: 0.
+* stencil_flags (int): Default: 0.
+* stencil_mode (StencilMode): Default: 0.
+* stencil_outline_thickness (float): Default: 0.01.
+* stencil_reference (int): Default: 1.
+* subsurf_scatter_enabled (bool): Default: false.
+* subsurf_scatter_skin_mode (bool): Default: false.
+* subsurf_scatter_strength (float): Default: 0.0.
+* subsurf_scatter_texture (Texture2D).
+* subsurf_scatter_transmittance_boost (float): Default: 0.0.
+* subsurf_scatter_transmittance_color (Color): Default: Color(1, 1, 1, 1).
+* subsurf_scatter_transmittance_depth (float): Default: 0.1.
+* subsurf_scatter_transmittance_enabled (bool): Default: false.
+* subsurf_scatter_transmittance_texture (Texture2D).
+* texture_filter (TextureFilter): Default: 3.
+* texture_repeat (bool): Default: true.
+* transparency (Transparency): Default: 0.
+* use_fov_override (bool): Default: false.
+* use_particle_trails (bool): Default: false.
+* use_point_size (bool): Default: false.
+* use_z_clip_scale (bool): Default: false.
+* uv1_offset (Vector3): Default: Vector3(0, 0, 0).
+* uv1_scale (Vector3): Default: Vector3(1, 1, 1).
+* uv1_triplanar (bool): Default: false.
+* uv1_triplanar_sharpness (float): Default: 1.0.
+* uv1_world_triplanar (bool): Default: false.
+* uv2_offset (Vector3): Default: Vector3(0, 0, 0).
+* uv2_scale (Vector3): Default: Vector3(1, 1, 1).
+* uv2_triplanar (bool): Default: false.
+* uv2_triplanar_sharpness (float): Default: 1.0.
+* uv2_world_triplanar (bool): Default: false.
+* vertex_color_is_srgb (bool): Default: false.
+* vertex_color_use_as_albedo (bool): Default: false.
+* z_clip_scale (float): Default: 1.0.
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: This chunk describes the methods for getting and setting features, flags, and textures on a BaseMaterial3D.
+
+Methods:
+- Method: get_feature(feature: Feature) -> bool
+- Method: get_flag(flag: Flags) -> bool
+- Method: get_texture(param: TextureParam) -> Texture2D
+- Method: set_feature(feature: Feature, enable: bool) -> void
+- Method: set_flag(flag: Flags, enable: bool) -> void
+- Method: set_texture(param: TextureParam, texture: Texture2D) -> void
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: This chunk details the various enumerations available in BaseMaterial3D, which control texture parameters, filtering, transparency, shading modes, blend modes, culling, and many other rendering behaviors.
+
+Enumerations
+
+enum TextureParam:
+- TEXTURE_ALBEDO = 0: Texture specifying per-pixel color.
+- TEXTURE_METALLIC = 1: Texture specifying per-pixel metallic value.
+- TEXTURE_ROUGHNESS = 2: Texture specifying per-pixel roughness value.
+- TEXTURE_EMISSION = 3: Texture specifying per-pixel emission color.
+- TEXTURE_NORMAL = 4: Texture specifying per-pixel normal vector.
+- TEXTURE_RIM = 5: Texture specifying per-pixel rim value.
+- TEXTURE_CLEARCOAT = 6: Texture specifying per-pixel clearcoat value.
+- TEXTURE_FLOWMAP = 7: Texture specifying per-pixel flowmap direction for use with anisotropy.
+- TEXTURE_AMBIENT_OCCLUSION = 8: Texture specifying per-pixel ambient occlusion value.
+- TEXTURE_HEIGHTMAP = 9: Texture specifying per-pixel height.
+- TEXTURE_SUBSURFACE_SCATTERING = 10: Texture specifying per-pixel subsurface scattering.
+- TEXTURE_SUBSURFACE_TRANSMITTANCE = 11: Texture specifying per-pixel transmittance for subsurface scattering.
+- TEXTURE_BACKLIGHT = 12: Texture specifying per-pixel backlight color.
+- TEXTURE_REFRACTION = 13: Texture specifying per-pixel refraction strength.
+- TEXTURE_DETAIL_MASK = 14: Texture specifying per-pixel detail mask blending value.
+- TEXTURE_DETAIL_ALBEDO = 15: Texture specifying per-pixel detail color.
+- TEXTURE_DETAIL_NORMAL = 16: Texture specifying per-pixel detail normal.
+- TEXTURE_ORM = 17: Texture holding ambient occlusion, roughness, and metallic.
+- TEXTURE_BENT_NORMAL = 18: Texture specifying per-pixel bent normal vector.
+- TEXTURE_MAX = 19: Represents the size of the TextureParam enum.
+
+enum TextureFilter:
+- TEXTURE_FILTER_NEAREST = 0: The texture filter reads from the nearest pixel only. This makes the texture look pixelated from up close, and grainy from a distance.
+- TEXTURE_FILTER_LINEAR = 1: The texture filter blends between the nearest 4 pixels. This makes the texture look smooth from up close, and grainy from a distance.
+- TEXTURE_FILTER_NEAREST_WITH_MIPMAPS = 2: The texture filter reads from the nearest pixel and blends between the nearest 2 mipmaps (or uses the nearest mipmap if ProjectSettings.rendering/textures/default_filters/use_nearest_mipmap_filter is true). This makes the texture look pixelated from up close, and smooth from a distance.
+- TEXTURE_FILTER_LINEAR_WITH_MIPMAPS = 3: The texture filter blends between the nearest 4 pixels and between the nearest 2 mipmaps (or uses the nearest mipmap if ProjectSettings.rendering/textures/default_filters/use_nearest_mipmap_filter is true). This makes the texture look smooth from up close, and smooth from a distance.
+- TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC = 4: The texture filter reads from the nearest pixel and blends between 2 mipmaps based on the angle between the surface and the camera view. This makes the texture look pixelated from up close, and smooth from a distance. Anisotropic filtering improves texture quality on surfaces that are almost in line with the camera, but is slightly slower. The level can be changed by adjusting ProjectSettings.rendering/textures/default_filters/anisotropic_filtering_level.
+- TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC = 5: The texture filter blends between the nearest 4 pixels and blends between 2 mipmaps based on the angle between the surface and the camera view. This makes the texture look smooth from up close, and smooth from a distance. Anisotropic filtering improves texture quality on surfaces that are almost in line with the camera, but is slightly slower. The level can be changed by adjusting ProjectSettings.rendering/textures/default_filters/anisotropic_filtering_level.
+- TEXTURE_FILTER_MAX = 6: Represents the size of the TextureFilter enum.
+
+enum DetailUV:
+- DETAIL_UV_1 = 0: Use UV with the detail texture.
+- DETAIL_UV_2 = 1: Use UV2 with the detail texture.
+
+enum Transparency:
+- TRANSPARENCY_DISABLED = 0: The material will not use transparency. This is the fastest to render.
+- TRANSPARENCY_ALPHA = 1: The material will use the texture's alpha values for transparency. This is the slowest to render, and disables shadow casting.
+- TRANSPARENCY_ALPHA_SCISSOR = 2: The material will cut off all values below a threshold, the rest will remain opaque. The opaque portions will be rendered in the depth prepass. This is faster to render than alpha blending, but slower than opaque rendering. This also supports casting shadows.
+- TRANSPARENCY_ALPHA_HASH = 3: The material will cut off all values below a spatially-deterministic threshold, the rest will remain opaque. This is faster to render than alpha blending, but slower than opaque rendering. This also supports casting shadows. Alpha hashing is suited for hair rendering.
+- TRANSPARENCY_ALPHA_DEPTH_PRE_PASS = 4: The material will use the texture's alpha value for transparency, but will discard fragments with an alpha of less than 0.99 during the depth prepass and fragments with an alpha less than 0.1 during the shadow pass. This also supports casting shadows.
+- TRANSPARENCY_MAX = 5: Represents the size of the Transparency enum.
+
+enum ShadingMode:
+- SHADING_MODE_UNSHADED = 0: The object will not receive shadows. This is the fastest to render, but it disables all interactions with lights.
+- SHADING_MODE_PER_PIXEL = 1: The object will be shaded per pixel. Useful for realistic shading effects.
+- SHADING_MODE_PER_VERTEX = 2: The object will be shaded per vertex. Useful when you want cheaper shaders and do not care about visual quality.
+- SHADING_MODE_MAX = 3: Represents the size of the ShadingMode enum.
+
+enum Feature:
+- FEATURE_EMISSION = 0: Constant for setting emission_enabled.
+- FEATURE_NORMAL_MAPPING = 1: Constant for setting normal_enabled.
+- FEATURE_RIM = 2: Constant for setting rim_enabled.
+- FEATURE_CLEARCOAT = 3: Constant for setting clearcoat_enabled.
+- FEATURE_ANISOTROPY = 4: Constant for setting anisotropy_enabled.
+- FEATURE_AMBIENT_OCCLUSION = 5: Constant for setting ao_enabled.
+- FEATURE_HEIGHT_MAPPING = 6: Constant for setting heightmap_enabled.
+- FEATURE_SUBSURFACE_SCattering = 7: Constant for setting subsurf_scatter_enabled.
+- FEATURE_SUBSURFACE_TRANSMITTANCE = 8: Constant for setting subsurf_scatter_transmittance_enabled.
+- FEATURE_BACKLIGHT = 9: Constant for setting backlight_enabled.
+- FEATURE_REFRACTION = 10: Constant for setting refraction_enabled.
+- FEATURE_DETAIL = 11: Constant for setting detail_enabled.
+- FEATURE_BENT_NORMAL_MAPPING = 12: Constant for setting bent_normal_enabled.
+- FEATURE_MAX = 13: Represents the size of the Feature enum.
+
+enum BlendMode:
+- BLEND_MODE_MIX = 0: Default blend mode. The color of the object is blended over the background based on the object's alpha value.
+- BLEND_MODE_ADD = 1: The color of the object is added to the background.
+- BLEND_MODE_SUB = 2: The color of the object is subtracted from the background.
+- BLEND_MODE_MUL = 3: The color of the object is multiplied by the background.
+- BLEND_MODE_PREMULT_ALPHA = 4: The color of the object is added to the background and the alpha channel is used to mask out the background. This is a hybrid of the mix and add modes, useful for effects like fire. By default, this works with unshaded materials using premultiplied textures. For shaded materials, use the PREMUL_ALPHA_FACTOR built-in so that lighting can be modulated as well.
+
+enum AlphaAntiAliasing:
+- ALPHA_ANTIALIASING_OFF = 0: Disables Alpha AntiAliasing for the material.
+- ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE = 1: Enables AlphaToCoverage. Alpha values in the material are passed to the AntiAliasing sample mask.
+- ALPHA_ANTIALIASING_ALPHA_TO_COVERAGE_AND_TO_ONE = 2: Enables AlphaToCoverage and forces all non-zero alpha values to 1. Alpha values in the material are passed to the AntiAliasing sample mask.
+
+enum DepthDrawMode:
+- DEPTH_DRAW_OPAQUE_ONLY = 0: Default depth draw mode. Depth is drawn only for opaque objects.
+- DEPTH_DRAW_ALWAYS = 1: Objects will write to depth during the opaque and the transparent passes. Transparent objects that are close to the camera may obscure other transparent objects behind them. Note: This does not influence whether transparent objects are included in the depth prepass or not. For that, see Transparency.
+- DEPTH_DRAW_DISABLED = 2: Objects will not write their depth to the depth buffer.
+
+enum DepthTest:
+- DEPTH_TEST_DEFAULT = 0: Depth test will discard the pixel if it is behind other pixels.
+- DEPTH_TEST_INVERTED = 1: Depth test will discard the pixel if it is in front of other pixels. Useful for stencil effects.
+
+enum CullMode:
+- CULL_BACK = 0: Default cull mode. The back of the object is culled when not visible.
+- CULL_FRONT = 1: Front face triangles will be culled when facing the camera. The interior of the mesh will be drawn instead of the exterior.
+- CULL_DISABLED = 2: No face culling is performed; both front and back faces will be visible.
+
+enum Flags:
+- FLAG_DISABLE_DEPTH_TEST = 0: Disables the depth test, so this object is drawn on top of all others drawn before it.
+- FLAG_ALBEDO_FROM_VERTEX_COLOR = 1: Set ALBEDO to the per-vertex color specified in the mesh.
+- FLAG_SRGB_VERTEX_COLOR = 2: Vertex colors are considered to be in sRGB and are converted to linear during rendering. Note: Only effective when using the Forward+ and Mobile rendering methods.
+- FLAG_USE_POINT_SIZE = 3: Uses point size to alter the size of primitive points.
+- FLAG_FIXED_SIZE = 4: Object is scaled by depth so that it always appears the same size on screen.
+- FLAG_BILLBOARD_KEEP_SCALE = 5: Shader will keep the mesh scale. Only applies when billboard_mode is BILLBOARD_ENABLED.
+- FLAG_UV1_USE_TRIPLANAR = 6: Use triplanar texture lookup for all texture lookups that would normally use UV.
+- FLAG_UV2_USE_TRIPLANAR = 7: Use triplanar texture lookup for all texture lookups that would normally use UV2.
+- FLAG_UV1_USE_WORLD_TRIPLANAR = 8: Use world-space triplanar texture lookup for UV.
+- FLAG_UV2_USE_WORLD_TRIPLANAR = 9: Use world-space triplanar texture lookup for UV2.
+- FLAG_AO_ON_UV2 = 10: Use UV2 coordinates to look up from the ao_texture.
+- FLAG_EMISSION_ON_UV2 = 11: Use UV2 coordinates to look up from the emission_texture.
+- FLAG_ALBEDO_TEXTURE_FORCE_SRGB = 12: Forces the shader to convert albedo from sRGB to linear. See also albedo_texture_force_srgb.
+- FLAG_DONT_RECEIVE_SHADOWS = 13: Disables receiving shadows from other objects.
+- FLAG_DISABLE_AMBIENT_LIGHT = 14: Disables receiving ambient light.
+- FLAG_USE_SHADOW_TO_OPACITY = 15: Enables the shadow to opacity feature.
+- FLAG_USE_TEXTURE_REPEAT = 16: Enables the texture to repeat when UV coordinates are outside the 0-1 range.
+- FLAG_INVERT_HEIGHTMAP = 17: Invert values read from a depth texture to convert them to height values.
+- FLAG_SUBSURFACE_MODE_SKIN = 18: Enables the skin mode for subsurface scattering to improve its look for human skin.
+- FLAG_PARTICLE_TRAILS_MODE = 19: Enables shader features for GPUParticles3D trails. Requires a mesh like RibbonTrailMesh or TubeTrailMesh.
+- FLAG_ALBEDO_TEXTURE_MSDF = 20: Enables multichannel signed distance field rendering shader.
+- FLAG_DISABLE_FOG = 21: Disables receiving depth-based or volumetric fog.
+- FLAG_DISABLE_SPECULAR_OCCLUSION = 22: Disables specular occlusion.
+- FLAG_USE_Z_CLIP_SCALE = 23: Enables using z_clip_scale.
+- FLAG_USE_FOV_OVERRIDE = 24: Enables using fov_override.
+- FLAG_MAX = 25: Represents the size of the Flags enum.
+
+enum DiffuseMode:
+- DIFFUSE_BURLEY = 0: Default diffuse scattering algorithm.
+- DIFFUSE_LAMBERT = 1: Diffuse scattering ignores roughness.
+- DIFFUSE_LAMBERT_WRAP = 2: Extends Lambert to cover more than 90 degrees when roughness increases.
+- DIFFUSE_TOON = 3: Uses a hard cut for lighting, with smoothing affected by roughness.
+
+enum SpecularMode:
+- SPECULAR_SCHLICK_GGX = 0: Default specular blob. Note: Forward+ uses multiscattering for more accurate reflections. Mobile and Compatibility use single scattering for performance, which may make rough metallic surfaces look slightly darker.
+- SPECULAR_TOON = 1: Toon blob which changes size based on roughness.
+- SPECULAR_DISABLED = 2: No specular blob. This is slightly faster to render.
+
+enum BillboardMode:
+- BILLBOARD_DISABLED = 0: Billboard mode is disabled.
+- BILLBOARD_ENABLED = 1: The object's Z axis will always face the camera.
+- BILLBOARD_FIXED_Y = 2: The object's X axis will always face the camera.
+- BILLBOARD_PARTICLES = 3: Used for particle systems (GPUParticles3D, CPUParticles3D) for flipbook animation. ParticleProcessMaterial.anim_speed_min or CPUParticles3D.anim_speed_min must be > 0 for animation to play.
+
+enum TextureChannel:
+- TEXTURE_CHANNEL_RED = 0: Used to read from the red channel of a texture.
+- TEXTURE_CHANNEL_GREEN = 1: Used to read from the green channel of a texture.
+- TEXTURE_CHANNEL_BLUE = 2: Used to read from the blue channel of a texture.
+- TEXTURE_CHANNEL_ALPHA = 3: Used to read from the alpha channel of a texture.
+- TEXTURE_CHANNEL_GRAYSCALE = 4: Used to read from the linear average of the RGB channels of a texture.
+
+enum EmissionOperator:
+- EMISSION_OP_ADD = 0: Adds the emission color to the color from the emission texture.
+- EMISSION_OP_MULTIPLY = 1: Multiplies the emission color by the color from the emission texture.
+
+enum DistanceFadeMode:
+- DISTANCE_FADE_DISABLED = 0: Do not use distance fade.
+- DISTANCE_FADE_PIXEL_ALPHA = 1: Smoothly fades the object out based on each pixel's distance from the camera using the alpha channel.
+- DISTANCE_FADE_PIXEL_DITHER = 2: Smoothly fades the object out based on each pixel's distance from the camera using a dithering approach.
+- DISTANCE_FADE_OBJECT_DITHER = 3: Smoothly fades the object out based on the object's distance from the camera using a dithering approach.
+
+enum StencilMode:
+- STENCIL_MODE_DISABLED = 0: Disables stencil operations.
+- STENCIL_MODE_OUTLINE = 1: Stencil preset which applies an outline to the object. Note: Requires a Material.next_pass material which will be automatically applied. To safely apply a next_pass material, use GeometryInstance3D.material_overlay instead.
+- STENCIL_MODE_XRAY = 2: Stencil preset which shows a silhouette of the object behind walls. Note: Requires a Material.next_pass material which will be automatically applied. To safely apply a next_pass material, use GeometryInstance3D.material_overlay instead.
+- STENCIL_MODE_CUSTOM = 3: Enables stencil operations without a preset.
+
+enum StencilFlags:
+- STENCIL_FLAG_READ = 1: The material will only be rendered where it passes a stencil comparison.
+- STENCIL_FLAG_WRITE = 2: The material will write the reference value to the stencil buffer where it passes the depth test.
+- STENCIL_FLAG_WRITE_DEPTH_FAIL = 4: The material will write the reference value to the stencil buffer where it fails the depth test.
+
+enum StencilCompare:
+- STENCIL_COMPARE_ALWAYS = 0: Always passes the stencil test.
+- STENCIL_COMPARE_LESS = 1: Passes when the reference value is less than the existing stencil value.
+- STENCIL_COMPARE_EQUAL = 2: Passes when the reference value is equal to the existing stencil value.
+- STENCIL_COMPARE_LESS_OR_EQUAL = 3: Passes when the reference value is less than or equal to the existing stencil value.
+- STENCIL_COMPARE_GREATER = 4: Passes when the reference value is greater than the existing stencil value.
+- STENCIL_COMPARE_NOT_EQUAL = 5: Passes when the reference value is not equal to the existing stencil value.
+- STENCIL_COMPARE_GREATER_OR_EQUAL = 6: Passes when the reference value is greater than or equal to the existing stencil value.
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: This chunk describes properties for controlling the albedo (base color), alpha (transparency), anisotropy (specular shape), and ambient occlusion (AO) of a 3D material.
+
+*   albedo_color (Color): The material's base color. Default: `Color(1, 1, 1, 1)`. Note: If detail_enabled is `true` and a detail_albedo texture is specified, albedo_color will *not* modulate the detail texture. This can be used to color partial areas of a material by not specifying an albedo texture and using a transparent detail_albedo texture instead.
+*   albedo_texture (Texture2D): Texture to multiply by albedo_color. Used for basic texturing of objects. If the texture appears unexpectedly too dark or too bright, check albedo_texture_force_srgb.
+*   albedo_texture_force_srgb (bool): If `true`, forces a conversion of the albedo_texture from nonlinear sRGB encoding to linear encoding. See also vertex_color_is_srgb. This should only be enabled when needed (typically when using a ViewportTexture as albedo_texture). If albedo_texture_force_srgb is `true` when it shouldn't be, the texture will appear to be too dark. If albedo_texture_force_srgb is `false` when it shouldn't be, the texture will appear to be too bright. Default: `false`.
+*   albedo_texture_msdf (bool): Enables multichannel signed distance field rendering shader. Use msdf_pixel_range and msdf_outline_size to configure MSDF parameters. Default: `false`.
+*   alpha_antialiasing_edge (float): Threshold at which antialiasing will be applied on the alpha channel.
+*   alpha_antialiasing_mode (AlphaAntiAliasing): The type of alpha antialiasing to apply.
+*   alpha_hash_scale (float): The hashing scale for Alpha Hash. Recommended values between `0` and `2`.
+*   alpha_scissor_threshold (float): Threshold at which the alpha scissor will discard values. Higher values will result in more pixels being discarded. If the material becomes too opaque at a distance, try increasing alpha_scissor_threshold. If the material disappears at a distance, try decreasing alpha_scissor_threshold.
+*   anisotropy (float): The strength of the anisotropy effect. This is multiplied by anisotropy_flowmap's alpha channel if a texture is defined there and the texture contains an alpha channel. Default: `0.0`.
+*   anisotropy_enabled (bool): If `true`, anisotropy is enabled. Anisotropy changes the shape of the specular blob and aligns it to tangent space. This is useful for brushed aluminum and hair reflections. Note: Mesh tangents are needed for anisotropy to work. If the mesh does not contain tangents, the anisotropy effect will appear broken. Note: Material anisotropy should not to be confused with anisotropic texture filtering, which can be enabled by setting texture_filter to TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC. Default: `false`.
+*   anisotropy_flowmap (Texture2D): Texture that offsets the tangent map for anisotropy calculations and optionally controls the anisotropy effect (if an alpha channel is present). The flowmap texture is expected to be a derivative map, with the red channel representing distortion on the X axis and green channel representing distortion on the Y axis. Values below 0.5 will result in negative distortion, whereas values above 0.5 will result in positive distortion. If present, the texture's alpha channel will be used to multiply the strength of the anisotropy effect. Fully opaque pixels will keep the anisotropy effect's original strength while fully transparent pixels will disable the anisotropy effect entirely. The flowmap texture's blue channel is ignored.
+*   ao_enabled (bool): If `true`, ambient occlusion is enabled. Ambient occlusion darkens areas based on the ao_texture. Default: `false`.
+*   ao_light_affect (float): Amount that ambient occlusion affects lighting from lights. If `0`, ambient occlusion only affects ambient light. If `1`, ambient occlusion affects lights just as much as it affects ambient light. This can be used to impact the strength of the ambient occlusion effect, but typically looks unrealistic. Default: `0.0`.
+*   ao_on_uv2 (bool): If `true`, use `UV2` coordinates to look up from the ao_texture. Default: `false`.
+*   ao_texture (Texture2D): Texture that defines the amount of ambient occlusion for a given point on the object.
+*   ao_texture_channel (TextureChannel): Specifies the channel of the ao_texture in which the ambient occlusion information is stored. This is useful when you store the information for multiple effects in a single texture. For example if you stored metallic in the red channel, roughness in the blue, and ambient occlusion in the green you could reduce the number of textures you use. Default: `0`.
+---CHUNK---
+Document: BaseMaterial3D
+Path: godot/classes/class_basematerial3d.rst
+Summary: This chunk describes methods for getting and setting material features, flags, and textures in BaseMaterial3D.
+
+Method Descriptions
+
+Method: get_feature(feature: Feature) → bool
+Returns true if the specified feature is enabled.
+
+Method: get_flag(flag: Flags) → bool
+Returns true if the specified flag is enabled.
+
+Method: get_texture(param: TextureParam) → Texture2D
+Returns the Texture2D associated with the specified texture param.
+
+Method: set_feature(feature: Feature, enable: bool) → void
+If `enable` is true, enables the specified feature. Many features that are available in BaseMaterial3D need to be enabled before use. This way, the cost for using the feature is only incurred when specified. Features can also be enabled by setting their corresponding property to true.
+
+Method: set_flag(flag: Flags, enable: bool) → void
+If `enable` is true, enables the specified flag. Flags are optional behavior that can be turned on and off. Only one flag can be enabled at a time with this function; the flag enumerators cannot be bit-masked together to enable or disable multiple flags at once. Flags can also be enabled by setting their corresponding property to true.
+
+Method: set_texture(param: TextureParam, texture: Texture2D) → void
+Sets the texture for the slot specified by `param`.

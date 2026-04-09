@@ -1,0 +1,281 @@
+Document: The Main Game Scene
+Path: godot/getting_started/first_2d_game/05.the_main_game_scene.rst
+Summary: This section describes how to set up the main game scene in Godot, including adding nodes, configuring their properties, and arranging them in the scene tree.
+
+We will now create the main game scene. This scene will contain all the elements of the game.
+
+First, create a new scene. Click on the "Scene" button in the top-left corner and select "New Scene".
+
+The scene dock will appear empty. Click the "Add Root Node" button.
+
+In the "Create New Node" dialog, search for "Node2D" and click "Create".
+
+Rename the root node to "Main".
+
+Now, we need to add the player character to the scene.
+
+Select the "Main" node. Click the "+" button in the scene dock to add a child node.
+
+Search for "KinematicBody2D" and click "Create".
+
+Rename this node to "Player".
+
+The Player node needs a visual representation.
+
+Select the "Player" node. Click the "+" button to add a child node.
+
+Search for "Sprite" and click "Create".
+
+In the Inspector, find the "Texture" property. Click "<empty>" and select "Load".
+
+Navigate to the `res://assets/player.png` file and click "Open".
+
+The player sprite should now be visible in the scene.
+
+The player also needs a collision shape.
+
+Select the "Player" node. Click the "+" button to add a child node.
+
+Search for "CollisionShape2D" and click "Create".
+
+In the Inspector, find the "Shape" property. Click "<empty>" and select "New RectangleShape2D".
+
+Resize the rectangle in the editor to roughly match the player sprite.
+
+Now, let's add the platforms to the scene.
+
+Select the "Main" node. Click the "+" button to add a child node.
+
+Search for "StaticBody2D" and click "Create".
+
+Rename this node to "Platforms".
+
+Select the "Platforms" node. Click the "+" button to add a child node.
+
+Search for "Sprite" and click "Create".
+
+In the Inspector, find the "Texture" property. Click "<empty>" and select "Load".
+
+Navigate to the `res://assets/platform.png` file and click "Open".
+
+The platform sprite should now be visible in the scene.
+
+The platform also needs a collision shape.
+
+Select the "Platforms" node. Click the "+" button to add a child node.
+
+Search for "CollisionShape2D" and click "Create".
+
+In the Inspector, find the "Shape" property. Click "<empty>" and select "New RectangleShape2D".
+
+Resize the rectangle in the editor to roughly match the platform sprite.
+
+Duplicate the "Platforms" node by right-clicking on it in the scene dock and selecting "Duplicate".
+
+Move the duplicated platform to a different position in the scene.
+
+Repeat this process to create several platforms.
+
+Finally, save the scene. Click "Scene" -> "Save Scene".
+
+Name the scene "Main.tscn" and click "Save".
+
+This scene will be the entry point for our game.
+---CHUNK---
+Document: The Main Game Scene
+Path: godot/getting_started/first_2d_game/05.the_main_game_scene.rst
+Summary: This section describes how to create the main game scene by adding and configuring nodes, including timers and a marker for the player's starting position.
+
+Create a new scene and add a Node named Main. This node will serve as a container for game logic and does not require 2D functionality itself.
+
+Instance the saved player.tscn scene as a child of Main.
+
+Add the following nodes as children of Main, naming them as shown:
+- Timer (named MobTimer) - Controls mob spawn frequency.
+- Timer (named ScoreTimer) - Increments the score every second.
+- Timer (named StartTimer) - Provides a delay before the game starts.
+- Marker2D (named StartPosition) - Indicates the player's starting position.
+
+Configure the Wait Time property for each Timer node:
+- MobTimer: 0.5 seconds
+- ScoreTimer: 1 second
+- StartTimer: 2 seconds
+
+Additionally, set the One Shot property of StartTimer to On. Set the Position of the StartPosition node to (240, 450).
+---CHUNK---
+Document: The Main Game Scene
+Path: godot/getting_started/first_2d_game/05.the_main_game_scene.rst
+Summary: This section describes how to set up a Path2D and PathFollow2D node to define spawn points for mobs in a 2D game.
+
+The Main node will be spawning new mobs, and we want them to appear at a random location on the edge of the screen.
+Add a Path2D node as a child of the Main node and name it MobPath.
+When Path2D is selected, new buttons appear at the top of the editor. Use the "Add Point" button to draw a path by clicking to add points at the corners. To have the points snap to the grid, ensure "Use Grid Snap" and "Use Smart Snap" are selected. These options are located to the left of the "Lock" button.
+Key Rule: Draw the path in clockwise order to ensure mobs spawn pointing inwards.
+After placing the final point, click the "Close Curve" button to complete the path.
+Add a PathFollow2D node as a child of MobPath and name it MobSpawnLocation. This node will automatically rotate and follow the path as it moves, allowing for the selection of random positions and directions along the path.
+---CHUNK---
+Document: The Main Game Scene
+Path: godot/getting_started/first_2d_game/05.the_main_game_scene.rst
+Summary: This section details how to set up the main game scene in Godot, including adding scripts, exporting variables, connecting signals, and implementing timer logic for spawning mobs and managing the game state.
+
+Add a script to the ``Main`` node. Use ``@export var mob_scene: PackedScene`` to allow selection of the Mob scene to instance.
+
+GDScript:
+extends Node
+
+@export var mob_scene: PackedScene
+var score
+
+C#:
+using Godot;
+
+public partial class Main : Node
+{
+    // Don't forget to rebuild the project so the editor knows about the new export variable.
+
+    [Export]
+    public PackedScene MobScene { get; set; }
+
+    private int _score;
+}
+
+Assign the ``mob.tscn`` file to the ``Mob Scene`` property in the Inspector under "Main.gd" by dragging and dropping or using the "Load" option.
+
+Select the ``Player`` instance under the ``Main`` node. In the Signals dock, find and double-click the ``hit`` signal. In the signal connection dialog, create a new receiver method named ``game_over`` and connect it. Add the following code to implement ``game_over`` and a ``new_game`` function for game setup.
+
+GDScript:
+func game_over():
+    $ScoreTimer.stop()
+    $MobTimer.stop()
+
+func new_game():
+    score = 0
+    $Player.start($StartPosition.position)
+    $StartTimer.start()
+
+C#:
+public void GameOver()
+{
+    GetNode<Timer>("MobTimer").Stop();
+    GetNode<Timer>("ScoreTimer").Stop();
+}
+
+public void NewGame()
+{
+    _score = 0;
+
+    var player = GetNode<Player>("Player");
+    var startPosition = GetNode<Marker2D>("StartPosition");
+    player.Start(startPosition.Position);
+
+    GetNode<Timer>("StartTimer").Start();
+}
+
+Connect the ``timeout()`` signal of ``StartTimer``, ``ScoreTimer``, and ``MobTimer`` to the main script. For each timer, select it in the Scene dock, open the Signals tab, double-click the ``timeout()`` signal, and click "Connect" with default settings. This will create signal connections like ``_on_mob_timer_timeout()``, ``_on_score_timer_timeout()``, and ``_on_start_timer_timeout()``.
+
+Define the timer operations: ``StartTimer`` starts the other two timers, and ``ScoreTimer`` increments the score.
+
+GDScript:
+func _on_score_timer_timeout():
+    score += 1
+
+func _on_start_timer_timeout():
+    $MobTimer.start()
+    $ScoreTimer.start()
+
+C#:
+// We also specified this function name in PascalCase in the editor's connection window.
+private void OnScoreTimerTimeout()
+{
+    _score++;
+}
+
+// We also specified this function name in PascalCase in the editor's connection window.
+private void OnStartTimerTimeout()
+{
+    GetNode<Timer>("MobTimer").Start();
+    GetNode<Timer>("ScoreTimer").Start();
+}
+
+In ``_on_mob_timer_timeout()``, create a mob instance, select a random starting location on ``Path2D`` using ``progress_ratio``, and set the mob's position and rotation. The mob's direction is determined by the path's rotation plus a random offset. A random velocity between 150.0 and 250.0 is applied. The new mob instance is added to the scene using ``add_child()``.
+
+GDScript:
+func _on_mob_timer_timeout():
+    # Create a new instance of the Mob scene.
+    var mob = mob_scene.instantiate()
+
+    # Choose a random location on Path2D.
+    var mob_spawn_location = $MobPath/MobSpawnLocation
+    mob_spawn_location.progress_ratio = randf()
+
+    # Set the mob's position to the random location.
+    mob.position = mob_spawn_location.position
+
+    # Set the mob's direction perpendicular to the path direction.
+    var direction = mob_spawn_location.rotation + PI / 2
+
+    # Add some randomness to the direction.
+    direction += randf_range(-PI / 4, PI / 4)
+    mob.rotation = direction
+
+    # Choose the velocity for the mob.
+    var velocity = Vector2(randf_range(150.0, 250.0), 0.0)
+    mob.linear_velocity = velocity.rotated(direction)
+
+    # Spawn the mob by adding it to the Main scene.
+    add_child(mob)
+
+C#:
+// We also specified this function name in PascalCase in the editor's connection window.
+private void OnMobTimerTimeout()
+{
+    // Create a new instance of the Mob scene.
+    Mob mob = MobScene.Instantiate<Mob>();
+
+    // Choose a random location on Path2D.
+    var mobSpawnLocation = GetNode<PathFollow2D>("MobPath/MobSpawnLocation");
+    mobSpawnLocation.ProgressRatio = GD.Randf();
+
+    // Set the mob's direction perpendicular to the path direction.
+    float direction = mobSpawnLocation.Rotation + Mathf.Pi / 2;
+
+    // Set the mob's position to a random location.
+    mob.Position = mobSpawnLocation.Position;
+
+    // Add some randomness to the direction.
+    direction += (float)GD.RandRange(-Mathf.Pi / 4, Mathf.Pi / 4);
+    mob.Rotation = direction;
+
+    // Choose the velocity.
+    var velocity = new Vector2((float)GD.RandRange(150.0, 250.0), 0);
+    mob.LinearVelocity = velocity.Rotated(direction);
+
+    // Spawn the mob by adding it to the Main scene.
+    AddChild(mob);
+}
+
+Note: Godot uses radians for angles. Pi represents a half turn (approximately 3.1415). Use ``deg_to_rad()`` and ``rad_to_deg()`` for conversions if working with degrees.
+---CHUNK---
+Document: First 2D Game Tutorial
+Path: godot/getting_started/first_2d_game/05.the_main_game_scene.rst
+Summary: This section covers testing the main game scene, setting it as the primary scene in Godot, and preparing for the addition of user interface elements.
+
+GDScript:
+```gdscript
+func _ready():
+    new_game()
+```
+
+C#:
+```csharp
+public override void _Ready()
+{
+    NewGame();
+}
+```
+Tip: If you had already set another scene as the "Main Scene", you can right click main.tscn in the FileSystem dock and select "Set As Main Scene".
+You should be able to move the player around, see mobs spawning, and see the player disappear when hit by a mob.
+
+When you're sure everything is working, remove the call to new_game() from _ready() and replace it with pass.
+
+What's our game lacking? Some user interface. In the next lesson, we'll add a title screen and display the player's score.

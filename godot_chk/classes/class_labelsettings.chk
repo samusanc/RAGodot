@@ -1,0 +1,135 @@
+Document: LabelSettings
+Path: godot/classes/class_labelsettings.rst
+Summary: This section identifies the LabelSettings class.
+---CHUNK---
+Document: LabelSettings
+Path: godot/classes/class_labelsettings.rst
+Summary: Provides common settings to customize the text in a Label.
+
+Inherits: Resource < RefCounted < Object
+
+Provides common settings to customize the text in a Label.
+---CHUNK---
+Document: LabelSettings
+Path: godot/classes/class_labelsettings.rst
+Summary: A resource for customizing text in Labels, taking priority over Control.theme properties.
+
+Description
+LabelSettings is a resource that provides common settings to customize the text in a Label. It will take priority over the properties defined in Control.theme. The resource can be shared between multiple labels and changed on the fly, so it's convenient and flexible way to setup text style.
+---CHUNK---
+Document: LabelSettings
+Path: godot/classes/class_labelsettings.rst
+Summary: This section lists the properties available for configuring LabelSettings, including font, color, size, spacing, and shadow/outline effects.
+
+* font (Font).
+* font_color (Color). Default: Color(1, 1, 1, 1).
+* font_size (int). Default: 16.
+* line_spacing (float). Default: 3.0.
+* outline_color (Color). Default: Color(1, 1, 1, 1).
+* outline_size (int). Default: 0.
+* paragraph_spacing (float). Default: 0.0.
+* shadow_color (Color). Default: Color(0, 0, 0, 0).
+* shadow_offset (Vector2). Default: Vector2(1, 1).
+* shadow_size (int). Default: 1.
+* stacked_outline_count (int). Default: 0.
+* stacked_outline_{index}/color (Color). Default: Color(0, 0, 0, 1).
+* stacked_outline_{index}/size (int). Default: 0.
+* stacked_shadow_count (int). Default: 0.
+* stacked_shadow_{index}/color (Color). Default: Color(0, 0, 0, 1).
+* stacked_shadow_{index}/offset (Vector2). Default: Vector2i(1, 1).
+* stacked_shadow_{index}/outline_size (int). Default: 0.
+---CHUNK---
+Document: LabelSettings
+Path: godot/classes/class_labelsettings.rst
+Summary: Lists the methods available in LabelSettings for managing stacked outlines and shadows.
+
+Method: add_stacked_outline(index: int = -1) -> void
+Method: add_stacked_shadow(index: int = -1) -> void
+Method: get_stacked_outline_color(index: int) -> Color
+Method: get_stacked_outline_size(index: int) -> int
+Method: get_stacked_shadow_color(index: int) -> Color
+Method: get_stacked_shadow_offset(index: int) -> Vector2
+Method: get_stacked_shadow_outline_size(index: int) -> int
+Method: move_stacked_outline(from_index: int, to_position: int) -> void
+Method: move_stacked_shadow(from_index: int, to_position: int) -> void
+Method: remove_stacked_outline(index: int) -> void
+Method: remove_stacked_shadow(index: int) -> void
+Method: set_stacked_outline_color(index: int, color: Color) -> void
+Method: set_stacked_outline_size(index: int, size: int) -> void
+Method: set_stacked_shadow_color(index: int, color: Color) -> void
+Method: set_stacked_shadow_offset(index: int, offset: Vector2) -> void
+Method: set_stacked_shadow_outline_size(index: int, size: int) -> void
+---CHUNK---
+Document: LabelSettings
+Path: godot/classes/class_labelsettings.rst
+Summary: This section details the properties available in LabelSettings for configuring text appearance, including font, color, size, spacing, outlines, and shadows.
+
+*   font (Font): Font used for the text.
+*   font_color (Color): Color of the text. Default: Color(1, 1, 1, 1).
+*   font_size (int): Size of the text. Default: 16.
+*   line_spacing (float): Additional vertical spacing between lines (in pixels), spacing is added to line descent. This value can be negative. Default: 3.0.
+*   outline_color (Color): The color of the outline. Default: Color(1, 1, 1, 1).
+*   outline_size (int): Text outline size. Default: 0.
+*   paragraph_spacing (float): Vertical space between paragraphs. Added on top of line_spacing. Default: 0.0.
+*   shadow_color (Color): Color of the shadow effect. If alpha is 0, no shadow will be drawn. Default: Color(0, 0, 0, 0).
+*   shadow_offset (Vector2): Offset of the shadow effect, in pixels. Default: Vector2(1, 1).
+*   shadow_size (int): Size of the shadow effect. Default: 1.
+*   stacked_outline_count (int): The number of stacked outlines. Default: 0.
+*   stacked_outline_{index}/color (Color): The color of the outline at index. Note: index is a value in the 0 .. stacked_outline_count - 1 range. Default: Color(0, 0, 0, 1).
+*   stacked_outline_{index}/size (int): The size of the outline at index. Note: index is a value in the 0 .. stacked_outline_count - 1 range. Default: 0.
+*   stacked_shadow_count (int): The number of stacked shadows. Default: 0.
+*   stacked_shadow_{index}/color (Color): The color of the shadow at index. Note: index is a value in the 0 .. stacked_shadow_count - 1 range. Default: Color(0, 0, 0, 1).
+*   stacked_shadow_{index}/offset (Vector2): The offset of the shadow at index. Note: index is a value in the 0 .. stacked_shadow_count - 1 range. Default: Vector2i(1, 1).
+*   stacked_shadow_{index}/outline_size (int): The size of the shadow outline at index. Note: index is a value in the 0 .. stacked_shadow_count - 1 range. Default: 0.
+---CHUNK---
+Document: LabelSettings
+Path: godot/classes/class_labelsettings.rst
+Summary: This section details methods for managing stacked outlines and shadows within LabelSettings, including adding, removing, moving, and setting their properties.
+
+Method: add_stacked_outline(index: int = -1) → void
+Adds a new stacked outline to the label at the given `index`. If `index` is `-1`, the new stacked outline will be added at the end of the list.
+
+Method: add_stacked_shadow(index: int = -1) → void
+Adds a new stacked shadow to the label at the given `index`. If `index` is `-1`, the new stacked shadow will be added at the end of the list.
+
+Method: get_stacked_outline_color(index: int) → Color
+Returns the color of the stacked outline at `index`.
+
+Method: get_stacked_outline_size(index: int) → int
+Returns the size of the stacked outline at `index`.
+
+Method: get_stacked_shadow_color(index: int) → Color
+Returns the color of the stacked shadow at `index`.
+
+Method: get_stacked_shadow_offset(index: int) → Vector2
+Returns the offset of the stacked shadow at `index`.
+
+Method: get_stacked_shadow_outline_size(index: int) → int
+Returns the outline size of the stacked shadow at `index`.
+
+Method: move_stacked_outline(from_index: int, to_position: int) → void
+Moves the stacked outline at index `from_index` to the given position `to_position` in the array.
+
+Method: move_stacked_shadow(from_index: int, to_position: int) → void
+Moves the stacked shadow at index `from_index` to the given position `to_position` in the array.
+
+Method: remove_stacked_outline(index: int) → void
+Removes the stacked outline at index `index`.
+
+Method: remove_stacked_shadow(index: int) → void
+Removes the stacked shadow at index `index`.
+
+Method: set_stacked_outline_color(index: int, color: Color) → void
+Sets the color of the stacked outline identified by the given `index` to `color`.
+
+Method: set_stacked_outline_size(index: int, size: int) → void
+Sets the size of the stacked outline identified by the given `index` to `size`.
+
+Method: set_stacked_shadow_color(index: int, color: Color) → void
+Sets the color of the stacked shadow identified by the given `index` to `color`.
+
+Method: set_stacked_shadow_offset(index: int, offset: Vector2) → void
+Sets the offset of the stacked shadow identified by the given `index` to `offset`.
+
+Method: set_stacked_shadow_outline_size(index: int, size: int) → void
+Sets the outline size of the stacked shadow identified by the given `index` to `size`.

@@ -1,0 +1,78 @@
+Document: EditorNode3DGizmo
+Path: godot/classes/class_editornode3dgizmo.rst
+Summary: Describes the EditorNode3DGizmo class.
+---CHUNK---
+Document: EditorNode3DGizmo
+Path: godot/classes/class_editornode3dgizmo.rst
+Summary: EditorNode3DGizmo is a gizmo for editing Node3D objects.
+
+Inherits: Node3DGizmo < RefCounted < Object
+Gizmo for editing Node3D objects.
+---CHUNK---
+Document: EditorNode3DGizmo
+Path: godot/classes/class_editornode3dgizmo.rst
+Summary: A gizmo for custom visualization and editing of Node3D objects.
+
+Gizmo that is used for providing custom visualization and editing (handles and subgizmos) for Node3D objects. Can be overridden to create custom gizmos, but for simple gizmos creating an EditorNode3DGizmoPlugin is usually recommended.
+---CHUNK---
+Document: EditorNode3DGizmo
+Path: godot/classes/class_editornode3dgizmo.rst
+Summary: This section lists all the methods available in the EditorNode3DGizmo class, including virtual methods for custom gizmo behavior and methods for rendering and collision.
+
+Methods:
+- virtual void _begin_handle_action(id: int, secondary: bool)
+- virtual void _commit_handle(id: int, secondary: bool, restore: Variant, cancel: bool)
+- virtual void _commit_subgizmos(ids: PackedInt32Array, restores: Array[Transform3D], cancel: bool)
+- virtual String _get_handle_name(id: int, secondary: bool) const
+- virtual Variant _get_handle_value(id: int, secondary: bool) const
+- virtual Transform3D _get_subgizmo_transform(id: int) const
+- virtual bool _is_handle_highlighted(id: int, secondary: bool) const
+- virtual void _redraw()
+- virtual void _set_handle(id: int, secondary: bool, camera: Camera3D, point: Vector2)
+- virtual void _set_subgizmo_transform(id: int, transform: Transform3D)
+- virtual PackedInt32Array _subgizmos_intersect_frustum(camera: Camera3D, frustum: Array[Plane]) const
+- virtual int _subgizmos_intersect_ray(camera: Camera3D, point: Vector2) const
+- void add_collision_segments(segments: PackedVector3Array)
+- void add_collision_triangles(triangles: TriangleMesh)
+- void add_handles(handles: PackedVector3Array, material: Material, ids: PackedInt32Array, billboard: bool = false, secondary: bool = false)
+- void add_lines(lines: PackedVector3Array, material: Material, billboard: bool = false, modulate: Color = Color(1, 1, 1, 1))
+- void add_mesh(mesh: Mesh, material: Material = null, transform: Transform3D = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0), skeleton: SkinReference = null)
+- void add_unscaled_billboard(material: Material, default_scale: float = 1, modulate: Color = Color(1, 1, 1, 1))
+- void clear()
+- Node3D get_node_3d() const
+- EditorNode3DGizmoPlugin get_plugin() const
+- PackedInt32Array get_subgizmo_selection() const
+- bool is_subgizmo_selected(id: int) const
+- void set_hidden(hidden: bool)
+- void set_node_3d(node: Node)
+---CHUNK---
+Document: EditorNode3DGizmo
+Path: godot/classes/class_editornode3dgizmo.rst
+Summary: This section describes virtual methods for handling gizmo interactions, including beginning and committing actions, getting handle information, and redrawing the gizmo.
+
+Method: _begin_handle_action(id: int, secondary: bool) -> void
+There is currently no description for this method.
+
+Method: _commit_handle(id: int, secondary: bool, restore: Variant, cancel: bool) -> void
+Override this method to commit a handle being edited (handles must have been previously added by add_handles). This usually means creating an UndoRedo action for the change, using the current handle value as "do" and the restore argument as "undo". If the cancel argument is true, the restore value should be directly set, without any UndoRedo action. The secondary argument is true when the committed handle is secondary (see add_handles for more information).
+
+Method: _commit_subgizmos(ids: PackedInt32Array, restores: Array[Transform3D], cancel: bool) -> void
+Override this method to commit a group of subgizmos being edited (see _subgizmos_intersect_ray and _subgizmos_intersect_frustum). This usually means creating an UndoRedo action for the change, using the current transforms as "do" and the restores transforms as "undo". If the cancel argument is true, the restores transforms should be directly set, without any UndoRedo action.
+
+Method: _get_handle_name(id: int, secondary: bool) -> String
+Override this method to return the name of an edited handle (handles must have been previously added by add_handles). Handles can be named for reference to the user when editing. The secondary argument is true when the requested handle is secondary (see add_handles for more information).
+
+Method: _get_handle_value(id: int, secondary: bool) -> Variant
+Override this method to return the current value of a handle. This value will be requested at the start of an edit and used as the restore argument in _commit_handle. The secondary argument is true when the requested handle is secondary (see add_handles for more information).
+
+Method: _get_subgizmo_transform(id: int) -> Transform3D
+Override this method to return the current transform of a subgizmo. This transform will be requested at the start of an edit and used as the restore argument in _commit_subgizmos.
+
+Method: _is_handle_highlighted(id: int, secondary: bool) -> bool
+Override this method to return true whenever the given handle should be highlighted in the editor. The secondary argument is true when the requested handle is secondary (see add_handles for more information).
+
+Method: _redraw() -> void
+Override this method to add all the gizmo elements whenever a gizmo update is requested. It's common to call clear at the beginning of this method and then add visual elements depending on the node's properties.
+
+Method: _set_handle(id: int, secondary: bool, camera: Camera3D, point: Vector2) -> void
+Override this method to update the node properties when the user drags a gizmo handle (previously added with add_handles). The provided point is the mouse position in screen coordinates and the camera can be used to convert it to raycasts. The secondary argument is true when the edited handle is secondary (see add_handles for more information).

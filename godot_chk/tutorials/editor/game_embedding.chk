@@ -1,0 +1,182 @@
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This document explains how to embed a Godot game into another application.
+
+This tutorial covers embedding a Godot game into another application. This is useful for adding a game to an existing application or for creating custom game launchers.
+
+The process involves exporting the Godot project as a library and then integrating that library into your host application. The specific steps will vary depending on the host application's programming language and platform.
+
+Key Rule: The Godot project must be exported as a library, not as a standalone executable.
+
+The exported library will typically be a dynamic library (e.g., a `.dll` on Windows, `.so` on Linux, or `.dylib` on macOS) or a static library. The choice between dynamic and static linking depends on the requirements of the host application.
+
+Once the library is created, the host application needs to load and initialize the Godot engine. This involves calling specific functions provided by the Godot library API. These functions allow you to create an instance of the Godot engine, set up the main scene, and manage the game loop.
+
+The Godot library API provides functions for:
+*   Initializing the engine.
+*   Creating and managing the main window or viewport.
+*   Loading and running Godot scenes.
+*   Handling input events from the host application.
+*   Exchanging data between the Godot game and the host application.
+
+Example workflow:
+1.  Export the Godot project as a library.
+2.  In the host application, include the Godot library headers/files.
+3.  Load the Godot library dynamically or link against it statically.
+4.  Initialize the Godot engine.
+5.  Create a Godot instance.
+6.  Load the main scene.
+7.  Start the game loop, which will typically involve calling a function to process frames.
+8.  Handle communication between the host application and the Godot game using the provided API functions.
+
+Warning: Embedding a Godot game can be complex and requires a good understanding of both Godot and the host application's development environment.
+
+Further details on the specific API functions and platform-specific considerations can be found in the official Godot documentation regarding library export and embedding.
+---CHUNK---
+Document: Game embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section explains Godot's game embedding feature, noting that the game runs in a separate process for stability.
+Note: The game always runs in a separate process, no matter the embedding mode used. This means that if the game crashes, it will not crash the editor.
+---CHUNK---
+Document: game_embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This document explains the different states of game embedding in the Godot editor and how to configure them.
+The game embedding can be in one of 3 states:
+- Floating window (default): The game runs in a separate window, with a Game bar at the top that allows you to adjust settings and select nodes in the embedded game. Clicking the Game main screen button focuses the floating window.
+- Main window: The game runs in the editor, with a Game bar at the top that allows you to adjust settings and select nodes in the embedded game. Clicking the Game main screen button switches to the tab with the running project.
+- Disabled: The game runs in a separate window, as if it was an exported project. The Game bar at the top is not present; selecting nodes in the embedded game is not possible.
+
+To configure this functionality, click the Game main screen at the top of the editor. Once on the Game main screen, click the dropdown menu in the top-right corner of the Game bar.
+
+Two options are available to configure the game embedding mode:
+- Embed Game on Next Play: If enabled, game embedding is enabled and the Game bar is available for use on the running game.
+- Make Window Floating on Next Play: If enabled, the game runs in a floating window. If disabled, the game runs in the main editor window.
+---CHUNK---
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section describes the different options for configuring the embedded game window size behavior in Godot.
+
+Embedded window sizing options affect both floating and main window embedding modes:
+
+*   **Fixed Size** (default): The viewport size is set to a fixed resolution defined in Project Settings. If display/window/size/window_width_override and display/window/size/window_height_override are set to values greater than 0, these overrides are used instead.
+*   **Keep Aspect Ratio:** The viewport size scales to match the game window size while maintaining the aspect ratio defined by the width divided by height in Project Settings.
+*   **Stretch to Fit:** The viewport size scales to match the game window size, potentially using an aspect ratio different from the one defined in Project Settings. This behavior is identical to when game embedding is disabled.
+
+These options are inactive when game embedding is turned off.
+---CHUNK---
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: Describes the features available in the Game bar when game embedding is enabled in the Godot editor.
+Features
+When game embedding is enabled, several features can be adjusted while the project is running using the Game bar at the top.
+
+In order from left to right:
+---CHUNK---
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: Describes how to pause and resume the game in the editor to interact with running game elements.
+Pause (F9)
+Pauses/resumes the game. When paused, the game will stop processing physics and idle frames, but it will still render and process input. This allows you to select nodes in the scene and inspect their properties in the editor inspector while the game is running.
+---CHUNK---
+Document: Game Embedding Tutorial
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: Explains the frame advance feature in the Godot editor for debugging.
+Frame advance (F10) is available only when the game is paused. It advances the game by one frame, allowing inspection of the game state at a specific moment. This is useful for diagnosing short-lived interactions, such as collisions, that are difficult to observe when the game runs at full speed.
+---CHUNK---
+Document: Game Embedding Tutorial
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section explains the game speed adjustment feature in the Godot editor's game bar and its interaction with physics.
+This option is a menu that can adjust the game speed. If the game sets Engine.time_scale at runtime, it will be multiplied by the value set here.
+
+This can be used to view interactions in slow motion, or speed up the game significantly to test mechanics that normally take a long time to occur.
+
+The reset button to the right of the dropdown resets the game speed to normal (1.0×).
+
+Tip: When adjusting the game speed using this mechanism, the physics tick rate (determined by the ProjectSettings.physics/common/physics_ticks_per_second project setting) is automatically multiplied by the game speed. This allows the game logic to run at a different speed without affecting the physics simulation. For example:
+
+- If you set the game speed to 0.5, the physics tick rate is halved.
+- If you set the game speed to 4.0, the physics tick rate is quadrupled.
+
+The ProjectSettings.physics/common/max_physics_steps_per_frame is also increased to match the new physics tick rate, but it will not decrease below the default value when running in slow motion.
+---CHUNK---
+Document: Game Embedding Tutorial
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section explains the different interaction modes available when debugging an embedded game in the Godot editor.
+
+Interaction mode controls the behavior when clicking or pressing keys while the embedded game window has focus.
+
+*   **Input** (default): Allows game input as usual.
+*   **2D:** Disables game input and allows selecting Node2Ds, Controls, and manipulating the 2D camera.
+*   **3D:** Disables game input and allows selecting Node3Ds and manipulating the 3D camera.
+
+Nodes selected in 2D and 3D modes can be inspected in the editor's inspector, similar to selecting nodes in the editor. This enables inspecting and modifying properties of nodes in the running game.
+
+Warning: Changes made to the running game this way are not preserved when the game is stopped. To make changes that are preserved after stopping the game, select the nodes in the editor's Local scene tree and modify them from there while the game is running. Ensure Debug > Synchronize Scene Changes is enabled when doing this.
+---CHUNK---
+Document: Game Embedding Tutorial
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: Explains the "Select mode" option in the Godot editor and how it affects node selection.
+
+Select mode
+This option is only effective when the interaction mode is set to 2D or 3D, not Input.
+
+When enabling "Select mode", the default behavior of showing a list of selectable nodes at the clicked position is disabled. However, this functionality can still be accessed while in select mode by pressing Ctrl + Alt + Right mouse button at the desired location.
+---CHUNK---
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section describes a feature that displays a list of selectable nodes at the clicked position, useful for selecting overlapping nodes in 2D or 3D interaction modes.
+
+This shows a list of selectable nodes at the position clicked. This is useful when multiple nodes are overlapping and you want to select a specific one. This feature is only effective if the interaction mode is 2D or 3D, not Input. When enabling this option, select mode is disabled.
+---CHUNK---
+Document: Game Embedding Tutorial
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section describes how to toggle the visibility of node selection highlights in the game view.
+When the interaction mode is 2D or 3D, node selections are normally highlighted with an orange rectangle or box. This option allows you to toggle the visibility of these highlights. When enabled, the selection appears as a closed eye icon. If this option is enabled, future selections will not be highlighted in the game view, but they will still be selected for inspection in the Inspector dock. This is useful for reducing visual clutter in the game view.
+---CHUNK---
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section describes two advanced selection options available in the Godot editor.
+- Don't Select Locked Nodes: When enabled, nodes that are locked in the editor cannot be selected. This mimics editor behavior.
+- Select Group over Children: When enabled, grouped nodes are selected instead of their individual children. This mimics editor behavior.
+---CHUNK---
+Document: Game Embedding Tutorial
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section explains how to mute game audio within the editor.
+Mute game audio: This mutes game audio when enabled, without affecting the editor or other applications. This is particularly useful on macOS and Android, which do not come with a per-application volume slider out of the box.
+---CHUNK---
+Document: game_embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section explains how to use the camera override feature in the Godot editor to freely navigate the scene from the game camera's perspective.
+
+Camera override
+When enabled, the camera stops following the game camera. You can then move the 2D/3D camera freely by switching to the 2D/3D interaction mode and using the typical navigation controls.
+
+In the 2D interaction mode, use the middle mouse button (or Space + Left mouse button) to pan around and the mouse wheel to zoom.
+In the 3D interaction mode, hold the right mouse button and press W, A, S, and D to use freelook. Use the middle mouse button to orbit, Shift + Middle mouse button to pan, and the mouse wheel to zoom. Additionally, you can use Ctrl + Minus, Ctrl + Plus, and Ctrl + 0 to control the field of view (relative to the game's own camera FOV).
+
+This is useful to inspect parts of the scene that are not visible from the game camera's point of view, or to inspect the game camera itself. When the camera override is disabled, the camera will snap back to the game camera's point of view.
+
+When disabling camera override, the overridden camera's position and rotation are not reset. This allows you to quickly toggle back and forth between the game camera and the overridden camera.
+
+Note: If the camera override appears to be non-interactive, make sure to be in the 2D or 3D interaction mode. The camera override will keep working while in the Input interaction mode, but you won't be able to move the overridden camera while in that mode (unless using the Manipulate From Editors camera override mode as described below).
+
+When overriding the 2D/3D camera, the project's scripts are not aware of this camera override. Keep this in mind when inspecting properties that depend on the camera position, as they will account for the original camera position instead.
+---CHUNK---
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section describes the camera override options available when embedding a game within the Godot editor.
+Camera override options:
+- Reset 2D/3D Camera: Resets the 2D/3D camera to the position and rotation defined by the game. Note that the camera will still be frozen in place until you disable camera override.
+- Manipulate In-Game (default): The camera override is controlled from the game window. This allows controlling the camera without needing to switch back to the editor.
+- Manipulate From Editors: The camera override is controlled from the editor window. This can be useful on multi-monitor setups where the editor can be displayed side-by-side with the running project. Also, when using this option, the camera override position can be remembered across project runs, since it will reuse the editor camera position directly when enabled.
+Note: The camera override may appear less smooth while using the Manipulate From Editors camera override mode, as a result of using local network communication between the editor and the game to update the camera position.
+---CHUNK---
+Document: Game Embedding
+Path: godot/tutorials/editor/game_embedding.rst
+Summary: This section outlines the limitations of the game embedding feature in the Godot editor.
+Limitations
+Game embedding has a number of limitations to be aware of:
+
+- In the Android editor, game embedding always uses a floating window. By default, the floating window is kept on top of the editor using Android's picture-in-picture functionality. This behavior can be disabled in the Game bar by unchecking Keep on Top using PiP in the menu on the right of the Game bar.
+- Window mode changes (e.g. fullscreen) are not supported when using game embedding.
+- When Debug > Customize Run Instances... is used to enable running with multiple instances, only the first instance will use game embedding. Other instances will spawn in their own windows, without the Game bar at the top.

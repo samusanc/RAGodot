@@ -1,0 +1,164 @@
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: A CanvasLayer is a special type of Node that allows you to draw on a separate canvas, independent of the main scene's 2D rendering.
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A CanvasLayer is a special type of Node that allows you to draw on a separate canvas, independent of the main scene's 2D rendering. This is useful for various purposes, such as drawing UI elements, parallax backgrounds, or effects that should always be on top or behind the main scene content.
+
+Each CanvasLayer has its own rendering order, allowing you to control which layers appear in front of or behind others. You can also assign a specific layer to a CanvasItem (like a Sprite or Control node) to make it render on a particular CanvasLayer.
+
+Key Rule: Nodes inheriting from CanvasItem can be assigned to a specific CanvasLayer using the `layer` property. If `layer` is 0, the node will render on the default CanvasLayer. Positive values render on higher layers (in front), and negative values render on lower layers (behind).
+
+CanvasLayers are particularly useful for:
+*   **UI Elements:** Ensuring your UI stays on top of the game world, regardless of camera movement or scene changes.
+*   **Parallax Backgrounds:** Creating depth effects by having background elements move at different speeds relative to the foreground.
+*   **Effects:** Implementing effects like fog, rain, or screen overlays that need to be rendered independently.
+*   **Multiple Viewports:** When working with multiple Viewports, each can have its own set of CanvasLayers.
+---CHUNK---
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: Introduces the CanvasLayer node, which is used for independent rendering of 2D scene objects.
+CanvasLayer
+Inherits: Node < Object
+Inherited By: ParallaxBackground
+A node used for independent rendering of objects within a 2D scene.
+---CHUNK---
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: Defines a drawing layer for CanvasItem nodes, controlling their draw order relative to other layers and the default 2D scene.
+Inherits: CanvasItem < Node < Object
+CanvasItem-derived nodes that are direct or indirect children of a CanvasLayer will be drawn in that layer. The layer is a numeric index that defines the draw order. The default 2D scene renders with index 0, so a CanvasLayer with index -1 will be drawn below, and a CanvasLayer with index 1 will be drawn above. This order will hold regardless of the z_index of the nodes within each layer.
+
+CanvasLayers can be hidden and they can also optionally follow the viewport. This makes them useful for HUDs like health bar overlays (on layers 1 and higher) or backgrounds (on layers -1 and lower).
+
+Note: Embedded Windows are placed on layer 1024. CanvasItems on layers 1025 and higher appear in front of embedded windows.
+
+Note: Each CanvasLayer is drawn on one specific Viewport and cannot be shared between multiple Viewports, see custom_viewport. When using multiple Viewports, for example in a split-screen game, you need to create an individual CanvasLayer for each Viewport you want it to be drawn on.
+---CHUNK---
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: This section lists tutorials related to CanvasLayer, including 2D transforms and canvas layers.
+
+Tutorials:
+* Viewport and canvas transforms
+* Canvas layers
+* 2D Dodge The Creeps Demo
+---CHUNK---
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: This section details the properties available for the CanvasLayer class in Godot Engine.
+
+Properties:
+- custom_viewport (Node): The viewport to which this CanvasLayer will be drawn. If null, the current scene's viewport is used.
+- follow_viewport_enabled (bool): If true, the layer will follow the viewport's movement. Default: false.
+- follow_viewport_scale (float): The scale factor applied when following the viewport. Default: 1.0.
+- layer (int): The layer number. Layers with higher numbers are drawn on top of layers with lower numbers. Default: 1.
+- offset (Vector2): The offset applied to the layer. Default: Vector2(0, 0).
+- rotation (float): The rotation of the layer in radians. Default: 0.0.
+- scale (Vector2): The scale of the layer. Default: Vector2(1, 1).
+- transform (Transform2D): The transform of the layer. Default: Transform2D(1, 0, 0, 1, 0, 0).
+- visible (bool): Whether the layer is visible. Default: true.
+---CHUNK---
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: This section describes the methods and signals available for the CanvasLayer class in Godot Engine.
+
+Method: get_canvas() → RID
+Returns the RID of the canvas this CanvasLayer is drawn on.
+
+Method: get_final_transform() → Transform2D
+Returns the final transform of the CanvasLayer, taking into account its parent's transform and its own transform.
+
+Method: hide() → void
+Hides the CanvasLayer.
+
+Method: show() → void
+Shows the CanvasLayer.
+
+Signal: visibility_changed()
+Emitted when visibility of the layer is changed. See visible property.
+---CHUNK---
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: Describes the properties and member variables of the CanvasLayer class in Godot Engine.
+
+Property: custom_viewport
+Type: Node
+Description: The custom Viewport node assigned to the CanvasLayer. If null, uses the default viewport instead.
+Method: set_custom_viewport(value: Node)
+Method: get_custom_viewport() → Node
+
+Property: follow_viewport_enabled
+Type: bool
+Default: false
+Description: If enabled, the CanvasLayer maintains its position in world space. If disabled, the CanvasLayer stays in a fixed position on the screen. Together with follow_viewport_scale, this can be used for a pseudo-3D effect.
+Method: set_follow_viewport(value: bool)
+Method: is_following_viewport() → bool
+
+Property: follow_viewport_scale
+Type: float
+Default: 1.0
+Description: Scales the layer when using follow_viewport_enabled. Layers moving into the foreground should have increasing scales, while layers moving into the background should have decreasing scales.
+Method: set_follow_viewport_scale(value: float)
+Method: get_follow_viewport_scale() → float
+
+Property: layer
+Type: int
+Default: 1
+Description: Layer index for draw order. Lower values are drawn behind higher values.
+Note: If multiple CanvasLayers have the same layer index, CanvasItem children of one CanvasLayer are drawn behind the CanvasItem children of the other CanvasLayer. Which CanvasLayer is drawn in front is non-deterministic.
+Note: The layer index should be between RenderingServer.CANVAS_LAYER_MIN and RenderingServer.CANVAS_LAYER_MAX (inclusive). Any other value will wrap around.
+Method: set_layer(value: int)
+Method: get_layer() → int
+
+Property: offset
+Type: Vector2
+Default: Vector2(0, 0)
+Description: The layer's base offset.
+Method: set_offset(value: Vector2)
+Method: get_offset() → Vector2
+
+Property: rotation
+Type: float
+Default: 0.0
+Description: The layer's rotation in radians.
+Method: set_rotation(value: float)
+Method: get_rotation() → float
+
+Property: scale
+Type: Vector2
+Default: Vector2(1, 1)
+Description: The layer's scale.
+Method: set_scale(value: Vector2)
+Method: get_scale() → Vector2
+
+Property: transform
+Type: Transform2D
+Default: Transform2D(1, 0, 0, 1, 0, 0)
+Description: The layer's transform.
+Method: set_transform(value: Transform2D)
+Method: get_transform() → Transform2D
+
+Property: visible
+Type: bool
+Default: true
+Description: If false, any CanvasItem under this CanvasLayer will be hidden. Unlike CanvasItem.visible, visibility of a CanvasLayer isn't propagated to underlying layers.
+Method: set_visible(value: bool)
+Method: is_visible() → bool
+---CHUNK---
+Document: CanvasLayer
+Path: godot/classes/class_canvaslayer.rst
+Summary: Provides descriptions for the methods available on the CanvasLayer class.
+
+Method: get_canvas() → RID
+Returns the RID of the canvas used by this layer.
+
+Method: get_final_transform() → Transform2D
+Returns the transform from the CanvasLayer's coordinate system to the Viewport's coordinate system.
+
+Method: hide() → void
+Hides any CanvasItem under this CanvasLayer. This is equivalent to setting visible to false.
+
+Method: show() → void
+Shows any CanvasItem under this CanvasLayer. This is equivalent to setting visible to true.

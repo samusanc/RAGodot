@@ -1,0 +1,66 @@
+Document: ResourceLoader
+Path: godot/classes/class_resourceloader.rst
+Summary: This document describes the ResourceLoader class.
+---CHUNK---
+Document: ResourceLoader
+Path: godot/classes/class_resourceloader.rst
+Summary: A singleton for loading resource files.
+
+ResourceLoader
+Inherits: Object
+
+A singleton for loading resource files.
+---CHUNK---
+Document: ResourceLoader
+Path: godot/classes/class_resourceloader.rst
+Summary: Describes the ResourceLoader singleton for loading resource files and its limitations.
+
+A singleton used to load resource files from the filesystem.
+
+It uses the many ResourceFormatLoader classes registered in the engine (either built-in or from a plugin) to load files into memory and convert them to a format that can be used by the engine.
+
+Note: You have to import the files into the engine first to load them using load(). If you want to load Images at run-time, you may use Image.load(). If you want to import audio files, you can use the snippet described in AudioStreamMP3.data.
+
+Note: Non-resource files such as plain text files cannot be read using ResourceLoader. Use FileAccess for those files instead, and be aware that non-resource files are not exported by default (see notes in the FileAccess class description for instructions on exporting them).
+---CHUNK---
+Document: ResourceLoader
+Path: godot/classes/class_resourceloader.rst
+Summary: This section lists related tutorials for ResourceLoader.
+
+Tutorials
+- Threaded Loading Demo
+- Operating System Testing Demo
+---CHUNK---
+Document: ResourceLoader
+Path: godot/classes/class_resourceloader.rst
+Summary: This section lists the methods and enumerations available in the ResourceLoader class for managing resource loading and caching.
+
+Methods:
+- add_resource_format_loader(format_loader: ResourceFormatLoader, at_front: bool = false) -> void
+- exists(path: String, type_hint: String = "") -> bool
+- get_cached_ref(path: String) -> Resource
+- get_dependencies(path: String) -> PackedStringArray
+- get_recognized_extensions_for_type(type: String) -> PackedStringArray
+- get_resource_uid(path: String) -> int
+- has_cached(path: String) -> bool
+- list_directory(directory_path: String) -> PackedStringArray
+- load(path: String, type_hint: String = "", cache_mode: CacheMode = 1) -> Resource
+- load_threaded_get(path: String) -> Resource
+- load_threaded_get_status(path: String, progress: Array = []) -> ThreadLoadStatus
+- load_threaded_request(path: String, type_hint: String = "", use_sub_threads: bool = false, cache_mode: CacheMode = 1) -> Error
+- remove_resource_format_loader(format_loader: ResourceFormatLoader) -> void
+- set_abort_on_missing_resources(abort: bool) -> void
+
+Enumerations:
+enum ThreadLoadStatus:
+- THREAD_LOAD_INVALID_RESOURCE = 0: The resource is invalid, or has not been loaded with load_threaded_request().
+- THREAD_LOAD_IN_PROGRESS = 1: The resource is still being loaded.
+- THREAD_LOAD_FAILED = 2: Some error occurred during loading and it failed.
+- THREAD_LOAD_LOADED = 3: The resource was loaded successfully and can be accessed via load_threaded_get().
+
+enum CacheMode:
+- CACHE_MODE_IGNORE = 0: Neither the main resource (the one requested to be loaded) nor any of its subresources are retrieved from cache nor stored into it. Dependencies (external resources) are loaded with CACHE_MODE_REUSE.
+- CACHE_MODE_REUSE = 1: The main resource (the one requested to be loaded), its subresources, and its dependencies (external resources) are retrieved from cache if present, instead of loaded. Those not cached are loaded and then stored into the cache. The same rules are propagated recursively down the tree of dependencies (external resources).
+- CACHE_MODE_REPLACE = 2: Like CACHE_MODE_REUSE, but the cache is checked for the main resource (the one requested to be loaded) as well as for each of its subresources. Those already in the cache, as long as the loaded and cached types match, have their data refreshed from storage into the already existing instances. Otherwise, they are recreated as completely new objects.
+- CACHE_MODE_IGNORE_DEEP = 3: Like CACHE_MODE_IGNORE, but propagated recursively down the tree of dependencies (external resources).
+- CACHE_MODE_REPLACE_DEEP = 4: Like CACHE_MODE_REPLACE, but propagated recursively down the tree of dependencies (external resources).

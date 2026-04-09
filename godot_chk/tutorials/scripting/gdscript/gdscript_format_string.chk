@@ -1,0 +1,241 @@
+Document: GDScript Formatting
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section explains how to use the % operator for string formatting in GDScript, similar to C's printf.
+
+GDScript uses the % operator for string formatting, which is similar to C's printf function. This allows you to insert values into strings in a controlled way.
+
+The basic syntax is: `"format string" % value`
+
+For multiple values, you can use a dictionary or an array:
+`"format string" % {key1: value1, key2: value2}`
+or
+`"format string" % [value1, value2]`
+
+Here are some common format specifiers:
+- `%s`: String. Inserts a string.
+- `%d`: Integer. Inserts a signed decimal integer.
+- `%f`: Float. Inserts a floating-point number.
+- `%x`: Hexadecimal. Inserts an unsigned hexadecimal integer.
+- `%%`: Literal percent sign. Inserts a '%' character.
+
+You can also specify padding and precision:
+- `%5s`: Pad string with spaces to a width of 5 characters.
+- `%.2f`: Format float to 2 decimal places.
+- `%05d`: Pad integer with leading zeros to a width of 5 digits.
+
+Example:
+GDScript:
+	var name = "Godot"
+	var version = 4.0
+	var message = "Welcome to %s version %.1f!" % [name, version]
+	print(message) # Output: Welcome to Godot version 4.0!
+
+	var count = 10
+	var hex_value = 255
+	var formatted_count = "Item count: %03d, Hex: %x" % [count, hex_value]
+	print(formatted_count) # Output: Item count: 010, Hex: ff
+---CHUNK---
+Document: GDScript format strings
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This page explains how to use GDScript format strings, and briefly covers the String.format() method and string concatenation.
+GDScript format strings
+Godot offers multiple ways to dynamically change the contents of strings:
+
+- Format strings: var string = "I have %s cats." % "3"
+- The String.format() method: var string = "I have {0} cats.".format([3])
+- String concatenation: var string = "I have " + str(3) + " cats."
+
+This page explains how to use format strings, and briefly explains the format() method and string concatenation.
+---CHUNK---
+Document: GDScript Format Strings
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section explains how to use format strings in GDScript for creating dynamic strings with placeholders.
+
+Format strings are a way to reuse text templates to succinctly create different but similar strings. They are like normal strings but contain placeholder character sequences, such as `%s`, which can be replaced by parameters.
+
+GDScript Example:
+```gdscript
+# Define a format string with placeholder '%s'
+var format_string = "We're waiting for %s."
+
+# Using the '%' operator, the placeholder is replaced with the desired value
+var actual_string = format_string % "Godot"
+
+print(actual_string)
+# Output: "We're waiting for Godot."
+```
+
+Placeholders always start with a `%`. The character or characters following the `%`, known as the *format specifier*, determine how the given value is converted to a string.
+
+The `%s` specifier is the simplest and works for most cases. It converts the value using the same method as an implicit string conversion or `str()`. Strings remain unchanged, booleans become "True" or "False", integers or floats become decimals, and other types typically return their data in a human-readable string.
+
+There are other format specifiers available.
+---CHUNK---
+Document: GDScript Format Strings
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section explains how to use multiple placeholders in GDScript format strings.
+GDScript:
+    var format_string = "%s was reluctant to learn %s, but now he enjoys it."
+    var actual_string = format_string % ["Estragon", "GDScript"]
+
+    print(actual_string)
+    # Output: "Estragon was reluctant to learn GDScript, but now he enjoys it."
+
+Note: When using multiple placeholders, values are provided as an array in the order they should appear. All placeholders must be replaced simultaneously, requiring a matching number of values.
+---CHUNK---
+Document: GDScript Format String
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: Explains the use of format specifiers in GDScript's string formatting.
+Format specifiers are used in placeholders within GDScript strings. These specifiers consist of one or more characters. Some specifiers, like 's', function independently. Others appear before other characters, and some are specific to certain values or character types.
+---CHUNK---
+Document: gdscript_format_string
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section details the placeholder types used in GDScript format strings and their expected parameter types.
+
+Placeholder types
+One and only one of these must always appear as the last character in a format specifier. Apart from s, these require certain types of parameters.
+
+*   s (Simple): Conversion to String by the same method as implicit String conversion.
+*   c (Unicode character): A single Unicode character. Accepts a Unicode code point (integer) or a single-character string. Supports values beyond 255.
+*   d (Decimal integer): A decimal integer. Expects an integer or a real number (will be floored).
+*   o (Octal integer): An octal integer. Expects an integer or a real number (will be floored).
+*   x (Hexadecimal integer, lower-case): A hexadecimal integer with lower-case letters. Expects an integer or a real number (will be floored).
+*   X (Hexadecimal integer, upper-case): A hexadecimal integer with upper-case letters. Expects an integer or a real number (will be floored).
+*   f (Decimal real): A decimal real number. Expects an integer or a real number.
+*   v (Vector): A vector. Expects any float or int-based vector object (Vector2, Vector3, Vector4, Vector2i, Vector3i or Vector4i). Will display the vector coordinates in parentheses, formatting each coordinate as if it was a %f, and using the same modifiers.
+---CHUNK---
+Document: GDScript Format String
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: Explains placeholder modifiers used in GDScript format strings.
+Placeholder modifiers are characters that appear before other format specifiers.
+
+*   ``+``: In number specifiers, shows the '+' sign if the number is positive.
+*   ```` `` (space): Sets padding. Padded with spaces or with zeroes if the number starts with '0' in an integer or real number placeholder. The leading '0' is ignored if '-' is present. When used after '.', see '.'.
+*   ``.``: Before 'f' or 'v', sets precision to 0 decimal places. Can be followed by numbers to change the precision. Padded with zeroes.
+*   ``-``: Pads to the right instead of the left.
+*   ``*``: Dynamic padding. Expects an additional integer parameter to set padding or precision after '.'.
+---CHUNK---
+Document: GDScript Formatting
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section explains how to use padding and precision specifiers in GDScript's string formatting.
+The '.', '*', '-', and digit characters are used for padding to align printed values vertically in a fixed-width font.
+
+To pad a string to a minimum length, add an integer to the specifier:
+GDScript:
+print("%10d" % 12345)
+# output: "     12345"
+# 5 leading spaces for a total length of 10
+
+If the integer starts with '0', integer values are padded with zeroes instead of whitespace:
+GDScript:
+print("%010d" % 12345)
+# output: "0000012345"
+
+Precision can be specified for real numbers by adding a '.' with an integer following it. With no integer after '.', a precision of 0 is used, rounding to integer values. The integer for padding must appear before the dot.
+GDScript:
+# Pad to minimum length of 10, round to 3 decimal places
+print("%10.3f" % 10000.5555)
+# Output: " 10000.556"
+# 1 leading space
+
+The '-' character causes padding to the right instead of the left, useful for right text alignment:
+GDScript:
+print("%-10d" % 12345678)
+# Output: "12345678  "
+# 2 trailing spaces
+---CHUNK---
+Document: GDScript Formatting
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section explains how to use dynamic padding and precision with GDScript's format strings.
+
+Dynamic padding can be achieved using the asterisk (*) character in place of an integer in the format specifier. The actual padding or precision values are then provided during the formatting process.
+
+GDScript:
+    var format_string = "%*.*f"
+    # Pad to length of 7, round to 3 decimal places:
+    print(format_string % [7, 3, 8.8888])
+    # Output: "  8.889"
+    # 2 leading spaces
+
+Zero-padding for integers can be combined with dynamic padding by placing a '0' before the asterisk.
+
+GDScript:
+    print("%0*d" % [2, 3])
+    # Output: "03"
+---CHUNK---
+Document: GDScript Format String
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: Explains how to escape the percent sign in GDScript format strings.
+Escape sequence
+To insert a literal % character into a format string, it must be escaped to avoid reading it as a placeholder. This is done by doubling the character:
+
+GDScript:
+    var health = 56
+    print("Remaining health: %d%%" % health)
+    # Output: "Remaining health: 56%"
+---CHUNK---
+Document: GDScript String Formatting
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: Explains how to use the String.format() method in GDScript for text formatting using arrays or dictionaries.
+GDScript:
+    # Define a format string
+    var format_string = "We're waiting for {str}"
+
+    # Using the 'format' method, replace the 'str' placeholder
+    var actual_string = format_string.format({"str": "Godot"})
+
+    print(actual_string)
+    # Output: "We're waiting for Godot"
+---CHUNK---
+Document: gdscript_format_string
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section provides examples of using the String.format() method in GDScript with different placeholder types and custom delimiters.
+Format method examples
+The following are some examples of how to use the various invocations of the String.format() method.
+
+*   Dictionary (key): "Hi, {name} v{version}!".format({"name":"Godette", "version":"3.0"}) → Hi, Godette v3.0!
+*   Dictionary (index): "Hi, {0} v{1}!".format({"0":"Godette", "1":"3.0"}) → Hi, Godette v3.0!
+*   Dictionary (mix): "Hi, {0} v{version}!".format({"0":"Godette", "version":"3.0"}) → Hi, Godette v3.0!
+*   Array (key): "Hi, {name} v{version}!".format([["version","3.0"], ["name","Godette"]]) → Hi, Godette v3.0!
+*   Array (index): "Hi, {0} v{1}!".format(["Godette","3.0"]) → Hi, Godette v3.0!
+*   Array (mix): "Hi, {name} v{0}!".format(["3.0", ["name","Godette"]]) → Hi, Godette v3.0!
+*   Array (no index): "Hi, {} v{}!".format(["Godette", "3.0"], "{}") → Hi, Godette v3.0!
+
+Placeholders can also be customized when using String.format, here's some examples of that functionality.
+
+*   Infix (default): "Hi, {0} v{1}".format(["Godette", "3.0"], "{_}") → Hi, Godette v3.0
+*   Postfix: "Hi, 0% v1%".format(["Godette", "3.0"], "_%") → Hi, Godette v3.0
+*   Prefix: "Hi, %0 v%1".format(["Godette", "3.0"], "%_") → Hi, Godette v3.0
+
+Combining both the String.format method and the % operator could be useful, as String.format does not have a way to manipulate the representation of numbers.
+
+*   "Hi, {0} v{version}".format({0:"Godette", "version":"%0.2f" % 3.114}) → Hi, Godette v3.11
+---CHUNK---
+Document: GDScript String Formatting
+Path: godot/tutorials/scripting/gdscript/gdscript_format_string.rst
+Summary: This section explains how to concatenate strings in GDScript using the '+' operator and the str() function, highlighting its limitations and suggesting format strings as a better alternative.
+String concatenation
+You can also combine strings by concatenating them together, using the + operator.
+
+GDScript:
+    # Define a base string
+    var base_string = "We're waiting for "
+
+    # Concatenate the string
+    var actual_string = base_string + "Godot"
+
+    print(actual_string)
+    # Output: "We're waiting for Godot"
+
+When using string concatenation, values that are not strings must be converted using the str() function. There is no way to specify the string format of converted values.
+
+GDScript:
+    var name_string = "Godette"
+    var version = 3.0
+    var actual_string = "Hi, " + name_string + " v" + str(version) + "!"
+
+    print(actual_string)
+    # Output: "Hi, Godette v3!"
+
+Because of these limitations, format strings or the format() method are often a better choice. In many cases, string concatenation is also less readable.
+Note: In Godot's C++ code, GDScript format strings can be accessed using the vformat() helper function in the Variant header.

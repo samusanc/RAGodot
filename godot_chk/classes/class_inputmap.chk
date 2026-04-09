@@ -1,0 +1,419 @@
+Document: InputMap
+Path: godot/classes/class_inputmap.rst
+Summary: Manages all the actions and their associated input events.
+
+InputMap is the global singleton that manages all the input actions and their associated input events. You can define new actions and bind keys, mouse buttons, joystick buttons, or axis movements to them.
+
+Inherits: Object < Object
+
+Methods:
+Action: action_add_event(action: StringName, event: InputEvent)
+Adds an InputEvent to the given action.
+
+Action: action_erase_events(action: StringName)
+Removes all InputEvents from the given action.
+
+Action: action_get_events(action: StringName)
+Returns an array of InputEvents associated with the given action.
+
+Action: action_has_event(action: StringName, event: InputEvent)
+Returns true if the action contains the given InputEvent.
+
+Action: action_set_deadzone(action: StringName, deadzone: float)
+Sets the deadzone for a joystick axis action. The deadzone is the amount of movement required to register an input.
+
+Action: has_action(action: StringName)
+Returns true if the action exists.
+
+Action: load_from_file(path: String)
+Loads the input map from a file.
+
+Action: save_to_file(path: String)
+Saves the input map to a file.
+
+Action: string_to_action(action: StringName, make_new: bool = false)
+Converts a string to an action name. If make_new is true, a new action will be created if the action does not exist.
+
+Action: action_to_string(action: StringName)
+Converts an action name to a string.
+
+Action: erase_action(action: StringName)
+Removes the action from the input map.
+
+Action: get_actions()
+Returns an array of all action names.
+
+Action: action_press(action: StringName)
+Simulates pressing an action.
+
+Action: action_release(action: StringName)
+Simulates releasing an action.
+
+Action: action_is_pressed(action: StringName)
+Returns true if the action is currently pressed.
+
+Action: action_get_force(action: StringName)
+Returns the force of the action (e.g., for analog inputs).
+
+Action: action_get_vector(action: StringName)
+Returns the vector of the action (e.g., for joystick input).
+
+Action: action_set_transform(action: StringName, transform: Transform2D)
+Sets the transform for a joystick axis action. This is used to remap the axes.
+
+Action: action_get_deadzone(action: StringName)
+Returns the deadzone for a joystick axis action.
+
+Action: action_get_transform(action: StringName)
+Returns the transform for a joystick axis action.
+
+Action: add_joy_mapping(guid: String, mapping: String)
+Adds a joystick mapping. This allows you to map specific joystick buttons and axes to actions.
+
+Action: remove_joy_mapping(guid: String)
+Removes a joystick mapping.
+
+Action: is_joy_known(guid: String)
+Returns true if the joystick is known.
+
+Action: get_joy_guid(device: int)
+Returns the GUID of the joystick at the given device index.
+
+Action: get_joy_axis_count(device: int)
+Returns the number of axes on the joystick at the given device index.
+
+Action: get_joy_button_count(device: int)
+Returns the number of buttons on the joystick at the given device index.
+
+Action: get_joy_hat_count(device: int)
+Returns the number of hats on the joystick at the given device index.
+
+Action: get_joy_name(device: int)
+Returns the name of the joystick at the given device index.
+
+Action: get_joy_mapping(guid: String)
+Returns the mapping for the given joystick GUID.
+
+Action: get_joy_axis_index_from_string(axis: String)
+Converts a string representation of an axis to its integer index.
+
+Action: get_joy_button_index_from_string(button: String)
+Converts a string representation of a button to its integer index.
+
+Action: get_joy_hat_index_from_string(hat: String)
+Converts a string representation of a hat to its integer index.
+
+Action: get_joy_axis_string_from_index(axis: int)
+Converts an integer index of an axis to its string representation.
+
+Action: get_joy_button_string_from_index(button: int)
+Converts an integer index of a button to its string representation.
+
+Action: get_joy_hat_string_from_index(hat: int)
+Converts an integer index of a hat to its string representation.
+
+Action: get_joy_axis_value(device: int, axis: int)
+Returns the value of the joystick axis at the given device index and axis index.
+
+Action: get_joy_button_value(device: int, button: int)
+Returns the value of the joystick button at the given device index and button index.
+
+Action: get_joy_hat_value(device: int, hat: int)
+Returns the value of the joystick hat at the given device index and hat index.
+
+Action: get_joy_device_count()
+Returns the number of connected joysticks.
+
+Action: is_action_valid(action: StringName)
+Returns true if the action name is valid.
+
+Action: is_action_type(action: StringName, type: int)
+Returns true if the action is of the specified type.
+
+Action: get_action_deadzone(action: StringName)
+Returns the deadzone for a joystick axis action.
+
+Action: get_action_transform(action: StringName)
+Returns the transform for a joystick axis action.
+
+Action: set_action_deadzone(action: StringName, deadzone: float)
+Sets the deadzone for a joystick axis action.
+
+Action: set_action_transform(action: StringName, transform: Transform2D)
+Sets the transform for a joystick axis action.
+
+Action: get_action_events(action: StringName)
+Returns an array of InputEvents associated with the given action.
+
+Action: action_add_event(action: StringName, event: InputEvent)
+Adds an InputEvent to the given action.
+
+Action: action_erase_events(action: StringName)
+Removes all InputEvents from the given action.
+
+Action: action_has_event(action: StringName, event: InputEvent)
+Returns true if the action contains the given InputEvent.
+
+Action: action_set_deadzone(action: StringName, deadzone: float)
+Sets the deadzone for a joystick axis action.
+
+Action: action_get_deadzone(action: StringName)
+Returns the deadzone for a joystick axis action.
+
+Action: action_set_transform(action: StringName, transform: Transform2D)
+Sets the transform for a joystick axis action.
+
+Action: action_get_transform(action: StringName)
+Returns the transform for a joystick axis action.
+
+Action: action_press(action: StringName)
+Simulates pressing an action.
+
+Action: action_release(action: StringName)
+Simulates releasing an action.
+
+Action: action_is_pressed(action: StringName)
+Returns true if the action is currently pressed.
+
+Action: action_get_force(action: StringName)
+Returns the force of the action (e.g., for analog inputs).
+
+Action: action_get_vector(action: StringName)
+Returns the vector of the action (e.g., for joystick input).
+
+Action: string_to_action(action: StringName, make_new: bool = false)
+Converts a string to an action name. If make_new is true, a new action will be created if the action does not exist.
+
+Action: action_to_string(action: StringName)
+Converts an action name to a string.
+
+Action: has_action(action: StringName)
+Returns true if the action exists.
+
+Action: erase_action(action: StringName)
+Removes the action from the input map.
+
+Action: add_joy_mapping(guid: String, mapping: String)
+Adds a joystick mapping.
+
+Action: remove_joy_mapping(guid: String)
+Removes a joystick mapping.
+
+Action: is_joy_known(guid: String)
+Returns true if the joystick is known.
+
+Action: get_joy_guid(device: int)
+Returns the GUID of the joystick at the given device index.
+
+Action: get_joy_axis_count(device: int)
+Returns the number of axes on the joystick at the given device index.
+
+Action: get_joy_button_count(device: int)
+Returns the number of buttons on the joystick at the given device index.
+
+Action: get_joy_hat_count(device: int)
+Returns the number of hats on the joystick at the given device index.
+
+Action: get_joy_name(device: int)
+Returns the name of the joystick at the given device index.
+
+Action: get_joy_mapping(guid: String)
+Returns the mapping for the given joystick GUID.
+
+Action: get_joy_axis_index_from_string(axis: String)
+Converts a string representation of an axis to its integer index.
+
+Action: get_joy_button_index_from_string(button: String)
+Converts a string representation of a button to its integer index.
+
+Action: get_joy_hat_index_from_string(hat: String)
+Converts a string representation of a hat to its integer index.
+
+Action: get_joy_axis_string_from_index(axis: int)
+Converts an integer index of an axis to its string representation.
+
+Action: get_joy_button_string_from_index(button: int)
+Converts an integer index of a button to its string representation.
+
+Action: get_joy_hat_string_from_index(hat: int)
+Converts an integer index of a hat to its string representation.
+
+Action: get_joy_axis_value(device: int, axis: int)
+Returns the value of the joystick axis at the given device index and axis index.
+
+Action: get_joy_button_value(device: int, button: int)
+Returns the value of the joystick button at the given device index and button index.
+
+Action: get_joy_hat_value(device: int, hat: int)
+Returns the value of the joystick hat at the given device index and hat index.
+
+Action: get_joy_device_count()
+Returns the number of connected joysticks.
+
+Action: is_action_valid(action: StringName)
+Returns true if the action name is valid.
+
+Action: is_action_type(action: StringName, type: int)
+Returns true if the action is of the specified type.
+
+Action: get_actions()
+Returns an array of all action names.
+
+Action: load_from_file(path: String)
+Loads the input map from a file.
+
+Action: save_to_file(path: String)
+Saves the input map to a file.
+---CHUNK---
+Document: InputMap
+Path: godot/classes/class_inputmap.rst
+Summary: A singleton that manages all InputEventActions.
+InputMap
+Inherits: Object
+A singleton that manages all InputEventActions.
+---CHUNK---
+Document: InputMap
+Path: godot/classes/class_inputmap.rst
+Summary: Manages input actions and their associated events.
+
+Manages all InputEventAction which can be created/modified from the project settings menu Project > Project Settings > Input Map or in code with add_action() and action_add_event(). See Node._input().
+---CHUNK---
+Document: InputMap
+Path: godot/classes/class_inputmap.rst
+Summary: This section provides an overview of the InputMap class in Godot Engine.
+
+Inherits: Object < Object
+
+The InputMap class allows you to manage the input actions of your project. You can define custom input actions and assign different input events (like key presses, mouse clicks, or joystick movements) to them. This provides a flexible way to handle player input, allowing for easy remapping of controls and support for various input devices.
+
+Key Features:
+
+*   **Action Creation**: Add new input actions to the project.
+*   **Event Association**: Assign input events to existing actions.
+*   **Action Retrieval**: Get all actions and their associated events.
+*   **Event Checking**: Check if a specific event is associated with an action.
+*   **Action Removal**: Remove actions and their associated events.
+
+Methods:
+
+Method: action_add_event(action: StringName, event: InputEvent) → void
+Adds an InputEvent to a given action. If the action does not exist, it is created.
+
+Method: action_erase_events(action: StringName) → void
+Removes all InputEvents from a given action. If the action does not exist, this method does nothing.
+
+Method: action_find_event(action: StringName, event: InputEvent) → int
+Returns the index of the first event in the action that matches the given event. Returns -1 if the event is not found.
+
+Method: action_get_events(action: StringName) → PackedInputEvent[]
+Returns an array of all InputEvents associated with the given action. If the action does not exist, returns an empty array.
+
+Method: action_has_event(action: StringName, event: InputEvent) → bool
+Returns true if the action contains the given event, false otherwise.
+
+Method: action_remove_event(action: StringName, event: InputEvent) → void
+Removes an InputEvent from a given action. If the action does not exist or the event is not found, this method does nothing.
+
+Method: actions_get_all() → PackedStringArray
+Returns an array of all action names in the InputMap.
+
+Method: convert_scancode_to_string(code: int) → String
+Converts a scancode to its string representation.
+
+Method: has_action(action: StringName) → bool
+Returns true if the action exists, false otherwise.
+
+Method: load_from_file(path: String) → Error
+Loads the InputMap from a file.
+
+Method: save_to_file(path: String) → void
+Saves the InputMap to a file.
+
+Example Usage:
+
+GDScript:
+var jump_event = InputEventKey.new()
+jump_event.keycode = KEY_SPACE
+
+InputMap.action_add_event("jump", jump_event)
+
+var mouse_click_event = InputEventMouseButton.new()
+mouse_click_event.button_index = MOUSE_BUTTON_LEFT
+
+InputMap.action_add_event("shoot", mouse_click_event)
+
+if Input.is_action_pressed("jump"):
+    print("Jump action is pressed!")
+
+if Input.is_action_just_pressed("shoot"):
+    print("Shoot action was just pressed!")
+
+C#:
+var jumpEvent = InputEventKey.New();
+jumpEvent.Keycode = Key.Space;
+
+InputMap.ActionAddEvent("jump", jumpEvent);
+
+var mouseClickEvent = InputEventMouseButton.New();
+mouseClickEvent.ButtonIndex = (int)MouseButton.Left;
+
+InputMap.ActionAddEvent("shoot", mouseClickEvent);
+
+if (Input.IsActionPressed("jump"))
+{
+    GD.Print("Jump action is pressed!");
+}
+
+if (Input.IsActionJustPressed("shoot"))
+{
+    GD.Print("Shoot action was just pressed!");
+}
+---CHUNK---
+Document: InputMap
+Path: godot/classes/class_inputmap.rst
+Summary: Provides methods for managing input actions, including adding, removing, and querying actions and their associated events.
+
+Method: action_add_event(action: StringName, event: InputEvent)
+Adds an InputEvent to an action. This InputEvent will trigger the action.
+
+Method: action_erase_event(action: StringName, event: InputEvent)
+Removes an InputEvent from an action.
+
+Method: action_erase_events(action: StringName)
+Removes all events from an action.
+
+Method: action_get_deadzone(action: StringName) → float
+Returns a deadzone value for the action.
+
+Method: action_get_events(action: StringName) → Array[InputEvent]
+Returns an array of InputEvents associated with a given action.
+Note: When used in the editor (e.g. a tool script or EditorPlugin), this method will return events for the editor action. If you want to access your project's input binds from the editor, read the "input/*" settings from ProjectSettings.
+
+Method: action_has_event(action: StringName, event: InputEvent) → bool
+Returns true if the action has the given InputEvent associated with it.
+
+Method: action_set_deadzone(action: StringName, deadzone: float)
+Sets a deadzone value for the action.
+
+Method: add_action(action: StringName, deadzone: float = 0.2)
+Adds an empty action to the InputMap with a configurable deadzone.
+An InputEvent can then be added to this action with action_add_event().
+
+Method: erase_action(action: StringName)
+Removes an action from the InputMap.
+
+Method: event_is_action(event: InputEvent, action: StringName, exact_match: bool = false) → bool
+Returns true if the given event is part of an existing action. This method ignores keyboard modifiers if the given InputEvent is not pressed (for proper release detection). See action_has_event() if you don't want this behavior.
+If exact_match is false, it ignores additional input modifiers for InputEventKey and InputEventMouseButton events, and the direction for InputEventJoypadMotion events.
+
+Method: get_action_description(action: StringName) → String
+Returns the human-readable description of the given action.
+
+Method: get_actions() → Array[StringName]
+Returns an array of all actions in the InputMap.
+
+Method: has_action(action: StringName) → bool
+Returns true if the InputMap has a registered action with the given name.
+
+Method: load_from_project_settings()
+Clears all InputEventAction in the InputMap and load it anew from ProjectSettings.

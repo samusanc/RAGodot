@@ -1,0 +1,97 @@
+Document: ResourceImporterLayeredTexture
+Path: godot/classes/class_resourceimporterlayeredtexture.rst
+Summary: Resource importer for LayeredTexture.
+
+Inherits: ResourceImporter < ResourceImporter
+This resource importer allows importing LayeredTexture resources.
+---CHUNK---
+Document: ResourceImporterLayeredTexture
+Path: godot/classes/class_resourceimporterlayeredtexture.rst
+Summary: Imports 3-dimensional textures like Texture3D, Texture2DArray, Cubemap, or CubemapArray.
+
+Inherits: ResourceImporter < RefCounted < Object
+
+This resource importer is used to import 3-dimensional textures, specifically Texture3D, Texture2DArray, Cubemap, or CubemapArray.
+---CHUNK---
+Document: ResourceImporterLayeredTexture
+Path: godot/classes/class_resourceimporterlayeredtexture.rst
+Summary: This class imports a 3-dimensional texture for use in shaders, fog density maps, or particle attractor vector fields.
+
+Inherits: ResourceImporter < ResourceImporterLayeredTexture
+---CHUNK---
+Document: ResourceImporterLayeredTexture
+Path: godot/classes/class_resourceimporterlayeredtexture.rst
+Summary: This document provides an overview of the ResourceImporterLayeredTexture class, which is used for importing layered texture resources in Godot.
+
+This document covers the ResourceImporterLayeredTexture class, which is part of Godot's asset pipeline for importing layered texture resources.
+
+Related Tutorials:
+* Importing images
+---CHUNK---
+Document: ResourceImporterLayeredTexture
+Path: godot/classes/class_resourceimporterlayeredtexture.rst
+Summary: Describes the properties available for configuring the ResourceImporterLayeredTexture.
+
+Properties
+- compress/channel_pack (int): Default: 0
+- compress/hdr_compression (int): Default: 1
+- compress/high_quality (bool): Default: false
+- compress/lossy_quality (float): Default: 0.7
+- compress/mode (int): Default: 1
+- compress/rdo_quality_loss (float): Default: 0.0
+- compress/uastc_level (int): Default: 0
+- mipmaps/generate (bool): Default: true
+- mipmaps/limit (int): Default: -1
+- slices/arrangement (int): Default: 1
+---CHUNK---
+Document: ResourceImporterLayeredTexture
+Path: godot/classes/class_resourceimporterlayeredtexture.rst
+Summary: Describes the import properties for layered textures, focusing on compression and mipmap generation.
+
+Property Descriptions
+compress/channel_pack (int) = 0
+Controls how color channels should be used in the imported texture.
+Options:
+- sRGB Friendly: Prevents R and RG color formats, which don't support nonlinear sRGB encoding.
+- Optimized: Allows RG format if the texture doesn't use the blue channel, reducing memory if the blue value is always 0.
+- Normal Map (RG Channels): Forces RG format, preserving only red and green channels. This is effective with VRAM Compressed or Basis Universal compression modes and only applies to Cubemap, CubemapArray, Texture2DArray, and Texture3D.
+
+compress/hdr_compression (int) = 1
+Controls VRAM compression for HDR images.
+Options:
+- Disabled: Never uses VRAM compression for HDR textures. Converts to RGBE9995 to reduce memory.
+- Opaque Only: Uses VRAM compression only for opaque HDR textures due to limitations with transparent HDR formats.
+- Always: Forces VRAM compression even for HDR textures with an alpha channel, discarding the alpha channel on import.
+Note: Only effective on Radiance HDR (.hdr) and OpenEXR (.exr) images.
+
+compress/high_quality (bool) = false
+If true, uses BPTC compression on desktop (BC7 for SDR, BC6H for HDR) and ASTC on mobile.
+If false, uses faster but lower-quality S3TC on desktop (DXT1 for opaque, DXT5 for transparent/normal maps) and ETC2 on mobile/web.
+BPTC and ASTC support HDR compression, while S3TC and ETC2 do not.
+
+compress/lossy_quality (float) = 0.7
+The quality setting for the Lossy compression mode. Higher values mean better quality but larger file sizes on disk. This does not affect memory usage.
+
+compress/mode (int) = 1
+The compression mode to use, offering different tradeoffs between quality, memory usage, disk size, and import speed.
+Options:
+- Lossless: Original quality, high memory/disk usage, fast import.
+- Lossy: Reduced quality, high memory usage, low disk size, fast import.
+- VRAM Compressed: Reduced quality, low memory/disk usage, slow import. Recommended for 3D scenes only.
+- VRAM Uncompressed: Original quality, high memory usage, highest disk size, fastest import.
+- Basis Universal: Reduced quality, low memory/disk usage, lowest disk size, slow import. Recommended for 3D scenes only.
+
+compress/rdo_quality_loss (float) = 0.0
+Enables Rate-Distortion Optimization (RDO) if greater than or equal to 0.01, reducing file size at the cost of quality. Enabling RDO significantly increases encoding times.
+
+compress/uastc_level (int) = 0
+The UASTC encoding level. Higher values improve quality but increase encoding times.
+
+mipmaps/generate (bool) = true
+If true, generates smaller versions of the texture on import. This prevents pixelation at a distance in 3D or when scaled down in 2D, and improves performance by using smaller textures. The downside is increased memory usage (approx. 33% for Texture2DArray, Cubemap, CubemapArray; 14% for Texture3D). Recommended for 3D, optional for 2D based on visual benefit.
+
+mipmaps/limit (int) = -1
+Unimplemented. This property currently has no effect.
+
+slices/arrangement (int) = 1
+Controls the internal layout of a cubemap's texture. Options like 2x3 and 3x2 are less likely to exceed hardware texture size limits for high-resolution cubemaps compared to 1x6 and 6x1.

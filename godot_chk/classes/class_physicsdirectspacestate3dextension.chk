@@ -1,0 +1,49 @@
+Document: PhysicsDirectSpaceState3DExtension
+Path: godot/classes/class_physicsdirectspacestate3dextension.rst
+Summary: Base class for custom 3D physics space state implementations.
+
+Inherits: Object < Object
+
+This class is intended to be extended to create custom physics space state implementations. It provides an interface for interacting with the physics world, allowing for advanced control over physics simulations. You can override its methods to implement custom collision detection, physics queries, and other physics-related behaviors. This is typically used in conjunction with custom physics engines or for specialized physics simulations.
+---CHUNK---
+Document: PhysicsDirectSpaceState3DExtension
+Path: godot/classes/class_physicsdirectspacestate3dextension.rst
+Summary: Provides virtual methods that can be overridden to create custom PhysicsDirectSpaceState3D implementations.
+Inherits: PhysicsDirectSpaceState3D < Object
+---CHUNK---
+Document: PhysicsDirectSpaceState3DExtension
+Path: godot/classes/class_physicsdirectspacestate3dextension.rst
+Summary: Overview of the PhysicsDirectSpaceState3DExtension class used for creating custom physics space state implementations via GDExtension.
+
+Inherits: PhysicsDirectSpaceState3D < RefCounted < Object
+
+Description:
+This class extends PhysicsDirectSpaceState3D by providing additional virtual methods that can be overridden. When these methods are overridden, they will be called instead of the internal methods of the physics server. This class is intended for use with GDExtension to create custom implementations of PhysicsDirectSpaceState3D.
+---CHUNK---
+Document: PhysicsDirectSpaceState3DExtension
+Path: godot/classes/class_physicsdirectspacestate3dextension.rst
+Summary: This section details the methods available in the PhysicsDirectSpaceState3DExtension class, focusing on physics queries and interactions within the 3D space.
+
+Method: _cast_motion(shape_rid: RID, transform: Transform3D, motion: Vector3, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, closest_safe: float*, closest_unsafe: float*, info: PhysicsServer3DExtensionShapeRestInfo*) → bool
+This method is part of the virtual interface for extending the physics engine. It is required and used to determine the motion of a shape within the physics space, considering collisions.
+
+Method: _collide_shape(shape_rid: RID, transform: Transform3D, motion: Vector3, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, results: void*, max_results: int, result_count: int32_t*) → bool
+This method is part of the virtual interface for extending the physics engine. It is required and used to find collisions for a given shape's motion within the physics space.
+
+Method: _get_closest_point_to_object_volume(object: RID, point: Vector3) → Vector3
+This method is part of the virtual interface for extending the physics engine. It is required and used to find the closest point on an object's volume to a given point in space. It is a const method.
+
+Method: _intersect_point(position: Vector3, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, results: PhysicsServer3DExtensionShapeResult*, max_results: int) → int
+This method is part of the virtual interface for extending the physics engine. It is required and used to find shapes that intersect a specific point in space, considering collision masks and types.
+
+Method: _intersect_ray(from: Vector3, to: Vector3, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, hit_from_inside: bool, hit_back_faces: bool, pick_ray: bool, result: PhysicsServer3DExtensionRayResult*) → bool
+This method is part of the virtual interface for extending the physics engine. It is required and used to perform a raycast in the physics space to detect intersections with shapes.
+
+Method: _intersect_shape(shape_rid: RID, transform: Transform3D, motion: Vector3, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, result_count: PhysicsServer3DExtensionShapeResult*, max_results: int) → int
+This method is part of the virtual interface for extending the physics engine. It is required and used to find shapes that intersect with another shape's motion within the physics space.
+
+Method: _rest_info(shape_rid: RID, transform: Transform3D, motion: Vector3, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, rest_info: PhysicsServer3DExtensionShapeRestInfo*) → bool
+This method is part of the virtual interface for extending the physics engine. It is required and used to get information about the rest state of a shape when it comes to rest within the physics space.
+
+Method: is_body_excluded_from_query(body: RID) → bool
+This method is a const method that checks if a specific physics body is excluded from queries within the physics space.

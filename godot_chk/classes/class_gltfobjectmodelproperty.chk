@@ -1,0 +1,104 @@
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: This document defines the GLTFObjectModelProperty class but provides no further description.
+---CHUNK---
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: Describes how to access a property as defined in the glTF object model.
+
+GLTFObjectModelProperty
+Inherits: RefCounted < Object
+---CHUNK---
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: GLTFObjectModelProperty maps glTF object model properties to Godot NodePaths for animation or scripting, handling data conversions and various mapping relationships.
+
+GLTFObjectModelProperty defines a mapping between a property in the glTF object model and a NodePath in the Godot scene tree. This can be used to animate properties in a glTF file using the `KHR_animation_pointer` extension, or to access them through an engine-agnostic script such as a behavior graph as defined by the `KHR_interactivity` extension.
+
+The glTF property is identified by JSON pointer(s) stored in json_pointers, while the Godot property it maps to is defined by node_paths. In most cases json_pointers and node_paths will each only have one item, but in some cases a single glTF JSON pointer will map to multiple Godot properties, or a single Godot property will be mapped to multiple glTF JSON pointers, or it might be a many-to-many relationship.
+
+Expression objects can be used to define conversions between the data, such as when glTF defines an angle in radians and Godot uses degrees. The object_model_type property defines the type of data stored in the glTF file as defined by the object model, see GLTFObjectModelType for possible values.
+---CHUNK---
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: Provides links to GLTF Object Model and KHR_animation_pointer GLTF extension documentation.
+Tutorials
+GLTF Object Model
+KHR_animation_pointer GLTF extension
+---CHUNK---
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: This section lists the properties available for GLTFObjectModelProperty.
+
+*   gltf_to_godot_expression (Expression)
+*   godot_to_gltf_expression (Expression)
+*   json_pointers (Array[PackedStringArray]). Default: []
+*   node_paths (Array[NodePath]). Default: []
+*   object_model_type (GLTFObjectModelType). Default: 0
+*   variant_type (Variant.Type). Default: 0
+---CHUNK---
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: This section details the methods and enumerations available for GLTFObjectModelProperty, including how to manage node paths and define object model types.
+
+Methods
+*   Method: append_node_path(node_path: NodePath)
+*   Method: append_path_to_property(node_path: NodePath, prop_name: StringName)
+*   Method: get_accessor_type() → GLTFAccessorType
+*   Method: has_json_pointers() → bool
+*   Method: has_node_paths() → bool
+*   Method: set_types(variant_type: Variant.Type, obj_model_type: GLTFObjectModelType)
+
+Enumerations
+enum GLTFObjectModelType:
+*   GLTF_OBJECT_MODEL_TYPE_UNKNOWN = 0: Unknown or not set object model type. If the object model type is set to this value, the real type still needs to be determined.
+*   GLTF_OBJECT_MODEL_TYPE_BOOL = 1: Object model type "bool". Represented in the glTF JSON as a boolean, and encoded in a GLTFAccessor as "SCALAR". When encoded in an accessor, a value of 0 is false, and any other value is true.
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT = 2: Object model type "float". Represented in the glTF JSON as a number, and encoded in a GLTFAccessor as "SCALAR".
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT_ARRAY = 3: Object model type "float[]". Represented in the glTF JSON as an array of numbers, and encoded in a GLTFAccessor as "SCALAR".
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT2 = 4: Object model type "float2". Represented in the glTF JSON as an array of two numbers, and encoded in a GLTFAccessor as "VEC2".
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT3 = 5: Object model type "float3". Represented in the glTF JSON as an array of three numbers, and encoded in a GLTFAccessor as "VEC3".
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT4 = 6: Object model type "float4". Represented in the glTF JSON as an array of four numbers, and encoded in a GLTFAccessor as "VEC4".
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT2X2 = 7: Object model type "float2x2". Represented in the glTF JSON as an array of four numbers, and encoded in a GLTFAccessor as "MAT2".
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT3X3 = 8: Object model type "float3x3". Represented in the glTF JSON as an array of nine numbers, and encoded in a GLTFAccessor as "MAT3".
+*   GLTF_OBJECT_MODEL_TYPE_FLOAT4X4 = 9: Object model type "float4x4". Represented in the glTF JSON as an array of sixteen numbers, and encoded in a GLTFAccessor as "MAT4".
+*   GLTF_OBJECT_MODEL_TYPE_INT = 10: Object model type "int". Represented in the glTF JSON as a number, and encoded in a GLTFAccessor as "SCALAR". The range of values is limited to signed integers. For KHR_interactivity, only 32-bit integers are supported.
+---CHUNK---
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: This section describes the properties of the GLTFObjectModelProperty class, which define how glTF object model properties map to Godot properties.
+
+Property Descriptions
+
+gltf_to_godot_expression (Expression): If set, this Expression will be used to convert the property value from the glTF object model to the value expected by the Godot property. This is useful when the glTF object model uses a different unit system, or when the data needs to be transformed in some way. If `null`, the value will be copied as-is.
+
+godot_to_gltf_expression (Expression): If set, this Expression will be used to convert the property value from the Godot property to the value expected by the glTF object model. This is useful when the glTF object model uses a different unit system, or when the data needs to be transformed in some way. If `null`, the value will be copied as-is.
+
+json_pointers (Array[PackedStringArray]) = []: The glTF object model JSON pointers used to identify the property in the glTF object model. In most cases, there will be only one item in this array, but specific cases may require multiple pointers. The items are themselves arrays which represent the JSON pointer split into its components.
+
+node_paths (Array[NodePath]) = []: An array of NodePaths that point to a property, or multiple properties, in the Godot scene tree. On import, this will either be set by GLTFDocument, or by a GLTFDocumentExtension class. For simple cases, use append_path_to_property() to add properties to this array. In most cases node_paths will only have one item, but in some cases a single glTF JSON pointer will map to multiple Godot properties. For example, a GLTFCamera or GLTFLight used on multiple glTF nodes will be represented by multiple Godot nodes.
+
+object_model_type (GLTFObjectModelType) = 0: The type of data stored in the glTF file as defined by the object model. This is a superset of the available accessor types, and determines the accessor type.
+
+variant_type (Variant.Type) = 0: The type of data stored in the Godot property. This is the type of the property that the node_paths point to.
+---CHUNK---
+Document: GLTFObjectModelProperty
+Path: godot/classes/class_gltfobjectmodelproperty.rst
+Summary: This section describes methods of the GLTFObjectModelProperty class for managing node paths, JSON pointers, accessor types, and setting property types.
+
+Method: append_node_path(node_path: NodePath) -> void
+Appends a NodePath to node_paths. This can be used by GLTFDocumentExtension classes to define how a glTF object model property maps to a Godot property, or multiple Godot properties. Prefer using append_path_to_property() for simple cases. Be sure to also call set_types() once (the order does not matter).
+
+Method: append_path_to_property(node_path: NodePath, prop_name: StringName) -> void
+High-level wrapper over append_node_path() that handles the most common cases. It constructs a new NodePath using node_path as a base and appends prop_name to the subpath. Be sure to also call set_types() once (the order does not matter).
+
+Method: get_accessor_type() -> GLTFAccessorType
+The GLTF accessor type associated with this property's object_model_type. See GLTFAccessor.accessor_type for possible values, and see GLTFObjectModelType for how the object model type maps to accessor types.
+
+Method: has_json_pointers() -> bool
+Returns true if json_pointers is not empty. This is used during export to determine if a GLTFObjectModelProperty can handle converting a Godot property to a glTF object model property.
+
+Method: has_node_paths() -> bool
+Returns true if node_paths is not empty. This is used during import to determine if a GLTFObjectModelProperty can handle converting a glTF object model property to a Godot property.
+
+Method: set_types(variant_type: Variant.Type, obj_model_type: GLTFObjectModelType) -> void
+Sets the variant_type and object_model_type properties. This is a convenience method to set both properties at once, since they are almost always known at the same time. This method should be called once. Calling it again with the same values will have no effect.

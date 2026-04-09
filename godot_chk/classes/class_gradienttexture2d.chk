@@ -1,0 +1,114 @@
+Document: GradientTexture2D
+Path: godot/classes/class_gradienttexture2d.rst
+Summary: Defines a 2D texture that can be used to store gradient data.
+
+Inherits: Texture2D < Texture < Resource < RefCounted
+
+GradientTexture2D is a Texture2D that can be used to store gradient data. It can be used to create gradients for shaders, materials, or other visual effects. The gradient can be defined by a series of color stops, each with a specific position along the gradient. The texture can be sampled to retrieve the color at any given point along the gradient.
+
+Properties:
+* `height` (int): The height of the texture in pixels. Default: 1.
+* `width` (int): The width of the texture in pixels. Default: 256.
+* `interpolation_mode` (int): The interpolation mode used for the gradient. Options: `GRADIENT_INTERPOLATION_LINEAR` (0), `GRADIENT_INTERPOLATION_LINEAR_MONO` (1), `GRADIENT_INTERPOLATION_CUBIC` (2). Default: 0.
+* `fill_from` (Color): The starting color of the gradient. Default: Color(1, 1, 1, 1).
+* `fill_to` (Color): The ending color of the gradient. Default: Color(0, 0, 0, 1).
+* `fill_mode` (int): The fill mode for the gradient. Options: `GRADIENT_FILL_LINEAR` (0), `GRADIENT_FILL_RADIAL` (1), `GRADIENT_FILL_ANGULAR` (2). Default: 0.
+* `offsets` (PackedFloatArray): An array of floats representing the positions of the color stops along the gradient. These values should be between 0.0 and 1.0.
+* `colors` (PackedColorArray): An array of Color values representing the color stops of the gradient. The number of colors must match the number of offsets.
+
+Methods:
+* `add_point(offset: float, color: Color)`: Adds a color stop to the gradient at the specified offset and color.
+* `clear()`: Removes all color stops from the gradient.
+* `remove_point(offset: float)`: Removes the color stop at the specified offset from the gradient.
+* `set_color(offset: float, color: Color)`: Sets the color of the color stop at the specified offset.
+* `get_color(offset: float) -> Color`: Returns the color of the color stop at the specified offset.
+* `get_point_count() -> int`: Returns the number of color stops in the gradient.
+* `get_point_offset(idx: int) -> float`: Returns the offset of the color stop at the specified index.
+* `get_point_color(idx: int) -> Color`: Returns the color of the color stop at the specified index.
+---CHUNK---
+Document: GradientTexture2D
+Path: godot/classes/class_gradienttexture2d.rst
+Summary: A 2D texture that creates a pattern with colors obtained from a Gradient.
+
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+
+A 2D texture that creates a pattern with colors obtained from a Gradient.
+---CHUNK---
+Document: GradientTexture2D
+Path: godot/classes/class_gradienttexture2d.rst
+Summary: Describes a 2D texture that uses a Gradient resource to fill its pixel data, allowing for various gradient patterns.
+Inherits: Texture2D < Texture < Resource < RefCounted
+---CHUNK---
+Document: GradientTexture2D
+Path: godot/classes/class_gradienttexture2d.rst
+Summary: Defines the properties that control the appearance and behavior of a GradientTexture2D resource.
+
+Properties:
+* fill (Fill): Controls how the gradient is applied. Default: 0.
+* fill_from (Vector2): The starting point for the gradient fill. Default: Vector2(0, 0).
+* fill_to (Vector2): The ending point for the gradient fill. Default: Vector2(1, 0).
+* gradient (Gradient): The Gradient resource to be used for the texture.
+* height (int): The height of the generated texture in pixels. Default: 64.
+* repeat (Repeat): Controls how the gradient texture repeats. Default: 0.
+* resource_local_to_scene (bool): If true, the resource will be duplicated and its path will be updated when the scene is saved. This overrides the same property from Resource. Default: false.
+* use_hdr (bool): If true, the texture will be generated in HDR format (32-bit float colors). Default: false.
+* width (int): The width of the generated texture in pixels. Default: 64.
+---CHUNK---
+Document: GradientTexture2D
+Path: godot/classes/class_gradienttexture2d.rst
+Summary: Defines enumerations for fill types and repeat modes for GradientTexture2D.
+
+Enumerations:
+Fill:
+  FILL_LINEAR (0): The colors are linearly interpolated in a straight line.
+  FILL_RADIAL (1): The colors are linearly interpolated in a circular pattern.
+  FILL_SQUARE (2): The colors are linearly interpolated in a square pattern.
+  FILL_CONIC (3): The colors are linearly interpolated in a cone pattern.
+
+Repeat:
+  REPEAT_NONE (0): The gradient fill is restricted to the range defined by fill_from to fill_to offsets.
+  REPEAT (1): The texture is filled starting from fill_from to fill_to offsets, repeating the same pattern in both directions.
+  REPEAT_MIRROR (2): The texture is filled starting from fill_from to fill_to offsets, mirroring the pattern in both directions.
+---CHUNK---
+Document: GradientTexture2D
+Path: godot/classes/class_gradienttexture2d.rst
+Summary: Describes the properties and member variables of the GradientTexture2D class in Godot Engine.
+
+Property: fill
+Type: Fill (enum)
+Description: The gradient's fill type.
+Default: 0
+
+Property: fill_from
+Type: Vector2
+Description: The initial offset used to fill the texture specified in UV coordinates.
+Default: Vector2(0, 0)
+
+Property: fill_to
+Type: Vector2
+Description: The final offset used to fill the texture specified in UV coordinates.
+Default: Vector2(1, 0)
+
+Property: gradient
+Type: Gradient
+Description: The Gradient used to fill the texture.
+
+Property: height
+Type: int
+Description: The number of vertical color samples that will be obtained from the Gradient, which also represents the texture's height.
+Default: 64
+
+Property: repeat
+Type: Repeat (enum)
+Description: The gradient's repeat type.
+Default: 0
+
+Property: use_hdr
+Type: bool
+Description: If true, the generated texture will support high dynamic range (Image.FORMAT_RGBAF format). This allows for glow effects to work if Environment.glow_enabled is true. If false, the generated texture will use low dynamic range; overbright colors will be clamped (Image.FORMAT_RGBA8 format).
+Default: false
+
+Property: width
+Type: int
+Description: The number of horizontal color samples that will be obtained from the Gradient, which also represents the texture's width.
+Default: 64

@@ -1,0 +1,328 @@
+Document: Web JavaScript Bridge
+Path: godot/tutorials/platform/web/javascript_bridge.rst
+Summary: This document explains how to use the JavaScript bridge in Godot to communicate between your game and the browser's JavaScript environment.
+
+The JavaScript bridge allows you to call JavaScript functions from your Godot game and to call Godot functions from JavaScript. This is particularly useful for web games where you might want to interact with browser features, analytics, or other web services.
+
+To use the JavaScript bridge, you need to enable the JavaScript engine in your project settings. Go to Project -> Project Settings -> Web Export and check the "Enable JavaScript" option.
+
+Calling JavaScript from Godot:
+You can call JavaScript functions using the `JavaScript` singleton. The `eval()` method allows you to execute arbitrary JavaScript code.
+
+GDScript:
+JavaScript.eval("console.log('Hello from Godot!')")
+
+You can also call specific functions by name. For example, if you have a JavaScript function named `my_js_function` defined in your HTML, you can call it like this:
+
+GDScript:
+JavaScript.eval("my_js_function('some argument')")
+
+Note: The `eval()` method returns the result of the JavaScript execution as a String. If the JavaScript code does not return anything, an empty string is returned.
+
+Calling Godot from JavaScript:
+To call Godot functions from JavaScript, you need to expose your Godot functions to the JavaScript environment. You can do this using the `_register_js_function()` method in your GDScript.
+
+GDScript:
+func _ready():
+    JavaScript.bind_js_function("my_godot_function", self, "my_godot_function_impl")
+
+func my_godot_function_impl(arg1, arg2):
+    print("Called from JavaScript with arguments: ", arg1, ", ", arg2)
+    return "Response from Godot"
+
+In your HTML, you can then call this function:
+
+JavaScript:
+call_godot("my_godot_function", "value1", 123)
+
+Note: The `call_godot()` function in JavaScript is automatically available when JavaScript support is enabled. It takes the registered Godot function name as the first argument, followed by any arguments you want to pass to the Godot function. The return value of the Godot function will be passed back to the JavaScript callback.
+
+Error Handling:
+It's important to handle potential errors when communicating between Godot and JavaScript. For example, if a JavaScript function does not exist or if a Godot function is not registered, an error will be logged to the console.
+
+Key Rule: Ensure that JavaScript functions you call from Godot are defined and accessible in the browser's scope. Similarly, ensure that Godot functions you expose to JavaScript are correctly registered using `bind_js_function`.
+
+Data Types:
+When passing data between Godot and JavaScript, be mindful of data type conversions. Basic types like strings, numbers, and booleans are generally handled automatically. However, complex types like arrays and dictionaries might require manual serialization and deserialization.
+
+GDScript:
+var data = {"key": "value", "number": 123}
+JavaScript.eval("handle_data(" + JSON.stringify(data) + ")")
+
+JavaScript:
+function handle_data(data) {
+    console.log(data.key); // "value"
+    console.log(data.number); // 123
+}
+
+This example demonstrates passing a dictionary from Godot to JavaScript by first converting it to a JSON string. The JavaScript function then parses the JSON string back into an object.
+
+Security Considerations:
+When using the JavaScript bridge, be aware of security implications. Avoid executing untrusted JavaScript code directly. If you are interacting with external web services, ensure proper authentication and validation.
+---CHUNK---
+Document: JavaScriptBridge
+Path: godot/tutorials/platform/web/javascript_bridge.rst
+Summary: Introduces the JavaScriptBridge singleton for web builds, enabling interaction with JavaScript and browser functionalities.
+The JavaScriptBridge singleton
+In web builds, the JavaScriptBridge singleton allows interaction with JavaScript and web browsers, and can be used to implement some functionalities unique to the web platform.
+---CHUNK---
+Document: javascript_bridge
+Path: godot/tutorials/platform/web/javascript_bridge.rst
+Summary: This section explains how to use the JavaScriptBridge singleton in Godot to interact with JavaScript code and browser features when exporting to the web.
+
+The `JavaScriptBridge` singleton allows you to wrap native JavaScript objects into `JavaScriptObject` instances, enabling interaction with them from Godot scripting languages like GDScript and C#.
+
+The `JavaScriptBridge.get_interface()` method is used to retrieve an object from the global JavaScript scope.
+
+GDScript:
+```gdscript
+extends Node
+
+func _ready():
+    # Retrieve the `window.console` object.
+    var console = JavaScriptBridge.get_interface("console")
+    # Call the `window.console.log()` method.
+    console.log("test")
+```
+
+The `JavaScriptBridge.create_object()` method allows you to create new JavaScript objects using the `new` operator.
+
+GDScript:
+```gdscript
+extends Node
+
+func _ready():
+    # Call the JavaScript `new` operator on the `window.Array` object.
+    # Passing 10 as argument to the constructor:
+    # JS: `new Array(10);`
+    var arr = JavaScriptBridge.create_object("Array", 10)
+    # Set the first element of the JavaScript array to the number 42.
+    arr[0] = 42
+    # Call the `pop` function on the JavaScript array.
+    arr.pop()
+    # Print the value of the `length` property of the array (9 after the pop).
+    print(arr.length)
+```
+
+By wrapping JavaScript objects into `JavaScriptObject`, you can interact with them as if they were native Godot objects, calling their methods and accessing or modifying their properties.
+
+Basic data types such as integers, floats, strings, and booleans are automatically converted between Godot and JavaScript. However, be aware that floats may lose precision during this conversion. Other types, including objects, arrays, and functions, are treated as `JavaScriptObject` instances themselves.
+---CHUNK---
+Document: JavaScript Bridge Tutorial
+Path: godot/tutorials/platform/web/javascript_bridge.rst
+Summary: This section explains how to call Godot functions from JavaScript using callbacks and provides examples for handling DOM events and notification permissions.
+
+Calling Godot functions from JavaScript requires creating explicit callbacks. These callbacks are returned as JavaScriptObjects and their references must be maintained. Arguments passed from JavaScript to a callback are received as a single Godot Array.
+
+GDScript:
+extends Node
+
+# Here we create a reference to the `_my_callback` function (below).
+# This reference will be kept until the node is freed.
+var _callback_ref = JavaScriptBridge.create_callback(_my_callback)
+
+func _ready():
+    # Get the JavaScript `window` object.
+    var window = JavaScriptBridge.get_interface("window")
+    # Set the `window.onbeforeunload` DOM event listener.
+    window.onbeforeunload = _callback_ref
+
+func _my_callback(args):
+    # Get the first argument (the DOM event in our case).
+    var js_event = args[0]
+    # Call preventDefault and set the `returnValue` property of the DOM event.
+    js_event.preventDefault()
+    js_event.returnValue = ''
+
+Key Rule: Callback methods must accept exactly one Array argument, representing the JavaScript arguments object converted to an array. Failure to do so will prevent the callback from being invoked.
+
+The following example demonstrates requesting notification permission from JavaScript and handling the response asynchronously.
+
+GDScript:
+extends Node
+
+# Here we create a reference to the `_on_permissions` function (below).
+# This reference will be kept until the node is freed.
+var _permission_callback = JavaScriptBridge.create_callback(_on_permissions)
+
+func _ready():
+    # NOTE: This is done in `_ready` for simplicity, but SHOULD BE done in response
+    # to user input instead (e.g. during `_input`, or `button_pressed` event, etc.),
+    # otherwise it might not work.
+
+    # Get the `window.Notification` JavaScript object.
+    var notification = JavaScriptBridge.get_interface("Notification")
+    # Call the `window.Notification.requestPermission` method which returns a JavaScript
+    # Promise, and bind our callback to it.
+    notification.requestPermission().then(_permission_callback)
+
+func _on_permissions(args):
+    # The first argument of this callback is the string "granted" if the permission is granted.
+    var permission = args[0]
+    if permission == "granted":
+        print("Permission granted, sending notification.")
+        # Create the notification: `new Notification("Hi there!")`
+        JavaScriptBridge.create_object("Notification", "Hi there!")
+    else:
+        print("No notification permission.")
+---CHUNK---
+Document: javascript_bridge
+Path: godot/tutorials/platform/web/javascript_bridge.rst
+Summary: This section explains how to include external JavaScript libraries and custom functions in a Godot HTML5 export and how to call them from GDScript.
+You can use most JavaScript libraries by including them in your HTML page. This can be done by customizing the Head Include option during export or by using a custom HTML template.
+
+In the example below, the Head Include is customized to add the axios library from a CDN and a custom function `myFunc`.
+
+GDScript:
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- Custom function -->
+    <script>
+    function myFunc() {
+        alert("My func!");
+    }
+    </script>
+
+These can then be accessed from Godot.
+
+GDScript:
+    extends Node
+
+    # Here create a reference to the `_on_get` function (below).
+    # This reference will be kept until the node is freed.
+    var _callback = JavaScriptBridge.create_callback(_on_get)
+
+    func _ready():
+        # Get the `window` object, where globally defined functions are.
+        var window = JavaScriptBridge.get_interface("window")
+        # Call the JavaScript `myFunc` function defined in the custom HTML head.
+        window.myFunc()
+        # Get the `axios` library (loaded from a CDN in the custom HTML head).
+        var axios = JavaScriptBridge.get_interface("axios")
+        # Make a GET request to the current location, and receive the callback when done.
+        axios.get(window.location.toString()).then(_callback)
+
+    func _on_get(args):
+        OS.alert("On Get")
+---CHUNK---
+Document: javascript_bridge
+Path: godot/tutorials/platform/web/javascript_bridge.rst
+Summary: This section explains how to use the JavaScriptBridge.eval method to execute JavaScript code from Godot and how to handle its return values and context.
+
+The eval method works similarly to the JavaScript function of the same name. It takes a string as an argument and executes it as JavaScript code. This allows interacting with the browser in ways not possible with script languages integrated into Godot.
+
+GDScript:
+    func my_func():
+        JavaScriptBridge.eval("alert('Calling JavaScript per GDScript!');")
+
+C#:
+    private void MyFunc()
+    {
+        JavaScriptBridge.Eval("alert('Calling JavaScript per C#!');")
+    }
+
+The value of the last JavaScript statement is converted to a GDScript value and returned by eval() under certain circumstances:
+* JavaScript number is returned as float
+* JavaScript boolean is returned as bool
+* JavaScript string is returned as String
+* JavaScript ArrayBuffer, TypedArray, and DataView are returned as PackedByteArray
+
+GDScript:
+    func my_func2():
+        var js_return = JavaScriptBridge.eval("var myNumber = 1; myNumber + 2;")
+        print(js_return) # prints '3.0'
+
+C#:
+    private void MyFunc2()
+    {
+        var jsReturn = JavaScriptBridge.Eval("var myNumber = 1; myNumber + 2;");
+        GD.Print(jsReturn); # prints '3.0'
+    }
+
+Any other JavaScript value is returned as null.
+
+HTML5 export templates may be built without support for the singleton to improve security. With such templates, and on platforms other than HTML5, calling JavaScriptBridge.eval will also return null. The availability of the singleton can be checked with the web feature tag:
+
+GDScript:
+    func my_func3():
+        if OS.has_feature('web'):
+            JavaScriptBridge.eval("""
+                console.log('The JavaScriptBridge singleton is available')
+            """)
+        else:
+            print("The JavaScriptBridge singleton is NOT available")
+
+C#:
+    private void MyFunc3()
+    {
+        if (OS.HasFeature("web"))
+        {
+            JavaScriptBridge.Eval("console.log('The JavaScriptBridge singleton is available')");
+        }
+        else
+        {
+            GD.Print("The JavaScriptBridge singleton is NOT available");
+        }
+    }
+
+Tip: GDScript's multi-line strings, surrounded by 3 quotes """ as in my_func3() above, are useful to keep JavaScript code readable.
+
+The eval method also accepts a second, optional Boolean argument, which specifies whether to execute the code in the global execution context, defaulting to false to prevent polluting the global namespace:
+
+GDScript:
+    func my_func4():
+        # execute in global execution context,
+        # thus adding a new JavaScript global variable `SomeGlobal`
+        JavaScriptBridge.eval("var SomeGlobal = {};", true)
+
+C#:
+    private void MyFunc4()
+    {
+        # execute in global execution context,
+        # thus adding a new JavaScript global variable `SomeGlobal`
+        JavaScriptBridge.Eval("var SomeGlobal = {};", true);
+    }
+---CHUNK---
+Document: web/javascript_bridge
+Path: godot/tutorials/platform/web/javascript_bridge.rst
+Summary: This section explains how to download files from a Godot Web export to the user's computer using the JavaScriptBridge.download_buffer() function.
+
+Downloading files from the Godot Web export to the user's computer can be done by directly interacting with JavaScript. Godot exposes this functionality to scripting via a dedicated JavaScriptBridge.download_buffer() function which lets you download any generated buffer.
+
+GDScript:
+```gdscript
+extends Node
+
+func _ready():
+    # Asks the user download a file called "hello.txt" whose content will be the string "Hello".
+    JavaScriptBridge.download_buffer("Hello".to_utf8_buffer(), "hello.txt")
+```
+
+Here is a more complete example on how to download a previously saved file:
+
+GDScript:
+```gdscript
+extends Node
+
+# Open a file for reading and download it via the JavaScript singleton.
+func _download_file(path):
+    var file = FileAccess.open(path, FileAccess.READ)
+    if file == null:
+        push_error("Failed to load file")
+        return
+    # Get the file name.
+    var fname = path.get_file()
+    # Read the whole file to memory.
+    var buffer = file.get_buffer(file.get_len())
+    # Prompt the user to download the file (will have the same name as the input file).
+    JavaScriptBridge.download_buffer(buffer, fname)
+
+func _ready():
+    # Create a temporary file.
+    var config = ConfigFile.new()
+    config.set_value("option", "one", false)
+    config.save("/tmp/test.cfg")
+
+    # Download it
+    _download_file("/tmp/test.cfg")
+```

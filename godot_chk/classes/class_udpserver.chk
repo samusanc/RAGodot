@@ -1,0 +1,211 @@
+Document: UDPServer
+Path: godot/classes/class_udpserver.rst
+Summary: Provides UDP network communication functionality.
+
+UDPServer is a high-level class for handling UDP network communication. It allows you to send and receive UDP packets to and from specific IP addresses and ports.
+
+Inherits: PacketPeer < PacketPeerUniversal < RefCounted
+---CHUNK---
+Document: UDPServer
+Path: godot/classes/class_udpserver.rst
+Summary: Helper class to implement a UDP server.
+
+UDPServer
+Inherits: RefCounted < Object
+
+Helper class to implement a UDP server.
+---CHUNK---
+Document: UDPServer
+Path: godot/classes/class_udpserver.rst
+Summary: A UDP server that accepts connections and handles packet exchange.
+
+Inherits: PacketPeer
+This class provides a simple server that opens a UDP socket and returns connected PacketPeerUDP objects upon receiving new packets. It is used in conjunction with PacketPeerUDP.connect_to_host.
+
+After starting the server with listen, you must poll it at regular intervals (e.g., inside Node._process) for it to process new packets, deliver them to the appropriate PacketPeerUDP, and accept new connections.
+
+GDScript:
+```gdscript
+# server_node.gd
+class_name ServerNode
+extends Node
+
+var server = UDPServer.new()
+var peers = []
+
+func _ready():
+    server.listen(4242)
+
+func _process(delta):
+    server.poll() # Important!
+    if server.is_connection_available():
+        var peer = server.take_connection()
+        var packet = peer.get_packet()
+        print("Accepted peer: %s:%s" % [peer.get_packet_ip(), peer.get_packet_port()])
+        print("Received data: %s" % [packet.get_string_from_utf8()])
+        # Reply so it knows we received the message.
+        peer.put_packet(packet)
+        # Keep a reference so we can keep contacting the remote peer.
+        peers.append(peer)
+
+    for i in range(0, peers.size()):
+        pass # Do something with the connected peers.
+```
+
+C#:
+```csharp
+// ServerNode.cs
+using Godot;
+using System.Collections.Generic;
+
+public partial class ServerNode : Node
+{
+    private UdpServer _server = new UdpServer();
+    private List<PacketPeerUdp> _peers  = new List<PacketPeerUdp>();
+
+    public override void _Ready()
+    {
+        _server.Listen(4242);
+    }
+
+    public override void _Process(double delta)
+    {
+        _server.Poll(); // Important!
+        if (_server.IsConnectionAvailable())
+        {
+            PacketPeerUdp peer = _server.TakeConnection();
+            byte[] packet = peer.GetPacket();
+            GD.Print($"Accepted Peer: {peer.GetPacketIP()}:{peer.GetPacketPort()}");
+            GD.Print($"Received Data: {packet.GetStringFromUtf8()}");
+            // Reply so it knows we received the message.
+            peer.PutPacket(packet);
+            // Keep a reference so we can keep contacting the remote peer.
+            _peers.Add(peer);
+        }
+        foreach (var peer in _peers)
+        {
+            // Do something with the peers.
+        }
+    }
+}
+```
+
+GDScript:
+```gdscript
+# client_node.gd
+class_name ClientNode
+extends Node
+
+var udp = PacketPeerUDP.new()
+var connected = false
+
+func _ready():
+    udp.connect_to_host("127.0.0.1", 4242)
+
+func _process(delta):
+    if !connected:
+        # Try to contact server
+        udp.put_packet("The answer is... 42!".to_utf8_buffer())
+    if udp.get_available_packet_count() > 0:
+        print("Connected: %s" % udp.get_packet().get_string_from_utf8())
+        connected = true
+```
+
+C#:
+```csharp
+// ClientNode.cs
+using Godot;
+
+public partial class ClientNode : Node
+{
+    private PacketPeerUdp _udp = new PacketPeerUdp();
+    private bool _connected = false;
+
+    public override void _Ready()
+    {
+        _udp.ConnectToHost("127.0.0.1", 4242);
+    }
+
+    public override void _Process(double delta)
+    {
+        if (!_connected)
+        {
+            // Try to contact server
+            _udp.PutPacket("The Answer Is..42!".ToUtf8Buffer());
+        }
+        if (_udp.GetAvailablePacketCount() > 0)
+        {
+            GD.Print($"Connected: {_udp.GetPacket().GetStringFromUtf8()}");
+            _connected = true;
+        }
+    }
+}
+```
+---CHUNK---
+Document: UDPServer
+Path: godot/classes/class_udpserver.rst
+Summary: Defines properties for the UDPServer class.
+
+Property: max_pending_connections (int)
+Description: Maximum number of pending connections.
+Default: 16
+---CHUNK---
+Document: UDPServer
+Path: godot/classes/class_udpserver.rst
+Summary: This section details the methods available for the UDPServer class in Godot Engine.
+
+Method: get_local_port() → int
+Returns the local port the server is listening on.
+
+Method: is_connection_available() → bool
+Returns true if there is an incoming packet waiting.
+
+Method: is_listening() → bool
+Returns true if the server is currently listening for connections.
+
+Method: listen(port: int, bind_address: String = "*") → Error
+Starts listening on the given port and optionally on the specified bind address. Returns an Error code.
+
+Method: poll() → Error
+Checks for incoming packets and updates the server's state. Returns an Error code.
+
+Method: stop() → void
+Stops the server from listening.
+
+Method: take_connection() → PacketPeerUDP
+Accepts a new incoming connection and returns it as a PacketPeerUDP.
+---CHUNK---
+Document: UDPServer
+Path: godot/classes/class_udpserver.rst
+Summary: Configures the maximum number of pending connections for the UDPServer.
+
+Property: max_pending_connections (int)
+Description: Define the maximum number of pending connections, during poll, any new pending connection exceeding that value will be automatically dropped. Setting this value to 0 effectively prevents any new pending connection to be accepted (e.g. when all your players have connected).
+Default: 16
+Setter: set_max_pending_connections(value: int)
+Getter: get_max_pending_connections() -> int
+---CHUNK---
+Document: UDPServer
+Path: godot/classes/class_udpserver.rst
+Summary: This section describes the methods available for the UDPServer class in Godot Engine, including functions to manage listening, process incoming data, and handle connections.
+
+Method: get_local_port() → int
+Returns the local port this server is listening to.
+
+Method: is_connection_available() → bool
+Returns true if a packet with a new address/port combination was received on the socket.
+
+Method: is_listening() → bool
+Returns true if the socket is open and listening on a port.
+
+Method: listen(port: int, bind_address: String = "*") → Error
+Starts the server by opening a UDP socket listening on the given port. You can optionally specify a bind_address to only listen for packets sent to that address. See also PacketPeerUDP.bind().
+
+Method: poll() → Error
+Call this method at regular intervals (e.g. inside Node._process()) to process new packets. Any packet from a known address/port pair will be delivered to the appropriate PacketPeerUDP, while any packet received from an unknown address/port pair will be added as a pending connection (see is_connection_available() and take_connection()). The maximum number of pending connections is defined via max_pending_connections.
+
+Method: stop() → void
+Stops the server, closing the UDP socket if open. Will close all connected PacketPeerUDP accepted via take_connection() (remote peers will not be notified).
+
+Method: take_connection() → PacketPeerUDP
+Returns the first pending connection (connected to the appropriate address/port). Will return null if no new connection is available. See also is_connection_available(), PacketPeerUDP.connect_to_host().

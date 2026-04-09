@@ -1,0 +1,176 @@
+Document: Advanced Postprocessing
+Path: godot/tutorials/shaders/advanced_postprocessing.rst
+Summary: This tutorial covers advanced postprocessing techniques using Godot shaders.
+---CHUNK---
+Document: Advanced Post-processing
+Path: godot/tutorials/shaders/advanced_postprocessing.rst
+Summary: This section introduces advanced post-processing techniques using Godot shaders.
+---CHUNK---
+Document: Advanced Post-processing
+Path: godot/tutorials/shaders/advanced_postprocessing.rst
+Summary: This tutorial describes an advanced method for post-processing in Godot using the depth buffer.
+This tutorial describes an advanced method for post-processing in Godot. In particular, it will explain how to write a post-processing shader that uses the depth buffer. You should already be familiar with post-processing generally and, in particular, with the methods outlined in the custom post-processing tutorial.
+---CHUNK---
+Document: Advanced Post-processing
+Path: godot/tutorials/shaders/advanced_postprocessing.rst
+Summary: This section explains how to use a MeshInstance3D with a QuadMesh and a custom vertex shader to create full-screen post-processing effects, bypassing the limitations of Viewports.
+
+To create custom post-processing effects without the limitations of Viewports (inability to access the depth buffer and effects not being visible in the editor), use a MeshInstance3D with a QuadMesh primitive. This approach allows access to the scene's depth texture. A vertex shader is then used to ensure the quad always covers the screen, making the post-processing effect visible at all times, including within the editor.
+
+Steps:
+1. Create a new MeshInstance3D node.
+2. Set its mesh property to a QuadMesh.
+3. Configure the QuadMesh:
+    - Set width and height to 2.
+    - Enable "Flip Faces".
+
+The QuadMesh, by default, is centered at (0, 0, 0) with a width and height of 1. By setting these dimensions to 2 and enabling "Flip Faces", the quad will cover the screen when positioned correctly.
+
+The vertex shader is crucial for making the quad follow the camera and cover the entire screen. It achieves this by bypassing Godot's standard coordinate transformations and directly outputting vertex positions in clip space. Clip space coordinates range from -1 (left/bottom) to 1 (top/right) of the screen.
+
+Vertex Shader Code:
+```glsl
+shader_type spatial;
+// Prevent the quad from being affected by lighting and fog. This also improves performance.
+render_mode unshaded, fog_disabled;
+
+void vertex() {
+  POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+}
+```
+This shader sets the `POSITION` built-in variable. `POSITION` bypasses the usual model-view-projection transformations and directly sets the vertex position in clip space.
+
+Note: In Godot versions prior to 4.3, the recommended code was `POSITION = vec4(VERTEX, 1.0);`. This is no longer correct for Godot 4.3+ due to the use of a "reversed-z" depth buffer where the near plane is at 1.0.
+
+Frustum Culling Issue:
+Even with the vertex shader, the quad might disappear due to frustum culling, which occurs on the CPU before rendering. The CPU assumes vertex coordinates are in world space, not clip space, leading to the quad being culled when the camera moves away from the scene's center.
+
+Solutions to prevent frustum culling:
+1. Add the QuadMesh as a child of the camera. This ensures the camera is always pointed at the quad.
+2. Set the Geometry property `extra_cull_margin` on the QuadMesh to a large value. This makes the quad visible even at greater distances from the camera.
+
+Using both options provides the most robust solution, ensuring visibility in the editor and when the camera moves significantly.
+---CHUNK---
+Document: advanced_postprocessing
+Path: godot/tutorials/shaders/advanced_postprocessing.rst
+Summary: This section explains how to access and utilize the depth texture in Godot shaders to reconstruct world positions.
+
+To read from the depth texture, define a uniform sampler2D with the hint ``hint_depth_texture``.
+GDScript:
+uniform sampler2D depth_texture : hint_depth_texture;
+
+The depth texture can then be sampled using the ``texture()`` function.
+GDScript:
+float depth = texture(depth_texture, SCREEN_UV).x;
+
+Note: Accessing the depth texture is restricted to the current viewport.
+
+The depth values from ``depth_texture`` range from 1.0 (near plane) to 0.0 (far plane) due to reverse-z buffering and are nonlinear. Direct display appears mostly black. To align depth with world coordinates, linearization is required. This involves transforming screen-space coordinates to Normalized Device Coordinates (NDC) and then using the inverse projection matrix.
+
+NDC coordinates range from -1.0 to 1.0 for x and y. For Vulkan renderers (Forward+, Mobile), z ranges from 0.0 to 1.0. For the Compatibility renderer (OpenGL), z ranges from -1.0 to 1.0.
+
+GDScript:
+void fragment() {
+  float depth = texture(depth_texture, SCREEN_UV).x;
+  // For Vulkan renderers (Forward+, Mobile)
+  vec3 ndc = vec3(SCREEN_UV * 2.0 - 1.0, depth);
+}
+
+Note: For the Compatibility renderer, use:
+GDScript:
+vec3 ndc = vec3(SCREEN_UV, depth) * 2.0 - 1.0;
+
+To ensure compatibility across all renderers:
+GDScript:
+#if CURRENT_RENDERER == RENDERER_COMPATIBILITY
+vec3 ndc = vec3(SCREEN_UV, depth) * 2.0 - 1.0;
+#else
+vec3 ndc = vec3(SCREEN_UV * 2.0 - 1.0, depth);
+#endif
+
+Convert NDC to view space by multiplying with ``INV_PROJECTION_MATRIX``. The z-value in view space represents the distance to the point.
+GDScript:
+void fragment() {
+  ...
+  vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
+  view.xyz /= view.w;
+  float linear_depth = -view.z; // Negate view.z as camera faces negative z
+}
+
+To reconstruct the world position, transform the view-space position into world space using ``INV_VIEW_MATRIX``.
+GDScript:
+void fragment() {
+  ...
+  vec4 world = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
+  vec3 world_position = world.xyz / world.w;
+}
+---CHUNK---
+Document: Advanced Postprocessing
+Path: godot/tutorials/shaders/advanced_postprocessing.rst
+Summary: This section provides an example GLSL shader for advanced postprocessing effects in Godot, demonstrating how to visualize linear depth or world space coordinates.
+GDScript:
+```glsl
+shader_type spatial;
+// Prevent the quad from being affected by lighting and fog. This also improves performance.
+render_mode unshaded, fog_disabled;
+
+uniform sampler2D depth_texture : hint_depth_texture;
+
+void vertex() {
+  POSITION = vec4(VERTEX.xy, 1.0, 1.0);
+}
+
+void fragment() {
+  float depth = texture(depth_texture, SCREEN_UV).x;
+  vec3 ndc = vec3(SCREEN_UV * 2.0 - 1.0, depth);
+  vec4 view = INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
+  view.xyz /= view.w;
+  float linear_depth = -view.z;
+
+  vec4 world = INV_VIEW_MATRIX * INV_PROJECTION_MATRIX * vec4(ndc, 1.0);
+  vec3 world_position = world.xyz / world.w;
+
+  // Visualize linear depth
+  ALBEDO.rgb = vec3(fract(linear_depth));
+
+  // Visualize world coordinates
+  //ALBEDO.rgb = fract(world_position).xyz;
+}
+```
+---CHUNK---
+Document: advanced_postprocessing
+Path: godot/tutorials/shaders/advanced_postprocessing.rst
+Summary: This section explains how to optimize post-processing shaders by using a single large triangle instead of a full-screen quad.
+
+An optimization can be achieved by using a single large triangle rather than a full-screen quad. The benefit is small and primarily useful for complex fragment shaders.
+
+To implement this, set the Mesh in the MeshInstance3D to an ArrayMesh. An ArrayMesh allows easy construction of a Mesh from arrays for vertices, normals, colors, etc.
+
+Attach a script to the MeshInstance3D with the following code:
+
+GDScript:
+```gdscript
+extends MeshInstance3D
+
+func _ready():
+  # Create a single triangle out of vertices:
+  var verts = PackedVector3Array()
+  verts.append(Vector3(-1.0, -1.0, 0.0))
+  verts.append(Vector3(3.0, -1.0, 0.0))
+  verts.append(Vector3(-1.0, 3.0, 0.0))
+
+  # Create an array of arrays.
+  # This could contain normals, colors, UVs, etc.
+  var mesh_array = []
+  mesh_array.resize(Mesh.ARRAY_MAX) #required size for ArrayMesh Array
+  mesh_array[Mesh.ARRAY_VERTEX] = verts #position of vertex array in ArrayMesh Array
+
+  # Create mesh from mesh_array:
+  mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_array)
+```
+
+Note: The triangle is specified in normalized device coordinates. NDC run from -1.0 to 1.0 in both the x and y directions, making the screen 2 units wide and 2 units tall. To cover the entire screen with a single triangle, use a triangle that is 4 units wide and 4 units tall, doubling its height and width.
+
+Assigning the same vertex shader as previously described will result in the same visual output.
+
+A drawback of using an ArrayMesh compared to a QuadMesh is its invisibility in the editor, as the triangle is only constructed at runtime. To circumvent this, create a single triangle Mesh in a modeling program and use that in the MeshInstance3D.

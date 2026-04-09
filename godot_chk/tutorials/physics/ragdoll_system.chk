@@ -1,0 +1,125 @@
+Document: Ragdoll System Tutorial
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This document introduces the concept and implementation of a ragdoll system in Godot Engine.
+---CHUNK---
+Document: Ragdoll system
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This document introduces the concept and implementation of a ragdoll system in Godot Engine.
+---CHUNK---
+Document: Ragdoll System Tutorial
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: Introduces ragdoll physics in Godot and explains their use in procedural animation and death animations, referencing the Platformer 3D demo for setup.
+Godot supports ragdoll physics. Ragdolls rely on physics simulation to create realistic procedural animation. They are used for death animations in many games. In this tutorial, we will be using the Platformer 3D demo to set up a ragdoll. Note: You can download the Platformer 3D demo on GitHub or using the Asset Library. You can also check out an example of a complete ragdoll setup in the Ragdoll Physics demo.
+---CHUNK---
+Document: Ragdoll System Tutorial
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This section covers the initial setup steps for creating a ragdoll system in Godot.
+
+Setting up the ragdoll
+
+To create a ragdoll, you need to set up a hierarchy of physics bodies. The root of the ragdoll should be a RigidBody3D. Its children should be CollisionShape3Ds and other RigidBody3Ds, which will represent the bones of the ragdoll. Each bone RigidBody3D should have a CollisionShape3D attached to it. The shape of the collision shape should approximate the shape of the bone.
+
+You will also need to create joints between the bones. Joints are created using the Joint3D node. There are several types of joints available, such as HingeJoint3D, PinJoint3D, and SliderJoint3D. The type of joint you use will depend on the type of movement you want to allow between the bones. For example, a HingeJoint3D would be suitable for a knee or elbow, while a PinJoint3D would be suitable for a shoulder or hip.
+
+The joints should be placed at the point where the bones connect. For example, a HingeJoint3D connecting the upper arm to the lower arm should be placed at the elbow. The joints should also be configured to limit the range of motion of the bones. This will prevent the ragdoll from behaving in an unnatural way.
+
+Finally, you will need to add some code to control the ragdoll. This code will typically involve applying forces and torques to the bones to animate the ragdoll. You can also use the joints to control the movement of the ragdoll. For example, you could use a script to make the ragdoll fall over or to make it perform a specific action.
+---CHUNK---
+Document: ragdoll_system
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This section explains how to create a ragdoll system in Godot by generating PhysicalBone3D nodes from a Skeleton3D.
+To create a ragdoll system, two nodes are used: PhysicalBoneSimulator3D and PhysicalBone3D. The PhysicalBoneSimulator3D node is the parent of all physical bones and manages the simulation. Each PhysicalBone3D child node represents an individual bone in the ragdoll.
+
+To begin, open the platformer demo in Godot and navigate to the player.tscn scene. Select the Skeleton3D node. A skeleton button will appear at the top of the 3D editor viewport. Clicking this button and choosing the Create Physical Skeleton option will prompt Godot to generate PhysicalBone3D nodes and associated collision shapes for each bone in the skeleton. Pin joints will also be created to connect these bones.
+
+After this process, the scene tree will display the newly generated physical skeleton. It's important to note that some of the generated bones might be unnecessary, such as the MASTER bone in the player scene example. The next step involves cleaning up the skeleton by removing these redundant bones.
+---CHUNK---
+Document: Ragdoll System Tutorial
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This section explains how to optimize a skeleton for a ragdoll system by removing unnecessary PhysicalBone3D nodes.
+To optimize the skeleton for the ragdoll system, remove any PhysicalBone3D nodes that are too small to significantly impact the simulation or are considered utility bones. For instance, in a humanoid model, individual finger bones are often unnecessary; a single bone for the entire hand, or separate bones for the palm, thumb, and the remaining four fingers, can suffice. Specifically, remove the PhysicalBone3D nodes named ``MASTER``, ``waist``, ``neck``, and ``headtracker``. This optimization results in a more efficient skeleton and simplifies ragdoll control.
+---CHUNK---
+Document: Ragdoll System
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This section explains how to adjust joints and constraints in a ragdoll system to achieve better physics simulations.
+
+After adjusting collision shapes, the next step in setting up a ragdoll is to fine-tune the pin joints for improved simulation. By default, PhysicalBone3D nodes are equipped with an unconstrained pin joint. To modify this, select a PhysicalBone3D node and navigate to the Inspector's Joint section to alter the constraint type. Here, you can adjust the constraint's orientation and limits. Joints also feature a gizmo in the 3D editor, providing a visual representation of their constraints.
+
+Tip: To enhance the editing experience for joints and collision shapes, consider these techniques: Hide PhysicalBone3D nodes not currently being worked on for better focus. Hide the character's MeshInstance3D by clicking its eye icon in the scene tree. Disable Skeleton3D gizmos via the View > Gizmos > Skeleton3D menu option to declutter the viewport. Turn off the preview environment by clicking the globe icon. Set the Project Settings > Default Clear Color to black for a clearer view when the preview environment is disabled. Utilize the Perspective button in the 3D editor viewport to change the debug draw mode, with Display Wireframe and Display Overdraw being particularly useful for collision shape adjustments. Employ orthographic cameras by clicking the X, Y, or Z buttons in the top-right corner of the 3D editor viewport.
+
+The available joints are:
+- None: No constraint is applied.
+- ConeJoint: Functions as a ball-and-socket joint, suitable for areas like shoulders, hips, and the neck.
+- HingeJoint: Offers an angular constraint, similar to a door hinge, ideal for elbows and knees.
+- PinJoint: Connects two bodies, serving as the default option. This joint type can lead to bone "crumpling" and is generally recommended to be replaced with other joint types for most character setups.
+- SliderJoint: Allows one bone to slide along another along a specific axis.
+- 6DOFJoint: The most versatile joint, providing both linear and angular constraints, but it is also the most complex to configure.
+
+For most common scenarios, starting with HingeJoint and ConeJoint is advisable.
+- When using HingeJoint, ensure the Angular Limit is enabled within the Joint Constraints section of the inspector. Once enabled, the constrained angle will be visible in the viewport. You can adjust the joint's axis of constraint by rotating the PhysicalBone3D and then fine-tuning the angles.
+- For ConeJoint, it is generally best to set the Swing Span between 20 and 90 degrees, and the Twist Span between 20 and 45 degrees.
+---CHUNK---
+Document: Ragdoll System Tutorial
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This section explains how to adjust collision shapes for PhysicalBone3D nodes in a ragdoll system, recommending to do so after joints and constraints are set.
+
+The next task is adjusting the collision shape and the size of the physical bones to match the part of the body that each bone should simulate.
+
+It's recommended to adjust collision shapes after adjusting joints and constraints, as rotating a joint will also rotate the collision shape. To avoid having to adjust collision shapes twice, it's better to adjust joints first.
+
+Note that it's possible to have multiple collision shapes as a child of a PhysicalBone3D node. This can be useful to represent particularly complex shapes of limbs that are otherwise rigid.
+
+Tip: To pause animation playback while adjusting the ragdoll, select the AnimationTree node and disable the Active property in the Inspector. Remember to enable it again when you're done, as it controls animation playback during gameplay.
+---CHUNK---
+Document: Ragdoll System Tutorial
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This section explains how to start, stop, and partially control the ragdoll simulation using the PhysicalBoneSimulator3D node.
+
+To start the ragdoll simulation, call the `physical_bones_start_simulation()` method on the `PhysicalBoneSimulator3D` node. This is typically done in the `_ready` function of a script attached to the simulator node.
+
+GDScript:
+```gdscript
+func _ready():
+    physical_bones_start_simulation()
+```
+
+C#:
+```csharp
+public override void _Ready()
+{
+    PhysicalBonesStartSimulation();
+}
+```
+
+To stop the simulation, call the `physical_bones_stop_simulation()` method.
+
+You can limit the simulation to only specific bones by passing an array of bone names to the `physical_bones_start_simulation()` method. The bone name can be found in the "Bone Name" property of a `PhysicalBone3D` node.
+
+Tip: When using an automatically generated physical skeleton, the bone name is often part of the node name. For example, in `Physical Bone l-arm`, `l-arm` is the bone name.
+
+GDScript:
+```gdscript
+func _ready():
+    physical_bones_start_simulation(["l-arm", "r-arm"])
+```
+
+C#:
+```csharp
+public override void _Ready()
+{
+    PhysicalBonesStartSimulation(["l-arm", "r-arm"]);
+}
+```
+
+Note: Nonexistent bone names will not cause errors. If the simulation doesn't work as expected, verify the list of bone names.
+
+Tip: The "Influence" property on the `PhysicalBoneSimulator3D` node controls how strongly the ragdoll simulation affects the overall animation. A value of `1.0` means the ragdoll fully overrides the animation.
+---CHUNK---
+Document: ragdoll_system
+Path: godot/tutorials/physics/ragdoll_system.rst
+Summary: This section explains how to configure collision layers and masks for a ragdoll system to prevent unwanted interactions and introduces collision exceptions for PhysicalBone3D nodes.
+Collision layer and mask
+Make sure to set up your collision layers and masks properly so the CharacterBody3D's capsule doesn't get in the way of the physics simulation. Remember to adjust the collision layer and mask in the coin scene as well, so that the player can still collect coins.
+Tip: To select all PhysicalBone3D nodes quickly, enter t:PhysicalBone3D in the search bar at the top of the scene tree dock. This filters the scene tree to only show PhysicalBone3D nodes, which allows you to select them all at once using Shift + Left mouse button on the first and last entries.
+If this is not done, collision will behave incorrectly as the player will collide with its own (inactive) ragdoll. This can cause the player to wildly bounce around or get stuck.
+Like RigidBody3D, PhysicalBone3D supports collision exceptions through code using the physical_bones_add_collision_exception() and physical_bones_remove_collision_exception() methods. This can be used to prevent collisions with a specific object without relying on layers and masks.

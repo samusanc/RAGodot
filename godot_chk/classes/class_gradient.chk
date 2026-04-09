@@ -1,0 +1,170 @@
+Document: Gradient
+Path: godot/classes/class_gradient.rst
+Summary: Represents a color gradient with multiple color stops.
+
+Gradient
+
+Inherits: Resource < RefCounted < Object
+
+A color gradient with multiple color stops.
+
+Color gradients are used to define smooth transitions between colors. They are commonly used for visual effects like fog, lighting, or particle systems.
+
+A Gradient resource can be created and edited in the Godot editor. It can also be created and manipulated via script.
+
+Properties:
+color_ramp (GradientTexture): The color ramp of the gradient.
+interpolation_mode (int): The interpolation mode used for the gradient. Possible values: GRADIENT_INTERPOLATION_LINEAR, GRADIENT_INTERPOLATION_CONSTANT, GRADIENT_INTERPOLATION_CUBIC. Default: 0.
+
+Methods:
+add_point(offset: float, color: Color, transition: float = 1.0)
+Adds a new point to the gradient. offset must be between 0.0 and 1.0. transition controls the interpolation between this point and the next.
+
+clear()
+Removes all points from the gradient.
+
+get_color(offset: float) → Color
+Returns the color at the given offset. offset must be between 0.0 and 1.0.
+
+get_point_color(point_idx: int) → Color
+Returns the color of the point at the given index.
+
+get_point_count() → int
+Returns the number of points in the gradient.
+
+get_point_offset(point_idx: int) → float
+Returns the offset of the point at the given index.
+
+get_point_transition(point_idx: int) → float
+Returns the transition value of the point at the given index.
+
+remove_point(point_idx: int)
+Removes the point at the given index.
+
+set_color(offset: float, color: Color)
+Sets the color at the given offset. offset must be between 0.0 and 1.0.
+
+set_point_color(point_idx: int, color: Color)
+Sets the color of the point at the given index.
+
+set_point_offset(point_idx: int, offset: float)
+Sets the offset of the point at the given index. offset must be between 0.0 and 1.0.
+
+set_point_transition(point_idx: int, transition: float)
+Sets the transition value of the point at the given index. transition must be between 0.0 and 1.0.
+---CHUNK---
+Document: Gradient
+Path: godot/classes/class_gradient.rst
+Summary: Defines a color transition resource in Godot.
+Gradient
+Inherits: Resource < RefCounted < Object
+
+A color transition.
+---CHUNK---
+Document: Gradient
+Path: godot/classes/class_gradient.rst
+Summary: Describes a color transition resource with colored points and interpolation.
+
+Inherits: Resource < RefCounted < Object
+---CHUNK---
+Document: Gradient
+Path: godot/classes/class_gradient.rst
+Summary: Defines the properties of the Gradient class, including its colors, interpolation color space, interpolation mode, and offsets.
+
+Properties
+* colors (PackedColorArray): The array of colors defining the gradient. Default: PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1)
+* interpolation_color_space (ColorSpace): The color space used for interpolation between colors. Default: 0
+* interpolation_mode (InterpolationMode): The interpolation mode used between colors. Default: 0
+* offsets (PackedFloat32Array): The array of offsets for each color in the gradient. Default: PackedFloat32Array(0, 1)
+---CHUNK---
+Document: Gradient
+Path: godot/classes/class_gradient.rst
+Summary: Defines the methods available for manipulating Gradient objects, including adding, getting, and setting points, as well as sampling and reversing the gradient.
+
+Methods
+Method: add_point(offset: float, color: Color)
+Method: get_color(point: int) → Color
+Method: get_offset(point: int) → float
+Method: get_point_count() → int
+Method: remove_point(point: int)
+Method: reverse()
+Method: sample(offset: float) → Color
+Method: set_color(point: int, color: Color)
+Method: set_offset(point: int, offset: float)
+
+Enumerations
+enum InterpolationMode:
+  GRADIENT_INTERPOLATE_LINEAR = 0
+    Linear interpolation.
+  GRADIENT_INTERPOLATE_CONSTANT = 1
+    Constant interpolation, color changes abruptly at each point and stays uniform between. This might cause visible aliasing when used for a gradient texture in some cases.
+  GRADIENT_INTERPOLATE_CUBIC = 2
+    Cubic interpolation.
+
+enum ColorSpace:
+  GRADIENT_COLOR_SPACE_SRGB = 0
+    sRGB color space.
+  GRADIENT_COLOR_SPACE_LINEAR_SRGB = 1
+    Linear sRGB color space.
+  GRADIENT_COLOR_SPACE_OKLAB = 2
+    Oklab color space. This color space provides a smooth and uniform-looking transition between colors.
+---CHUNK---
+Document: Gradient
+Path: godot/classes/class_gradient.rst
+Summary: Describes the properties of the Gradient class, including its colors, interpolation settings, and offsets.
+
+Property: colors
+Type: PackedColorArray
+Description: Gradient's colors as a PackedColorArray.
+Note: Setting this property updates all colors at once. To update any color individually use set_color().
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedColorArray for more details.
+Setget:
+- void set_colors(value: PackedColorArray)
+- PackedColorArray get_colors()
+
+Property: interpolation_color_space
+Type: ColorSpace
+Description: The color space used to interpolate between points of the gradient. It does not affect the returned colors, which will always use nonlinear sRGB encoding.
+Note: This setting has no effect when interpolation_mode is set to GRADIENT_INTERPOLATE_CONSTANT.
+Setget:
+- void set_interpolation_color_space(value: ColorSpace)
+- ColorSpace get_interpolation_color_space()
+
+Property: interpolation_mode
+Type: InterpolationMode
+Description: The algorithm used to interpolate between points of the gradient.
+Setget:
+- void set_interpolation_mode(value: InterpolationMode)
+- InterpolationMode get_interpolation_mode()
+
+Property: offsets
+Type: PackedFloat32Array
+Description: Gradient's offsets as a PackedFloat32Array.
+Note: Setting this property updates all offsets at once. To update any offset individually use set_offset().
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedFloat32Array for more details.
+Setget:
+- void set_offsets(value: PackedFloat32Array)
+- PackedFloat32Array get_offsets()
+---CHUNK---
+Document: Gradient
+Path: godot/classes/class_gradient.rst
+Summary: Methods for manipulating and querying gradient points and colors.
+Method: add_point(offset: float, color: Color)
+Adds the specified color to the gradient, with the specified offset.
+Method: get_color(point: int) → Color
+Returns the color of the gradient color at index point.
+Method: get_offset(point: int) → float
+Returns the offset of the gradient color at index point.
+Method: get_point_count() → int
+Returns the number of colors in the gradient.
+Method: remove_point(point: int)
+Removes the color at index point.
+Method: reverse()
+Reverses/mirrors the gradient.
+Note: This method mirrors all points around the middle of the gradient, which may produce unexpected results when interpolation_mode is set to GRADIENT_INTERPOLATE_CONSTANT.
+Method: sample(offset: float) → Color
+Returns the interpolated color specified by offset. offset should be between 0.0 and 1.0 (inclusive). Using a value lower than 0.0 will return the same color as 0.0, and using a value higher than 1.0 will return the same color as 1.0. If your input value is not within this range, consider using @GlobalScope.remap on the input value with output values set to 0.0 and 1.0.
+Method: set_color(point: int, color: Color)
+Sets the color of the gradient color at index point.
+Method: set_offset(point: int, offset: float)
+Sets the offset for the gradient color at index point.

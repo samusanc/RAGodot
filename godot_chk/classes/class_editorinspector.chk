@@ -1,0 +1,59 @@
+Document: EditorInspector
+Path: godot/classes/class_editorinspector.rst
+Summary: Base class for the inspector dock, used to edit properties of a resource or object.
+
+Inherits: Control < CanvasItem < Node < Object
+
+The EditorInspector is the base class for the inspector dock. It is used to edit properties of a resource or object. It displays properties in a hierarchical manner, allowing users to easily navigate and modify them. The inspector can be customized by adding custom property editors or by overriding its behavior.
+
+Key Rule: The EditorInspector is a fundamental part of Godot's editor interface, providing a standardized way to interact with and modify object properties.
+---CHUNK---
+Document: EditorInspector
+Path: godot/classes/class_editorinspector.rst
+Summary: A control used to edit properties of an object.
+
+EditorInspector
+Inherits: ScrollContainer < Container < Control < CanvasItem < Node < Object
+
+A control used to edit properties of an object.
+---CHUNK---
+Document: EditorInspector
+Path: godot/classes/class_editorinspector.rst
+Summary: This class implements the property editing interface used in Godot's editor, such as the Inspector dock and settings dialogs.
+Inherits: Control < CanvasItem < Node < Object
+EditorInspector will show properties in the same order as the array returned by Object.get_property_list().
+
+If a property's name is path-like (i.e. if it contains forward slashes), EditorInspector will create nested sections for "directories" along the path. For example, if a property is named highlighting/gdscript/node_path_color, it will be shown as "Node Path Color" inside the "GDScript" section nested inside the "Highlighting" section.
+
+If a property has PROPERTY_USAGE_GROUP usage, it will group subsequent properties whose name starts with the property's hint string. The group ends when a property does not start with that hint string or when a new group starts. An empty group name effectively ends the current group. EditorInspector will create a top-level section for each group. For example, if a property with group usage is named Collide With and its hint string is collide_with_, a subsequent collide_with_area property will be shown as "Area" inside the "Collide With" section. There is also a special case: when the hint string contains the name of a property, that property is grouped too. This is mainly to help grouping properties like font, font_color and font_size (using the hint string font_).
+
+If a property has PROPERTY_USAGE_SUBGROUP usage, a subgroup will be created in the same way as a group, and a second-level section will be created for each subgroup.
+
+Note: Unlike sections created from path-like property names, EditorInspector won't capitalize the name for sections created from groups. So properties with group usage usually use capitalized names instead of snake_cased names.
+---CHUNK---
+Document: EditorInspector
+Path: godot/classes/class_editorinspector.rst
+Summary: Properties of the EditorInspector class, including focus and scroll behavior.
+
+Properties:
+* draw_focus_border (bool): Controls whether a focus border is drawn. Default: true. (overrides ScrollContainer.draw_focus_border)
+* focus_mode (FocusMode): Determines how the control gains focus. Default: 2. (overrides Control.focus_mode)
+* follow_focus (bool): Determines if the inspector should follow the focus. Default: true. (overrides ScrollContainer.follow_focus)
+* horizontal_scroll_mode (ScrollMode): Controls the behavior of horizontal scrolling. Default: 0. (overrides ScrollContainer.horizontal_scroll_mode)
+---CHUNK---
+Document: EditorInspector
+Path: godot/classes/class_editorinspector.rst
+Summary: This section describes the methods available in the EditorInspector class, which is used to display and edit properties of Godot objects within the editor.
+
+Method: edit(object: Object)
+Shows the properties of the given object in this inspector for editing. To clear the inspector, call this method with null.
+Note: If you want to edit an object in the editor's main inspector, use the edit_* methods in EditorInterface instead.
+
+Method: get_edited_object() → Object
+Returns the object currently selected in this inspector.
+
+Method: get_selected_path() → String
+Gets the path of the currently selected property.
+
+Method: instantiate_property_editor(object: Object, type: Variant.Type, path: String, hint: PropertyHint, hint_text: String, usage: int, wide: bool = false) → EditorProperty (static)
+Creates a property editor that can be used by plugin UI to edit the specified property of an object.

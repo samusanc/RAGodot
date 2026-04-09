@@ -1,0 +1,117 @@
+Document: PackedFloat64Array
+Path: godot/classes/class_packedfloat64array.rst
+Summary: This section defines the PackedFloat64Array class.
+---CHUNK---
+Document: PackedFloat64Array
+Path: godot/classes/class_packedfloat64array.rst
+Summary: A packed array of 64-bit floating-point values.
+A packed array of 64-bit floating-point values.
+---CHUNK---
+Document: PackedFloat64Array
+Path: godot/classes/class_packedfloat64array.rst
+Summary: Describes the PackedFloat64Array class, its memory efficiency, differences from other array types, and how it handles references and boolean contexts.
+
+An array specifically designed to hold 64-bit floating-point values (double). Packs data tightly, so it saves memory for large array sizes.
+
+If you only need to pack 32-bit floats tightly, see PackedFloat32Array for a more memory-friendly alternative.
+
+Differences between packed arrays, typed arrays, and untyped arrays: Packed arrays are generally faster to iterate on and modify compared to a typed array of the same type (e.g. **PackedFloat64Array** versus `Array[float]`). Also, packed arrays consume less memory. As a downside, packed arrays are less flexible as they don't offer as many convenience methods such as Array.map(). Typed arrays are in turn faster to iterate on and modify than untyped arrays.
+
+Note: Packed arrays are always passed by reference. To get a copy of an array that can be modified independently of the original array, use duplicate(). This is *not* the case for built-in properties and methods. In these cases the returned packed array is a copy, and changing it will *not* affect the original value. To update a built-in property of this type, modify the returned array and then assign it to the property again.
+
+Key Rule: In a boolean context, a packed array will evaluate to false if it's empty. Otherwise, a packed array will always evaluate to true.
+
+Note: There are notable differences when using this API with C#. See doc_c_sharp_differences for more information.
+---CHUNK---
+Document: PackedFloat64Array
+Path: godot/classes/class_packedfloat64array.rst
+Summary: This section describes the constructors and initial methods of the PackedFloat64Array class, including array creation, appending elements, binary search, clearing, counting, duplicating, erasing, filling, and finding values.
+
+Constructors
+*   PackedFloat64Array()
+*   PackedFloat64Array(from: PackedFloat64Array)
+*   PackedFloat64Array(from: Array)
+
+PackedFloat64Array()
+Constructs an empty PackedFloat64Array.
+
+PackedFloat64Array(from: PackedFloat64Array)
+Constructs a PackedFloat64Array as a copy of the given PackedFloat64Array.
+
+PackedFloat64Array(from: Array)
+Constructs a new PackedFloat64Array. Optionally, you can pass in a generic Array that will be converted.
+
+Methods
+*   Method: append(value: float) -> bool
+*   Method: append_array(array: PackedFloat64Array) -> void
+*   Method: bsearch(value: float, before: bool = true) -> int
+*   Method: clear() -> void
+*   Method: count(value: float) -> int
+*   Method: duplicate() -> PackedFloat64Array
+*   Method: erase(value: float) -> bool
+*   Method: fill(value: float) -> void
+*   Method: find(value: float, from: int = 0) -> int
+*   Method: get(index: int) -> float
+*   Method: has(value: float) -> bool
+*   Method: insert(at_index: int, value: float) -> int
+*   Method: is_empty() -> bool
+*   Method: push_back(value: float) -> bool
+
+Method: append(value: float) -> bool
+Appends an element at the end of the array (alias of push_back()).
+
+Method: append_array(array: PackedFloat64Array) -> void
+Appends a PackedFloat64Array at the end of this array.
+
+Method: bsearch(value: float, before: bool = true) -> int
+Finds the index of an existing value (or the insertion index that maintains sorting order, if the value is not yet present in the array) using binary search. Optionally, a `before` specifier can be passed. If `false`, the returned index comes after all existing entries of the value in the array. Note: Calling bsearch() on an unsorted array results in unexpected behavior. Note: @GDScript.NAN doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included.
+
+Method: clear() -> void
+Clears the array. This is equivalent to using resize() with a size of 0.
+
+Method: count(value: float) -> int
+Returns the number of times an element is in the array. Note: @GDScript.NAN doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included.
+
+Method: duplicate() -> PackedFloat64Array
+Creates a copy of the array, and returns it.
+
+Method: erase(value: float) -> bool
+Removes the first occurrence of a value from the array and returns `true`. If the value does not exist in the array, nothing happens and `false` is returned. To remove an element by index, use remove_at() instead. Note: @GDScript.NAN doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included.
+
+Method: fill(value: float) -> void
+Assigns the given value to all elements in the array. This can typically be used together with resize() to create an array with a given size and initialized elements.
+
+Method: find(value: float, from: int = 0) -> int
+Searches the array for a value and returns its index or `-1` if not found. Optionally, the initial search index can be passed. Note: @GDScript.NAN doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included.
+
+Method: get(index: int) -> float
+Returns the 64-bit float at the given `index` in the array. If `index` is out-of-bounds or negative, this method fails and returns `0.0`. This method is similar (but not identical) to the `[]` operator. Most notably, when this method fails, it doesn't pause project execution if run from the editor.
+
+Method: has(value: float) -> bool
+Returns `true` if the array contains `value`. Note: @GDScript.NAN doesn't behave the same as other numbers. Therefore, the results from this method may not be accurate if NaNs are included.
+
+Method: insert(at_index: int, value: float) -> int
+Inserts a new element at a given position in the array. The position must be valid, or at the end of the array (`idx == size()`).
+
+Method: is_empty() -> bool
+Returns `true` if the array is empty.
+
+Method: push_back(value: float) -> bool
+Appends an element at the end of the array.
+---CHUNK---
+Document: PackedFloat64Array
+Path: godot/classes/class_packedfloat64array.rst
+Summary: This chunk describes the operator overloads for PackedFloat64Array, including inequality, addition, equality, and indexing.
+
+Operator Descriptions
+Method: operator !=(right: PackedFloat64Array) -> bool
+Returns `true` if contents of the arrays differ.
+
+Method: operator +(right: PackedFloat64Array) -> PackedFloat64Array
+Returns a new PackedFloat64Array with contents of `right` added at the end of this array. For better performance, consider using append_array() instead.
+
+Method: operator ==(right: PackedFloat64Array) -> bool
+Returns `true` if contents of both arrays are the same, i.e. they have all equal doubles at the corresponding indices.
+
+Method: operator [](index: int) -> float
+Returns the `float` at index `index`. Negative indices can be used to access the elements starting from the end. Using index out of array's bounds will result in an error.

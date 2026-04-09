@@ -1,0 +1,479 @@
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This document outlines the recommended style guide for writing shaders in Godot Engine.
+
+This document provides a style guide for writing shaders in Godot. Following these guidelines will help ensure consistency and readability across your projects and when sharing shaders with others.
+
+General Formatting:
+
+*   Indentation: Use 4 spaces for indentation. Do not use tabs.
+*   Line Length: Aim for a maximum line length of 80 characters. Wrap long lines logically.
+*   Blank Lines: Use blank lines to separate logical blocks of code, such as between variable declarations and function definitions, or between different stages of a shader.
+
+Naming Conventions:
+
+*   Variables and Functions: Use snake_case for variable and function names (e.g., `vertex_color`, `apply_light`).
+*   Uniforms: Use snake_case for uniform names (e.g., `texture_albedo`, `light_direction`).
+*   Built-in Variables: Use the casing provided by Godot for built-in variables (e.g., `VERTEX`, `UV`, `COLOR`).
+*   Constants: Use SCREAMING_SNAKE_CASE for constants (e.g., `MAX_ITERATIONS`, `PI`).
+
+Comments:
+
+*   Single-line comments should start with `//`.
+*   Multi-line comments should use `/* ... */`.
+*   Explain complex logic or non-obvious code sections.
+*   Document uniforms with a brief description of their purpose.
+
+Shader Structure:
+
+*   Order of Declarations:
+    1.  `shader_type` declaration
+    2.  Render mode directives (if any)
+    3.  Uniforms
+    4.  Varyings
+    5.  Vertex function (`vertex()`)
+    6.  Fragment function (`fragment()`)
+    7.  Light function (`light()`) (if applicable)
+*   Function Definitions: Define functions before they are called, if possible, or ensure they are declared if defined later.
+
+Example Structure:
+
+```glsl
+shader_type spatial;
+render_mode unshaded;
+
+uniform sampler2D texture_albedo : hint_albedo;
+uniform vec4 tint_color : hint_color = vec4(1.0);
+
+varying vec2 custom_uv;
+
+void vertex() {
+    // Vertex manipulation code
+    custom_uv = UV * 2.0;
+    VERTEX.y += sin(TIME) * 0.1;
+}
+
+void fragment() {
+    vec4 tex_color = texture(TEXTURE, custom_uv);
+    ALBEDO = tex_color.rgb * tint_color.rgb;
+    ALPHA = tex_color.a * tint_color.a;
+}
+
+void light() {
+    // Lighting calculations (if not unshaded)
+}
+```
+
+Key Rule: Consistency is paramount. While these are recommendations, adhering to a consistent style within a project is more important than strictly following every rule if it breaks consistency.
+---CHUNK---
+Document: Shaders style guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This document outlines conventions for writing clean, readable, and consistent shaders in Godot, inspired by GLSL formatting.
+
+Note: Godot's built-in shader editor uses many of these conventions by default.
+
+Here is a complete shader example based on these guidelines:
+GDScript:
+    shader_type canvas_item;
+    // Screen-space shader to adjust a 2D scene's brightness, contrast
+    // and saturation. Taken from
+    // https://github.com/godotengine/godot-demo-projects/blob/master/2d/screen_space_shaders/shaders/BCS.gdshader
+
+    uniform sampler2D screen_texture : hint_screen_texture, filter_linear_mipmap;
+    uniform float brightness = 0.8;
+    uniform float contrast = 1.5;
+    uniform float saturation = 1.8;
+
+    void fragment() {
+        vec3 c = textureLod(screen_texture, SCREEN_UV, 0.0).rgb;
+
+        c.rgb = mix(vec3(0.0), c.rgb, brightness);
+        c.rgb = mix(vec3(0.5), c.rgb, contrast);
+        c.rgb = mix(vec3(dot(vec3(1.0), c.rgb) * 0.33333), c.rgb, saturation);
+
+        COLOR.rgb = c;
+    }
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section covers general formatting guidelines for Godot shaders.
+
+Formatting
+
+This section covers general formatting guidelines for Godot shaders.
+
+Code style is subjective, but consistency is key. The following guidelines are recommended for Godot shaders to improve readability and maintainability.
+
+Indentation
+Use 4 spaces for indentation. Do not use tabs.
+
+Line length
+Keep lines to a maximum of 80 characters. This improves readability, especially on smaller screens or when viewing multiple files side-by-side.
+
+Comments
+Use comments to explain complex logic or non-obvious code.
+- Single-line comments start with `//`.
+- Multi-line comments are enclosed in `/* ... */`.
+
+Variable and Function Naming
+Use snake_case for variable and function names.
+- Variables: `my_variable`, `light_intensity`
+- Functions: `calculate_light`, `apply_texture`
+
+Constants
+Use SCREAMING_SNAKE_CASE for constants.
+- Example: `MAX_ITERATIONS`, `DEFAULT_COLOR`
+
+Type Prefixes (Optional but Recommended)
+Consider using type prefixes for variables to make their type immediately obvious.
+- `f_` for float: `f_light_intensity`
+- `v_` for vec2, vec3, vec4: `v_uv`, `v_color`
+- `i_` for int: `i_frame_count`
+- `b_` for bool: `b_is_enabled`
+
+Uniforms
+Prefix uniform variables with `u_`.
+- Example: `u_texture`, `u_light_color`
+
+Varyings
+Prefix varying variables with `v_`.
+- Example: `v_uv`, `v_normal`
+
+Built-in Variables
+Do not rename built-in variables like `COLOR`, `UV`, `NORMAL`, `VERTEX`, `FRAGCOORD`.
+
+Function Order
+Organize functions in a logical order. A common pattern is:
+1. Built-in functions (like `vertex`, `fragment`)
+2. Uniforms
+3. Varyings
+4. Constants
+5. Helper functions
+6. Main logic
+
+Example Structure
+
+```glsl
+// Built-in function
+void vertex() {
+    // ...
+}
+
+// Built-in function
+void fragment() {
+    // ...
+}
+
+// Uniforms
+uniform sampler2D u_texture;
+uniform vec4 u_light_color : source_color = vec4(1.0);
+
+// Varyings
+varying vec2 v_uv;
+
+// Constants
+const float PI = 3.14159;
+
+// Helper function
+float calculate_something(float value) {
+    return value * PI;
+}
+
+// Main logic
+void fragment() {
+    vec4 tex_color = texture2D(u_texture, v_uv);
+    COLOR = tex_color * u_light_color;
+    COLOR.rgb *= calculate_something(COLOR.a);
+}
+```
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section details the required encoding and special character conventions for shader files.
+Key Rule: Shader files must use line feed (LF) characters for line breaks.
+Key Rule: Shader files must end with a single line feed character.
+Key Rule: Shader files must use UTF-8 encoding without a byte order mark.
+Key Rule: Shader files must use Tabs for indentation.
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section of the Shaders Style Guide covers indentation rules for GLSL code within Godot.
+
+Indentation
+Each indent level should be one tab greater than the block containing it.
+
+GDScript:
+void fragment() {
+    COLOR = vec3(1.0, 1.0, 1.0);
+}
+
+GDScript:
+void fragment() {
+        COLOR = vec3(1.0, 1.0, 1.0);
+}
+
+Use 2 indent levels to distinguish continuation lines from regular code blocks.
+
+GDScript:
+vec2 st = vec2(
+        atan(NORMAL.x, NORMAL.z),
+        acos(NORMAL.y));
+
+GDScript:
+vec2 st = vec2(
+    atan(NORMAL.x, NORMAL.z),
+    acos(NORMAL.y));
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section details the recommended style for line breaks and blank lines in Godot shaders, emphasizing the use of 1TBS style and always including braces for statements.
+For a general indentation rule, follow the "1TBS Style" which recommends placing the brace associated with a control statement on the same line. Always use braces for statements, even if they only span one line. This makes them easier to refactor and avoids mistakes when adding more lines to an if statement or similar.
+
+GDScript:
+```glsl
+void fragment() {
+    if (true) {
+        // ...
+    }
+}
+```
+
+GDScript:
+```glsl
+void fragment()
+{
+    if (true)
+        // ...
+}
+```
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section details style guidelines for writing GLSL shaders in Godot, focusing on function spacing and internal code structure.
+
+GDScript:
+Surround function definitions with one (and only one) blank line.
+
+    void do_something() {
+        // ...
+    }
+
+    void fragment() {
+        // ...
+    }
+
+Use one (and only one) blank line inside functions to separate logical sections.
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section provides guidelines for line length in shader code.
+Line length
+Keep individual lines of code under 100 characters.
+If you can, try to keep lines under 80 characters. This helps to read the code on small displays and with two shaders opened side-by-side in an external text editor. For example, when looking at a differential revision.
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section covers style guidelines for writing shaders in Godot, focusing on statement formatting.
+One statement per line. Never combine multiple statements on a single line.
+
+GDScript:
+void fragment() {
+    ALBEDO = vec3(1.0);
+    EMISSION = vec3(1.0);
+}
+
+GDScript:
+void fragment() {
+    ALBEDO = vec3(1.0); EMISSION = vec3(1.0);
+}
+
+The only exception to that rule is the ternary operator:
+
+GDScript:
+   void fragment() {
+        bool should_be_white = true;
+        ALBEDO = should_be_white ? vec3(1.0) : vec3(0.0);
+    }
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section covers comment spacing and multiline comment usage in GLSL shaders.
+Comment spacing: Regular comments should start with a space, but not code that you comment out. This helps differentiate text comments from disabled code.
+
+Good:
+GDScript:
+    // This is a comment.
+    //return;
+
+Bad:
+GDScript:
+    //This is a comment.
+    // return;
+
+Don't use multiline comment syntax if your comment can fit on a single line:
+GDScript:
+    /* This is another comment. */
+Note: In the shader editor, to make the selected code a comment (or uncomment it), press Ctrl + K. This feature adds or removes // at the start of the selected lines.
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: Explains how to write documentation comments for shader uniforms in Godot.
+GDScript:
+    /**
+     * This is a documentation comment.
+     * These lines will appear in the inspector when hovering the shader parameter
+     * named "Something".
+     * You can use [b]BBCode[/b] [i]formatting[/i] in the comment.
+     */
+    uniform int something = 1;
+
+These comments will appear when hovering a property in the inspector. If you don't wish the comment to be visible in the inspector, use the standard comment syntax instead (// ... or /* ... */ with only one leading asterisk).
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section of the Shaders Style Guide covers whitespace conventions in GLSL code.
+
+Whitespace
+Always use one space around operators and after commas. Also, avoid extraneous spaces in function calls.
+
+GDScript:
+    COLOR.r = 5.0;
+    COLOR.r = COLOR.g + 0.1;
+    COLOR.b = some_function(1.0, 2.0);
+
+Do not use spaces to align expressions vertically.
+
+GDScript:
+    ALBEDO.r = 1.0;
+    EMISSION.r = 1.0;
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section details the style guide for writing floating-point numbers in Godot shaders.
+Floating-point numbers
+Always specify at least one digit for both the integer and fractional part. This makes it easier to distinguish floating-point numbers from integers, as well as distinguishing numbers greater than 1 from those lower than 1.
+
+Good:
+GDScript:
+    void fragment() {
+        ALBEDO.rgb = vec3(5.0, 0.1, 0.2);
+    }
+
+Bad:
+GDScript:
+    void fragment() {
+        ALBEDO.rgb = vec3(5., .1, .2);
+    }
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section explains how to access vector members in shaders based on their content.
+Use r, g, b, and a when accessing a vector's members if it contains a color. If the vector contains anything else than a color, use x, y, z, and w. This allows those reading your code to better understand what the underlying data represents.
+
+Good:
+GDScript:
+    COLOR.rgb = vec3(5.0, 0.1, 0.2);
+
+Bad:
+GDScript:
+    COLOR.xyz = vec3(5.0, 0.1, 0.2);
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section outlines the naming conventions for shaders in Godot Engine to ensure consistency.
+Naming conventions
+These naming conventions follow the Godot Engine style. Breaking these will make your code clash with the built-in naming conventions, leading to inconsistent code.
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section details the naming conventions for functions and variables in GLSL shaders.
+Functions and variables
+Use snake_case to name functions and variables:
+GDScript:
+   void some_function() {
+        float some_variable = 0.5;
+   }
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section covers the style guide for writing constants in Godot shaders.
+Constants
+Write constants with CONSTANT_CASE, that is to say in all caps with an underscore (_) to separate words.
+GDScript:
+    const float GOLDEN_RATIO = 1.618;
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section details the style guide for preprocessor directives in Godot shaders.
+Preprocessor directives should be written in CONSTANT_CASE. Directives should be written without any indentation before them, even if nested within a function. To preserve the natural flow of indentation when shader errors are printed to the console, extra indentation should not be added within #if, #ifdef or #ifndef blocks.
+
+GDScript:
+#define HEIGHTMAP_ENABLED
+
+void fragment() {
+    vec2 position = vec2(1.0, 2.0);
+
+#ifdef HEIGHTMAP_ENABLED
+    sample_heightmap(position);
+#endif
+}
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section explains how to automatically format shader files using clang-format and provides a custom configuration file.
+To automatically format shader files, you can use clang-format on one or several .gdshader files, as the syntax is close enough to a C-style language.
+
+However, the default style in clang-format doesn't follow this style guide, so you need to save this file as .clang-format in your project's root folder:
+
+GDScript:
+BasedOnStyle: LLVM
+AlignAfterOpenBracket: DontAlign
+AlignOperands: DontAlign
+AlignTrailingComments:
+  Kind: Never
+  OverEmptyLines: 0
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortFunctionsOnASingleLine: Inline
+BreakConstructorInitializers: AfterColon
+ColumnLimit: 0
+ContinuationIndentWidth: 8
+IndentCaseLabels: true
+IndentWidth: 4
+InsertBraces: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+RemoveSemicolon: true
+SpacesInLineCommentPrefix:
+  Minimum: 0 # We want a minimum of 1 for comments, but allow 0 for disabled code.
+  Maximum: -1
+TabWidth: 4
+UseTab: Always
+
+While in the project root, you can then call clang-format -i path/to/shader.gdshader in a terminal to format a single shader file, or clang-format -i path/to/folder/*.gdshader to format all shaders in a folder.
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: This section outlines the recommended order for organizing shader code in Godot to improve readability and prevent declaration errors.
+
+The suggested order for shader code is as follows:
+1. Shader type declaration
+2. Render mode declaration
+3. Docstring comments
+4. Uniforms (variables adjustable by the user)
+5. Constants
+6. Varyings (variables passed between shader stages)
+7. Other functions
+8. vertex() function
+9. fragment() function
+10. light() function
+
+This organization is optimized for readability, allowing developers to understand the shader's functionality from top to bottom. It also helps prevent errors related to the order of variable declarations.
+
+The code order follows two main principles:
+1. Metadata and properties are placed before methods.
+2. "Public" elements, which are easily adjustable by the user (like uniforms), come before "private" elements.
+---CHUNK---
+Document: Shaders Style Guide
+Path: godot/tutorials/shaders/shaders_style_guide.rst
+Summary: Style guide for declaring local variables in shaders.
+Local variables
+Declare local variables as close as possible to their first use. This makes it easier to follow the code, without having to scroll too much to find where the variable was declared.

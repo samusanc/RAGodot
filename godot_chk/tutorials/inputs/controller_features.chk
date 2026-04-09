@@ -1,0 +1,272 @@
+Document: Controller Features
+Path: godot/tutorials/inputs/controller_features.rst
+Summary: This document outlines the features available for controller input in Godot.
+
+Controller Features
+
+Godot provides a robust system for handling controller input, allowing for seamless integration of gamepads and other input devices. This section details the various features and functionalities available for working with controllers.
+
+Input Map
+
+The Input Map is a central hub for managing all input actions in Godot. It allows you to define custom actions (e.g., "move_left", "jump", "fire") and assign various input events to them, including keyboard keys, mouse buttons, and controller buttons/axes. This abstraction layer makes your game's input handling independent of specific hardware.
+
+Key Rule: You can map multiple physical inputs to a single logical action in the Input Map.
+
+Controller Support
+
+Godot has built-in support for a wide range of controllers, including Xbox, PlayStation, and generic DirectInput controllers. The engine automatically detects connected controllers and makes their input available through the Input singleton.
+
+Device Index
+
+When multiple controllers are connected, Godot assigns each a unique device index, starting from 0. You can query the number of connected controllers and access specific controller inputs using their respective device index.
+
+Example:
+GDScript:
+```gdscript
+var num_controllers = Input.get_joy_count()
+if num_controllers > 0:
+    var first_controller_axis = Input.get_joy_axis(0, JOY_AXIS_LEFT_X)
+    print("First controller left stick X-axis: ", first_controller_axis)
+```
+
+Input Events
+
+Controller input is represented by InputEvent objects, similar to keyboard and mouse events. These events include:
+
+*   `InputEventJoypadButton`: Represents a button press or release on a controller.
+*   `InputEventJoypadMotion`: Represents the movement of a joystick axis or a trigger.
+
+You can connect to the `_input(event)` function in your scripts to process these events directly.
+
+Key Rule: `InputEventJoypadMotion` events are generated for analog axes and triggers. The value typically ranges from -1.0 to 1.0 for analog sticks and 0.0 to 1.0 for triggers.
+
+Vibration
+
+Godot supports controller vibration (rumble) for providing haptic feedback. You can trigger vibration on specific controllers using the `Input.start_joyvibration()` method.
+
+Example:
+GDScript:
+```gdscript
+# Vibrate the first controller for 1 second with low frequency and high amplitude
+Input.start_joyvibration(0, 0.5, 0.8, 1000)
+```
+
+Key Rule: The `start_joyvibration` method takes device index, weak magnitude, strong magnitude, and duration in milliseconds.
+
+Advanced Features
+
+*   **Haptic Effects**: More advanced haptic feedback can be achieved with specific controller models.
+*   **Touchscreen Support**: For controllers with touchpads, Godot can expose touch events.
+*   **Platform-Specific Features**: Some platform-specific controller features might be accessible through native plugins.
+---CHUNK---
+Document: Controller Features
+Path: godot/tutorials/inputs/controller_features.rst
+Summary: This document outlines controller-specific features in Godot, their platform support, and best practices for implementation.
+Warning: These controller features are currently only supported on Windows, macOS, iOS, and Linux.
+Warning: Unless you specifically advertise your game as requiring specific controllers, remember that there is no guarantee that players will have a controller with any given features. As a result, we suggest using these features to enhance the gameplay experience for players whose controllers support them, without detracting from those who don't have controllers.
+---CHUNK---
+Document: Controller Features
+Path: godot/tutorials/inputs/controller_features.rst
+Summary: This section explains how to use controller LED lights for in-game feedback and provides GDScript examples for setting colors, fading hues, and blinking.
+
+Games can use the LED lights on certain controllers to subtly complement the on-screen gameplay by providing some matching visuals in the player's hands. Here are some notable examples:
+- In Hades, the color of the light matches the god you're receiving a boon from.
+- In Resident Evil 2, the color of the light indicates your health (green for full, yellow for medium, red for low).
+- In Star Wars Jedi: Fallen Order, the color of the light matches your lightsaber's color.
+
+Use the method Input.set_joy_light() to set the color of a given controller's LEDs.
+
+To determine if a given controller supports setting LED lights, use the Input.has_joy_light() method. The PlayStation DualShock and DualSense controllers are known to support LED lights.
+
+The following _process() method sets the LED color according to the currently pressed button, and turns it off if no button is being pressed:
+
+GDScript:
+    func _process(_delta):
+        var color := Color.BLACK
+        
+        if Input.is_joy_button_pressed(0, JOY_BUTTON_A):
+            color = Color.BLUE
+        elif Input.is_joy_button_pressed(0, JOY_BUTTON_X):
+            color = Color.MAGENTA
+        elif Input.is_joy_button_pressed(0, JOY_BUTTON_B):
+            color = Color.RED
+        elif Input.is_joy_button_pressed(0, JOY_BUTTON_Y):
+            color = Color.GREEN
+            
+        Input.set_joy_light(0, color)
+
+The following example smoothly fades the LED through hues in a loop:
+
+GDScript:
+    var hue = 0.0
+
+    func _process(delta):
+        var col = Color.from_hsv(hue, 1.0, 1.0)
+        Input.set_joy_light(0, col)
+        hue += delta * 0.1
+
+The following example makes the LED blink red three times when the south button (Cross/X on PlayStation controllers) is pressed:
+
+GDScript:
+    var blink_tween: Tween = null
+
+    func _process(_delta):
+        var ready_to_blink = not blink_tween or not blink_tween.is_running()
+        if Input.is_joy_button_pressed(0, JOY_BUTTON_A) and ready_to_blink:
+            do_blink()
+
+    func do_blink():
+        if blink_tween:
+            blink_tween.kill()
+
+        blink_tween = create_tween()
+        blink_tween.tween_callback(func(): Input.set_joy_light(0, Color.RED))
+        blink_tween.tween_interval(0.2)
+        blink_tween.tween_callback(func(): Input.set_joy_light(0, Color.BLACK))
+        blink_tween.tween_interval(0.2)
+        blink_tween.set_loops(3)
+---CHUNK---
+Document: Controller Features
+Path: godot/tutorials/inputs/controller_features.rst
+Summary: This section explains how to use motion sensors (gyroscope and accelerometer) on game controllers in Godot.
+
+Motion sensors (gyroscope and accelerometer) allow games to track the controller's physical rotation and movement. This can be used for features like controlling the in-game camera by moving the controller or performing special actions by shaking it.
+
+Several controller brands, notably PlayStation and Nintendo, include motion sensors in their modern controllers. Xbox controllers do not have these sensors.
+
+To check if a connected controller has motion sensors, use Input.has_joy_motion_sensors().
+
+Motion sensors are disabled by default to conserve controller battery life. To enable them, call Input.set_joy_motion_sensors_enabled().
+
+The axes of the values reported by controller motion sensors are always relative to the controller's natural orientation.
+
+The controller's gyroscope values indicate rotation around their respective axes:
+- X value: rotation around the X axis (roll).
+- Y value: rotation around the Y axis (yaw).
+- Z value: rotation around the Z axis (pitch).
+
+The controller's accelerometer provides values for movement along its axes:
+- +X and -X: Movement left and right.
+- +Y and -Y: Movement down and up.
+- +Z and -Z: Movement away from and towards the user.
+---CHUNK---
+Document: controller_features
+Path: godot/tutorials/inputs/controller_features.rst
+Summary: This section explains how to use the gyroscope sensor on a controller for game input, including calibration and reading rotation data.
+
+A gyroscope is a type of sensor that detects the controller's rotation.
+Notable examples of gyroscope use in games include:
+- Gyro aiming, where tilting the controller rotates the camera, as seen in *Helldivers 2*, *Horizon Forbidden West*, *Star Wars: Dark Forces Remaster*, and *Fortnite*.
+- Soothing in-game characters by rotating the controller softly, as in *Death Stranding*.
+
+The following example demonstrates rotating an object using a controller's gyroscope sensor.
+
+GDScript:
+```gdscript
+const GYRO_SENSITIVITY = 10.0
+
+func _ready():
+    # In this example we only use the first connected joypad (id 0).
+    if 0 not in Input.get_connected_joypads():
+        return
+
+    if not Input.has_joy_motion_sensors(0):
+        return
+
+    # We must enable the motion sensors before using them.
+    Input.set_joy_motion_sensors_enabled(0, true)
+
+    # (Tell the users here that they need to put their joypads on a flat surface and wait for confirmation.)
+
+    # Start the calibration process.
+    calibrate_motion()
+
+func _process(delta):
+    # Only move the object if the joypad motion sensors are calibrated.
+    if Input.is_joy_motion_sensors_calibrated(0):
+        move_object(delta)
+
+func calibrate_motion():
+    Input.start_joy_motion_sensors_calibration(0)
+
+    # Wait for some time.
+    await get_tree().create_timer(1.0).timeout
+
+    Input.stop_joy_motion_sensors_calibration(0)
+    # The joypad is now calibrated.
+
+func move_object(delta):
+    var node: Node3D = ... # Put your object here.
+
+    var gyro := Input.get_joy_gyroscope(0)
+    node.rotation.x -= -gyro.y * GYRO_SENSITIVITY * delta  # Use rotation around the Y axis (yaw) here.
+    node.rotation.y += -gyro.x * GYRO_SENSITIVITY * delta  # Use rotation around the X axis (pitch) here.
+```
+
+Before using the gyroscope's data, it must be calibrated using Input.start_joy_motion_sensors_calibration() and Input.stop_joy_motion_sensors_calibration(). This is necessary because modern gyroscopes often require calibration to provide accurate readings, similar to how a weighing scale needs calibration to establish a "zero" point. During calibration, the user places the controller on a flat surface, allowing the device to determine its "bias" (the values reported when not moving) and use this to improve rotation data accuracy.
+
+After the controller's gyroscope has been enabled and correctly calibrated, its reported values can be read using Input.get_joy_gyroscope().
+---CHUNK---
+Document: Controller Features
+Path: godot/tutorials/inputs/controller_features.rst
+Summary: This section explains how to use the accelerometer sensor on game controllers to detect motion and provides GDScript examples for implementation.
+
+An accelerometer is a sensor that detects a controller's acceleration in m/s². It can detect actions like raising, moving sideways, or shaking the controller. By default, accelerometer readings include gravity. To get only the user-imparted acceleration, subtract gravity:
+
+GDScript:
+Input.get_joy_accelerometer(device) - Input.get_joy_gravity(device)
+
+Accelerometers can exhibit a brief opposite reading after movement stops. To avoid detecting this, you may want to ignore readings for a short period after detecting movement.
+
+The following example demonstrates printing controller movement detected by the accelerometer. The `THRESHOLD` constant can be adjusted to fine-tune sensitivity.
+
+GDScript:
+var detect_accelerometer = true
+
+# Change to make the game detect movement at different thresholds.
+# With a lower value, smaller movements will be detected, and with a
+# larger value, only big movements will be detected.
+const THRESHOLD = 10.0
+
+func _ready():
+    # In this example, we only use the first connected joypad (ID 0).
+    if 0 not in Input.get_connected_joypads():
+        return
+
+    if not Input.has_joy_motion_sensors(0):
+        return
+
+    # We must enable the motion sensors before using them.
+    Input.set_joy_motion_sensors_enabled(0, true)
+
+func _process(delta):
+    if Input.has_joy_motion_sensors(0):
+        accelerometer_example()
+
+func accelerometer_example():
+    if not detect_accelerometer:
+        return
+
+    var acceleration = Input.get_joy_accelerometer(0) - Input.get_joy_gravity(0)
+    if acceleration.length() > THRESHOLD:
+        if acceleration.x > THRESHOLD:
+            print("Moved left")
+        elif acceleration.x < -THRESHOLD:
+            print("Moved right")
+        if acceleration.y < -THRESHOLD:
+            print("Moved up")
+        elif acceleration.y > THRESHOLD:
+            print("Moved down")
+        if acceleration.z < -THRESHOLD:
+            print("Moved closer to the player")
+        elif acceleration.z > THRESHOLD:
+            print("Moved away from the player")
+
+        # After detecting movement in one direction, the accelerometer sensor
+        # will briefly report movement in the opposite direction, even though the controller only moved once.
+        # So we need to ignore these reported values for a short amount of time.
+        detect_accelerometer = false
+        await get_tree().create_timer(0.5, false).timeout
+        detect_accelerometer = true
+
+Note: Do not use accelerometer data to determine the controller's position in 3D space, as accelerometers are generally not precise enough for this purpose.

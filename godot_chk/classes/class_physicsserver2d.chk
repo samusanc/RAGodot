@@ -1,0 +1,662 @@
+Document: PhysicsServer2D
+Path: godot/classes/class_physicsserver2d.rst
+Summary: A server that provides a low-level interface for 2D physics.
+---CHUNK---
+Document: PhysicsServer2D
+Path: godot/classes/class_physicsserver2d.rst
+Summary: PhysicsServer2D is the server interface for low-level 2D physics access.
+
+Inherits: Object
+Inherited By: PhysicsServer2DExtension
+
+PhysicsServer2D is a server interface for low-level 2D physics access. It is the default backend for 2D physics in Godot and can be used to create a custom physics implementation.
+---CHUNK---
+Document: PhysicsServer2D
+Path: godot/classes/class_physicsserver2d.rst
+Summary: An overview of the PhysicsServer2D, which is the server responsible for all 2D physics, and the main objects it manages: spaces, shapes, bodies, areas, and joints.
+
+PhysicsServer2D is the server responsible for all 2D physics. It can directly create and manipulate all physics objects:
+
+- A space is a self-contained world for a physics simulation. It contains bodies, areas, and joints. Its state can be queried for collision and intersection information, and several parameters of the simulation can be modified.
+
+- A shape is a geometric shape such as a circle, a rectangle, a capsule, or a polygon. It can be used for collision detection by adding it to a body/area, possibly with an extra transformation relative to the body/area's origin. Bodies/areas can have multiple (transformed) shapes added to them, and a single shape can be added to bodies/areas multiple times with different local transformations.
+
+- A body is a physical object which can be in static, kinematic, or rigid mode. Its state (such as position and velocity) can be queried and updated. A force integration callback can be set to customize the body's physics.
+
+- An area is a region in space which can be used to detect bodies and areas entering and exiting it. A body monitoring callback can be set to report entering/exiting body shapes, and similarly an area monitoring callback can be set. Gravity and damping can be overridden within the area by setting area parameters.
+
+- A joint is a constraint, either between two bodies or on one body relative to a point. Parameters such as the joint bias and the rest length of a spring joint can be adjusted.
+
+Physics objects in PhysicsServer2D may be created and manipulated independently; they do not have to be tied to nodes in the scene tree.
+
+Note: All the 2D physics nodes use the physics server internally. Adding a physics node to the scene tree will cause a corresponding physics object to be created in the physics server. A rigid body node registers a callback that updates the node's transform with the transform of the respective body object in the physics server (every physics update). An area node registers a callback to inform the area node about overlaps with the respective area object in the physics server. The raycast node queries the direct state of the relevant space in the physics server.
+---CHUNK---
+Document: PhysicsServer2D
+Path: godot/classes/class_physicsserver2d.rst
+Summary: A comprehensive list of methods for managing 2D physics objects, including areas, bodies, shapes, joints, and spaces, covering creation, modification, and state retrieval.
+
+* Method: area_add_shape(area: RID, shape: RID, transform: Transform2D = Transform2D(1, 0, 0, 1, 0, 0), disabled: bool = false) -> void
+* Method: area_attach_canvas_instance_id(area: RID, id: int) -> void
+* Method: area_attach_object_instance_id(area: RID, id: int) -> void
+* Method: area_clear_shapes(area: RID) -> void
+* Method: area_create() -> RID
+* Method: area_get_canvas_instance_id(area: RID) -> int
+* Method: area_get_collision_layer(area: RID) -> int
+* Method: area_get_collision_mask(area: RID) -> int
+* Method: area_get_object_instance_id(area: RID) -> int
+* Method: area_get_param(area: RID, param: AreaParameter) -> Variant
+* Method: area_get_shape(area: RID, shape_idx: int) -> RID
+* Method: area_get_shape_count(area: RID) -> int
+* Method: area_get_shape_transform(area: RID, shape_idx: int) -> Transform2D
+* Method: area_get_space(area: RID) -> RID
+* Method: area_get_transform(area: RID) -> Transform2D
+* Method: area_remove_shape(area: RID, shape_idx: int) -> void
+* Method: area_set_area_monitor_callback(area: RID, callback: Callable) -> void
+* Method: area_set_collision_layer(area: RID, layer: int) -> void
+* Method: area_set_collision_mask(area: RID, mask: int) -> void
+* Method: area_set_monitor_callback(area: RID, callback: Callable) -> void
+* Method: area_set_monitorable(area: RID, monitorable: bool) -> void
+* Method: area_set_param(area: RID, param: AreaParameter, value: Variant) -> void
+* Method: area_set_shape(area: RID, shape_idx: int, shape: RID) -> void
+* Method: area_set_shape_disabled(area: RID, shape_idx: int, disabled: bool) -> void
+* Method: area_set_shape_transform(area: RID, shape_idx: int, transform: Transform2D) -> void
+* Method: area_set_space(area: RID, space: RID) -> void
+* Method: area_set_transform(area: RID, transform: Transform2D) -> void
+* Method: body_add_collision_exception(body: RID, excepted_body: RID) -> void
+* Method: body_add_constant_central_force(body: RID, force: Vector2) -> void
+* Method: body_add_constant_force(body: RID, force: Vector2, position: Vector2 = Vector2(0, 0)) -> void
+* Method: body_add_constant_torque(body: RID, torque: float) -> void
+* Method: body_add_shape(body: RID, shape: RID, transform: Transform2D = Transform2D(1, 0, 0, 1, 0, 0), disabled: bool = false) -> void
+* Method: body_apply_central_force(body: RID, force: Vector2) -> void
+* Method: body_apply_central_impulse(body: RID, impulse: Vector2) -> void
+* Method: body_apply_force(body: RID, force: Vector2, position: Vector2 = Vector2(0, 0)) -> void
+* Method: body_apply_impulse(body: RID, impulse: Vector2, position: Vector2 = Vector2(0, 0)) -> void
+* Method: body_apply_torque(body: RID, torque: float) -> void
+* Method: body_apply_torque_impulse(body: RID, impulse: float) -> void
+* Method: body_attach_canvas_instance_id(body: RID, id: int) -> void
+* Method: body_attach_object_instance_id(body: RID, id: int) -> void
+* Method: body_clear_shapes(body: RID) -> void
+* Method: body_create() -> RID
+* Method: body_get_canvas_instance_id(body: RID) -> int
+* Method: body_get_collision_layer(body: RID) -> int
+* Method: body_get_collision_mask(body: RID) -> int
+* Method: body_get_collision_priority(body: RID) -> float
+* Method: body_get_constant_force(body: RID) -> Vector2
+* Method: body_get_constant_torque(body: RID) -> float
+* Method: body_get_continuous_collision_detection_mode(body: RID) -> CCDMode
+* Method: body_get_direct_state(body: RID) -> PhysicsDirectBodyState2D
+* Method: body_get_max_contacts_reported(body: RID) -> int
+* Method: body_get_mode(body: RID) -> BodyMode
+* Method: body_get_object_instance_id(body: RID) -> int
+* Method: body_get_param(body: RID, param: BodyParameter) -> Variant
+* Method: body_get_shape(body: RID, shape_idx: int) -> RID
+* Method: body_get_shape_count(body: RID) -> int
+* Method: body_get_shape_transform(body: RID, shape_idx: int) -> Transform2D
+* Method: body_get_space(body: RID) -> RID
+* Method: body_get_state(body: RID, state: BodyState) -> Variant
+* Method: body_is_omitting_force_integration(body: RID) -> bool
+* Method: body_remove_collision_exception(body: RID, excepted_body: RID) -> void
+* Method: body_remove_shape(body: RID, shape_idx: int) -> void
+* Method: body_reset_mass_properties(body: RID) -> void
+* Method: body_set_axis_velocity(body: RID, axis_velocity: Vector2) -> void
+* Method: body_set_collision_layer(body: RID, layer: int) -> void
+* Method: body_set_collision_mask(body: RID, mask: int) -> void
+* Method: body_set_collision_priority(body: RID, priority: float) -> void
+* Method: body_set_constant_force(body: RID, force: Vector2) -> void
+* Method: body_set_constant_torque(body: RID, torque: float) -> void
+* Method: body_set_continuous_collision_detection_mode(body: RID, mode: CCDMode) -> void
+* Method: body_set_force_integration_callback(body: RID, callable: Callable, userdata: Variant = null) -> void
+* Method: body_set_max_contacts_reported(body: RID, amount: int) -> void
+* Method: body_set_mode(body: RID, mode: BodyMode) -> void
+* Method: body_set_omit_force_integration(body: RID, enable: bool) -> void
+* Method: body_set_param(body: RID, param: BodyParameter, value: Variant) -> void
+* Method: body_set_shape(body: RID, shape_idx: int, shape: RID) -> void
+* Method: body_set_shape_as_one_way_collision(body: RID, shape_idx: int, enable: bool, margin: float, direction: Vector2 = Vector2(0, 1)) -> void
+* Method: body_set_shape_disabled(body: RID, shape_idx: int, disabled: bool) -> void
+* Method: body_set_shape_transform(body: RID, shape_idx: int, transform: Transform2D) -> void
+* Method: body_set_space(body: RID, space: RID) -> void
+* Method: body_set_state(body: RID, state: BodyState, value: Variant) -> void
+* Method: body_set_state_sync_callback(body: RID, callable: Callable) -> void
+* Method: body_test_motion(body: RID, parameters: PhysicsTestMotionParameters2D, result: PhysicsTestMotionResult2D = null) -> bool
+* Method: capsule_shape_create() -> RID
+* Method: circle_shape_create() -> RID
+* Method: concave_polygon_shape_create() -> RID
+* Method: convex_polygon_shape_create() -> RID
+* Method: damped_spring_joint_get_param(joint: RID, param: DampedSpringParam) -> float
+* Method: damped_spring_joint_set_param(joint: RID, param: DampedSpringParam, value: float) -> void
+* Method: free_rid(rid: RID) -> void
+* Method: get_process_info(process_info: ProcessInfo) -> int
+* Method: joint_clear(joint: RID) -> void
+* Method: joint_create() -> RID
+* Method: joint_disable_collisions_between_bodies(joint: RID, disable: bool) -> void
+* Method: joint_get_param(joint: RID, param: JointParam) -> float
+* Method: joint_get_type(joint: RID) -> JointType
+* Method: joint_is_disabled_collisions_between_bodies(joint: RID) -> bool
+* Method: joint_make_damped_spring(joint: RID, anchor_a: Vector2, anchor_b: Vector2, body_a: RID, body_b: RID = RID()) -> void
+* Method: joint_make_groove(joint: RID, groove1_a: Vector2, groove2_a: Vector2, anchor_b: Vector2, body_a: RID = RID(), body_b: RID = RID()) -> void
+* Method: joint_make_pin(joint: RID, anchor: Vector2, body_a: RID, body_b: RID = RID()) -> void
+* Method: joint_set_param(joint: RID, param: JointParam, value: float) -> void
+* Method: pin_joint_get_flag(joint: RID, flag: PinJointFlag) -> bool
+* Method: pin_joint_get_param(joint: RID, param: PinJointParam) -> float
+* Method: pin_joint_set_flag(joint: RID, flag: PinJointFlag, enabled: bool) -> void
+* Method: pin_joint_set_param(joint: RID, param: PinJointParam, value: float) -> void
+* Method: rectangle_shape_create() -> RID
+* Method: segment_shape_create() -> RID
+* Method: separation_ray_shape_create() -> RID
+* Method: set_active(active: bool) -> void
+* Method: shape_get_data(shape: RID) -> Variant
+* Method: shape_get_type(shape: RID) -> ShapeType
+* Method: shape_set_data(shape: RID, data: Variant) -> void
+* Method: space_create() -> RID
+* Method: space_get_direct_state(space: RID) -> PhysicsDirectSpaceState2D
+* Method: space_get_param(space: RID, param: SpaceParameter) -> float
+* Method: space_is_active(space: RID) -> bool
+* Method: space_set_active(space: RID, active: bool) -> void
+* Method: space_set_param(space: RID, param: SpaceParameter, value: float) -> void
+* Method: world_boundary_shape_create() -> RID
+---CHUNK---
+Document: PhysicsServer2D
+Path: godot/classes/class_physicsserver2d.rst
+Summary: This chunk details the various enumerations used by the PhysicsServer2D to configure spaces, shapes, areas, bodies, joints, continuous collision detection (CCD), and to retrieve process information.
+
+Enumerations
+
+enum SpaceParameter:
+- SPACE_PARAM_CONTACT_RECYCLE_RADIUS = 0: Constant to set/get the maximum distance a pair of bodies has to move before their collision status has to be recalculated. The default value is from ProjectSettings.physics/2d/solver/contact_recycle_radius.
+- SPACE_PARAM_CONTACT_MAX_SEPARATION = 1: Constant to set/get the maximum distance a shape can be from another before they are considered separated and the contact is discarded. The default value is from ProjectSettings.physics/2d/solver/contact_max_separation.
+- SPACE_PARAM_CONTACT_MAX_ALLOWED_PENETRATION = 2: Constant to set/get the maximum distance a shape can penetrate another shape before it is considered a collision. The default value is from ProjectSettings.physics/2d/solver/contact_max_allowed_penetration.
+- SPACE_PARAM_CONTACT_DEFAULT_BIAS = 3: Constant to set/get the default solver bias for all physics contacts. A solver bias is a factor controlling how much two objects "rebound" after overlapping to avoid leaving them in that state due to numerical imprecision. The default value is from ProjectSettings.physics/2d/solver/default_contact_bias.
+- SPACE_PARAM_BODY_LINEAR_VELOCITY_SLEEP_THRESHOLD = 4: Constant to set/get the threshold linear velocity of activity. A body marked as potentially inactive for both linear and angular velocity will be put to sleep after the time given. The default value is from ProjectSettings.physics/2d/sleep_threshold_linear.
+- SPACE_PARAM_BODY_ANGULAR_VELOCITY_SLEEP_THRESHOLD = 5: Constant to set/get the threshold angular velocity of activity. A body marked as potentially inactive for both linear and angular velocity will be put to sleep after the time given. The default value is from ProjectSettings.physics/2d/sleep_threshold_angular.
+- SPACE_PARAM_BODY_TIME_TO_SLEEP = 6: Constant to set/get the maximum time of activity. A body marked as potentially inactive for both linear and angular velocity will be put to sleep after this time. The default value is from ProjectSettings.physics/2d/time_before_sleep.
+- SPACE_PARAM_CONSTRAINT_DEFAULT_BIAS = 7: Constant to set/get the default solver bias for all physics constraints. A solver bias is a factor controlling how much two objects "rebound" after violating a constraint. The default value is from ProjectSettings.physics/2d/solver/default_constraint_bias.
+- SPACE_PARAM_SOLVER_ITERATIONS = 8: Constant to set/get the number of solver iterations for all contacts and constraints. More iterations mean more accuracy but higher CPU cost. The default value is from ProjectSettings.physics/2d/solver/solver_iterations.
+
+enum ShapeType:
+- SHAPE_WORLD_BOUNDARY = 0: Constant for creating world boundary shapes. A world boundary is an infinite line with an origin and a normal, useful for front/behind checks.
+- SHAPE_SEPARATION_RAY = 1: Constant for creating separation ray shapes. A separation ray has a length and separates from what touches its far endpoint. Useful for character controllers.
+- SHAPE_SEGMENT = 2: Constant for creating segment shapes. A segment is a finite line from point A to B, checkable for intersections.
+- SHAPE_CIRCLE = 3: Constant for creating circle shapes. A circle has a radius and can be used for intersection and inside/outside checks.
+- SHAPE_RECTANGLE = 4: Constant for creating rectangle shapes. A rectangle has a width and height and can be used for intersection and inside/outside checks.
+- SHAPE_CAPSULE = 5: Constant for creating capsule shapes. A capsule has a radius and length and can be used for intersection and inside/outside checks.
+- SHAPE_CONVEX_POLYGON = 6: Constant for creating convex polygon shapes from a list of points. Can be used for intersection and inside/outside checks.
+- SHAPE_CONCAVE_POLYGON = 7: Constant for creating concave polygon shapes from a list of points. Can be used for intersection checks, but not inside/outside checks.
+- SHAPE_CUSTOM = 8: Used internally by the engine. Creating this shape type results in an error.
+
+enum AreaParameter:
+- AREA_PARAM_GRAVITY_OVERRIDE_MODE = 0: Sets the gravity override mode. See AreaSpaceOverrideMode. Default: AREA_SPACE_OVERRIDE_DISABLED.
+- AREA_PARAM_GRAVITY = 1: Sets the gravity strength. Default: 9.80665.
+- AREA_PARAM_GRAVITY_VECTOR = 2: Sets the gravity vector/center. Default: Vector2(0, -1).
+- AREA_PARAM_GRAVITY_IS_POINT = 3: If true, the gravity vector is a center point. Default: false.
+- AREA_PARAM_GRAVITY_POINT_UNIT_DISTANCE = 4: Sets the distance at which point gravity strength is equal to AREA_PARAM_GRAVITY. Gravity has an inverse square law falloff. For example, for a planet 100 pixels in radius with surface gravity 4.0, set gravity to 4.0 and unit distance to 100.0. At 200 pixels, gravity will be 1.0 (1/4th); at 50 pixels, it will be 16.0 (4x). If unit distance is 0.0, gravity is constant regardless of distance. Default: 0.0.
+- AREA_PARAM_LINEAR_DAMP_OVERRIDE_MODE = 5: Sets the linear damping override mode. See AreaSpaceOverrideMode. Default: AREA_SPACE_OVERRIDE_DISABLED.
+- AREA_PARAM_LINEAR_DAMP = 6: Sets the linear damping factor. Default: 0.1.
+- AREA_PARAM_ANGULAR_DAMP_OVERRIDE_MODE = 7: Sets the angular damping override mode. See AreaSpaceOverrideMode. Default: AREA_SPACE_OVERRIDE_DISABLED.
+- AREA_PARAM_ANGULAR_DAMP = 8: Sets the angular damping factor. Default: 1.0.
+- AREA_PARAM_PRIORITY = 9: Sets the processing priority of the area. Default: 0.
+
+enum AreaSpaceOverrideMode:
+- AREA_SPACE_OVERRIDE_DISABLED = 0: The area does not affect gravity/damp. Used for collision detection only.
+- AREA_SPACE_OVERRIDE_COMBINE = 1: The area adds its gravity/damp values to the current calculation. Overlapping areas can combine effects.
+- AREA_SPACE_OVERRIDE_COMBINE_REPLACE = 2: The area adds its values, then stops processing further areas, including the default one.
+- AREA_SPACE_OVERRIDE_REPLACE = 3: The area replaces any gravity/damp and stops processing further areas.
+- AREA_SPACE_OVERRIDE_REPLACE_COMBINE = 4: The area replaces the calculated gravity/damp so far, but continues calculating subsequent areas.
+
+enum BodyMode:
+- BODY_MODE_STATIC = 0: For static bodies. Moved only by user code and does not collide with other bodies along its path when moved.
+- BODY_MODE_KINEMATIC = 1: For kinematic bodies. Moved only by user code and collides with other bodies along its path.
+- BODY_MODE_RIGID = 2: For rigid bodies. Can be pushed by other bodies and has forces applied.
+- BODY_MODE_RIGID_LINEAR = 3: For linear rigid bodies. Cannot rotate; only linear velocity is affected by external forces.
+
+enum BodyParameter:
+- BODY_PARAM_BOUNCE = 0: Sets a body's bounce factor. Default: 0.0.
+- BODY_PARAM_FRICTION = 1: Sets a body's friction. Default: 1.0.
+- BODY_PARAM_MASS = 2: Sets a body's mass. Default: 1.0. For rigid bodies, setting this also recalculates BODY_PARAM_CENTER_OF_MASS (if never set) and BODY_PARAM_INERTIA (if <= 0.0).
+- BODY_PARAM_INERTIA = 3: Sets a body's inertia. Default: 0.0. If <= 0.0, it is recalculated from shapes, mass, and center of mass.
+- BODY_PARAM_CENTER_OF_MASS = 4: Sets a body's center of mass in local coordinates. Default: Vector2(0, 0). If never set, it's recalculated from shapes when mass is set or body_set_space() is called.
+- BODY_PARAM_GRAVITY_SCALE = 5: Sets a body's gravity multiplier. Default: 1.0.
+- BODY_PARAM_LINEAR_DAMP_MODE = 6: Sets the linear damping mode. See BodyDampMode. Default: BODY_DAMP_MODE_COMBINE.
+- BODY_PARAM_ANGULAR_DAMP_MODE = 7: Sets the angular damping mode. See BodyDampMode. Default: BODY_DAMP_MODE_COMBINE.
+- BODY_PARAM_LINEAR_DAMP = 8: Sets a body's linear damping factor. Default: 0.0.
+- BODY_PARAM_ANGULAR_DAMP = 9: Sets a body's angular damping factor. Default: 0.0.
+- BODY_PARAM_MAX = 10: Represents the size of the BodyParameter enum.
+
+enum BodyDampMode:
+- BODY_DAMP_MODE_COMBINE = 0: The body's damping value is added to any value from areas or the default.
+- BODY_DAMP_MODE_REPLACE = 1: The body's damping value replaces any value from areas or the default.
+
+enum BodyState:
+- BODY_STATE_TRANSFORM = 0: Constant to set/get the body's current transform matrix.
+- BODY_STATE_LINEAR_VELOCITY = 1: Constant to set/get the body's current linear velocity.
+- BODY_STATE_ANGULAR_VELOCITY = 2: Constant to set/get the body's current angular velocity.
+- BODY_STATE_SLEEPING = 3: Constant to sleep/wake up a body, or get its sleep state.
+- BODY_STATE_CAN_SLEEP = 4: Constant to set/get whether the body can sleep.
+
+enum JointType:
+- JOINT_TYPE_PIN = 0: Constant to create pin joints.
+- JOINT_TYPE_GROOVE = 1: Constant to create groove joints.
+- JOINT_TYPE_DAMPED_SPRING = 2: Constant to create damped spring joints.
+- JOINT_TYPE_MAX = 3: Represents the size of the JointType enum.
+
+enum JointParam:
+- JOINT_PARAM_BIAS = 0: Sets how fast the joint pulls bodies back to satisfy the constraint. Lower values mean bodies can pull more on the joint. Default: 0.0. Note: In Godot Physics, this is only used for pin and groove joints.
+- JOINT_PARAM_MAX_BIAS = 1: Sets the maximum speed for joint corrections. Default: 3.40282e+38. Note: In Godot Physics, this is only used for groove joints.
+- JOINT_PARAM_MAX_FORCE = 2: Sets the maximum force the joint can use. Default: 3.40282e+38. Note: In Godot Physics, this is only used for groove joints.
+
+enum PinJointParam:
+- PIN_JOINT_SOFTNESS = 0: Sets how much the pin joint's bond can flex. Default: 0.0.
+- PIN_JOINT_LIMIT_UPPER = 1: The maximum rotation around the pin.
+- PIN_JOINT_LIMIT_LOWER = 2: The minimum rotation around the pin.
+- PIN_JOINT_MOTOR_TARGET_VELOCITY = 3: Target speed for the motor, in radians per second.
+
+enum PinJointFlag:
+- PIN_JOINT_FLAG_ANGULAR_LIMIT_ENABLED = 0: If true, the pin has a maximum and minimum rotation.
+- PIN_JOINT_FLAG_MOTOR_ENABLED = 1: If true, a motor turns the pin.
+
+enum DampedSpringParam:
+- DAMPED_SPRING_REST_LENGTH = 0: The resting length of the spring. The joint will try to return to this length. Default is the distance between anchor points.
+- DAMPED_SPRING_STIFFNESS = 1: The stiffness of the spring. Force applied is stiffness times distance from rest length. Default: 20.0.
+- DAMPED_SPRING_DAMPING = 2: The damping ratio of the spring. 0 is undamped, 1 is critical damping (fastest equilibrium). Default: 1.5.
+
+enum CCDMode:
+- CCD_MODE_DISABLED = 0: Disables continuous collision detection. Fastest, but can miss small/fast objects.
+- CCD_MODE_CAST_RAY = 1: Enables CCD by raycasting. Faster than shapecasting, but less precise.
+- CCD_MODE_CAST_SHAPE = 2: Enables CCD by shapecasting. Slowest and most precise method.
+
+enum AreaBodyStatus:
+- AREA_BODY_ADDED = 0: Value received by the area callback function when an object enters one of its shapes.
+- AREA_BODY_REMOVED = 1: Value received by the area callback function when an object exits one of its shapes.
+
+enum ProcessInfo:
+- INFO_ACTIVE_OBJECTS = 0: Constant to get the number of non-sleeping objects.
+- INFO_COLLISION_PAIRS = 1: Constant to get the number of possible collisions.
+- INFO_ISLAND_COUNT = 2: Constant to get the number of space regions where a collision could occur.
+---CHUNK---
+Document: PhysicsServer2D
+Path: godot/classes/class_physicsserver2d.rst
+Summary: This chunk details the methods of PhysicsServer2D for direct, low-level manipulation of the 2D physics world, including creating, configuring, and querying areas, bodies, shapes, and joints, as well as applying forces and handling callbacks.
+
+Method: area_add_shape(area: RID, shape: RID, transform: Transform2D = Transform2D(1, 0, 0, 1, 0, 0), disabled: bool = false) -> void
+Adds a shape to the area, with the given local transform. The shape (together with its `transform` and `disabled` properties) is added to an array of shapes, and the shapes of an area are usually referenced by their index in this array.
+
+Method: area_attach_canvas_instance_id(area: RID, id: int) -> void
+Attaches the ObjectID of a canvas to the area. Use Object.get_instance_id() to get the ObjectID of a CanvasLayer.
+
+Method: area_attach_object_instance_id(area: RID, id: int) -> void
+Attaches the ObjectID of an Object to the area. Use Object.get_instance_id() to get the ObjectID of a CollisionObject2D.
+
+Method: area_clear_shapes(area: RID) -> void
+Removes all shapes from the area. This does not delete the shapes themselves, so they can continue to be used elsewhere or added back later.
+
+Method: area_create() -> RID
+Creates a 2D area object in the physics server, and returns the RID that identifies it. The default settings for the created area include a collision layer and mask set to 1, and `monitorable` set to `false`. Use area_add_shape() to add shapes to it, use area_set_transform() to set its transform, and use area_set_space() to add the area to a space. If you want the area to be detectable use area_set_monitorable().
+
+Method: area_get_canvas_instance_id(area: RID) -> int
+Returns the ObjectID of the canvas attached to the area. Use @GlobalScope.instance_from_id() to retrieve a CanvasLayer from a nonzero ObjectID.
+
+Method: area_get_collision_layer(area: RID) -> int
+Returns the physics layer or layers the area belongs to, as a bitmask.
+
+Method: area_get_collision_mask(area: RID) -> int
+Returns the physics layer or layers the area can contact with, as a bitmask.
+
+Method: area_get_object_instance_id(area: RID) -> int
+Returns the ObjectID attached to the area. Use @GlobalScope.instance_from_id() to retrieve an Object from a nonzero ObjectID.
+
+Method: area_get_param(area: RID, param: AreaParameter) -> Variant
+Returns the value of the given area parameter.
+
+Method: area_get_shape(area: RID, shape_idx: int) -> RID
+Returns the RID of the shape with the given index in the area's array of shapes.
+
+Method: area_get_shape_count(area: RID) -> int
+Returns the number of shapes added to the area.
+
+Method: area_get_shape_transform(area: RID, shape_idx: int) -> Transform2D
+Returns the local transform matrix of the shape with the given index in the area's array of shapes.
+
+Method: area_get_space(area: RID) -> RID
+Returns the RID of the space assigned to the area. Returns an empty RID if no space is assigned.
+
+Method: area_get_transform(area: RID) -> Transform2D
+Returns the transform matrix of the area.
+
+Method: area_remove_shape(area: RID, shape_idx: int) -> void
+Removes the shape with the given index from the area's array of shapes. The shape itself is not deleted, so it can continue to be used elsewhere or added back later. As a result of this operation, the area's shapes which used to have indices higher than `shape_idx` will have their index decreased by one.
+
+Method: area_set_area_monitor_callback(area: RID, callback: Callable) -> void
+Sets the area's area monitor callback. This callback will be called when any other area's shape enters or exits the given area, and must take the following five parameters:
+1. an integer `status`: either AREA_BODY_ADDED or AREA_BODY_REMOVED depending on whether the other area's shape entered or exited the area,
+2. an RID `area_rid`: the RID of the other area that entered or exited the area,
+3. an integer `instance_id`: the ObjectID attached to the other area,
+4. an integer `area_shape_idx`: the index of the shape of the other area that entered or exited the area,
+5. an integer `self_shape_idx`: the index of the shape of the area where the other area entered or exited.
+By counting (or keeping track of) the shapes that enter and exit, it can be determined if an area (with all its shapes) is entering for the first time or exiting for the last time.
+
+Method: area_set_collision_layer(area: RID, layer: int) -> void
+Assigns the area to one or many physics layers, via a bitmask.
+
+Method: area_set_collision_mask(area: RID, mask: int) -> void
+Sets which physics layers the area will monitor, via a bitmask.
+
+Method: area_set_monitor_callback(area: RID, callback: Callable) -> void
+Sets the area's body monitor callback. This callback will be called when any body's shape enters or exits the given area, and must take the following five parameters:
+1. an integer `status`: either AREA_BODY_ADDED or AREA_BODY_REMOVED depending on whether the other body shape entered or exited the area,
+2. an RID `body_rid`: the RID of the body that entered or exited the area,
+3. an integer `instance_id`: the ObjectID attached to the body,
+4. an integer `body_shape_idx`: the index of the shape of the body that entered or exited the area,
+5. an integer `self_shape_idx`: the index of the shape of the area where the body entered or exited.
+By counting (or keeping track of) the shapes that enter and exit, it can be determined if a body (with all its shapes) is entering for the first time or exiting for the last time.
+
+Method: area_set_monitorable(area: RID, monitorable: bool) -> void
+Sets whether the area is monitorable or not. If `monitorable` is `true`, the area monitoring callback of other areas will be called when this area enters or exits them.
+
+Method: area_set_param(area: RID, param: AreaParameter, value: Variant) -> void
+Sets the value of the given area parameter.
+
+Method: area_set_shape(area: RID, shape_idx: int, shape: RID) -> void
+Replaces the area's shape at the given index by another shape, while not affecting the `transform` and `disabled` properties at the same index.
+
+Method: area_set_shape_disabled(area: RID, shape_idx: int, disabled: bool) -> void
+Sets the disabled property of the area's shape with the given index. If `disabled` is `true`, then the shape will not detect any other shapes entering or exiting it.
+
+Method: area_set_shape_transform(area: RID, shape_idx: int, transform: Transform2D) -> void
+Sets the local transform matrix of the area's shape with the given index.
+
+Method: area_set_space(area: RID, space: RID) -> void
+Adds the area to the given space, after removing the area from the previously assigned space (if any). Note: To remove an area from a space without immediately adding it back elsewhere, use `PhysicsServer2D.area_set_space(area, RID())`.
+
+Method: area_set_transform(area: RID, transform: Transform2D) -> void
+Sets the transform matrix of the area.
+
+Method: body_add_collision_exception(body: RID, excepted_body: RID) -> void
+Adds `excepted_body` to the body's list of collision exceptions, so that collisions with it are ignored.
+
+Method: body_add_constant_central_force(body: RID, force: Vector2) -> void
+Adds a constant directional force to the body. The force does not affect rotation. The force remains applied over time until cleared with `PhysicsServer2D.body_set_constant_force(body, Vector2(0, 0))`. This is equivalent to using body_add_constant_force() at the body's center of mass.
+
+Method: body_add_constant_force(body: RID, force: Vector2, position: Vector2 = Vector2(0, 0)) -> void
+Adds a constant positioned force to the body. The force can affect rotation if `position` is different from the body's center of mass. The force remains applied over time until cleared with `PhysicsServer2D.body_set_constant_force(body, Vector2(0, 0))`. `position` is the offset from the body origin in global coordinates.
+
+Method: body_add_constant_torque(body: RID, torque: float) -> void
+Adds a constant rotational force to the body. The force does not affect position. The force remains applied over time until cleared with `PhysicsServer2D.body_set_constant_torque(body, 0)`.
+
+Method: body_add_shape(body: RID, shape: RID, transform: Transform2D = Transform2D(1, 0, 0, 1, 0, 0), disabled: bool = false) -> void
+Adds a shape to the body, with the given local transform. The shape (together with its `transform` and `disabled` properties) is added to an array of shapes, and the shapes of a body are usually referenced by their index in this array.
+
+Method: body_apply_central_force(body: RID, force: Vector2) -> void
+Applies a directional force to the body, at the body's center of mass. The force does not affect rotation. A force is time dependent and meant to be applied every physics update. This is equivalent to using body_apply_force() at the body's center of mass.
+
+Method: body_apply_central_impulse(body: RID, impulse: Vector2) -> void
+Applies a directional impulse to the body, at the body's center of mass. The impulse does not affect rotation. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise). This is equivalent to using body_apply_impulse() at the body's center of mass.
+
+Method: body_apply_force(body: RID, force: Vector2, position: Vector2 = Vector2(0, 0)) -> void
+Applies a positioned force to the body. The force can affect rotation if `position` is different from the body's center of mass. A force is time dependent and meant to be applied every physics update. `position` is the offset from the body origin in global coordinates.
+
+Method: body_apply_impulse(body: RID, impulse: Vector2, position: Vector2 = Vector2(0, 0)) -> void
+Applies a positioned impulse to the body. The impulse can affect rotation if `position` is different from the body's center of mass. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise). `position` is the offset from the body origin in global coordinates.
+
+Method: body_apply_torque(body: RID, torque: float) -> void
+Applies a rotational force to the body. The force does not affect position. A force is time dependent and meant to be applied every physics update.
+
+Method: body_apply_torque_impulse(body: RID, impulse: float) -> void
+Applies a rotational impulse to the body. The impulse does not affect position. An impulse is time-independent! Applying an impulse every frame would result in a framerate-dependent force. For this reason, it should only be used when simulating one-time impacts (use the "_force" functions otherwise).
+
+Method: body_attach_canvas_instance_id(body: RID, id: int) -> void
+Attaches the ObjectID of a canvas to the body. Use Object.get_instance_id() to get the ObjectID of a CanvasLayer.
+
+Method: body_attach_object_instance_id(body: RID, id: int) -> void
+Attaches the ObjectID of an Object to the body. Use Object.get_instance_id() to get the ObjectID of a CollisionObject2D.
+
+Method: body_clear_shapes(body: RID) -> void
+Removes all shapes from the body. This does not delete the shapes themselves, so they can continue to be used elsewhere or added back later.
+
+Method: body_create() -> RID
+Creates a 2D body object in the physics server, and returns the RID that identifies it. The default settings for the created area include a collision layer and mask set to 1, and body mode set to BODY_MODE_RIGID. Use body_add_shape() to add shapes to it, use body_set_state() to set its transform, and use body_set_space() to add the body to a space.
+
+Method: body_get_canvas_instance_id(body: RID) -> int
+Returns the ObjectID of the canvas attached to the body. Use @GlobalScope.instance_from_id() to retrieve a CanvasLayer from a nonzero ObjectID.
+
+Method: body_get_collision_layer(body: RID) -> int
+Returns the physics layer or layers the body belongs to, as a bitmask.
+
+Method: body_get_collision_mask(body: RID) -> int
+Returns the physics layer or layers the body can collide with, as a bitmask.
+
+Method: body_get_collision_priority(body: RID) -> float
+Returns the body's collision priority. This is used in the depenetration phase of body_test_motion(). The higher the priority is, the lower the penetration into the body will be.
+
+Method: body_get_constant_force(body: RID) -> Vector2
+Returns the body's total constant positional force applied during each physics update. See body_add_constant_force() and body_add_constant_central_force().
+
+Method: body_get_constant_torque(body: RID) -> float
+Returns the body's total constant rotational force applied during each physics update. See body_add_constant_torque().
+
+Method: body_get_continuous_collision_detection_mode(body: RID) -> CCDMode
+Returns the body's continuous collision detection mode.
+
+Method: body_get_direct_state(body: RID) -> PhysicsDirectBodyState2D
+Returns the PhysicsDirectBodyState2D of the body. Returns `null` if the body is destroyed or not assigned to a space.
+
+Method: body_get_max_contacts_reported(body: RID) -> int
+Returns the maximum number of contacts that the body can report. See body_set_max_contacts_reported().
+
+Method: body_get_mode(body: RID) -> BodyMode
+Returns the body's mode.
+
+Method: body_get_object_instance_id(body: RID) -> int
+Returns the ObjectID attached to the body. Use @GlobalScope.instance_from_id() to retrieve an Object from a nonzero ObjectID.
+
+Method: body_get_param(body: RID, param: BodyParameter) -> Variant
+Returns the value of the given body parameter.
+
+Method: body_get_shape(body: RID, shape_idx: int) -> RID
+Returns the RID of the shape with the given index in the body's array of shapes.
+
+Method: body_get_shape_count(body: RID) -> int
+Returns the number of shapes added to the body.
+
+Method: body_get_shape_transform(body: RID, shape_idx: int) -> Transform2D
+Returns the local transform matrix of the shape with the given index in the body's array of shapes.
+
+Method: body_get_space(body: RID) -> RID
+Returns the RID of the space assigned to the body. Returns an empty RID if no space is assigned.
+
+Method: body_get_state(body: RID, state: BodyState) -> Variant
+Returns the value of the given state of the body.
+
+Method: body_is_omitting_force_integration(body: RID) -> bool
+Returns `true` if the body is omitting the standard force integration. See body_set_omit_force_integration().
+
+Method: body_remove_collision_exception(body: RID, excepted_body: RID) -> void
+Removes `excepted_body` from the body's list of collision exceptions, so that collisions with it are no longer ignored.
+
+Method: body_remove_shape(body: RID, shape_idx: int) -> void
+Removes the shape with the given index from the body's array of shapes. The shape itself is not deleted, so it can continue to be used elsewhere or added back later. As a result of this operation, the body's shapes which used to have indices higher than `shape_idx` will have their index decreased by one.
+
+Method: body_reset_mass_properties(body: RID) -> void
+Restores the default inertia and center of mass of the body based on its shapes. This undoes any custom values previously set using body_set_param().
+
+Method: body_set_axis_velocity(body: RID, axis_velocity: Vector2) -> void
+Modifies the body's linear velocity so that its projection to the axis `axis_velocity.normalized()` is exactly `axis_velocity.length()`. This is useful for jumping behavior.
+
+Method: body_set_collision_layer(body: RID, layer: int) -> void
+Sets the physics layer or layers the body belongs to, via a bitmask.
+
+Method: body_set_collision_mask(body: RID, mask: int) -> void
+Sets the physics layer or layers the body can collide with, via a bitmask.
+
+Method: body_set_collision_priority(body: RID, priority: float) -> void
+Sets the body's collision priority. This is used in the depenetration phase of body_test_motion(). The higher the priority is, the lower the penetration into the body will be.
+
+Method: body_set_constant_force(body: RID, force: Vector2) -> void
+Sets the body's total constant positional force applied during each physics update. See body_add_constant_force() and body_add_constant_central_force().
+
+Method: body_set_constant_torque(body: RID, torque: float) -> void
+Sets the body's total constant rotational force applied during each physics update. See body_add_constant_torque().
+
+Method: body_set_continuous_collision_detection_mode(body: RID, mode: CCDMode) -> void
+Sets the continuous collision detection mode. Continuous collision detection tries to predict where a moving body would collide in between physics updates, instead of moving it and correcting its movement if it collided.
+
+Method: body_set_force_integration_callback(body: RID, callable: Callable, userdata: Variant = null) -> void
+Sets the body's custom force integration callback function to `callable`. Use an empty Callable (`Callable()`) to clear the custom callback. The function `callable` will be called every physics tick, before the standard force integration (see body_set_omit_force_integration()). It can be used for example to update the body's linear and angular velocity based on contact with other bodies. If `userdata` is not `null`, the function `callable` must take the following two parameters:
+1. `state`: a PhysicsDirectBodyState2D used to retrieve and modify the body's state,
+2. `userdata`: a Variant; its value will be the `userdata` passed into this method.
+If `userdata` is `null`, then `callable` must take only the `state` parameter.
+
+Method: body_set_max_contacts_reported(body: RID, amount: int) -> void
+Sets the maximum number of contacts that the body can report. If `amount` is greater than zero, then the body will keep track of at most this many contacts with other bodies.
+
+Method: body_set_mode(body: RID, mode: BodyMode) -> void
+Sets the body's mode.
+
+Method: body_set_omit_force_integration(body: RID, enable: bool) -> void
+Sets whether the body omits the standard force integration. If `enable` is `true`, the body will not automatically use applied forces, torques, and damping to update the body's linear and angular velocity. In this case, body_set_force_integration_callback() can be used to manually update the linear and angular velocity instead. This method is called when the property RigidBody2D.custom_integrator is set.
+
+Method: body_set_param(body: RID, param: BodyParameter, value: Variant) -> void
+Sets the value of the given body parameter.
+
+Method: body_set_shape(body: RID, shape_idx: int, shape: RID) -> void
+Replaces the body's shape at the given index by another shape, while not affecting the `transform`, `disabled`, and one-way collision properties at the same index.
+
+Method: body_set_shape_as_one_way_collision(body: RID, shape_idx: int, enable: bool, margin: float, direction: Vector2 = Vector2(0, 1)) -> void
+Sets the one-way collision properties of the body's shape with the given index. If `enable` is `true`, the one-way collision direction given by `direction` in the shape's local space (that is `body_get_shape_transform(body, shape_idx).basis_xform(direction).normalized()` in the body's local space) will be used to ignore collisions with the shape in the opposite direction, and to ensure depenetration of kinematic bodies happens in this direction.
+
+Method: body_set_shape_disabled(body: RID, shape_idx: int, disabled: bool) -> void
+Sets the disabled property of the body's shape with the given index. If `disabled` is `true`, then the shape will be ignored in all collision detection.
+
+Method: body_set_shape_transform(body: RID, shape_idx: int, transform: Transform2D) -> void
+Sets the local transform matrix of the body's shape with the given index.
+
+Method: body_set_space(body: RID, space: RID) -> void
+Adds the body to the given space, after removing the body from the previously assigned space (if any). If the body's mode is set to BODY_MODE_RIGID, then adding the body to a space will have the following additional effects:
+- If the parameter BODY_PARAM_CENTER_OF_MASS has never been set explicitly, then the value of that parameter will be recalculated based on the body's shapes.
+- If the parameter BODY_PARAM_INERTIA is set to a value `<= 0.0`, then the value of that parameter will be recalculated based on the body's shapes, mass, and center of mass.
+Note: To remove a body from a space without immediately adding it back elsewhere, use `PhysicsServer2D.body_set_space(body, RID())`.
+
+Method: body_set_state(body: RID, state: BodyState, value: Variant) -> void
+Sets the value of a body's state. Note: The state change doesn't take effect immediately. The state will change on the next physics frame.
+
+Method: body_set_state_sync_callback(body: RID, callable: Callable) -> void
+Sets the body's state synchronization callback function to `callable`. Use an empty Callable (`Callable()`) to clear the callback. The function `callable` will be called every physics frame, assuming that the body was active during the previous physics tick, and can be used to fetch the latest state from the physics server. The function `callable` must take the following parameters:
+1. `state`: a PhysicsDirectBodyState2D, used to retrieve the body's state.
+
+Method: body_test_motion(body: RID, parameters: PhysicsTestMotionParameters2D, result: PhysicsTestMotionResult2D = null) -> bool
+Returns `true` if a collision would result from moving the body along a motion vector from a given point in space. See PhysicsTestMotionParameters2D for the available motion parameters. Optionally a PhysicsTestMotionResult2D object can be passed, which will be used to store the information about the resulting collision.
+
+Method: capsule_shape_create() -> RID
+Creates a 2D capsule shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the capsule's height and radius.
+
+Method: circle_shape_create() -> RID
+Creates a 2D circle shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the circle's radius.
+
+Method: concave_polygon_shape_create() -> RID
+Creates a 2D concave polygon shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the concave polygon's segments.
+
+Method: convex_polygon_shape_create() -> RID
+Creates a 2D convex polygon shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the convex polygon's points.
+
+Method: damped_spring_joint_get_param(joint: RID, param: DampedSpringParam) -> float
+Returns the value of the given damped spring joint parameter.
+
+Method: damped_spring_joint_set_param(joint: RID, param: DampedSpringParam, value: float) -> void
+Sets the value of the given damped spring joint parameter.
+
+Method: free_rid(rid: RID) -> void
+Destroys any of the objects created by PhysicsServer2D. If the RID passed is not one of the objects that can be created by PhysicsServer2D, an error will be printed to the console.
+
+Method: get_process_info(process_info: ProcessInfo) -> int
+Returns the value of a physics engine state specified by `process_info`.
+
+Method: joint_clear(joint: RID) -> void
+Destroys the joint with the given RID, creates a new uninitialized joint, and makes the RID refer to this new joint.
+
+Method: joint_create() -> RID
+Creates a 2D joint in the physics server, and returns the RID that identifies it. To set the joint type, use joint_make_damped_spring(), joint_make_groove() or joint_make_pin(). Use joint_set_param() to set generic joint parameters.
+
+Method: joint_disable_collisions_between_bodies(joint: RID, disable: bool) -> void
+Sets whether the bodies attached to the Joint2D will collide with each other.
+
+Method: joint_get_param(joint: RID, param: JointParam) -> float
+Returns the value of the given joint parameter.
+
+Method: joint_get_type(joint: RID) -> JointType
+Returns the joint's type.
+
+Method: joint_is_disabled_collisions_between_bodies(joint: RID) -> bool
+Returns whether the bodies attached to the Joint2D will collide with each other.
+
+Method: joint_make_damped_spring(joint: RID, anchor_a: Vector2, anchor_b: Vector2, body_a: RID, body_b: RID = RID()) -> void
+Makes the joint a damped spring joint, attached at the point `anchor_a` (given in global coordinates) on the body `body_a` and at the point `anchor_b` (given in global coordinates) on the body `body_b`. To set the parameters which are specific to the damped spring, see damped_spring_joint_set_param().
+
+Method: joint_make_groove(joint: RID, groove1_a: Vector2, groove2_a: Vector2, anchor_b: Vector2, body_a: RID = RID(), body_b: RID = RID()) -> void
+Makes the joint a groove joint.
+
+Method: joint_make_pin(joint: RID, anchor: Vector2, body_a: RID, body_b: RID = RID()) -> void
+Makes the joint a pin joint. If `body_b` is an empty RID, then `body_a` is pinned to the point `anchor` (given in global coordinates); otherwise, `body_a` is pinned to `body_b` at the point `anchor` (given in global coordinates). To set the parameters which are specific to the pin joint, see pin_joint_set_param().
+
+Method: joint_set_param(joint: RID, param: JointParam, value: float) -> void
+Sets the value of the given joint parameter.
+
+Method: pin_joint_get_flag(joint: RID, flag: PinJointFlag) -> bool
+Gets a pin joint flag.
+
+Method: pin_joint_get_param(joint: RID, param: PinJointParam) -> float
+Returns the value of a pin joint parameter.
+
+Method: pin_joint_set_flag(joint: RID, flag: PinJointFlag, enabled: bool) -> void
+Sets a pin joint flag.
+
+Method: pin_joint_set_param(joint: RID, param: PinJointParam, value: float) -> void
+Sets a pin joint parameter.
+
+Method: rectangle_shape_create() -> RID
+Creates a 2D rectangle shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the rectangle's half-extents.
+
+Method: segment_shape_create() -> RID
+Creates a 2D segment shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the segment's start and end points.
+
+Method: separation_ray_shape_create() -> RID
+Creates a 2D separation ray shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the shape's `length` and `slide_on_slope` properties.
+
+Method: set_active(active: bool) -> void
+Activates or deactivates the 2D physics server. If `active` is `false`, then the physics server will not do anything in its physics step.
+
+Method: shape_get_data(shape: RID) -> Variant
+Returns the shape data that defines the configuration of the shape, such as the half-extents of a rectangle or the segments of a concave shape. See shape_set_data() for the precise format of this data in each case.
+
+Method: shape_get_type(shape: RID) -> ShapeType
+Returns the shape's type.
+
+Method: shape_set_data(shape: RID, data: Variant) -> void
+Sets the shape data that defines the configuration of the shape. The `data` to be passed depends on the shape's type (see shape_get_type()):
+- SHAPE_WORLD_BOUNDARY: an array of length two containing a Vector2 `normal` direction and a float distance `d`.
+- SHAPE_SEPARATION_RAY: a dictionary containing the key `length` with a float value and the key `slide_on_slope` with a bool value.
+- SHAPE_SEGMENT: a Rect2 `rect` containing the first point of the segment in `rect.position` and the second point of the segment in `rect.size`.
+- SHAPE_CIRCLE: a float `radius`.
+- SHAPE_RECTANGLE: a Vector2 `half_extents`.
+- SHAPE_CAPSULE: an array of length two (or a Vector2) containing a float `height` and a float `radius`.
+- SHAPE_CONVEX_POLYGON: either a PackedVector2Array of points defining a convex polygon in counterclockwise order (the clockwise outward normal of each segment formed by consecutive points is calculated internally), or a PackedFloat32Array of length divisible by four so that every 4-tuple of floats contains the coordinates of a point followed by the coordinates of the clockwise outward normal vector to the segment between the current point and the next point.
+- SHAPE_CONCAVE_POLYGON: a PackedVector2Array of length divisible by two (each pair of points forms one segment).
+Warning: In the case of SHAPE_CONVEX_POLYGON, this method does not check if the points supplied actually form a convex polygon (unlike the CollisionPolygon2D.polygon property).
+
+Method: space_create() -> RID
+Creates a 2D space in the physics server, and returns the RID that identifies it. A space contains bodies and areas, and controls the stepping of the physics simulation of the objects in it.
+
+Method: space_get_direct_state(space: RID) -> PhysicsDirectSpaceState2D
+Returns the state of a space, a PhysicsDirectSpaceState2D. This object can be used for collision/intersection queries.
+
+Method: space_get_param(space: RID, param: SpaceParameter) -> float
+Returns the value of the given space parameter.
+
+Method: space_is_active(space: RID) -> bool
+Returns `true` if the space is active.
+
+Method: space_set_active(space: RID, active: bool) -> void
+Activates or deactivates the space. If `active` is `false`, then the physics server will not do anything with this space in its physics step.
+
+Method: space_set_param(space: RID, param: SpaceParameter, value: float) -> void
+Sets the value of the given space parameter.
+
+Method: world_boundary_shape_create() -> RID
+Creates a 2D world boundary shape in the physics server, and returns the RID that identifies it. Use shape_set_data() to set the shape's normal direction and distance properties.

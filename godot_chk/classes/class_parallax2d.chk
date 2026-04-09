@@ -1,0 +1,124 @@
+Document: Parallax2D
+Path: godot/classes/class_parallax2d.rst
+Summary: Defines a 2D parallax scrolling effect for child nodes.
+
+Parallax2D is a Node that allows you to create a 2D parallax scrolling effect. This effect is commonly used in 2D games to simulate depth by making background layers move slower than foreground layers.
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+Properties:
+scroll_offset (Vector2): The current scroll offset of the parallax layer.
+scroll_scale (Vector2): The scale factor for the parallax scrolling. A scale of (0, 0) means the layer won't move at all, while a scale of (1, 1) means it will move at the same speed as the camera.
+scroll_speed_scale (Vector2): The speed scale factor for the parallax scrolling. This property is deprecated and will be removed in a future version. Use scroll_scale instead.
+
+Methods:
+_process(delta): Called every frame. _process is a virtual method that can be overridden to add custom logic.
+
+The Parallax2D node itself does not render anything. It acts as a container for ParallaxLayer nodes, which define the actual scrolling behavior of the background elements. When the Parallax2D node's scroll offset changes (e.g., due to camera movement), it propagates this change to its child ParallaxLayer nodes, applying their respective scroll scales. This allows for complex parallax effects where different layers move at different speeds relative to the camera.
+---CHUNK---
+Document: Parallax2D
+Path: godot/classes/class_parallax2d.rst
+Summary: Introduces the Parallax2D node, used for creating parallax scrolling backgrounds.
+Inherits: Node2D < CanvasItem < Node < Object
+
+A node used to create a parallax scrolling background.
+---CHUNK---
+Document: Parallax2D
+Path: godot/classes/class_parallax2d.rst
+Summary: Describes the Parallax2D node, its purpose for creating depth illusions in 2D games, and how it interacts with camera scrolling.
+A Parallax2D is used to create a parallax effect. It can move at a different speed relative to the camera movement using scroll_scale. This creates an illusion of depth in a 2D game. If manual scrolling is desired, the Camera2D position can be ignored with ignore_camera_scroll. Note: Any changes to this node's position made after it enters the scene tree will be overridden if ignore_camera_scroll is false or screen_offset is modified.
+---CHUNK---
+Document: Parallax2D
+Path: godot/classes/class_parallax2d.rst
+Summary: This document describes the Parallax2D node in Godot Engine, which is used for creating parallax scrolling effects in 2D scenes.
+
+Parallax2D is a node that allows for the creation of parallax scrolling effects in 2D. This is achieved by moving child nodes at different speeds relative to the camera's movement, creating an illusion of depth.
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+Properties:
+- scroll_offset (Vector2): The current scroll offset of the parallax layer.
+- scroll_scale (Vector2): The scale factor for scrolling. A scale of (1, 1) means the layer scrolls at the same speed as the camera. A scale of (0, 0) means the layer does not scroll at all. A scale of (2, 2) means the layer scrolls twice as fast as the camera.
+- scroll_speed (Vector2): The speed at which the parallax layer scrolls. This is a convenience property that multiplies the scroll_scale by the camera's movement.
+
+Methods:
+- _process(delta: float)
+- _ready()
+
+Tutorials:
+- 2D Parallax
+---CHUNK---
+Document: Parallax2D
+Path: godot/classes/class_parallax2d.rst
+Summary: List of properties for the Parallax2D node, including scrolling behavior, limits, and repeat settings.
+
+Properties:
+
+- autoscroll (Vector2): The automatic scroll velocity applied to the node. Default: Vector2(0, 0).
+- follow_viewport (bool): If true, the node follows the camera viewport. Default: true.
+- ignore_camera_scroll (bool): If true, the node ignores the camera's scroll position. Default: false.
+- limit_begin (Vector2): The top-left limit for the parallax scrolling. Default: Vector2(-10000000, -10000000).
+- limit_end (Vector2): The bottom-right limit for the parallax scrolling. Default: Vector2(10000000, 10000000).
+- physics_interpolation_mode (PhysicsInterpolationMode): Controls how physics interpolation is handled for this node. Default: 2 (overrides Node.physics_interpolation_mode).
+- repeat_size (Vector2): The size used for repeating the parallax texture. If set to 0, repeating is disabled. Default: Vector2(0, 0).
+- repeat_times (int): The number of times the texture is repeated. Default: 1.
+- screen_offset (Vector2): The offset applied to the screen position. Default: Vector2(0, 0).
+- scroll_offset (Vector2): The current scroll offset of the node. Default: Vector2(0, 0).
+- scroll_scale (Vector2): The scale factor applied to the scroll movement, allowing for parallax depth effects. Default: Vector2(1, 1).
+---CHUNK---
+Document: Parallax2D
+Path: godot/classes/class_parallax2d.rst
+Summary: This section describes the properties of the Parallax2D node, which is used for creating parallax scrolling effects in 2D scenes.
+
+Property: autoscroll
+Type: Vector2
+Default: Vector2(0, 0)
+Description: Velocity at which the offset scrolls automatically, in pixels per second.
+Method: set_autoscroll(value: Vector2)
+Method: get_autoscroll() -> Vector2
+
+Property: follow_viewport
+Type: bool
+Default: true
+Description: If true, this Parallax2D is offset by the current camera's position. If the Parallax2D is in a CanvasLayer separate from the current camera, it may be desired to match the value with CanvasLayer.follow_viewport_enabled.
+
+Property: ignore_camera_scroll
+Type: bool
+Default: false
+Description: If true, Parallax2D's position is not affected by the position of the camera.
+
+Property: limit_begin
+Type: Vector2
+Default: Vector2(-10000000, -10000000)
+Description: Top-left limits for scrolling to begin. If the camera is outside of this limit, the Parallax2D stops scrolling. Must be lower than limit_end minus the viewport size to work.
+
+Property: limit_end
+Type: Vector2
+Default: Vector2(10000000, 10000000)
+Description: Bottom-right limits for scrolling to end. If the camera is outside of this limit, the Parallax2D will stop scrolling. Must be higher than limit_begin and the viewport size combined to work.
+
+Property: repeat_size
+Type: Vector2
+Default: Vector2(0, 0)
+Description: Repeats the Texture2D of each of this node's children and offsets them by this value. When scrolling, the node's position loops, giving the illusion of an infinite scrolling background if the values are larger than the screen size. If an axis is set to 0, the Texture2D will not be repeated.
+
+Property: repeat_times
+Type: int
+Default: 1
+Description: Overrides the amount of times the texture repeats. Each texture copy spreads evenly from the original by repeat_size. Useful for when zooming out with a camera.
+
+Property: screen_offset
+Type: Vector2
+Default: Vector2(0, 0)
+Description: Offset used to scroll this Parallax2D. This value is updated automatically unless ignore_camera_scroll is true.
+
+Property: scroll_offset
+Type: Vector2
+Default: Vector2(0, 0)
+Description: The Parallax2D's offset. Similar to screen_offset and Node2D.position, but will not be overridden.
+Note: Values will loop if repeat_size is set higher than 0.
+
+Property: scroll_scale
+Type: Vector2
+Default: Vector2(1, 1)
+Description: Multiplier to the final Parallax2D's offset. Can be used to simulate distance from the camera. A value of 1 scrolls at the same speed as the camera. A value greater than 1 scrolls faster, making objects appear closer. Less than 1 scrolls slower, making objects appear further, and a value of 0 stops the objects completely.

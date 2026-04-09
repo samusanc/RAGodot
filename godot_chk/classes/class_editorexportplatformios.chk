@@ -1,0 +1,308 @@
+Document: EditorExportPlatformIOS
+Path: godot/classes/class_editorexportplatformios.rst
+Summary: Defines the export platform for iOS.
+---CHUNK---
+Document: EditorExportPlatformIOS
+Path: godot/classes/class_editorexportplatformios.rst
+Summary: A brief description of the Godot editor's export platform for iOS.
+
+Inherits: EditorExportPlatformAppleEmbedded < EditorExportPlatform < RefCounted < Object
+
+This class represents the Godot editor's exporter for the iOS platform.
+---CHUNK---
+Document: EditorExportPlatformIOS
+Path: godot/classes/class_editorexportplatformios.rst
+Summary: A list of tutorials related to exporting Godot projects for iOS and creating iOS plugins.
+
+Tutorials:
+- Exporting for iOS
+- iOS plugins documentation index
+---CHUNK---
+Document: EditorExportPlatformIOS
+Path: godot/classes/class_editorexportplatformios.rst
+Summary: A comprehensive list of all export properties for the iOS platform, covering application metadata, architectures, capabilities, entitlements, icons, privacy settings, and storyboard options.
+
+Properties:
+* application/additional_plist_content (String)
+* application/app_store_team_id (String)
+* application/bundle_identifier (String)
+* application/code_sign_identity_debug (String)
+* application/code_sign_identity_release (String)
+* application/delete_old_export_files_unconditionally (bool)
+* application/export_method_debug (int)
+* application/export_method_release (int)
+* application/export_project_only (bool)
+* application/icon_interpolation (int)
+* application/min_ios_version (String)
+* application/provisioning_profile_specifier_debug (String)
+* application/provisioning_profile_specifier_release (String)
+* application/provisioning_profile_uuid_debug (String)
+* application/provisioning_profile_uuid_release (String)
+* application/short_version (String)
+* application/signature (String)
+* application/targeted_device_family (int)
+* application/version (String)
+* architectures/arm64 (bool)
+* capabilities/access_wifi (bool)
+* capabilities/additional (PackedStringArray)
+* capabilities/performance_a12 (bool)
+* capabilities/performance_gaming_tier (bool)
+* custom_template/debug (String)
+* custom_template/release (String)
+* entitlements/additional (String)
+* entitlements/game_center (bool)
+* entitlements/increased_memory_limit (bool)
+* entitlements/push_notifications (String)
+* icons/app_store_1024x1024 (String)
+* icons/app_store_1024x1024_dark (String)
+* icons/app_store_1024x1024_tinted (String)
+* icons/icon_1024x1024 (String)
+* icons/icon_1024x1024_dark (String)
+* icons/icon_1024x1024_tinted (String)
+* icons/ios_128x128 (String)
+* icons/ios_128x128_dark (String)
+* icons/ios_128x128_tinted (String)
+* icons/ios_136x136 (String)
+* icons/ios_136x136_dark (String)
+* icons/ios_136x136_tinted (String)
+* icons/ios_192x192 (String)
+* icons/ios_192x192_dark (String)
+* icons/ios_192x192_tinted (String)
+* icons/ipad_152x152 (String)
+* icons/ipad_152x152_dark (String)
+* icons/ipad_152x152_tinted (String)
+* icons/ipad_167x167 (String)
+* icons/ipad_167x167_dark (String)
+* icons/ipad_167x167_tinted (String)
+* icons/iphone_120x120 (String)
+* icons/iphone_120x120_dark (String)
+* icons/iphone_120x120_tinted (String)
+* icons/iphone_180x180 (String)
+* icons/iphone_180x180_dark (String)
+* icons/iphone_180x180_tinted (String)
+* icons/notification_40x40 (String)
+* icons/notification_40x40_dark (String)
+* icons/notification_40x40_tinted (String)
+* icons/notification_60x60 (String)
+* icons/notification_60x60_dark (String)
+* icons/notification_60x60_tinted (String)
+* icons/notification_76x76 (String)
+* icons/notification_76x76_dark (String)
+* icons/notification_76x76_tinted (String)
+* icons/notification_114x114 (String)
+* icons/notification_114x114_dark (String)
+* icons/notification_114x114_tinted (String)
+* icons/settings_58x58 (String)
+* icons/settings_58x58_dark (String)
+* icons/settings_58x58_tinted (String)
+* icons/settings_87x87 (String)
+* icons/settings_87x87_dark (String)
+* icons/settings_87x87_tinted (String)
+* icons/spotlight_80x80 (String)
+* icons/spotlight_80x80_dark (String)
+* icons/spotlight_80x80_tinted (String)
+* icons/spotlight_120x120 (String)
+* icons/spotlight_120x120_dark (String)
+* icons/spotlight_120x120_tinted (String)
+* modules/camera (bool)
+* privacy/active_keyboard_access_reasons (int)
+* privacy/camera_usage_description (String)
+* privacy/camera_usage_description_localized (Dictionary)
+* privacy/collected_data/advertising_data/collected (bool)
+* privacy/collected_data/advertising_data/collection_purposes (int)
+* privacy/collected_data/advertising_data/linked_to_user (bool)
+* privacy/collected_data/advertising_data/used_for_tracking (bool)
+* privacy/collected_data/audio_data/collected (bool)
+* privacy/collected_data/audio_data/collection_purposes (int)
+* privacy/collected_data/audio_data/linked_to_user (bool)
+* privacy/collected_data/audio_data/used_for_tracking (bool)
+* privacy/collected_data/browsing_history/collected (bool)
+* privacy/collected_data/browsing_history/collection_purposes (int)
+* privacy/collected_data/browsing_history/linked_to_user (bool)
+* privacy/collected_data/browsing_history/used_for_tracking (bool)
+* privacy/collected_data/coarse_location/collected (bool)
+* privacy/collected_data/coarse_location/collection_purposes (int)
+* privacy/collected_data/coarse_location/linked_to_user (bool)
+* privacy/collected_data/coarse_location/used_for_tracking (bool)
+* privacy/collected_data/contacts/collected (bool)
+* privacy/collected_data/contacts/collection_purposes (int)
+* privacy/collected_data/contacts/linked_to_user (bool)
+* privacy/collected_data/contacts/used_for_tracking (bool)
+* privacy/collected_data/crash_data/collected (bool)
+* privacy/collected_data/crash_data/collection_purposes (int)
+* privacy/collected_data/crash_data/linked_to_user (bool)
+* privacy/collected_data/crash_data/used_for_tracking (bool)
+* privacy/collected_data/credit_info/collected (bool)
+* privacy/collected_data/credit_info/collection_purposes (int)
+* privacy/collected_data/credit_info/linked_to_user (bool)
+* privacy/collected_data/credit_info/used_for_tracking (bool)
+* privacy/collected_data/customer_support/collected (bool)
+* privacy/collected_data/customer_support/collection_purposes (int)
+* privacy/collected_data/customer_support/linked_to_user (bool)
+* privacy/collected_data/customer_support/used_for_tracking (bool)
+* privacy/collected_data/device_id/collected (bool)
+* privacy/collected_data/device_id/collection_purposes (int)
+* privacy/collected_data/device_id/linked_to_user (bool)
+* privacy/collected_data/device_id/used_for_tracking (bool)
+* privacy/collected_data/email_address/collected (bool)
+* privacy/collected_data/email_address/collection_purposes (int)
+* privacy/collected_data/email_address/linked_to_user (bool)
+* privacy/collected_data/email_address/used_for_tracking (bool)
+* privacy/collected_data/emails_or_text_messages/collected (bool)
+* privacy/collected_data/emails_or_text_messages/collection_purposes (int)
+* privacy/collected_data/emails_or_text_messages/linked_to_user (bool)
+* privacy/collected_data/emails_or_text_messages/used_for_tracking (bool)
+* privacy/collected_data/environment_scanning/collected (bool)
+* privacy/collected_data/environment_scanning/collection_purposes (int)
+* privacy/collected_data/environment_scanning/linked_to_user (bool)
+* privacy/collected_data/environment_scanning/used_for_tracking (bool)
+* privacy/collected_data/fitness/collected (bool)
+* privacy/collected_data/fitness/collection_purposes (int)
+* privacy/collected_data/fitness/linked_to_user (bool)
+* privacy/collected_data/fitness/used_for_tracking (bool)
+* privacy/collected_data/gameplay_content/collected (bool)
+* privacy/collected_data/gameplay_content/collection_purposes (int)
+* privacy/collected_data/gameplay_content/linked_to_user (bool)
+* privacy/collected_data/gameplay_content/used_for_tracking (bool)
+* privacy/collected_data/hands/collected (bool)
+* privacy/collected_data/hands/collection_purposes (int)
+* privacy/collected_data/hands/linked_to_user (bool)
+* privacy/collected_data/hands/used_for_tracking (bool)
+* privacy/collected_data/head/collected (bool)
+* privacy/collected_data/head/collection_purposes (int)
+* privacy/collected_data/head/linked_to_user (bool)
+* privacy/collected_data/head/used_for_tracking (bool)
+* privacy/collected_data/health/collected (bool)
+* privacy/collected_data/health/collection_purposes (int)
+* privacy/collected_data/health/linked_to_user (bool)
+* privacy/collected_data/health/used_for_tracking (bool)
+* privacy/collected_data/name/collected (bool)
+* privacy/collected_data/name/collection_purposes (int)
+* privacy/collected_data/name/linked_to_user (bool)
+* privacy/collected_data/name/used_for_tracking (bool)
+* privacy/collected_data/other_contact_info/collected (bool)
+* privacy/collected_data/other_contact_info/collection_purposes (int)
+* privacy/collected_data/other_contact_info/linked_to_user (bool)
+* privacy/collected_data/other_contact_info/used_for_tracking (bool)
+* privacy/collected_data/other_data_types/collected (bool)
+* privacy/collected_data/other_data_types/collection_purposes (int)
+* privacy/collected_data/other_data_types/linked_to_user (bool)
+* privacy/collected_data/other_data_types/used_for_tracking (bool)
+* privacy/collected_data/other_diagnostic_data/collected (bool)
+* privacy/collected_data/other_diagnostic_data/collection_purposes (int)
+* privacy/collected_data/other_diagnostic_data/linked_to_user (bool)
+* privacy/collected_data/other_diagnostic_data/used_for_tracking (bool)
+* privacy/collected_data/other_financial_info/collected (bool)
+* privacy/collected_data/other_financial_info/collection_purposes (int)
+* privacy/collected_data/other_financial_info/linked_to_user (bool)
+* privacy/collected_data/other_financial_info/used_for_tracking (bool)
+* privacy/collected_data/other_usage_data/collected (bool)
+* privacy/collected_data/other_usage_data/collection_purposes (int)
+* privacy/collected_data/other_usage_data/linked_to_user (bool)
+* privacy/collected_data/other_usage_data/used_for_tracking (bool)
+* privacy/collected_data/other_user_content/collected (bool)
+* privacy/collected_data/other_user_content/collection_purposes (int)
+* privacy/collected_data/other_user_content/linked_to_user (bool)
+* privacy/collected_data/other_user_content/used_for_tracking (bool)
+* privacy/collected_data/payment_info/collected (bool)
+* privacy/collected_data/payment_info/collection_purposes (int)
+* privacy/collected_data/payment_info/linked_to_user (bool)
+* privacy/collected_data/payment_info/used_for_tracking (bool)
+* privacy/collected_data/performance_data/collected (bool)
+* privacy/collected_data/performance_data/collection_purposes (int)
+* privacy/collected_data/performance_data/linked_to_user (bool)
+* privacy/collected_data/performance_data/used_for_tracking (bool)
+* privacy/collected_data/phone_number/collected (bool)
+* privacy/collected_data/phone_number/collection_purposes (int)
+* privacy/collected_data/phone_number/linked_to_user (bool)
+* privacy/collected_data/phone_number/used_for_tracking (bool)
+* privacy/collected_data/photos_or_videos/collected (bool)
+* privacy/collected_data/photos_or_videos/collection_purposes (int)
+* privacy/collected_data/photos_or_videos/linked_to_user (bool)
+* privacy/collected_data/photos_or_videos/used_for_tracking (bool)
+* privacy/collected_data/physical_address/collected (bool)
+* privacy/collected_data/physical_address/collection_purposes (int)
+* privacy/collected_data/physical_address/linked_to_user (bool)
+* privacy/collected_data/physical_address/used_for_tracking (bool)
+* privacy/collected_data/precise_location/collected (bool)
+* privacy/collected_data/precise_location/collection_purposes (int)
+* privacy/collected_data/precise_location/linked_to_user (bool)
+* privacy/collected_data/precise_location/used_for_tracking (bool)
+* privacy/collected_data/product_interaction/collected (bool)
+* privacy/collected_data/product_interaction/collection_purposes (int)
+* privacy/collected_data/product_interaction/linked_to_user (bool)
+* privacy/collected_data/product_interaction/used_for_tracking (bool)
+* privacy/collected_data/purchase_history/collected (bool)
+* privacy/collected_data/purchase_history/collection_purposes (int)
+* privacy/collected_data/purchase_history/linked_to_user (bool)
+* privacy/collected_data/purchase_history/used_for_tracking (bool)
+* privacy/collected_data/search_history/collected (bool)
+* privacy/collected_data/search_history/collection_purposes (int)
+* privacy/collected_data/search_history/linked_to_user (bool)
+* privacy/collected_data/search_history/used_for_tracking (bool)
+* privacy/collected_data/sensitive_info/collected (bool)
+* privacy/collected_data/sensitive_info/collection_purposes (int)
+* privacy/collected_data/sensitive_info/linked_to_user (bool)
+* privacy/collected_data/sensitive_info/used_for_tracking (bool)
+* privacy/collected_data/user_id/collected (bool)
+* privacy/collected_data/user_id/collection_purposes (int)
+* privacy/collected_data/user_id/linked_to_user (bool)
+* privacy/collected_data/user_id/used_for_tracking (bool)
+* privacy/disk_space_access_reasons (int)
+* privacy/file_timestamp_access_reasons (int)
+* privacy/microphone_usage_description (String)
+* privacy/microphone_usage_description_localized (Dictionary)
+* privacy/photolibrary_usage_description (String)
+* privacy/photolibrary_usage_description_localized (Dictionary)
+* privacy/system_boot_time_access_reasons (int)
+* privacy/tracking_domains (PackedStringArray)
+* privacy/tracking_enabled (bool)
+* privacy/user_defaults_access_reasons (int)
+* shader_baker/enabled (bool)
+* storyboard/custom_bg_color (Color)
+* storyboard/custom_image@2x (String)
+* storyboard/custom_image@3x (String)
+* storyboard/image_scale_mode (int)
+* storyboard/use_custom_bg_color (bool)
+* user_data/accessible_from_files_app (bool)
+* user_data/accessible_from_itunes_sharing (bool)
+---CHUNK---
+Document: EditorExportPlatformIOS
+Path: godot/classes/class_editorexportplatformios.rst
+Summary: This chunk details iOS export properties for application identity, architecture, device capabilities, custom templates, and entitlements.
+
+Property Descriptions
+*   application/additional_plist_content (String): Additional data added to the root `<dict>` section of the Info.plist file. The value should be an XML section with pairs of key-value elements, e.g.:
+    <key>key_name</key>
+    <string>value</string>
+*   application/app_store_team_id (String): Apple Team ID, a unique 10-character string. To locate your Team ID, check the "Membership details" section in your Apple developer account dashboard, or the "Organizational Unit" of your code signing certificate.
+*   application/bundle_identifier (String): Unique application identifier in a reverse-DNS format. It can only contain alphanumeric characters (A-Z, a-z, 0-9), hyphens (-), and periods (.).
+*   application/code_sign_identity_debug (String): The "Full Name", "Common Name", or SHA-1 hash of the signing identity used for debug export.
+*   application/code_sign_identity_release (String): The "Full Name", "Common Name", or SHA-1 hash of the signing identity used for release export.
+*   application/delete_old_export_files_unconditionally (bool): If true, existing "project name" and "project name.xcodeproj" in the export destination directory will be unconditionally deleted during export.
+*   application/export_method_debug (int): Application distribution target for debug export.
+*   application/export_method_release (int): Application distribution target for release export.
+*   application/export_project_only (bool): If true, exports iOS project files without building an XCArchive or .ipa file. If false, it exports project files and builds an XCArchive and .ipa file at the same time. This is useful when combining Godot with Fastlane or other build pipelines.
+*   application/icon_interpolation (int): Interpolation method used to resize the application icon.
+*   application/min_ios_version (String): Minimum version of iOS required for the application to run, in `major.minor.patch` or `major.minor` format. It can only contain numeric characters (0-9) and periods (.).
+*   application/provisioning_profile_specifier_debug (String): Name of the provisioning profile for debug builds. Sets Xcode's PROVISIONING_PROFILE_SPECIFIER for manual provisioning. Can be overridden with the environment variable `GODOT_APPLE_PLATFORM_PROFILE_SPECIFIER_DEBUG`.
+*   application/provisioning_profile_specifier_release (String): Name of the provisioning profile for release builds. Sets Xcode's PROVISIONING_PROFILE_SPECIFIER for manual provisioning. Can be overridden with the environment variable `GODOT_APPLE_PLATFORM_PROFILE_SPECIFIER_RELEASE`.
+*   application/provisioning_profile_uuid_debug (String): UUID of the debug provisioning profile. If left empty, Xcode will download or create a provisioning profile automatically. Can be overridden with the environment variable `GODOT_APPLE_PLATFORM_PROVISIONING_PROFILE_UUID_DEBUG`.
+*   application/provisioning_profile_uuid_release (String): UUID of the release provisioning profile. If left empty, Xcode will download or create a provisioning profile automatically. Can be overridden with the environment variable `GODOT_APPLE_PLATFORM_PROVISIONING_PROFILE_UUID_RELEASE`.
+*   application/short_version (String): The user-visible application version. Can only contain numbers and periods. Falls back to `ProjectSettings.application/config/version` if empty. Note: This value is used for the *Identity > Version* value in the generated Xcode project.
+*   application/signature (String): An optional four-character creator code specific to the bundle.
+*   application/targeted_device_family (int): The supported device family.
+*   application/version (String): The machine-readable application version in `major.minor.patch` format. Can only contain numbers and periods. This must be incremented with every new release pushed to the App Store. Falls back to `ProjectSettings.application/config/version` if empty. Note: This value is used for the *Identity > Build* value in the generated Xcode project.
+*   architectures/arm64 (bool): If true, arm64 binaries are included in the exported project.
+*   capabilities/access_wifi (bool): If true, networking features related to Wi-Fi access are enabled.
+*   capabilities/additional (PackedStringArray): Additional data added to the `UIRequiredDeviceCapabilities` array of the Info.plist file. Note: The returned array is copied and any changes to it will not update the original property value. See PackedStringArray for more details.
+*   capabilities/performance_a12 (bool): Requires the graphics performance and features of the A12 Bionic and later chips (devices supporting all Vulkan renderer features). Enabling this option limits supported devices to: iPhone XS, iPhone XR, iPad Mini (5th gen.), iPad Air (3rd gen.), iPad (8th gen.), and newer.
+*   capabilities/performance_gaming_tier (bool): Requires the graphics performance and features of the A17 Pro and later chips. Enabling this option limits supported devices to: iPhone 15 Pro and newer.
+*   custom_template/debug (String): Path to the custom export template for debug builds. If left empty, the default template is used.
+*   custom_template/release (String): Path to the custom export template for release builds. If left empty, the default template is used.
+*   entitlements/additional (String): Additional data added to the root `<dict>` section of the .entitlements file. The value should be an XML section with pairs of key-value elements, for example:
+    <key>key_name</key>
+    <string>value</string>
+*   entitlements/game_center (bool): If true, allows access to Game Center features.
+*   entitlements/increased_memory_limit (bool): If true, hints that the app might perform better with a higher memory limit.
+*   entitlements/push_notifications (String): Environment for Apple Push Notification service.

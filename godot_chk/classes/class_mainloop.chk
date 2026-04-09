@@ -1,0 +1,166 @@
+Document: MainLoop
+Path: godot/classes/class_mainloop.rst
+Summary: The base class for all script-based game loops in Godot.
+
+Inherits: Object
+
+The MainLoop class is the base class for all script-based game loops in Godot. It provides the basic structure for handling the game's main loop, including initialization, processing, and shutdown. When a script inherits from MainLoop, it becomes the entry point for the game's execution. The engine will call specific methods on this script at different stages of the game loop. This allows developers to define custom logic for how their game should behave.
+
+The primary methods you'll interact with when extending MainLoop are:
+
+_enter_tree(): Called when the node enters the scene tree. This is a good place to initialize variables, set up connections, and perform other setup tasks that require the node to be part of the scene tree.
+
+_process(delta): Called every frame. The `delta` parameter represents the time elapsed since the previous frame in seconds. This method is ideal for game logic that needs to run continuously, such as updating character positions, checking for input, or animating elements.
+
+_physics_process(delta): Called every physics frame. The `delta` parameter represents the time elapsed since the previous physics frame. This method is specifically designed for physics-related calculations, ensuring consistent behavior regardless of the frame rate. Use this for moving rigid bodies, applying forces, or any other logic that interacts with the physics engine.
+
+_exit_tree(): Called when the node exits the scene tree. This is the place to clean up resources, disconnect signals, and perform any other necessary teardown tasks before the node is removed.
+
+_input(event): Called when an input event occurs. This method receives an InputEvent object, which can represent various inputs like keyboard presses, mouse movements, touch events, or gamepad input.
+
+_unhandled_input(event): Called when an input event is not handled by any other node in the scene tree. This is useful for implementing global input handling or fallback mechanisms.
+
+By overriding these methods in your script, you can create a custom game loop tailored to your specific game's needs. For example, you might use _enter_tree to load initial game data, _process to update the player's score, and _physics_process to move enemies. The _exit_tree method is crucial for preventing memory leaks by ensuring that all allocated resources are properly freed when the game or scene is closed.
+---CHUNK---
+Document: MainLoop
+Path: godot/classes/class_mainloop.rst
+Summary: Abstract base class for the game's main loop.
+
+MainLoop
+Inherits: Object
+
+Inherited By: SceneTree
+
+Abstract base class for the game's main loop.
+---CHUNK---
+Document: MainLoop
+Path: godot/classes/class_mainloop.rst
+Summary: Defines the abstract base class for Godot's game loop, with SceneTree being the default implementation.
+
+Inherits: MainLoop
+
+MainLoop is the abstract base class for a Godot project's game loop. It is inherited by SceneTree, which is the default game loop implementation used in Godot projects, though it is also possible to write and use one's own MainLoop subclass instead of the scene tree.
+
+Upon the application start, a MainLoop implementation must be provided to the OS; otherwise, the application will exit. This happens automatically (and a SceneTree is created) unless a MainLoop Script is provided from the command line (with e.g. godot -s my_loop.gd) or the ProjectSettings.application/run/main_loop_type project setting is overwritten.
+
+Here is an example script implementing a simple MainLoop:
+
+GDScript:
+    class_name CustomMainLoop
+    extends MainLoop
+
+    var time_elapsed = 0
+
+    func _initialize():
+        print("Initialized:")
+        print("  Starting time: %s" % str(time_elapsed))
+
+    func _process(delta):
+        time_elapsed += delta
+        # Return true to end the main loop.
+        return Input.get_mouse_button_mask() != 0 || Input.is_key_pressed(KEY_ESCAPE)
+
+    func _finalize():
+        print("Finalized:")
+        print("  End time: %s" % str(time_elapsed))
+
+C#:
+    using Godot;
+
+    [GlobalClass]
+    public partial class CustomMainLoop : MainLoop
+    {
+        private double _timeElapsed = 0;
+
+        public override void _Initialize()
+        {
+            GD.Print("Initialized:");
+            GD.Print($"  Starting Time: {_timeElapsed}");
+        }
+
+        public override bool _Process(double delta)
+        {
+            _timeElapsed += delta;
+            // Return true to end the main loop.
+            return Input.GetMouseButtonMask() != 0 || Input.IsKeyPressed(Key.Escape);
+        }
+
+        private void _Finalize()
+        {
+            GD.Print("Finalized:");
+            GD.Print($"  End Time: {_timeElapsed}");
+        }
+    }
+---CHUNK---
+Document: MainLoop
+Path: godot/classes/class_mainloop.rst
+Summary: This section describes the methods available in the MainLoop class, including initialization, processing, and finalization.
+
+Method: _finalize() → void
+virtual
+
+Method: _initialize() → void
+virtual
+
+Method: _physics_process(delta: float) → bool
+virtual
+
+Method: _process(delta: float) → bool
+virtual
+
+Signal: on_request_permissions_result(permission: String, granted: bool)
+Emitted when a user responds to a permission request.
+---CHUNK---
+Document: MainLoop
+Path: godot/classes/class_mainloop.rst
+Summary: Defines various system notifications that the MainLoop can receive, along with their integer identifiers and descriptions.
+
+Constants
+NOTIFICATION_OS_MEMORY_WARNING = 2009
+Notification received from the OS when the application is exceeding its allocated memory. Specific to the iOS platform.
+NOTIFICATION_TRANSLATION_CHANGED = 2010
+Notification received when translations may have changed. Can be triggered by the user changing the locale. Can be used to respond to language changes, for example to change the UI strings on the fly. Useful when working with the built-in translation support.
+NOTIFICATION_WM_ABOUT = 2011
+Notification received from the OS when a request for "About" information is sent. Specific to the macOS platform.
+NOTIFICATION_CRASH = 2012
+Notification received from Godot's crash handler when the engine is about to crash. Implemented on desktop platforms if the crash handler is enabled.
+NOTIFICATION_OS_IME_UPDATE = 2013
+Notification received from the OS when an update of the Input Method Engine occurs (e.g. change of IME cursor position or composition string). Implemented on desktop and web platforms.
+NOTIFICATION_APPLICATION_RESUMED = 2014
+Notification received from the OS when the application is resumed. Specific to the Android and iOS platforms.
+NOTIFICATION_APPLICATION_PAUSED = 2015
+Notification received from the OS when the application is paused. Specific to the Android and iOS platforms.
+Note: On iOS, you only have approximately 5 seconds to finish a task started by this signal. If you go over this allotment, iOS will kill the app instead of pausing it.
+NOTIFICATION_APPLICATION_FOCUS_IN = 2016
+Notification received from the OS when the application is focused, i.e. when changing the focus from the OS desktop or a thirdparty application to any open window of the Godot instance. Implemented on desktop and mobile platforms.
+NOTIFICATION_APPLICATION_FOCUS_OUT = 2017
+Notification received from the OS when the application is defocused, i.e. when changing the focus from any open window of the Godot instance to the OS desktop or a thirdparty application. Implemented on desktop and mobile platforms.
+NOTIFICATION_TEXT_SERVER_CHANGED = 2018
+Notification received when text server is changed.
+NOTIFICATION_APPLICATION_PIP_MODE_ENTERED = 2019
+Notification received when the application enters picture-in-picture mode.
+NOTIFICATION_APPLICATION_PIP_MODE_EXITED = 2020
+Notification received when the application exits picture-in-picture mode.
+---CHUNK---
+Document: MainLoop
+Path: godot/classes/class_mainloop.rst
+Summary: Describes the core methods of the MainLoop class, including initialization, finalization, and frame processing.
+
+Method: _finalize() → void
+Called before the program exits.
+
+Method: _initialize() → void
+Called once during initialization.
+
+Method: _physics_process(delta: float) → bool
+Called each physics tick. delta is the logical time between physics ticks in seconds and is equal to Engine.time_scale / Engine.physics_ticks_per_second. Equivalent to Node._physics_process.
+If implemented, the method must return a boolean value. true ends the main loop, while false lets it proceed to the next step.
+Note: _physics_process may be called up to Engine.max_physics_steps_per_frame times per (idle) frame. This step limit may be reached when the engine is suffering performance issues.
+Note: Accumulated delta may diverge from real world seconds.
+
+Method: _process(delta: float) → bool
+Called on each idle frame, prior to rendering, and after physics ticks have been processed. delta is the time between frames in seconds. Equivalent to Node._process.
+If implemented, the method must return a boolean value. true ends the main loop, while false lets it proceed to the next frame.
+Note: When the engine is struggling and the frame rate is lowered, delta will increase. When delta is increased, it's capped at a maximum of Engine.time_scale * Engine.max_physics_steps_per_frame / Engine.physics_ticks_per_second. As a result, accumulated delta may not represent real world time.
+Note: When --fixed-fps is enabled or the engine is running in Movie Maker mode (see MovieWriter), process delta will always be the same for every frame, regardless of how much time the frame took to render.
+Note: Frame delta may be post-processed by OS.delta_smoothing if this is enabled for the project.

@@ -1,0 +1,153 @@
+Document: TextureButton
+Path: godot/classes/class_texturebutton.rst
+Summary: A button with a texture that can display different textures for different states.
+
+TextureButton
+
+Inherits: Button < Control < CanvasItem < Node < Object
+
+A button with a texture that can display different textures for different states.
+
+This node is a specialized Button that uses textures to represent its appearance. It allows you to define different textures for various control states, such as normal, pressed, hovered, and disabled. This makes it ideal for creating visually rich and interactive UI elements.
+
+Properties:
+texture_normal (Texture2D): The texture displayed when the button is in its normal state.
+texture_pressed (Texture2D): The texture displayed when the button is being pressed.
+texture_hover (Texture2D): The texture displayed when the mouse cursor is hovering over the button.
+texture_disabled (Texture2D): The texture displayed when the button is disabled.
+ignore_texture_size (bool): If true, the button's size will not be changed to match the texture's size. Default: false
+preserve_keyboard_focus (bool): If true, the button will try to keep keyboard focus when switching between states. Default: false
+stretch_mode (int): Determines how the texture is scaled or tiled within the button's bounds. Default: 0
+    TextureButton.TEXTURE_TRANSFORM_IGNORE_SIZE = 0
+    TextureButton.TEXTURE_TRANSFORM_KEEP_ASPECT_COVER = 1
+    TextureButton.TEXTURE_TRANSFORM_KEEP_ASPECT_CENTER = 2
+    TextureButton.TEXTURE_TRANSFORM_KEEP_ASPECT_FIT = 3
+    TextureButton.TEXTURE_TRANSFORM_TILE = 4
+    TextureButton.TEXTURE_TRANSFORM_SCALE = 5
+
+Methods:
+_get_texture (int type) → Texture2D
+    Returns the texture for the given type.
+_set_texture (int type, Texture2D texture)
+    Sets the texture for the given type.
+get_texture (int type) → Texture2D
+    Returns the texture for the given type.
+set_texture (int type, Texture2D texture)
+    Sets the texture for the given type.
+
+Signals:
+pressed ()
+    Emitted when the button is pressed.
+---CHUNK---
+Document: TextureButton
+Path: godot/classes/class_texturebutton.rst
+Summary: TextureButton is a control node that displays a texture and can be interacted with like a button, supporting various visual states.
+
+TextureButton
+Inherits: BaseButton < Control < CanvasItem < Node < Object
+
+Texture-based button. Supports Pressed, Hover, Disabled and Focused states.
+---CHUNK---
+Document: TextureButton
+Path: godot/classes/class_texturebutton.rst
+Summary: Describes the TextureButton class, highlighting its sprite-based functionality and differences from standard Buttons.
+
+TextureButton has the same functionality as Button, except it uses sprites instead of Theme resources. It is faster to create, but it doesn't support localization like more complex Controls.
+
+See also BaseButton which contains common properties and methods associated with this node.
+
+Note: Setting a texture for the "normal" state (texture_normal) is recommended. If texture_normal is not set, the TextureButton will still receive input events and be clickable, but the user will not be able to see it unless they activate another one of its states with a texture assigned (e.g., hover over it to show texture_hover).
+---CHUNK---
+Document: TextureButton
+Path: godot/classes/class_texturebutton.rst
+Summary: This section provides links to external tutorials related to TextureButton.
+
+Tutorials:
+- 3D Voxel Demo
+---CHUNK---
+Document: TextureButton
+Path: godot/classes/class_texturebutton.rst
+Summary: Defines the properties available for the TextureButton class in Godot Engine.
+
+Properties
+- flip_h (bool): If true, the texture is flipped horizontally. Default: false.
+- flip_v (bool): If true, the texture is flipped vertically. Default: false.
+- ignore_texture_size (bool): If true, the button's size is not determined by the texture size. Default: false.
+- stretch_mode (StretchMode): Defines how the texture is stretched or tiled. Default: 2.
+- texture_click_mask (BitMap): A BitMap used to define the clickable area of the texture.
+- texture_disabled (Texture2D): The texture to display when the button is disabled.
+- texture_focused (Texture2D): The texture to display when the button has focus.
+- texture_hover (Texture2D): The texture to display when the mouse is hovering over the button.
+- texture_normal (Texture2D): The texture to display when the button is in its normal state.
+- texture_pressed (Texture2D): The texture to display when the button is being pressed.
+---CHUNK---
+Document: TextureButton
+Path: godot/classes/class_texturebutton.rst
+Summary: Defines the stretch modes available for TextureButton nodes.
+
+Inherits: Button < BaseButton < Control < CanvasItem < Node < Object
+
+Enumerations
+enum StretchMode:
+    STRETCH_SCALE = 0
+    Scale to fit the node's bounding rectangle.
+    STRETCH_TILE = 1
+    Tile inside the node's bounding rectangle.
+    STRETCH_KEEP = 2
+    The texture keeps its original size and stays in the bounding rectangle's top-left corner.
+    STRETCH_KEEP_CENTERED = 3
+    The texture keeps its original size and stays centered in the node's bounding rectangle.
+    STRETCH_KEEP_ASPECT = 4
+    Scale the texture to fit the node's bounding rectangle, but maintain the texture's aspect ratio.
+    STRETCH_KEEP_ASPECT_CENTERED = 5
+    Scale the texture to fit the node's bounding rectangle, center it, and maintain its aspect ratio.
+    STRETCH_KEEP_ASPECT_COVERED = 6
+    Scale the texture so that the shorter side fits the bounding rectangle. The other side clips to the node's limits.
+---CHUNK---
+Document: TextureButton
+Path: godot/classes/class_texturebutton.rst
+Summary: Describes the properties of the TextureButton class in Godot Engine, including texture flipping, size handling, stretch modes, click masks, and various textures for different button states.
+
+Inherits: BaseButton < Control < CanvasItem < Node < Object
+
+Properties:
+
+flip_h (bool): If true, texture is flipped horizontally.
+Method: set_flip_h(value: bool)
+Method: is_flipped_h() → bool
+
+flip_v (bool): If true, texture is flipped vertically.
+Method: set_flip_v(value: bool)
+Method: is_flipped_v() → bool
+
+ignore_texture_size (bool): If true, the size of the texture won't be considered for minimum size calculation, so the TextureButton can be shrunk down past the texture size. Default: false.
+Method: set_ignore_texture_size(value: bool)
+Method: get_ignore_texture_size() → bool
+
+stretch_mode (StretchMode): Controls the texture's behavior when you resize the node's bounding rectangle. See the StretchMode constants for available options. Default: 2.
+Method: set_stretch_mode(value: StretchMode)
+Method: get_stretch_mode() → StretchMode
+
+texture_click_mask (BitMap): Pure black and white BitMap image to use for click detection. On the mask, white pixels represent the button's clickable area. Use it to create buttons with curved shapes.
+Method: set_click_mask(value: BitMap)
+Method: get_click_mask() → BitMap
+
+texture_disabled (Texture2D): Texture to display when the node is disabled. If not assigned, the TextureButton displays texture_normal instead.
+Method: set_texture_disabled(value: Texture2D)
+Method: get_texture_disabled() → Texture2D
+
+texture_focused (Texture2D): Texture to overlay on the base texture when the node has mouse or keyboard focus. A partially transparent texture should be used to ensure the base texture remains visible. To disable the focus visual effect, assign a fully transparent texture. Note that disabling the focus visual effect will harm keyboard/controller navigation usability.
+Method: set_texture_focused(value: Texture2D)
+Method: get_texture_focused() → Texture2D
+
+texture_hover (Texture2D): Texture to display when the mouse hovers over the node. If not assigned, the TextureButton displays texture_normal instead when hovered over.
+Method: set_texture_hover(value: Texture2D)
+Method: get_texture_hover() → Texture2D
+
+texture_normal (Texture2D): Texture to display by default, when the node is not in the disabled, hover or pressed state. This texture is still displayed in the focused state, with texture_focused drawn on top.
+Method: set_texture_normal(value: Texture2D)
+Method: get_texture_normal() → Texture2D
+
+texture_pressed (Texture2D): Texture to display on mouse down over the node, if the node has keyboard focus and the player presses the Enter key or if the player presses the shortcut key. If not assigned, the TextureButton displays texture_hover instead when pressed.
+Method: set_texture_pressed(value: Texture2D)
+Method: get_texture_pressed() → Texture2D

@@ -1,0 +1,181 @@
+Document: EditorProperty
+Path: godot/classes/class_editorproperty.rst
+Summary: No description provided in this section.
+---CHUNK---
+Document: EditorProperty
+Path: godot/classes/class_editorproperty.rst
+Summary: Custom control for editing properties in the EditorInspector.
+
+Inherits: Container < Control < CanvasItem < Node < Object
+
+Custom control for editing properties that can be added to the EditorInspector.
+---CHUNK---
+Document: EditorProperty
+Path: godot/classes/class_editorproperty.rst
+Summary: A custom control for editing properties in the EditorInspector.
+
+A custom control for editing properties that can be added to the EditorInspector. It is added via EditorInspectorPlugin.
+---CHUNK---
+Document: EditorProperty
+Path: godot/classes/class_editorproperty.rst
+Summary: This section lists the properties available for EditorProperty, including their types, names, and default values.
+
+Properties:
+* checkable (bool): Default: false
+* checked (bool): Default: false
+* deletable (bool): Default: false
+* draw_background (bool): Default: true
+* draw_label (bool): Default: true
+* draw_warning (bool): Default: false
+* focus_mode (FocusMode): Default: 3 (overrides Control.focus_mode)
+* keying (bool): Default: false
+* label (String): Default: ""
+* name_split_ratio (float): Default: 0.5
+* read_only (bool): Default: false
+* selectable (bool): Default: true
+* use_folding (bool): Default: false
+---CHUNK---
+Document: EditorProperty
+Path: godot/classes/class_editorproperty.rst
+Summary: This section details the methods and signals available for the EditorProperty class, used for custom property editors in the Godot editor.
+
+Methods:
+Method: _set_read_only(read_only: bool)
+Method: _update_property()
+Method: add_focusable(control: Control)
+Method: deselect()
+Method: emit_changed(property: StringName, value: Variant, field: StringName = &"", changing: bool = false)
+Method: get_edited_object() → Object
+Method: get_edited_property() → StringName
+Method: is_selected() → bool
+Method: select(focusable: int = -1)
+Method: set_bottom_editor(editor: Control)
+Method: set_label_reference(control: Control)
+Method: set_object_and_property(object: Object, property: StringName)
+Method: update_property()
+
+Signals:
+Signal: multiple_properties_changed(properties: PackedStringArray, value: Array)
+Emit it if you want multiple properties modified at the same time. Do not use if added via EditorInspectorPlugin._parse_property().
+
+Signal: object_id_selected(property: StringName, id: int)
+Used by sub-inspectors. Emit it if what was selected was an Object ID.
+
+Signal: property_can_revert_changed(property: StringName, can_revert: bool)
+Emitted when the revertability (i.e., whether it has a non-default value and thus is displayed with a revert icon) of a property has changed.
+
+Signal: property_changed(property: StringName, value: Variant, field: StringName, changing: bool)
+Do not emit this manually, use the emit_changed() method instead.
+
+Signal: property_checked(property: StringName, checked: bool)
+Emitted when a property was checked. Used internally.
+
+Signal: property_deleted(property: StringName)
+Emitted when a property was deleted. Used internally.
+
+Signal: property_favorited(property: StringName, favorited: bool)
+Emit it if you want to mark a property as favorited, making it appear at the top of the inspector.
+
+Signal: property_keyed(property: StringName)
+Emit it if you want to add this value as an animation key (check for keying being enabled first).
+
+Signal: property_keyed_with_value(property: StringName, value: Variant)
+Emit it if you want to key a property with a single value.
+
+Signal: property_overridden()
+Emitted when a setting override for the current project is requested.
+
+Signal: property_pinned(property: StringName, pinned: bool)
+Emit it if you want to mark (or unmark) the value of a property for being saved regardless of being equal to the default value. The default value is the one the property will get when the node is just instantiated and can come from an ancestor scene in the inheritance/instantiation chain, a script or a builtin class.
+
+Signal: resource_selected(path: String, resource: Resource)
+If you want a sub-resource to be edited, emit this signal with the resource.
+
+Signal: selected(path: String, focusable_idx: int)
+Emitted when selected. Used internally.
+---CHUNK---
+Document: EditorProperty
+Path: godot/classes/class_editorproperty.rst
+Summary: This section describes the properties available for EditorProperty, controlling its appearance and behavior in the Godot editor's inspector.
+
+Property Descriptions
+
+*   **checkable** (bool): Used by the inspector, set to true when the property is checkable. Default: false.
+    *   Method: set_checkable(value: bool)
+    *   Method: is_checkable()
+*   **checked** (bool): Used by the inspector, set to true when the property is checked. Default: false.
+    *   Method: set_checked(value: bool)
+    *   Method: is_checked()
+*   **deletable** (bool): Used by the inspector, set to true when the property can be deleted by the user. Default: false.
+    *   Method: set_deletable(value: bool)
+    *   Method: is_deletable()
+*   **draw_background** (bool): Used by the inspector, set to true when the property background is drawn. Default: true.
+    *   Method: set_draw_background(value: bool)
+    *   Method: is_draw_background()
+*   **draw_label** (bool): Used by the inspector, set to true when the property label is drawn. Default: true.
+    *   Method: set_draw_label(value: bool)
+    *   Method: is_draw_label()
+*   **draw_warning** (bool): Used by the inspector, set to true when the property is drawn with the editor theme's warning color. This is used for editable children's properties. Default: false.
+    *   Method: set_draw_warning(value: bool)
+    *   Method: is_draw_warning()
+*   **keying** (bool): Used by the inspector, set to true when the property can add keys for animation. Default: false.
+    *   Method: set_keying(value: bool)
+    *   Method: is_keying()
+*   **label** (String): Set this property to change the label (if you want to show one). Default: "".
+    *   Method: set_label(value: String)
+    *   Method: get_label()
+*   **name_split_ratio** (float): Space distribution ratio between the label and the editing field. Default: 0.5.
+    *   Method: set_name_split_ratio(value: float)
+    *   Method: get_name_split_ratio()
+*   **read_only** (bool): Used by the inspector, set to true when the property is read-only. Default: false.
+    *   Method: set_read_only(value: bool)
+    *   Method: is_read_only()
+*   **selectable** (bool): Used by the inspector, set to true when the property is selectable. Default: true.
+    *   Method: set_selectable(value: bool)
+    *   Method: is_selectable()
+*   **use_folding** (bool): Used by the inspector, set to true when the property is using folding. Default: false.
+    *   Method: set_use_folding(value: bool)
+    *   Method: is_using_folding()
+---CHUNK---
+Document: EditorProperty
+Path: godot/classes/class_editorproperty.rst
+Summary: This section describes the methods available in the EditorProperty class for managing custom editor properties.
+
+Method: _set_read_only(read_only: bool) → void
+Called when the read-only status of the property is changed. It may be used to change custom controls into a read-only or modifiable state.
+
+Method: _update_property() → void
+When this virtual function is called, you must update your editor.
+
+Method: add_focusable(control: Control) → void
+If any of the controls added can gain keyboard focus, add it here. This ensures that focus will be restored if the inspector is refreshed.
+
+Method: deselect() → void
+Draw property as not selected. Used by the inspector.
+
+Method: emit_changed(property: StringName, value: Variant, field: StringName = "", changing: bool = false) → void
+If one or several properties have changed, this must be called. field is used in case your editor can modify fields separately (as an example, Vector3.x). The changing argument avoids the editor requesting this property to be refreshed (leave as false if unsure).
+
+Method: get_edited_object() → Object
+Returns the edited object. Note: This method could return null if the editor has not yet been associated with a property. However, in _update_property() and _set_read_only(), this value is guaranteed to be non-null.
+
+Method: get_edited_property() → StringName
+Returns the edited property. If your editor is for a single property (added via EditorInspectorPlugin._parse_property()), then this will return the property. Note: This method could return null if the editor has not yet been associated with a property. However, in _update_property() and _set_read_only(), this value is guaranteed to be non-null.
+
+Method: is_selected() → bool
+Returns true if property is drawn as selected. Used by the inspector.
+
+Method: select(focusable: int = -1) → void
+Draw property as selected. Used by the inspector.
+
+Method: set_bottom_editor(editor: Control) → void
+Puts the editor control below the property label. The control must be previously added using Node.add_child().
+
+Method: set_label_reference(control: Control) → void
+Used by the inspector, set to a control that will be used as a reference to calculate the size of the label.
+
+Method: set_object_and_property(object: Object, property: StringName) → void
+Assigns object and property to edit.
+
+Method: update_property() → void
+Forces a refresh of the property display.

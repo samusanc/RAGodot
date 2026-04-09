@@ -1,0 +1,145 @@
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: This document describes the Debugger panel in Godot, a crucial tool for inspecting and debugging code during runtime.
+
+The Debugger panel is an essential part of Godot's integrated development environment (IDE), providing a suite of tools to help you understand and fix issues in your scripts. It's typically located at the bottom of the Godot editor and contains several sub-panels, each serving a specific debugging purpose.
+
+The main components of the Debugger panel are:
+
+*   **Output:** This panel displays messages printed from your scripts using `print()`, `push_warning()`, and `push_error()`. It also shows any errors that occur during script execution, including stack traces that pinpoint the exact line of code where the error originated. This is often the first place to look when something goes wrong.
+
+*   **Debugger:** This is the core of the debugging experience.
+    *   **Breakpoints:** You can set breakpoints in your script by clicking in the margin next to a line number. When the script execution reaches a breakpoint, it will pause, allowing you to inspect the state of your game.
+    *   **Call Stack:** Shows the sequence of function calls that led to the current point of execution. This is invaluable for understanding how your code reached a certain state.
+    *   **Variables:** Displays the current values of local variables and global variables within the scope of the paused execution. You can inspect and even modify these values on the fly to test different scenarios.
+    *   **Watch:** Allows you to monitor specific variables or expressions. Their values will be updated as you step through the code.
+
+*   **Monitors:** This section provides real-time performance metrics for your game. You can monitor CPU usage, GPU usage, frame rate (FPS), memory usage, and more. This is useful for identifying performance bottlenecks.
+
+*   **Profiler:** The Profiler offers a more detailed breakdown of where your game is spending its time. It can help you identify which functions or nodes are consuming the most resources, aiding in optimization efforts.
+
+Using the Debugger panel effectively can significantly speed up your development process by making it easier to find and fix bugs. When an error occurs or you suspect an issue, pausing execution at a breakpoint and examining the call stack and variables is a powerful way to diagnose the problem. The output panel serves as a log for all script-related messages and errors.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: Describes the location and basic structure of the Debugger panel in Godot.
+The Debugger panel, containing many of Godot's debugging tools, is located at the bottom of the screen. Click on "Debugger" to open it. The panel is divided into several tabs, each dedicated to a specific debugging task.
+---CHUNK---
+Document: debugger_panel.rst
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: Explains the Stack Trace tab in the Godot debugger, including how to set breakpoints and control program execution.
+The Stack Trace tab opens automatically when the GDScript compiler reaches a breakpoint in your code. It provides a stack trace, information about the object's state, and buttons to control program execution. When the debugger breaks on a breakpoint, a green triangle arrow in the script editor's gutter indicates the current line of code.
+
+Tip: You can create a breakpoint by clicking the gutter to the left of the line numbers in the script editor. A transparent red dot appears on hover, becoming opaque when a breakpoint is placed. Clicking the red dot again removes it. Breakpoints created this way persist across editor restarts, even if the script is unsaved. Alternatively, use the `breakpoint` keyword in GDScript to create a breakpoint stored within the script itself, which is persistent across different machines when using version control.
+
+The buttons in the top-right corner allow you to:
+- Skip all breakpoints: Save breakpoints for future debugging sessions.
+- Copy the current error message.
+- Step Into: Move to the next line of code, stepping line-by-line through functions if encountered.
+- Step Over: Move to the next line of code without stepping line-by-line through functions.
+- Break: Pause the game's execution.
+- Continue: Resume the game after a breakpoint or pause.
+
+Note: Using the debugger and breakpoints on tool scripts is not currently supported. Breakpoints placed in the script editor or using the `breakpoint` keyword are ignored. Use print statements to display variable contents instead.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: This section describes the Errors tab in the Debugger panel, which displays runtime error and warning messages.
+Errors
+This is where error and warning messages are printed while running the game. You can disable specific warnings in Project Settings > Debug > GDScript.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: Explains the Evaluator tab in Godot's debugger, a REPL for inspecting variables and evaluating expressions during a debugging session.
+The Evaluator tab contains an expression evaluator, also known as a REPL (Read-Eval-Print Loop), which complements the Stack Variables tree. When the project is interrupted in the debugger, you can enter an expression in the text field. If the project is running, the expression field is not editable; you must set a breakpoint first. Expressions can be saved across runs by unchecking "Clear on Run", but they are lost when the editor quits. Expressions are evaluated using Godot's expression language, allowing arithmetic operations and function calls. Expressions can reference member variables or local variables within the current scope. Constant values can also be entered, making it function as a calculator.
+
+Consider the following script:
+
+GDScript:
+```gdscript
+var counter = 0
+
+func _process(delta):
+    counter += 1
+    if counter == 5:
+        var text = "Some text"
+        breakpoint
+    elif counter >= 6:
+        var other_text = "Some other text"
+        breakpoint
+```
+
+If the debugger breaks on the first line containing ``breakpoint``, the following expressions return non-null values:
+- Constant expression: ``2 * PI + 5``
+- Member variable: ``counter``, ``counter ** 2``, ``sqrt(counter)``
+- Local variable or function parameter: ``delta``, ``text``, ``text.to_upper()``
+
+If the debugger breaks on the second line containing ``breakpoint``, the following expressions return non-null values:
+- Constant expression: ``2 * PI + 5``
+- Member variable: ``counter``, ``counter ** 2``, ``sqrt(counter)``
+- Local variable or function parameter: ``delta``, ``other_text``, ``other_text.to_upper()``
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: This section describes the Profiler tool within the Debugger panel for analyzing code performance.
+The profiler is used to see what code is running while your project is in use, and how that effects performance. See also: A detailed explanation of how to use the profiler can be found in the dedicated the profiler page.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: This section describes how to use the Visual Profiler in Godot to identify rendering bottlenecks on the CPU and GPU.
+
+The Visual Profiler helps monitor rendering performance by showing what takes the most time on the CPU and GPU per frame, aiding in the tracking of rendering bottlenecks.
+
+Warning: The Visual Profiler measures only CPU time for rendering tasks like draw calls. It does not include CPU time for scripting or physics. Use the standard Profiler tab for non-rendering CPU tasks.
+
+To use the Visual Profiler:
+1. Run your project.
+2. Navigate to the **Visual Profiler** tab in the Debugger's bottom panel.
+3. Click **Start**.
+
+Tip: You can enable **Autostart** to automatically begin profiling when the project runs next. The state of the **Autostart** checkbox is not saved between editor sessions.
+
+While the profiler runs, categories and results will appear. CPU framegraphs are shown on the left, and GPU framegraphs on the right.
+
+Click **Stop** to freeze the results. The results remain visible after stopping the project but not after closing the editor.
+
+You can click on result categories on the left to highlight them in the CPU and GPU graphs on the right. Clicking on the graph allows you to move a cursor to a specific frame number and highlight the corresponding data type in the result categories.
+
+Results can be displayed as time in milliseconds per frame or as a percentage of the target frametime (currently 16.67 milliseconds, or 60 FPS).
+
+If framerate spikes occur, they can affect graph scaling. Disable **Fit to Frame** to zoom the graph onto the 60 FPS+ portion.
+
+Note: Visual Profiler results can vary significantly based on viewport resolution, which is determined by window size when using the `disabled` or `canvas_items` stretch modes. Ensure consistent viewport sizes when comparing results across different runs.
+
+The Visual Profiler supports all rendering methods (Forward+, Mobile, Compatibility), but reported categories differ based on the rendering method and enabled graphics features. For example, in Forward+ with a 2D scene and shadow-casting lights, specific categories will appear.
+
+In a Forward+ 3D scene with shadow-casting lights and various effects, different categories will be enabled.
+
+In the 3D example, categories with "(Parallel)" appended indicate multiple tasks running concurrently on the GPU. Disabling only one feature in such cases may not yield significant performance improvements as other tasks still run sequentially.
+
+Note: The Visual Profiler is not supported on macOS when using the Compatibility renderer due to platform limitations.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: Describes the Network Profiler section of the Debugger panel, including its node list, counters, and bandwidth meter.
+The Network Profiler contains a list of all the nodes that communicate over the multiplayer API and, for each one, some counters on the amount of incoming and outgoing network interactions. It also features a bandwidth meter that displays the total bandwidth usage at any given moment. Note: The bandwidth meter does not take the high-level multiplayer API's own compression system into account. This means that changing the compression algorithm used will not change the metrics reported by the bandwidth meter.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: This section describes the performance monitors available in the Godot debugger.
+The monitors are graphs of several aspects of the game while it's running such as FPS, memory usage, how many nodes are in a scene and more. All monitors keep track of stats automatically, so even if one monitor isn't open while the game is running, you can open it later and see how the values changed.
+See also: In addition to the default performance monitors, you can also create custom performance monitors to track arbitrary values in your project.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: This section describes the Video RAM tab in the Godot debugger, detailing its purpose and the information it displays.
+The Video RAM tab shows the video RAM usage of the game while it is running. It provides a list of every resource using video RAM by resource path, the type of resource it is, what format it is in, and how much Video RAM that resource is using. There is also a total video RAM usage number at the top right of the panel.
+---CHUNK---
+Document: Debugger Panel
+Path: godot/tutorials/scripting/debug/debugger_panel.rst
+Summary: Describes the 'Misc' tab in the Godot debugger, which helps identify control nodes at runtime.
+
+Misc
+The Misc tab contains tools to identify the control nodes you are clicking at runtime.
+- Clicked Control tells you where the clicked node is in the scene tree.
+- Clicked Control Type tells you the type of the node you clicked is.

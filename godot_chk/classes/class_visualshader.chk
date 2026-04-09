@@ -1,0 +1,169 @@
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: This document describes the VisualShader class.
+VisualShader
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: Describes the VisualShader class, which provides a custom shader program with a visual editor.
+
+Inherits: Shader < Resource < RefCounted < Object
+
+A custom shader program with a visual editor.
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: Describes the VisualShader class, its purpose as a visual editor for shaders, and its relationship with script shaders and VisualShaderNodes.
+
+This class provides a graph-like visual editor for creating a Shader. Although VisualShaders do not require coding, they share the same logic with script shaders. They use VisualShaderNodes that can be connected to each other to control the flow of the shader. The visual shader graph is converted to a script shader behind the scenes.
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: This chunk lists related tutorials for VisualShaders.
+
+Tutorials
+- Using VisualShaders
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: Describes the properties of the VisualShader class.
+
+Properties:
+- graph_offset (Vector2)
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: This section details the methods available in VisualShader for managing nodes and varyings, and defines enumerations for shader types, varying modes, and varying data types.
+
+Method: add_node(type: Type, node: VisualShaderNode, position: Vector2, id: int)
+Method: add_varying(name: String, mode: VaryingMode, type: VaryingType)
+Method: attach_node_to_frame(type: Type, id: int, frame: int)
+Method: can_connect_nodes(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) -> bool
+Method: connect_nodes(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) -> Error
+Method: connect_nodes_forced(type: Type, from_node: int, from_port: int, to_node: int, to_port: int)
+Method: detach_node_from_frame(type: Type, id: int)
+Method: disconnect_nodes(type: Type, from_node: int, from_port: int, to_node: int, to_port: int)
+Method: get_node(type: Type, id: int) -> VisualShaderNode
+Method: get_node_connections(type: Type) -> Array[Dictionary]
+Method: get_node_list(type: Type) -> PackedInt32Array
+Method: get_node_position(type: Type, id: int) -> Vector2
+Method: get_valid_node_id(type: Type) -> int
+Method: has_varying(name: String) -> bool
+Method: is_node_connection(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) -> bool
+Method: remove_node(type: Type, id: int)
+Method: remove_varying(name: String)
+Method: replace_node(type: Type, id: int, new_class: StringName)
+Method: set_mode(mode: Mode)
+Method: set_node_position(type: Type, id: int, position: Vector2)
+
+Enumerations
+enum Type:
+TYPE_VERTEX = 0: A vertex shader, operating on vertices.
+TYPE_FRAGMENT = 1: A fragment shader, operating on fragments (pixels).
+TYPE_LIGHT = 2: A shader for light calculations.
+TYPE_START = 3: A function for the "start" stage of particle shader.
+TYPE_PROCESS = 4: A function for the "process" stage of particle shader.
+TYPE_COLLIDE = 5: A function for the "collide" stage (particle collision handler) of particle shader.
+TYPE_START_CUSTOM = 6: A function for the "start" stage of particle shader, with customized output.
+TYPE_PROCESS_CUSTOM = 7: A function for the "process" stage of particle shader, with customized output.
+TYPE_SKY = 8: A shader for 3D environment's sky.
+TYPE_FOG = 9: A compute shader that runs for each froxel of the volumetric fog map.
+TYPE_TEXTURE_BLIT = 10: A shader used to process blit calls to a DrawableTexture.
+TYPE_MAX = 11: Represents the size of the Type enum.
+
+enum VaryingMode:
+VARYING_MODE_VERTEX_TO_FRAG_LIGHT = 0: Varying is passed from Vertex function to Fragment and Light functions.
+VARYING_MODE_FRAG_TO_LIGHT = 1: Varying is passed from Fragment function to Light function.
+VARYING_MODE_MAX = 2: Represents the size of the VaryingMode enum.
+
+enum VaryingType:
+VARYING_TYPE_FLOAT = 0: Varying is of type float.
+VARYING_TYPE_INT = 1: Varying is of type int.
+VARYING_TYPE_UINT = 2: Varying is of type unsigned int.
+VARYING_TYPE_VECTOR_2D = 3: Varying is of type Vector2.
+VARYING_TYPE_VECTOR_3D = 4: Varying is of type Vector3.
+VARYING_TYPE_VECTOR_4D = 5: Varying is of type Vector4.
+VARYING_TYPE_BOOLEAN = 6: Varying is of type bool.
+VARYING_TYPE_TRANSFORM = 7: Varying is of type Transform3D.
+VARYING_TYPE_MAX = 8: Represents the size of the VaryingType enum.
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: This section defines constants related to VisualShader node identification.
+
+Constants
+NODE_ID_INVALID = -1
+Indicates an invalid VisualShader node.
+
+NODE_ID_OUTPUT = 0
+Indicates an output node of VisualShader.
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: Describes the deprecated graph_offset property of VisualShader.
+
+graph_offset (Vector2): Deprecated. This property does nothing and always equals to zero.
+---CHUNK---
+Document: VisualShader
+Path: godot/classes/class_visualshader.rst
+Summary: This section describes methods for managing nodes, connections, and properties within a VisualShader.
+
+Method: add_node(type: Type, node: VisualShaderNode, position: Vector2, id: int) → void
+Adds the specified node to the shader.
+
+Method: add_varying(name: String, mode: VaryingMode, type: VaryingType) → void
+Adds a new varying value node to the shader.
+
+Method: attach_node_to_frame(type: Type, id: int, frame: int) → void
+Attaches the given node to the given frame.
+
+Method: can_connect_nodes(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) → bool
+Returns true if the specified nodes and ports can be connected together.
+
+Method: connect_nodes(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) → Error
+Connects the specified nodes and ports.
+
+Method: connect_nodes_forced(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) → void
+Connects the specified nodes and ports, even if they can't be connected. Such connection is invalid and will not function properly.
+
+Method: detach_node_from_frame(type: Type, id: int) → void
+Detaches the given node from the frame it is attached to.
+
+Method: disconnect_nodes(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) → void
+Connects the specified nodes and ports.
+
+Method: get_node(type: Type, id: int) → VisualShaderNode
+Returns the shader node instance with specified type and id.
+
+Method: get_node_connections(type: Type) → Array[Dictionary]
+Returns the list of connected nodes with the specified type.
+
+Method: get_node_list(type: Type) → PackedInt32Array
+Returns the list of all nodes in the shader with the specified type.
+
+Method: get_node_position(type: Type, id: int) → Vector2
+Returns the position of the specified node within the shader graph.
+
+Method: get_valid_node_id(type: Type) → int
+Returns next valid node ID that can be added to the shader graph.
+
+Method: has_varying(name: String) → bool
+Returns true if the shader has a varying with the given name.
+
+Method: is_node_connection(type: Type, from_node: int, from_port: int, to_node: int, to_port: int) → bool
+Returns true if the specified node and port connection exist.
+
+Method: remove_node(type: Type, id: int) → void
+Removes the specified node from the shader.
+
+Method: remove_varying(name: String) → void
+Removes a varying value node with the given name. Prints an error if a node with this name is not found.
+
+Method: replace_node(type: Type, id: int, new_class: StringName) → void
+Replaces the specified node with a node of new class type.
+
+Method: set_mode(mode: Mode) → void
+Sets the mode of this shader.
+
+Method: set_node_position(type: Type, id: int, position: Vector2) → void
+Sets the position of the specified node.

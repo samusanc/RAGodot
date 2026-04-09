@@ -1,0 +1,148 @@
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: A horizontal or vertical slider control for selecting a value within a range.
+
+Slider
+
+Inherits: Range < Control < CanvasItem < Node < Object
+
+A horizontal or vertical slider control for selecting a value within a range.
+
+The Slider is a `Range` based control. This means it has `min_value`, `max_value`, and `step` properties, and emits `value_changed` when the value is changed by the user.
+
+The `value` property can be set directly to change the slider's position.
+
+The slider can be oriented horizontally or vertically using the `orientation` property.
+
+Properties:
+- `editable` (bool): If `true`, the user can edit the slider's value by typing. Default: false.
+- `orientation` (enum Orientation): The orientation of the slider. Default: HORIZONTAL.
+  - HORIZONTAL: The slider is horizontal.
+  - VERTICAL: The slider is vertical.
+- `tick_count` (int): The number of ticks to display on the slider. Default: 0.
+- `tick_spacing` (int): The distance between ticks in pixels. Default: 0.
+- `page` (float): The size of the slider's page, used for calculating the grabber size. Default: 0.0.
+- `scrollable` (bool): If `true`, the slider can be scrolled using the mouse wheel. Default: false.
+
+Signals:
+- `value_changed` (float): Emitted when the slider's value changes. The new value is passed as an argument.
+
+Methods:
+- `set_ticks(count: int)`: Sets the number of ticks to display.
+- `get_ticks()`: Returns the number of ticks.
+- `set_tick_spacing(spacing: int)`: Sets the distance between ticks in pixels.
+- `get_tick_spacing()`: Returns the distance between ticks.
+- `set_page(size: float)`: Sets the page size.
+- `get_page()`: Returns the page size.
+- `set_scrollable(value: bool)`: Sets whether the slider is scrollable.
+- `is_scrollable()`: Returns whether the slider is scrollable.
+---CHUNK---
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: Abstract base class for sliders, inheriting from Range, Control, CanvasItem, Node, and Object.
+
+Slider
+Inherits: Range < Control < CanvasItem < Node < Object
+Inherited By: HSlider, VSlider
+
+Abstract base class for sliders.
+---CHUNK---
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: Abstract base class for sliders, used to adjust a value by moving a grabber along a horizontal or vertical axis.
+
+Inherits: Control < CanvasItem < Node < Object
+
+Description
+Abstract base class for sliders, used to adjust a value by moving a grabber along a horizontal or vertical axis. Sliders are Range-based controls.
+---CHUNK---
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: This section details the properties of the Slider node in Godot Engine.
+
+Properties:
+* editable (bool): If true, the slider can be edited. Default: true.
+* focus_mode (FocusMode): The focus mode of the control. Default: 2 (overrides Control.focus_mode).
+* scrollable (bool): If true, the slider can be scrolled. Default: true.
+* step (float): The step value for the slider. Default: 1.0 (overrides Range.step).
+* tick_count (int): The number of ticks to display on the slider. Default: 0.
+* ticks_on_borders (bool): If true, ticks will be displayed on the borders of the slider. Default: false.
+* ticks_position (TickPosition): The position of the ticks on the slider. Default: 0.
+---CHUNK---
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: Defines the themeable properties for the Slider control, including constants, icons, and styles.
+
+Theme Properties:
+- center_grabber (int): Offset for the grabber's center. Default: 0.
+- grabber_offset (int): Offset for the grabber. Default: 0.
+- tick_offset (int): Offset for the tick marks. Default: 0.
+- grabber (Texture2D): Icon for the grabber.
+- grabber_disabled (Texture2D): Icon for the disabled grabber.
+- grabber_highlight (Texture2D): Icon for the highlighted grabber.
+- tick (Texture2D): Icon for the tick marks.
+- grabber_area (StyleBox): StyleBox for the grabber's area.
+- grabber_area_highlight (StyleBox): StyleBox for the highlighted grabber's area.
+- slider (StyleBox): StyleBox for the slider track.
+---CHUNK---
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: Defines signals and enumerations for the Slider control, including drag events and tick position settings.
+
+Signals
+drag_ended(value_changed: bool)
+Emitted when the grabber stops being dragged. If value_changed is true, Range.value is different from the value when the dragging was started.
+drag_started()
+Emitted when the grabber starts being dragged. This is emitted before the corresponding Range.value_changed signal.
+
+Enumerations
+enum TickPosition:
+    TICK_POSITION_BOTTOM_RIGHT = 0
+    Places the ticks at the bottom of the HSlider, or right of the VSlider.
+    TICK_POSITION_TOP_LEFT = 1
+    Places the ticks at the top of the HSlider, or left of the VSlider.
+    TICK_POSITION_BOTH = 2
+    Places the ticks at the both sides of the slider.
+    TICK_POSITION_CENTER = 3
+    Places the ticks at the center of the slider.
+---CHUNK---
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: Describes the properties of the Slider node in Godot Engine, including its editability, scrollability, tick marks, and tick positions.
+
+Property Descriptions
+editable (bool): If true, the slider can be interacted with. If false, the value can be changed only by code.
+  Method: set_editable(value: bool)
+  Method: is_editable() → bool
+
+scrollable (bool): If true, the value can be changed using the mouse wheel.
+  Method: set_scrollable(value: bool)
+  Method: is_scrollable() → bool
+
+tick_count (int): Number of ticks displayed on the slider, including border ticks. Ticks are uniformly-distributed value markers.
+  Method: set_ticks(value: int)
+  Method: get_ticks() → int
+
+ticks_on_borders (bool): If true, the slider will display ticks for minimum and maximum values.
+  Method: set_ticks_on_borders(value: bool)
+  Method: get_ticks_on_borders() → bool
+
+ticks_position (TickPosition): Sets the position of the ticks. See TickPosition for details.
+  Method: set_ticks_position(value: TickPosition)
+  Method: get_ticks_position() → TickPosition
+---CHUNK---
+Document: Slider
+Path: godot/classes/class_slider.rst
+Summary: Describes the theme properties for the Slider node, including constants, icons, and styles.
+
+Theme Property Descriptions:
+- center_grabber (int): Boolean constant. If 1, the grabber texture size will be ignored and it will fit within slider's bounds based only on its center position. Default: 0
+- grabber_offset (int): Vertical or horizontal offset of the grabber. Default: 0
+- tick_offset (int): Vertical or horizontal offset of the ticks. The offset is reversed for top or left ticks. Default: 0
+- grabber (Texture2D): The texture for the grabber (the draggable element).
+- grabber_disabled (Texture2D): The texture for the grabber when it's disabled.
+- grabber_highlight (Texture2D): The texture for the grabber when it's focused.
+- tick (Texture2D): The texture for the ticks, visible when tick_count is greater than 0.
+- grabber_area (StyleBox): The background of the area to the left or bottom of the grabber.
+- grabber_area_highlight (StyleBox): The background of the area to the left or bottom of the grabber that displays when it's being hovered or focused.
+- slider (StyleBox): The background for the whole slider. Affects the height or width of the grabber_area.

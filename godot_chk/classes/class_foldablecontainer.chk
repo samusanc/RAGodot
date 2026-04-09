@@ -1,0 +1,158 @@
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: The `FoldableContainer` class provides a container that can be expanded or collapsed.
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: A container that can be expanded/collapsed.
+
+Inherits: Container < Control < CanvasItem < Node < Object
+
+A container that can be expanded/collapsed.
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: A container that can be expanded/collapsed, with a title that can be filled with controls.
+A container that can be expanded/collapsed, with a title that can be filled with controls, such as buttons. This is also called an accordion.
+
+The title can be positioned at the top or bottom of the container. The container can be expanded or collapsed by clicking the title or by pressing ui_accept when focused. Child control nodes are hidden when the container is collapsed. Ignores non-control children.
+
+A FoldableContainer can be grouped with other FoldableContainers so that only one of them can be opened at a time; see foldable_group and FoldableGroup.
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: This section lists and describes the properties of the FoldableContainer class.
+
+*   focus_mode (FocusMode): Default: 2 (overrides Control.focus_mode)
+*   foldable_group (FoldableGroup):
+*   folded (bool): Default: false
+*   language (String): Default: ""
+*   mouse_filter (MouseFilter): Default: 0 (overrides Control.mouse_filter)
+*   title (String): Default: ""
+*   title_alignment (HorizontalAlignment): Default: 0
+*   title_position (TitlePosition): Default: 0
+*   title_text_direction (TextDirection): Default: 0
+*   title_text_overrun_behavior (OverrunBehavior): Default: 0
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: This section lists the methods available for the FoldableContainer class.
+
+Method: add_title_bar_control(control: Control)
+Method: expand()
+Method: fold()
+Method: remove_title_bar_control(control: Control)
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: This section lists the theme properties available for customizing the appearance of a FoldableContainer.
+
+Theme Properties
+* collapsed_font_color (Color): Default: Color(1, 1, 1, 1)
+* font_color (Color): Default: Color(0.875, 0.875, 0.875, 1)
+* font_outline_color (Color): Default: Color(1, 1, 1, 1)
+* hover_font_color (Color): Default: Color(0.95, 0.95, 0.95, 1)
+* h_separation (int): Default: 2
+* outline_size (int): Default: 0
+* font (Font):
+* font_size (int):
+* expanded_arrow (Texture2D):
+* expanded_arrow_mirrored (Texture2D):
+* folded_arrow (Texture2D):
+* folded_arrow_mirrored (Texture2D):
+* focus (StyleBox):
+* panel (StyleBox):
+* title_collapsed_hover_panel (StyleBox):
+* title_collapsed_panel (StyleBox):
+* title_hover_panel (StyleBox):
+* title_panel (StyleBox):
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: This chunk describes the `folding_changed` signal and the `TitlePosition` enumeration, including its constants `POSITION_TOP` and `POSITION_BOTTOM`.
+
+Signal: folding_changed(is_folded: bool)
+Emitted when the container is folded/expanded.
+
+Enumerations
+enum TitlePosition:
+    POSITION_TOP = 0: Makes the title appear at the top of the container.
+    POSITION_BOTTOM = 1: Makes the title appear at the bottom of the container. Also makes all StyleBoxes flipped vertically.
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: This section describes the properties available for the FoldableContainer node, including its group, folded state, language, title, and title text rendering options.
+
+Properties:
+
+foldable_group (FoldableGroup): The FoldableGroup associated with the container. When multiple FoldableContainer nodes share the same group, only one of them is allowed to be unfolded.
+Method: set_foldable_group(value: FoldableGroup)
+Method: get_foldable_group()
+
+folded (bool): If true, the container will become folded and will hide all its children. Default: false.
+Method: set_folded(value: bool)
+Method: is_folded()
+
+language (String): Language code used for text shaping algorithms. If left empty, the current locale is used instead. Default: "".
+Method: set_language(value: String)
+Method: get_language()
+
+title (String): The container's title text. Default: "".
+Method: set_title(value: String)
+Method: get_title()
+
+title_alignment (HorizontalAlignment): Title's horizontal text alignment. Default: 0.
+Method: set_title_alignment(value: HorizontalAlignment)
+Method: get_title_alignment()
+
+title_position (TitlePosition): Title's position. Default: 0.
+Method: set_title_position(value: TitlePosition)
+Method: get_title_position()
+
+title_text_direction (TextDirection): Title text writing direction. Default: 0.
+Method: set_title_text_direction(value: TextDirection)
+Method: get_title_text_direction()
+
+title_text_overrun_behavior (OverrunBehavior): Defines the behavior of the title when the text is longer than the available space. Default: 0.
+Method: set_title_text_overrun_behavior(value: OverrunBehavior)
+Method: get_title_text_overrun_behavior()
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: This section describes methods for managing title bar controls and folding/expanding a FoldableContainer.
+
+Method: add_title_bar_control(control: Control) -> void
+Adds a Control that will be placed next to the container's title, obscuring the clickable area. Prime usage is adding Button nodes, but it can be any Control. The control will be added as a child of this container and removed from previous parent if necessary. The controls will be placed aligned to the right, with the first added control being the leftmost one.
+
+Method: expand() -> void
+Expands the container and emits folding_changed.
+
+Method: fold() -> void
+Folds the container and emits folding_changed.
+
+Method: remove_title_bar_control(control: Control) -> void
+Removes a Control added with add_title_bar_control(). The node is not freed automatically, you need to use Node.queue_free().
+---CHUNK---
+Document: FoldableContainer
+Path: godot/classes/class_foldablecontainer.rst
+Summary: This section describes the theme properties available for customizing the appearance of a FoldableContainer, including colors, fonts, icons, and styleboxes.
+
+Theme Property Descriptions
+*   collapsed_font_color (Color): The title's font color when collapsed. Default: Color(1, 1, 1, 1).
+*   font_color (Color): The title's font color when expanded. Default: Color(0.875, 0.875, 0.875, 1).
+*   font_outline_color (Color): The title's font outline color. Default: Color(1, 1, 1, 1).
+*   hover_font_color (Color): The title's font hover color. Default: Color(0.95, 0.95, 0.95, 1).
+*   h_separation (int): The horizontal separation between the title's icon and text, and between title bar controls. Default: 2.
+*   outline_size (int): The title's font outline size. Default: 0.
+*   font (Font): The title's font.
+*   font_size (int): The title's font size.
+*   expanded_arrow (Texture2D): The title's icon used when expanded.
+*   expanded_arrow_mirrored (Texture2D): The title's icon used when expanded (for bottom title).
+*   folded_arrow (Texture2D): The title's icon used when folded (for left-to-right layouts).
+*   folded_arrow_mirrored (Texture2D): The title's icon used when collapsed (for right-to-left layouts).
+*   focus (StyleBox): Background used when FoldableContainer has GUI focus. The focus StyleBox is displayed over the base StyleBox, so a partially transparent StyleBox should be used to ensure the base StyleBox remains visible. A StyleBox that represents an outline or an underline works well for this purpose. To disable the focus visual effect, assign a StyleBoxEmpty resource. Note: Disabling the focus visual effect will harm keyboard/controller navigation usability, so this is not recommended for accessibility reasons.
+*   panel (StyleBox): Default background for the FoldableContainer.
+*   title_collapsed_hover_panel (StyleBox): Background used when the mouse cursor enters the title's area when collapsed.
+*   title_collapsed_panel (StyleBox): Default background for the FoldableContainer's title when collapsed.
+*   title_hover_panel (StyleBox): Background used when the mouse cursor enters the title's area when expanded.
+*   title_panel (StyleBox): Default background for the FoldableContainer's title when expanded.

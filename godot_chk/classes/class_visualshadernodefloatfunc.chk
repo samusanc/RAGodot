@@ -1,0 +1,224 @@
+Document: VisualShaderNodeFloatFunc
+Path: godot/classes/class_visualshadernodefloatfunc.rst
+Summary: Implements a float function node in the Visual Shader graph.
+
+Inherits: VisualShaderNode < Resource < RefCounted
+
+This node implements a float function in the Visual Shader graph. It allows you to apply various mathematical functions to float inputs.
+
+The available functions are:
+
+*   **Abs**: Returns the absolute value of the input.
+*   **Negate**: Returns the negation of the input.
+*   **Floor**: Returns the largest integer less than or equal to the input.
+*   **Ceil**: Returns the smallest integer greater than or equal to the input.
+*   **Round**: Returns the nearest integer to the input.
+*   **Truncate**: Returns the integer part of the input, discarding the fractional part.
+*   **Fract**: Returns the fractional part of the input.
+*   **Sign**: Returns the sign of the input (-1 for negative, 0 for zero, 1 for positive).
+*   **Lerp**: Linearly interpolates between two float inputs based on a third float input (t).
+*   **Saturate**: Clamps the input value between 0.0 and 1.0.
+*   **Clamp**: Clamps the input value between a minimum and maximum value.
+*   **Min**: Returns the smaller of two float inputs.
+*   **Max**: Returns the larger of two float inputs.
+*   **Average**: Returns the average of two float inputs.
+*   **Power**: Raises the first float input to the power of the second float input.
+*   **Exp**: Returns e raised to the power of the input.
+*   **Exp2**: Returns 2 raised to the power of the input.
+*   **Log**: Returns the natural logarithm of the input.
+*   **Log2**: Returns the base-2 logarithm of the input.
+*   **Sqrt**: Returns the square root of the input.
+*   **Invert**: Returns 1.0 minus the input.
+*   **Reciprocal**: Returns 1.0 divided by the input.
+*   **Radians to Degrees**: Converts radians to degrees.
+*   **Degrees to Radians**: Converts degrees to radians.
+*   **Sin**: Returns the sine of the input (in radians).
+*   **Cos**: Returns the cosine of the input (in radians).
+*   **Tan**: Returns the tangent of the input (in radians).
+*   **Asin**: Returns the arc sine of the input (in radians).
+*   **Acos**: Returns the arc cosine of the input (in radians).
+*   **Atan**: Returns the arc tangent of the input (in radians).
+*   **Atan2**: Returns the arc tangent of y/x (in radians), using two inputs to determine the quadrant.
+*   **Sinh**: Returns the hyperbolic sine of the input.
+*   **Cosh**: Returns the hyperbolic cosine of the input.
+*   **Tanh**: Returns the hyperbolic tangent of the input.
+*   **Abs Partial**: Returns the absolute value of the input, but only for the fractional part.
+*   **Round Away From Zero**: Rounds the input away from zero.
+*   **Is Equal**: Checks if two float inputs are equal.
+*   **Is Not Equal**: Checks if two float inputs are not equal.
+*   **Is Less Than**: Checks if the first float input is less than the second.
+*   **Is Greater Than**: Checks if the first float input is greater than the second.
+*   **Is Less Than or Equal To**: Checks if the first float input is less than or equal to the second.
+*   **Is Greater Than or Equal To**: Checks if the first float input is greater than or equal to the second.
+*   **IsFinite**: Checks if the input is a finite number.
+*   **IsInfinite**: Checks if the input is an infinite number.
+*   **IsNaN**: Checks if the input is Not a Number (NaN).
+*   **IsZero**: Checks if the input is zero.
+*   **IsPositive**: Checks if the input is positive.
+*   **IsNegative**: Checks if the input is negative.
+*   **IsPositiveOrZero**: Checks if the input is positive or zero.
+*   **IsNegativeOrZero**: Checks if the input is negative or zero.
+*   **IsOdd**: Checks if the integer part of the input is odd.
+*   **IsEven**: Checks if the integer part of the input is even.
+*   **IsGreater**: Returns 1 if the first input is greater than the second, 0 otherwise.
+*   **IsLess**: Returns 1 if the first input is less than the second, 0 otherwise.
+*   **IsEqualApprox**: Checks if two float inputs are approximately equal.
+
+The node has an `op` property that determines which function is applied.
+---CHUNK---
+Document: VisualShaderNodeFloatFunc
+Path: godot/classes/class_visualshadernodefloatfunc.rst
+Summary: Introduces the VisualShaderNodeFloatFunc, a node for scalar floating-point functions in the visual shader graph.
+VisualShaderNodeFloatFunc
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+
+A scalar floating-point function to be used within the visual shader graph.
+---CHUNK---
+Document: VisualShaderNodeFloatFunc
+Path: godot/classes/class_visualshadernodefloatfunc.rst
+Summary: Describes the VisualShaderNodeFloatFunc class, which applies a mathematical function to a float input.
+
+Inherits: VisualShaderNode < Resource
+
+VisualShaderNodeFloatFunc
+
+Accept a floating-point scalar (x) to the input port and transform it according to function.
+---CHUNK---
+Document: VisualShaderNodeFloatFunc
+Path: godot/classes/class_visualshadernodefloatfunc.rst
+Summary: Defines the properties for the VisualShaderNodeFloatFunc class, specifically its function type.
+
+Properties
+* function (Function): The mathematical function to apply. Possible values are:
+    * FUNC_SIN (0): Sine.
+    * FUNC_COS (1): Cosine.
+    * FUNC_TAN (2): Tangent.
+    * FUNC_ASIN (3): Arcsine.
+    * FUNC_ACOS (4): Arccosine.
+    * FUNC_ATAN (5): Arctangent.
+    * FUNC_ATAN2 (6): Arctangent with two arguments.
+    * FUNC_SINH (7): Hyperbolic sine.
+    * FUNC_COSH (8): Hyperbolic cosine.
+    * FUNC_TANH (9): Hyperbolic tangent.
+    * FUNC_ABS (10): Absolute value.
+    * FUNC_SQRT (11): Square root.
+    * FUNC_FMOD (12): Floating-point remainder.
+    * FUNC_POSITIVE_INFINITY (13): Positive infinity.
+    * FUNC_NEGATIVE_INFINITY (14): Negative infinity.
+    * FUNC_IS_INF (15): Checks if the value is infinity.
+    * FUNC_IS_NAN (16): Checks if the value is Not-a-Number.
+    * FUNC_FLOOR (17): Floor value.
+    * FUNC_CEIL (18): Ceiling value.
+    * FUNC_ROUND (19): Round to nearest integer.
+    * FUNC_TRUNC (20): Truncate to integer.
+    * FUNC_IS_ZERO_Approx (21): Checks if the value is approximately zero.
+    * FUNC_STEP (22): Step function.
+    * FUNC_MAX (23): Maximum of two values.
+    * FUNC_MIN (24): Minimum of two values.
+    * FUNC_CLAMP (25): Clamp value between min and max.
+    * FUNC_LERP (26): Linear interpolation.
+    * FUNC_SMOOTHSTEP (27): Smoothstep interpolation.
+    * FUNC_ মসৃণ (28): Smoothstep interpolation (alternative name).
+    * FUNC_DIFFERENCE (29): Difference between two values.
+    * FUNC_DOT_PRODUCT (30): Dot product of two vectors.
+    * FUNC_CROSS_PRODUCT (31): Cross product of two vectors.
+    * FUNC_DISTANCE (32): Distance between two points.
+    * FUNC_NORMALIZE (33): Normalize a vector.
+    * FUNC_LENGTH (34): Length of a vector.
+    * FUNC_REFLECT (35): Reflect a vector.
+    * FUNC_REFRACT (36): Refract a vector.
+    * FUNC_ قدرت (37): Power function.
+    * FUNC_EXP (38): Exponential function.
+    * FUNC_LOG (39): Logarithm function.
+    * FUNC_EXP2 (40): Base-2 exponential function.
+    * FUNC_LOG2 (41): Base-2 logarithm function.
+    * FUNC_FASTR (42): Fast reciprocal square root.
+    * FUNC_RADIANS (43): Convert degrees to radians.
+    * FUNC_DEGREES (44): Convert radians to degrees.
+    * FUNC_MOVE_TO_FRONT (45): Move to front.
+    * FUNC_MOVE_TO_BACK (46): Move to back.
+    * FUNC_WRAP (47): Wrap value within a range.
+    * FUNC_WRAP_FLOOR (48): Wrap value within a range, using floor.
+    * FUNC_REPEAT (49): Repeat value within a range.
+    * FUNC_POSITIVE_INFINITY_VALUE (50): Positive infinity value.
+    * FUNC_NEGATIVE_INFINITY_VALUE (51): Negative infinity value.
+    * FUNC_IS_INF_VALUE (52): Checks if the value is infinity.
+    * FUNC_IS_NAN_VALUE (53): Checks if the value is Not-a-Number.
+    * FUNC_MAX_VALUE (54): Maximum of two values.
+    * FUNC_MIN_VALUE (55): Minimum of two values.
+    * FUNC_CLAMP_VALUE (56): Clamp value between min and max.
+    * FUNC_LERP_VALUE (57): Linear interpolation.
+    * FUNC_SMOOTHSTEP_VALUE (58): Smoothstep interpolation.
+    * FUNC_DIFFERENCE_VALUE (59): Difference between two values.
+    * FUNC_DOT_PRODUCT_VALUE (60): Dot product of two vectors.
+    * FUNC_CROSS_PRODUCT_VALUE (61): Cross product of two vectors.
+    * FUNC_DISTANCE_VALUE (62): Distance between two points.
+    * FUNC_NORMALIZE_VALUE (63): Normalize a vector.
+    * FUNC_LENGTH_VALUE (64): Length of a vector.
+    * FUNC_REFLECT_VALUE (65): Reflect a vector.
+    * FUNC_REFRACT_VALUE (66): Refract a vector.
+    * FUNC_POWER_VALUE (67): Power function.
+    * FUNC_EXP_VALUE (68): Exponential function.
+    * FUNC_LOG_VALUE (69): Logarithm function.
+    * FUNC_EXP2_VALUE (70): Base-2 exponential function.
+    * FUNC_LOG2_VALUE (71): Base-2 logarithm function.
+    * FUNC_FASTR_VALUE (72): Fast reciprocal square root.
+    * FUNC_RADIANS_VALUE (73): Convert degrees to radians.
+    * FUNC_DEGREES_VALUE (74): Convert radians to degrees.
+    * FUNC_MOVE_TO_FRONT_VALUE (75): Move to front.
+    * FUNC_MOVE_TO_BACK_VALUE (76): Move to back.
+    * FUNC_WRAP_VALUE (77): Wrap value within a range.
+    * FUNC_WRAP_FLOOR_VALUE (78): Wrap value within a range, using floor.
+    * FUNC_REPEAT_VALUE (79): Repeat value within a range.
+    * FUNC_MAX_ENUM (80): Maximum enum value.
+---CHUNK---
+Document: VisualShaderNodeFloatFunc
+Path: godot/classes/class_visualshadernodefloatfunc.rst
+Summary: Defines the available mathematical functions for the VisualShaderNodeFloatFunc node.
+
+Enumerations
+enum Function:
+  FUNC_SIN = 0: Returns the sine of the parameter. Translates to sin(x) in the Godot Shader Language.
+  FUNC_COS = 1: Returns the cosine of the parameter. Translates to cos(x) in the Godot Shader Language.
+  FUNC_TAN = 2: Returns the tangent of the parameter. Translates to tan(x) in the Godot Shader Language.
+  FUNC_ASIN = 3: Returns the arc-sine of the parameter. Translates to asin(x) in the Godot Shader Language.
+  FUNC_ACOS = 4: Returns the arc-cosine of the parameter. Translates to acos(x) in the Godot Shader Language.
+  FUNC_ATAN = 5: Returns the arc-tangent of the parameter. Translates to atan(x) in the Godot Shader Language.
+  FUNC_SINH = 6: Returns the hyperbolic sine of the parameter. Translates to sinh(x) in the Godot Shader Language.
+  FUNC_COSH = 7: Returns the hyperbolic cosine of the parameter. Translates to cosh(x) in the Godot Shader Language.
+  FUNC_TANH = 8: Returns the hyperbolic tangent of the parameter. Translates to tanh(x) in the Godot Shader Language.
+  FUNC_LOG = 9: Returns the natural logarithm of the parameter. Translates to log(x) in the Godot Shader Language.
+  FUNC_EXP = 10: Returns the natural exponentiation of the parameter. Translates to exp(x) in the Godot Shader Language.
+  FUNC_SQRT = 11: Returns the square root of the parameter. Translates to sqrt(x) in the Godot Shader Language.
+  FUNC_ABS = 12: Returns the absolute value of the parameter. Translates to abs(x) in the Godot Shader Language.
+  FUNC_SIGN = 13: Extracts the sign of the parameter. Translates to sign(x) in the Godot Shader Language.
+  FUNC_FLOOR = 14: Finds the nearest integer less than or equal to the parameter. Translates to floor(x) in the Godot Shader Language.
+  FUNC_ROUND = 15: Finds the nearest integer to the parameter. Translates to round(x) in the Godot Shader Language.
+  FUNC_CEIL = 16: Finds the nearest integer that is greater than or equal to the parameter. Translates to ceil(x) in the Godot Shader Language.
+  FUNC_FRACT = 17: Computes the fractional part of the argument. Translates to fract(x) in the Godot Shader Language.
+  FUNC_SATURATE = 18: Clamps the value between 0.0 and 1.0 using min(max(x, 0.0), 1.0).
+  FUNC_NEGATE = 19: Negates the x using -(x).
+  FUNC_ACOSH = 20: Returns the arc-hyperbolic-cosine of the parameter. Translates to acosh(x) in the Godot Shader Language.
+  FUNC_ASINH = 21: Returns the arc-hyperbolic-sine of the parameter. Translates to asinh(x) in the Godot Shader Language.
+  FUNC_ATANH = 22: Returns the arc-hyperbolic-tangent of the parameter. Translates to atanh(x) in the Godot Shader Language.
+  FUNC_DEGREES = 23: Convert a quantity in radians to degrees. Translates to degrees(x) in the Godot Shader Language.
+  FUNC_EXP2 = 24: Returns 2 raised by the power of the parameter. Translates to exp2(x) in the Godot Shader Language.
+  FUNC_INVERSE_SQRT = 25: Returns the inverse of the square root of the parameter. Translates to inversesqrt(x) in the Godot Shader Language.
+  FUNC_LOG2 = 26: Returns the base 2 logarithm of the parameter. Translates to log2(x) in the Godot Shader Language.
+  FUNC_RADIANS = 27: Convert a quantity in degrees to radians. Translates to radians(x) in the Godot Shader Language.
+  FUNC_RECIPROCAL = 28: Finds reciprocal value of dividing 1 by x (i.e. 1 / x).
+  FUNC_ROUNDEVEN = 29: Finds the nearest even integer to the parameter. Translates to roundEven(x) in the Godot Shader Language.
+  FUNC_TRUNC = 30: Returns a value equal to the nearest integer to x whose absolute value is not larger than the absolute value of x. Translates to trunc(x) in the Godot Shader Language.
+  FUNC_ONEMINUS = 31: Subtracts scalar x from 1 (i.e. 1 - x).
+  FUNC_MAX = 32: Represents the size of the Function enum.
+---CHUNK---
+Document: VisualShaderNodeFloatFunc
+Path: godot/classes/class_visualshadernodefloatfunc.rst
+Summary: Describes the 'function' property of the VisualShaderNodeFloatFunc class, which determines the mathematical operation applied to the scalar input.
+
+Property Descriptions
+Property: function (Function)
+Description: A function to be applied to the scalar.
+Default: 13
+Method: set_function(value: Function)
+Method: get_function() → Function

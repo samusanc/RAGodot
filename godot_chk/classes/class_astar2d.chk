@@ -1,0 +1,149 @@
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: This document describes the AStar2D class, which provides a 2D A* pathfinding implementation.
+---CHUNK---
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: An implementation of A* for finding the shortest path between two vertices on a connected graph in 2D space.
+
+Inherits: RefCounted < Object
+
+An implementation of A* for finding the shortest path between two vertices on a connected graph in 2D space.
+---CHUNK---
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: An implementation of the A* algorithm for finding the shortest path between two vertices in 2D space.
+
+An implementation of the A* algorithm, used to find the shortest path between two vertices on a connected graph in 2D space.
+
+See AStar3D for a more thorough explanation on how to use this class. AStar2D is a wrapper for AStar3D that enforces 2D coordinates.
+---CHUNK---
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: A list of related tutorials for AStar2D and AStarGrid2D.
+
+Tutorials:
+* Grid-based Navigation with AStarGrid2D Demo
+---CHUNK---
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: This section describes the properties of the AStar2D class.
+
+*   neighbor_filter_enabled (bool): Default: false.
+---CHUNK---
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: This section lists all available methods for the AStar2D class, including virtual methods and core functionalities for pathfinding.
+
+Method: _compute_cost(from_id: int, to_id: int) → float
+Method: _estimate_cost(from_id: int, end_id: int) → float
+Method: _filter_neighbor(from_id: int, neighbor_id: int) → bool
+Method: add_point(id: int, position: Vector2, weight_scale: float = 1.0) → void
+Method: are_points_connected(id: int, to_id: int, bidirectional: bool = true) → bool
+Method: clear() → void
+Method: connect_points(id: int, to_id: int, bidirectional: bool = true) → void
+Method: disconnect_points(id: int, to_id: int, bidirectional: bool = true) → void
+Method: get_available_point_id() → int
+Method: get_closest_point(to_position: Vector2, include_disabled: bool = false) → int
+Method: get_closest_position_in_segment(to_position: Vector2) → Vector2
+Method: get_id_path(from_id: int, to_id: int, allow_partial_path: bool = false) → PackedInt64Array
+Method: get_point_capacity() → int
+Method: get_point_connections(id: int) → PackedInt64Array
+Method: get_point_count() → int
+Method: get_point_ids() → PackedInt64Array
+Method: get_point_path(from_id: int, to_id: int, allow_partial_path: bool = false) → PackedVector2Array
+Method: get_point_position(id: int) → Vector2
+Method: get_point_weight_scale(id: int) → float
+Method: has_point(id: int) → bool
+Method: is_point_disabled(id: int) → bool
+Method: remove_point(id: int) → void
+Method: reserve_space(num_nodes: int) → void
+Method: set_point_disabled(id: int, disabled: bool = true) → void
+Method: set_point_position(id: int, position: Vector2) → void
+Method: set_point_weight_scale(id: int, weight_scale: float) → void
+---CHUNK---
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: Describes the `neighbor_filter_enabled` property of AStar2D.
+
+Property: neighbor_filter_enabled (bool)
+Default: false
+If `true` enables the filtering of neighbors via `_filter_neighbor()`.
+Method: set_neighbor_filter_enabled(value: bool)
+Method: is_neighbor_filter_enabled() → bool
+---CHUNK---
+Document: AStar2D
+Path: godot/classes/class_astar2d.rst
+Summary: This section describes methods for computing costs, adding and connecting points, and retrieving information about points and segments in an AStar2D graph.
+
+Method: _compute_cost(from_id: int, to_id: int) → float
+Called when computing the cost between two connected points. Note: This function is hidden in the default AStar2D class.
+
+Method: _estimate_cost(from_id: int, end_id: int) → float
+Called when estimating the cost between a point and the path's ending point. Note: This function is hidden in the default AStar2D class.
+
+Method: _filter_neighbor(from_id: int, neighbor_id: int) → bool
+Called when neighboring enters processing and if neighbor_filter_enabled is true. If true is returned the point will not be processed. Note: This function is hidden in the default AStar2D class.
+
+Method: add_point(id: int, position: Vector2, weight_scale: float = 1.0) → void
+Adds a new point at the given position with the given identifier. The id must be 0 or larger, and the weight_scale must be 0.0 or greater.
+The weight_scale is multiplied by the result of _compute_cost() when determining the overall cost of traveling across a segment from a neighboring point to this point. Thus, all else being equal, the algorithm prefers points with lower weight_scales to form a path.
+
+GDScript:
+var astar = AStar2D.new()
+astar.add_point(1, Vector2(1, 0), 4) # Adds the point (1, 0) with weight_scale 4 and id 1
+
+C#:
+var astar = new AStar2D();
+astar.AddPoint(1, new Vector2(1, 0), 4); // Adds the point (1, 0) with weight_scale 4 and id 1
+
+If there already exists a point for the given id, its position and weight scale are updated to the given values.
+
+Method: are_points_connected(id: int, to_id: int, bidirectional: bool = true) → bool
+Returns whether there is a connection/segment between the given points. If bidirectional is false, returns whether movement from id to to_id is possible through this segment.
+
+Method: clear() → void
+Clears all the points and segments.
+
+Method: connect_points(id: int, to_id: int, bidirectional: bool = true) → void
+Creates a segment between the given points. If bidirectional is false, only movement from id to to_id is allowed, not the reverse direction.
+
+GDScript:
+var astar = AStar2D.new()
+astar.add_point(1, Vector2(1, 1))
+astar.add_point(2, Vector2(0, 5))
+astar.connect_points(1, 2, false)
+
+C#:
+var astar = new AStar2D();
+astar.AddPoint(1, new Vector2(1, 1));
+astar.AddPoint(2, new Vector2(0, 5));
+astar.ConnectPoints(1, 2, false);
+
+Method: disconnect_points(id: int, to_id: int, bidirectional: bool = true) → void
+Deletes the segment between the given points. If bidirectional is false, only movement from id to to_id is prevented, and a unidirectional segment possibly remains.
+
+Method: get_available_point_id() → int
+Returns the next available point ID with no point associated to it.
+
+Method: get_closest_point(to_position: Vector2, include_disabled: bool = false) → int
+Returns the ID of the closest point to to_position, optionally taking disabled points into account. Returns -1 if there are no points in the points pool. Note: If several points are the closest to to_position, the one with the smallest ID will be returned, ensuring a deterministic result.
+
+Method: get_closest_position_in_segment(to_position: Vector2) → Vector2
+Returns the closest position to to_position that resides inside a segment between two connected points.
+
+GDScript:
+var astar = AStar2D.new()
+astar.add_point(1, Vector2(0, 0))
+astar.add_point(2, Vector2(0, 5))
+astar.connect_points(1, 2)
+var res = astar.get_closest_position_in_segment(Vector2(3, 3)) # Returns (0, 3)
+
+C#:
+var astar = new AStar2D();
+astar.AddPoint(1, new Vector2(0, 0));
+astar.AddPoint(2, new Vector2(0, 5));
+astar.ConnectPoints(1, 2);
+Vector2 res = astar.GetClosestPositionInSegment(new Vector2(3, 3)); // Returns (0, 3)
+
+The result is in the segment that goes from y = 0 to y = 5. It's the closest position in the segment to the given point.

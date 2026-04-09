@@ -1,0 +1,105 @@
+Document: RDShaderSPIRV
+Path: godot/classes/class_rdshaderspirv.rst
+Summary: This chunk defines the RDShaderSPIRV class.
+---CHUNK---
+Document: RDShaderSPIRV
+Path: godot/classes/class_rdshaderspirv.rst
+Summary: This chunk describes RDShaderSPIRV, its inheritance, and its purpose as SPIR-V intermediate representation for RDShaderFile.
+
+Inherits: Resource < RefCounted < Object
+
+SPIR-V intermediate representation as part of an RDShaderFile (used by RenderingDevice).
+---CHUNK---
+Document: RDShaderSPIRV
+Path: godot/classes/class_rdshaderspirv.rst
+Summary: Describes RDShaderSPIRV, a low-level intermediate shader representation used by RenderingDevice.
+
+RDShaderSPIRV represents an RDShaderFile's SPIR-V code for various shader stages, as well as possible compilation error messages. SPIR-V is a low-level intermediate shader representation. This intermediate representation is not used directly by GPUs for rendering, but it can be compiled into binary shaders that GPUs can understand. Unlike compiled shaders, SPIR-V is portable across GPU models and driver versions. This object is used by RenderingDevice.
+---CHUNK---
+Document: RDShaderSPIRV
+Path: godot/classes/class_rdshaderspirv.rst
+Summary: This section lists the properties of the RDShaderSPIRV class, including bytecode for various shader stages and their corresponding compilation error messages.
+
+Properties:
+*   bytecode_any_hit (PackedByteArray): Default: PackedByteArray()
+*   bytecode_closest_hit (PackedByteArray): Default: PackedByteArray()
+*   bytecode_compute (PackedByteArray): Default: PackedByteArray()
+*   bytecode_fragment (PackedByteArray): Default: PackedByteArray()
+*   bytecode_intersection (PackedByteArray): Default: PackedByteArray()
+*   bytecode_miss (PackedByteArray): Default: PackedByteArray()
+*   bytecode_raygen (PackedByteArray): Default: PackedByteArray()
+*   bytecode_tesselation_control (PackedByteArray): Default: PackedByteArray()
+*   bytecode_tesselation_evaluation (PackedByteArray): Default: PackedByteArray()
+*   bytecode_vertex (PackedByteArray): Default: PackedByteArray()
+*   compile_error_any_hit (String): Default: ""
+*   compile_error_closest_hit (String): Default: ""
+*   compile_error_compute (String): Default: ""
+*   compile_error_fragment (String): Default: ""
+*   compile_error_intersection (String): Default: ""
+*   compile_error_miss (String): Default: ""
+*   compile_error_raygen (String): Default: ""
+*   compile_error_tesselation_control (String): Default: ""
+*   compile_error_tesselation_evaluation (String): Default: ""
+*   compile_error_vertex (String): Default: ""
+---CHUNK---
+Document: RDShaderSPIRV
+Path: godot/classes/class_rdshaderspirv.rst
+Summary: This section lists the methods available for managing shader bytecode and compile errors within an RDShaderSPIRV object.
+
+Method: PackedByteArray get_stage_bytecode(stage: ShaderStage)
+Method: String get_stage_compile_error(stage: ShaderStage)
+Method: void set_stage_bytecode(stage: ShaderStage, bytecode: PackedByteArray)
+Method: void set_stage_compile_error(stage: ShaderStage, compile_error: String)
+---CHUNK---
+Document: RDShaderSPIRV
+Path: godot/classes/class_rdshaderspirv.rst
+Summary: Describes the properties of RDShaderSPIRV, including bytecode and compilation error messages for various shader stages.
+
+Properties:
+- `bytecode_any_hit` (PackedByteArray): The SPIR-V bytecode for the any hit shader stage. Default: PackedByteArray().
+- `bytecode_closest_hit` (PackedByteArray): The SPIR-V bytecode for the closest hit shader stage. Default: PackedByteArray().
+- `bytecode_compute` (PackedByteArray): The SPIR-V bytecode for the compute shader stage. Default: PackedByteArray().
+- `bytecode_fragment` (PackedByteArray): The SPIR-V bytecode for the fragment shader stage. Default: PackedByteArray().
+- `bytecode_intersection` (PackedByteArray): The SPIR-V bytecode for the intersection shader stage. Default: PackedByteArray().
+- `bytecode_miss` (PackedByteArray): The SPIR-V bytecode for the miss shader stage. Default: PackedByteArray().
+- `bytecode_raygen` (PackedByteArray): The SPIR-V bytecode for the ray generation shader stage. Default: PackedByteArray().
+- `bytecode_tesselation_control` (PackedByteArray): The SPIR-V bytecode for the tessellation control shader stage. Default: PackedByteArray().
+- `bytecode_tesselation_evaluation` (PackedByteArray): The SPIR-V bytecode for the tessellation evaluation shader stage. Default: PackedByteArray().
+- `bytecode_vertex` (PackedByteArray): The SPIR-V bytecode for the vertex shader stage. Default: PackedByteArray().
+Note: For all `bytecode_` properties, the returned array is copied and any changes to it will not update the original property value. See PackedByteArray for more details.
+
+Methods for `bytecode_` properties:
+- Method: `set_stage_bytecode(stage: ShaderStage, bytecode: PackedByteArray)`
+- Method: `get_stage_bytecode(stage: ShaderStage) -> PackedByteArray`
+
+Properties:
+- `compile_error_any_hit` (String): The compilation error message for the any hit shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_closest_hit` (String): The compilation error message for the closest hit shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_compute` (String): The compilation error message for the compute shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_fragment` (String): The compilation error message for the fragment shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_intersection` (String): The compilation error message for the intersection shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_miss` (String): The compilation error message for the miss shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_raygen` (String): The compilation error message for the ray generation shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_tesselation_control` (String): The compilation error message for the tessellation control shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_tesselation_evaluation` (String): The compilation error message for the tessellation evaluation shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+- `compile_error_vertex` (String): The compilation error message for the vertex shader stage (set by the SPIR-V compiler and Godot). If empty, shader compilation was successful. Default: "".
+
+Methods for `compile_error_` properties:
+- Method: `set_stage_compile_error(stage: ShaderStage, compile_error: String)`
+- Method: `get_stage_compile_error(stage: ShaderStage) -> String`
+---CHUNK---
+Document: RDShaderSPIRV
+Path: godot/classes/class_rdshaderspirv.rst
+Summary: This section describes methods for getting and setting SPIR-V bytecode and compilation errors for different shader stages.
+
+Method: get_stage_bytecode(stage: ShaderStage) → PackedByteArray
+Equivalent to getting one of bytecode_compute, bytecode_fragment, bytecode_tesselation_control, bytecode_tesselation_evaluation, bytecode_vertex.
+
+Method: get_stage_compile_error(stage: ShaderStage) → String
+Returns the compilation error message for the given shader stage. Equivalent to getting one of compile_error_compute, compile_error_fragment, compile_error_tesselation_control, compile_error_tesselation_evaluation, compile_error_vertex.
+
+Method: set_stage_bytecode(stage: ShaderStage, bytecode: PackedByteArray)
+Sets the SPIR-V bytecode for the given shader stage. Equivalent to setting one of bytecode_compute, bytecode_fragment, bytecode_tesselation_control, bytecode_tesselation_evaluation, bytecode_vertex.
+
+Method: set_stage_compile_error(stage: ShaderStage, compile_error: String)
+Sets the compilation error message for the given shader stage to compile_error. Equivalent to setting one of compile_error_compute, compile_error_fragment, compile_error_tesselation_control, compile_error_tesselation_evaluation, compile_error_vertex.

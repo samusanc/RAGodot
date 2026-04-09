@@ -1,0 +1,142 @@
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: This section provides a reference for particle shaders in Godot Engine.
+
+This document serves as a reference for the particle shader language in Godot Engine. Particle shaders are used to control the appearance and behavior of particles emitted by the ParticleProcessMaterial or GPUParticles2D/GPUParticles3D nodes.
+
+Particle shaders operate on a per-particle basis, allowing for unique visual effects and behaviors for each individual particle. They are written in a GLSL-like syntax and can access various built-in variables and functions to manipulate particle properties such as color, size, position, and velocity.
+
+Key concepts in particle shaders include:
+
+*   **Varyings:** Variables that can be passed from the vertex shader to the fragment shader, allowing for per-particle data to be used in the fragment calculations.
+*   **Built-in Variables:** Predefined variables that provide access to particle properties like `COLOR`, `VELOCITY`, `POSITION`, `SIZE`, `TIME`, and `DELTA`.
+*   **Functions:** A set of built-in functions for common mathematical operations, texture lookups, and particle manipulation.
+
+The particle shader language supports standard GLSL data types (float, vec2, vec3, vec4, mat4) and control flow statements (if, for, while).
+
+Example of a simple particle shader that modifies the particle's color over its lifetime:
+
+GDScript:
+```glsl
+shader_type particles;
+
+void fragment() {
+    // Interpolate color from red to blue over the particle's lifetime
+    COLOR.rgb = mix(vec3(1.0, 0.0, 0.0), vec3(0.0, 0.0, 1.0), TIME / LIFETIME);
+    COLOR.a = 1.0; // Full alpha
+}
+```
+
+This shader sets the particle's color to red at the beginning of its life and gradually transitions to blue by the end of its life. The `TIME` variable represents the current age of the particle, and `LIFETIME` is the total duration the particle exists.
+
+More complex shaders can be created to achieve effects like:
+
+*   Animated textures for particles.
+*   Particles that react to forces or collisions.
+*   Custom particle emission patterns.
+*   Distortion effects.
+
+Refer to the Godot Engine documentation for a comprehensive list of built-in variables, functions, and advanced usage examples for particle shaders.
+---CHUNK---
+Document: Particle shaders
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Explains the purpose and functionality of particle shaders in Godot, highlighting their unique properties and usage with GPU-based particle nodes.
+Particle shaders are a special type of shader that runs before the object is drawn. They are used for calculating material properties such as color, position, and rotation. They can be drawn with any regular material for CanvasItem or Spatial, depending on whether they are 2D or 3D.
+
+Particle shaders are unique because they are not used to draw the object itself; they are used to calculate particle properties, which are then used by a CanvasItem or Spatial shader. They contain two processor functions: start() and process().
+
+Unlike other shader types, particle shaders keep the data that was output the previous frame. Therefore, particle shaders can be used for complex effects that take place over multiple frames.
+
+Note: Particle shaders are only available with GPU-based particle nodes (GPUParticles2D and GPUParticles3D). CPU-based particle nodes (CPUParticles2D and CPUParticles3D) are rendered on the GPU (which means they can use custom CanvasItem or Spatial shaders), but their motion is simulated on the CPU.
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Describes the available render modes for particle shaders.
+
+Render modes:
+* keep_data (Description: Do not clear previous data on restart.)
+* disable_force (Description: Disable attractor force.)
+* disable_velocity (Description: Ignore VELOCITY value.)
+* collision_use_scale (Description: Scale the particle's size for collisions.)
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Explains the meaning of 'in', 'out', and 'inout' qualifiers for built-in shader variables.
+'in' values are read-only. 'out' values can be written to but may not contain sensible defaults. 'inout' values have sensible defaults and can be written to. Samplers are read-only and not marked.
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Describes global built-in variables available in Godot shaders, including TIME, PI, TAU, and E.
+
+Global built-ins are available everywhere, including custom functions.
+
+*   **TIME** (float): Global time since the engine has started, in seconds. It repeats after every 3,600 seconds (which can be changed with the time rollover setting). It's affected by time scale but not by pausing. If you need a TIME variable that is not affected by time scale, add your own global shader uniform and update it each frame.
+*   **PI** (float): A PI constant (3.141592). The ratio of a circle's circumference to its diameter and the number of radians in a half turn.
+*   **TAU** (float): A TAU constant (6.283185). Equivalent to PI * 2 and the number of radians in a full turn.
+*   **E** (float): An E constant (2.718281). Euler's number, the base of the natural logarithm.
+---CHUNK---
+Document: Particle Shader Built-ins
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Describes the built-in variables available in Godot's particle shaders that can be accessed within the start() and process() functions.
+These properties can be accessed from both the start() and process() functions.
+* LIFETIME (in float): Particle lifetime.
+* DELTA (in float): Delta process time.
+* NUMBER (in uint): Unique number since emission start.
+* INDEX (in uint): Particle index (from total particles).
+* EMISSION_TRANSFORM (in mat4): Emitter transform (used for non-local systems).
+* RANDOM_SEED (in uint): Random seed used as base for random.
+* ACTIVE (inout bool): true when the particle is active, can be set to false.
+* COLOR (inout vec4): Particle color, can be written to and accessed in the mesh's vertex function.
+* VELOCITY (inout vec3): Particle velocity, can be modified.
+* TRANSFORM (inout mat4): Particle transform.
+* CUSTOM (inout vec4): Custom particle data. Accessible from the mesh's shader as INSTANCE_CUSTOM.
+* MASS (inout float): Particle mass, intended to be used with attractors. 1.0 by default.
+* USERDATA1 (in vec4): Vector that enables the integration of supplementary user-defined data into the particle process shader.
+* USERDATA2 (in vec4): Vector that enables the integration of supplementary user-defined data into the particle process shader.
+* USERDATA3 (in vec4): Vector that enables the integration of supplementary user-defined data into the particle process shader.
+* USERDATA4 (in vec4): Vector that enables the integration of supplementary user-defined data into the particle process shader.
+* USERDATA5 (in vec4): Vector that enables the integration of supplementary user-defined data into the particle process shader.
+* USERDATA6 (in vec4): Vector that enables the integration of supplementary user-defined data into the particle process shader.
+* FLAG_EMIT_POSITION (in uint): A flag for the last argument of the emit_subparticle() function to assign a position to a new particle's transform.
+* FLAG_EMIT_ROT_SCALE (in uint): A flag for the last argument of the emit_subparticle() function to assign a rotation and scale to a new particle's transform.
+* FLAG_EMIT_VELOCITY (in uint): A flag for the last argument of the emit_subparticle() function to assign a velocity to a new particle.
+* FLAG_EMIT_COLOR (in uint): A flag for the last argument of the emit_subparticle() function to assign a color to a new particle.
+* FLAG_EMIT_CUSTOM (in uint): A flag for the last argument of the emit_subparticle() function to assign a custom data vector to a new particle.
+* EMITTER_VELOCITY (in vec3): Velocity of the Particles2D (Particles3D) node.
+* INTERPOLATE_TO_END (in float): Value of the interp_to_end property of the Particles node.
+* AMOUNT_RATIO (in uint): Value of the amount_ratio property of the Particles node.
+Note: In order to use the COLOR variable in a StandardMaterial3D, set vertex_color_use_as_albedo to true. In a ShaderMaterial, access it with the COLOR variable.
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Describes built-in variables available in particle shaders related to particle restarts and sub-particle emission.
+
+Built-in Variables:
+* RESTART_POSITION (bool): true if particle is restarted, or emitted without a custom position (i.e. this particle was created by emit_subparticle() without the FLAG_EMIT_POSITION flag).
+* RESTART_ROT_SCALE (bool): true if particle is restarted, or emitted without a custom rotation or scale (i.e. this particle was created by emit_subparticle() without the FLAG_EMIT_ROT_SCALE flag).
+* RESTART_VELOCITY (bool): true if particle is restarted, or emitted without a custom velocity (i.e. this particle was created by emit_subparticle() without the FLAG_EMIT_VELOCITY flag).
+* RESTART_COLOR (bool): true if particle is restarted, or emitted without a custom color (i.e. this particle was created by emit_subparticle() without the FLAG_EMIT_COLOR flag).
+* RESTART_CUSTOM (bool): true if particle is restarted, or emitted without a custom property (i.e. this particle was created by emit_subparticle() without the FLAG_EMIT_CUSTOM flag).
+---CHUNK---
+Document: Shader Reference - Particle Shader Built-ins
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Describes the built-in variables available in Godot's particle shaders.
+Built-in variables are special variables that are automatically provided to the shader.
+
+*   **RESTART** (bool): `true` if the current process frame is the first for the particle.
+*   **COLLIDED** (bool): `true` when the particle has collided with a particle collider.
+*   **COLLISION_NORMAL** (vec3): A normal of the last collision. If there is no collision detected it is equal to `(0.0, 0.0, 0.0)`.
+*   **COLLISION_DEPTH** (float): A length of the normal of the last collision. If there is no collision detected it is equal to `0.0`.
+*   **ATTRACTOR_FORCE** (vec3): A combined force of the attractors at the moment on that particle.
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/particle_shader.rst
+Summary: Describes the `emit_subparticle` function for particle shaders.
+GDScript:
+    mat4 custom_transform = mat4(1.0);
+    custom_transform[3].xyz = vec3(10.5, 0.0, 4.0);
+    emit_subparticle(custom_transform, vec3(1.0, 0.5, 1.0), vec4(1.0, 0.0, 0.0, 1.0), vec4(1.0), FLAG_EMIT_POSITION | FLAG_EMIT_VELOCITY | FLAG_EMIT_COLOR);
+
+Function: emit_subparticle(xform: mat4, velocity: vec3, color: vec4, custom: vec4, flags: uint) → bool: Emits a particle from a sub-emitter.
+
+The `emit_subparticle()` function is the only custom function supported by particle shaders. It enables users to introduce a new particle with specific parameters from a sub-emitter. The newly generated particle will only adopt properties that align with the `flags` parameter. For instance, the provided GLSL code demonstrates emitting a particle with a defined position, velocity, and color, while omitting rotation, scale, and custom values.

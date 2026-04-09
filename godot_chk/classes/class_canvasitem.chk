@@ -1,0 +1,449 @@
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: Initial declaration of the CanvasItem class.
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: This chunk provides the inheritance information and the fundamental definition of CanvasItem as the abstract base class for all 2D nodes.
+
+CanvasItem
+Inherits: Node < Object
+Inherited By: Control, Node2D
+
+Abstract base class for everything in 2D space.
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: This chunk describes the core concepts of CanvasItem, the abstract base class for all 2D nodes, including its drawing process, tree-based rendering order, and how properties like transform and visibility are inherited by children.
+
+CanvasItem is the abstract base class for everything in 2D space. Canvas items are laid out in a tree; children inherit and extend their parent's transform. CanvasItem is extended by Control for GUI-related nodes, and by Node2D for 2D game objects.
+
+Any CanvasItem can draw. For this, queue_redraw() is called by the engine, then NOTIFICATION_DRAW will be received on idle time to request a redraw. Because of this, canvas items don't need to be redrawn on every frame, improving performance significantly. Several functions for drawing on the CanvasItem are provided (see `draw_*` functions). However, they can only be used inside _draw(), its corresponding Object._notification() or methods connected to the draw signal.
+
+Canvas items are drawn in tree order on their canvas layer. By default, children are on top of their parents, so a root CanvasItem will be drawn behind everything. This behavior can be changed on a per-item basis.
+
+A CanvasItem can be hidden, which will also hide its children. By adjusting various other properties of a CanvasItem, you can also modulate its color (via modulate or self_modulate), change its Z-index, blend mode, and more.
+
+Note: Properties like transform, modulation, and visibility are only propagated to direct CanvasItem child nodes. If there is a non-CanvasItem node in between, like Node or AnimationPlayer, the CanvasItem nodes below will have an independent position and modulate chain. See also top_level.
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: A list of tutorials related to CanvasItem, including 2D transforms, custom drawing, and an audio spectrum visualizer demo.
+
+Tutorials:
+- Viewport and canvas transforms
+- Custom drawing in 2D
+- Audio Spectrum Visualizer Demo
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: A list of properties for the CanvasItem class, detailing their type and default values for features like visibility, color modulation, materials, and rendering order.
+
+* clip_children (ClipChildrenMode): The clipping mode for children of this CanvasItem. Default: 0.
+* light_mask (int): The render layers that 2D lights influence this CanvasItem. Default: 1.
+* material (Material): The Material used to draw this item.
+* modulate (Color): The color that modulates this CanvasItem and its children. Default: Color(1, 1, 1, 1).
+* self_modulate (Color): The color that modulates this CanvasItem specifically, without affecting its children. Default: Color(1, 1, 1, 1).
+* show_behind_parent (bool): If true, the node is drawn behind its parent. Default: false.
+* texture_filter (TextureFilter): The texture filtering mode to be used on this CanvasItem. Default: 0.
+* texture_repeat (TextureRepeat): The texture repeating mode to be used on this CanvasItem. Default: 0.
+* top_level (bool): If true, this CanvasItem will be drawn on a separate canvas and not inherit its parent's transform. Default: false.
+* use_parent_material (bool): If true, the item will use the material of its parent. Default: false.
+* visibility_layer (int): The render layer this CanvasItem is part of. It will only be visible if enabled in the Viewport. Default: 1.
+* visible (bool): If true, this CanvasItem is drawn. Default: true.
+* y_sort_enabled (bool): If true, child nodes are sorted by their Y position. Default: false.
+* z_as_relative (bool): If true, the Z index is relative to the parent's Z index. If false, it is absolute. Default: true.
+* z_index (int): The Z index, which controls the drawing order. Items with a higher Z index are drawn on top. Default: 0.
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: A list of CanvasItem's methods, covering custom 2D drawing, transform management, visibility controls, and input event handling.
+
+* _draw() -> void (virtual)
+* draw_animation_slice(animation_length: float, slice_begin: float, slice_end: float, offset: float = 0.0) -> void
+* draw_arc(center: Vector2, radius: float, start_angle: float, end_angle: float, point_count: int, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+* draw_char(font: Font, pos: Vector2, char: String, font_size: int = 16, modulate: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+* draw_char_outline(font: Font, pos: Vector2, char: String, font_size: int = 16, size: int = -1, modulate: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+* draw_circle(position: Vector2, radius: float, color: Color, filled: bool = true, width: float = -1.0, antialiased: bool = false) -> void
+* draw_colored_polygon(points: PackedVector2Array, color: Color, uvs: PackedVector2Array = PackedVector2Array(), texture: Texture2D = null) -> void
+* draw_dashed_line(from: Vector2, to: Vector2, color: Color, width: float = -1.0, dash: float = 2.0, aligned: bool = true, antialiased: bool = false) -> void
+* draw_ellipse(position: Vector2, major: float, minor: float, color: Color, filled: bool = true, width: float = -1.0, antialiased: bool = false) -> void
+* draw_ellipse_arc(center: Vector2, major: float, minor: float, start_angle: float, end_angle: float, point_count: int, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+* draw_end_animation() -> void
+* draw_lcd_texture_rect_region(texture: Texture2D, rect: Rect2, src_rect: Rect2, modulate: Color = Color(1, 1, 1, 1)) -> void
+* draw_line(from: Vector2, to: Vector2, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+* draw_mesh(mesh: Mesh, texture: Texture2D, transform: Transform2D = Transform2D(1, 0, 0, 1, 0, 0), modulate: Color = Color(1, 1, 1, 1)) -> void
+* draw_msdf_texture_rect_region(texture: Texture2D, rect: Rect2, src_rect: Rect2, modulate: Color = Color(1, 1, 1, 1), outline: float = 0.0, pixel_range: float = 4.0, scale: float = 1.0) -> void
+* draw_multiline(points: PackedVector2Array, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+* draw_multiline_colors(points: PackedVector2Array, colors: PackedColorArray, width: float = -1.0, antialiased: bool = false) -> void
+* draw_multiline_string(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, max_lines: int = -1, modulate: Color = Color(1, 1, 1, 1), brk_flags: bitfield[LineBreakFlag] = 3, justification_flags: bitfield[JustificationFlag] = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+* draw_multiline_string_outline(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, max_lines: int = -1, size: int = 1, modulate: Color = Color(1, 1, 1, 1), brk_flags: bitfield[LineBreakFlag] = 3, justification_flags: bitfield[JustificationFlag] = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+* draw_multimesh(multimesh: MultiMesh, texture: Texture2D) -> void
+* draw_polygon(points: PackedVector2Array, colors: PackedColorArray, uvs: PackedVector2Array = PackedVector2Array(), texture: Texture2D = null) -> void
+* draw_polyline(points: PackedVector2Array, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+* draw_polyline_colors(points: PackedVector2Array, colors: PackedColorArray, width: float = -1.0, antialiased: bool = false) -> void
+* draw_primitive(points: PackedVector2Array, colors: PackedColorArray, uvs: PackedVector2Array, texture: Texture2D = null) -> void
+* draw_rect(rect: Rect2, color: Color, filled: bool = true, width: float = -1.0, antialiased: bool = false) -> void
+* draw_set_transform(position: Vector2, rotation: float = 0.0, scale: Vector2 = Vector2(1, 1)) -> void
+* draw_set_transform_matrix(xform: Transform2D) -> void
+* draw_string(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, modulate: Color = Color(1, 1, 1, 1), justification_flags: bitfield[JustificationFlag] = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+* draw_string_outline(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, size: int = 1, modulate: Color = Color(1, 1, 1, 1), justification_flags: bitfield[JustificationFlag] = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+* draw_style_box(style_box: StyleBox, rect: Rect2) -> void
+* draw_texture(texture: Texture2D, position: Vector2, modulate: Color = Color(1, 1, 1, 1)) -> void
+* draw_texture_rect(texture: Texture2D, rect: Rect2, tile: bool, modulate: Color = Color(1, 1, 1, 1), transpose: bool = false) -> void
+* draw_texture_rect_region(texture: Texture2D, rect: Rect2, src_rect: Rect2, modulate: Color = Color(1, 1, 1, 1), transpose: bool = false, clip_uv: bool = true) -> void
+* force_update_transform() -> void
+* get_canvas() -> RID
+* get_canvas_item() -> RID
+* get_canvas_layer_node() -> CanvasLayer
+* get_canvas_transform() -> Transform2D
+* get_global_mouse_position() -> Vector2
+* get_global_transform() -> Transform2D
+* get_global_transform_with_canvas() -> Transform2D
+* get_instance_shader_parameter(name: StringName) -> Variant
+* get_local_mouse_position() -> Vector2
+* get_screen_transform() -> Transform2D
+* get_transform() -> Transform2D
+* get_viewport_rect() -> Rect2
+* get_viewport_transform() -> Transform2D
+* get_visibility_layer_bit(layer: int) -> bool
+* get_world_2d() -> World2D
+* hide() -> void
+* is_local_transform_notification_enabled() -> bool
+* is_transform_notification_enabled() -> bool
+* is_visible_in_tree() -> bool
+* make_canvas_position_local(viewport_point: Vector2) -> Vector2
+* make_input_local(event: InputEvent) -> InputEvent
+* move_to_front() -> void
+* queue_redraw() -> void
+* set_instance_shader_parameter(name: StringName, value: Variant) -> void
+* set_notify_local_transform(enable: bool) -> void
+* set_notify_transform(enable: bool) -> void
+* set_visibility_layer_bit(layer: int, enabled: bool) -> void
+* show() -> void
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: This chunk covers the signals emitted by CanvasItem for drawing and visibility changes, and enumerations for texture filtering, texture repeating, and child clipping modes.
+
+Signals
+
+draw()
+Emitted when the CanvasItem must redraw, after the related NOTIFICATION_DRAW notification, and before _draw() is called. Note: Deferred connections do not allow drawing through the draw_* methods.
+
+hidden()
+Emitted when this node becomes hidden, i.e. it's no longer visible in the tree (see is_visible_in_tree()).
+
+item_rect_changed()
+Emitted when the CanvasItem's boundaries (position or size) change, or when an action took place that may have affected these boundaries (e.g. changing Sprite2D.texture).
+
+visibility_changed()
+Emitted when the CanvasItem's visibility changes, either because its own visible property changed or because its visibility in the tree changed (see is_visible_in_tree()). This signal is emitted after the related NOTIFICATION_VISIBILITY_CHANGED notification.
+
+Enumerations
+
+enum TextureFilter:
+- TEXTURE_FILTER_PARENT_NODE = 0: The CanvasItem will inherit the filter from its parent.
+- TEXTURE_FILTER_NEAREST = 1: The texture filter reads from the nearest pixel only. This makes the texture look pixelated from up close, and grainy from a distance (due to mipmaps not being sampled).
+- TEXTURE_FILTER_LINEAR = 2: The texture filter blends between the nearest 4 pixels. This makes the texture look smooth from up close, and grainy from a distance (due to mipmaps not being sampled).
+- TEXTURE_FILTER_NEAREST_WITH_MIPMAPS = 3: The texture filter reads from the nearest pixel and blends between the nearest 2 mipmaps. This makes the texture look pixelated from up close, and smooth from a distance. Use this for non-pixel art textures that may be viewed at a low scale, as mipmaps are important to smooth out pixels that are smaller than on-screen pixels.
+- TEXTURE_FILTER_LINEAR_WITH_MIPMAPS = 4: The texture filter blends between the nearest 4 pixels and between the nearest 2 mipmaps. This makes the texture look smooth from up close, and smooth from a distance. Use this for non-pixel art textures that may be viewed at a low scale.
+- TEXTURE_FILTER_NEAREST_WITH_MIPMAPS_ANISOTROPIC = 5: The texture filter reads from the nearest pixel and blends between 2 mipmaps based on the angle between the surface and the camera view. This makes the texture look pixelated from up close, and smooth from a distance. Anisotropic filtering improves texture quality on surfaces that are almost in line with the camera, but is slightly slower. The anisotropic filtering level can be changed by adjusting ProjectSettings.rendering/textures/default_filters/anisotropic_filtering_level. Note: This texture filter is rarely useful in 2D projects. TEXTURE_FILTER_NEAREST_WITH_MIPMAPS is usually more appropriate.
+- TEXTURE_FILTER_LINEAR_WITH_MIPMAPS_ANISOTROPIC = 6: The texture filter blends between the nearest 4 pixels and blends between 2 mipmaps based on the angle between the surface and the camera view. This makes the texture look smooth from up close, and smooth from a distance. Anisotropic filtering improves texture quality on surfaces that are almost in line with the camera, but is slightly slower. The anisotropic filtering level can be changed by adjusting ProjectSettings.rendering/textures/default_filters/anisotropic_filtering_level. Note: This texture filter is rarely useful in 2D projects. TEXTURE_FILTER_LINEAR_WITH_MIPMAPS is usually more appropriate.
+- TEXTURE_FILTER_MAX = 7: Represents the size of the TextureFilter enum.
+
+enum TextureRepeat:
+- TEXTURE_REPEAT_PARENT_NODE = 0: The CanvasItem will inherit the repeat mode from its parent.
+- TEXTURE_REPEAT_DISABLED = 1: The texture does not repeat. Sampling the texture outside its extents will result in "stretching" of the edge pixels.
+- TEXTURE_REPEAT_ENABLED = 2: The texture repeats when exceeding the texture's size.
+- TEXTURE_REPEAT_MIRROR = 3: The texture repeats when exceeding the texture's size in a "2×2 tiled mode". Repeated textures at even positions are mirrored.
+- TEXTURE_REPEAT_MAX = 4: Represents the size of the TextureRepeat enum.
+
+enum ClipChildrenMode:
+- CLIP_CHILDREN_DISABLED = 0: Children are drawn over this node and are not clipped.
+- CLIP_CHILDREN_ONLY = 1: This node is used as a mask and is not drawn. The mask is based on this node's alpha channel: Opaque pixels are kept, transparent pixels are discarded, and semi-transparent pixels are blended in according to their opacity. Children are clipped to this node's drawn area.
+- CLIP_CHILDREN_AND_DRAW = 2: This node is used as a mask and is also drawn. The mask is based on this node's alpha channel. Children are clipped to the parent's drawn area.
+- CLIP_CHILDREN_MAX = 3: Represents the size of the ClipChildrenMode enum.
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: This chunk details the notification constants for CanvasItem, which signal events like transform changes, drawing requests, visibility updates, and entering or exiting the canvas.
+
+Constants:
+- NOTIFICATION_TRANSFORM_CHANGED = 2000: Notification received when this node's global transform changes, if is_transform_notification_enabled() is true. See also set_notify_transform() and get_transform(). Note: Many canvas items such as Camera2D or CollisionObject2D automatically enable this in order to function correctly.
+
+- NOTIFICATION_LOCAL_TRANSFORM_CHANGED = 35: Notification received when this node's transform changes, if is_local_transform_notification_enabled() is true. This is not received when a parent Node2D's transform changes. See also set_notify_local_transform(). Note: Many canvas items such as Camera2D or CollisionShape2D automatically enable this in order to function correctly.
+
+- NOTIFICATION_DRAW = 30: The CanvasItem is requested to draw (see _draw()).
+
+- NOTIFICATION_VISIBILITY_CHANGED = 31: Notification received when this node's visibility changes (see visible and is_visible_in_tree()). This notification is received before the related visibility_changed signal.
+
+- NOTIFICATION_ENTER_CANVAS = 32: The CanvasItem has entered the canvas.
+
+- NOTIFICATION_EXIT_CANVAS = 33: The CanvasItem has exited the canvas. This notification is sent in reversed order.
+
+- NOTIFICATION_WORLD_2D_CHANGED = 36: Notification received when this CanvasItem is registered to a new World2D (see get_world_2d()).
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: This chunk details the properties of CanvasItem, including visibility, color modulation, material assignment, texture handling, sorting, and clipping.
+
+clip_children (ClipChildrenMode): The mode in which this node clips its children, acting as a mask. Default: 0.
+- Method: set_clip_children_mode(value: ClipChildrenMode)
+- Method: get_clip_children_mode() -> ClipChildrenMode
+Note: Clipping nodes cannot be nested or placed within a CanvasGroup. If an ancestor of this node clips its children or is a CanvasGroup, then this node's clip mode should be set to CLIP_CHILDREN_DISABLED to avoid unexpected behavior.
+
+light_mask (int): The rendering layers in which this CanvasItem responds to Light2D nodes. Default: 1.
+- Method: set_light_mask(value: int)
+- Method: get_light_mask() -> int
+
+material (Material): The material applied to this CanvasItem.
+- Method: set_material(value: Material)
+- Method: get_material() -> Material
+
+modulate (Color): The color applied to this CanvasItem. This property does affect child CanvasItems, unlike self_modulate which only affects the node itself. Default: Color(1, 1, 1, 1).
+- Method: set_modulate(value: Color)
+- Method: get_modulate() -> Color
+
+self_modulate (Color): The color applied to this CanvasItem. This property does not affect child CanvasItems, unlike modulate which affects both the node itself and its children. Default: Color(1, 1, 1, 1).
+- Method: set_self_modulate(value: Color)
+- Method: get_self_modulate() -> Color
+Note: Internal children are also not affected by this property (see the `include_internal` parameter in Node.add_child()). For built-in nodes this includes sliders in ColorPicker, and the tab bar in TabContainer.
+
+show_behind_parent (bool): If true, this node draws behind its parent. Default: false.
+- Method: set_draw_behind_parent(value: bool)
+- Method: is_draw_behind_parent_enabled() -> bool
+
+texture_filter (TextureFilter): The filtering mode used to render this CanvasItem's texture(s). Default: 0.
+- Method: set_texture_filter(value: TextureFilter)
+- Method: get_texture_filter() -> TextureFilter
+
+texture_repeat (TextureRepeat): The repeating mode used to render this CanvasItem's texture(s). It affects what happens when the texture is sampled outside its extents, for example by setting a Sprite2D.region_rect that is larger than the texture or assigning Polygon2D UV points outside the texture. Default: 0.
+- Method: set_texture_repeat(value: TextureRepeat)
+- Method: get_texture_repeat() -> TextureRepeat
+Note: TextureRect is not affected by texture_repeat, as it uses its own texture repeating implementation.
+
+top_level (bool): If true, this CanvasItem will not inherit its transform from parent CanvasItems. Its draw order will also be changed to make it draw on top of other CanvasItems that do not have top_level set to true. The CanvasItem will effectively act as if it was placed as a child of a bare Node. Default: false.
+- Method: set_as_top_level(value: bool)
+- Method: is_set_as_top_level() -> bool
+
+use_parent_material (bool): If true, the parent CanvasItem's material is used as this node's material. Default: false.
+- Method: set_use_parent_material(value: bool)
+- Method: get_use_parent_material() -> bool
+
+visibility_layer (int): The rendering layer in which this CanvasItem is rendered by Viewport nodes. A Viewport will render a CanvasItem if it and all its parents share a layer with the Viewport's canvas cull mask. Default: 1.
+- Method: set_visibility_layer(value: int)
+- Method: get_visibility_layer() -> int
+Note: A CanvasItem does not inherit its parents' visibility layers. This means that if a parent CanvasItem does not have all the same layers as its child, the child may not be visible even if both the parent and child have visible set to true. For example, if a parent has layer 1 and a child has layer 2, the child will not be visible in a Viewport with the canvas cull mask set to layer 1 or 2 (see Viewport.canvas_cull_mask). To ensure that both the parent and child are visible, the parent must have both layers 1 and 2, or the child must have top_level set to true.
+
+visible (bool): If true, this CanvasItem may be drawn. Whether this CanvasItem is actually drawn depends on the visibility of all of its CanvasItem ancestors. In other words: this CanvasItem will be drawn when is_visible_in_tree() returns true and all CanvasItem ancestors share at least one visibility_layer with this CanvasItem. Default: true.
+- Method: set_visible(value: bool)
+- Method: is_visible() -> bool
+Note: For controls that inherit Popup, the correct way to make them visible is to call one of the multiple `popup*()` functions instead.
+
+y_sort_enabled (bool): If true, this and child CanvasItem nodes with a higher Y position are rendered in front of nodes with a lower Y position. If false, this and child CanvasItem nodes are rendered normally in scene tree order. With Y-sorting enabled on a parent node ('A') but disabled on a child node ('B'), the child node ('B') is sorted but its children ('C1', 'C2', etc.) render together on the same Y position as the child node ('B'). This allows you to organize the render order of a scene without changing the scene tree. Nodes sort relative to each other only if they are on the same z_index. Default: false.
+- Method: set_y_sort_enabled(value: bool)
+- Method: is_y_sort_enabled() -> bool
+
+z_as_relative (bool): If true, this node's final Z index is relative to its parent's Z index. For example, if z_index is 2 and its parent's final Z index is 3, then this node's final Z index will be 5 (2 + 3). Default: true.
+- Method: set_z_as_relative(value: bool)
+- Method: is_z_relative() -> bool
+
+z_index (int): The order in which this node is drawn. A node with a higher Z index will display in front of others. Must be between RenderingServer.CANVAS_ITEM_Z_MIN and RenderingServer.CANVAS_ITEM_Z_MAX (inclusive). Default: 0.
+- Method: set_z_index(value: int)
+- Method: get_z_index() -> int
+Note: The Z index does not affect the order in which CanvasItem nodes are processed or the way input events are handled. This is especially important to keep in mind for Control nodes.
+---CHUNK---
+Document: CanvasItem
+Path: godot/classes/class_canvasitem.rst
+Summary: Covers the extensive set of methods for custom 2D drawing, managing transforms, handling visibility, and querying canvas-related information.
+
+Method: _draw() -> void
+Called when CanvasItem has been requested to redraw (after queue_redraw() is called, either manually or by the engine). This is a virtual method. Corresponds to the NOTIFICATION_DRAW notification in Object._notification().
+
+Method: draw_animation_slice(animation_length: float, slice_begin: float, slice_end: float, offset: float = 0.0) -> void
+Subsequent drawing commands will be ignored unless they fall within the specified animation slice. This is a faster way to implement animations that loop on background rather than redrawing constantly.
+
+Method: draw_arc(center: Vector2, radius: float, start_angle: float, end_angle: float, point_count: int, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+Draws an unfilled arc between the given angles with a uniform `color` and `width` and optional antialiasing (supported only for positive `width`). The larger the value of `point_count`, the smoother the curve. `center` is defined in local space. For elliptical arcs, see draw_ellipse_arc(). See also draw_circle(). If `width` is negative, it will be ignored and the arc will be drawn using RenderingServer.PRIMITIVE_LINE_STRIP. This means that when the CanvasItem is scaled, the arc will remain thin. If this behavior is not desired, then pass a positive `width` like `1.0`. The arc is drawn from `start_angle` towards the value of `end_angle` so in clockwise direction if `start_angle < end_angle` and counter-clockwise otherwise. Passing the same angles but in reversed order will produce the same arc. If absolute difference of `start_angle` and `end_angle` is greater than @GDScript.TAU radians, then a full circle arc is drawn.
+
+Method: draw_char(font: Font, pos: Vector2, char: String, font_size: int = 16, modulate: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draws a string's first character using a custom font. If `oversampling` is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used. `pos` is defined in local space.
+
+Method: draw_char_outline(font: Font, pos: Vector2, char: String, font_size: int = 16, size: int = -1, modulate: Color = Color(1, 1, 1, 1), oversampling: float = 0.0) -> void
+Draws a string's first character outline using a custom font. If `oversampling` is greater than zero, it is used as font oversampling factor, otherwise viewport oversampling settings are used. `pos` is defined in local space.
+
+Method: draw_circle(position: Vector2, radius: float, color: Color, filled: bool = true, width: float = -1.0, antialiased: bool = false) -> void
+Draws a circle, with `position` defined in local space. If `filled` is `true`, the circle will be filled with the `color`. If `false`, it will be drawn as a stroke with the `color` and `width`. If `width` is negative, two-point primitives will be drawn, meaning the lines will remain thin when scaled. Pass a positive `width` like `1.0` to avoid this. If `antialiased` is `true`, outlines will be smooth. Note: `width` is only effective if `filled` is `false`. See also draw_ellipse(), draw_arc(), draw_polyline(), and draw_polygon().
+
+Method: draw_colored_polygon(points: PackedVector2Array, color: Color, uvs: PackedVector2Array = PackedVector2Array(), texture: Texture2D = null) -> void
+Draws a colored polygon of any number of points, convex or concave. The points are in local space. Unlike draw_polygon(), a single color must be specified for the whole polygon. Note: If you frequently redraw the same polygon with a large number of vertices, consider pre-calculating the triangulation with Geometry2D.triangulate_polygon() and using draw_mesh(), draw_multimesh(), or RenderingServer.canvas_item_add_triangle_array(). Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, because the drawing operation doesn't begin immediately. Local variables get destroyed before rendering takes place.
+
+Method: draw_dashed_line(from: Vector2, to: Vector2, color: Color, width: float = -1.0, dash: float = 2.0, aligned: bool = true, antialiased: bool = false) -> void
+Draws a dashed line between two points in local space. If `width` is negative, the line parts will remain thin when scaled. `dash` is the length of each dash and gap. If `aligned` is `true`, the first and last dashes may be adjusted to fit the line length precisely. If `false`, only full dashes are drawn. If `antialiased` is `true`, outlines are smoothed. Note: `antialiased` is only effective if `width` is greater than `0.0`. See also draw_line(), draw_multiline(), and draw_polyline().
+
+Method: draw_ellipse(position: Vector2, major: float, minor: float, color: Color, filled: bool = true, width: float = -1.0, antialiased: bool = false) -> void
+Draws an ellipse with semi-major axis `major` and semi-minor axis `minor`. If `filled` is `true`, it's filled with `color`. If `false`, it's stroked with `color` and `width`. If `width` is negative, lines remain thin when scaled. If `antialiased` is `true`, outlines are smooth. Note: `width` is only effective if `filled` is `false`. See also draw_circle(), draw_ellipse_arc(), draw_polyline(), and draw_polygon().
+
+Method: draw_ellipse_arc(center: Vector2, major: float, minor: float, start_angle: float, end_angle: float, point_count: int, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+Draws an unfilled elliptical arc. The larger `point_count`, the smoother the curve. If `width` is negative, the arc remains thin when scaled. The arc is drawn from `start_angle` towards `end_angle`. If the absolute difference of angles is greater than @GDScript.TAU radians, a full ellipse is drawn. See also draw_arc() and draw_ellipse().
+
+Method: draw_end_animation() -> void
+After submitting animation slices via draw_animation_slice(), this function reverts drawing to its default state where all subsequent drawing commands are visible.
+
+Method: draw_lcd_texture_rect_region(texture: Texture2D, rect: Rect2, src_rect: Rect2, modulate: Color = Color(1, 1, 1, 1)) -> void
+Draws a textured rectangle region of a font texture with LCD subpixel anti-aliasing. The `rect` is in local space. The blend mode of the CanvasItemMaterial is ignored. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_line(from: Vector2, to: Vector2, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+Draws a line between two points in local space. If `width` is negative, the line remains thin when scaled. See also draw_dashed_line(), draw_multiline(), and draw_polyline().
+
+Method: draw_mesh(mesh: Mesh, texture: Texture2D, transform: Transform2D = Transform2D(1, 0, 0, 1, 0, 0), modulate: Color = Color(1, 1, 1, 1)) -> void
+Draws a Mesh in 2D, using the provided texture and transform (in local space). Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_msdf_texture_rect_region(texture: Texture2D, rect: Rect2, src_rect: Rect2, modulate: Color = Color(1, 1, 1, 1), outline: float = 0.0, pixel_range: float = 4.0, scale: float = 1.0) -> void
+Draws a textured rectangle region of a multichannel signed distance field texture. The `rect` is in local space. `pixel_range` should match the value used during texture generation. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_multiline(points: PackedVector2Array, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+Draws multiple disconnected lines with a uniform `width` and `color`. Each line is defined by two consecutive points from the `points` array. This is faster than multiple draw_line() calls. If `width` is negative, lines remain thin when scaled. Note: `antialiased` is only effective if `width` is greater than `0.0`.
+
+Method: draw_multiline_colors(points: PackedVector2Array, colors: PackedColorArray, width: float = -1.0, antialiased: bool = false) -> void
+Draws multiple disconnected lines with a uniform `width` and per-segment coloring. Each segment uses a color from the `colors` array. If `width` is negative, lines remain thin when scaled. Note: `antialiased` is only effective if `width` is greater than `0.0`.
+
+Method: draw_multiline_string(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, max_lines: int = -1, modulate: Color = Color(1, 1, 1, 1), brk_flags: LineBreakFlag = 3, justification_flags: JustificationFlag = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+Breaks `text` into lines and draws it using the specified `font` at `pos` (top-left corner) in local space. If `width` is >= 0, text is clipped. `oversampling` overrides viewport settings if > 0.
+
+Method: draw_multiline_string_outline(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, max_lines: int = -1, size: int = 1, modulate: Color = Color(1, 1, 1, 1), brk_flags: LineBreakFlag = 3, justification_flags: JustificationFlag = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+Breaks `text` into lines and draws its outline using the specified `font` at `pos` (top-left corner) in local space. If `width` is >= 0, text is clipped. `oversampling` overrides viewport settings if > 0.
+
+Method: draw_multimesh(multimesh: MultiMesh, texture: Texture2D) -> void
+Draws a MultiMesh in 2D with the provided texture. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_polygon(points: PackedVector2Array, colors: PackedColorArray, uvs: PackedVector2Array = PackedVector2Array(), texture: Texture2D = null) -> void
+Draws a solid polygon where each point can have a different color. The `points` are in local space. Note: For performance with large polygons, consider pre-calculating triangulation. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_polyline(points: PackedVector2Array, color: Color, width: float = -1.0, antialiased: bool = false) -> void
+Draws interconnected line segments with a uniform `color` and `width`. The `points` are in local space. If `width` is negative, the polyline remains thin when scaled.
+
+Method: draw_polyline_colors(points: PackedVector2Array, colors: PackedColorArray, width: float = -1.0, antialiased: bool = false) -> void
+Draws interconnected line segments with point-by-point coloring, creating gradients. The `points` are in local space. If `width` is negative, the polyline remains thin when scaled.
+
+Method: draw_primitive(points: PackedVector2Array, colors: PackedColorArray, uvs: PackedVector2Array, texture: Texture2D = null) -> void
+Draws a custom primitive: 1 point for a point, 2 for a line, 3 for a triangle, 4 for a quad. The `points` are in local space. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_rect(rect: Rect2, color: Color, filled: bool = true, width: float = -1.0, antialiased: bool = false) -> void
+Draws a rectangle in local space. If `filled` is `true`, it's filled with `color`. If `false`, it's stroked with `color` and `width`. If `width` is negative, lines remain thin when scaled. Note: `width` is only effective if `filled` is `false`. Note: Unfilled rectangles with negative `width` may have rendering artifacts at corners.
+
+Method: draw_set_transform(position: Vector2, rotation: float = 0.0, scale: Vector2 = Vector2(1, 1)) -> void
+Sets a custom local transform for subsequent drawing commands. Note: FontFile.oversampling does not account for `scale`, which can make fonts blurry. Use MSDF fonts to ensure crisp text at any scale.
+
+Method: draw_set_transform_matrix(xform: Transform2D) -> void
+Sets a custom local transform for drawing via a Transform2D matrix. Anything drawn afterwards will be transformed by this.
+
+Method: draw_string(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, modulate: Color = Color(1, 1, 1, 1), justification_flags: JustificationFlag = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+Draws `text` using the specified `font` at `pos` (bottom-left corner using font baseline) in local space. If `width` is >= 0, text is clipped. `oversampling` overrides viewport settings if > 0.
+GDScript:
+    draw_string(ThemeDB.fallback_font, Vector2(64, 64), "Hello world", HORIZONTAL_ALIGNMENT_LEFT, -1, ThemeDB.fallback_font_size)
+C#:
+    DrawString(ThemeDB.FallbackFont, new Vector2(64, 64), "Hello world", HorizontalAlignment.Left, -1, ThemeDB.FallbackFontSize);
+
+Method: draw_string_outline(font: Font, pos: Vector2, text: String, alignment: HorizontalAlignment = 0, width: float = -1, font_size: int = 16, size: int = 1, modulate: Color = Color(1, 1, 1, 1), justification_flags: JustificationFlag = 3, direction: Direction = 0, orientation: Orientation = 0, oversampling: float = 0.0) -> void
+Draws `text` outline using the specified `font` at `pos` (bottom-left corner using font baseline) in local space. If `width` is >= 0, text is clipped. `oversampling` overrides viewport settings if > 0.
+
+Method: draw_style_box(style_box: StyleBox, rect: Rect2) -> void
+Draws a styled rectangle in local space. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_texture(texture: Texture2D, position: Vector2, modulate: Color = Color(1, 1, 1, 1)) -> void
+Draws a texture at a given position in local space. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_texture_rect(texture: Texture2D, rect: Rect2, tile: bool, modulate: Color = Color(1, 1, 1, 1), transpose: bool = false) -> void
+Draws a textured rectangle in local space. If `transpose` is `true`, texture X and Y coordinates are swapped. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: draw_texture_rect_region(texture: Texture2D, rect: Rect2, src_rect: Rect2, modulate: Color = Color(1, 1, 1, 1), transpose: bool = false, clip_uv: bool = true) -> void
+Draws a region of a texture (`src_rect`) into a rectangle (`rect`) in local space. If `transpose` is `true`, texture X and Y coordinates are swapped. Note: Styleboxes, textures, and meshes stored only inside local variables should not be used with this method in GDScript, as they are destroyed before rendering occurs.
+
+Method: force_update_transform() -> void
+Forces the node's transform to update immediately. Fails if the node is not inside the tree. Note: For performance, transform changes are usually applied once at the end of the frame. Use this only when an up-to-date transform is needed immediately, such as in physics operations.
+
+Method: get_canvas() -> RID
+Returns the RID of the World2D canvas where this node is registered.
+
+Method: get_canvas_item() -> RID
+Returns the internal canvas item RID used by the RenderingServer for this node.
+
+Method: get_canvas_layer_node() -> CanvasLayer
+Returns the CanvasLayer that contains this node, or `null` if none.
+
+Method: get_canvas_transform() -> Transform2D
+Returns the transform of this node, converted from its canvas's coordinate system to its viewport's coordinate system.
+
+Method: get_global_mouse_position() -> Vector2
+Returns the mouse cursor's global position relative to the CanvasLayer that contains this node. Note: For screen-space coordinates, use DisplayServer.mouse_get_position().
+
+Method: get_global_transform() -> Transform2D
+Returns the global transform matrix of this item, i.e., the combined transform up to the topmost CanvasItem node.
+
+Method: get_global_transform_with_canvas() -> Transform2D
+Returns the transform from the local coordinate system of this CanvasItem to the Viewport's coordinate system.
+
+Method: get_instance_shader_parameter(name: StringName) -> Variant
+Get the value of a shader parameter as set on this instance.
+
+Method: get_local_mouse_position() -> Vector2
+Returns the mouse's position in this CanvasItem's local coordinate system.
+
+Method: get_screen_transform() -> Transform2D
+Returns the transform of this CanvasItem in global screen coordinates. Mostly useful for editor plugins.
+
+Method: get_transform() -> Transform2D
+Returns the local transform matrix of this CanvasItem.
+
+Method: get_viewport_rect() -> Rect2
+Returns this node's viewport boundaries as a Rect2.
+
+Method: get_viewport_transform() -> Transform2D
+Returns the transform of this node, converted from its canvas's coordinate system to its viewport embedder's coordinate system.
+
+Method: get_visibility_layer_bit(layer: int) -> bool
+Returns `true` if the layer at the given index is set in `visibility_layer`.
+
+Method: get_world_2d() -> World2D
+Returns the World2D this node is registered to.
+
+Method: hide() -> void
+Hides the CanvasItem. Equivalent to setting `visible` to `false`.
+
+Method: is_local_transform_notification_enabled() -> bool
+Returns `true` if the node receives NOTIFICATION_LOCAL_TRANSFORM_CHANGED.
+
+Method: is_transform_notification_enabled() -> bool
+Returns `true` if the node receives NOTIFICATION_TRANSFORM_CHANGED.
+
+Method: is_visible_in_tree() -> bool
+Returns `true` if the node is in the SceneTree, its `visible` property is `true`, and all its ancestors are also visible. Note: This method does not take `visibility_layer` into account.
+
+Method: make_canvas_position_local(viewport_point: Vector2) -> Vector2
+Transforms `viewport_point` from the viewport's coordinates to this node's local coordinates.
+
+Method: make_input_local(event: InputEvent) -> InputEvent
+Returns a copy of the given `event` with its coordinates converted from global to this CanvasItem's local space.
+
+Method: move_to_front() -> void
+Moves this node below its siblings, usually causing it to draw on top.
+
+Method: queue_redraw() -> void
+Queues the CanvasItem to redraw. The `_draw()` method will be called once during idle time if the item is visible.
+
+Method: set_instance_shader_parameter(name: StringName, value: Variant) -> void
+Sets the value of a shader uniform for this instance only. Note: For a shader uniform to be assignable per-instance, it must be defined with `instance uniform` in the shader code. Note: `name` is case-sensitive and must match the uniform name in the code.
+
+Method: set_notify_local_transform(enable: bool) -> void
+If `true`, the node will receive NOTIFICATION_LOCAL_TRANSFORM_CHANGED whenever its local transform changes. Note: Many nodes like Bone2D or CollisionShape2D enable this automatically.
+
+Method: set_notify_transform(enable: bool) -> void
+If `true`, the node will receive NOTIFICATION_TRANSFORM_CHANGED whenever its global transform changes. Note: Many nodes like Camera2D or Light2D enable this automatically.
+
+Method: set_visibility_layer_bit(layer: int, enabled: bool) -> void
+Sets or clears an individual bit on the rendering visibility layer.
+
+Method: show() -> void
+Shows the CanvasItem. Equivalent to setting `visible` to `true`. Note: For controls that inherit Popup, use one of the `popup*()` functions instead.

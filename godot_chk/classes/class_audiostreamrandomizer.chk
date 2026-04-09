@@ -1,0 +1,201 @@
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: A control node that randomizes audio playback properties.
+
+AudioStreamRandomizer
+
+Inherits: AudioStream < Resource < RefCounted < Object
+
+A control node that randomizes audio playback properties.
+
+This node takes one or more AudioStream resources and plays one of them randomly. It also allows for randomization of pitch and volume.
+
+Properties:
+  random_pitch (float): The range of pitch randomization. Default: 0.0.
+  random_volume (float): The range of volume randomization. Default: 0.0.
+  streams (Array[AudioStream]): The array of AudioStream resources to choose from.
+
+Methods:
+  play(from_pos: float = 0.0) → void: Plays the stream.
+  stop() → void: Stops the stream.
+---CHUNK---
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: Wraps a pool of audio streams with pitch and volume shifting.
+
+AudioStreamRandomizer
+Inherits: AudioStream < Resource < RefCounted < Object
+
+Wraps a pool of audio streams with pitch and volume shifting.
+---CHUNK---
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: Provides a way to play random audio streams with pitch and volume variations.
+
+AudioStreamRandomizer is a node that plays random AudioStream resources from a pool, with options for random pitch and volume adjustments during playback.
+
+Inherits: AudioStream < Resource < RefCounted
+---CHUNK---
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: This document describes the AudioStreamRandomizer class, which allows for random playback of audio streams.
+
+AudioStreamRandomizer
+
+Inherits: AudioStream < Resource < RefCounted < Object
+
+A randomized audio stream player.
+
+This node plays back a list of AudioStream resources randomly. It can be used to play random sound effects from a list of variations.
+
+Properties
+- streams (Array[AudioStream]): The list of AudioStream resources to play.
+- pitch_scale (float): The pitch scale to apply to the played stream. Default: 1.0.
+- mix_rate (float): The mix rate to apply to the played stream. Default: 0.0.
+- volume_scale (float): The volume scale to apply to the played stream. Default: 1.0.
+- beat_sync (bool): If true, the playback will be synchronized to the beat. Default: false.
+- beat_count (int): The number of beats to wait before playing the next stream. Default: 1.
+- beat_randomness (float): The randomness of the beat. Default: 0.0.
+
+Methods
+- play(from_pos: float = 0.0) → void: Plays the audio stream.
+- stop() → void: Stops the audio stream.
+- is_playing() → bool: Returns true if the audio stream is playing.
+- set_stream(stream: AudioStream) → void: Sets the current stream.
+- get_stream() → AudioStream: Returns the current stream.
+- set_streams(streams: Array[AudioStream]) → void: Sets the list of streams.
+- get_streams() → Array[AudioStream]: Returns the list of streams.
+- set_pitch_scale(pitch_scale: float) → void: Sets the pitch scale.
+- get_pitch_scale() → float: Returns the pitch scale.
+- set_mix_rate(mix_rate: float) → void: Sets the mix rate.
+- get_mix_rate() → float: Returns the mix rate.
+- set_volume_scale(volume_scale: float) → void: Sets the volume scale.
+- get_volume_scale() → float: Returns the volume scale.
+- set_beat_sync(beat_sync: bool) → void: Sets the beat sync.
+- get_beat_sync() → bool: Returns the beat sync.
+- set_beat_count(beat_count: int) → void: Sets the beat count.
+- get_beat_count() → int: Returns the beat count.
+- set_beat_randomness(beat_randomness: float) → void: Sets the beat randomness.
+- get_beat_randomness() → float: Returns the beat randomness.
+
+Example:
+GDScript:
+var audio_stream_randomizer = AudioStreamRandomizer.new()
+var audio_stream_wav = load("res://sound.wav")
+var audio_stream_ogg = load("res://sound.ogg")
+audio_stream_randomizer.streams = [audio_stream_wav, audio_stream_ogg]
+audio_stream_randomizer.play()
+
+C#:
+var audioStreamRandomizer = new AudioStreamRandomizer();
+var audioStreamWav = GD.Load<AudioStream>("res://sound.wav");
+var audioStreamOgg = GD.Load<AudioStream>("res://sound.ogg");
+audioStreamRandomizer.Streams = new Godot.Collections.Array<AudioStream> { audioStreamWav, audioStreamOgg };
+audioStreamRandomizer.Play();
+---CHUNK---
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: Defines the properties for the AudioStreamRandomizer class, including playback modes, pitch and volume randomization, and stream management.
+
+Properties
+* playback_mode (PlaybackMode): Controls how the streams are played back. Default: 0.
+* random_pitch (float): The range for random pitch variation. Default: 1.0.
+* random_pitch_semitones (float): The range for random pitch variation in semitones. Default: 0.0.
+* random_volume_offset_db (float): The range for random volume variation in decibels. Default: 0.0.
+* stream_{index}/stream (AudioStream): The AudioStream resource for a specific index.
+* stream_{index}/weight (float): The weight for a specific stream, influencing its selection probability. Default: 1.0.
+* streams_count (int): The total number of streams managed by the randomizer. Default: 0.
+---CHUNK---
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: Defines methods for managing audio streams and their playback weights within an AudioStreamRandomizer.
+
+Methods
+* add_stream(index: int, stream: AudioStream, weight: float = 1.0): void - Adds an AudioStream to the pool at the specified index with a given weight.
+* get_stream(index: int): AudioStream - Returns the AudioStream at the specified index.
+* get_stream_probability_weight(index: int): float - Returns the probability weight of the AudioStream at the specified index.
+* move_stream(index_from: int, index_to: int): void - Moves an AudioStream from one index to another.
+* remove_stream(index: int): void - Removes the AudioStream at the specified index.
+* set_stream(index: int, stream: AudioStream): void - Sets the AudioStream at the specified index.
+* set_stream_probability_weight(index: int, weight: float): void - Sets the probability weight for the AudioStream at the specified index.
+
+Enumerations
+enum PlaybackMode:
+* PLAYBACK_RANDOM_NO_REPEATS = 0 - Pick a stream at random according to the probability weights chosen for each stream, but avoid playing the same stream twice in a row whenever possible. If only 1 sound is present in the pool, the same sound will always play, effectively allowing repeats to occur.
+* PLAYBACK_RANDOM = 1 - Pick a stream at random according to the probability weights chosen for each stream. If only 1 sound is present in the pool, the same sound will always play.
+* PLAYBACK_SEQUENTIAL = 2 - Play streams in the order they appear in the stream pool. If only 1 sound is present in the pool, the same sound will always play.
+---CHUNK---
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: Describes the properties of the AudioStreamRandomizer class, which controls playback mode, pitch variation, volume variation, and the individual streams and their weights.
+
+Property Descriptions
+Method: set_playback_mode(value: PlaybackMode)
+Method: get_playback_mode() → PlaybackMode
+Controls how this AudioStreamRandomizer picks which AudioStream to play next.
+
+Property: random_pitch
+Type: float
+Default value: 1.0
+Method: set_random_pitch(value: float)
+Method: get_random_pitch() → float
+The largest possible frequency multiplier of the random pitch variation. Pitch will be randomly chosen within a range of 1.0 / random_pitch and random_pitch. A value of 1.0 means no variation. A value of 2.0 means pitch will be randomized between double and half.
+Note: Setting this property also sets random_pitch_semitones.
+
+Property: random_pitch_semitones
+Type: float
+Default value: 0.0
+Method: set_random_pitch_semitones(value: float)
+Method: get_random_pitch_semitones() → float
+The largest possible distance, in semitones, of the random pitch variation. A value of 0.0 means no variation.
+Note: Setting this property also sets random_pitch.
+
+Property: random_volume_offset_db
+Type: float
+Default value: 0.0
+Method: set_random_volume_offset_db(value: float)
+Method: get_random_volume_offset_db() → float
+The intensity of random volume variation. Volume will be increased or decreased by a random value up to random_volume_offset_db. A value of 0.0 means no variation. A value of 3.0 means volume will be randomized between -3.0 dB and +3.0 dB.
+
+Property: stream_{index}/stream
+Type: AudioStream
+The AudioStream at index.
+Note: index is a value in the 0 .. streams_count - 1 range.
+
+Property: stream_{index}/weight
+Type: float
+Default value: 1.0
+The probability weight of the AudioStream at index.
+Note: index is a value in the 0 .. streams_count - 1 range.
+
+Property: streams_count
+Type: int
+Default value: 0
+Method: set_streams_count(value: int)
+Method: get_streams_count() → int
+The number of streams in the stream pool.
+---CHUNK---
+Document: AudioStreamRandomizer
+Path: godot/classes/class_audiostreamrandomizer.rst
+Summary: This section details the methods available for managing AudioStream resources within the AudioStreamRandomizer class.
+
+Method: add_stream(index: int, stream: AudioStream, weight: float = 1.0)
+Insert a stream at the specified index. If the index is less than zero, the insertion occurs at the end of the underlying pool.
+
+Method: get_stream(index: int) → AudioStream
+Returns the stream at the specified index.
+
+Method: get_stream_probability_weight(index: int) → float
+Returns the probability weight associated with the stream at the given index.
+
+Method: move_stream(index_from: int, index_to: int)
+Move a stream from one index to another.
+
+Method: remove_stream(index: int)
+Remove the stream at the specified index.
+
+Method: set_stream(index: int, stream: AudioStream)
+Set the AudioStream at the specified index.
+
+Method: set_stream_probability_weight(index: int, weight: float)
+Set the probability weight of the stream at the specified index. The higher this value, the more likely that the randomizer will choose this stream during random playback modes.

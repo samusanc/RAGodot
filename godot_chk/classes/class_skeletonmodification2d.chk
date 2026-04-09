@@ -1,0 +1,98 @@
+Document: SkeletonModification2D
+Path: godot/classes/class_skeletonmodification2d.rst
+Summary: Base class for skeleton modifications in 2D.
+
+SkeletonModification2D is the base class for all skeleton modification nodes in 2D. These nodes are used to modify the bones of a Skeleton2D at runtime. They are processed in the order they appear in the scene tree.
+
+Inherits: Node2D < CanvasItem < Node < Object
+---CHUNK---
+Document: SkeletonModification2D
+Path: godot/classes/class_skeletonmodification2d.rst
+Summary: Base class for resources that modify Bone2D nodes within a Skeleton2D.
+
+Inherits: Resource < RefCounted < Object
+
+Inherited By: SkeletonModification2DCCDIK, SkeletonModification2DFABRIK, SkeletonModification2DJiggle, SkeletonModification2DLookAt, SkeletonModification2DPhysicalBones, SkeletonModification2DStackHolder, SkeletonModification2DTwoBoneIK
+
+This is the base class for resources that operate on Bone2D nodes in a Skeleton2D.
+---CHUNK---
+Document: SkeletonModification2D
+Path: godot/classes/class_skeletonmodification2d.rst
+Summary: Describes the SkeletonModification2D resource, which provides an interface for manipulating Bone2D nodes within a Skeleton2D for complex interactions like Inverse Kinematics.
+
+This resource provides an interface that can be expanded so code that operates on Bone2D nodes in a Skeleton2D can be mixed and matched together to create complex interactions. This is used to provide Godot with a flexible and powerful Inverse Kinematics solution that can be adapted for many different uses.
+---CHUNK---
+Document: SkeletonModification2D
+Path: godot/classes/class_skeletonmodification2d.rst
+Summary: Defines properties for controlling the behavior and execution of SkeletonModification2D.
+
+Properties
+* enabled (bool): If true, the modification is active. Default: true
+* execution_mode (int): Determines when the modification is applied. Default: 0
+---CHUNK---
+Document: SkeletonModification2D
+Path: godot/classes/class_skeletonmodification2d.rst
+Summary: This section details the methods available for the SkeletonModification2D class in Godot Engine.
+
+Method: _draw_editor_gizmo() → void
+This method is a virtual function used for drawing editor gizmos.
+
+Method: _execute(delta: float) → void
+This method is a virtual function that executes the modification logic, taking the frame delta as an argument.
+
+Method: _setup_modification(modification_stack: SkeletonModificationStack2D) → void
+This method is a virtual function used to set up the modification, receiving the SkeletonModificationStack2D as a parameter.
+
+Method: clamp_angle(angle: float, min: float, max: float, invert: bool) → float
+Clamps an angle between a minimum and maximum value. The `invert` parameter allows for reversing the clamping direction.
+
+Method: get_editor_draw_gizmo() → bool
+Returns whether the editor gizmo should be drawn for this modification.
+
+Method: get_is_setup() → bool
+Returns whether the modification has been set up.
+
+Method: get_modification_stack() → SkeletonModificationStack2D
+Returns the SkeletonModificationStack2D that this modification belongs to.
+
+Method: set_editor_draw_gizmo(draw_gizmo: bool) → void
+Sets whether the editor gizmo should be drawn for this modification.
+
+Method: set_is_setup(is_setup: bool) → void
+Sets whether the modification is considered set up.
+---CHUNK---
+Document: SkeletonModification2D
+Path: godot/classes/class_skeletonmodification2d.rst
+Summary: Describes the properties of the SkeletonModification2D class, including enabling modifications and their execution modes.
+
+Property: enabled (bool)
+Description: If true, the modification's _execute() function will be called by the SkeletonModificationStack2D.
+Default: true
+Setget: set_enabled(value: bool), get_enabled() → bool
+
+Property: execution_mode (int)
+Description: The execution mode for the modification. This tells the modification stack when to execute the modification. Some modifications have settings that are only available in certain execution modes.
+Default: 0
+Setget: set_execution_mode(value: int), get_execution_mode() → int
+---CHUNK---
+Document: SkeletonModification2D
+Path: godot/classes/class_skeletonmodification2d.rst
+Summary: Describes the methods available for SkeletonModification2D, including private methods for editor gizmos and execution, setup methods, and public methods for managing gizmo drawing, setup state, and accessing the modification stack.
+Method: _draw_editor_gizmo() → void
+Used for drawing editor-only modification gizmos. This function will only be called in the Godot editor and can be overridden to draw custom gizmos. Note: You will need to use the Skeleton2D from SkeletonModificationStack2D.get_skeleton() and its draw functions, as the SkeletonModification2D resource cannot draw on its own.
+Method: _execute(delta: float) → void
+Executes the given modification. This is where the modification performs whatever function it is designed to do.
+Method: _setup_modification(modification_stack: SkeletonModificationStack2D) → void
+Called when the modification is setup. This is where the modification performs initialization.
+Method: clamp_angle(angle: float, min: float, max: float, invert: bool) → float
+Takes an angle and clamps it so it is within the passed-in min and max range. invert will inversely clamp the angle, clamping it to the range outside of the given bounds.
+Method: get_editor_draw_gizmo() → bool
+Returns whether this modification will call _draw_editor_gizmo() in the Godot editor to draw modification-specific gizmos.
+Method: get_is_setup() → bool
+Returns whether this modification has been successfully setup or not.
+Method: get_modification_stack() → SkeletonModificationStack2D
+Returns the SkeletonModificationStack2D that this modification is bound to. Through the modification stack, you can access the Skeleton2D the modification is operating on.
+Method: set_editor_draw_gizmo(draw_gizmo: bool) → void
+Sets whether this modification will call _draw_editor_gizmo() in the Godot editor to draw modification-specific gizmos.
+Method: set_is_setup(is_setup: bool) → void
+Manually allows you to set the setup state of the modification. This function should only rarely be used, as the SkeletonModificationStack2D the modification is bound to should handle setting the modification up.

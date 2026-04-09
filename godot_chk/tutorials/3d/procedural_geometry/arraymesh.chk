@@ -1,0 +1,150 @@
+Document: Using ArrayMesh
+Path: godot/tutorials/3d/procedural_geometry/arraymesh.rst
+Summary: An introduction to using the ArrayMesh class for procedural geometry generation.
+---CHUNK---
+Document: procedural_geometry/arraymesh
+Path: godot/tutorials/3d/procedural_geometry/arraymesh.rst
+Summary: This chunk explains the basics of using ArrayMesh, focusing on the add_surface_from_arrays() method and the structure of its `arrays` parameter which holds vertex data.
+
+This tutorial presents the basics of using an ArrayMesh. This is done using the function add_surface_from_arrays(), which takes up to five parameters. The first two are required, while the last three are optional.
+
+The first parameter is the PrimitiveType, an OpenGL concept that instructs the GPU how to arrange the primitive based on the vertices given, i.e. whether they represent triangles, lines, points, etc. See Mesh.PrimitiveType for the options available.
+
+The second parameter, `arrays`, is the actual Array that stores the mesh information. The array is a normal Godot array constructed with empty brackets `[]`. It stores a Packed**Array (e.g. PackedVector3Array, PackedInt32Array, etc.) for each type of information that will be used to build the surface.
+
+Common elements of `arrays` are listed below, with the position they must have within `arrays`. See Mesh.ArrayType for a full list.
+
+*   Index 0 (ARRAY_VERTEX): PackedVector3Array or PackedVector2Array.
+*   Index 1 (ARRAY_NORMAL): PackedVector3Array.
+*   Index 2 (ARRAY_TANGENT): PackedFloat32Array or PackedFloat64Array of groups of 4 floats. The first 3 floats determine the tangent, and the last float the binormal direction as -1 or 1.
+*   Index 3 (ARRAY_COLOR): PackedColorArray.
+*   Index 4 (ARRAY_TEX_UV): PackedVector2Array or PackedVector3Array.
+*   Index 5 (ARRAY_TEX_UV2): PackedVector2Array or PackedVector3Array.
+*   Index 10 (ARRAY_BONES): PackedFloat32Array of groups of 4 floats or PackedInt32Array of groups of 4 ints. Each group lists indexes of 4 bones that affects a given vertex.
+*   Index 11 (ARRAY_WEIGHTS): PackedFloat32Array or PackedFloat64Array of groups of 4 floats. Each float lists the amount of weight the corresponding bone in ARRAY_BONES has on a given vertex.
+*   Index 12 (ARRAY_INDEX): PackedInt32Array.
+
+In most cases when creating a mesh, it is defined by its vertex positions. The array of vertices (at index 0) is required, while the index array (at index 12) is optional and will only be used if included. It is also possible to create a mesh with only the index array and no vertex array.
+
+All other arrays carry information about the vertices. They are optional and will only be used if included. Some arrays (e.g. ARRAY_COLOR) use one entry per vertex and must have the same size as the vertex array. Other arrays (e.g. ARRAY_TANGENT) use four entries to describe a single vertex and must be exactly four times larger than the vertex array.
+
+For normal usage, the last three parameters in add_surface_from_arrays() are typically left empty.
+---CHUNK---
+Document: procedural_geometry/arraymesh
+Path: godot/tutorials/3d/procedural_geometry/arraymesh.rst
+Summary: This chunk explains how to set up and generate procedural geometry using ArrayMesh in Godot by creating and populating surface arrays in code.
+
+To begin, create a MeshInstance3D in the editor and add an ArrayMesh to it in the Inspector. While adding an ArrayMesh in the editor is not typically useful, it allows us to access it from code without creating one. Next, add a script to the MeshInstance3D.
+
+In the `_ready()` function, create a new Array. This will be the array that holds all the surface information. Godot expects this array to be of size `Mesh.ARRAY_MAX`, so it must be resized accordingly.
+
+GDScript:
+    var surface_array = []
+    surface_array.resize(Mesh.ARRAY_MAX)
+
+C#:
+    Godot.Collections.Array surfaceArray = [];
+    surfaceArray.Resize((int)Mesh.ArrayType.Max);
+
+Next, create the arrays for each data type you will use, such as vertices, UVs, normals, and indices.
+
+GDScript:
+    var verts = PackedVector3Array()
+    var uvs = PackedVector2Array()
+    var normals = PackedVector3Array()
+    var indices = PackedInt32Array()
+
+C#:
+    List<Vector3> verts = [];
+    List<Vector2> uvs = [];
+    List<Vector3> normals = [];
+    List<int> indices = [];
+
+Once you have filled these data arrays with your geometry, you can create the mesh by adding each array to the main `surface_array` and then committing it to the mesh using `add_surface_from_arrays`.
+
+GDScript:
+    surface_array[Mesh.ARRAY_VERTEX] = verts
+    surface_array[Mesh.ARRAY_TEX_UV] = uvs
+    surface_array[Mesh.ARRAY_NORMAL] = normals
+    surface_array[Mesh.ARRAY_INDEX] = indices
+
+    # No blendshapes, lods, or compression used.
+    mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
+
+C#:
+    surfaceArray[(int)Mesh.ArrayType.Vertex] = verts.ToArray();
+    surfaceArray[(int)Mesh.ArrayType.TexUV] = uvs.ToArray();
+    surfaceArray[(int)Mesh.ArrayType.Normal] = normals.ToArray();
+    surfaceArray[(int)Mesh.ArrayType.Index] = indices.ToArray();
+
+    var arrMesh = Mesh as ArrayMesh;
+    if (arrMesh != null)
+    {
+        // No blendshapes, lods, or compression used.
+        arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, surfaceArray);
+    }
+
+Note: In this example, we used `Mesh.PRIMITIVE_TRIANGLES`, but you can use any primitive type available from Mesh.
+
+The full code structure looks like this:
+
+GDScript:
+    extends MeshInstance3D
+
+    func _ready():
+        var surface_array = []
+        surface_array.resize(Mesh.ARRAY_MAX)
+
+        # PackedVector**Arrays for mesh construction.
+        var verts = PackedVector3Array()
+        var uvs = PackedVector2Array()
+        var normals = PackedVector3Array()
+        var indices = PackedInt32Array()
+
+        #######################################
+        ## Insert code here to generate mesh ##
+        #######################################
+
+        # Assign arrays to surface array.
+        surface_array[Mesh.ARRAY_VERTEX] = verts
+        surface_array[Mesh.ARRAY_TEX_UV] = uvs
+        surface_array[Mesh.ARRAY_NORMAL] = normals
+        surface_array[Mesh.ARRAY_INDEX] = indices
+
+        # Create mesh surface from mesh array.
+        # No blendshapes, lods, or compression used.
+        mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, surface_array)
+
+C#:
+    public partial class MyMeshInstance3D : MeshInstance3D
+    {
+        public override void _Ready()
+        {
+            Godot.Collections.Array surfaceArray = [];
+            surfaceArray.Resize((int)Mesh.ArrayType.Max);
+
+            // C# arrays cannot be resized or expanded, so use Lists to create geometry.
+            List<Vector3> verts = [];
+            List<Vector2> uvs = [];
+            List<Vector3> normals = [];
+            List<int> indices = [];
+
+            /***********************************
+            * Insert code here to generate mesh.
+            * *********************************/
+
+            // Convert Lists to arrays and assign to surface array
+            surfaceArray[(int)Mesh.ArrayType.Vertex] = verts.ToArray();
+            surfaceArray[(int)Mesh.ArrayType.TexUV] = uvs.ToArray();
+            surfaceArray[(int)Mesh.ArrayType.Normal] = normals.ToArray();
+            surfaceArray[(int)Mesh.ArrayType.Index] = indices.ToArray();
+
+            var arrMesh = Mesh as ArrayMesh;
+            if (arrMesh != null)
+            {
+                // Create mesh surface from mesh array
+                // No blendshapes, lods, or compression used.
+                arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, surfaceArray);
+            }
+        }
+    }

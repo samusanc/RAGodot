@@ -1,0 +1,159 @@
+Document: PathFollow3D
+Path: godot/classes/class_pathfollow3d.rst
+Summary: Provides a node that follows a Path3D.
+
+PathFollow3D inherits from Node3D.
+
+This node is a child of Path3D and moves along the path. It can be used to make objects follow a path, such as cameras, enemies, or projectiles.
+
+The node's position is automatically updated based on its progress along the path. The progress can be controlled by the `progress` or `progress_ratio` properties.
+
+Key Rule: The node's transform is updated automatically when its parent is a Path3D. If the parent is not a Path3D, the transform will not be updated.
+
+Properties:
+- `progress_ratio` (float): The progress along the path, from 0.0 to 1.0.
+- `progress` (float): The progress along the path in units.
+- `rotates` (bool): If true, the node will rotate to align with the path's direction.
+- `loop` (bool): If true, the path will loop back to the beginning when the end is reached.
+- `cubic_interp` (bool): If true, uses cubic interpolation for smoother movement.
+- `align_y` (bool): If true, the node will align its Y-axis with the path's up direction.
+- `look_ahead` (float): The distance ahead of the current position to calculate the rotation.
+
+Methods:
+- `set_progress_ratio(ratio: float)`: Sets the progress along the path.
+- `get_progress_ratio() -> float`: Gets the current progress along the path.
+- `set_progress(progress: float)`: Sets the progress along the path in units.
+- `get_progress() -> float`: Gets the current progress along the path in units.
+- `get_point_count() -> int`: Gets the number of points in the path.
+- `get_point_position(idx: int) -> Vector3`: Gets the position of a point in the path.
+- `get_point_tangent(idx: int) -> Vector3`: Gets the tangent of a point in the path.
+- `get_point_up_vector(idx: int) -> Vector3`: Gets the up vector of a point in the path.
+- `get_point_global_transform(idx: int) -> Transform3D`: Gets the global transform of a point in the path.
+- `get_closest_point_to_position(point: Vector3) -> int`: Gets the index of the point closest to the given position.
+- `get_closest_offset_to_position(point: Vector3) -> float`: Gets the offset along the path to the point closest to the given position.
+- `get_baked_points() -> PackedVector3Array`: Gets the baked points of the path.
+- `get_baked_segments() -> PackedFloat32Array`: Gets the baked segments of the path.
+- `get_baked_length() -> float`: Gets the baked length of the path.
+- `get_global_transform_with_next(idx: int, t: float) -> Transform3D`: Gets the global transform at a given point along the path, considering the next point for interpolation.
+- `get_transform_ahead(offset: float) -> Transform3D`: Gets the transform ahead of the current position by the given offset.
+- `get_transform_behind(offset: float) -> Transform3D`: Gets the transform behind the current position by the given offset.
+---CHUNK---
+Document: PathFollow3D
+Path: godot/classes/class_pathfollow3d.rst
+Summary: PathFollow3D is a Node3D that follows a Path3D.
+
+PathFollow3D
+Inherits: Node3D < Node < Object
+
+Point sampler for a Path3D.
+---CHUNK---
+Document: PathFollow3D
+Path: godot/classes/class_pathfollow3d.rst
+Summary: Describes the PathFollow3D node, which makes other nodes follow a Path3D.
+This node takes its parent Path3D, and returns the coordinates of a point within it, given a distance from the first vertex. It is useful for making other nodes follow a path, without coding the movement pattern. For that, the nodes must be children of this node. The descendant nodes will then move accordingly when setting the progress in this node.
+---CHUNK---
+Document: PathFollow3D
+Path: godot/classes/class_pathfollow3d.rst
+Summary: Defines the properties that control the behavior and positioning of a PathFollow3D node.
+
+Properties
+* cubic_interp (bool): If true, the path will be interpolated using cubic interpolation. Default: true
+* h_offset (float): The horizontal offset along the path. Default: 0.0
+* loop (bool): If true, the path will loop. Default: true
+* progress (float): The current progress along the path in units. Default: 0.0
+* progress_ratio (float): The current progress along the path as a ratio (0.0 to 1.0). Default: 0.0
+* rotation_mode (RotationMode): Determines how the node rotates relative to the path. Default: 3
+* tilt_enabled (bool): If true, the node will tilt to follow the path's curvature. Default: true
+* use_model_front (bool): If true, the node's forward direction will align with the path's direction. Default: false
+* v_offset (float): The vertical offset along the path. Default: 0.0
+---CHUNK---
+Document: PathFollow3D
+Path: godot/classes/class_pathfollow3d.rst
+Summary: Defines rotation modes for PathFollow3D nodes and explains their behavior.
+
+Enumerations
+enum RotationMode:
+  ROTATION_NONE = 0
+    Forbids the PathFollow3D to rotate.
+  ROTATION_Y = 1
+    Allows the PathFollow3D to rotate in the Y axis only.
+  ROTATION_XY = 2
+    Allows the PathFollow3D to rotate in both the X, and Y axes.
+  ROTATION_XYZ = 3
+    Allows the PathFollow3D to rotate in any axis.
+  ROTATION_ORIENTED = 4
+    Uses the up vector information in a Curve3D to enforce orientation. This rotation mode requires the Path3D's Curve3D.up_vector_enabled property to be set to true.
+---CHUNK---
+Document: PathFollow3D
+Path: godot/classes/class_pathfollow3d.rst
+Summary: Describes the properties and member variables of the PathFollow3D node in Godot Engine.
+
+Property Descriptions
+Property: cubic_interp
+Type: bool
+Default: true
+Setter: set_cubic_interpolation
+Getter: get_cubic_interpolation
+Description: If true, the position between two cached points is interpolated cubically, and linearly otherwise. The points along the Curve3D of the Path3D are precomputed before use for faster calculations. The point at the requested offset is then calculated by interpolating between two adjacent cached points. This may present a problem if the curve makes sharp turns, as the cached points may not follow the curve closely enough. There are two answers to this problem: either increase the number of cached points and increase memory consumption, or make a cubic interpolation between two points at the cost of slightly slower calculations.
+
+Property: h_offset
+Type: float
+Default: 0.0
+Setter: set_h_offset
+Getter: get_h_offset
+Description: The node's offset along the curve.
+
+Property: loop
+Type: bool
+Default: true
+Setter: set_loop
+Getter: has_loop
+Description: If true, any offset outside the path's length will wrap around, instead of stopping at the ends. Use it for cyclic paths.
+
+Property: progress
+Type: float
+Default: 0.0
+Setter: set_progress
+Getter: get_progress
+Description: The distance from the first vertex, measured in 3D units along the path. Changing this value sets this node's position to a point within the path.
+
+Property: progress_ratio
+Type: float
+Default: 0.0
+Setter: set_progress_ratio
+Getter: get_progress_ratio
+Description: The distance from the first vertex, considering 0.0 as the first vertex and 1.0 as the last. This is just another way of expressing the progress within the path, as the progress supplied is multiplied internally by the path's length. It can be set or get only if the PathFollow3D is the child of a Path3D which is part of the scene tree, and that this Path3D has a Curve3D with a non-zero length. Otherwise, trying to set this field will print an error, and getting this field will return 0.0.
+
+Property: rotation_mode
+Type: RotationMode
+Default: 3
+Setter: set_rotation_mode
+Getter: get_rotation_mode
+Description: Allows or forbids rotation on one or more axes, depending on the RotationMode constants being used.
+
+Property: tilt_enabled
+Type: bool
+Default: true
+Setter: set_tilt_enabled
+Getter: is_tilt_enabled
+Description: If true, the tilt property of Curve3D takes effect.
+
+Property: use_model_front
+Type: bool
+Default: false
+Setter: set_use_model_front
+Getter: is_using_model_front
+Description: If true, the node moves on the travel path with orienting the +Z axis as forward. See also Vector3.FORWARD and Vector3.MODEL_FRONT.
+
+Property: v_offset
+Type: float
+Default: 0.0
+Setter: set_v_offset
+Getter: get_v_offset
+Description: The node's offset perpendicular to the curve.
+---CHUNK---
+Document: PathFollow3D
+Path: godot/classes/class_pathfollow3d.rst
+Summary: Provides the method to correct the transform of a PathFollow3D node based on its rotation mode.
+Method: correct_posture(transform: Transform3D, rotation_mode: RotationMode) → Transform3D
+Correct the transform. rotation_mode implicitly specifies how posture (forward, up and sideway direction) is calculated.

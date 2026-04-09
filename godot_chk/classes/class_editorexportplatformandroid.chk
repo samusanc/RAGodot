@@ -1,0 +1,256 @@
+Document: EditorExportPlatformAndroid
+Path: godot/classes/class_editorexportplatformandroid.rst
+Summary: Defines the EditorExportPlatformAndroid class, which is used by the editor to export projects to the Android platform.
+---CHUNK---
+Document: EditorExportPlatformAndroid
+Path: godot/classes/class_editorexportplatformandroid.rst
+Summary: Provides the functionality for exporting Godot projects to the Android platform.
+
+Inherits: EditorExportPlatform < RefCounted < Object
+
+This class provides the functionality for exporting Godot projects to the Android platform.
+---CHUNK---
+Document: EditorExportPlatformAndroid
+Path: godot/classes/class_editorexportplatformandroid.rst
+Summary: A list of related tutorials for Android development in Godot, covering exporting, Gradle builds, and plugins.
+
+Tutorials
+- Exporting for Android
+- Gradle builds for Android
+- Android plugins documentation index
+---CHUNK---
+Document: EditorExportPlatformAndroid
+Path: godot/classes/class_editorexportplatformandroid.rst
+Summary: A comprehensive list of all export properties for the Android platform, covering APK expansion, architectures, Gradle settings, keystore configuration, package details, an extensive list of permissions, and screen settings.
+
+* apk_expansion/SALT (String)
+* apk_expansion/enable (bool)
+* apk_expansion/public_key (String)
+* architectures/arm64-v8a (bool)
+* architectures/armeabi-v7a (bool)
+* architectures/x86 (bool)
+* architectures/x86_64 (bool)
+* command_line/extra_args (String)
+* custom_template/debug (String)
+* custom_template/release (String)
+* gesture/swipe_to_dismiss (bool)
+* gradle_build/android_source_template (String)
+* gradle_build/compress_native_libraries (bool)
+* gradle_build/custom_theme_attributes (Dictionary)
+* gradle_build/export_format (int)
+* gradle_build/gradle_build_directory (String)
+* gradle_build/min_sdk (String)
+* gradle_build/target_sdk (String)
+* gradle_build/use_gradle_build (bool)
+* graphics/opengl_debug (bool)
+* keystore/debug (String)
+* keystore/debug_password (String)
+* keystore/debug_user (String)
+* keystore/release (String)
+* keystore/release_password (String)
+* keystore/release_user (String)
+* launcher_icons/adaptive_background_432x432 (String)
+* launcher_icons/adaptive_foreground_432x432 (String)
+* launcher_icons/adaptive_monochrome_432x432 (String)
+* launcher_icons/main_192x192 (String)
+* package/app_category (int)
+* package/exclude_from_recents (bool)
+* package/name (String)
+* package/retain_data_on_uninstall (bool)
+* package/show_as_launcher_app (bool)
+* package/show_in_android_tv (bool)
+* package/show_in_app_library (bool)
+* package/signed (bool)
+* package/unique_name (String)
+* permissions/access_checkin_properties (bool)
+* permissions/access_coarse_location (bool)
+* permissions/access_fine_location (bool)
+* permissions/access_location_extra_commands (bool)
+* permissions/access_media_location (bool)
+* permissions/access_mock_location (bool)
+* permissions/access_network_state (bool)
+* permissions/access_surface_flinger (bool)
+* permissions/access_wifi_state (bool)
+* permissions/account_manager (bool)
+* permissions/add_voicemail (bool)
+* permissions/authenticate_accounts (bool)
+* permissions/battery_stats (bool)
+* permissions/bind_accessibility_service (bool)
+* permissions/bind_appwidget (bool)
+* permissions/bind_device_admin (bool)
+* permissions/bind_input_method (bool)
+* permissions/bind_nfc_service (bool)
+* permissions/bind_notification_listener_service (bool)
+* permissions/bind_print_service (bool)
+* permissions/bind_remoteviews (bool)
+* permissions/bind_text_service (bool)
+* permissions/bind_vpn_service (bool)
+* permissions/bind_wallpaper (bool)
+* permissions/bluetooth (bool)
+* permissions/bluetooth_admin (bool)
+* permissions/bluetooth_privileged (bool)
+* permissions/brick (bool)
+* permissions/broadcast_package_removed (bool)
+* permissions/broadcast_sms (bool)
+* permissions/broadcast_sticky (bool)
+* permissions/broadcast_wap_push (bool)
+* permissions/call_phone (bool)
+* permissions/call_privileged (bool)
+* permissions/camera (bool)
+* permissions/capture_audio_output (bool)
+* permissions/capture_secure_video_output (bool)
+* permissions/capture_video_output (bool)
+* permissions/change_component_enabled_state (bool)
+* permissions/change_configuration (bool)
+* permissions/change_network_state (bool)
+* permissions/change_wifi_multicast_state (bool)
+* permissions/change_wifi_state (bool)
+* permissions/clear_app_cache (bool)
+* permissions/clear_app_user_data (bool)
+* permissions/control_location_updates (bool)
+* permissions/custom_permissions (PackedStringArray)
+* permissions/delete_cache_files (bool)
+* permissions/delete_packages (bool)
+* permissions/device_power (bool)
+* permissions/diagnostic (bool)
+* permissions/disable_keyguard (bool)
+* permissions/dump (bool)
+* permissions/expand_status_bar (bool)
+* permissions/factory_test (bool)
+* permissions/flashlight (bool)
+* permissions/force_back (bool)
+* permissions/get_accounts (bool)
+* permissions/get_package_size (bool)
+* permissions/get_tasks (bool)
+* permissions/get_top_activity_info (bool)
+* permissions/global_search (bool)
+* permissions/hardware_test (bool)
+* permissions/inject_events (bool)
+* permissions/install_location_provider (bool)
+* permissions/install_packages (bool)
+* permissions/install_shortcut (bool)
+* permissions/internal_system_window (bool)
+* permissions/internet (bool)
+* permissions/kill_background_processes (bool)
+* permissions/location_hardware (bool)
+* permissions/manage_accounts (bool)
+* permissions/manage_app_tokens (bool)
+* permissions/manage_documents (bool)
+* permissions/manage_external_storage (bool)
+* permissions/manage_media (bool)
+* permissions/master_clear (bool)
+* permissions/media_content_control (bool)
+* permissions/modify_audio_settings (bool)
+* permissions/modify_phone_state (bool)
+* permissions/mount_format_filesystems (bool)
+* permissions/mount_unmount_filesystems (bool)
+* permissions/nfc (bool)
+* permissions/persistent_activity (bool)
+* permissions/post_notifications (bool)
+* permissions/process_outgoing_calls (bool)
+* permissions/read_calendar (bool)
+* permissions/read_call_log (bool)
+* permissions/read_contacts (bool)
+* permissions/read_external_storage (bool)
+* permissions/read_frame_buffer (bool)
+* permissions/read_history_bookmarks (bool)
+* permissions/read_input_state (bool)
+* permissions/read_logs (bool)
+* permissions/read_media_audio (bool)
+* permissions/read_media_images (bool)
+* permissions/read_media_video (bool)
+* permissions/read_media_visual_user_selected (bool)
+* permissions/read_phone_state (bool)
+* permissions/read_profile (bool)
+* permissions/read_sms (bool)
+* permissions/read_social_stream (bool)
+* permissions/read_sync_settings (bool)
+* permissions/read_sync_stats (bool)
+* permissions/read_user_dictionary (bool)
+* permissions/reboot (bool)
+* permissions/receive_boot_completed (bool)
+* permissions/receive_mms (bool)
+* permissions/receive_sms (bool)
+* permissions/receive_wap_push (bool)
+* permissions/record_audio (bool)
+* permissions/reorder_tasks (bool)
+* permissions/restart_packages (bool)
+* permissions/send_respond_via_message (bool)
+* permissions/send_sms (bool)
+* permissions/set_activity_watcher (bool)
+* permissions/set_alarm (bool)
+* permissions/set_always_finish (bool)
+* permissions/set_animation_scale (bool)
+* permissions/set_debug_app (bool)
+* permissions/set_orientation (bool)
+* permissions/set_pointer_speed (bool)
+* permissions/set_preferred_applications (bool)
+* permissions/set_process_limit (bool)
+* permissions/set_time (bool)
+* permissions/set_time_zone (bool)
+* permissions/set_wallpaper (bool)
+* permissions/set_wallpaper_hints (bool)
+* permissions/signal_persistent_processes (bool)
+* permissions/status_bar (bool)
+* permissions/subscribed_feeds_read (bool)
+* permissions/subscribed_feeds_write (bool)
+* permissions/system_alert_window (bool)
+* permissions/transmit_ir (bool)
+* permissions/uninstall_shortcut (bool)
+* permissions/update_device_stats (bool)
+* permissions/use_credentials (bool)
+* permissions/use_sip (bool)
+* permissions/vibrate (bool)
+* permissions/wake_lock (bool)
+* permissions/write_apn_settings (bool)
+* permissions/write_calendar (bool)
+* permissions/write_call_log (bool)
+* permissions/write_contacts (bool)
+* permissions/write_external_storage (bool)
+* permissions/write_gservices (bool)
+* permissions/write_history_bookmarks (bool)
+* permissions/write_profile (bool)
+* permissions/write_secure_settings (bool)
+* permissions/write_settings (bool)
+* permissions/write_sms (bool)
+* permissions/write_social_stream (bool)
+* permissions/write_sync_settings (bool)
+* permissions/write_user_dictionary (bool)
+* screen/background_color (Color)
+* screen/edge_to_edge (bool)
+* screen/immersive_mode (bool)
+* screen/support_large (bool)
+* screen/support_normal (bool)
+* screen/support_small (bool)
+* screen/support_xlarge (bool)
+* shader_baker/enabled (bool)
+* user_data_backup/allow (bool)
+* version/code (int)
+* version/name (String)
+* xr_features/xr_mode (int)
+---CHUNK---
+Document: EditorExportPlatformAndroid
+Path: godot/classes/class_editorexportplatformandroid.rst
+Summary: This chunk describes Android export properties for APK expansion, CPU architectures, command line arguments, custom templates, gestures, and Gradle build settings.
+
+Property Descriptions
+- apk_expansion/SALT (String): Array of random bytes that the licensing policy uses to create an Obfuscator.
+- apk_expansion/enable (bool): If true, project resources are stored in the separate APK expansion file, instead of the APK. Note: APK expansion should be enabled to use PCK encryption.
+- apk_expansion/public_key (String): Base64 encoded RSA public key for your publisher account, available from the profile page on the "Google Play Console".
+- architectures/arm64-v8a (bool): If true, `arm64` binaries are included into exported project.
+- architectures/armeabi-v7a (bool): If true, `arm32` binaries are included into exported project.
+- architectures/x86 (bool): If true, `x86_32` binaries are included into exported project.
+- architectures/x86_64 (bool): If true, `x86_64` binaries are included into exported project.
+- command_line/extra_args (String): A list of additional command line arguments, separated by space, which the exported project will receive when started.
+- custom_template/debug (String): Path to an APK file to use as a custom export template for debug exports. If left empty, default template is used. Note: This is only used if `gradle_build/use_gradle_build` is disabled.
+- custom_template/release (String): Path to an APK file to use as a custom export template for release exports. If left empty, default template is used. Note: This is only used if `gradle_build/use_gradle_build` is disabled.
+- gesture/swipe_to_dismiss (bool): If true, Swipe to dismiss will be enabled. This functionality is intended for smartwatches and is generally ignored on standard Android devices. However, some devices may not ignore it. Therefore, it is recommended to keep this feature disabled for standard Android apps to avoid unexpected behavior. Note: This is false by default. To enable this behavior, `gradle_build/use_gradle_build` is required.
+- gradle_build/android_source_template (String): Path to a ZIP file holding the source for the export template used in a Gradle build. If left empty, the default template is used.
+- gradle_build/compress_native_libraries (bool): If true, native libraries are compressed when performing a Gradle build. Note: While enabling compression can reduce the size of the binary, it may result in slower application startup because the native libraries must be extracted before use, rather than being loaded directly. If you're distributing your app via the Play Store, it's generally recommended to keep this option false.
+- gradle_build/custom_theme_attributes (Dictionary): A dictionary of custom theme attributes to include in the exported Android project. Each entry defines a theme attribute name and its value, and will be added to the GodotAppMainTheme. For example, the key `android:windowSwipeToDismiss` with the value `false` is resolved to `<item name="android:windowSwipeToDismiss">false</item>`. Note: To add a custom attribute to the GodotAppSplashTheme, prefix the attribute name with `[splash]`. Note: Reserved attributes configured via other export options or project settings cannot be overridden by `custom_theme_attributes` and are skipped during export.
+- gradle_build/export_format (int): Application export format (*.apk or *.aab).
+- gradle_build/gradle_build_directory (String): Path to the Gradle build directory. If left empty, then `res://android` will be used.
+- gradle_build/min_sdk (String): Minimum Android API level required for the application to run (used during Gradle build).
+- gradle_build/target_sdk (String): The Android API level on which the application is designed to run (used during Gradle build).
+- gradle_build/use_gradle_build (bool): If true, Gradle build is used instead of pre-built APK.
+- graphics/opengl_debug (bool): If true, OpenGL ES debug context will be created (additional runtime checking, validation, and logging).

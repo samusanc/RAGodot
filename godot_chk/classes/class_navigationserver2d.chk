@@ -1,0 +1,321 @@
+Document: NavigationServer2D
+Path: godot/classes/class_navigationserver2d.rst
+Summary: An overview of the NavigationServer2D singleton, its purpose as the main interface for 2D navigation, and how to access it.
+
+Inherits: Object
+
+Server interface for 2D navigation.
+
+NavigationServer2D is the server responsible for all 2D navigation. It can create multiple navigation maps which are made of navigation polygons. These polygons can be connected by links. The server is not meant to be used directly but is used by nodes like NavigationRegion2D and TileMap. To use the server's functions, you must get the singleton instance.
+---CHUNK---
+Document: NavigationServer2D
+Path: godot/classes/class_navigationserver2d.rst
+Summary: An introduction to the NavigationServer2D class, which provides a server interface for low-level 2D navigation access.
+
+Experimental: This class may be changed or removed in future versions.
+
+Inherits: Object
+
+NavigationServer2D is a server interface for low-level 2D navigation access.
+---CHUNK---
+Document: NavigationServer2D
+Path: godot/classes/class_navigationserver2d.rst
+Summary: An overview of the NavigationServer2D, which manages 2D navigation maps, regions, and agents for pathfinding and collision avoidance.
+
+NavigationServer2D is the server that handles navigation maps, regions and agents. It does not handle A* navigation from AStar2D or AStarGrid2D.
+
+Maps are divided into regions, which are composed of navigation polygons. Together, they define the traversable areas in the 2D world.
+
+Note: Most NavigationServer2D changes take effect after the next physics frame and not immediately. This includes all changes made to maps, regions or agents by navigation-related nodes in the scene tree or made through scripts.
+
+For two regions to be connected to each other, they must share a similar edge. An edge is considered connected to another if both of its two vertices are at a distance less than `edge_connection_margin` to the respective other edge's vertex.
+
+You may assign navigation layers to regions with region_set_navigation_layers(), which then can be checked upon when requesting a path with map_get_path(). This can be used to allow or deny certain areas for some objects.
+
+To use the collision avoidance system, you may use agents. You can set an agent's target velocity, then the servers will emit a callback with a modified velocity.
+
+Note: The collision avoidance system ignores regions. Using the modified velocity directly may move an agent outside of the traversable area. This is a limitation of the collision avoidance system, any more complex situation may require the use of the physics engine.
+
+This server keeps tracks of any call and executes them during the sync phase. This means that you can request any change to the map, using any thread, without worrying.
+---CHUNK---
+Document: NavigationServer2D
+Path: godot/classes/class_navigationserver2d.rst
+Summary: A list of tutorials and demos for using the NavigationServer2D.
+
+Tutorials
+- Using NavigationServer
+- Navigation Polygon 2D Demo
+---CHUNK---
+Document: NavigationServer2D
+Path: godot/classes/class_navigationserver2d.rst
+Summary: This chunk lists all available methods for the NavigationServer2D, covering the management of agents, maps, links, obstacles, regions, path queries, and geometry processing.
+
+* agent_create() -> RID
+* agent_get_avoidance_enabled(agent: RID) -> bool
+* agent_get_avoidance_layers(agent: RID) -> int
+* agent_get_avoidance_mask(agent: RID) -> int
+* agent_get_avoidance_priority(agent: RID) -> float
+* agent_get_map(agent: RID) -> RID
+* agent_get_max_neighbors(agent: RID) -> int
+* agent_get_max_speed(agent: RID) -> float
+* agent_get_neighbor_distance(agent: RID) -> float
+* agent_get_paused(agent: RID) -> bool
+* agent_get_position(agent: RID) -> Vector2
+* agent_get_radius(agent: RID) -> float
+* agent_get_time_horizon_agents(agent: RID) -> float
+* agent_get_time_horizon_obstacles(agent: RID) -> float
+* agent_get_velocity(agent: RID) -> Vector2
+* agent_has_avoidance_callback(agent: RID) -> bool
+* agent_is_map_changed(agent: RID) -> bool
+* agent_set_avoidance_callback(agent: RID, callback: Callable) -> void
+* agent_set_avoidance_enabled(agent: RID, enabled: bool) -> void
+* agent_set_avoidance_layers(agent: RID, layers: int) -> void
+* agent_set_avoidance_mask(agent: RID, mask: int) -> void
+* agent_set_avoidance_priority(agent: RID, priority: float) -> void
+* agent_set_map(agent: RID, map: RID) -> void
+* agent_set_max_neighbors(agent: RID, count: int) -> void
+* agent_set_max_speed(agent: RID, max_speed: float) -> void
+* agent_set_neighbor_distance(agent: RID, distance: float) -> void
+* agent_set_paused(agent: RID, paused: bool) -> void
+* agent_set_position(agent: RID, position: Vector2) -> void
+* agent_set_radius(agent: RID, radius: float) -> void
+* agent_set_time_horizon_agents(agent: RID, time_horizon: float) -> void
+* agent_set_time_horizon_obstacles(agent: RID, time_horizon: float) -> void
+* agent_set_velocity(agent: RID, velocity: Vector2) -> void
+* agent_set_velocity_forced(agent: RID, velocity: Vector2) -> void
+* bake_from_source_geometry_data(navigation_polygon: NavigationPolygon, source_geometry_data: NavigationMeshSourceGeometryData2D, callback: Callable = Callable()) -> void
+* bake_from_source_geometry_data_async(navigation_polygon: NavigationPolygon, source_geometry_data: NavigationMeshSourceGeometryData2D, callback: Callable = Callable()) -> void
+* free_rid(rid: RID) -> void
+* get_debug_enabled() -> bool
+* get_maps() -> Array[RID]
+* get_process_info(process_info: ProcessInfo) -> int
+* is_baking_navigation_polygon(navigation_polygon: NavigationPolygon) -> bool
+* link_create() -> RID
+* link_get_enabled(link: RID) -> bool
+* link_get_end_position(link: RID) -> Vector2
+* link_get_enter_cost(link: RID) -> float
+* link_get_iteration_id(link: RID) -> int
+* link_get_map(link: RID) -> RID
+* link_get_navigation_layers(link: RID) -> int
+* link_get_owner_id(link: RID) -> int
+* link_get_start_position(link: RID) -> Vector2
+* link_get_travel_cost(link: RID) -> float
+* link_is_bidirectional(link: RID) -> bool
+* link_set_bidirectional(link: RID, bidirectional: bool) -> void
+* link_set_enabled(link: RID, enabled: bool) -> void
+* link_set_end_position(link: RID, position: Vector2) -> void
+* link_set_enter_cost(link: RID, enter_cost: float) -> void
+* link_set_map(link: RID, map: RID) -> void
+* link_set_navigation_layers(link: RID, navigation_layers: int) -> void
+* link_set_owner_id(link: RID, owner_id: int) -> void
+* link_set_start_position(link: RID, position: Vector2) -> void
+* link_set_travel_cost(link: RID, travel_cost: float) -> void
+* map_create() -> RID
+* map_force_update(map: RID) -> void
+* map_get_agents(map: RID) -> Array[RID]
+* map_get_cell_size(map: RID) -> float
+* map_get_closest_point(map: RID, to_point: Vector2) -> Vector2
+* map_get_closest_point_owner(map: RID, to_point: Vector2) -> RID
+* map_get_edge_connection_margin(map: RID) -> float
+* map_get_iteration_id(map: RID) -> int
+* map_get_link_connection_radius(map: RID) -> float
+* map_get_links(map: RID) -> Array[RID]
+* map_get_merge_rasterizer_cell_scale(map: RID) -> float
+* map_get_obstacles(map: RID) -> Array[RID]
+* map_get_path(map: RID, origin: Vector2, destination: Vector2, optimize: bool, navigation_layers: int = 1) -> PackedVector2Array
+* map_get_random_point(map: RID, navigation_layers: int, uniformly: bool) -> Vector2
+* map_get_regions(map: RID) -> Array[RID]
+* map_get_use_async_iterations(map: RID) -> bool
+* map_get_use_edge_connections(map: RID) -> bool
+* map_is_active(map: RID) -> bool
+* map_set_active(map: RID, active: bool) -> void
+* map_set_cell_size(map: RID, cell_size: float) -> void
+* map_set_edge_connection_margin(map: RID, margin: float) -> void
+* map_set_link_connection_radius(map: RID, radius: float) -> void
+* map_set_merge_rasterizer_cell_scale(map: RID, scale: float) -> void
+* map_set_use_async_iterations(map: RID, enabled: bool) -> void
+* map_set_use_edge_connections(map: RID, enabled: bool) -> void
+* obstacle_create() -> RID
+* obstacle_get_avoidance_enabled(obstacle: RID) -> bool
+* obstacle_get_avoidance_layers(obstacle: RID) -> int
+* obstacle_get_map(obstacle: RID) -> RID
+* obstacle_get_paused(obstacle: RID) -> bool
+* obstacle_get_position(obstacle: RID) -> Vector2
+* obstacle_get_radius(obstacle: RID) -> float
+* obstacle_get_velocity(obstacle: RID) -> Vector2
+* obstacle_get_vertices(obstacle: RID) -> PackedVector2Array
+* obstacle_set_avoidance_enabled(obstacle: RID, enabled: bool) -> void
+* obstacle_set_avoidance_layers(obstacle: RID, layers: int) -> void
+* obstacle_set_map(obstacle: RID, map: RID) -> void
+* obstacle_set_paused(obstacle: RID, paused: bool) -> void
+* obstacle_set_position(obstacle: RID, position: Vector2) -> void
+* obstacle_set_radius(obstacle: RID, radius: float) -> void
+* obstacle_set_velocity(obstacle: RID, velocity: Vector2) -> void
+* obstacle_set_vertices(obstacle: RID, vertices: PackedVector2Array) -> void
+* parse_source_geometry_data(navigation_polygon: NavigationPolygon, source_geometry_data: NavigationMeshSourceGeometryData2D, root_node: Node, callback: Callable = Callable()) -> void
+* query_path(parameters: NavigationPathQueryParameters2D, result: NavigationPathQueryResult2D, callback: Callable = Callable()) -> void
+* region_create() -> RID
+* region_get_bounds(region: RID) -> Rect2
+* region_get_closest_point(region: RID, to_point: Vector2) -> Vector2
+* region_get_connection_pathway_end(region: RID, connection: int) -> Vector2
+* region_get_connection_pathway_start(region: RID, connection: int) -> Vector2
+* region_get_connections_count(region: RID) -> int
+* region_get_enabled(region: RID) -> bool
+* region_get_enter_cost(region: RID) -> float
+* region_get_iteration_id(region: RID) -> int
+* region_get_map(region: RID) -> RID
+* region_get_navigation_layers(region: RID) -> int
+* region_get_owner_id(region: RID) -> int
+* region_get_random_point(region: RID, navigation_layers: int, uniformly: bool) -> Vector2
+* region_get_transform(region: RID) -> Transform2D
+* region_get_travel_cost(region: RID) -> float
+* region_get_use_async_iterations(region: RID) -> bool
+* region_get_use_edge_connections(region: RID) -> bool
+* region_owns_point(region: RID, point: Vector2) -> bool
+* region_set_enabled(region: RID, enabled: bool) -> void
+* region_set_enter_cost(region: RID, enter_cost: float) -> void
+* region_set_map(region: RID, map: RID) -> void
+* region_set_navigation_layers(region: RID, navigation_layers: int) -> void
+* region_set_navigation_polygon(region: RID, navigation_polygon: NavigationPolygon) -> void
+* region_set_owner_id(region: RID, owner_id: int) -> void
+* region_set_transform(region: RID, transform: Transform2D) -> void
+* region_set_travel_cost(region: RID, travel_cost: float) -> void
+* region_set_use_async_iterations(region: RID, enabled: bool) -> void
+* region_set_use_edge_connections(region: RID, enabled: bool) -> void
+* set_active(active: bool) -> void
+* set_debug_enabled(enabled: bool) -> void
+* simplify_path(path: PackedVector2Array, epsilon: float) -> PackedVector2Array
+* source_geometry_parser_create() -> RID
+* source_geometry_parser_set_callback(parser: RID, callback: Callable) -> void
+---CHUNK---
+Document: NavigationServer2D
+Path: godot/classes/class_navigationserver2d.rst
+Summary: This chunk details the signals emitted by the NavigationServer2D for map and debug setting changes, and defines the ProcessInfo enum used to retrieve performance and state metrics.
+
+Signals
+
+Signal: avoidance_debug_changed()
+Emitted when avoidance debug settings are changed. Only available in debug builds.
+
+Signal: map_changed(map: RID)
+Emitted when a navigation map is updated, when a region moves or is modified.
+
+Signal: navigation_debug_changed()
+Emitted when navigation debug settings are changed. Only available in debug builds.
+
+Enumerations
+
+enum ProcessInfo:
+- INFO_ACTIVE_MAPS = 0: Constant to get the number of active navigation maps.
+- INFO_REGION_COUNT = 1: Constant to get the number of active navigation regions.
+- INFO_AGENT_COUNT = 2: Constant to get the number of active navigation agents processing avoidance.
+- INFO_LINK_COUNT = 3: Constant to get the number of active navigation links.
+- INFO_POLYGON_COUNT = 4: Constant to get the number of navigation mesh polygons.
+- INFO_EDGE_COUNT = 5: Constant to get the number of navigation mesh polygon edges.
+- INFO_EDGE_MERGE_COUNT = 6: Constant to get the number of navigation mesh polygon edges that were merged due to edge key overlap.
+- INFO_EDGE_CONNECTION_COUNT = 7: Constant to get the number of navigation mesh polygon edges that are considered connected by edge proximity.
+- INFO_EDGE_FREE_COUNT = 8: Constant to get the number of navigation mesh polygon edges that could not be merged but may be still connected by edge proximity or with links.
+- INFO_OBSTACLE_COUNT = 9: Constant to get the number of active navigation obstacles.
+---CHUNK---
+Document: NavigationServer2D
+Path: godot/classes/class_navigationserver2d.rst
+Summary: This chunk details the agent-related methods of the NavigationServer2D, covering creation, property retrieval (position, velocity, radius), and configuration of avoidance parameters like layers, masks, priority, and time horizons.
+
+Method: agent_create() -> RID
+Creates the agent.
+
+Method: agent_get_avoidance_enabled(agent: RID) -> bool
+Return true if the specified agent uses avoidance.
+
+Method: agent_get_avoidance_layers(agent: RID) -> int
+Returns the avoidance_layers bitmask of the specified agent.
+
+Method: agent_get_avoidance_mask(agent: RID) -> int
+Returns the avoidance_mask bitmask of the specified agent.
+
+Method: agent_get_avoidance_priority(agent: RID) -> float
+Returns the avoidance_priority of the specified agent.
+
+Method: agent_get_map(agent: RID) -> RID
+Returns the navigation map RID the requested agent is currently assigned to.
+
+Method: agent_get_max_neighbors(agent: RID) -> int
+Returns the maximum number of other agents the specified agent takes into account in the navigation.
+
+Method: agent_get_max_speed(agent: RID) -> float
+Returns the maximum speed of the specified agent.
+
+Method: agent_get_neighbor_distance(agent: RID) -> float
+Returns the maximum distance to other agents the specified agent takes into account in the navigation.
+
+Method: agent_get_paused(agent: RID) -> bool
+Returns true if the specified agent is paused.
+
+Method: agent_get_position(agent: RID) -> Vector2
+Returns the position of the specified agent in world space.
+
+Method: agent_get_radius(agent: RID) -> float
+Returns the radius of the specified agent.
+
+Method: agent_get_time_horizon_agents(agent: RID) -> float
+Returns the minimal amount of time for which the specified agent's velocities that are computed by the simulation are safe with respect to other agents.
+
+Method: agent_get_time_horizon_obstacles(agent: RID) -> float
+Returns the minimal amount of time for which the specified agent's velocities that are computed by the simulation are safe with respect to static avoidance obstacles.
+
+Method: agent_get_velocity(agent: RID) -> Vector2
+Returns the velocity of the specified agent.
+
+Method: agent_has_avoidance_callback(agent: RID) -> bool
+Return true if the specified agent has an avoidance callback.
+
+Method: agent_is_map_changed(agent: RID) -> bool
+Returns true if the map got changed the previous frame.
+
+Method: agent_set_avoidance_callback(agent: RID, callback: Callable) -> void
+Sets the callback Callable that gets called after each avoidance processing step for the agent. The calculated safe_velocity will be dispatched with a signal to the object just before the physics calculations. Note: Created callbacks are always processed independently of the SceneTree state as long as the agent is on a navigation map and not freed. To disable the dispatch of a callback from an agent use agent_set_avoidance_callback() again with an empty Callable.
+
+Method: agent_set_avoidance_enabled(agent: RID, enabled: bool) -> void
+If enabled is true, the specified agent uses avoidance.
+
+Method: agent_set_avoidance_layers(agent: RID, layers: int) -> void
+Set the agent's avoidance_layers bitmask.
+
+Method: agent_set_avoidance_mask(agent: RID, mask: int) -> void
+Set the agent's avoidance_mask bitmask.
+
+Method: agent_set_avoidance_priority(agent: RID, priority: float) -> void
+Set the agent's avoidance_priority with a priority between 0.0 (lowest priority) to 1.0 (highest priority). The specified agent does not adjust the velocity for other agents that would match the avoidance_mask but have a lower avoidance_priority. This in turn makes the other agents with lower priority adjust their velocities even more to avoid collision with this agent.
+
+Method: agent_set_map(agent: RID, map: RID) -> void
+Puts the agent in the map.
+
+Method: agent_set_max_neighbors(agent: RID, count: int) -> void
+Sets the maximum number of other agents the agent takes into account in the navigation. The larger this number, the longer the running time of the simulation. If the number is too low, the simulation will not be safe.
+
+Method: agent_set_max_speed(agent: RID, max_speed: float) -> void
+Sets the maximum speed of the agent. Must be positive.
+
+Method: agent_set_neighbor_distance(agent: RID, distance: float) -> void
+Sets the maximum distance to other agents this agent takes into account in the navigation. The larger this number, the longer the running time of the simulation. If the number is too low, the simulation will not be safe.
+
+Method: agent_set_paused(agent: RID, paused: bool) -> void
+If paused is true the specified agent will not be processed. For example, it will not calculate avoidance velocities or receive avoidance callbacks.
+
+Method: agent_set_position(agent: RID, position: Vector2) -> void
+Sets the position of the agent in world space.
+
+Method: agent_set_radius(agent: RID, radius: float) -> void
+Sets the radius of the agent.
+
+Method: agent_set_time_horizon_agents(agent: RID, time_horizon: float) -> void
+The minimal amount of time for which the agent's velocities that are computed by the simulation are safe with respect to other agents. The larger this number, the sooner this agent will respond to the presence of other agents, but the less freedom this agent has in choosing its velocities. A too high value will slow down agents movement considerably. Must be positive.
+
+Method: agent_set_time_horizon_obstacles(agent: RID, time_horizon: float) -> void
+The minimal amount of time for which the agent's velocities that are computed by the simulation are safe with respect to static avoidance obstacles. The larger this number, the sooner this agent will respond to the presence of static avoidance obstacles, but the less freedom this agent has in choosing its velocities. A too high value will slow down agents movement considerably. Must be positive.
+
+Method: agent_set_velocity(agent: RID, velocity: Vector2) -> void
+Sets velocity as the new wanted velocity for the specified agent. The avoidance simulation will try to fulfill this velocity if possible but will modify it to avoid collision with other agent's and obstacles. When an agent is teleported to a new position far away use agent_set_velocity_forced() instead to reset the internal velocity state.
+
+Method: agent_set_velocity_forced(agent: RID, velocity: Vector2) -> void
+Replaces the internal velocity in the collision avoidance simulation with velocity for the specified agent. When an agent is teleported to a new position far away this function should be used in the same frame. If called frequently this function can get agents stuck.

@@ -1,0 +1,110 @@
+Document: JavaScriptBridge
+Path: godot/classes/class_javascriptbridge.rst
+Summary: Provides a way to call JavaScript functions from GDScript and vice-versa in web exports.
+
+JavaScriptBridge
+
+Inherits: Object < Object
+
+This class provides a way to call JavaScript functions from GDScript and vice-versa when exporting to the web. It's a singleton, so you can access it directly using JavaScriptBridge.
+
+Key Rule: You can only use JavaScriptBridge when exporting your project to HTML5. It will not work in the editor or in native exports.
+
+Methods:
+call(function: String, ...params) → Variant
+Calls a JavaScript function with the given name and arguments. Returns the value returned by the JavaScript function.
+
+eval(script: String) → Variant
+Evaluates a JavaScript script. Returns the value returned by the script.
+
+is_connected() → bool
+Checks if the JavaScript bridge is connected. This is true if the page is loaded and the bridge is ready.
+
+connect()
+Connects the JavaScript bridge. This is usually called automatically when the page is loaded.
+
+disconnect()
+Disconnects the JavaScript bridge. This is usually called automatically when the page is unloaded.
+---CHUNK---
+Document: JavaScriptBridge
+Path: godot/classes/class_javascriptbridge.rst
+Summary: Singleton that connects the engine with the browser's JavaScript context in Web export.
+---CHUNK---
+Document: JavaScriptBridge
+Path: godot/classes/class_javascriptbridge.rst
+Summary: Provides access to the browser's JavaScript context when exporting to the web.
+The JavaScriptBridge singleton is implemented only in the Web export. It's used to access the browser's JavaScript context. This allows interaction with embedding pages or calling third-party JavaScript APIs. Note: This singleton can be disabled at build-time to improve security. By default, the JavaScriptBridge singleton is enabled. Official export templates also have the JavaScriptBridge singleton enabled. See Compiling for the Web in the documentation for more information.
+---CHUNK---
+Document: JavaScriptBridge
+Path: godot/classes/class_javascriptbridge.rst
+Summary: Information about the JavaScriptBridge singleton for web export.
+
+The JavaScriptBridge singleton allows communication between Godot and JavaScript when exporting to the web.
+
+Inherits: Object
+
+Methods:
+  call(method: StringName, ...args: Variant) → Variant
+    Calls a JavaScript function with the given name and arguments. Returns the value returned by the JavaScript function.
+
+  eval(script: String) → Variant
+    Evaluates a JavaScript script. Returns the value returned by the script.
+
+  is_connected() → bool
+    Checks if the JavaScript bridge is connected. This is true when the Godot project is running in a web environment and the bridge has been initialized.
+
+Example:
+GDScript:
+```gdscript
+func _ready():
+    if JavaScriptBridge.is_connected():
+        var result = JavaScriptBridge.call("my_js_function", "hello", 123)
+        print(result)
+        var eval_result = JavaScriptBridge.eval("1 + 1")
+        print(eval_result)
+    else:
+        print("JavaScript bridge not connected.")
+```
+---CHUNK---
+Document: JavaScriptBridge
+Path: godot/classes/class_javascriptbridge.rst
+Summary: This section details the methods available in the JavaScriptBridge class for interacting with JavaScript in a web environment.
+
+Method: create_callback(callable: Callable) → JavaScriptObject
+Creates a reference to a Callable that can be used as a callback by JavaScript. The reference must be kept until the callback happens, or it won't be called at all. See JavaScriptObject for usage.
+Note: The callback function must take exactly one Array argument, which is going to be the JavaScript arguments object converted to an array.
+
+Method: create_object(object: String, ...) → Variant |vararg|
+Creates a new JavaScript object using the "new" constructor. The "object" must a valid property of the JavaScript window. See JavaScriptObject for usage.
+
+Method: download_buffer(buffer: PackedByteArray, name: String, mime: String = "application/octet-stream") → void
+Prompts the user to download a file containing the specified "buffer". The file will have the given "name" and "mime" type.
+Note: The browser may override the MIME type provided based on the file "name"'s extension.
+Note: Browsers might block the download if download_buffer is not being called from a user interaction (e.g. button click).
+Note: Browsers might ask the user for permission or block the download if multiple download requests are made in a quick succession.
+
+Method: eval(code: String, use_global_execution_context: bool = false) → Variant
+Execute the string "code" as JavaScript code within the browser window. This is a call to the actual global JavaScript function eval().
+If "use_global_execution_context" is true, the code will be evaluated in the global execution context. Otherwise, it is evaluated in the execution context of a function within the engine's runtime environment.
+
+Method: force_fs_sync() → void
+Force synchronization of the persistent file system (when enabled).
+Note: This is only useful for modules or extensions that can't use FileAccess to write files.
+
+Method: get_interface(interface: String) → JavaScriptObject
+Returns an interface to a JavaScript object that can be used by scripts. The "interface" must be a valid property of the JavaScript window. The callback must accept a single Array argument, which will contain the JavaScript arguments. See JavaScriptObject for usage.
+
+Method: is_js_buffer(javascript_object: JavaScriptObject) → bool
+Returns true if the given "javascript_object" is of type ArrayBuffer, DataView, or one of the many typed array objects.
+
+Method: js_buffer_to_packed_byte_array(javascript_buffer: JavaScriptObject) → PackedByteArray
+Returns a copy of "javascript_buffer"'s contents as a PackedByteArray. See also is_js_buffer.
+
+Method: pwa_needs_update() → bool |const|
+Returns true if a new version of the progressive web app is waiting to be activated.
+Note: Only relevant when exported as a Progressive Web App.
+
+Method: pwa_update() → Error
+Performs the live update of the progressive web app. Forcing the new version to be installed and the page to be reloaded.
+Note: Your application will be reloaded in all browser tabs.
+Note: Only relevant when exported as a Progressive Web App and pwa_needs_update returns true.

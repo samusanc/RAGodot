@@ -1,0 +1,164 @@
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: This document describes the AudioEffectChorus class.
+---CHUNK---
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: Describes the AudioEffectChorus class, which adds a chorus audio effect to an audio bus.
+
+Inherits: AudioEffect < Resource < RefCounted < Object
+
+Adds a chorus audio effect to an audio bus.
+Gives the impression of multiple audio sources.
+---CHUNK---
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: Describes the AudioEffectChorus effect, its purpose, and how it works.
+
+A "chorus" effect creates multiple copies of the original audio (called "voices") with variations in pitch, and layers on top of the original, giving the impression that the sound comes from multiple sources. This creates spectral and spatial movement.
+
+Each voice is played a short period of time after the original audio, controlled by delay. An internal low-frequency oscillator (LFO) controls their pitch, and depth controls the LFO's maximum amount.
+
+In the real world, this kind of effect is found in pianos, choirs, and instrument ensembles.
+
+This effect can also be used to widen mono audio and make digital sounds have a more natural or analog quality.
+---CHUNK---
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: This section provides links to related audio tutorials.
+
+Tutorials
+- Audio buses
+- Audio effects
+---CHUNK---
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: This section lists the properties available for configuring the AudioEffectChorus.
+
+Properties:
+* dry (float): . Default: 1.0
+* voice/1/cutoff_hz (float): . Default: 8000.0
+* voice/1/delay_ms (float): . Default: 15.0
+* voice/1/depth_ms (float): . Default: 2.0
+* voice/1/level_db (float): . Default: 0.0
+* voice/1/pan (float): . Default: -0.5
+* voice/1/rate_hz (float): . Default: 0.8
+* voice/2/cutoff_hz (float): . Default: 8000.0
+* voice/2/delay_ms (float): . Default: 20.0
+* voice/2/depth_ms (float): . Default: 3.0
+* voice/2/level_db (float): . Default: 0.0
+* voice/2/pan (float): . Default: 0.5
+* voice/2/rate_hz (float): . Default: 1.2
+* voice/3/cutoff_hz (float): .
+* voice/3/delay_ms (float): .
+* voice/3/depth_ms (float): .
+* voice/3/level_db (float): .
+* voice/3/pan (float): .
+* voice/3/rate_hz (float): .
+* voice/4/cutoff_hz (float): .
+* voice/4/delay_ms (float): .
+* voice/4/depth_ms (float): .
+* voice/4/level_db (float): .
+* voice/4/pan (float): .
+* voice/4/rate_hz (float): .
+* voice_count (int): . Default: 2
+* wet (float): . Default: 0.5
+---CHUNK---
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: This section lists the methods available for managing individual voice parameters within an AudioEffectChorus.
+
+Method: get_voice_cutoff_hz(voice_idx: int) -> float
+Method: get_voice_delay_ms(voice_idx: int) -> float
+Method: get_voice_depth_ms(voice_idx: int) -> float
+Method: get_voice_level_db(voice_idx: int) -> float
+Method: get_voice_pan(voice_idx: int) -> float
+Method: get_voice_rate_hz(voice_idx: int) -> float
+Method: set_voice_cutoff_hz(voice_idx: int, cutoff_hz: float) -> void
+Method: set_voice_delay_ms(voice_idx: int, delay_ms: float) -> void
+Method: set_voice_depth_ms(voice_idx: int, depth_ms: float) -> void
+Method: set_voice_level_db(voice_idx: int, level_db: float) -> void
+Method: set_voice_pan(voice_idx: int, pan: float) -> void
+Method: set_voice_rate_hz(voice_idx: int, rate_hz: float) -> void
+---CHUNK---
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: This section details the properties available for configuring the AudioEffectChorus, including dry/wet mix and individual voice parameters.
+
+dry (float): The volume ratio of the original audio. Value can range from 0 to 1. Default: 1.0.
+Method: set_dry(value: float)
+Method: get_dry()
+
+Properties for individual chorus voices (1-4):
+
+voice/X/cutoff_hz (float): The frequency threshold of the voice's low-pass filter in Hz. Default: 8000.0 (for voices 1 and 2).
+Method: set_voice_cutoff_hz(voice_idx: int, cutoff_hz: float)
+Method: get_voice_cutoff_hz(voice_idx: int)
+
+voice/X/delay_ms (float): The delay of the voice in milliseconds, compared to the original audio. Default: 15.0 (for voice 1), 20.0 (for voice 2).
+Method: set_voice_delay_ms(voice_idx: int, delay_ms: float)
+Method: get_voice_delay_ms(voice_idx: int)
+
+voice/X/depth_ms (float): The depth of the voice's low-frequency oscillator in milliseconds. Default: 2.0 (for voice 1), 3.0 (for voice 2).
+Method: set_voice_depth_ms(voice_idx: int, depth_ms: float)
+Method: get_voice_depth_ms(voice_idx: int)
+
+voice/X/level_db (float): The gain of the voice in dB. Default: 0.0 (for voices 1 and 2).
+Method: set_voice_level_db(voice_idx: int, level_db: float)
+Method: get_voice_level_db(voice_idx: int)
+
+voice/X/pan (float): The pan position of the voice. Default: -0.5 (for voice 1), 0.5 (for voice 2).
+Method: set_voice_pan(voice_idx: int, pan: float)
+Method: get_voice_pan(voice_idx: int)
+
+voice/X/rate_hz (float): The rate of the voice's low-frequency oscillator in Hz. Default: 0.8 (for voice 1), 1.2 (for voice 2).
+Method: set_voice_rate_hz(voice_idx: int, rate_hz: float)
+Method: get_voice_rate_hz(voice_idx: int)
+
+voice_count (int): The number of voices in the effect. Value can range from 1 to 4. Default: 2.
+Method: set_voice_count(value: int)
+Method: get_voice_count()
+
+wet (float): The volume ratio of all voices. Value can range from 0 to 1. Default: 0.5.
+Method: set_wet(value: float)
+Method: get_wet()
+---CHUNK---
+Document: AudioEffectChorus
+Path: godot/classes/class_audioeffectchorus.rst
+Summary: This section details the methods for getting and setting parameters for individual voices within an AudioEffectChorus.
+
+Method: get_voice_cutoff_hz(voice_idx: int) -> float
+Returns the frequency threshold of a given voice_idx's low-pass filter in Hz. Frequencies above this value are removed from the voice.
+
+Method: get_voice_delay_ms(voice_idx: int) -> float
+Returns the delay of a given voice_idx in milliseconds, compared to the original audio.
+
+Method: get_voice_depth_ms(voice_idx: int) -> float
+Returns the depth of a given voice_idx's low-frequency oscillator in milliseconds.
+
+Method: get_voice_level_db(voice_idx: int) -> float
+Returns the gain of a given voice_idx in dB.
+
+Method: get_voice_pan(voice_idx: int) -> float
+Returns the pan position of a given voice_idx. Negative values mean the left channel, positive mean the right.
+
+Method: get_voice_rate_hz(voice_idx: int) -> float
+Returns the rate of a given voice_idx's low-frequency oscillator in Hz.
+
+Method: set_voice_cutoff_hz(voice_idx: int, cutoff_hz: float) -> void
+Sets the frequency threshold of a given voice_idx's low-pass filter in Hz. Frequencies above cutoff_hz are removed from voice_idx. Value can range from 1 to 20500.
+
+Method: set_voice_delay_ms(voice_idx: int, delay_ms: float) -> void
+Sets the delay of a given voice_idx in milliseconds, compared to the original audio. Value can range from 0 to 50.
+
+Method: set_voice_depth_ms(voice_idx: int, depth_ms: float) -> void
+Sets the depth of a given voice_idx's low-frequency oscillator in milliseconds. Value can range from 0 to 20.
+
+Method: set_voice_level_db(voice_idx: int, level_db: float) -> void
+Sets the gain of a given voice_idx in dB. Value can range from -60 to 24.
+
+Method: set_voice_pan(voice_idx: int, pan: float) -> void
+Sets the pan position of a given voice_idx. Negative values pan the sound to the left, positive pan to the right. Value can range from -1 to 1.
+
+Method: set_voice_rate_hz(voice_idx: int, rate_hz: float) -> void
+Sets the rate of a given voice_idx's low-frequency oscillator in Hz. Value can range from 0.1 to 20.

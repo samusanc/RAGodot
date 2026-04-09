@@ -1,0 +1,36 @@
+Document: PhysicsDirectSpaceState2DExtension
+Path: godot/classes/class_physicsdirectspacestate2dextension.rst
+Summary: Provides access to the 2D physics space state for custom physics bodies.
+
+Inherits: Object < Object
+---CHUNK---
+Document: PhysicsDirectSpaceState2DExtension
+Path: godot/classes/class_physicsdirectspacestate2dextension.rst
+Summary: Provides virtual methods that can be overridden to create custom PhysicsDirectSpaceState2D implementations.
+
+Inherits: PhysicsDirectSpaceState2D < Object
+---CHUNK---
+Document: PhysicsDirectSpaceState2DExtension
+Path: godot/classes/class_physicsdirectspacestate2dextension.rst
+Summary: This class extends PhysicsDirectSpaceState2D with additional virtual methods for custom GDExtension implementations.
+
+Inherits: PhysicsDirectSpaceState2D
+
+This class extends PhysicsDirectSpaceState2D by providing additional virtual methods that can be overridden. When these methods are overridden, they will be called instead of the internal methods of the physics server.
+
+Intended for use with GDExtension to create custom implementations of PhysicsDirectSpaceState2D.
+---CHUNK---
+Document: PhysicsDirectSpaceState2DExtension
+Path: godot/classes/class_physicsdirectspacestate2dextension.rst
+Summary: This section details the methods available in the PhysicsDirectSpaceState2DExtension class, which provides low-level access to the 2D physics space for custom implementations.
+
+Methods:
+* _cast_motion(shape_rid: RID, transform: Transform2D, motion: Vector2, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, closest_safe: float*, closest_unsafe: float*) → bool: virtual, required. This method is used to cast a shape through the physics space and determine the closest safe and unsafe distances.
+* _collide_shape(shape_rid: RID, transform: Transform2D, motion: Vector2, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, results: void*, max_results: int, result_count: int32_t*) → bool: virtual, required. This method collides a shape with the physics space and returns collision information.
+* _intersect_point(position: Vector2, canvas_instance_id: int, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, results: PhysicsServer2DExtensionShapeResult*, max_results: int) → int: virtual, required. This method finds all shapes intersecting a given point.
+* _intersect_ray(from: Vector2, to: Vector2, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, hit_from_inside: bool, result: PhysicsServer2DExtensionRayResult*) → bool: virtual, required. This method performs a raycast in the physics space to find the first intersection.
+* _intersect_shape(shape_rid: RID, transform: Transform2D, motion: Vector2, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, result: PhysicsServer2DExtensionShapeResult*, max_results: int) → int: virtual, required. This method finds all shapes that intersect with a given shape as it moves through the physics space.
+* _rest_info(shape_rid: RID, transform: Transform2D, motion: Vector2, margin: float, collision_mask: int, collide_with_bodies: bool, collide_with_areas: bool, rest_info: PhysicsServer2DExtensionShapeRestInfo*) → bool: virtual, required. This method retrieves information about the rest state of a shape within the physics space.
+* is_body_excluded_from_query(body: RID) → bool: const. This method checks if a specific body is excluded from physics queries.
+
+Note: There is currently no description for the virtual methods. Please help by contributing one.

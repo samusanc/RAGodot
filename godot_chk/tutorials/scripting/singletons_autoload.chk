@@ -1,0 +1,389 @@
+Document: Singletons and Autoloads
+Path: godot/tutorials/scripting/singletons_autoload.rst
+Summary: This document explains how to use singletons and autoloads in Godot to create globally accessible scripts.
+
+Singletons and Autoloads
+
+In Godot, singletons are scripts that are always loaded and available in your project. They are often referred to as "autoloads" because you can configure them to automatically load when the game starts. This is useful for creating global managers, like a game manager, a score manager, or a music player, that need to be accessed from anywhere in your game.
+
+Creating a Singleton
+
+To create a singleton, you first need to create a script that will act as your singleton. For example, let's create a script called `Global.gd`:
+
+GDScript:
+  extends Node
+
+  var score = 0
+
+  func add_score(amount):
+      score += amount
+      print("Score: ", score)
+
+Once you have your script, you need to register it as an autoload in your project settings.
+
+1. Open the Project Settings by going to Project -> Project Settings...
+2. Navigate to the "Autoload" tab.
+3. Click the folder icon next to the "Path" field and select your `Global.gd` script.
+4. In the "Node Name" field, enter `Global`. This will be the name you use to access your singleton from other scripts.
+5. Make sure the "Enable" checkbox is ticked.
+6. Click the "Add" button.
+
+Your `Global.gd` script will now be listed under "Autoload" and will be automatically loaded when your game starts.
+
+Accessing a Singleton
+
+You can access your singleton from any other script in your project using the node name you provided. In our example, the node name is `Global`.
+
+GDScript:
+  extends Node2D
+
+  func _ready():
+      # Access the score variable from the Global singleton
+      Global.add_score(10)
+
+      # You can also directly access variables
+      print("Current score is: ", Global.score)
+
+Key Rule: Autoloads are singletons, meaning only one instance of each autoloaded script can exist in your project. If you try to add another node with the same name as an autoload, it will cause a conflict.
+
+Using C# for Singletons
+
+You can also use C# scripts as singletons. Create a C# script, for example `Global.cs`:
+
+C#:
+  using Godot;
+  using System;
+
+  public class Global : Node
+  {
+      public int Score = 0;
+
+      public void AddScore(int amount)
+      {
+          Score += amount;
+          GD.Print($"Score: {Score}");
+      }
+  }
+
+Then, follow the same steps as above in the Project Settings -> Autoload tab, but select your `Global.cs` file.
+
+Accessing a C# Singleton
+
+Accessing a C# singleton is similar to accessing a GDScript singleton:
+
+GDScript:
+  extends Node2D
+
+  func _ready():
+      # Access the AddScore method from the Global singleton
+      Global.AddScore(20)
+
+      # Access the Score variable
+      print("Current score is: ", Global.Score)
+
+C#:
+  using Godot;
+  using System;
+
+  public class ExampleNode : Node2D
+  {
+      public override void _Ready()
+      {
+          // Access the AddScore method from the Global singleton
+          GlobalMethods.Global.AddScore(30);
+
+          // Access the Score variable
+          GD.Print($"Current score is: {GlobalMethods.Global.Score}");
+      }
+  }
+
+Note: When using C# singletons, you might need to use a namespace qualifier like `GlobalMethods.Global` if your project has multiple C# files named `Global`. This helps Godot differentiate between them.
+
+Benefits of Singletons
+
+*   **Global Access**: Easily accessible from any part of your game.
+*   **Code Organization**: Helps in organizing global game logic and data.
+*   **State Management**: Ideal for managing game state, player data, or persistent settings.
+*   **Decoupling**: Reduces the need for passing data between many different nodes, leading to cleaner code.
+
+When to Use Singletons
+
+*   **Game State**: Managing overall game progress, levels, and win/loss conditions.
+*   **Player Data**: Storing player-specific information like health, inventory, or score.
+*   **Audio Management**: Controlling background music and sound effects.
+*   **Scene Management**: Handling transitions between different scenes.
+*   **Configuration**: Storing project-wide settings or options.
+
+Warning: Overuse of singletons can lead to tightly coupled code, making it harder to test and maintain. Use them judiciously for truly global concerns.
+---CHUNK---
+Document: Singletons (Autoload)
+Path: godot/tutorials/scripting/singletons_autoload.rst
+Summary: This section explains how to use Singletons (Autoload) in Godot to create globally accessible scripts.
+
+Singletons (Autoload)
+
+In Godot, Singletons are scripts that are automatically loaded when the project starts. They are also known as Autoloads. This feature is useful for creating globally accessible scripts, such as a game manager, a player score tracker, or a music player.
+
+To create a Singleton, you need to:
+
+1.  Create a new script.
+2.  Go to Project -> Project Settings -> Autoload tab.
+3.  Click the folder icon next to the "Path" field and select your script.
+4.  Enter a "Node Name" for your Singleton. This will be the name you use to access the script globally.
+5.  Check the "Enable" checkbox.
+6.  Click "Add".
+
+Once added, your Singleton script will be available globally by the Node Name you provided. For example, if you named your Singleton "GameManager", you can access it from any other script like this:
+
+GDScript:
+    var gm = get_node("/root/GameManager")
+    # or simply
+    var gm = GameManager
+
+C#:
+    var gm = GetNode<Node>("/root/GameManager");
+    // or simply
+    var gm = GameManager;
+
+Note: It is recommended to use the simpler global access method (e.g., `GameManager`) whenever possible, as it is more concise and less prone to errors.
+
+Key Rule: Singletons are loaded automatically at project startup and are accessible globally by their assigned Node Name.
+
+You can also set the "Inherits" property of your Singleton script to specify the base class it should inherit from. This allows you to create Singletons that are, for example, custom Node types or resources.
+
+If you need to manage the order in which Singletons are loaded, you can use the "Order" property in the Autoload tab. Lower numbers are loaded first.
+
+Warning: Be cautious when using Singletons. Overuse can lead to tightly coupled code, making your project harder to maintain and debug. Consider if a Singleton is truly necessary or if a different approach, like dependency injection or passing references, would be more appropriate.
+---CHUNK---
+Document: Singletons and Autoloads
+Path: godot/tutorials/scripting/singletons_autoload.rst
+Summary: This section introduces the concept of singletons and autoloads in Godot as a solution for managing global data and state across different scenes.
+
+Godot's scene system, while powerful and flexible, has a drawback: there is no method for storing information (e.g. a player's score or inventory) that is needed by more than one scene.
+
+It's possible to address this with some workarounds, but they come with their own limitations:
+
+*   You can use a "master" scene that loads and unloads other scenes as its children. However, this means you can no longer run those scenes individually and expect them to work correctly.
+*   Information can be stored to disk in `user://` and then loaded by scenes that require it, but frequently saving and loading data is cumbersome and may be slow.
+
+The Singleton pattern is a useful tool for solving the common use case where you need to store persistent information between scenes. In our case, it's possible to reuse the same scene or class for multiple singletons as long as they have different names.
+
+Using this concept, you can create objects that:
+
+*   Are always loaded, no matter which scene is currently running.
+*   Can store global variables such as player information.
+*   Can handle switching scenes and between-scene transitions.
+*   Act like a singleton, since GDScript does not support global variables by design.
+
+Autoloading nodes and scripts can give us these characteristics.
+Note: Godot won't make an Autoload a "true" singleton as per the singleton design pattern. It may still be instanced more than once by the user if desired.
+Tip: If you're creating an autoload as part of an editor plugin, consider registering it automatically in the Project Settings when the plugin is enabled.
+---CHUNK---
+Document: Autoload
+Path: godot/tutorials/scripting/singletons_autoload.rst
+Summary: This section explains how to set up and use Autoloads (singletons) in Godot for global access to scenes or scripts.
+
+Autoloads allow you to create globally accessible nodes from scenes or scripts that inherit from Node. When a script is autoloaded, a Node is created and the script is attached to it, then added to the root viewport before any other scenes are loaded.
+
+To set up an Autoload, navigate to Project > Project Settings > Globals > Autoload. You can add multiple scenes or scripts, each requiring a unique name which becomes the node's name property. The order of Autoloads can be adjusted using the up/down arrow keys, and they are processed from top to bottom.
+
+If the "Enable" column is checked (default), the singleton can be accessed directly in GDScript.
+
+GDScript:
+PlayerVariables.health -= 10
+
+The "Enable" column does not affect C# code. For C# scripts, a static property named "Instance" can be used, assigned in the _Ready() method, to achieve similar direct access.
+
+C#:
+public partial class PlayerVariables : Node
+{
+    public static PlayerVariables Instance { get; private set; }
+
+    public int Health { get; set; }
+
+    public override void _Ready()
+    {
+        Instance = this;
+    }
+}
+
+This allows accessing the singleton from C# without using GetNode() or typecasting.
+
+C#:
+PlayerVariables.Instance.Health -= 10;
+
+Autoloaded objects are accessed like any other node in the scene tree and will appear in the running scene tree.
+
+Warning: Autoloads must not be removed using free() or queue_free() at runtime, as this will cause the engine to crash.
+---CHUNK---
+Document: Singletons and Autoloads
+Path: godot/tutorials/scripting/singletons_autoload.rst
+Summary: This section introduces building a custom scene switcher using autoloads in Godot.
+
+This tutorial will demonstrate building a scene switcher using autoloads. For basic scene switching, you can use the SceneTree.change_scene_to_file() method. However, if you need more complex behavior when changing scenes, this method provides more functionality.
+
+To begin, download the template from the provided link and open it in Godot. A window notifying you that the project was last opened in an older Godot version may appear; this is not an issue. Click *Ok* to open the project.
+
+The project contains two scenes: scene_1.tscn and scene_2.tscn. Each scene contains a label displaying the scene name and a button with its pressed() signal connected. When you run the project, it starts in scene_1.tscn. However, pressing the button does nothing.
+---CHUNK---
+Document: Singletons and Autoloads
+Path: godot/tutorials/scripting/singletons_autoload.rst
+Summary: This section explains how to create and use autoload singletons in Godot to manage global game state and scene transitions.
+
+Creating the script
+Open the **Script** window and create a new script called ``global.gd``.
+Make sure it inherits from ``Node``.
+
+The next step is to add this script to the autoload list.
+Starting from the menu, open
+**Project > Project Settings > Globals > Autoload** and
+select the script by clicking the browse button or typing its path:
+``res://global.gd``. Press **Add** to add it to the autoload list
+and name it "Global", which is required for scripts to access it
+by the name "Global".
+
+Now whenever we run any scene in the project, this script will always be loaded.
+
+Returning to the script, it needs to fetch the current scene in the
+`_ready()` function. Both the current scene (the one with the button) and
+``global.gd`` are children of root, but autoloaded nodes are always first. This
+means that the last child of root is always the loaded scene.
+
+GDScript:
+extends Node
+
+var current_scene = null
+
+func _ready():
+    var root = get_tree().root
+    # Using a negative index counts from the end, so this gets the last child node of `root`.
+    current_scene = root.get_child(-1)
+
+C#:
+using Godot;
+
+public partial class Global : Node
+{
+    public Node CurrentScene { get; set; }
+
+    public override void _Ready()
+    {
+        Viewport root = GetTree().Root;
+        // Using a negative index counts from the end, so this gets the last child node of `root`.
+        CurrentScene = root.GetChild(-1);
+    }
+}
+
+Now we need a function for changing the scene. This function needs to free the
+current scene and replace it with the requested one.
+
+GDScript:
+func goto_scene(path):
+    # This function will usually be called from a signal callback,
+    # or some other function in the current scene.
+    # Deleting the current scene at this point is
+    # a bad idea, because it may still be executing code.
+    # This will result in a crash or unexpected behavior.
+
+    # The solution is to defer the load to a later time, when
+    # we can be sure that no code from the current scene is running:
+
+    _deferred_goto_scene.call_deferred(path)
+
+
+func _deferred_goto_scene(path):
+    # It is now safe to remove the current scene.
+    current_scene.free()
+
+    # Load the new scene.
+    var s = ResourceLoader.load(path)
+
+    # Instance the new scene.
+    current_scene = s.instantiate()
+
+    # Add it to the active scene, as child of root.
+    get_tree().root.add_child(current_scene)
+
+    # Optionally, to make it compatible with the SceneTree.change_scene_to_file() API.
+    get_tree().current_scene = current_scene
+
+C#:
+public void GotoScene(string path)
+{
+    // This function will usually be called from a signal callback,
+    // or some other function from the current scene.
+    // Deleting the current scene at this point is
+    // a bad idea, because it may still be executing code.
+    // This will result in a crash or unexpected behavior.
+
+    // The solution is to defer the load to a later time, when
+    // we can be sure that no code from the current scene is running:
+
+    CallDeferred(MethodName.DeferredGotoScene, path);
+}
+
+public void DeferredGotoScene(string path)
+{
+    // It is now safe to remove the current scene.
+    CurrentScene.Free();
+
+    // Load a new scene.
+    var nextScene = GD.Load<PackedScene>(path);
+
+    // Instance the new scene.
+    CurrentScene = nextScene.Instantiate();
+
+    // Add it to the active scene, as child of root.
+    GetTree().Root.AddChild(CurrentScene);
+
+    // Optionally, to make it compatible with the SceneTree.change_scene_to_file() API.
+    GetTree().CurrentScene = CurrentScene;
+}
+
+Using Object.call_deferred(), the second function will only run once all code from the current scene has completed. Thus, the current scene will not be removed while it is still being used (i.e. its code is still running).
+
+Finally, we need to fill the empty callback functions in the two scenes:
+
+GDScript:
+# Add to 'scene_1.gd'.
+
+func _on_button_pressed():
+    Global.goto_scene("res://scene_2.tscn")
+
+C#:
+// Add to 'Scene1.cs'.
+
+private void OnButtonPressed()
+{
+    var global = GetNode<Global>("/root/Global");
+    global.GotoScene("res://Scene2.tscn");
+}
+
+and
+
+GDScript:
+# Add to 'scene_2.gd'.
+
+func _on_button_pressed():
+    Global.goto_scene("res://scene_1.tscn")
+
+C#:
+// Add to 'Scene2.cs'.
+
+private void OnButtonPressed()
+{
+    var global = GetNode<Global>("/root/Global");
+    global.GotoScene("res://Scene1.tscn");
+}
+
+Run the project and test that you can switch between scenes by pressing
+the button.
+
+Note: When scenes are small, the transition is instantaneous. However, if your
+scenes are more complex, they may take a noticeable amount of time to appear.
+To learn how to handle this, see the next tutorial: Background Loading.
+
+Alternatively, if the loading time is relatively short (less than 3 seconds or so),
+you can display a "loading plaque" by showing some kind of 2D element just before
+changing the scene. You can then hide it just after the scene is changed. This can
+be used to indicate to the player that a scene is being loaded.

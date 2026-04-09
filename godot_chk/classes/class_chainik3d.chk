@@ -1,0 +1,78 @@
+Document: ChainIK3D
+Path: godot/classes/class_chainik3d.rst
+Summary: Provides a 3D chain inverse kinematics solver.
+
+Inherits: Node < Object
+
+ChainIK3D is a Node that provides a 3D chain inverse kinematics solver. It allows you to define a chain of bones and specify a target position, and the solver will adjust the bone rotations to reach the target. This is useful for animating characters, such as making a character's arm reach for an object.
+---CHUNK---
+Document: ChainIK3D
+Path: godot/classes/class_chainik3d.rst
+Summary: Describes the ChainIK3D node, a SkeletonModifier3D for applying inverse kinematics to bone chains.
+Inherits: IKModifier3D < SkeletonModifier3D < Node3D < Node < Object
+Inherited By: IterateIK3D, SplineIK3D
+
+ChainIK3D is a SkeletonModifier3D that applies inverse kinematics to bone chains with a variable number of bones.
+---CHUNK---
+Document: SkeletonIK3D
+Path: godot/classes/class_chainik3d.rst
+Summary: Base class for SkeletonModifier3D that automatically generates a joint list from bones.
+
+Note: All methods in this class take an index parameter. This parameter specifies which setting list entry to return if the IK has multiple entries (e.g. settings/<index>/root_bone_name).
+---CHUNK---
+Document: ChainIK3D
+Path: godot/classes/class_chainik3d.rst
+Summary: This section details the methods available for the ChainIK3D class, covering how to get and set properties related to bone chains, including root and end bones, joints, and tail extensions.
+
+Method: get_end_bone(index: int) -> int
+Returns the end bone index of the bone chain.
+
+Method: get_end_bone_direction(index: int) -> BoneDirection
+Returns the tail direction of the end bone of the bone chain when is_end_bone_extended is true.
+
+Method: get_end_bone_length(index: int) -> float
+Returns the end bone tail length of the bone chain when is_end_bone_extended is true.
+
+Method: get_end_bone_name(index: int) -> String
+Returns the end bone name of the bone chain.
+
+Method: get_joint_bone(index: int, joint: int) -> int
+Returns the bone index at joint in the bone chain's joint list.
+
+Method: get_joint_bone_name(index: int, joint: int) -> String
+Returns the bone name at joint in the bone chain's joint list.
+
+Method: get_joint_count(index: int) -> int
+Returns the joint count of the bone chain's joint list.
+
+Method: get_root_bone(index: int) -> int
+Returns the root bone index of the bone chain.
+
+Method: get_root_bone_name(index: int) -> String
+Returns the root bone name of the bone chain.
+
+Method: is_end_bone_extended(index: int) -> bool
+Returns true if the end bone is extended to have a tail.
+
+Method: set_end_bone(index: int, bone: int)
+Sets the end bone index of the bone chain.
+
+Method: set_end_bone_direction(index: int, bone_direction: BoneDirection)
+Sets the end bone tail direction of the bone chain when is_end_bone_extended is true.
+
+Method: set_end_bone_length(index: int, length: float)
+Sets the end bone tail length of the bone chain when is_end_bone_extended is true.
+
+Method: set_end_bone_name(index: int, bone_name: String)
+Sets the end bone name of the bone chain.
+Note: The end bone must be the root bone or a child of the root bone. If they are the same, the tail must be extended by set_extend_end_bone to modify the bone.
+
+Method: set_extend_end_bone(index: int, enabled: bool)
+If enabled is true, the end bone is extended to have a tail.
+The extended tail config is allocated to the last element in the joint list. In other words, if you set enabled to false, the config of the last element in the joint list has no effect in the simulated result.
+
+Method: set_root_bone(index: int, bone: int)
+Sets the root bone index of the bone chain.
+
+Method: set_root_bone_name(index: int, bone_name: String)
+Sets the root bone name of the bone chain.

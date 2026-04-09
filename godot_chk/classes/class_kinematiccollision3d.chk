@@ -1,0 +1,81 @@
+Document: KinematicCollision3D
+Path: godot/classes/class_kinematiccollision3d.rst
+Summary: Provides information about collision results when using KinematicBody3D.
+
+Inherits: RefCounted
+
+This object is returned by CollisionObject3D.move_and_collide and CollisionObject3D.test_move. It contains information about the collision that occurred.
+
+Properties:
+collision_normal (Vector3): The normal of the collision. This is the direction the object would need to move to resolve the collision.
+collider (Object): The object that the body collided with.
+collider_length (float): The length of the collider's shape that was hit.
+collider_shape (int): The index of the shape that the body collided with on the collider.
+collider_shape_owner (Object): The owner of the collider shape that was hit.
+get_collider_velocity (Vector3): Returns the velocity of the collider at the point of collision.
+local_shape (int): The index of the shape on the body that collided.
+position (Vector3): The point in space where the collision occurred.
+remainder (Vector3): The remaining distance the body can travel after the collision.
+travel (Vector3): The distance the body traveled before the collision.
+---CHUNK---
+Document: KinematicCollision3D
+Path: godot/classes/class_kinematiccollision3d.rst
+Summary: Holds collision data from the movement of a PhysicsBody3D.
+
+Inherits: RefCounted < Object
+
+Holds collision data from the movement of a PhysicsBody3D.
+---CHUNK---
+Document: KinematicCollision3D
+Path: godot/classes/class_kinematiccollision3d.rst
+Summary: Holds collision data from the movement of a PhysicsBody3D, typically returned by move_and_collide.
+
+Inherits: Object < Object
+Description:
+Holds collision data from the movement of a PhysicsBody3D, usually from PhysicsBody3D.move_and_collide. When a PhysicsBody3D is moved, it stops if it detects a collision with another body. If a collision is detected, a KinematicCollision3D object is returned. The collision data includes the colliding object, the remaining motion, and the collision position. This data can be used to determine a custom response to the collision.
+---CHUNK---
+Document: KinematicCollision3D
+Path: godot/classes/class_kinematiccollision3d.rst
+Summary: This section details the methods available on the KinematicCollision3D class for accessing information about physics collisions in 3D.
+
+Method: get_angle(collision_index: int = 0, up_direction: Vector3 = Vector3(0, 1, 0)) → float
+Returns the collision angle according to up_direction, which is Vector3.UP by default. This value is always positive.
+
+Method: get_collider(collision_index: int = 0) → Object
+Returns the colliding body's attached Object given a collision index (the deepest collision by default).
+
+Method: get_collider_id(collision_index: int = 0) → int
+Returns the unique instance ID of the colliding body's attached Object given a collision index (the deepest collision by default). See Object.get_instance_id().
+
+Method: get_collider_rid(collision_index: int = 0) → RID
+Returns the colliding body's RID used by the PhysicsServer3D given a collision index (the deepest collision by default).
+
+Method: get_collider_shape(collision_index: int = 0) → Object
+Returns the colliding body's shape given a collision index (the deepest collision by default).
+
+Method: get_collider_shape_index(collision_index: int = 0) → int
+Returns the colliding body's shape index given a collision index (the deepest collision by default). See CollisionObject3D.
+
+Method: get_collider_velocity(collision_index: int = 0) → Vector3
+Returns the colliding body's velocity given a collision index (the deepest collision by default).
+
+Method: get_collision_count() → int
+Returns the number of detected collisions.
+
+Method: get_depth() → float
+Returns the colliding body's length of overlap along the collision normal.
+
+Method: get_local_shape(collision_index: int = 0) → Object
+Returns the moving object's colliding shape given a collision index (the deepest collision by default).
+
+Method: get_normal(collision_index: int = 0) → Vector3
+Returns the colliding body's shape's normal at the point of collision given a collision index (the deepest collision by default).
+
+Method: get_position(collision_index: int = 0) → Vector3
+Returns the point of collision in global coordinates given a collision index (the deepest collision by default).
+
+Method: get_remainder() → Vector3
+Returns the moving object's remaining movement vector.
+
+Method: get_travel() → Vector3
+Returns the moving object's travel before collision.

@@ -1,0 +1,139 @@
+Document: Rect2
+Path: godot/classes/class_rect2.rst
+Summary: Overview of the Rect2 class.
+---CHUNK---
+Document: Rect2
+Path: godot/classes/class_rect2.rst
+Summary: A 2D axis-aligned bounding box using floating-point coordinates.
+A 2D axis-aligned bounding box using floating-point coordinates.
+---CHUNK---
+Document: Rect2
+Path: godot/classes/class_rect2.rst
+Summary: This section describes the Rect2 built-in type, its properties, common uses, and important considerations regarding its size and boolean evaluation.
+
+The Rect2 built-in Variant type represents an axis-aligned rectangle in a 2D space. It is defined by its position and size, which are Vector2. It is frequently used for fast overlap tests (see intersects()). Although Rect2 itself is axis-aligned, it can be combined with Transform2D to represent a rotated or skewed rectangle.
+
+For integer coordinates, use Rect2i. The 3D equivalent to Rect2 is AABB.
+
+Note: Negative values for size are not supported. With negative size, most Rect2 methods do not work correctly. Use abs() to get an equivalent Rect2 with a non-negative size.
+
+Key Rule: In a boolean context, a Rect2 evaluates to false if both position and size are zero (equal to Vector2.ZERO). Otherwise, it always evaluates to true.
+---CHUNK---
+Document: Math Tutorials Index
+Path: godot/classes/class_rect2.rst
+Summary: Lists math-related tutorials.
+
+Tutorials
+- Math documentation index
+- Vector math
+- Advanced vector math
+---CHUNK---
+Document: Rect2
+Path: godot/classes/class_rect2.rst
+Summary: This section lists the properties of the Rect2 class.
+
+Properties:
+* end (Vector2): Default: Vector2(0, 0)
+* position (Vector2): Default: Vector2(0, 0)
+* size (Vector2): Default: Vector2(0, 0)
+---CHUNK---
+Document: Rect2
+Path: godot/classes/class_rect2.rst
+Summary: This section details the constructors, methods, and operators available for the Rect2 class.
+
+Constructors
+- Rect2()
+- Rect2(from: Rect2)
+- Rect2(from: Rect2i)
+- Rect2(position: Vector2, size: Vector2)
+- Rect2(x: float, y: float, width: float, height: float)
+
+Methods
+- Method: abs() -> Rect2
+- Method: encloses(b: Rect2) -> bool
+- Method: expand(to: Vector2) -> Rect2
+- Method: get_area() -> float
+- Method: get_center() -> Vector2
+- Method: get_support(direction: Vector2) -> Vector2
+- Method: grow(amount: float) -> Rect2
+- Method: grow_individual(left: float, top: float, right: float, bottom: float) -> Rect2
+- Method: grow_side(side: int, amount: float) -> Rect2
+- Method: has_area() -> bool
+- Method: has_point(point: Vector2) -> bool
+- Method: intersection(b: Rect2) -> Rect2
+- Method: intersects(b: Rect2, include_borders: bool = false) -> bool
+- Method: is_equal_approx(rect: Rect2) -> bool
+- Method: is_finite() -> bool
+- Method: merge(b: Rect2) -> Rect2
+
+Operators
+- Operator: !=(right: Rect2) -> bool
+- Operator: *(right: Transform2D) -> Rect2
+- Operator: ==(right: Rect2) -> bool
+---CHUNK---
+Document: Rect2
+Path: godot/classes/class_rect2.rst
+Summary: This section describes the core properties of the Rect2 class: end, position, and size.
+
+Property Descriptions
+
+Vector2 **end** = Vector2(0, 0)
+The ending point. This is usually the bottom-right corner of the rectangle, and is equivalent to `position + size`. Setting this point affects the `size`.
+
+Vector2 **position** = Vector2(0, 0)
+The origin point. This is usually the top-left corner of the rectangle.
+
+Vector2 **size** = Vector2(0, 0)
+The rectangle's width and height, starting from `position`. Setting this value also affects the `end` point. Note: It's recommended setting the width and height to non-negative values, as most methods in Godot assume that the `position` is the top-left corner, and the `end` is the bottom-right corner. To get an equivalent rectangle with non-negative size, use `abs()`.
+---CHUNK---
+Document: Rect2
+Path: godot/classes/class_rect2.rst
+Summary: This section describes the constructors and several core methods of the Rect2 class, including absolute value, enclosure checks, expansion, area calculation, center point retrieval, and support point finding.
+
+Method: Rect2()
+Constructs a Rect2 with its position and size set to Vector2.ZERO.
+
+Method: Rect2(from: Rect2)
+Constructs a Rect2 as a copy of the given Rect2.
+
+Method: Rect2(from: Rect2i)
+Constructs a Rect2 from a Rect2i.
+
+Method: Rect2(position: Vector2, size: Vector2)
+Constructs a Rect2 by position and size.
+
+Method: Rect2(x: float, y: float, width: float, height: float)
+Constructs a Rect2 by setting its position to (x, y), and its size to (width, height).
+
+Method: abs() -> Rect2
+Returns a Rect2 equivalent to this rectangle, with its width and height modified to be non-negative values, and with its position being the top-left corner of the rectangle.
+GDScript:
+    var rect = Rect2(25, 25, -100, -50)
+    var absolute = rect.abs() # absolute is Rect2(-75, -25, 100, 50)
+C#:
+    var rect = new Rect2(25, 25, -100, -50);
+    var absolute = rect.Abs(); // absolute is Rect2(-75, -25, 100, 50)
+Note: It's recommended to use this method when size is negative, as most other methods in Godot assume that the position is the top-left corner, and the end is the bottom-right corner.
+
+Method: encloses(b: Rect2) -> bool
+Returns true if this rectangle completely encloses the b rectangle.
+
+Method: expand(to: Vector2) -> Rect2
+Returns a copy of this rectangle expanded to align the edges with the given to point, if necessary.
+GDScript:
+    var rect = Rect2(0, 0, 5, 2)
+    rect = rect.expand(Vector2(10, 0)) # rect is Rect2(0, 0, 10, 2)
+    rect = rect.expand(Vector2(-5, 5)) # rect is Rect2(-5, 0, 15, 5)
+C#:
+    var rect = new Rect2(0, 0, 5, 2);
+    rect = rect.Expand(new Vector2(10, 0)); // rect is Rect2(0, 0, 10, 2)
+    rect = rect.Expand(new Vector2(-5, 5)); // rect is Rect2(-5, 0, 15, 5)
+
+Method: get_area() -> float
+Returns the rectangle's area. This is equivalent to size.x * size.y. See also has_area().
+
+Method: get_center() -> Vector2
+Returns the center point of the rectangle. This is the same as position + (size / 2.0).
+
+Method: get_support(direction: Vector2) -> Vector2
+Returns the vertex's position of this rect that's the farthest in the given direction. This point is commonly known as the support point in collision detection algorithms.

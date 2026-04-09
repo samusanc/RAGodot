@@ -1,0 +1,140 @@
+Document: Resolution Scaling Tutorial
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: This document explains how to implement resolution scaling in Godot 3D projects.
+---CHUNK---
+Document: Resolution Scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: This document explains how to implement resolution scaling in Godot 3D projects.
+---CHUNK---
+Document: Resolution Scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: Explains the purpose and benefits of resolution scaling in 3D rendering for improving GPU performance.
+Resolution scaling is a technique used to improve GPU performance in modern games by rendering scenes at a resolution lower than the native display resolution. This is particularly useful in GPU-bound scenes, especially on mobile devices with limited performance and power budgets. While resolution scaling can significantly boost performance, it should not be seen as a complete substitute for lowering graphics settings. Developers should consider offering both resolution scaling options and graphics settings in their game menus.
+
+Note: Resolution scaling is not currently supported for 2D rendering but can be simulated using the viewport stretch mode.
+---CHUNK---
+Document: Resolution Scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: This section introduces the resolution scaling options available in Godot Engine's advanced Project Settings.
+
+In the advanced Project Settings' Rendering > Scaling 3D section, you can find several options for 3D resolution scaling.
+---CHUNK---
+Document: Resolution Scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: This section describes the different scaling modes available in Godot 4, including Bilinear, FSR 1.0, and FSR 2.2, and their respective quality, performance, and compatibility characteristics.
+
+Scaling mode:
+*   **Bilinear:** Standard bilinear filtering (default). This is used as a fallback when the current renderer doesn't support FSR 1.0 or FSR 2.2. Available in all renderers.
+*   **FSR 1.0:** AMD FidelityFX Super Resolution 1.0. Slower, but higher quality compared to bilinear scaling. On very slow GPUs, the cost of FSR1 may be too expensive to be worth using it over bilinear scaling. Only available when using the Forward+ renderer.
+*   **FSR 2.2:** AMD FidelityFX Super Resolution 2.2 (since Godot 4.2). Slowest, but even higher quality compared to FSR1 and bilinear scaling. On slow GPUs, the cost of FSR2 may be too expensive to be worth using it over bilinear scaling or FSR1. To match FSR2 performance with FSR1, you need to use a lower resolution scale factor. Only available when using the Forward+ renderer.
+
+FSR1 upscaling works best when coupled with another form of antialiasing. Temporal antialiasing (TAA) or multisample antialiasing (MSAA) should preferably be used in this case, as FXAA does not add temporal information and introduces more blurring to the image.
+
+On the other hand, FSR2 provides its own temporal antialiasing. This means you don't need to enable other antialiasing methods for the resulting image to look smooth. The Use TAA project setting is ignored when FSR2 is used as the 3D scaling method, since FSR2's temporal antialiasing takes priority.
+---CHUNK---
+Document: Resolution Scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: This section explains how the rendering scale affects 3D resolution and performance, providing tables for common screen resolutions.
+
+The **Rendering > Scaling 3D > Scale** setting adjusts the resolution scale. A scale of ``1.0`` represents the full resolution, matching the 3D rendering resolution to the 2D rendering resolution. Scales below ``1.0`` can improve rendering speed at the expense of image clarity and increased aliasing.
+
+The rendering scale can be modified at runtime by accessing the ``scaling_3d_scale`` property of a Viewport node.
+
+Scales above ``1.0`` are used for supersample antialiasing (SSAA), which offers high-quality antialiasing but comes with a significant performance cost and is generally not recommended. For more details on antialiasing, refer to the 3D antialiasing documentation.
+
+The following tables illustrate common screen resolutions, their corresponding 3D rendering resolutions, and the megapixels rendered per frame based on the rendering scale. The rows within each table are ordered from fastest to slowest performance.
+
+Note: The resolution scale is applied per-axis. This means that reducing the scale factor by half will decrease the rendered megapixels by a factor of four, not two. Consequently, extreme scale factors can have a more pronounced performance impact than anticipated.
+
+**1920×1080 (Full HD)**
+*   Resolution scale factor: ``0.50``, 3D rendering resolution: 960×540, Megapixels rendered per frame: 0.52 MPix
+*   Resolution scale factor: ``0.67``, 3D rendering resolution: 1286×723, Megapixels rendered per frame: 0.93 MPix
+*   Resolution scale factor: ``0.75``, 3D rendering resolution: 1440×810, Megapixels rendered per frame: 1.17 MPix
+*   Resolution scale factor: ``0.85``, 3D rendering resolution: 1632×918, Megapixels rendered per frame: 1.50 MPix
+*   Resolution scale factor: ``1.00`` (native), 3D rendering resolution: 1920×1080, Megapixels rendered per frame: 2.07 MPix
+*   Resolution scale factor: ``1.33`` (supersampling), 3D rendering resolution: 2553×1436, Megapixels rendered per frame: 3.67 MPix
+*   Resolution scale factor: ``1.50`` (supersampling), 3D rendering resolution: 2880×1620, Megapixels rendered per frame: 4.67 MPix
+*   Resolution scale factor: ``2.00`` (supersampling), 3D rendering resolution: 3840×2160, Megapixels rendered per frame: 8.29 MPix
+
+**2560×1440 (QHD)**
+*   Resolution scale factor: ``0.50``, 3D rendering resolution: 1280×720, Megapixels rendered per frame: 0.92 MPix
+*   Resolution scale factor: ``0.67``, 3D rendering resolution: 1715×964, Megapixels rendered per frame: 1.65 MPix
+*   Resolution scale factor: ``0.75``, 3D rendering resolution: 1920×1080, Megapixels rendered per frame: 2.07 MPix
+*   Resolution scale factor: ``0.85``, 3D rendering resolution: 2176×1224, Megapixels rendered per frame: 2.66 MPix
+*   Resolution scale factor: ``1.00`` (native), 3D rendering resolution: 2560×1440, Megapixels rendered per frame: 3.69 MPix
+*   Resolution scale factor: ``1.33`` (supersampling), 3D rendering resolution: 3404×1915, Megapixels rendered per frame: 6.52 MPix
+*   Resolution scale factor: ``1.50`` (supersampling), 3D rendering resolution: 3840×2160, Megapixels rendered per frame: 8.29 MPix
+*   Resolution scale factor: ``2.00`` (supersampling), 3D rendering resolution: 5120×2880, Megapixels rendered per frame: 14.75 MPix
+
+**3840×2160 (Ultra HD "4K")**
+*   Resolution scale factor: ``0.50``, 3D rendering resolution: 1920×1080, Megapixels rendered per frame: 2.07 MPix
+*   Resolution scale factor: ``0.67``, 3D rendering resolution: 2572×1447, Megapixels rendered per frame: 3.72 MPix
+*   Resolution scale factor: ``0.75``, 3D rendering resolution: 2880×1620, Megapixels rendered per frame: 4.67 MPix
+*   Resolution scale factor: ``0.85``, 3D rendering resolution: 3264×1836, Megapixels rendered per frame: 5.99 MPix
+*   Resolution scale factor: ``1.00`` (native), 3D rendering resolution: 3840×2160, Megapixels rendered per frame: 8.29 MPix
+*   Resolution scale factor: ``1.33`` (supersampling), 3D rendering resolution: 5107×2872, Megapixels rendered per frame: 14.67 MPix
+*   Resolution scale factor: ``1.50`` (supersampling), 3D rendering resolution: 5760×3240, Megapixels rendered per frame: 18.66 MPix
+*   Resolution scale factor: ``2.00`` (supersampling), 3D rendering resolution: 7680×4320, Megapixels rendered per frame: 33.18 MPix
+---CHUNK---
+Document: Resolution Scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: This section explains how to adjust the sharpness when using FSR scaling modes in Godot's Forward+ renderer.
+
+FSR Sharpness
+This is only available in the Forward+ renderer, not the Mobile or Compatibility renderers.
+
+When using the FSR1 or FSR2 scaling modes, the sharpness can be controlled using the Rendering > Scaling 3D > FSR Sharpness advanced project setting.
+
+The intensity is inverted compared to most other sharpness sliders: lower values will result in a sharper final image, while higher values will reduce the impact of the sharpening filter. 0.0 is the sharpest, while 2.0 is the least sharp. The default value of 0.2 provides a balance between preserving the original image's sharpness and avoiding additional aliasing due to oversharpening.
+
+Note: If you wish to use sharpening when rendering at native resolution, Godot currently doesn't allow using the sharpening component of FSR1 (RCAS) independently from the upscaling component (EASU). As a workaround, you can set the 3D rendering scale to 0.99, set the scaling mode to FSR 1.0 then adjust FSR sharpness as needed. This allows using FSR1 while rendering at a near-native resolution. Alternatively, you can set the scaling mode to FSR 2.2 with the 3D rendering scale set to 1.0 if you have enough GPU headroom. This also provides high-quality temporal antialiasing. The FSR Sharpness setting remains functional in this case.
+---CHUNK---
+Document: resolution_scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: Explains how Godot's 3D resolution scaling affects texture mipmap bias and how to adjust it.
+This is only available in the Forward+ and Mobile renderers, not the Compatibility renderer.
+
+Godot automatically uses a negative texture mipmap bias when the 3D resolution scale is set below 1.0. This allows for better preservation of texture detail at the cost of a grainy appearance on detailed textures.
+
+The texture LOD bias currently affects both 2D and 3D rendering in the same way. However, keep in mind it only has an effect on textures with mipmaps enabled. Textures used in 2D don't have mipmaps enabled by default, which means only 3D rendering is affected unless you enabled mipmaps on 2D textures in the Import dock.
+
+The formula used to determine the texture mipmap bias is: log2f(min(scaling_3d_scale, 1.0)) + custom_texture_mipmap_bias
+
+To counteract the blurriness added by some antialiasing methods, Godot also adds a -0.25 offset when FXAA is enabled, and a -0.5 offset when TAA is enabled. If both are enabled at the same time, a -0.75 offset is used. This mipmap bias offset is applied before the resolution scaling offset, so it does not change depending on resolution scale.
+
+The texture LOD bias can manually be changed by adjusting the Rendering > Textures > Default Filters > Texture Mipmap Bias advanced project setting. It can also be changed at runtime on Viewports by adjusting the texture_mipmap_bias property.
+
+Warning: Adjusting the mipmap LOD bias manually can be useful in certain scenarios, but this should be done carefully to prevent the final image from looking grainy in motion. Negative mipmap LOD bias can also decrease performance due to higher-resolution mips having to be sampled further away. Recommended values for a manual offset are between -0.5 and 0.0. Positive mipmap LOD bias will make mipmapped textures appear blurrier than intended. This may improve performance slightly, but is otherwise not recommended as the loss in visual quality is usually not worth the performance gain.
+
+The example below shows an extreme case, with a mipmap LOD bias of -1.0 and anisotropic filtering disabled to make the difference more noticeable:
+---CHUNK---
+Document: Resolution Scaling Tutorial
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: Provides troubleshooting tips for common issues encountered when implementing resolution scaling in Godot.
+
+Troubleshooting
+
+If you encounter issues with resolution scaling, here are some common problems and their solutions:
+
+*   **UI elements appear blurry or pixelated:** This is often because the UI is being rendered at the scaled resolution and then upscaled back to the native resolution.
+    *   **Solution:** Ensure your UI is designed to be resolution-independent. Use Control nodes that scale appropriately (e.g., `Container` nodes, `TextureRect` with `stretch_mode` set to `Scale` or `Keep Aspect Centered`). Avoid fixed-size UI elements where possible. If you must use fixed sizes, consider rendering the UI separately at the native resolution or using a higher base resolution for UI elements.
+
+*   **Performance issues:** While resolution scaling is intended to improve performance, poorly implemented scaling can sometimes degrade it.
+    *   **Solution:** Profile your game to identify bottlenecks. Ensure that the rendering resolution is significantly lower than the native resolution to achieve performance gains. Check if complex shaders or post-processing effects are disproportionately affecting performance at lower resolutions. Sometimes, certain effects might need to be disabled or simplified at lower resolutions.
+
+*   **Incorrect aspect ratio:** The game world or UI might appear stretched or squashed.
+    *   **Solution:** Verify that your project's viewport settings and the resolution scaling implementation correctly maintain the aspect ratio. Use `Viewport.size` and `Viewport.keep_aspect` properties appropriately. Ensure that any manual scaling calculations preserve the original aspect ratio.
+
+*   **Flickering or tearing:** This can occur if the rendering and display buffers are not synchronized correctly.
+    *   **Solution:** Enable V-Sync in your project settings (`Project -> Project Settings -> Display -> Window -> Vsync -> Enabled`). If you are using multiple viewports or custom rendering techniques, ensure that rendering commands are issued in the correct order and that frame buffers are presented at the appropriate times.
+
+*   **Input lag:** Sometimes, the perceived input lag can increase with resolution scaling, especially if the frame rate is inconsistent.
+    *   **Solution:** Aim for a stable frame rate. Resolution scaling should ideally increase the frame rate, reducing input lag. If input feels sluggish, check for other performance bottlenecks or input processing issues unrelated to resolution scaling. Ensure your game loop is optimized.
+
+*   **Compatibility with specific hardware or drivers:** Some graphics drivers or older hardware might have quirks with certain rendering techniques.
+    *   **Solution:** Test your implementation on a variety of target hardware. If specific issues arise, consider providing an option to disable resolution scaling or offering alternative rendering methods for affected users. Keep your Godot engine version updated, as rendering improvements are frequently added.
+---CHUNK---
+Document: Resolution Scaling
+Path: godot/tutorials/3d/resolution_scaling.rst
+Summary: Explains why decreasing resolution scale might not improve performance and suggests alternative bottlenecks.
+If performance doesn't increase much when decreasing resolution scale to a value like 0.5, it likely means the performance bottleneck is elsewhere in your scene. For example, your scene could have too many draw calls, causing a CPU bottleneck to occur. Likewise, you may have too many graphics effects enabled for your GPU to handle (such as SDFGI, SSAO or SSR). See the performance tutorials for more information.

@@ -1,0 +1,265 @@
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: This document describes the JSON file used by GDExtension to define the interface between GDScript and C++.
+
+The GDExtension interface is defined by a JSON file. This file specifies the classes, methods, properties, and signals that are exposed from your C++ library to GDScript. This allows for a clear and structured way to manage the communication between the two languages.
+
+The JSON file acts as a contract, ensuring that both GDScript and your C++ code understand the available functionalities and how to call them. It's a crucial part of setting up a GDExtension, enabling seamless integration and interaction.
+
+Key Rule: The JSON file must be correctly formatted according to the GDExtension specification for the interface to be loaded and recognized by Godot. Any syntax errors or missing required fields will prevent the extension from working as expected.
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Explains the purpose and usage of the gdextension_interface.json file for GDExtension language bindings.
+
+The ``gdextension_interface.json`` file serves as the definitive source for the C API that Godot utilizes for communication with GDExtensions.
+
+You can generate this file using the Godot executable with the following command:
+
+shell:
+    godot --headless --dump-gdextension-interface-json
+
+This file is designed for GDExtension language bindings to generate code that interacts with this API in a manner suitable for each specific language.
+
+Note: This file should not be confused with ``extension_api.json``, which also assists GDExtension language bindings but contains information about Godot's exposed classes and methods. ``gdextension_interface.json`` is lower-level and facilitates interaction with those higher-level constructs.
+
+For languages that support C extensions or provide tools for C code interaction, the Godot executable can also dump a generated C header file:
+
+shell:
+    godot --headless --dump-gdextension-interface
+
+Note: The generated header file maintains compatibility with earlier versions found in Godot 4.5 and prior, including some name typos to ensure backward compatibility.
+
+The objective of this documentation is to detail the JSON format for GDExtension language bindings that intend to perform their own code generation based on this JSON data.
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: This section describes the overall structure of the GDExtension interface JSON file, detailing its three main sections and versioning strategy.
+The JSON file is broken up into 3 sections:
+
+- The header, which includes some miscellaneous information at the top-level of the JSON file.
+- The types key, which defines all the types used in the GDExtension interface.
+- The interface key, which defines all the function pointers that can be loaded via the GDExtensionInterfaceGetProcAddress function pointer, which is passed to all GDExtensions when they are loaded.
+
+There is a complete JSON schema included in Godot's source code.
+
+Even though we may add new types and interface functions with each minor release of Godot, we strive to never change them in a backwards incompatible way, or remove them. Every interface function is labeled with the version of Godot it was introduced in (the since key), so you can always use the latest version of the file, and simply refrain from using anything in versions of Godot that are newer than the version you are targeting.
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the "header" section of the GDExtension interface JSON file, including copyright, schema, and format version keys.
+
+The "header" is made up of 3 miscellaneous keys at the top-level of the file:
+
+*   `_copyright`: The standard copyright and license text that Godot includes in all source code files.
+*   `$schema`: Points to the JSON schema relative to this file. It can be useful to place the schema in the same directory, if you're viewing it with a code editor that understands JSON schema.
+*   `format_version`: An integer for the version of the file format (meaning the schema). Right now, there is only one format version (1). If we ever change the file format in an incompatible way, we will increment this number. This doesn't reflect the version of the data in the file (so it won't change between Godot versions), only its format. Hopefully, we'll never have to use it, but it allows code generators to error early if they encounter an unexpected value here.
+---CHUNK---
+Document: gdextension_interface_json_file
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the structure and types used within the GDExtension interface JSON configuration file.
+The ``types`` section is an array of types used by other types and interface functions. Types must be evaluated in order, with later types potentially referencing earlier ones.
+
+Built-in types not explicitly listed in the JSON include:
+- void
+- int8_t
+- uint8_t
+- int16_t
+- uint16_t
+- int32_t
+- uint32_t
+- int64_t
+- uint64_t
+- size_t (uint32_t on 32-bit, uint64_t on 64-bit)
+- char
+- char16_t
+- char32_t
+- wchar_t
+- float
+- double
+These correspond to their C equivalents.
+
+Type modifiers include:
+- ``*`` (e.g., ``int8_t*``) for pointers.
+- ``const`` (e.g., ``const int8_t*``) for constant types.
+
+Each type defined in the JSON file can be one of 5 "kinds":
+- enum
+- handle
+- alias
+- struct
+- function
+
+All types share the following keys:
+- ``kind`` (required): The type's classification.
+- ``name`` (required): A unique C identifier for the type.
+- ``description``: An array of strings, each representing a line of documentation for the type.
+- ``deprecated``: An object detailing deprecation, including ``since`` (version deprecated), ``message`` (explanation), and optionally ``replacement`` (suggested alternative).
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the structure of enum definitions within the GDExtension interface JSON file.
+Enums are 32-bit integers with a fixed set of possible values. In C, they could be represented as an enum.
+
+They have the following keys:
+- is_bitfield: If true, this enum is a bitfield, where the enum values can be bitwise OR'd together. It is false by default.
+- values: The array of fixed values for this enum, each with a name, value, and description.
+
+An enum should be represented as an int32_t, unless is_bitfield is true, in which case a uint32_t should be used.
+
+Example:
+GDScript:
+{
+    "name": "GDExtensionInitializationLevel",
+    "kind": "enum",
+    "values": [
+        {
+            "name": "GDEXTENSION_INITIALIZATION_CORE",
+            "value": 0
+        },
+        {
+            "name": "GDEXTENSION_INITIALIZATION_SERVERS",
+            "value": 1
+        },
+        {
+            "name": "GDEXTENSION_INITIALIZATION_SCENE",
+            "value": 2
+        },
+        {
+            "name": "GDEXTENSION_INITIALIZATION_EDITOR",
+            "value": 3
+        },
+        {
+            "name": "GDEXTENSION_MAX_INITIALIZATION_LEVEL",
+            "value": 4
+        }
+    ]
+}
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the structure and properties of "handle" types within GDExtension interface definitions.
+Handles are pointers to opaque structs, conceptually similar to void pointers in C. They have the following properties:
+- is_const: A boolean indicating if the handle is a "const pointer", meaning its internal data cannot be modified. Defaults to false.
+- is_uninitialized: A boolean indicating if the handle points to uninitialized memory that can be later initialized via interface functions. Defaults to false.
+- parent: The name of another handle type, used when this handle is a const or uninitialized version of the parent. This property is only relevant if is_const or is_uninitialized is true.
+Handles occupy the same memory size as pointers on the target architecture.
+
+Example:
+GDScript:
+```json
+{
+    "name": "GDExtensionStringNamePtr",
+    "kind": "handle"
+}
+```
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the structure of an alias definition within the GDExtension interface JSON file.
+Aliases are alternative names for a type, similar to `typedef` in C. An alias definition has one key:
+- type: The type the alias is an alternative name for. This can include modifiers.
+Aliases should use the same C type as the type they refer to.
+
+Example:
+GDScript:
+```json
+{
+    "name": "GDExtensionInt",
+    "kind": "alias",
+    "type": "int64_t"
+}
+```
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the structure of JSON definitions for C structs used in GDExtension.
+Structs represent C ``struct``s, which are blocks of memory composed of members in a specific order, adhering to C's layout and alignment rules.
+Structs have one additional key:
+- members: An array of objects, each containing a name, type (which can include modifiers), and a description.
+
+Example:
+GDScript:
+```json
+{
+    "name": "GDExtensionCallError",
+    "kind": "struct",
+    "members": [
+        {
+            "name": "error",
+            "type": "GDExtensionCallErrorType"
+        },
+        {
+            "name": "argument",
+            "type": "int32_t"
+        },
+        {
+            "name": "expected",
+            "type": "int32_t"
+        }
+    ]
+}
+```
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the structure of function definitions within the GDExtension interface JSON configuration.
+Functions represent C function pointer types, with a list of arguments and a return type, and should follow the same size and alignment requirements as C function pointers.
+
+They have the following members:
+- return_value: An object which has a type (which may include modifiers) and description. If the function has no return value, this will be omitted.
+- arguments (required): An array of function arguments which each has a type (which may include modifiers), name, and description.
+
+Example
+GDScript:
+{
+    "name": "GDExtensionPtrConstructor",
+    "kind": "function",
+    "arguments": [
+        {
+            "name": "p_base",
+            "type": "GDExtensionUninitializedTypePtr"
+        },
+        {
+            "name": "p_args",
+            "type": "const GDExtensionConstTypePtr*"
+        }
+    ]
+}
+---CHUNK---
+Document: GDExtension Interface JSON
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: Describes the structure and keys within the "interface" section of a GDExtension JSON configuration file.
+The ``interface`` section of the JSON file lists interface functions that can be loaded by name using the ``GDExtensionInterfaceGetProcAddress`` function pointer.
+
+Interface functions share some keys with types, including:
+- ``name`` (required): The name of the interface function.
+- ``deprecated``: Indicates if the function is deprecated.
+- ``description``: A textual description of the function.
+
+They also include:
+- ``return_value`` (required): Describes the function's return value, following the same format as function types.
+- ``arguments`` (required): Describes the function's arguments, following the same format as function types.
+
+Unique keys for interface functions include:
+- ``since`` (required): The Godot version when this interface function was introduced.
+- ``see``: An array of strings for external references, such as Godot source code names or documentation URLs.
+- ``legacy_type_name``: The legacy name for the function pointer type in the header generated by Godot. This is used for backward compatibility with headers from Godot 4.5 or earlier and should only be used if maintaining compatibility with the old header is necessary.
+---CHUNK---
+Document: GDExtension Interface JSON File
+Path: godot/tutorials/scripting/gdextension/gdextension_interface_json_file.rst
+Summary: This section provides an example of a JSON file used to define GDExtension interface functions, specifically detailing the structure for the `get_godot_version` function.
+
+The JSON structure defines an interface function with its name, arguments, description, version information, and deprecation status.
+
+Example of `get_godot_version` function definition:
+- name: get_godot_version
+- arguments:
+    - name: r_godot_version
+      type: GDExtensionGodotVersion*
+      description: A pointer to the structure to write the version information into.
+- description: Gets the Godot version that the GDExtension was loaded into.
+- since: 4.1
+- deprecated:
+    - since: 4.5
+      replace_with: get_godot_version2

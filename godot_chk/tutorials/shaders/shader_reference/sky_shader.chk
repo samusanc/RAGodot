@@ -1,0 +1,173 @@
+Document: Sky Shader Tutorial
+Path: godot/tutorials/shaders/shader_reference/sky_shader.rst
+Summary: This document provides a reference for the built-in Sky Shader in Godot Engine.
+
+The Sky Shader is a specialized shader used for rendering the sky in Godot. It allows for procedural generation of skyboxes and backgrounds, offering a flexible and efficient way to create atmospheric effects.
+
+Key Features:
+
+*   **Procedural Generation:** The shader generates sky visuals algorithmically, eliminating the need for large texture assets.
+*   **Customization:** It supports various parameters for controlling color, lighting, atmospheric scattering, and other visual aspects.
+*   **Performance:** Optimized for real-time rendering, making it suitable for games and interactive applications.
+
+Shader Parameters:
+
+The Sky Shader exposes several parameters that can be adjusted to achieve different sky appearances. These typically include:
+
+*   **Sun Color:** The color of the sun.
+*   **Sky Color:** The base color of the sky.
+*   **Ground Color:** The color of the horizon or ground.
+*   **Sun Elevation:** The vertical position of the sun in the sky.
+*   **Atmosphere Thickness:** Controls the density of the atmosphere, affecting scattering.
+*   **Rayleigh Scattering:** Simulates the scattering of light by small particles in the atmosphere (e.g., blue sky).
+*   **Mie Scattering:** Simulates the scattering of light by larger particles (e.g., haze, clouds).
+*   **Exposure:** Adjusts the overall brightness of the sky.
+
+Usage:
+
+To use the Sky Shader, you typically create a new ShaderMaterial resource, assign the built-in Sky Shader to it, and then configure the parameters in the Inspector panel. This material can then be applied to a Sky node or a MeshInstance with a suitable geometry (like a SphereMesh for a skybox).
+
+Example Configuration (Conceptual):
+
+*   Set **Sun Color** to a bright yellow.
+*   Set **Sky Color** to a light blue.
+*   Set **Ground Color** to a darker blue or gray.
+*   Adjust **Sun Elevation** to simulate sunrise, noon, or sunset.
+*   Tweak **Rayleigh Scattering** and **Mie Scattering** to control the color gradient and haze.
+
+The Sky Shader is a powerful tool for creating dynamic and visually appealing skies without relying on pre-rendered textures, offering significant advantages in terms of flexibility and memory usage.
+---CHUNK---
+Document: Sky Shaders
+Path: godot/tutorials/shaders/shader_reference/sky_shader.rst
+Summary: This document explains the purpose, usage, and optimization techniques for Godot's sky shaders.
+Sky shaders are specialized shaders used for rendering sky backgrounds and updating radiance cubemaps for image-based lighting (IBL). They feature a single processing function, `sky()`.
+
+Sky shaders are utilized in three primary scenarios:
+* Drawing the sky when a Sky object is set as the scene's background.
+* Updating the radiance cubemap used for ambient color and reflections when a Sky object is employed.
+* Rendering lower-resolution subpasses that can be incorporated into the high-resolution background or cubemap passes.
+
+While a sky shader can execute up to six times per frame, practical usage is typically less frequent. The radiance cubemap does not require per-frame updates, and not all subpasses may be active. The `AT_*_PASS` boolean constants can be used within the shader to differentiate execution contexts. For instance, the `AT_CUBEMAP_PASS` can be checked to conditionally set a simple color for the cubemap instead of performing computationally intensive sky calculations, as demonstrated in the example:
+
+```glsl
+shader_type sky;
+
+void sky() {
+    if (AT_CUBEMAP_PASS) {
+        // Sets the radiance cubemap to a nice shade of blue instead of doing
+        // expensive sky calculations
+        COLOR = vec3(0.2, 0.6, 1.0);
+    } else {
+        // Do expensive sky calculations for background sky only
+        COLOR = get_sky_color(EYEDIR);
+    }
+}
+```
+
+When rendering the visible sky background, the shader is invoked for all non-occluded screen fragments. Conversely, for the background's subpasses, the shader processes every pixel within the subpass.
+
+For radiance cubemap updates, the sky shader is called for each pixel of the cubemap, but only when an update is necessary. Updates are triggered by changes in shader parameters. The following conditions necessitate a radiance cubemap update:
+* Usage of the `TIME` variable.
+* Usage of `POSITION` when the camera position changes.
+* Usage of any `LIGHTX_*` properties when a `DirectionalLight3D` is modified.
+* Modification of any uniform variable within the shader.
+* Screen resizing when either subpass is utilized.
+
+It is advisable to minimize unnecessary radiance cubemap updates. If a per-frame update is required, ensure the `Sky`'s `process_mode` property is set to `PROCESS_MODE_REALTIME`.
+
+The `process_mode` property specifically influences radiance cubemap rendering. The visible sky is always rendered by executing the fragment shader for every pixel, which can incur significant overhead for complex shaders. If the sky is static or changes slowly, rendering the full shader every frame can be inefficient. A more optimized approach involves rendering the complete sky into the radiance cubemap once and then sampling from this cubemap for the visible sky. For entirely static skies, this rendering process needs to occur only a single time.
+
+The following code illustrates rendering the full sky into the radiance cubemap and subsequently sampling from it for the visible sky display:
+
+```glsl
+shader_type sky;
+
+void sky() {
+    if (AT_CUBEMAP_PASS) {
+        vec3 dir = EYEDIR;
+
+        vec4 col = vec4(0.0);
+
+        // Complex color calculation
+
+        COLOR = col.xyz;
+        ALPHA = 1.0;
+    } else {
+        COLOR = texture(RADIANCE, EYEDIR).rgb;
+    }
+}
+```
+
+This method confines complex calculations to the cubemap pass, which can be further optimized by adjusting the `Sky`'s `process_mode` and `radiance_size` properties to achieve the desired balance between performance and visual quality.
+---CHUNK---
+Document: Sky Shader Tutorial
+Path: godot/tutorials/shaders/shader_reference/sky_shader.rst
+Summary: This section explains the render modes available for sky shaders in Godot, including subpass rendering for performance optimization.
+
+Render modes
+Subpasses allow you to do more expensive calculations at a lower resolution to speed up your shaders. For example the following code renders clouds at a lower resolution than the rest of the sky:
+
+GDScript:
+```glsl
+shader_type sky;
+render_mode use_half_res_pass;
+
+void sky() {
+    if (AT_HALF_RES_PASS) {
+        // Run cloud calculation for 1/4 of the pixels
+        vec4 color = generate_clouds(EYEDIR);
+        COLOR = color.rgb;
+        ALPHA = color.a;
+    } else {
+        // At full resolution pass, blend sky and clouds together
+        vec3 color = generate_sky(EYEDIR);
+        COLOR = color + HALF_RES_COLOR.rgb * HALF_RES_COLOR.a;
+    }
+}
+```
+
+Render mode use_half_res_pass: Allows the shader to write to and access the half resolution pass.
+Render mode use_quarter_res_pass: Allows the shader to write to and access the quarter resolution pass.
+Render mode disable_fog: If used, fog will not affect the sky.
+---CHUNK---
+Document: Sky Shader
+Path: godot/tutorials/shaders/shader_reference/sky_shader.rst
+Summary: Explains the meaning of 'in' and 'out' qualifiers for built-in shader variables.
+Built-ins
+Values marked as "in" are read-only. Values marked as "out" can optionally be written to and will not necessarily contain sensible values. Samplers cannot be written to so they are not marked.
+---CHUNK---
+Document: Sky Shader Global Built-ins
+Path: godot/tutorials/shaders/shader_reference/sky_shader.rst
+Summary: This section details the global built-in variables available in Godot's Sky Shaders.
+Global built-ins are available everywhere, including in custom functions.
+
+There are 4 LIGHTX lights, accessed as LIGHT0, LIGHT1, LIGHT2, and LIGHT3.
+
+*   **TIME** (float): Global time since the engine has started, in seconds. It repeats after every 3,600 seconds (which can be changed with the ProjectSettings.rendering.limits.time.time_rollover_secs setting). It's affected by Engine.time_scale but not by pausing. If you need a TIME variable that is not affected by time scale, add your own global shader uniform and update it each frame.
+*   **POSITION** (vec3): Camera position, in world space.
+*   **RADIANCE** (samplerCube): Radiance cubemap. Can only be read from during the background pass. Check !AT_CUBEMAP_PASS before using.
+*   **AT_HALF_RES_PASS** (bool): true when rendering to the half resolution pass.
+*   **AT_QUARTER_RES_PASS** (bool): true when rendering to the quarter resolution pass.
+*   **AT_CUBEMAP_PASS** (bool): true when rendering to the radiance cubemap.
+*   **LIGHTX_ENABLED** (bool): true if LIGHTX is visible and in the scene. If false, other light properties may be garbage.
+*   **LIGHTX_ENERGY** (float): Energy multiplier for LIGHTX.
+*   **LIGHTX_DIRECTION** (vec3): Direction that LIGHTX is facing.
+*   **LIGHTX_COLOR** (vec3): Color of LIGHTX.
+*   **LIGHTX_SIZE** (float): Angular diameter of LIGHTX in the sky. Expressed in radians. For reference, the sun from earth is about 0.0087 radians (0.5 degrees).
+*   **PI** (float): A PI constant (3.141592). The ratio of a circle's circumference to its diameter and the number of radians in a half turn.
+*   **TAU** (float): A TAU constant (6.283185). Equivalent to PI * 2 and the number of radians in a full turn.
+*   **E** (float): An E constant (2.718281). Euler's number, the base of the natural logarithm.
+---CHUNK---
+Document: Sky Shader Built-ins
+Path: godot/tutorials/shaders/shader_reference/sky_shader.rst
+Summary: This section describes the built-in variables available for use within Godot's Sky Shaders.
+
+Built-in Variables:
+* EYEDIR (in vec3): Normalized direction of the current pixel. Use this as your basic direction for procedural effects.
+* SCREEN_UV (in vec2): Screen UV coordinate for the current pixel. Used to map a texture to the full screen.
+* SKY_COORDS (in vec2): Sphere UV. Used to map a panorama texture to the sky.
+* HALF_RES_COLOR (in vec4): Color value of the corresponding pixel from the half resolution pass. Uses linear filter.
+* QUARTER_RES_COLOR (in vec4): Color value of the corresponding pixel from the quarter resolution pass. Uses linear filter.
+* COLOR (out vec3): Output color.
+* ALPHA (out float): Output alpha value, can only be used in subpasses.
+* FOG (out vec4):

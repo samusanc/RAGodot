@@ -1,0 +1,132 @@
+Document: RefCounted
+Path: godot/classes/class_refcounted.rst
+Summary: Base class for objects that use reference counting for memory management.
+
+RefCounted is the base class for objects that use reference counting for memory management. This means that instead of manually freeing memory, the object will be freed when no references to it exist. This is useful for complex data structures or objects that are shared between multiple parts of your game.
+
+Inherits: Object
+---CHUNK---
+Document: RefCounted
+Path: godot/classes/class_refcounted.rst
+Summary: Base class for reference-counted objects in Godot.
+
+RefCounted is the base class for objects that manage their own memory using reference counting. This means that instead of manually freeing memory, the object keeps track of how many references point to it. When the reference count drops to zero, the object is automatically freed. This is a common pattern in many programming languages and game engines to prevent memory leaks and simplify memory management.
+
+Inherits: Object
+
+Inherited By: AESContext, AStar2D, AStar3D, AStarGrid2D, AudioEffectInstance, AudioSample, AudioSamplePlayback, AudioStreamPlayback, CameraFeed, CharFXTransform, ConfigFile, Crypto, DirAccess, DTLSServer, EditorContextMenuPlugin, EditorDebuggerPlugin, EditorDebuggerSession, EditorExportPlatform, EditorExportPlugin, EditorExportPreset, EditorFeatureProfile, EditorFileSystemImportFormatSupportQuery, EditorInspectorPlugin, EditorResourceConversionPlugin, EditorResourcePreviewGenerator, EditorResourceTooltipPlugin, EditorSceneFormatImporter, EditorScenePostImport, EditorScenePostImportPlugin, EditorScript, EditorTranslationParserPlugin, EncodedObjectAsID, ENetConnection, EngineProfiler, Expression, FileAccess, GDScriptTextDocument, GDScriptWorkspace, GLTFObjectModelProperty, HashingContext, HMACContext, HTTPClient, ImageFormatLoader, JavaClass, JavaObject, JavaScriptObject, KinematicCollision2D, KinematicCollision3D, Lightmapper, Logger, MeshConvexDecompositionSettings, MeshDataTool, MultiplayerAPI, Mutex, NavigationPathQueryParameters2D, NavigationPathQueryParameters3D, NavigationPathQueryResult2D, NavigationPathQueryResult3D, Node3DGizmo, OggPacketSequencePlayback, OpenXRAPIExtension, OpenXRFutureResult, OpenXRSpatialCapabilityConfigurationBaseHeader, OpenXRSpatialComponentData, OpenXRStructureBase, PackedDataContainerRef, PacketPeer, PCKPacker, PhysicsPointQueryParameters2D, PhysicsPointQueryParameters3D, PhysicsRayQueryParameters2D, PhysicsRayQueryParameters3D, PhysicsShapeQueryParameters2D, PhysicsShapeQueryParameters3D, PhysicsTestMotionParameters2D, PhysicsTestMotionParameters3D, PhysicsTestMotionResult2D, PhysicsTestMotionResult3D, RandomNumberGenerator, RDAccelerationStructureGeometry, RDAttachmentFormat, RDFramebufferPass, RDPipelineColorBlendState, RDPipelineColorBlendStateAttachment, RDPipelineDepthStencilState, RDPipelineMultisampleState, RDPipelineRasterizationState, RDPipelineSpecializationConstant, RDSamplerState, RDShaderSource, RDTextureFormat, RDTextureView, RDUniform, RDVertexAttribute, RegEx, RegExMatch, RenderSceneBuffers, RenderSceneBuffersConfiguration, Resource, ResourceFormatLoader, ResourceFormatSaver, ResourceImporter, SceneState, SceneTreeTimer, ScriptBacktrace, Semaphore, SkinReference, SocketServer, StreamPeer, SurfaceTool, TextLine, TextParagraph, TextServer, Thread, TLSOptions, TranslationDomain, TriangleMesh, Tween, Tweener, UDPServer, UPNP, UPNPDevice, WeakRef, WebRTCPeerConnection, XMLParser, XRInterface, XRPose, XRTracker, ZIPPacker, ZIPReader
+---CHUNK---
+Document: RefCounted
+Path: godot/classes/class_refcounted.rst
+Summary: Base class for reference-counted objects that are automatically freed when no longer in use.
+Inherits: Object
+
+RefCounted is the base class for any object that keeps a reference count. Resource and many other helper objects inherit this class.
+
+Unlike other Object types, RefCounted instances keep an internal reference counter so that they are automatically released when no longer in use, and only then. RefCounted instances therefore do not need to be freed manually with Object.free().
+
+RefCounted instances caught in a cyclic reference will not be freed automatically. For example, if a node holds a reference to instance A, which directly or indirectly holds a reference back to A, A's reference count will be 2. Destruction of the node will leave A dangling with a reference count of 1, and there will be a memory leak. To prevent this, one of the references in the cycle can be made weak with @GlobalScope.weakref().
+
+In the vast majority of use cases, instantiating and using RefCounted-derived types is all you need to do. The methods provided in this class are only for advanced users, and can cause issues if misused.
+
+Note: In C#, reference-counted objects will not be freed instantly after they are no longer in use. Instead, garbage collection will run periodically and will free reference-counted objects that are no longer in use. This means that unused ones will remain in memory for a while before being removed.
+---CHUNK---
+Document: RefCounted
+Path: godot/classes/class_refcounted.rst
+Summary: Provides a basic reference counting mechanism for objects.
+
+RefCounted is a base class that provides a basic reference counting mechanism. This is useful for objects that are shared between multiple parts of your game and need to be deallocated automatically when no longer in use.
+
+When you inherit from RefCounted, you get two methods: `reference()` and `unreference()`.
+
+- `reference()`: Increments the reference count.
+- `unreference()`: Decrements the reference count.
+
+When the reference count reaches zero, the object is automatically freed.
+
+Key Rule: RefCounted objects are reference-counted. You must manually call `reference()` when you want to keep a reference to the object and `unreference()` when you are done with it. If you forget to call `unreference()`, the object will never be freed, leading to a memory leak.
+
+Example:
+
+GDScript:
+```gdscript
+extends RefCounted
+
+var data = "some data"
+
+func _init():
+    print("RefCounted object created")
+
+func _destroy():
+    print("RefCounted object destroyed")
+
+var my_ref = MyRefCounted.new()
+print("Initial reference count: ", my_ref.get_reference_count()) # Output: 1
+
+var another_ref = my_ref
+another_ref.reference() # Increment reference count
+print("Reference count after another_ref: ", my_ref.get_reference_count()) # Output: 2
+
+another_ref.unreference() # Decrement reference count
+print("Reference count after unreference: ", my_ref.get_reference_count()) # Output: 1
+
+my_ref.unreference() # Decrement reference count
+print("Reference count after final unreference: ", my_ref.get_reference_count()) # Output: 0 (object will be freed)
+```
+
+C#:
+```csharp
+using Godot;
+using System;
+
+public class MyRefCounted : RefCounted
+{
+    public MyRefCounted()
+    {
+        GD.Print("RefCounted object created");
+    }
+
+    public override void _Destroy()
+    {
+        GD.Print("RefCounted object destroyed");
+    }
+}
+
+public class Example : Node
+{
+    public override void _Ready()
+    {
+        MyRefCounted myRef = new MyRefCounted();
+        GD.Print($"Initial reference count: {myRef.GetReferenceCount()}"); // Output: 1
+
+        MyRefCounted anotherRef = myRef;
+        anotherRef.Reference(); // Increment reference count
+        GD.Print($"Reference count after anotherRef: {myRef.GetReferenceCount()}"); // Output: 2
+
+        anotherRef.Unreference(); // Decrement reference count
+        GD.Print($"Reference count after Unreference: {myRef.GetReferenceCount()}"); // Output: 1
+
+        myRef.Unreference(); // Decrement reference count
+        GD.Print($"Reference count after final Unreference: {myRef.GetReferenceCount()}"); // Output: 0 (object will be freed)
+    }
+}
+```
+---CHUNK---
+Document: RefCounted
+Path: godot/classes/class_refcounted.rst
+Summary: Provides methods for managing reference counts in Godot objects.
+
+Method: get_reference_count() -> int
+Returns the current reference count.
+
+Method: init_ref() -> bool
+Initializes the internal reference counter. Use this only if you really know what you are doing.
+Returns whether the initialization was successful.
+
+Method: reference() -> bool
+Increments the internal reference counter. Use this only if you really know what you are doing.
+Returns true if the increment was successful, false otherwise.
+
+Method: unreference() -> bool
+Decrements the internal reference counter. Use this only if you really know what you are doing.
+Returns true if the object should be freed after the decrement, false otherwise.

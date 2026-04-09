@@ -1,0 +1,174 @@
+Document: First 3D Game Tutorial
+Path: godot/getting_started/first_3d_game/05.spawning_mobs.rst
+Summary: This section explains how to spawn mobs in the game.
+
+This tutorial section covers spawning mobs in your first 3D game.
+
+GDScript:
+```gdscript
+# Example GDScript for spawning mobs
+extends Node
+
+var mob_scene = preload("res://mob.tscn")
+
+func _ready():
+    # Spawn the first mob
+    spawn_mob()
+
+func spawn_mob():
+    var mob_instance = mob_scene.instance()
+    add_child(mob_instance)
+
+    # Position the mob randomly
+    var random_x = rand_range(-50, 50)
+    var random_z = rand_range(-50, 50)
+    mob_instance.translation = Vector3(random_x, 0, random_z)
+```
+
+This GDScript code demonstrates how to preload a mob scene and instance it. The `spawn_mob` function adds the mob as a child node and positions it randomly within a defined area.
+
+Key Rule: Ensure the mob scene path is correct in the `preload` function.
+
+The process involves:
+1. Preloading the mob scene.
+2. Instancing the scene to create a new mob.
+3. Adding the mob instance as a child node to the current node.
+4. Setting the mob's `translation` property to a random position within the game world.
+
+This method allows for dynamic creation and placement of enemies or other game entities during runtime.
+---CHUNK---
+Document: Spawning monsters
+Path: godot/getting_started/first_3d_game/05.spawning_mobs.rst
+Summary: This section explains how to change the game's resolution in Godot Engine.
+Open the `Main` scene by double-clicking `main.tscn` in the FileSystem dock.
+
+To change the game resolution from the default `1152x648` to `720x540`, navigate to *Project -> Project Settings*.
+
+If the *Input Map* tab is open, switch to the *General* tab.
+
+In the left-hand menu, go to *Display -> Window*. On the right side, set the *Viewport Width* to `720` and the *Viewport Height* to `540`.
+---CHUNK---
+Document: first_3d_game
+Path: godot/getting_started/first_3d_game/05.spawning_mobs.rst
+Summary: This section explains how to create a spawn path for mobs in a 3D game using PathFollow3D and placeholder meshes to visualize the path around the camera's view.
+Creating the spawn path
+Like you did in the 2D game tutorial, you're going to design a path and use a PathFollow3D node to sample random locations on it.
+
+In 3D though, it's a bit more complicated to draw the path. We want it to be around the game view so monsters appear right outside the screen. But if we draw a path, we won't see it from the camera preview.
+
+To find the view's limits, we can use some placeholder meshes. Your viewport should still be split into two parts, with the camera preview at the bottom. If that isn't the case, press Ctrl + 2 (Cmd + 2 on macOS) to split the view into two. Select the Camera3D node and click the *Preview* checkbox in the bottom viewport.
+---CHUNK---
+Document: godot/getting_started/first_3d_game/05.spawning_mobs.rst
+Path: godot/getting_started/first_3d_game/05.spawning_mobs.rst
+Summary: This section explains how to add placeholder cylinders, create a Path3D node, and set up a PathFollow3D node to define spawn locations for mobs in a Godot 3D game.
+
+Add a Node3D as a child of the Main node and name it Cylinders. This node will group the cylinders.
+Add a MeshInstance3D as a child of Cylinders.
+In the Inspector, assign a CylinderMesh to the Mesh property of the MeshInstance3D.
+Set the top viewport to the top orthogonal view (press 7 on the numpad).
+Toggle the grid view by going to the View menu in the toolbar and clicking View Grid.
+Enable grid snap by clicking the magnet icon in the toolbar or pressing Y.
+Move the cylinder so it is just outside the camera's view in the top-left corner.
+Duplicate the cylinder node (Ctrl+D or Cmd+D).
+Move the duplicated cylinder down along the blue Z axis until it is outside the camera's preview.
+Select both cylinders by holding Shift and clicking on them.
+Duplicate the selected cylinders.
+Move the new cylinders to the right by dragging the red X axis.
+To make the cylinders stand out, assign them a new material. Materials define surface properties like color and reflectivity.
+Select all four MeshInstance3D nodes in the Scene dock (click the first, Shift-click the last).
+In the Inspector, expand the Material section and assign a StandardMaterial3D to slot 0.
+Click the sphere icon to open the material resource.
+Expand the Albedo section.
+Set the color to a bright orange or another color that contrasts with the background.
+Fold the Cylinders node in the Scene dock by clicking the grey arrow next to it. You can toggle its visibility by clicking the eye icon next to Cylinders.
+Add a Path3D node as a child of the Main node.
+In the toolbar, click the Add Point tool (icon with a green "+" sign).
+Note: You can hover over any icon to see a tooltip describing the tool.
+Click in the center of each cylinder to create a point on the path.
+Click the Close Curve icon in the toolbar to close the path.
+If any point is misplaced, click and drag it to reposition.
+Add a PathFollow3D node as a child of the Path3D node.
+Rename the Path3D node to SpawnPath and the PathFollow3D node to SpawnLocation for clarity.
+This setup is now ready for coding the spawn mechanism.
+---CHUNK---
+Document: first_3d_game/05.spawning_mobs
+Path: godot/getting_started/first_3d_game/05.spawning_mobs.rst
+Summary: This section explains how to spawn mobs randomly in a Godot game using timers and path following.
+
+To spawn mobs randomly, first attach a new script to the "Main" node. Export a variable named `mob_scene` of type `PackedScene` to the Inspector. This allows you to assign the mob scene file (e.g., `mob.tscn`) in the editor.
+
+GDScript:
+```gdscript
+extends Node
+
+@export var mob_scene: PackedScene
+```
+
+C#:
+```csharp
+using Godot;
+
+public partial class Main : Node
+{
+    [Export]
+    public PackedScene MobScene { get; set; }
+}
+```
+
+Next, add a Timer node as a child of "Main" and name it "MobTimer". In the Inspector, set its "Wait Time" to 0.5 seconds and enable "Autostart".
+
+Timers emit a "timeout" signal when their wait time elapses. Connect this signal from "MobTimer" to the "Main" node. This will create a new function, `_on_mob_timer_timeout()`, in your script.
+
+Inside this function, implement the mob spawning logic:
+1. Instantiate the mob scene using the exported `mob_scene` variable.
+2. Select a random position on the "SpawnPath" using a `PathFollow3D` node. Set its `progress_ratio` to a random float between 0 and 1 using `randf()`.
+3. Get the player's position.
+4. Call the mob's `initialize()` method, passing the random spawn position and the player's position.
+5. Add the instantiated mob as a child of the "Main" node.
+
+GDScript:
+```gdscript
+func _on_mob_timer_timeout():
+    # Create a new instance of the Mob scene.
+    var mob = mob_scene.instantiate()
+
+    # Choose a random location on the SpawnPath.
+    # We store the reference to the SpawnLocation node.
+    var mob_spawn_location = get_node("SpawnPath/SpawnLocation")
+    # And give it a random offset.
+    mob_spawn_location.progress_ratio = randf()
+
+    var player_position = $Player.position
+    mob.initialize(mob_spawn_location.position, player_position)
+
+    # Spawn the mob by adding it to the Main scene.
+    add_child(mob)
+```
+
+C#:
+```csharp
+// We also specified this function name in PascalCase in the editor's connection window.
+private void OnMobTimerTimeout()
+{
+    // Create a new instance of the Mob scene.
+    Mob mob = MobScene.Instantiate<Mob>();
+
+    // Choose a random location on the SpawnPath.
+    // We store the reference to the SpawnLocation node.
+    var mobSpawnLocation = GetNode<PathFollow3D>("SpawnPath/SpawnLocation");
+    // And give it a random offset.
+    mobSpawnLocation.ProgressRatio = GD.Randf();
+
+    Vector3 playerPosition = GetNode<Player>("Player").Position;
+    mob.Initialize(mobSpawnLocation.Position, playerPosition);
+
+    // Spawn the mob by adding it to the Main scene.
+    AddChild(mob);
+}
+```
+
+The `randf()` function generates a random float between 0.0 and 1.0, which is used by the `PathFollow3D` node's `progress_ratio` to determine a random point along the path.
+
+Key Rule: If the "Player" node is removed from the main scene, accessing `$Player.position` (or `GetNode<Player>("Player").Position` in C#) will result in an error.
+
+The complete `main.gd` script is provided for reference. Testing the scene by pressing F6 (or Cmd+R on macOS) will show mobs spawning and moving. Currently, they will slide against each other when their paths intersect.

@@ -1,0 +1,92 @@
+Document: MultiplayerPeerExtension
+Path: godot/classes/class_multiplayerpeerextension.rst
+Summary: This document defines the MultiplayerPeerExtension class.
+---CHUNK---
+Document: MultiplayerPeerExtension
+Path: godot/classes/class_multiplayerpeerextension.rst
+Summary: Describes the MultiplayerPeerExtension class for implementing custom multiplayer networking layers via GDExtension.
+
+MultiplayerPeerExtension
+Inherits: MultiplayerPeer < PacketPeer < RefCounted < Object
+
+Class that can be inherited to implement custom multiplayer API networking layers via GDExtension.
+---CHUNK---
+Document: MultiplayerPeerExtension
+Path: godot/classes/class_multiplayerpeerextension.rst
+Summary: This section describes the purpose of the MultiplayerPeerExtension class, which allows GDExtension plugins to implement custom networking layers for Godot's multiplayer API.
+
+Description
+This class is designed to be inherited from a GDExtension plugin to implement custom networking layers for the multiplayer API (such as WebRTC). All the methods below **must** be implemented to have a working custom multiplayer implementation. See also MultiplayerAPI.
+---CHUNK---
+Document: MultiplayerPeerExtension
+Path: godot/classes/class_multiplayerpeerextension.rst
+Summary: This section details the virtual methods that can be overridden in a MultiplayerPeerExtension to customize its behavior.
+
+Method: _close() → void
+Called when the multiplayer peer should be immediately closed (see MultiplayerPeer.close()).
+
+Method: _disconnect_peer(p_peer: int, p_force: bool) → void
+Called when the connected p_peer should be forcibly disconnected (see MultiplayerPeer.disconnect_peer()).
+
+Method: _get_available_packet_count() → int
+Called when the available packet count is internally requested by the MultiplayerAPI.
+
+Method: _get_connection_status() → ConnectionStatus
+Called when the connection status is requested on the MultiplayerPeer (see MultiplayerPeer.get_connection_status()).
+
+Method: _get_max_packet_size() → int
+Called when the maximum allowed packet size (in bytes) is requested by the MultiplayerAPI.
+
+Method: _get_packet(r_buffer: const uint8_t **, r_buffer_size: int32_t*) → Error
+Called when a packet needs to be received by the MultiplayerAPI, with r_buffer_size being the size of the binary r_buffer in bytes.
+
+Method: _get_packet_channel() → int
+Called to get the channel over which the next available packet was received. See MultiplayerPeer.get_packet_channel().
+
+Method: _get_packet_mode() → TransferMode
+Called to get the transfer mode the remote peer used to send the next available packet. See MultiplayerPeer.get_packet_mode().
+
+Method: _get_packet_peer() → int
+Called when the ID of the MultiplayerPeer who sent the most recent packet is requested (see MultiplayerPeer.get_packet_peer()).
+
+Method: _get_packet_script() → PackedByteArray
+Called when a packet needs to be received by the MultiplayerAPI, if _get_packet() isn't implemented. Use this when extending this class via GDScript.
+
+Method: _get_transfer_channel() → int
+Called when the transfer channel to use is read on this MultiplayerPeer (see MultiplayerPeer.transfer_channel).
+
+Method: _get_transfer_mode() → TransferMode
+Called when the transfer mode to use is read on this MultiplayerPeer (see MultiplayerPeer.transfer_mode).
+
+Method: _get_unique_id() → int
+Called when the unique ID of this MultiplayerPeer is requested (see MultiplayerPeer.get_unique_id()). The value must be between 1 and 2147483647.
+
+Method: _is_refusing_new_connections() → bool
+Called when the "refuse new connections" status is requested on this MultiplayerPeer (see MultiplayerPeer.refuse_new_connections).
+
+Method: _is_server() → bool
+Called when the "is server" status is requested on the MultiplayerAPI. See MultiplayerAPI.is_server().
+
+Method: _is_server_relay_supported() → bool
+Called to check if the server can act as a relay in the current configuration. See MultiplayerPeer.is_server_relay_supported().
+
+Method: _poll() → void
+Called when the MultiplayerAPI is polled. See MultiplayerAPI.poll().
+
+Method: _put_packet(p_buffer: const uint8_t*, p_buffer_size: int) → Error
+Called when a packet needs to be sent by the MultiplayerAPI, with p_buffer_size being the size of the binary p_buffer in bytes.
+
+Method: _put_packet_script(p_buffer: PackedByteArray) → Error
+Called when a packet needs to be sent by the MultiplayerAPI, if _put_packet() isn't implemented. Use this when extending this class via GDScript.
+
+Method: _set_refuse_new_connections(p_enable: bool) → void
+Called when the "refuse new connections" status is set on this MultiplayerPeer (see MultiplayerPeer.refuse_new_connections).
+
+Method: _set_target_peer(p_peer: int) → void
+Called when the target peer to use is set for this MultiplayerPeer (see MultiplayerPeer.set_target_peer()).
+
+Method: _set_transfer_channel(p_channel: int) → void
+Called when the channel to use is set for this MultiplayerPeer (see MultiplayerPeer.transfer_channel).
+
+Method: _set_transfer_mode(p_mode: TransferMode) → void
+Called when the transfer mode is set on this MultiplayerPeer (see MultiplayerPeer.transfer_mode).
