@@ -1,0 +1,158 @@
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: This document describes the AudioStreamPlayer class.
+---CHUNK---
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: A node for audio playback.
+
+Inherits: Node < Object
+
+A node for audio playback.
+---CHUNK---
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: Describes the AudioStreamPlayer node for non-positional audio playback.
+
+The AudioStreamPlayer node plays an audio stream non-positionally. It is ideal for user interfaces, menus, or background music.
+
+To use this node, stream needs to be set to a valid AudioStream resource. Playing more than one sound at the same time is also supported, see max_polyphony.
+
+If you need to play audio at a specific position, use AudioStreamPlayer2D or AudioStreamPlayer3D instead.
+---CHUNK---
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: This section lists tutorials related to audio streams and AudioStreamPlayer.
+
+Tutorials
+- Audio streams
+- 2D Dodge The Creeps Demo
+- Audio Device Changer Demo
+- Audio Generator Demo
+- Audio Microphone Record Demo
+- Audio Spectrum Visualizer Demo
+---CHUNK---
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: This section lists and describes the properties available for the AudioStreamPlayer node.
+
+Properties:
+*   autoplay (bool): Default: false
+*   bus (StringName): Default: &"Master"
+*   max_polyphony (int): Default: 1
+*   mix_target (MixTarget): Default: 0
+*   pitch_scale (float): Default: 1.0
+*   playback_type (PlaybackType): Default: 0
+*   playing (bool): Default: false
+*   stream (AudioStream):
+*   stream_paused (bool): Default: false
+*   volume_db (float): Default: 0.0
+*   volume_linear (float):
+---CHUNK---
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: This section details the methods, signals, and the MixTarget enumeration for the AudioStreamPlayer class.
+
+Methods:
+*   get_playback_position() → float
+*   get_stream_playback() → AudioStreamPlayback
+*   has_stream_playback() → bool
+*   play(from_position: float = 0.0) → void
+*   seek(to_position: float) → void
+*   stop() → void
+
+Signals:
+*   finished(): Emitted when a sound finishes playing without interruptions. This signal is not emitted when calling stop(), or when exiting the tree while sounds are playing.
+
+Enumerations:
+enum MixTarget:
+*   MIX_TARGET_STEREO = 0: The audio will be played only on the first channel. This is the default.
+*   MIX_TARGET_SURROUND = 1: The audio will be played on all surround channels.
+*   MIX_TARGET_CENTER = 2: The audio will be played on the second channel, which is usually the center.
+---CHUNK---
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: This section describes the properties available for configuring an AudioStreamPlayer node, including playback control, audio routing, and sound characteristics.
+
+Property Descriptions:
+
+*   **autoplay** (bool)
+    Default: `false`
+    Description: If `true`, this node calls play() when entering the tree.
+    Set/Get methods: set_autoplay(value: bool), is_autoplay_enabled()
+
+*   **bus** (StringName)
+    Default: `"Master"`
+    Description: The target bus name. All sounds from this node will be playing on this bus.
+    Note: At runtime, if no bus with the given name exists, all sounds will fall back on "Master". See also AudioServer.get_bus_name().
+    Set/Get methods: set_bus(value: StringName), get_bus()
+
+*   **max_polyphony** (int)
+    Default: `1`
+    Description: The maximum number of sounds this node can play at the same time. Calling play() after this value is reached will cut off the oldest sounds.
+    Set/Get methods: set_max_polyphony(value: int), get_max_polyphony()
+
+*   **mix_target** (MixTarget)
+    Default: `0`
+    Description: The mix target channels. Has no effect when two speakers or less are detected (see SpeakerMode).
+    Set/Get methods: set_mix_target(value: MixTarget), get_mix_target()
+
+*   **pitch_scale** (float)
+    Default: `1.0`
+    Description: The audio's pitch and tempo, as a multiplier of the stream's sample rate. A value of `2.0` doubles the audio's pitch, while a value of `0.5` halves the pitch.
+    Set/Get methods: set_pitch_scale(value: float), get_pitch_scale()
+
+*   **playback_type** (PlaybackType)
+    Default: `0`
+    Description: Experimental: This property may be changed or removed in future versions. The playback type of the stream player. If set other than to the default value, it will force that playback type.
+    Set/Get methods: set_playback_type(value: PlaybackType), get_playback_type()
+
+*   **playing** (bool)
+    Default: `false`
+    Description: If `true`, this node is playing sounds. Setting this property has the same effect as play() and stop().
+    Set/Get methods: set_playing(value: bool), is_playing()
+
+*   **stream** (AudioStream)
+    Description: The AudioStream resource to be played. Setting this property stops all currently playing sounds. If left empty, the AudioStreamPlayer does not work.
+    Set/Get methods: set_stream(value: AudioStream), get_stream()
+
+*   **stream_paused** (bool)
+    Default: `false`
+    Description: If `true`, the sounds are paused. Setting stream_paused to `false` resumes all sounds.
+    Note: This property is automatically changed when exiting or entering the tree, or this node is paused (see Node.process_mode).
+    Set/Get methods: set_stream_paused(value: bool), get_stream_paused()
+
+*   **volume_db** (float)
+    Default: `0.0`
+    Description: Volume of sound, in decibels. This is an offset of the stream's volume.
+    Note: To convert between decibel and linear energy (like most volume sliders do), use volume_linear, or @GlobalScope.db_to_linear() and @GlobalScope.linear_to_db().
+    Set/Get methods: set_volume_db(value: float), get_volume_db()
+
+*   **volume_linear** (float)
+    Description: Volume of sound, as a linear value.
+    Note: This member modifies volume_db for convenience. The returned value is equivalent to the result of @GlobalScope.db_to_linear() on volume_db. Setting this member is equivalent to setting volume_db to the result of @GlobalScope.linear_to_db() on a value.
+    Set/Get methods: set_volume_linear(value: float), get_volume_linear()
+---CHUNK---
+Document: AudioStreamPlayer
+Path: godot/classes/class_audiostreamplayer.rst
+Summary: This section describes methods for controlling audio playback, including getting playback position, retrieving playback objects, checking active status, playing, seeking, and stopping audio streams.
+
+Method: get_playback_position() → float
+Returns the position in the AudioStream of the latest sound, in seconds. Returns 0.0 if no sounds are playing.
+Note: The position is not always accurate, as the AudioServer does not mix audio every processed frame. To get more accurate results, add AudioServer.get_time_since_last_mix() to the returned position.
+Note: This method always returns 0.0 if the stream is an AudioStreamInteractive, since it can have multiple clips playing at once.
+
+Method: get_stream_playback() → AudioStreamPlayback
+Returns the latest AudioStreamPlayback of this node, usually the most recently created by play(). If no sounds are playing, this method fails and returns an empty playback.
+
+Method: has_stream_playback() → bool
+Returns true if any sound is active, even if stream_paused is set to true. See also playing and get_stream_playback().
+
+Method: play(from_position: float = 0.0) → void
+Plays a sound from the beginning, or the given from_position in seconds.
+
+Method: seek(to_position: float) → void
+Restarts all sounds to be played from the given to_position, in seconds. Does nothing if no sounds are playing.
+
+Method: stop() → void
+Stops all sounds from this node.

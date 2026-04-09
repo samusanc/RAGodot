@@ -1,0 +1,89 @@
+Document: Introduction to 2D
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: This chunk defines an internal reference point for the introduction to 2D documentation.
+---CHUNK---
+Document: Introduction to 2D
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: This section introduces Godot's 2D game development tools and features.
+
+Godot's 2D game development tools include a dedicated 2D rendering engine, physics system, and features tailored specifically for creating 2D experiences. You can efficiently design levels with the TileMap system, animate characters with 2D sprite or Cutout animation, and leverage 2D lighting for dynamic scene illumination. The built-in 2D particle system allows you to create complex visual effects, and Godot also supports custom shaders to enhance your graphics. These features, combined with Godot's accessibility and flexibility, provide a solid foundation for creating engaging 2D games. This page will show you the 2D workspace and how you can get to know it. Tip: If you would like to get an introduction to 3D, see introduction to 3D.
+---CHUNK---
+Document: Introduction to 2D
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: This section describes the 2D workspace in Godot, including how to access it, its layout, and how to add nodes.
+
+You will use the 2D workspace to work with 2D scenes, design levels, or create user interfaces. To switch to the 2D workspace, you can either select a 2D node from the scene tree, or use the workspace selector located at the top edge of the editor.
+
+Similar to 3D, you can use the tabs below the workspace selector to change between currently opened scenes or create a new one using the plus (+) button. The left and right docks should be familiar from editor introduction.
+
+Below the scene selector is the main toolbar, and beneath the main toolbar is the 2D viewport.
+
+You can drag and drop compatible nodes from the FileSystem dock to add them to the viewport as nodes. Dragging and dropping adds the dragged node as a sibling of the selected node (if the root node is selected, adds as a child). Keeping Shift pressed when dropping adds the node as a child of the selected node. Holding Alt when dropping adds the node as a child of the root node. If Alt + Shift is held when dropping, the node type can be selected if applicable.
+---CHUNK---
+Document: Main toolbar
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: This chunk describes the basic transformation tools and navigation modes available in the Godot 2D editor's main toolbar, including selection, movement, rotation, scaling, and the ruler tool.
+
+Some buttons in the main toolbar are the same as those in the 3D workspace. A brief explanation is given with the shortcut if the mouse cursor is hovered over a button for one second. Some buttons may have additional functionality if another keypress is performed. A recap of main functionality of each button with its default shortcut is provided below from left to right:
+
+- Select Mode (Q): Allows selection of nodes in the viewport. Left clicking on a node in the viewport selects it. Left clicking and dragging a rectangle selects all nodes within the rectangle's boundaries, once released. Holding Shift while selecting adds more nodes to the selection. Clicking on a selected node while holding Shift deselects the node. In this mode, you can drag the selected node(s) to move, press Ctrl to switch to the rotation mode temporarily, or use the red circles to scale it. If multiple nodes are selected, only movement and rotation are possible. In this mode, rotation and scaling will not use the snapping options if snapping is enabled.
+- Move Mode (W): Enables move (or translate) mode for the selected nodes. See introduction to 2D the viewport for more details.
+- Rotate Mode (E): Enables rotation mode for the selected nodes. See introduction to 2D the viewport for more details.
+- Scale Mode (S): Enables scaling and displays scaling gizmos in both axes for the selected node(s). See introduction to 2D the viewport for more details.
+- Show list of selectable nodes at position clicked: As the description suggests, this provides a list of selectable nodes at the clicked position as a context menu, if there is more than one node in the clicked area.
+- Rotation pivot: Sets the rotation pivot to rotate node(s) around. An added node has its rotation pivot at x: 0, y: 0, by default, with exceptions. For example, the default pivot for a Sprite2D is its center if the centered property is set to true. If you would like to change the rotation pivot of a node, click this button and choose a new location by left clicking. The node rotates considering this point. If you have multiple nodes selected, this icon will add a temporary pivot to be used commonly by all selected nodes. Pressing Shift and clicking this button will create the pivot at the center of selected nodes. If any of the snap options are enabled, the pivot will also snap to them when dragged.
+- Pan Mode (G): Allows you to navigate in the viewport without accidentally selecting any nodes. In other modes, you can also hold Space and drag with the left mouse button to do the same.
+- Ruler Mode: After enabling, click on the viewport to display the current global x and y coordinates. Dragging from a position to another one measures the distance in pixels. If you drag diagonally, it will draw a triangle and show the separate distances in terms of x, y, and total distance to the target, including the angles to the axes in degrees. The R key activates the ruler. If snapping is enabled, it also displays the measurements in terms of grid count.
+---CHUNK---
+Document: Introduction to 2D
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: Describes the 2D coordinate system in Godot, including axes, origin, and gizmo behavior.
+
+Coordinate system
+In the 2D editor, unlike 3D, there are only two axes: x and y. The viewing angle is fixed.
+
+In the viewport, two infinite lines are visible: red for the x-axis and green for the y-axis. In Godot, going right and down are positive directions. The intersection of these lines is the origin: x: 0, y: 0.
+
+A root node's origin will be at this position when added. When a node is selected, switching to `move` or `scale` modes displays gizmos at the node's offset position. These gizmos point to the positive directions of the x and y axes. In `move` mode, dragging the green line moves only in the y axis, and dragging the red line moves only in the x axis.
+
+In `scale` mode, the gizmos are square-shaped. Dragging the green or red squares scales nodes in the y or x axes, respectively. Dragging in a negative direction flips the node horizontally or vertically.
+---CHUNK---
+Document: 2D Viewport
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: This section describes the features and controls of the 2D Viewport in the Godot editor, including navigation, rulers, guides, and the View menu options.
+
+The 2D Viewport is the primary area for designing levels or user interfaces visually. Panning the view can be done by middle-clicking and dragging the mouse, using the scrollbars, or pressing the G or Space keys. Enabling `Editor Settings > Editors > Panning > Simple Panning` allows panning directly with Space without dragging.
+
+Top-left buttons include **Center View**, which centers selected nodes. Zoom controls (- for zoom out, + for zoom in, clicking percentage for 100% default) are also present. Middle-mouse scrolling can also be used for zooming.
+
+The black bars on the left and top edges are **rulers**, displaying pixel coordinates in 100-pixel steps by default. Zoom factor changes ruler values. Enabling `Grid Snap` or modifying snapping options updates ruler scaling and values.
+
+Custom guides can be created for measurements and node alignment. With at least one node in the scene, drag from a ruler into the viewport to create a purple guide. Dragging from the gray square at the rulers' intersection creates both horizontal and vertical guides. Guides can be repositioned or removed by dragging them back to their rulers. Snapping to guides can be enabled via the `Smart Snap` menu. Note: If guides are not visible or cannot be created, ensure they are enabled in the `View` menu (Y toggles visibility) and that at least one node is present in the scene.
+
+Left-clicking performs primary actions based on the selected toolbar tool, such as selecting a node in `Select Mode`. Modifiers like Ctrl or Shift can be combined with left-clicking for secondary actions; for instance, holding Shift while dragging a node in Select or Move modes snaps it to a single axis. Right-clicking offers options to create a node or instantiate a scene at the clicked position. If nodes are selected, it also allows moving them to that position.
+
+The Viewport's **View** menu offers options to customize its appearance:
+- **Grid**: Controls grid visibility (always, with snapping, or never) and provides a toggle option.
+- **Show Helpers**: Toggles temporary outlines of nodes, showing previous transform properties (position, scaling, rotation) during a transform operation. For `Control` nodes, it also displays sizing parameters to visualize deltas.
+- **Show Rulers**: Toggles horizontal and vertical ruler visibility.
+- **Show Guides**: Toggles visibility of created guides.
+- **Show Origin**: Toggles the display of green and red origin lines at x: 0, y: 0.
+- **Show Viewport**: Toggles visibility of the game's default viewport (indigo rectangle), which represents the default window size on desktop platforms. This size can be adjusted in `Project Settings > Display > Window > Size` by setting `Viewport Width` and `Viewport Height`.
+- **Gizmos**: Toggles visibility of indicators for `Position` (cross), `Lock` (padlock), `Groups` (two squares), and `Transformation` (green and red lines).
+- **Center Selection**: Centers selected nodes in the view (shortcut: F), identical to the **Center View** button.
+- **Frame to Selection**: Centers selected nodes and adjusts zoom to fit them on screen (shortcut: Shift + F).
+- **Clear Guides**: Deletes all guides, requiring recreation for future use.
+- **Preview Canvas Scale**: Toggles a preview of canvas scaling in the editor based on zoom or view changes, useful for visualizing control appearance without running the game.
+- **Preview Theme**: Allows selecting available themes to change the appearance of control items in the editor without running the game.
+---CHUNK---
+Document: Introduction to 2D
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: This section introduces the base nodes for 2D and GUI in Godot.
+
+CanvasItem is the base node for 2D. Node2D is the base node for 2D game objects, and Control is the base node for everything GUI. For 3D, Godot uses the Node3D node.
+---CHUNK---
+Document: Introduction to 2D
+Path: godot/tutorials/2d/introduction_to_2d.rst
+Summary: Explains how to display 3D nodes within a 2D scene using a SubViewport.
+
+It is possible to display 3D nodes in a 2D scene by using a SubViewport. You can see this in the demo 3D in 2D Viewport.

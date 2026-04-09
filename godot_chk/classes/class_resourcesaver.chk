@@ -1,0 +1,94 @@
+Document: ResourceSaver
+Path: godot/classes/class_resourcesaver.rst
+Summary: Provides static methods for saving resources to disk.
+
+ResourceSaver is a singleton class that provides static methods for saving resources to disk. It allows you to save any Resource object to a file in a format that Godot can understand.
+
+Inherits: Object
+
+Methods:
+save(resource: Resource, path: String, flags: int = 0) → Error
+  Saves a Resource to the given path.
+  The path must be a valid file path within the project.
+  The flags argument can be used to specify how the resource should be saved.
+  Possible flags:
+  - ResourceSaver.FLAG_NONE (0): No special flags.
+  - ResourceSaver.FLAG_REPLACE_SUBRESOURCES (1): Replace subresources with unique IDs.
+  - ResourceSaver.FLAG_IGNORE_TYPE_MISMATCH (2): Ignore type mismatches when saving.
+  - ResourceSaver.FLAG_COMPRESS (4): Compress the saved resource.
+  - ResourceSaver.FLAG_RELATIVE_PATHS (8): Save paths as relative to the resource being saved.
+  - ResourceSaver.FLAG_SHARED_FILES_AS_TEXT (16): Save shared files as text.
+  - ResourceSaver.FLAG_EMBED_RESOURCES (32): Embed resources directly into the saved file.
+  Returns an Error code indicating success or failure.
+
+get_recognized_extensions() → Array[String]
+  Returns an array of file extensions that ResourceSaver can recognize.
+
+set_translate_ids(enable: bool)
+  Sets whether to translate resource IDs to their original names when saving.
+  This is useful for debugging and can make saved resources more readable.
+
+is_translate_ids_enabled() → bool
+  Returns whether translating resource IDs to their original names is enabled.
+
+set_compress_local_files(enable: bool)
+  Sets whether to compress local files when saving.
+  This can reduce the file size of saved resources.
+
+is_compress_local_files_enabled() → bool
+  Returns whether compressing local files is enabled.
+
+set_desktop_icon_save_path(path: String)
+  Sets the path where desktop icons should be saved.
+  This is only relevant when saving resources that can be used as desktop icons.
+
+get_desktop_icon_save_path() → String
+  Returns the path where desktop icons are saved.
+---CHUNK---
+Document: ResourceSaver
+Path: godot/classes/class_resourcesaver.rst
+Summary: ResourceSaver is a singleton class in Godot used for saving Resource objects to the filesystem.
+ResourceSaver
+Inherits: Object
+
+A singleton for saving Resource's to the filesystem.
+---CHUNK---
+Document: ResourceSaver
+Path: godot/classes/class_resourcesaver.rst
+Summary: A singleton for saving resource types to the filesystem using registered ResourceFormatSaver classes.
+
+ResourceSaver is a singleton for saving resource types to the filesystem. It utilizes the various ResourceFormatSaver classes that are registered within the engine, which can be either built-in or provided by plugins. These savers handle the process of writing resource data to either text-based file formats, such as .tres or .tscn, or binary file formats, like .res or .scn.
+---CHUNK---
+Document: ResourceSaver
+Path: godot/classes/class_resourcesaver.rst
+Summary: This section details the methods and enumerations available for the ResourceSaver class in Godot Engine, which is responsible for saving resources to disk.
+
+Enumerations
+SaverFlags: Enum for ResourceSaver save flags.
+  FLAG_NONE = 0: No resource saving option.
+  FLAG_RELATIVE_PATHS = 1: Save the resource with a path relative to the scene which uses it.
+  FLAG_BUNDLE_RESOURCES = 2: Bundles external resources.
+  FLAG_CHANGE_PATH = 4: Changes the Resource.resource_path of the saved resource to match its new location.
+  FLAG_OMIT_EDITOR_PROPERTIES = 8: Do not save editor-specific metadata (identified by their __editor prefix).
+  FLAG_SAVE_BIG_ENDIAN = 16: Save as big endian.
+  FLAG_COMPRESS = 32: Compress the resource on save using FileAccess.COMPRESSION_ZSTD. Only available for binary resource types.
+  FLAG_REPLACE_SUBRESOURCE_PATHS = 64: Take over the paths of the saved subresources.
+
+Method Descriptions
+Method: add_resource_format_saver(format_saver: ResourceFormatSaver, at_front: bool = false)
+Registers a new ResourceFormatSaver. The ResourceSaver will use the ResourceFormatSaver as described in save(). This method is performed implicitly for ResourceFormatSavers written in GDScript.
+
+Method: get_recognized_extensions(type: Resource) → PackedStringArray
+Returns the list of extensions available for saving a resource of a given type.
+
+Method: get_resource_id_for_path(path: String, generate: bool = false) → int
+Returns the resource ID for the given path. If generate is true, a new resource ID will be generated if one for the path is not found. If generate is false and the path is not found, ResourceUID.INVALID_ID is returned.
+
+Method: remove_resource_format_saver(format_saver: ResourceFormatSaver)
+Unregisters the given ResourceFormatSaver.
+
+Method: save(resource: Resource, path: String = "", flags: int = 0) → Error
+Saves a resource to disk to the given path, using a ResourceFormatSaver that recognizes the resource object. If path is empty, ResourceSaver will try to use Resource.resource_path. The flags bitmask can be specified to customize the save behavior. Returns OK on success. Note: When the project is running, any generated UID associated with the resource will not be saved as the required code is only executed in editor mode.
+
+Method: set_uid(resource: String, uid: int) → Error
+Sets the UID of the given resource path to uid. You can generate a new UID using ResourceUID.create_id(). Since resources will normally get a UID automatically, this method is only useful in very specific cases.

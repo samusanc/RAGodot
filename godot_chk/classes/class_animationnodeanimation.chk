@@ -1,0 +1,140 @@
+Document: AnimationNodeAnimation
+Path: godot/classes/class_animationnodeanimation.rst
+Summary: Represents a single animation in the AnimationTree, allowing it to be played.
+
+Inherits: AnimationNode < Resource
+
+This node allows you to play a specific animation from a Skeleton. It's a fundamental building block for creating complex animation logic within the AnimationTree. You can use it to transition between different animations, blend them, or trigger them based on certain conditions.
+
+The AnimationNodeAnimation node itself doesn't contain animation data. Instead, it references an existing Animation resource. This means you can reuse animations across multiple AnimationTree nodes or even across different scenes.
+
+Key properties of this node include:
+
+*   **Animation:** (StringName) The name of the animation to play. This must match an animation name present in the Skeleton resource associated with the AnimationPlayer.
+*   **Sync:** (int) Controls how the animation playback synchronizes with other animations. Options include:
+    *   `SYNC_NO_SYNC`: No synchronization.
+    *   `SYNC_RESET`: Resets playback to the beginning when synchronization is needed.
+    *   `SYNC_SEEK`: Seeks to the corresponding frame in the other animation.
+    *   `SYNC_HYBRID`: A combination of seek and reset.
+
+When using AnimationNodeAnimation, it's crucial to ensure that the specified animation name exists in the target Skeleton resource. If the animation name is invalid, the node will not play any animation.
+
+This node is often used in conjunction with other AnimationNode types, such as AnimationNodeBlendTree, AnimationNodeStateMachine, or AnimationNodeBlendSpace, to construct sophisticated animation systems. For example, you might have a state machine where one state plays an "idle" animation using an AnimationNodeAnimation, and another state plays a "walk" animation using another AnimationNodeAnimation. Transitions between these states would be managed by the state machine itself.
+---CHUNK---
+Document: AnimationNodeAnimation
+Path: godot/classes/class_animationnodeanimation.rst
+Summary: Defines an input animation node for use within an AnimationNodeBlendTree.
+AnimationNodeAnimation
+Inherits: AnimationRootNode < AnimationNode < Resource < RefCounted < Object
+
+An input animation for an AnimationNodeBlendTree.
+---CHUNK---
+Document: AnimationNodeAnimation
+Path: godot/classes/class_animationnodeanimation.rst
+Summary: Describes the AnimationNodeAnimation class, a resource for AnimationNodeBlendTree that outputs a specific animation.
+Inherits: AnimationNode < Resource < Object
+AnimationNodeAnimation is a resource that can be added to an AnimationNodeBlendTree. It has a single output port and is used to specify which animation to play. This node is typically used as an input for other AnimationNode types that blend animations together.
+
+Properties
+animation (Animation): The animation to be played.
+---CHUNK---
+Document: AnimationNodeAnimation
+Path: godot/classes/class_animationnodeanimation.rst
+Summary: This document describes the AnimationNodeAnimation class, which is used to play a specific animation within an AnimationTree.
+
+Inherits: AnimationNode < Resource < Object
+
+Description:
+Plays a specific animation.
+
+Properties:
+Animation (StringName): The name of the animation to play.
+
+Methods:
+_get_animation_name() → StringName
+_set_animation_name(animation_name: StringName)
+
+This node is used to play a specific animation. It is a direct child of AnimationTree.
+
+GDScript:
+var anim_tree = get_node("AnimationTree")
+anim_tree.set("parameters/Animation/animation", "walk")
+
+C#:
+var animTree = GetNode<AnimationTree>("AnimationTree");
+animTree.Set("parameters/Animation/animation", "walk");
+---CHUNK---
+Document: AnimationNodeAnimation
+Path: godot/classes/class_animationnodeanimation.rst
+Summary: This section details the properties of the AnimationNodeAnimation class in Godot Engine.
+
+Properties:
+* advance_on_start (bool): Defaults to false.
+* animation (StringName): Defaults to "".
+* loop_mode (LoopMode): No default value specified.
+* play_mode (PlayMode): Defaults to 0.
+* start_offset (float): No default value specified.
+* stretch_time_scale (bool): No default value specified.
+* timeline_length (float): No default value specified.
+* use_custom_timeline (bool): Defaults to false.
+---CHUNK---
+Document: AnimationNodeAnimation
+Path: godot/classes/class_animationnodeanimation.rst
+Summary: Defines playback modes for the AnimationNodeAnimation.
+
+Enumerations
+enum PlayMode:
+  PLAY_MODE_FORWARD = 0
+    Plays animation in forward direction.
+  PLAY_MODE_BACKWARD = 1
+    Plays animation in backward direction.
+---CHUNK---
+Document: AnimationNodeAnimation
+Path: godot/classes/class_animationnodeanimation.rst
+Summary: Describes the properties of the AnimationNodeAnimation class, which controls playback of a specific animation within an AnimationTree.
+
+Property Descriptions
+Property: advance_on_start (bool)
+Default: false
+Setter: set_advance_on_start(value: bool)
+Getter: is_advance_on_start() -> bool
+If true, on receiving a request to play an animation from the start, the first frame is not drawn, but only processed, and playback starts from the next frame. See also the notes of AnimationPlayer.play().
+
+Property: animation (StringName)
+Default: ""
+Setter: set_animation(value: StringName)
+Getter: get_animation() -> StringName
+Animation to use as an output. It is one of the animations provided by AnimationTree.anim_player.
+
+Property: loop_mode (LoopMode)
+Setter: set_loop_mode(value: LoopMode)
+Getter: get_loop_mode() -> LoopMode
+If use_custom_timeline is true, override the loop settings of the original Animation resource with the value.
+Note: If the Animation.loop_mode isn't set to looping, the Animation.track_set_interpolation_loop_wrap() option will not be respected. If you cannot get the expected behavior, consider duplicating the Animation resource and changing the loop settings.
+
+Property: play_mode (PlayMode)
+Default: 0
+Setter: set_play_mode(value: PlayMode)
+Getter: get_play_mode() -> PlayMode
+Determines the playback direction of the animation.
+
+Property: start_offset (float)
+Setter: set_start_offset(value: float)
+Getter: get_start_offset() -> float
+If use_custom_timeline is true, offset the start position of the animation. This is useful for adjusting which foot steps first in 3D walking animations.
+
+Property: stretch_time_scale (bool)
+Setter: set_stretch_time_scale(value: bool)
+Getter: is_stretching_time_scale() -> bool
+If true, scales the time so that the length specified in timeline_length is one cycle. This is useful for matching the periods of walking and running animations. If false, the original animation length is respected. If you set the loop to loop_mode, the animation will loop in timeline_length.
+
+Property: timeline_length (float)
+Setter: set_timeline_length(value: float)
+Getter: get_timeline_length() -> float
+The length of the custom timeline. If stretch_time_scale is true, scales the animation to this length.
+
+Property: use_custom_timeline (bool)
+Default: false
+Setter: set_use_custom_timeline(value: bool)
+Getter: is_using_custom_timeline() -> bool
+If true, AnimationNode provides an animation based on the Animation resource with some parameters adjusted.

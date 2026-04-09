@@ -1,0 +1,58 @@
+Document: EditorFileSystem
+Path: godot/classes/class_editorfilesystem.rst
+Summary: Manages the project's filesystem for the editor.
+
+EditorFileSystem
+
+Inherits: Object < Object
+
+This class manages the project's filesystem for the editor. It provides access to files and directories within the project, allowing for operations like searching, filtering, and monitoring changes. It's a core component for many editor features that interact with the project's assets.
+---CHUNK---
+Document: EditorFileSystem
+Path: godot/classes/class_editorfilesystem.rst
+Summary: Provides access to the resource filesystem as perceived by the Godot editor.
+
+Inherits: Node < Object
+
+This class represents the resource filesystem as it is seen by the Godot editor. It allows for interaction with the project's files and directories, such as searching, importing, and managing resources.
+---CHUNK---
+Document: EditorFileSystem
+Path: godot/classes/class_editorfilesystem.rst
+Summary: Provides information about all resources in the filesystem, including their types.
+
+This object holds information of all resources in the filesystem, their types, etc. Note: This class shouldn't be instantiated directly. Instead, access the singleton using EditorInterface.get_resource_filesystem().
+---CHUNK---
+Document: EditorFileSystem
+Path: godot/classes/class_editorfilesystem.rst
+Summary: Provides methods for interacting with and managing Godot's filesystem within the editor, including scanning, reimporting, and querying file information.
+
+Method: get_file_type(path: String) → String
+Returns the resource type of the file, given the full path. This returns a string such as "Resource" or "GDScript", not a file extension such as ".gd".
+
+Method: get_filesystem() → EditorFileSystemDirectory
+Gets the root directory object.
+
+Method: get_filesystem_path(path: String) → EditorFileSystemDirectory
+Returns a view into the filesystem at path.
+
+Method: get_scanning_progress() → float
+Returns the scan progress for 0 to 1 if the FS is being scanned.
+
+Method: is_importing() → bool
+Returns true if resources are currently being imported.
+
+Method: is_scanning() → bool
+Returns true if the filesystem is being scanned.
+
+Method: reimport_files(files: PackedStringArray)
+Reimports a set of files. Call this if these files or their .import files were directly edited by script or an external program. If the file type changed or the file was newly created, use update_file or scan methods.
+Note: This function blocks until the import is finished. However, the main loop iteration, including timers and Node._process, will occur during the import process due to progress bar updates. Avoid calls to reimport_files or scan while an import is in progress.
+
+Method: scan()
+Scan the filesystem for changes.
+
+Method: scan_sources()
+Check if the source of any imported resource changed.
+
+Method: update_file(path: String)
+Add a file in an existing directory, or schedule file information to be updated on editor restart. Can be used to update text files saved by an external program. This will not import the file. To reimport, call reimport_files or scan methods.

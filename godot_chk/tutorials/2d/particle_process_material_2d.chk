@@ -1,0 +1,441 @@
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This document explains how to use the ParticleProcessMaterial for 2D particle systems in Godot.
+
+This tutorial covers the usage of the ParticleProcessMaterial for 2D particle systems in Godot. It details how to configure various properties to achieve different visual effects.
+
+Key properties include:
+
+*   **Emission Shape**: Defines the shape from which particles are emitted. Options include Point, Sphere, Box, and Cylinder.
+*   **Direction**: Controls the initial direction of emitted particles.
+*   **Spread**: Adjusts the randomness of the particle direction.
+*   **Gravity**: Applies a constant gravitational force to particles.
+*   **Linear Velocity**: Sets the initial speed of particles.
+*   **Angular Velocity**: Controls the initial rotation speed of particles.
+*   **Orbit Velocity**: Influences particles to orbit around a central point.
+*   **Radial Acceleration**: Accelerates particles away from or towards the emission point.
+*   **Tangential Acceleration**: Accelerates particles perpendicular to the radial direction.
+*   **Linear Dampening**: Reduces the linear velocity of particles over time.
+*   **Angular Dampening**: Reduces the angular velocity of particles over time.
+*   **Color**: Sets the initial color of particles.
+*   **Alpha**: Controls the initial transparency of particles.
+*   **Hue Variation**: Adds random variation to the hue of particles.
+*   **Saturation Variation**: Adds random variation to the saturation of particles.
+*   **Value Variation**: Adds random variation to the brightness of particles.
+*   **Animation**: Allows particles to animate through a texture sheet.
+*   **Particle Flags**: Includes options like `ALIGN_NODE_TO_Y`, `ROTATE_Y`, and `RANDOM_INITIAL_DIRECTION`.
+
+The tutorial also touches upon using textures for particle appearance and how to integrate the ParticleProcessMaterial with the GPUParticles2D node. It emphasizes experimenting with these properties to achieve desired visual outcomes for effects like fire, smoke, or magic spells.
+---CHUNK---
+Document: ParticleProcessMaterial 2D Usage
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to use the ParticleProcessMaterial for 2D particle systems in Godot.
+---CHUNK---
+Document: ParticleProcessMaterial properties
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how the Min, Max, and Curve properties of ParticleProcessMaterial control particle behavior over their lifetime.
+The properties in this material control how particles behave and change over their lifetime. A lot of them have Min, Max, and Curve values that allow you to fine-tune their behavior. The relationship between these values is this: When a particle is spawned, the property is set with a random value between Min and Max. If Min and Max are the same, the value will always be the same for every particle. If the Curve is also set, the value of the property will be multiplied by the value of the curve at the current point in a particle's lifetime. Use the curve to change a property over the particle lifetime. Very complex behavior can be expressed this way.
+Note: This page covers how to use ParticleProcessMaterial for 2D scenes specifically. For information on how to use it in a 3D scene see Process material properties.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Explains the Lifetime Randomness property for 2D particle systems.
+Lifetime Randomness
+The Lifetime Randomness property controls how much randomness to apply to each particle's lifetime. A value of 0 means there is no randomness at all and all particles live for the same amount of time, set by the Lifetime property. A value of 1 means that a particle's lifetime is completely random within the range of [0.0, Lifetime].
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section describes the particle flags available in the ParticleProcessMaterial for 2D particles.
+
+Particle Flags
+^^^^^^^^^^^^
+
+The ParticleProcessMaterial has a set of flags that can be enabled to modify particle behavior. These flags are:
+
+*   **Align to direction**: When enabled, particles will rotate to face the direction they are moving in. This is useful for effects like rain or shooting projectiles.
+*   **Friction**: When enabled, particles will experience friction, slowing them down over time. The amount of friction is determined by the `friction` property.
+*   **Bounce**: When enabled, particles will bounce off surfaces. The amount of bounce is determined by the `bounce` property.
+*   **Disable gravity**: When enabled, particles will not be affected by gravity. This is useful for effects where you want particles to float or move independently of the world's gravity.
+*   **Disable_X**: When enabled, particles will not move along the X-axis.
+*   **Disable_Y**: When enabled, particles will not move along the Y-axis.
+*   **Disable_Z**: When enabled, particles will not move along the Z-axis. (Note: This flag is typically not relevant for 2D particles, but is included for consistency with the 3D particle system).
+
+These flags provide a powerful way to fine-tune the behavior of your particle systems, allowing for a wide range of visual effects.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section describes the spawn properties of a 2D particle process material in Godot.
+
+Spawn
+-----
+
+The Spawn section controls how particles are generated.
+
+.. rst-class:: table-and-heading
+
+.. csv-table::
+   :header: Name,Type,Description,Default
+
+   `spawn_shape`,"enum",Shape of the spawn area.,0
+   `spawn_shape_circle_radius`,"float",Radius of the circle if `spawn_shape` is Circle.,0.0
+   `spawn_shape_circle_points`,"int",Number of points to use for the circle if `spawn_shape` is Circle.,16
+   `spawn_shape_box_extents`,"Vector2",Size of the box if `spawn_shape` is Box.,(1,1)
+   `spawn_shape_points`,"PackedVector2Array",Array of points if `spawn_shape` is Points.,[]
+   `spawn_shape_points_count`,"int",Number of points to randomly pick from `spawn_shape_points` if `spawn_shape` is Points.,1
+
+`spawn_shape`
+    Shape of the spawn area. Options are:
+    *   Box
+    *   Circle
+    *   Points
+
+`spawn_shape_circle_radius`
+    Radius of the circle if `spawn_shape` is Circle.
+
+`spawn_shape_circle_points`
+    Number of points to use for the circle if `spawn_shape` is Circle. This affects the smoothness of the circle's edge.
+
+`spawn_shape_box_extents`
+    Size of the box if `spawn_shape` is Box.
+
+`spawn_shape_points`
+    Array of points if `spawn_shape` is Points. Particles will spawn at these specific locations.
+
+`spawn_shape_points_count`
+    Number of points to randomly pick from `spawn_shape_points` if `spawn_shape` is Points. If set to 0, all points will be used.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Defines the initial angle property for 2D particles.
+Angle
+Determines the initial angle of the particle (in degrees). This parameter is mostly useful randomized.
+---CHUNK---
+Document: ParticleProcessMaterial2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Explains the Velocity property of the ParticleProcessMaterial2D in Godot Engine.
+
+Velocity
+The velocity property allows you to control the initial speed and direction of particles.
+
+.. rst-class:: class-properties
+
+.. rst-table::
+   :widths: 20 20 60
+
+   * - Name
+     - Type
+     - Description
+   * - `linear`
+     - :ref:`Vector3<class_Vector3>`
+     - The linear velocity of the particle.
+   * - `angular`
+     - :ref:`float<class_float>`
+     - The angular velocity of the particle.
+   * - `radial_accel`
+     - :ref:`float<class_float>`
+     - The radial acceleration of the particle.
+   * - `tangential_accel`
+     - :ref:`float<class_float>`
+     - The tangential acceleration of the particle.
+   * - `damping`
+     - :ref:`float<class_float>`
+     - The damping factor of the particle.
+   * - `initial_linear_velocity`
+     - :ref:`float<class_float>`
+     - The initial linear velocity of the particle.
+   * - `initial_angular_velocity`
+     - :ref:`float<class_float>`
+     - The initial angular velocity of the particle.
+   * - `initial_radial_accel`
+     - :ref:`float<class_float>`
+     - The initial radial acceleration of the particle.
+   * - `initial_tangential_accel`
+     - :ref:`float<class_float>`
+     - The initial tangential acceleration of the particle.
+   * - `initial_damping`
+     - :ref:`float<class_float>`
+     - The initial damping factor of the particle.
+
+The `linear` property defines the initial velocity vector for each particle. This determines both the speed and direction in which the particle will start moving.
+
+The `angular` property sets the initial rotational speed of the particle. Particles will rotate around their own axis at this rate.
+
+`radial_accel` controls acceleration directed away from or towards the particle's origin. A positive value will push particles outwards, while a negative value will pull them inwards.
+
+`tangential_accel` controls acceleration perpendicular to the particle's velocity, along the direction of its movement. This can be used to make particles curve or spiral.
+
+`damping` reduces the particle's velocity over time. A higher damping value means the particle will slow down more quickly.
+
+The `initial_` prefixed properties allow you to set these values at the moment of particle emission, overriding the base properties for the initial state. This provides finer control over how particles behave right from their creation.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Explains the 'Direction' property of a 2D particle process material and its interaction with initial velocity and gravity.
+Direction: This is the base direction at which particles emit. The default is Vector3(1, 0, 0) which makes particles emit to the right. However, with the default gravity settings, particles will go straight down. For this property to be noticeable, you need an initial velocity greater than 0. Setting the initial velocity to 40 makes particles emit toward the right, then go down because of gravity.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Explains the "Spread" parameter in the ParticleProcessMaterial for 2D particles.
+Spread: This parameter is the angle in degrees which will be randomly added in either direction to the base Direction. A spread of 180 will emit in all directions (+/- 180). For spread to do anything the "Initial Velocity" parameter must be greater than 0.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section describes the "Flatness" property of particle process materials.
+Flatness
+This property is only useful for 3D particles.
+---CHUNK---
+Document: particle_process_material_2d
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Describes the Initial Velocity property of a 2D particle process material.
+Initial Velocity is the speed at which particles will be emitted (in pixels/sec). Speed might later be modified by gravity or other accelerations.
+---CHUNK---
+Document: ParticleProcessMaterial2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to use the Animated Velocity property in ParticleProcessMaterial2D to create more dynamic particle effects.
+
+Animated Velocity
+
+The Animated Velocity property allows you to animate the velocity of particles over their lifetime. This can be used to create effects like particles that start slow and speed up, or particles that change direction over time.
+
+To use Animated Velocity, you need to:
+
+1.  Enable the "Animated Velocity" property in the ParticleProcessMaterial2D inspector.
+2.  Create a new CurveTexture or NoiseTexture and assign it to the "Animated Velocity Curve" property.
+3.  Configure the curve or noise texture to define how the velocity changes over the particle's lifetime.
+
+The texture's horizontal axis represents the particle's lifetime (0 to 1), and the vertical axis represents the velocity multiplier. A value of 0 on the vertical axis means no velocity change, while a value of 1 means the velocity is multiplied by the particle's initial velocity.
+
+For example, you can create a curve that starts at 0, rises to 1, and then falls back to 0. This would make particles start with no velocity, accelerate to their initial velocity, and then decelerate to a stop.
+
+You can also use a NoiseTexture to create more complex and organic velocity patterns. This can be useful for effects like wind-blown leaves or smoke.
+
+Key Rule: The horizontal axis of the Animated Velocity Curve texture represents the particle's normalized lifetime (0.0 to 1.0). The vertical axis represents the velocity multiplier applied to the particle's initial velocity.
+
+Example: Creating a particle effect that starts slow and speeds up.
+
+1.  Create a new ParticleProcessMaterial2D.
+2.  Enable "Animated Velocity".
+3.  Create a new CurveTexture.
+4.  In the CurveTexture editor, create a curve that starts at 0 and gradually increases to 1 over the horizontal axis.
+5.  Assign this CurveTexture to the "Animated Velocity Curve" property of the ParticleProcessMaterial2D.
+
+This will cause particles to start with zero velocity and gradually accelerate to their initial velocity over their lifetime.
+
+Example: Creating a particle effect that simulates a brief burst of speed.
+
+1.  Create a new ParticleProcessMaterial2D.
+2.  Enable "Animated Velocity".
+3.  Create a new CurveTexture.
+4.  In the CurveTexture editor, create a curve that starts at 0, quickly rises to 2, and then falls back to 0.
+5.  Assign this CurveTexture to the "Animated Velocity Curve" property of the ParticleProcessMaterial2D.
+
+This will cause particles to initially have no velocity, then briefly accelerate to twice their initial velocity, and finally decelerate to a stop.
+
+The Animated Velocity property offers a powerful way to add dynamism and realism to your particle effects. By carefully crafting your curves or noise textures, you can achieve a wide range of visual behaviors for your particles.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Explains the Angular Velocity property for 2D particle systems.
+Angular velocity is the speed at which particles rotate around their center (in degrees/sec).
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains the Orbit Velocity property for 2D particle systems.
+Orbit Velocity
+Orbit velocity is used to make particles turn around their center.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to use accelerations in Godot's 2D particle process materials.
+
+Accelerations
+-----------
+
+The `ParticleProcessMaterial` allows you to control the acceleration of particles. This can be used to simulate forces like gravity, wind, or explosions.
+
+There are two main types of acceleration you can apply:
+
+*   **Linear Acceleration**: This is a constant acceleration applied in a specific direction. It's useful for simulating constant forces like gravity.
+*   **Radial Acceleration**: This acceleration is applied outwards from or inwards towards a central point. It's useful for simulating explosions or implosions.
+*   **Tangential Acceleration**: This acceleration is applied perpendicular to the radial direction, creating a swirling effect. It's useful for simulating rotational forces.
+
+You can set these accelerations in the Inspector panel under the `Process Material` section, within the `Acceleration` group.
+
+**Linear Acceleration**
+
+The `linear_accel` property allows you to set a constant acceleration vector. For example, to simulate gravity pulling particles downwards, you would set `linear_accel` to `(0, 980)` (assuming a default physics scale).
+
+**Radial Acceleration**
+
+The `radial_accel` property controls acceleration along the direction from the particle's origin to its current position. A positive value will push particles away from the origin, while a negative value will pull them towards it. This is often used for explosion effects.
+
+**Tangential Acceleration**
+
+The `tangential_accel` property controls acceleration perpendicular to the radial direction. A positive value will cause particles to move in a counter-clockwise direction around the origin, while a negative value will cause them to move clockwise. This can create swirling or rotational effects.
+
+You can also use the `accel_curve` property to define how the acceleration changes over the particle's lifetime using a `CurveTexture`. This allows for more complex and dynamic acceleration behaviors. For instance, you could have particles start with a strong outward acceleration that gradually fades, or have them accelerate in one direction and then reverse.
+
+By combining these acceleration properties, you can create a wide variety of particle behaviors, from simple falling leaves to complex explosive effects.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Describes the gravity property of a 2D particle process material.
+
+Gravity
+The gravity applied to every particle.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Describes the linear acceleration property of a 2D particle process material.
+Linear Acceleration
+The linear acceleration applied to each particle.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Describes the Radial Acceleration property for 2D particle materials.
+Radial Acceleration: If this acceleration is positive, particles are accelerated away from the center. If negative, they are absorbed towards it.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Explains the Tangential Acceleration property for 2D particle systems.
+Tangential Acceleration
+This acceleration will use the tangent vector to the center. Combining with radial acceleration can do nice effects.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Explains the Damping property of a 2D particle process material, which applies friction to slow down particles.
+
+Damping
+Damping applies friction to the particles, forcing them to stop. It is especially useful for sparks or explosions, which usually begin with a high linear velocity and then stop as they fade.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section describes the display properties of the ParticleProcessMaterial2D.
+
+The ParticleProcessMaterial2D allows for fine-grained control over particle appearance and behavior. The "Display" section of the inspector provides options to customize how particles are rendered.
+
+*   **Material:** This property allows you to assign a ShaderMaterial to the particles. This is useful for advanced visual effects that cannot be achieved with the built-in particle properties. If you assign a ShaderMaterial, the other properties in this section will be ignored.
+*   **Texture:** You can assign a texture to be used for rendering the particles. This texture will be applied to each individual particle.
+*   **Modulate:** This color value multiplies the particle's color. It's a way to tint the particles.
+*   **Alpha Cut:** This determines how transparent pixels in the particle texture are handled.
+    *   **Disabled:** No alpha cutting is performed.
+    *   **Discard:** Pixels with alpha below a threshold are discarded entirely.
+    *   **Blend:** Pixels with alpha below a threshold are blended, allowing for semi-transparent particles.
+*   **Billboard Mode:** This controls how the particle is oriented relative to the camera.
+    *   **Disabled:** Particles are not billboarded and maintain their orientation in 3D space.
+    *   **Enabled:** Particles always face the camera.
+    *   **Y-Billboard:** Particles rotate around the Y-axis to face the camera, but their up direction remains fixed.
+    *   **Particles Follow Camera:** Particles rotate to face the camera, and their up direction also aligns with the camera's up direction.
+*   **Animate UV:** If enabled, this allows for UV animation of the particle texture. This is useful for sprite sheets where you want to animate frames of an image.
+*   **UV Rage:** When Animate UV is enabled, this property defines the range of UV coordinates to animate over.
+*   **UV Speed:** When Animate UV is enabled, this property controls the speed of the UV animation.
+*   **UV Current:** When Animate UV is enabled, this property sets the current frame of the UV animation.
+*   **Flip H:** If enabled, the particle texture will be flipped horizontally.
+*   **Flip V:** If enabled, the particle texture will be flipped vertically.
+*   **Align Y:** When enabled, particles will align their Y-axis with the direction of their velocity. This is useful for effects like rain or streaks.
+*   **Render Order:** This determines the order in which particles are rendered, which can affect transparency and sorting.
+    *   **Top-To-Bottom:** Particles are rendered from top to bottom.
+    *   **Front-To-Back:** Particles are rendered from front to back.
+    *   **Orthogonal:** Particles are rendered in an orthogonal manner.
+    *   **Custom:** Allows for custom sorting based on other properties.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Defines the initial scale of particles in a 2D particle system.
+Scale
+Determines the initial scale of the particles.
+---CHUNK---
+Document: ParticleProcessMaterial2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to use color curves to animate particle colors over their lifetime.
+
+Color Curves
+
+The color of a particle can be animated over its lifetime using a color ramp. This ramp is defined by a series of color keys and time values. The color of the particle will interpolate between these keys over the course of its lifetime.
+
+The color ramp is a gradient that maps the particle's lifetime (from 0.0 to 1.0) to a color. You can add, remove, and move color keys to define the gradient. Each key has a color and a time value. The time value represents the particle's normalized lifetime at which that color should be applied.
+
+To edit the color ramp:
+
+1.  Click on the color ramp property in the Inspector. This will open the color ramp editor.
+2.  Click on the ramp to add a new color key.
+3.  Drag the color keys to change their time values.
+4.  Double-click on a color key to open the color picker and change its color.
+5.  Right-click on a color key to remove it.
+
+You can also use the "Bake" button to bake the color ramp into a texture. This can be useful for performance, as it avoids the need to interpolate the color at runtime.
+
+Example:
+
+Let's say you want a particle to start red, fade to yellow, and then fade to blue. You would set up the color ramp as follows:
+
+*   Key 1: Time 0.0, Color Red
+*   Key 2: Time 0.5, Color Yellow
+*   Key 3: Time 1.0, Color Blue
+
+This will cause the particle to smoothly transition from red to yellow over the first half of its life, and then from yellow to blue over the second half.
+
+The color ramp can be used to create a wide variety of effects, from simple color fades to complex animated color patterns.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section describes the Color property for particle materials in Godot 2D.
+Color
+Used to change the color of the particles being emitted.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section describes the hue variation properties for 2D particle systems.
+The Hue Variation properties control the initial hue applied to each particle and the randomness of that hue. The `Variation` value sets the initial hue variation applied to each particle. The `Variation Random` value controls the hue variation randomness ratio.
+---CHUNK---
+Document: particle_process_material_2d.rst
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to configure particle flipbook animations for linear playback or random texture selection in Godot's particle systems.
+Animation
+Note: Particle flipbook animation is only effective if the CanvasItemMaterial used on the GPUParticles2D or CPUParticles2D node has been configured accordingly.
+
+To set up the particle flipbook for linear playback, set the Speed Min and Speed Max values to 1.
+
+By default, looping is disabled. If the particle is done playing before its lifetime ends, the particle will keep using the flipbook's last frame. If looping is enabled, the animation will loop back to the first frame and resume playing.
+
+The relationship between particle lifetime, animation speed, and number of images in the sprite sheet is as follows:
+Note: At an animation speed of 1.0, the animation will reach the last image in the sequence just as the particle's lifetime ends.
+Animation FPS = Number of images / Lifetime
+
+If you wish the particle flipbook to be used as a source of random particle textures for every particle, keep the speed values at 0 and set Offset Max to 1 instead.
+
+The GPUParticles2D node's Fixed FPS also affects animation playback. For smooth animation playback, it's recommended to set it to 0 so that the particle is simulated on every rendered frame. If this is not an option for your use case, set Fixed FPS to be equal to the effective framerate used by the flipbook animation.
+---CHUNK---
+Document: ParticleProcessMaterial2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to use textures as emission masks for GPUParticles2D nodes.
+
+Emission Shapes
+ParticleProcessMaterials allow you to set an Emission Mask, which dictates the area and direction in which particles are emitted. These can be generated from textures in your project.
+
+To set an emission mask, ensure that a ParticleProcessMaterial is assigned to the GPUParticles2D node and that the GPUParticles2D node is selected. A "Particles" menu will appear in the Toolbar.
+
+Click on the "Particles" menu and select "Load Emission Mask". Then, choose the texture you want to use as your mask from the file dialog. After selecting the texture, a dialog box will appear with several settings to configure the emission mask.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: Describes the different emission mask types available for 2D particle systems.
+Emission Mask
+Three types of emission masks can be generated from a texture:
+*   Solid Pixels: Particles will spawn from any area of the texture, excluding transparent areas.
+*   Border Pixels: Particles will spawn from the outer edges of the texture.
+*   Directed Border Pixels: Similar to Border Pixels, but adds extra information to the mask to give particles the ability to emit away from the borders. Note that an Initial Velocity will need to be set in order to utilize this.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to use emission colors with particle materials, specifically the "Capture from Pixel" option and the implications of using the "Load Emission Mask" menu.
+Emission Colors
+"Capture from Pixel" will cause the particles to inherit the color of the mask at their spawn points. Once you click "OK", the mask will be generated and set to the ParticleProcessMaterial, under Spawn and then Position. All of the values within this section have been automatically generated by the "Load Emission Mask" menu, so they should generally be left alone. Note: An image should not be added to Point Texture or Color Texture directly. The "Load Emission Mask" menu should always be used instead.
+---CHUNK---
+Document: Particle Process Material 2D
+Path: godot/tutorials/2d/particle_process_material_2d.rst
+Summary: This section explains how to convert a ParticleProcessMaterial to a ShaderMaterial to customize shader code.
+
+To change or implement new behaviors in shader code, you can convert the current ParticleProcessMaterial to a ShaderMaterial. Existing properties are preserved during the conversion. Enabled features will also affect the converted shader code.
+
+To convert the material, right-click on the material in the FileSystem dock and select **Convert to ShaderMaterial**. Alternatively, you can right-click on any property in the inspector that holds a reference to the material and choose the same conversion option.

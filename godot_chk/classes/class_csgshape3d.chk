@@ -1,0 +1,134 @@
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: Identifies the CSGShape3D class.
+---CHUNK---
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: The base class for all CSG nodes in 3D.
+
+CSGShape3D
+Inherits: GeometryInstance3D < VisualInstance3D < Node3D < Node < Object
+Inherited By: CSGCombiner3D, CSGPrimitive3D
+
+The CSG base class.
+---CHUNK---
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: This section describes the CSGShape3D base class, its purpose, and performance considerations for CSG operations.
+
+This is the CSG base class that provides CSG operation support to the various CSG nodes in Godot.
+
+Performance: CSG nodes are only intended for prototyping as they have a significant CPU performance cost. Consider baking final CSG operation results into static geometry that replaces the CSG nodes.
+
+Individual CSG root node results can be baked to nodes with static resources with the editor menu that appears when a CSG root node is selected.
+
+Individual CSG root nodes can also be baked to static resources with scripts by calling bake_static_mesh() for the visual mesh or bake_collision_shape() for the physics collision.
+
+Entire scenes of CSG nodes can be baked to static geometry and exported with the editor glTF scene exporter: Scene > Export As... > glTF 2.0 Scene...
+---CHUNK---
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: Lists related tutorials for CSGShape3D.
+
+Tutorials
+- Prototyping levels with CSG
+---CHUNK---
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: This section lists the properties available for CSGShape3D nodes.
+
+Properties:
+* autosmooth (bool): Default: false.
+* calculate_tangents (bool): Default: true.
+* collision_layer (int): Default: 1.
+* collision_mask (int): Default: 1.
+* collision_priority (float): Default: 1.0.
+* operation (Operation): Default: 0.
+* smoothing_angle (float): Default: 50.0.
+* snap (float):
+* use_collision (bool): Default: false.
+---CHUNK---
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: This chunk describes the methods and enumerations available for CSGShape3D, including CSG operations.
+
+Methods:
+*   Method: bake_collision_shape() → ConcavePolygonShape3D
+*   Method: bake_static_mesh() → ArrayMesh
+*   Method: get_collision_layer_value(layer_number: int) → bool
+*   Method: get_collision_mask_value(layer_number: int) → bool
+*   Method: get_meshes() → Array
+*   Method: is_root_shape() → bool
+*   Method: set_collision_layer_value(layer_number: int, value: bool) → void
+*   Method: set_collision_mask_value(layer_number: int, value: bool) → void
+
+Enumerations:
+enum **Operation**:
+*   **OPERATION_UNION** = 0: Geometry of both primitives is merged, intersecting geometry is removed.
+*   **OPERATION_INTERSECTION** = 1: Only intersecting geometry remains, the rest is removed.
+*   **OPERATION_SUBTRACTION** = 2: The second shape is subtracted from the first, leaving a dent with its shape.
+---CHUNK---
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: This section describes the properties of the CSGShape3D class, including settings for smoothing, collision, and CSG operations.
+
+Properties:
+*   autosmooth (bool): Enables automatic smoothing. This overrides any smoothing on the CSG node and instead uses smoothing_angle to calculate normals based on the angle between faces. Children of a CSGCombiner3D node will be treated as a single mesh.
+    Method: set_autosmooth(value: bool)
+    Method: is_autosmooth()
+*   calculate_tangents (bool): Calculates tangents for the CSG shape which allows the use of normal and height maps. This is only applied on the root shape; this setting is ignored on any child. Setting this to false can speed up shape generation slightly.
+    Method: set_calculate_tangents(value: bool)
+    Method: is_calculating_tangents()
+*   collision_layer (int): The physics layers this area is in. Collidable objects can exist in any of 32 different layers. These layers work like a tagging system, and are not visual. A collidable can use these layers to select with which objects it can collide, using the collision_mask property. A contact is detected if object A is in any of the layers that object B scans, or object B is in any layer scanned by object A.
+    Method: set_collision_layer(value: int)
+    Method: get_collision_layer()
+*   collision_mask (int): The physics layers this CSG shape scans for collisions. Only effective if use_collision is true.
+    Method: set_collision_mask(value: int)
+    Method: get_collision_mask()
+*   collision_priority (float): The priority used to solve colliding when occurring penetration. Only effective if use_collision is true. The higher the priority is, the lower the penetration into the object will be. This can for example be used to prevent the player from breaking through the boundaries of a level.
+    Method: set_collision_priority(value: float)
+    Method: get_collision_priority()
+*   operation (Operation): The operation that is performed on this shape. This is ignored for the first CSG child node as the operation is between this node and the previous child of this node's parent.
+    Method: set_operation(value: Operation)
+    Method: get_operation()
+*   smoothing_angle (float): When autosmooth is enabled, faces with an angle between them greater than this will be smoothed, while faces with a smaller angle will remain sharp. Note: An angle lower than 0.1 will cause all smoothing to be disabled, this can be used to increase performance.
+    Method: set_smoothing_angle(value: float)
+    Method: get_smoothing_angle()
+*   snap (float): Deprecated: The CSG library no longer uses snapping. This property does nothing.
+    Method: set_snap(value: float)
+    Method: get_snap()
+*   use_collision (bool): Adds a collision shape to the physics engine for our CSG shape. This will always act like a static body. Note that the collision shape is still active even if the CSG shape itself is hidden. See also collision_mask and collision_priority.
+    Method: set_use_collision(value: bool)
+    Method: is_using_collision()
+---CHUNK---
+Document: CSGShape3D
+Path: godot/classes/class_csgshape3d.rst
+Summary: This section describes methods for baking collision shapes and static meshes, and managing collision layers and masks for CSGShape3D.
+
+Method: bake_collision_shape() → ConcavePolygonShape3D
+Returns a baked physics ConcavePolygonShape3D of this node's CSG operation result. Returns an empty shape if the node is not a CSG root node or has no valid geometry.
+Performance: If the CSG operation results in a very detailed geometry with many faces physics performance will be very slow. Concave shapes should in general only be used for static level geometry and not with dynamic objects that are moving.
+Note: CSG mesh data updates are deferred, which means they are updated with a delay of one rendered frame. To avoid getting an empty shape or outdated mesh data, make sure to call `await get_tree().process_frame` before using `bake_collision_shape()` in `Node._ready()` or after changing properties on the CSGShape3D.
+
+Method: bake_static_mesh() → ArrayMesh
+Returns a baked static ArrayMesh of this node's CSG operation result. Materials from involved CSG nodes are added as extra mesh surfaces. Returns an empty mesh if the node is not a CSG root node or has no valid geometry.
+Note: CSG mesh data updates are deferred, which means they are updated with a delay of one rendered frame. To avoid getting an empty mesh or outdated mesh data, make sure to call `await get_tree().process_frame` before using `bake_static_mesh()` in `Node._ready()` or after changing properties on the CSGShape3D.
+
+Method: get_collision_layer_value(layer_number: int) → bool
+Returns whether or not the specified layer of the collision_layer is enabled, given a `layer_number` between 1 and 32.
+
+Method: get_collision_mask_value(layer_number: int) → bool
+Returns whether or not the specified layer of the collision_mask is enabled, given a `layer_number` between 1 and 32.
+
+Method: get_meshes() → Array
+Returns an Array with two elements, the first is the Transform3D of this node and the second is the root Mesh of this node. Only works when this node is the root shape.
+Note: CSG mesh data updates are deferred, which means they are updated with a delay of one rendered frame. To avoid getting an empty shape or outdated mesh data, make sure to call `await get_tree().process_frame` before using `get_meshes()` in `Node._ready()` or after changing properties on the CSGShape3D.
+
+Method: is_root_shape() → bool
+Returns `true` if this is a root shape and is thus the object that is rendered.
+
+Method: set_collision_layer_value(layer_number: int, value: bool) → void
+Based on `value`, enables or disables the specified layer in the collision_layer, given a `layer_number` between 1 and 32.
+
+Method: set_collision_mask_value(layer_number: int, value: bool) → void
+Based on `value`, enables or disables the specified layer in the collision_mask, given a `layer_number` between 1 and 32.

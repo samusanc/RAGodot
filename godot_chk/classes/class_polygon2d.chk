@@ -1,0 +1,174 @@
+Document: Polygon2D
+Path: godot/classes/class_polygon2d.rst
+Summary: This document describes the Polygon2D class.
+---CHUNK---
+Document: Polygon2D
+Path: godot/classes/class_polygon2d.rst
+Summary: Describes the Polygon2D node, used for drawing 2D polygons.
+
+Inherits: Node2D < CanvasItem < Node < Object
+
+A 2D polygon.
+---CHUNK---
+Document: Polygon2D
+Path: godot/classes/class_polygon2d.rst
+Summary: A Polygon2D is a closed shape defined by points, which can be filled with color or a texture.
+
+A Polygon2D is defined by a set of points. Each point is connected to the next, with the final point being connected to the first, resulting in a closed polygon. Polygon2Ds can be filled with color (solid or gradient) or filled with a given texture.
+---CHUNK---
+Document: Polygon2D
+Path: godot/classes/class_polygon2d.rst
+Summary: This section lists the properties available for the Polygon2D class, including their types and default values.
+
+*   antialiased (bool): Default: false.
+*   color (Color): Default: Color(1, 1, 1, 1).
+*   internal_vertex_count (int): Default: 0.
+*   invert_border (float): Default: 100.0.
+*   invert_enabled (bool): Default: false.
+*   offset (Vector2): Default: Vector2(0, 0).
+*   polygon (PackedVector2Array): Default: PackedVector2Array().
+*   polygons (Array): Default: [].
+*   skeleton (NodePath): Default: NodePath("").
+*   texture (Texture2D)
+*   texture_offset (Vector2): Default: Vector2(0, 0).
+*   texture_rotation (float): Default: 0.0.
+*   texture_scale (Vector2): Default: Vector2(1, 1).
+*   uv (PackedVector2Array): Default: PackedVector2Array().
+*   vertex_colors (PackedColorArray): Default: PackedColorArray().
+---CHUNK---
+Document: Polygon2D
+Path: godot/classes/class_polygon2d.rst
+Summary: This section lists the methods available for managing bones in a Polygon2D node.
+
+Method: add_bone(path: NodePath, weights: PackedFloat32Array) → void
+Method: clear_bones() → void
+Method: erase_bone(index: int) → void
+Method: get_bone_count() → int
+Method: get_bone_path(index: int) → NodePath
+Method: get_bone_weights(index: int) → PackedFloat32Array
+Method: set_bone_path(index: int, path: NodePath) → void
+Method: set_bone_weights(index: int, weights: PackedFloat32Array) → void
+---CHUNK---
+Document: Polygon2D
+Path: godot/classes/class_polygon2d.rst
+Summary: This section describes the properties available for configuring a Polygon2D node, including appearance, texture mapping, and deformation.
+
+Property: **antialiased** (bool)
+Description: If true, polygon edges will be anti-aliased.
+Default: false
+Method: set_antialiased(value: bool)
+Method: get_antialiased()
+
+Property: **color** (Color)
+Description: The polygon's fill color. If texture is set, it will be multiplied by this color. It will also be the default color for vertices not set in vertex_colors.
+Default: Color(1, 1, 1, 1)
+Method: set_color(value: Color)
+Method: get_color()
+
+Property: **internal_vertex_count** (int)
+Description: Number of internal vertices, used for UV mapping.
+Default: 0
+Method: set_internal_vertex_count(value: int)
+Method: get_internal_vertex_count()
+
+Property: **invert_border** (float)
+Description: Added padding applied to the bounding box when invert_enabled is set to true. Setting this value too small may result in a "Bad Polygon" error.
+Default: 100.0
+Method: set_invert_border(value: float)
+Method: get_invert_border()
+
+Property: **invert_enabled** (bool)
+Description: If true, the polygon will be inverted, containing the area outside the defined points and extending to the invert_border.
+Default: false
+Method: set_invert_enabled(value: bool)
+Method: get_invert_enabled()
+
+Property: **offset** (Vector2)
+Description: The offset applied to each vertex.
+Default: Vector2(0, 0)
+Method: set_offset(value: Vector2)
+Method: get_offset()
+
+Property: **polygon** (PackedVector2Array)
+Description: The polygon's list of vertices. The final point will be connected to the first.
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedVector2Array for more details.
+Default: PackedVector2Array()
+Method: set_polygon(value: PackedVector2Array)
+Method: get_polygon()
+
+Property: **polygons** (Array)
+Description: The list of polygons, in case more than one is being represented. Every individual polygon is stored as a PackedInt32Array where each int is an index to a point in polygon. If empty, this property will be ignored, and the resulting single polygon will be composed of all points in polygon, using the order they are stored in.
+Default: []
+Method: set_polygons(value: Array)
+Method: get_polygons()
+
+Property: **skeleton** (NodePath)
+Description: Path to a Skeleton2D node used for skeleton-based deformations of this polygon. If empty or invalid, skeletal deformations will not be used.
+Default: NodePath("")
+Method: set_skeleton(value: NodePath)
+Method: get_skeleton()
+
+Property: **texture** (Texture2D)
+Description: The polygon's fill texture. Use uv to set texture coordinates.
+Method: set_texture(value: Texture2D)
+Method: get_texture()
+
+Property: **texture_offset** (Vector2)
+Description: Amount to offset the polygon's texture. If set to Vector2(0, 0), the texture's origin (its top-left corner) will be placed at the polygon's position.
+Default: Vector2(0, 0)
+Method: set_texture_offset(value: Vector2)
+Method: get_texture_offset()
+
+Property: **texture_rotation** (float)
+Description: The texture's rotation in radians.
+Default: 0.0
+Method: set_texture_rotation(value: float)
+Method: get_texture_rotation()
+
+Property: **texture_scale** (Vector2)
+Description: Amount to multiply the uv coordinates when using texture. Larger values make the texture smaller, and vice versa.
+Default: Vector2(1, 1)
+Method: set_texture_scale(value: Vector2)
+Method: get_texture_scale()
+
+Property: **uv** (PackedVector2Array)
+Description: Texture coordinates for each vertex of the polygon. There should be one UV value per polygon vertex. If there are fewer, undefined vertices will use Vector2(0, 0).
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedVector2Array for more details.
+Default: PackedVector2Array()
+Method: set_uv(value: PackedVector2Array)
+Method: get_uv()
+
+Property: **vertex_colors** (PackedColorArray)
+Description: Color for each vertex. Colors are interpolated between vertices, resulting in smooth gradients. There should be one per polygon vertex. If there are fewer, undefined vertices will use color.
+Note: The returned array is copied and any changes to it will not update the original property value. See PackedColorArray for more details.
+Default: PackedColorArray()
+Method: set_vertex_colors(value: PackedColorArray)
+Method: get_vertex_colors()
+---CHUNK---
+Document: Polygon2D
+Path: godot/classes/class_polygon22d.rst
+Summary: This section describes methods for managing bones and their weights within a Polygon2D node.
+
+Method: add_bone(path: NodePath, weights: PackedFloat32Array) → void
+Adds a bone with the specified path and weights.
+
+Method: clear_bones() → void
+Removes all bones from this Polygon2D.
+
+Method: erase_bone(index: int) → void
+Removes the specified bone from this Polygon2D.
+
+Method: get_bone_count() → int
+Returns the number of bones in this Polygon2D.
+
+Method: get_bone_path(index: int) → NodePath
+Returns the path to the node associated with the specified bone.
+
+Method: get_bone_weights(index: int) → PackedFloat32Array
+Returns the weight values of the specified bone.
+
+Method: set_bone_path(index: int, path: NodePath) → void
+Sets the path to the node associated with the specified bone.
+
+Method: set_bone_weights(index: int, weights: PackedFloat32Array) → void
+Sets the weight values for the specified bone.

@@ -1,0 +1,111 @@
+Document: EditorFileSystemDirectory
+Path: godot/classes/class_editorfilesystemdirectory.rst
+Summary: Represents a directory within the Godot editor's file system.
+
+Inherits: RefCounted < Object
+
+The EditorFileSystemDirectory class represents a directory within the Godot editor's file system. It provides methods to access and manage the contents of a directory, such as listing files and subdirectories, and checking for changes. This class is primarily used internally by the editor but can be accessed via the EditorInterface to interact with the file system from editor plugins.
+
+Key Rule: You cannot directly create or delete directories using this class; it reflects the current state of the file system as managed by the editor.
+
+Methods:
+- get_path() → StringName: Returns the path of the directory.
+- get_subdir_count() → int: Returns the number of subdirectories in this directory.
+- get_subdir(idx: int) → EditorFileSystemDirectory: Returns the subdirectory at the given index.
+- get_file_count() → int: Returns the number of files in this directory.
+- get_file(idx: int) → StringName: Returns the file name at the given index.
+- get_file_path(idx: int) → StringName: Returns the full path to the file at the given index.
+- get_meta_count() → int: Returns the number of metadata files in this directory.
+- get_meta_path(idx: int) → StringName: Returns the full path to the metadata file at the given index.
+- get_parent() → EditorFileSystemDirectory: Returns the parent directory.
+- get_checksum() → StringName: Returns a checksum of the directory's contents.
+- is_valid() → bool: Returns true if the directory is valid.
+- get_resource_script_file_count() → int: Returns the number of resource script files in this directory.
+- get_resource_script_file_path(idx: int) → StringName: Returns the full path to the resource script file at the given index.
+- get_import_subdirs() → PackedStringArray: Returns an array of paths to imported subdirectories.
+- get_files_as_list() → Array[StringName]: Returns an array of all file names in the directory.
+- get_dirs_as_list() → Array[StringName]: Returns an array of all subdirectory names in the directory.
+- get_all_files() → PackedStringArray: Returns an array of all file paths in the directory and its subdirectories.
+- get_all_dirs() → PackedStringArray: Returns an array of all subdirectory paths in the directory and its subdirectories.
+- get_scan_status() → int: Returns the scan status of the directory.
+- get_last_modified_time() → int: Returns the last modified time of the directory.
+- get_filesystem_path() → StringName: Returns the filesystem path of the directory.
+- get_filesystem_parent_path() → StringName: Returns the filesystem parent path of the directory.
+- get_filesystem_name() → StringName: Returns the filesystem name of the directory.
+- get_filesystem_full_path() → StringName: Returns the filesystem full path of the directory.
+- get_filesystem_dir_count() → int: Returns the number of filesystem directories in this directory.
+- get_filesystem_file_count() → int: Returns the number of filesystem files in this directory.
+- get_filesystem_file_path(idx: int) → StringName: Returns the filesystem path to the file at the given index.
+- get_filesystem_subdir(idx: int) → EditorFileSystemDirectory: Returns the filesystem subdirectory at the given index.
+- get_filesystem_meta_count() → int: Returns the number of filesystem metadata files in this directory.
+- get_filesystem_meta_path(idx: int) → StringName: Returns the filesystem path to the metadata file at the given index.
+- get_filesystem_resource_script_file_count() → int: Returns the number of filesystem resource script files in this directory.
+- get_filesystem_resource_script_file_path(idx: int) → StringName: Returns the filesystem path to the resource script file at the given index.
+- get_filesystem_import_subdirs() → PackedStringArray: Returns an array of filesystem paths to imported subdirectories.
+- get_filesystem_files_as_list() → Array[StringName]: Returns an array of all filesystem file names in the directory.
+- get_filesystem_dirs_as_list() → Array[StringName]: Returns an array of all filesystem subdirectory names in the directory.
+- get_filesystem_all_files() → PackedStringArray: Returns an array of all filesystem file paths in the directory and its subdirectories.
+- get_filesystem_all_dirs() → PackedStringArray: Returns an array of all filesystem subdirectory paths in the directory and its subdirectories.
+- get_filesystem_scan_status() → int: Returns the filesystem scan status of the directory.
+- get_filesystem_last_modified_time() → int: Returns the filesystem last modified time of the directory.
+---CHUNK---
+Document: EditorFileSystemDirectory
+Path: godot/classes/class_editorfilesystemdirectory.rst
+Summary: Represents a directory within Godot's resource filesystem.
+
+EditorFileSystemDirectory
+Inherits: Object
+
+This class represents a directory within Godot's resource filesystem. It provides methods to access and manage files and subdirectories within that directory.
+---CHUNK---
+Document: EditorFileSystemDirectory
+Path: godot/classes/class_editorfilesystemdirectory.rst
+Summary: Provides a low-level, generalized directory concept for the editor's file system.
+
+Inherits: RefCounted < Object
+---CHUNK---
+Document: EditorFileSystemDirectory
+Path: godot/classes/class_editorfilesystemdirectory.rst
+Summary: Provides methods for accessing information about files and subdirectories within a directory in the Godot editor's file system.
+
+Method: find_dir_index(name: String) -> int
+Returns the index of the directory with name "name" or -1 if not found.
+
+Method: find_file_index(name: String) -> int
+Returns the index of the file with name "name" or -1 if not found.
+
+Method: get_file(idx: int) -> String
+Returns the name of the file at index "idx".
+
+Method: get_file_count() -> int
+Returns the number of files in this directory.
+
+Method: get_file_import_is_valid(idx: int) -> bool
+Returns true if the file at index "idx" imported properly.
+
+Method: get_file_path(idx: int) -> String
+Returns the path to the file at index "idx".
+
+Method: get_file_script_class_extends(idx: int) -> String
+Returns the base class of the script class defined in the file at index "idx". If the file doesn't define a script class using the class_name syntax, this will return an empty string.
+
+Method: get_file_script_class_name(idx: int) -> String
+Returns the name of the script class defined in the file at index "idx". If the file doesn't define a script class using the class_name syntax, this will return an empty string.
+
+Method: get_file_type(idx: int) -> StringName
+Returns the resource type of the file at index "idx". This returns a string such as "Resource" or "GDScript", not a file extension such as ".gd".
+
+Method: get_name() -> String
+Returns the name of this directory.
+
+Method: get_parent() -> EditorFileSystemDirectory
+Returns the parent directory for this directory or null if called on a directory at res:// or user://.
+
+Method: get_path() -> String
+Returns the path to this directory.
+
+Method: get_subdir(idx: int) -> EditorFileSystemDirectory
+Returns the subdirectory at index "idx".
+
+Method: get_subdir_count() -> int
+Returns the number of subdirectories in this directory.

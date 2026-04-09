@@ -1,0 +1,262 @@
+Document: Scene Organization
+Path: godot/tutorials/best_practices/scene_organization.rst
+Summary: This section introduces best practices for scene organization.
+---CHUNK---
+Document: Scene organization
+Path: godot/tutorials/best_practices/scene_organization.rst
+Summary: This article discusses effective organization of scene content, including node usage, placement, and interaction.
+
+This article covers topics related to the effective organization of scene content. It addresses which nodes should be used, where they should be placed, and how they should interact.
+---CHUNK---
+Document: Scene Organization
+Path: godot/tutorials/best_practices/scene_organization.rst
+Summary: This section explains how to build effective relationships between scenes using loose coupling and dependency injection to improve reusability and maintainability.
+
+When Godot users create their first scene and fill it with content, they often end up saving branches into separate scenes. However, hard references no longer work, leading to issues with node paths and broken signal connections when reusing scenes. To fix this, sub-scenes must be instantiated without requiring details about their environment, ensuring they can create themselves without being picky about how they are used.
+
+A key principle in Object-Oriented Programming (OOP) is maintaining focused, singular-purpose classes with loose coupling to other parts of the codebase. This keeps objects small for maintainability and improves reusability. These OOP best practices have several implications for scene structure and script usage.
+
+If at all possible, you should design scenes to have no dependencies. That is, create scenes that keep everything they need within themselves. If a scene must interact with an external context, experienced developers recommend Dependency Injection. This technique involves a high-level API providing dependencies to a low-level API. This prevents classes relying on their external environment from inadvertently triggering bugs and unexpected behavior.
+
+To implement dependency injection, expose data and rely on a parent context to initialize it:
+
+1.  Connect to a signal. Extremely safe, but should be used only to "respond" to behavior, not start it. By convention, signal names are usually past-tense verbs like "entered", "skill_activated", or "item_collected".
+    GDScript:
+      # Parent
+      $Child.signal_name.connect(method_on_the_object)
+
+      # Child
+      signal_name.emit() # Triggers parent-specified behavior.
+    C#:
+      // Parent
+      GetNode("Child").Connect("SignalName", Callable.From(ObjectWithMethod.MethodOnTheObject));
+
+      // Child
+      EmitSignal("SignalName"); // Triggers parent-specified behavior.
+    C++:
+      // Parent
+      Node *node = get_node<Node>("Child");
+      if (node != nullptr) {
+          node->connect("signal_name", callable_mp(this, &ObjectWithMethod::method_on_the_object));
+      }
+
+      // Child
+      emit_signal("signal_name"); // Triggers parent-specified behavior.
+
+2.  Call a method. Used to start behavior.
+    GDScript:
+      # Parent
+      $Child.method_name = "do"
+
+      # Child, assuming it has String property 'method_name' and method 'do'.
+      call(method_name) # Call parent-specified method (which child must own).
+    C#:
+      // Parent
+      GetNode("Child").Set("MethodName", "Do");
+
+      // Child
+      Call(MethodName); // Call parent-specified method (which child must own).
+    C++:
+      // Parent
+      Node *node = get_node<Node>("Child");
+      if (node != nullptr) {
+          node->set("method_name", "do");
+      }
+
+      // Child
+      call(method_name); // Call parent-specified method (which child must own).
+
+3.  Initialize a Callable property. Safer than a method as ownership of the method is unnecessary. Used to start behavior.
+    GDScript:
+      # Parent
+      $Child.func_property = object_with_method.method_on_the_object
+
+      # Child
+      func_property.call() # Call parent-specified method (can come from anywhere).
+    C#:
+      // Parent
+      GetNode("Child").Set("FuncProperty", Callable.From(ObjectWithMethod.MethodOnTheObject));
+
+      // Child
+      FuncProperty.Call(); // Call parent-specified method (can come from anywhere).
+    C++:
+      // Parent
+      Node *node = get_node<Node>("Child");
+      if (node != nullptr) {
+          node->set("func_property", Callable(&ObjectWithMethod::method_on_the_object));
+      }
+
+      // Child
+      func_property.call(); // Call parent-specified method (can come from anywhere).
+
+4.  Initialize a Node or other Object reference.
+    GDScript:
+      # Parent
+      $Child.target = self
+
+      # Child
+      print(target) # Use parent-specified node.
+    C#:
+      // Parent
+      GetNode("Child").Set("Target", this);
+
+      // Child
+      GD.Print(Target); // Use parent-specified node.
+    C++:
+      // Parent
+      Node *node = get_node<Node>("Child");
+      if (node != nullptr) {
+          node->set("target", this);
+      }
+
+      // Child
+      UtilityFunctions::print(target);
+
+5.  Initialize a NodePath.
+    GDScript:
+      # Parent
+      $Child.target_path = ".."
+
+      # Child
+      get_node(target_path) # Use parent-specified NodePath.
+    C#:
+      // Parent
+      GetNode("Child").Set("TargetPath", NodePath(".."));
+
+      // Child
+      GetNode(TargetPath); // Use parent-specified NodePath.
+    C++:
+      // Parent
+      Node *node = get_node<Node>("Child");
+      if (node != nullptr) {
+          node->set("target_path", NodePath(".."));
+      }
+
+      // Child
+      get_node<Node>(target_path); // Use parent-specified NodePath.
+
+These options hide the points of access from the child node, keeping it loosely coupled to its environment. This allows reuse in another context without extra API changes.
+
+Note: Although the examples illustrate parent-child relationships, the same principles apply to all object relations. Sibling nodes should only be aware of their own hierarchies, while an ancestor mediates their communications and references.
+GDScript:
+  # Parent
+  $Left.target = $Right.get_node("Receiver")
+
+  # Left
+  var target: Node
+  func execute():
+      # Do something with 'target'.
+
+  # Right
+  func _init():
+      var receiver = Receiver.new()
+      add_child(receiver)
+C#:
+  // Parent
+  GetNode<Left>("Left").Target = GetNode("Right/Receiver");
+
+  public partial class Left : Node
+  {
+      public Node Target = null;
+
+      public void Execute()
+      {
+          // Do something with 'Target'.
+      }
+  }
+
+  public partial class Right : Node
+  {
+      public Node Receiver = null;
+
+      public Right()
+      {
+          Receiver = ResourceLoader.Load<Script>("Receiver.cs").New();
+          AddChild(Receiver);
+      }
+  }
+C++:
+  // Parent
+  get_node<Left>("Left")->target = get_node<Node>("Right/Receiver");
+
+  class Left : public Node {
+      GDCLASS(Left, Node)
+
+      protected:
+          static void _bind_methods() {}
+
+      public:
+          Node *target = nullptr;
+
+          Left() {}
+
+          void execute() {
+              // Do something with 'target'.
+          }
+  };
+
+  class Right : public Node {
+      GDCLASS(Right, Node)
+
+      protected:
+          static void _bind_methods() {}
+
+      public:
+          Node *receiver = nullptr;
+
+          Right() {
+              receiver = memnew(Node);
+              add_child(receiver);
+          }
+  };
+The same principles also apply to non-Node objects that maintain dependencies on other objects. Whichever object owns the other objects should manage the relationships between them.
+
+Warning: You should favor keeping data internal to a scene. Placing a dependency on an external context, even a loosely coupled one, still means the node expects something in its environment to be true. Project design philosophies should prevent this. Otherwise, the code's inherent liabilities will force developers to use documentation to track object relations, leading to "development hell." Code relying on external documentation for safe use is error-prone. To avoid this, convert the dependent node into a tool script that implements _get_configuration_warnings(). Returning a non-empty PackedStringArray from it will make the Scene dock generate a warning icon with the string(s) as a tooltip by the node. This is similar to the icon for an Area2D node without child CollisionShape2D nodes. The editor then self-documents the scene through the script code, eliminating content duplication via documentation. A GUI like this better informs users about a Node's external dependencies and whether they are satisfied, providing clear instructions for configuration.
+
+This indirection works because scenes operate best alone. If not, working with others anonymously (with minimal hard dependencies) is the next best thing. Changes to a class can interact with other scenes in unforeseen ways, causing breakdowns. The whole point of indirection is to avoid a situation where changing one class adversely affects other dependent classes.
+
+Scripts and scenes, as extensions of engine classes, should abide by all OOP principles. Examples include:
+*   SOLID
+*   DRY
+*   KISS
+*   YAGNI
+---CHUNK---
+Document: Choosing a node tree structure
+Path: godot/tutorials/best_practices/scene_organization.rst
+Summary: This section outlines a recommended SceneTree structure for Godot games, including an entry point, world, GUI, and considerations for autoloads and node relationships.
+
+You might start to work on a game but get overwhelmed by the vast possibilities before you. You might know what you want to do, what systems you want to have, but *where* do you put them all? How you go about making your game is always up to you. You can construct node trees in countless ways. If you are unsure, this guide can give you a sample of a decent structure to start with.
+
+A game should always have an "entry point"; somewhere you can definitively track where things begin so that you can follow the logic as it continues elsewhere. It also serves as a bird's eye view of all other data and logic in the program. For traditional applications, this is normally a "main" function. In Godot, it's a Main node.
+
+- Node "Main" (main.gd)
+
+The `main.gd` script will serve as the primary controller of your game.
+
+Then you have an in-game "World" (a 2D or 3D one). This can be a child of Main. In addition, you will need a primary GUI for your game that manages the various menus and widgets the project needs.
+
+- Node "Main" (main.gd)
+    - Node2D/Node3D "World" (game_world.gd)
+    - Control "GUI" (gui.gd)
+
+When changing levels, you can then swap out the children of the "World" node. Changing scenes manually gives you full control over how your game world transitions.
+
+The next step is to consider what gameplay systems your project requires. If you have a system that:
+1. tracks all of its data internally
+2. should be globally accessible
+3. should exist in isolation
+... then you should create an autoload 'singleton' node.
+
+Note: For smaller games, a simpler alternative with less control would be to have a "Game" singleton that simply calls the SceneTree.change_scene_to_file() method to swap out the main scene's content. This structure more or less keeps the "World" as the main game node. Any GUI would also need to be either a singleton, a transitory part of the "World", or manually added as a direct child of the root. Otherwise, the GUI nodes would also delete themselves during scene transitions.
+
+If you have systems that modify other systems' data, you should define those as their own scripts or scenes, rather than autoloads. For more information, see Autoloads versus regular nodes.
+
+Each subsystem within your game should have its own section within the SceneTree. You should use parent-child relationships only in cases where nodes are effectively elements of their parents. Does removing the parent reasonably mean that the children should also be removed? If not, then it should have its own place in the hierarchy as a sibling or some other relation.
+
+Note: In some cases, you need separated nodes to also position themselves relative to each other. You can use the RemoteTransform / RemoteTransform2D nodes for this purpose. They will allow a target node to conditionally inherit selected transform elements from the Remote* node. To assign the `target` NodePath, use one of the following: 1. A reliable third party, likely a parent node, to mediate the assignment. 2. A group, to pull a reference to the desired node (assuming there will only ever be one of the targets). This dilemma often arises when a node, like a player, must persist across scene changes (e.g., moving between rooms). If memory is not a concern, create the new room, move the player, then delete the old room. If memory is a concern, move the player elsewhere in the tree, delete the old room, instantiate and add the new room, then re-add the player. Such "special cases" are a maintenance burden and should be avoided. For complex games, keeping the player elsewhere in the SceneTree entirely offers more consistency and fewer errors. If a child node should not inherit its parent's transform, use a Node in between them (declarative) or set the `top_level` property for the CanvasItem or Node3D node (imperative).
+
+Note: If building a networked game, keep in mind which nodes and gameplay systems are relevant to all players versus those just pertinent to the authoritative server. For example, users do not all need to have a copy of every players' "PlayerController" logic - they only need their own. Keeping them in a separate branch from the "world" can help simplify the management of game connections and the like.
+
+The key to scene organization is to consider the SceneTree in relational terms rather than spatial terms. Are the nodes dependent on their parent's existence? If not, then they can thrive all by themselves somewhere else. If they are dependent, then it stands to reason that they should be children of that parent (and likely part of that parent's scene if they aren't already).
+
+Does this mean nodes themselves are components? Not at all. Godot's node trees form an aggregation relationship, not one of composition. But while you still have the flexibility to move nodes around, it is still best when such moves are unnecessary by default.

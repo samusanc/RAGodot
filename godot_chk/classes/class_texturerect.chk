@@ -1,0 +1,91 @@
+Document: TextureRect
+Path: godot/classes/class_texturerect.rst
+Summary: A control node that displays a texture.
+
+TextureRect is a control node that displays a texture. It can be used to display images, icons, or other graphical elements within the UI.
+
+Inherits: Control < CanvasItem < Node < Object
+---CHUNK---
+Document: TextureRect
+Path: godot/classes/class_texturerect.rst
+Summary: Introduces the TextureRect control, which is used to display textures within the Godot UI system.
+TextureRect
+Inherits: Control < CanvasItem < Node < Object
+
+A control that displays a texture.
+---CHUNK---
+Document: TextureRect
+Path: godot/classes/class_texturerect.rst
+Summary: A control node that displays a texture, allowing for various scaling and tiling options.
+
+TextureRect is a control that displays a texture, for example an icon inside a GUI. The texture's placement can be controlled with the stretch_mode property. It can scale, tile, or stay centered inside its bounding rectangle.
+---CHUNK---
+Document: TextureRect
+Path: godot/classes/class_texturerect.rst
+Summary: This section provides links to external tutorials related to TextureRect.
+
+Note: This section contains links to external tutorials.
+---CHUNK---
+Document: TextureRect
+Path: godot/classes/class_texturerect.rst
+Summary: Describes the properties of the TextureRect node, including expansion mode, flipping, mouse filtering, stretch mode, and the texture itself.
+
+Properties
+* expand_mode (ExpandMode): Controls how the texture is scaled to fit the control's rectangle. Default: 0.
+* flip_h (bool): If true, the texture is flipped horizontally. Default: false.
+* flip_v (bool): If true, the texture is flipped vertically. Default: false.
+* mouse_filter (MouseFilter): Controls how mouse events are handled. Default: 1 (overrides Control.mouse_filter).
+* stretch_mode (StretchMode): Controls how the texture is stretched or tiled within the control's rectangle. Default: 0.
+* texture (Texture2D): The texture to display.
+---CHUNK---
+Document: TextureRect
+Path: godot/classes/class_texturerect.rst
+Summary: Defines enumerations for controlling how a TextureRect expands and stretches its texture.
+
+Enumerations
+ExpandMode:
+  EXPAND_KEEP_SIZE = 0: The minimum size will be equal to texture size, i.e. TextureRect can't be smaller than the texture.
+  EXPAND_IGNORE_SIZE = 1: The size of the texture won't be considered for minimum size calculation, so the TextureRect can be shrunk down past the texture size.
+  EXPAND_FIT_WIDTH = 2: The height of the texture will be ignored. Minimum width will be equal to the current height. Useful for horizontal layouts, e.g. inside HBoxContainer.
+  EXPAND_FIT_WIDTH_PROPORTIONAL = 3: Same as EXPAND_FIT_WIDTH, but keeps texture's aspect ratio.
+  EXPAND_FIT_HEIGHT = 4: The width of the texture will be ignored. Minimum height will be equal to the current width. Useful for vertical layouts, e.g. inside VBoxContainer.
+  EXPAND_FIT_HEIGHT_PROPORTIONAL = 5: Same as EXPAND_FIT_HEIGHT, but keeps texture's aspect ratio.
+
+StretchMode:
+  STRETCH_SCALE = 0: Scale to fit the node's bounding rectangle.
+  STRETCH_TILE = 1: Tile inside the node's bounding rectangle. Note: STRETCH_TILE mode is not supported for texture set to an AtlasTexture with non-zero AtlasTexture.margin.
+  STRETCH_KEEP = 2: The texture keeps its original size and stays in the bounding rectangle's top-left corner.
+  STRETCH_KEEP_CENTERED = 3: The texture keeps its original size and stays centered in the node's bounding rectangle.
+  STRETCH_KEEP_ASPECT = 4: Scale the texture to fit the node's bounding rectangle, but maintain the texture's aspect ratio.
+  STRETCH_KEEP_ASPECT_CENTERED = 5: Scale the texture to fit the node's bounding rectangle, center it and maintain its aspect ratio.
+  STRETCH_KEEP_ASPECT_COVERED = 6: Scale the texture so that the shorter side fits the bounding rectangle. The other side clips to the node's limits.
+---CHUNK---
+Document: TextureRect
+Path: godot/classes/class_texturerect.rst
+Summary: Describes the properties of the TextureRect node, including how the texture is expanded, flipped, stretched, and the texture resource itself.
+
+Property: expand_mode (ExpandMode)
+Description: Defines how minimum size is determined based on the texture's size. Default: 0.
+Note: Using EXPAND_FIT_WIDTH, EXPAND_FIT_WIDTH_PROPORTIONAL, EXPAND_FIT_HEIGHT, or EXPAND_FIT_HEIGHT_PROPORTIONAL may result in unstable behavior in some Container controls. This behavior may be re-evaluated and changed in the future.
+Method: set_expand_mode(value: ExpandMode)
+Method: get_expand_mode() -> ExpandMode
+
+Property: flip_h (bool)
+Description: If true, texture is flipped horizontally. Default: false.
+Method: set_flip_h(value: bool)
+Method: is_flipped_h() -> bool
+
+Property: flip_v (bool)
+Description: If true, texture is flipped vertically. Default: false.
+Method: set_flip_v(value: bool)
+Method: is_flipped_v() -> bool
+
+Property: stretch_mode (StretchMode)
+Description: Controls the texture's behavior when resizing the node's bounding rectangle. Default: 0.
+Method: set_stretch_mode(value: StretchMode)
+Method: get_stretch_mode() -> StretchMode
+
+Property: texture (Texture2D)
+Description: The node's Texture2D resource.
+Method: set_texture(value: Texture2D)
+Method: get_texture() -> Texture2D

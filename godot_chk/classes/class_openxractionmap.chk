@@ -1,0 +1,123 @@
+Document: OpenXRActionMap
+Path: godot/classes/class_openxractionmap.rst
+Summary: Defines mappings between OpenXR actions and input events.
+
+OpenXRActionMap
+
+Inherits: Resource < RefCounted < Object
+
+This class defines mappings between OpenXR actions and input events. It allows you to configure how physical input from VR controllers is translated into logical actions within your Godot project using the OpenXR plugin. You can define actions, bind them to specific controller inputs, and specify how these actions should be represented as Godot input events. This is crucial for creating cross-platform VR experiences that respond correctly to various VR hardware.
+---CHUNK---
+Document: OpenXRActionMap
+Path: godot/classes/class_openxractionmap.rst
+Summary: A collection of OpenXRActionSet and OpenXRInteractionProfile resources for the OpenXR module.
+
+OpenXRActionMap
+Inherits: Resource < RefCounted < Object
+
+Collection of OpenXRActionSet and OpenXRInteractionProfile resources for the OpenXR module.
+---CHUNK---
+Document: OpenXractionmap
+Path: godot/classes/class_openxractionmap.rst
+Summary: Describes the OpenXR action map system and its relationship to Godot's input map, emphasizing its static nature and runtime-controlled bindings.
+OpenXR uses an action system similar to Godot's Input map system to bind inputs and outputs on various types of XR controllers to named actions. OpenXR specifies more detail on these inputs and outputs than Godot supports.
+
+Another important distinction is that OpenXR offers no control over these bindings. The bindings we register are suggestions, it is up to the XR runtime to offer users the ability to change these bindings. This allows the XR runtime to fill in the gaps if new hardware becomes available.
+
+The action map therefore needs to be loaded at startup and can't be changed afterwards. This resource is a container for the entire action map.
+---CHUNK---
+Document: OpenXRActionMap
+Path: godot/classes/class_openxractionmap.rst
+Summary: Defines properties for configuring OpenXR action sets and interaction profiles.
+
+Properties
+action_sets (Array): An array of OpenXR action sets. Default: [].
+interaction_profiles (Array): An array of OpenXR interaction profiles. Default: [].
+---CHUNK---
+Document: OpenXRActionMap
+Path: godot/classes/class_openxractionmap.rst
+Summary: Defines methods for managing OpenXR action sets and interaction profiles.
+
+Method: add_action_set(action_set: OpenXRActionSet) → void
+Adds an action set to the map.
+
+Method: add_interaction_profile(interaction_profile: OpenXRInteractionProfile) → void
+Adds an interaction profile to the map.
+
+Method: create_default_action_sets() → void
+Creates default action sets for common XR functionalities.
+
+Method: find_action_set(name: String) → OpenXRActionSet |const|
+Finds an action set by its name. Returns null if not found.
+
+Method: find_interaction_profile(name: String) → OpenXRInteractionProfile |const|
+Finds an interaction profile by its name. Returns null if not found.
+
+Method: get_action_set(idx: int) → OpenXRActionSet |const|
+Retrieves an action set at the specified index.
+
+Method: get_action_set_count() → int |const|
+Returns the total number of action sets in the map.
+
+Method: get_interaction_profile(idx: int) → OpenXRInteractionProfile |const|
+Retrieves an interaction profile at the specified index.
+
+Method: get_interaction_profile_count() → int |const|
+Returns the total number of interaction profiles in the map.
+
+Method: remove_action_set(action_set: OpenXRActionSet) → void
+Removes an action set from the map.
+
+Method: remove_interaction_profile(interaction_profile: OpenXRInteractionProfile) → void
+Removes an interaction profile from the map.
+---CHUNK---
+Document: OpenXRActionMap
+Path: godot/classes/class_openxractionmap.rst
+Summary: Describes the properties of the OpenXRActionMap class, specifically its action sets and interaction profiles.
+
+Inherits: Resource < RefCounted < Object
+
+Properties
+action_sets (Array): Collection of OpenXRActionSet s that are part of this action map.
+    Setter: set_action_sets(value: Array)
+    Getter: get_action_sets() -> Array
+interaction_profiles (Array): Collection of OpenXRInteractionProfile s that are part of this action map.
+    Setter: set_interaction_profiles(value: Array)
+    Getter: get_interaction_profiles() -> Array
+---CHUNK---
+Document: OpenXRActionMap
+Path: godot/classes/class_openxractionmap.rst
+Summary: This section details the methods available for managing OpenXR action sets and interaction profiles within the OpenXRActionMap class.
+
+Method: add_action_set(action_set: OpenXRActionSet)
+Add an action set.
+
+Method: add_interaction_profile(interaction_profile: OpenXRInteractionProfile)
+Add an interaction profile.
+
+Method: create_default_action_sets()
+Setup this action set with our default actions.
+
+Method: find_action_set(name: String) -> OpenXRActionSet
+Retrieve an action set by name.
+
+Method: find_interaction_profile(name: String) -> OpenXRInteractionProfile
+Find an interaction profile by its name (path).
+
+Method: get_action_set(idx: int) -> OpenXRActionSet
+Retrieve the action set at this index.
+
+Method: get_action_set_count() -> int
+Retrieve the number of actions sets in our action map.
+
+Method: get_interaction_profile(idx: int) -> OpenXRInteractionProfile
+Get the interaction profile at this index.
+
+Method: get_interaction_profile_count() -> int
+Retrieve the number of interaction profiles in our action map.
+
+Method: remove_action_set(action_set: OpenXRActionSet)
+Remove an action set.
+
+Method: remove_interaction_profile(interaction_profile: OpenXRInteractionProfile)
+Remove an interaction profile.

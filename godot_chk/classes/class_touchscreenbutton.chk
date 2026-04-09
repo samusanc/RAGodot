@@ -1,0 +1,110 @@
+Document: TouchScreenButton
+Path: godot/classes/class_touchscreenbutton.rst
+Summary: A button that can be pressed by touching the screen.
+
+Inherits: TextureButton < Button < BaseButton < Control < CanvasItem < Node < Object
+
+A button that can be pressed by touching the screen. It's a specialized version of TextureButton that handles touch input.
+
+This node is useful for creating on-screen buttons for games or applications that will be played on touch devices. It provides visual feedback when touched and can trigger actions when pressed.
+
+Key Rule: TouchScreenButton is designed specifically for touch input and may not behave as expected with mouse or keyboard input.
+---CHUNK---
+Document: TouchScreenButton
+Path: godot/classes/class_touchscreenbutton.rst
+Summary: Introduces the TouchScreenButton class, a Node2D-derived control designed for touch screen input in games.
+TouchScreenButton
+Inherits: Node2D < CanvasItem < Node < Object
+
+Button for touch screen devices for gameplay use.
+---CHUNK---
+Document: TouchScreenButton
+Path: godot/classes/class_touchscreenbutton.rst
+Summary: Describes the TouchScreenButton node, its purpose for on-screen touch controls, inheritance, and differences from Control and Button nodes.
+TouchScreenButton allows you to create on-screen buttons for touch devices. It's intended for gameplay use, such as a unit you have to touch to move. Unlike Button, TouchScreenButton supports multitouch out of the box. Several TouchScreenButtons can be pressed at the same time with touch input.
+
+This node inherits from Node2D. Unlike with Control nodes, you cannot set anchors on it. If you want to create menus or user interfaces, you may want to use Button nodes instead. To make button nodes react to touch events, you can enable ProjectSettings.input_devices/pointing/emulate_mouse_from_touch in the Project Settings.
+
+You can configure TouchScreenButton to be visible only on touch devices, helping you develop your game both for desktop and mobile devices.
+---CHUNK---
+Document: TouchScreenButton
+Path: godot/classes/class_touchscreenbutton.rst
+Summary: Defines the properties available for the TouchScreenButton class, including action, bitmask, passby_press, shape, shape_centered, shape_visible, textures, and visibility mode.
+
+Properties
+* action (String): The action name that will be emitted when the button is pressed. Default: ""
+* bitmask (BitMap): A bitmask to filter which touch IDs can interact with this button.
+* passby_press (bool): If true, the touch event will be passed through to the underlying controls when the button is pressed. Default: false
+* shape (Shape2D): The shape used for collision detection.
+* shape_centered (bool): If true, the shape will be centered within the button's area. Default: true
+* shape_visible (bool): If true, the shape will be visible. Default: true
+* texture_normal (Texture2D): The texture to display when the button is in its normal state.
+* texture_pressed (Texture2D): The texture to display when the button is pressed.
+* visibility_mode (VisibilityMode): Controls when the button is visible. Default: 0
+---CHUNK---
+Document: TouchScreenButton
+Path: godot/classes/class_touchscreenbutton.rst
+Summary: This section describes the methods, signals, and enumerations available for the TouchScreenButton class in Godot.
+Method: is_pressed() → bool
+This method checks if the button is currently being pressed.
+
+Signals
+pressed(): Emitted when the button is pressed (down).
+released(): Emitted when the button is released (up).
+
+Enumerations
+enum VisibilityMode:
+VISIBILITY_ALWAYS = 0: Always visible.
+VISIBILITY_TOUCHSCREEN_ONLY = 1: Visible on touch screens only.
+---CHUNK---
+Document: TouchScreenButton
+Path: godot/classes/class_touchscreenbutton.rst
+Summary: Describes the properties and member variables of the TouchScreenButton class in Godot Engine.
+
+Property: action (String)
+Description: The button's action. Actions can be handled with InputEventAction.
+Setters/Getters: set_action(value: String), get_action() → String
+
+Property: bitmask (BitMap)
+Description: The button's bitmask.
+Setters/Getters: set_bitmask(value: BitMap), get_bitmask() → BitMap
+
+Property: passby_press (bool)
+Default: false
+Description: If true, the pressed and released signals are emitted whenever a pressed finger goes in and out of the button, even if the pressure started outside the active area of the button.
+Note: This is a "pass-by" (not "bypass") press mode.
+Setters/Getters: set_passby_press(value: bool), is_passby_press_enabled() → bool
+
+Property: shape (Shape2D)
+Description: The button's shape.
+Setters/Getters: set_shape(value: Shape2D), get_shape() → Shape2D
+
+Property: shape_centered (bool)
+Default: true
+Description: If true, the button's shape is centered in the provided texture. If no texture is used, this property has no effect.
+Setters/Getters: set_shape_centered(value: bool), is_shape_centered() → bool
+
+Property: shape_visible (bool)
+Default: true
+Description: If true, the button's shape is visible in the editor.
+Setters/Getters: set_shape_visible(value: bool), is_shape_visible() → bool
+
+Property: texture_normal (Texture2D)
+Description: The button's texture for the normal state.
+Setters/Getters: set_texture_normal(value: Texture2D), get_texture_normal() → Texture2D
+
+Property: texture_pressed (Texture2D)
+Description: The button's texture for the pressed state.
+Setters/Getters: set_texture_pressed(value: Texture2D), get_texture_pressed() → Texture2D
+
+Property: visibility_mode (VisibilityMode)
+Default: 0
+Description: The button's visibility mode.
+Setters/Getters: set_visibility_mode(value: VisibilityMode), get_visibility_mode() → VisibilityMode
+---CHUNK---
+Document: TouchScreenButton
+Path: godot/classes/class_touchscreenbutton.rst
+Summary: Checks if the TouchScreenButton is currently pressed.
+
+Method: is_pressed() → bool
+Returns true if this button is currently pressed.

@@ -1,0 +1,87 @@
+Document: EditorUndoRedoManager
+Path: godot/classes/class_editorundoredomanager.rst
+Summary: This section identifies the EditorUndoRedoManager class.
+---CHUNK---
+Document: EditorUndoRedoManager
+Path: godot/classes/class_editorundoredomanager.rst
+Summary: Manages the undo history for scenes opened in the Godot editor.
+
+Inherits: Object
+
+Manages undo history of scenes opened in the editor.
+---CHUNK---
+Document: EditorUndoRedoManager
+Path: godot/classes/class_editorundoredomanager.rst
+Summary: EditorUndoRedoManager manages UndoRedo objects for edited scenes, automatically associating actions with the correct scene or a global history, and is primarily for Godot editor plugins.
+
+EditorUndoRedoManager is a manager for UndoRedo objects associated with edited scenes. Each scene has its own undo history and EditorUndoRedoManager ensures that each action performed in the editor gets associated with a proper scene. For actions not related to scenes (ProjectSettings edits, external resources, etc.), a separate global history is used.
+
+The usage is mostly the same as UndoRedo. You create and commit actions and the manager automatically decides under-the-hood what scenes it belongs to. The scene is deduced based on the first operation in an action, using the object from the operation. The rules are as follows:
+
+- If the object is a Node, use the currently edited scene;
+- If the object is a built-in resource, use the scene from its path;
+- If the object is external resource or anything else, use global history.
+
+This guessing can sometimes yield false results, so you can provide a custom context object when creating an action.
+
+EditorUndoRedoManager is intended to be used by Godot editor plugins. You can obtain it using EditorPlugin.get_undo_redo(). For non-editor uses or plugins that don't need to integrate with the editor's undo history, use UndoRedo instead.
+
+The manager's API is mostly the same as in UndoRedo, so you can refer to its documentation for more examples. The main difference is that EditorUndoRedoManager uses object + method name for actions, instead of Callable.
+---CHUNK---
+Document: EditorUndoRedoManager
+Path: godot/classes/class_editorundoredomanager.rst
+Summary: This document outlines the methods, signals, and enumerations for managing undo/redo operations within the Godot editor.
+
+Signals:
+history_changed(): Emitted when the list of actions in any history has changed, either when an action is committed or a history is cleared.
+version_changed(): Emitted when the version of any history has changed as a result of undo or redo call.
+
+Enumerations:
+enum SpecialHistory:
+GLOBAL_HISTORY = 0: Global history not associated with any scene, but with external resources etc.
+REMOTE_HISTORY = -9: History associated with remote inspector. Used when live editing a running project.
+INVALID_HISTORY = -99: Invalid "null" history. It's a special value, not associated with any object.
+
+Method: add_do_method(object: Object, method: StringName, ...)
+Register a method to be called when the action is committed ("do" action). The `object` determines target history if first operation.
+
+Method: add_do_property(object: Object, property: StringName, value: Variant)
+Register a property value change for the "do" action. The `object` determines target history if first operation.
+
+Method: add_do_reference(object: Object)
+Register a reference for "do" that will be erased if the "do" history is lost. Useful for new nodes created by the "do" call. Do not use for resources.
+
+Method: add_undo_method(object: Object, method: StringName, ...)
+Register a method to be called when the action is undone ("undo" action). The `object` determines target history if first operation.
+
+Method: add_undo_property(object: Object, property: StringName, value: Variant)
+Register a property value change for the "undo" action. The `object` determines target history if first operation.
+
+Method: add_undo_reference(object: Object)
+Register a reference for "undo" that will be erased if the "undo" history is lost. Useful for nodes removed by the "do" call.
+
+Method: clear_history(id: int = -99, increase_version: bool = true)
+Clears the specified undo history. `id` can be for a specific scene, global history, or INVALID_HISTORY for all histories (except REMOTE_HISTORY). If `increase_version` is true, the history version increases, marking it unsaved. Useful for operations that modify the scene, but don't support undo.
+GDScript:
+    var scene_root = EditorInterface.get_edited_scene_root()
+    var undo_redo = EditorInterface.get_editor_undo_redo()
+    undo_redo.clear_history(undo_redo.get_object_history_id(scene_root))
+Note: To mark an edited scene as unsaved without clearing its history, use EditorInterface.mark_scene_as_unsaved() instead.
+
+Method: commit_action(execute: bool = true)
+Commits the current action. If `execute` is true (default), all "do" methods/properties are called/set.
+
+Method: create_action(name: String, merge_mode: MergeMode = 0, custom_context: Object = null, backward_undo_ops: bool = false, mark_unsaved: bool = true)
+Creates a new action. Follow with add_do_method(), add_undo_method(), add_do_property(), and add_undo_property() calls, then commit the action with commit_action(). `merge_mode` controls action merging. If `custom_context` is provided, it determines target history. `backward_undo_ops` dictates undo operation order. If `mark_unsaved` is false, the history is not marked unsaved.
+
+Method: force_fixed_history()
+Forces the next operation (e.g. add_do_method()) to use the action's history rather than guessing it from the object. Use only when necessary, e.g., for a nested resource without a path. The `custom_context` parameter of create_action() is usually preferred for complex cases.
+
+Method: get_history_undo_redo(id: int) -> UndoRedo
+Returns the UndoRedo object associated with the given history `id`. `id` above `0` maps to opened scene tabs; `id` of `0` or lower have special meaning (see SpecialHistory). Best used with get_object_history_id(). Directly operating on the UndoRedo object might affect editor stability.
+
+Method: get_object_history_id(object: Object) -> int
+Returns the history ID deduced from the given `object`. It can be used with get_history_undo_redo().
+
+Method: is_committing_action() -> bool
+Returns true if the EditorUndoRedoManager is currently committing the action, i.e. running its "do" method or property change (see commit_action()).

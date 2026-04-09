@@ -1,0 +1,118 @@
+Document: SkeletonModification2DLookAt
+Path: godot/classes/class_skeletonmodification2dlookat.rst
+Summary: Provides a 2D skeleton modification that makes a bone look at a target.
+
+Inherits: SkeletonModification2D < SkeletonModification2D < Resource < Object
+
+This modification makes a bone look at a target. It can be used to make a character's head look at a specific point, or to make a weapon aim at a target.
+
+The modification works by calculating the angle between the bone and the target, and then rotating the bone to face the target. The rotation can be applied directly to the bone, or it can be blended with the bone's current rotation.
+
+The modification has the following properties:
+
+*   **Target Node**: The NodePath to the target node.
+*   **Target Offset**: An offset to apply to the target's position.
+*   **Rotation Speed**: The speed at which the bone rotates to look at the target.
+*   **Rotation Range**: The maximum angle the bone can rotate.
+*   **Interpolation**: The interpolation mode to use for blending the rotation.
+
+The modification can be enabled or disabled at runtime.
+---CHUNK---
+Document: SkeletonModification2DLookAt
+Path: godot/classes/class_skeletonmodification2dlookat.rst
+Summary: Describes the SkeletonModification2DLookAt class, which rotates a Bone2D node to face a target.
+
+Inherits: SkeletonModification2D < Resource < RefCounted < Object
+
+A modification that rotates a Bone2D node to look at a target.
+---CHUNK---
+Document: SkeletonModification2DLookAt
+Path: godot/classes/class_skeletonmodification2dlookat.rst
+Summary: Describes the SkeletonModification2DLookAt class, which rotates a bone to face a target.
+
+Inherits: SkeletonModification2D < SkeletonModification2D < Node < Object
+
+This SkeletonModification2D rotates a bone to look at a target. This is extremely helpful for moving character's head to look at the player, rotating a turret to look at a target, or any other case where you want to make a bone rotate towards something quickly and easily.
+---CHUNK---
+Document: SkeletonModification2DLookAt
+Path: godot/classes/class_skeletonmodification2dlookat.rst
+Summary: Properties for the SkeletonModification2DLookAt class.
+
+Properties:
+* bone2d_node (NodePath): Path to the Bone2D node to use for looking at the target. Default: ""
+* bone_index (int): Index of the bone to use for looking at the target. Default: -1
+* target_nodepath (NodePath): Path to the target node to look at. Default: ""
+---CHUNK---
+Document: SkeletonModification2DLookAt
+Path: godot/classes/class_skeletonmodification2dlookat.rst
+Summary: Exposes methods for controlling the look-at behavior and constraints of a SkeletonModification2D.
+
+Methods
+* get_additional_rotation() → float: Returns the additional rotation applied to the bone.
+* get_constraint_angle_invert() → bool: Returns whether the constraint angle is inverted.
+* get_constraint_angle_max() → float: Returns the maximum constraint angle.
+* get_constraint_angle_min() → float: Returns the minimum constraint angle.
+* get_enable_constraint() → bool: Returns whether the constraint is enabled.
+* set_additional_rotation(rotation: float) → void: Sets the additional rotation applied to the bone.
+* set_constraint_angle_invert(invert: bool) → void: Sets whether the constraint angle is inverted.
+* set_constraint_angle_max(angle_max: float) → void: Sets the maximum constraint angle.
+* set_constraint_angle_min(angle_min: float) → void: Sets the minimum constraint angle.
+* set_enable_constraint(enable_constraint: bool) → void: Sets whether the constraint is enabled.
+---CHUNK---
+Document: SkeletonModification2DLookAt
+Path: godot/classes/class_skeletonmodification2dlookat.rst
+Summary: Describes the properties of the SkeletonModification2DLookAt class, which controls a bone's orientation towards a target.
+
+Property Descriptions
+
+Property: bone2d_node (NodePath)
+Description: The Bone2D node that the modification will operate on.
+Setters: set_bone2d_node(value: NodePath)
+Getters: get_bone2d_node() → NodePath
+Default: NodePath("")
+
+Property: bone_index (int)
+Description: The index of the Bone2D node that the modification will operate on.
+Setters: set_bone_index(value: int)
+Getters: get_bone_index() → int
+Default: -1
+
+Property: target_nodepath (NodePath)
+Description: The NodePath to the node that is the target for the LookAt modification. This node is what the modification will rotate the Bone2D to.
+Setters: set_target_node(value: NodePath)
+Getters: get_target_node() → NodePath
+Default: NodePath("")
+---CHUNK---
+Document: SkeletonModification2DLookAt
+Path: godot/classes/class_skeletonmodification2dlookat.rst
+Summary: This section details the methods available for the SkeletonModification2DLookAt class, covering how to get and set additional rotation and constraint properties.
+
+Method: get_additional_rotation() → float
+Returns the amount of additional rotation that is applied after the LookAt modification executes.
+
+Method: get_constraint_angle_invert() → bool
+Returns whether the constraints to this modification are inverted or not.
+
+Method: get_constraint_angle_max() → float
+Returns the constraint's maximum allowed angle.
+
+Method: get_constraint_angle_min() → float
+Returns the constraint's minimum allowed angle.
+
+Method: get_enable_constraint() → bool
+Returns true if the LookAt modification is using constraints.
+
+Method: set_additional_rotation(rotation: float) → void
+Sets the amount of additional rotation that is to be applied after executing the modification. This allows for offsetting the results by the inputted rotation amount.
+
+Method: set_constraint_angle_invert(invert: bool) → void
+When true, the modification will use an inverted joint constraint. An inverted joint constraint only constraints the Bone2D to the angles outside of the inputted minimum and maximum angles. For this reason, it is referred to as an inverted joint constraint, as it constraints the joint to the outside of the inputted values.
+
+Method: set_constraint_angle_max(angle_max: float) → void
+Sets the constraint's maximum allowed angle.
+
+Method: set_constraint_angle_min(angle_min: float) → void
+Sets the constraint's minimum allowed angle.
+
+Method: set_enable_constraint(enable_constraint: bool) → void
+Sets whether this modification will use constraints or not. When true, constraints will be applied when solving the LookAt modification.

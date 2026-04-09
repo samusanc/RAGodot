@@ -1,0 +1,92 @@
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This document explains how to use the ObjectDB Profiler in Godot to debug memory leaks.
+
+The ObjectDB Profiler is a debugging tool in Godot that helps identify memory leaks by tracking object allocations and deallocations. It allows you to see which objects are consuming memory and whether they are being properly freed.
+
+To access the ObjectDB Profiler, go to the "Debugger" panel in the Godot editor and select the "ObjectDB" tab.
+
+The profiler displays a list of all objects currently managed by Godot's ObjectDB. For each object, it shows:
+
+*   **Type**: The class name of the object.
+*   **Count**: The number of instances of this type currently allocated.
+*   **Total Size**: The total memory occupied by all instances of this type.
+*   **Average Size**: The average memory usage per instance.
+
+You can sort the list by any of these columns to quickly identify potential memory hogs.
+
+**Using the Profiler to Find Leaks:**
+
+1.  **Initial Snapshot**: When your game starts or reaches a stable state, take a snapshot of the current ObjectDB state. This serves as a baseline.
+2.  **Perform Actions**: Execute the game logic or actions that you suspect might be causing a memory leak.
+3.  **Compare Snapshots**: Take another snapshot after performing the actions. Compare the new snapshot with the baseline.
+4.  **Analyze Differences**: Look for object types whose count or total size has significantly increased between snapshots, especially if they should have been deallocated. If an object's count doesn't decrease after its intended use, it's likely a leak.
+
+**Key Rule**: If an object's reference count reaches zero and it's no longer needed, Godot's garbage collector should automatically free its memory. The ObjectDB Profiler helps you verify if this process is working as expected.
+
+**Example Scenario**:
+
+Imagine you have a scene where enemies are frequently spawned and destroyed. If, after many spawn/destroy cycles, you notice a large number of "Enemy" objects still listed in the ObjectDB profiler, it indicates that some references to these enemy objects are being held unintentionally, preventing them from being freed. You would then need to investigate the code responsible for managing enemies to find where these lingering references are.
+---CHUNK---
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This section introduces the ObjectDB Profiler in Godot 4.6, explaining its purpose for tracking allocated objects, identifying memory leaks, and visualizing memory usage differences between snapshots.
+
+The ObjectDB Profiler is a tab in the Debugger bottom panel available since Godot 4.6. It allows users to take snapshots of the ObjectDB, which stores all currently allocated `Object`-derived classes in memory. This tool is valuable for detecting memory leaks and analyzing a project's memory consumption.
+
+The profiler can also compare two snapshots to highlight changes in memory usage, helping to identify performance improvements or regressions. Reducing memory usage can enhance performance, even when memory isn't the primary bottleneck, by minimizing costly allocation operations, particularly during gameplay.
+
+Warning: The ObjectDB profiler does not monitor all memory used by the engine or external libraries. Native engine classes not exposed to the scripting API will not be included in snapshots. For comprehensive memory analysis, external memory profiling tools should be considered.
+---CHUNK---
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This section explains how to use the ObjectDB Profiler in the Godot debugger to take and manage snapshots of object data.
+Open the ObjectDB Profiler tab in the Debugger bottom panel. You will land on the summary page with no snapshots taken yet. Run the project, then get to a point where you'd like to take a snapshot (for example, after loading a level). Click Take ObjectDB Snapshot to take a snapshot at the current point in time. If the button appears grayed out, make sure the project is running first. You can take multiple snapshots during a single run of the project. Also, you can right-click a snapshot in the snapshot list to rename it, show it in the file manager, or delete it. Tip: It's a good idea to rename snapshots after taking them to give them descriptive names (e.g., before_optimization, after_optimization). Regardless of the name, the date at which the snapshot was taken remains saved in the snapshot file itself. Snapshot files have a .odb_snapshot extension and are located in user://objectdb_snapshots/. These can safely be copied across devices, as they're platform-independent.
+---CHUNK---
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This section explains how to view differences between ObjectDB profiler snapshots.
+
+Viewing differences between snapshots
+After taking at least two snapshots, the Diff Against dropdown becomes available. Here, you can select another snapshot to compare the currently selected snapshot with.
+
+The summary page will then show the differences between the two snapshots.
+
+This also applies to every other tab in the ObjectDB profiler, which will show the differences between the two snapshots in additional columns.
+---CHUNK---
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This section describes the "Classes" tab in the ObjectDB profiler, explaining how it displays class instance counts and differences between snapshots.
+
+The Classes tab shows the number of instances for each class at the time a snapshot was taken. In diff mode, it displays instance counts for the current snapshot (column A) and the snapshot being compared against (column B), along with the difference in instance count in the Delta column. You can select a class from the list to view its details in the inspector. Tip: Previewing instances in the inspector is also available in the Nodes, Objects, and RefCounted tabs.
+---CHUNK---
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This section describes the "Objects" tab of the ObjectDB Profiler, explaining how it displays object references in a linear fashion and allows for both top-down and bottom-up viewing perspectives.
+The Objects tab presents data by listing every instance linearly, rather than grouping them by class. When an object is selected, the right side displays its outbound references (objects it references) and inbound references (objects referencing it). This dual view enables users to examine objects from a "top-down" perspective, seeing what a given object references, or a "bottom-up" perspective, seeing what objects reference it.
+
+For example, clicking the `default_font` object in the list can change the view to that object's perspective. If `default_font` is referenced by many other objects, this effectively shifts the view to a "bottom-up" perspective.
+---CHUNK---
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This section describes the "Nodes" tab in the ObjectDB profiler, which displays the scene tree and its differences between snapshots.
+
+The Nodes tab displays the scene tree at the time a snapshot was taken. This tab is especially useful in diff view for visually comparing two snapshots.
+
+When the "Combined Diff" button is unchecked, differences are shown side by side.
+
+When the "Combined Diff" button is checked, differences are merged into a single tree. Added nodes are highlighted in green, and removed nodes are highlighted in red.
+
+The profiler also allows viewing a list of orphan nodes, which are nodes not attached to the scene tree root. These are listed at the end of the tree view and can be more easily seen by collapsing the root node.
+---CHUNK---
+Document: ObjectDB Profiler
+Path: godot/tutorials/scripting/debug/objectdb_profiler.rst
+Summary: This section describes the RefCounted tab in the ObjectDB Profiler, which displays reference counts for RefCounted-derived objects.
+RefCounted
+The RefCounted tab displays the reference counts of RefCounted-derived classes. The table includes four columns:
+- Native Refs (int): The number of native engine references to the object.
+- ObjectDB Refs (int): The number of ObjectDB references to the object.
+- Total Refs (int): The sum of native references and ObjectDB references.
+- ObjectDB Cycles (int): The number of circular references detected.
+When in diff view, snapshot B is always listed above snapshot A if a RefCounted instance exists in both snapshots. The list on the right shows details on the selected instance, including a list of references and whether these are duplicates.
+Note: The RefCounted tab does not list objects that derive directly from Object, as these do not use reference counting.

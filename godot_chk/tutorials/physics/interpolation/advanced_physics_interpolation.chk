@@ -1,0 +1,273 @@
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This document explains advanced techniques for physics interpolation in Godot, focusing on achieving smoother motion for physics-based objects.
+
+This tutorial covers advanced techniques for physics interpolation in Godot. While the basic interpolation method is suitable for many cases, certain scenarios, particularly those involving fast-moving physics objects or complex interactions, may benefit from more sophisticated approaches.
+
+One such technique involves using a fixed-rate physics update combined with variable rendering. This ensures that the physics simulation runs at a consistent pace, regardless of the frame rate, which can prevent issues like tunneling or instability. The rendering thread can then interpolate between physics states to achieve smooth visual motion.
+
+Another advanced concept is predictive interpolation. Instead of simply interpolating between the previous and current physics states, predictive interpolation attempts to forecast the next physics state based on current velocity and acceleration. This can further reduce perceived latency and improve smoothness, especially when dealing with objects that have predictable movement patterns.
+
+For more complex scenarios, such as networked multiplayer games, specialized interpolation algorithms might be necessary. These algorithms often need to account for network latency, packet loss, and synchronization issues. Techniques like client-side prediction and server reconciliation are commonly employed in these situations to maintain a consistent and responsive experience for all players.
+
+Key Rule: When implementing advanced physics interpolation, it is crucial to profile your game to identify performance bottlenecks and determine the most effective interpolation strategy for your specific needs. Over-engineering interpolation can lead to unnecessary complexity and performance overhead.
+
+The choice of interpolation method should also consider the type of objects being simulated. Kinematic bodies, which are controlled directly by code, might require a different interpolation approach than rigid bodies, which are governed by the physics engine.
+
+Consider the following GDScript example for a basic implementation of fixed-rate physics updates:
+
+GDScript:
+```gdscript
+extends RigidBody3D
+
+var physics_tick_rate = 60.0
+var physics_tick_interval = 1.0 / physics_tick_rate
+var accumulator = 0.0
+var previous_transform = transform
+
+func _physics_process(delta):
+    accumulator += delta
+    while accumulator >= physics_tick_interval:
+        # Perform fixed-rate physics update here
+        # e.g., apply forces, move object
+        accumulator -= physics_tick_interval
+
+func _process(delta):
+    # Interpolate rendering between physics states
+    var alpha = accumulator / physics_tick_interval
+    transform = previous_transform.interpolate_with(transform, alpha)
+
+func _integrate_forces(state):
+    # This function is called during the fixed physics step
+    pass
+
+func _ready():
+    previous_transform = transform
+```
+
+This example demonstrates how to use an accumulator to ensure that the physics simulation advances in fixed steps. The `_process` function then interpolates the visual representation based on the progress within the current physics tick.
+
+Warning: Incorrectly implementing fixed-rate physics updates can lead to simulation instability or visual stuttering. Ensure that the accumulator logic is precise and that the interpolation in `_process` correctly uses the `alpha` value.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section introduces advanced techniques for physics interpolation in Godot Engine.
+Advanced physics interpolation
+Although the previous instructions will give satisfactory results in a lot of games, in some cases you will want to go a stage further to get the best possible results and the smoothest possible experience.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section explains how to manually control physics interpolation for specific nodes in Godot.
+
+Exceptions to automatic physics interpolation
+Even with physics interpolation active, there may be some local situations where you would benefit from disabling automatic interpolation for a Node (or branch of the SceneTree), and have the finer control of performing interpolation manually.
+
+This is possible using the Node.physics_interpolation_mode property which is present in all Nodes. If you for example, turn off interpolation for a Node, the children will recursively also be affected (as they default to inheriting the parent setting). This means you can easily disable interpolation for an entire subscene.
+
+It is worth noting that, both in 2D and 3D, physics interpolation is performed on the local transform of each instance. During rendering, interpolated local transforms are passed down to children.
+
+This means that if a parent has physics_interpolation_mode set to On, but the child is set to Off, the child will still be interpolated if the parent is moving. Only the child's local transform is uninterpolated. Controlling the on / off behavior of nodes therefore requires some thought and planning.
+
+The most common situation where you may want to perform your own interpolation is Cameras.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section explains how to manually interpolate Camera3D nodes for smoother visual results, especially at low physics tick rates.
+Cameras
+In many cases, a Camera3D can use automatic interpolation just like any other node. However, for best results, especially at low physics tick rates, it is recommended that you take a manual approach to camera interpolation. This is because viewers are very sensitive to camera movement. For instance, a Camera3D that realigns slightly every 1/10th of a second (at 10tps tick rate) will often be noticeable. You can get a much smoother result by moving the camera each frame in _process, and following an interpolated target manually.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section explains how to manually interpolate the camera in Godot for smoother physics simulation.
+
+Manual camera interpolation
+
+In the previous section, we learned about the basics of physics interpolation and how to enable it. However, the default implementation might not be sufficient for all use cases. In some situations, you might want to have more control over the interpolation process, especially when it comes to the camera.
+
+This section will guide you through manually interpolating the camera in Godot. This approach gives you fine-grained control over how the camera's position and rotation are updated, allowing for smoother visual results even with varying physics frame rates.
+
+Why manual interpolation?
+
+While Godot's built-in physics interpolation is convenient, it relies on the physics engine's internal state. If your game has complex camera behaviors, such as following a specific target with offsets, applying smoothing, or reacting to other game events, you might find that the default interpolation doesn't perfectly match your desired visual output. Manual interpolation allows you to decouple the camera's update logic from the physics simulation, giving you more flexibility.
+
+The core idea is to render the scene at a specific interpolation factor between the current and previous physics frames. This factor is typically calculated based on the time elapsed since the last physics frame and the physics tick rate.
+
+Implementation steps
+
+1.  **Get physics interpolation factor:**
+    The physics interpolation factor can be obtained using `Engine.get_physics_interpolation_fraction()`. This function returns a float between 0.0 and 1.0, representing how far into the current physics frame the rendering is.
+
+2.  **Update camera transform:**
+    In your camera's script (or a dedicated camera controller script), you'll need to access the interpolated transform of the objects you want the camera to follow. This usually involves getting the object's transform from the previous physics frame and the current physics frame, and then interpolating between them using the factor obtained in step 1.
+
+    For example, if you have a `CharacterBody3D` named `player`, you might do something like this:
+
+    ```gdscript
+    extends Camera3D
+
+    @export var target: Node3D
+    @export var interpolation_speed: float = 5.0
+
+    var _previous_transform: Transform3D
+    var _current_transform: Transform3D
+
+    func _ready():
+        if target:
+            _previous_transform = target.global_transform
+            _current_transform = target.global_transform
+        else:
+            printerr("Camera target not set!")
+            set_process(false)
+
+    func _physics_process(delta):
+        # Store the transform from the previous physics frame
+        _previous_transform = _current_transform
+        # Update the current transform with the latest physics state
+        _current_transform = target.global_transform
+
+    func _process(delta):
+        if not target:
+            return
+
+        var interpolation_fraction = Engine.get_physics_interpolation_fraction()
+
+        # Interpolate the camera's transform
+        var interpolated_transform = _previous_transform.interpolate_with(_current_transform, interpolation_fraction)
+
+        # Apply smoothing or other camera logic if needed
+        # For simple following, you might directly set the global_transform
+        # For smoother following, use lerp or slerp
+        global_transform = global_transform.lerp(interpolated_transform, interpolation_speed * delta)
+
+        # Or if you want to directly use the interpolated transform without further smoothing:
+        # global_transform = interpolated_transform
+    ```
+
+3.  **Consider physics tick rate:**
+    The effectiveness of manual interpolation is closely tied to the physics tick rate (`Engine.physics_ticks_per_second`). A higher tick rate means the physics engine updates more frequently, providing more data points for interpolation and potentially leading to smoother results. Ensure your physics tick rate is set appropriately for your game's needs.
+
+    Key Rule: The physics tick rate should be high enough to provide sufficient data for smooth interpolation, but not so high that it impacts performance unnecessarily.
+
+4.  **Handling complex camera behaviors:**
+    If your camera has more complex behaviors, such as looking at a target point with an offset, you'll need to interpolate the relevant components (position and rotation) separately or use more advanced interpolation techniques. For instance, you might interpolate the position using `lerp` and the rotation using `slerp`.
+
+    ```gdscript
+    # Example for interpolating position and rotation separately
+    func _process(delta):
+        # ... (get interpolated_transform as before)
+
+        # Interpolate position
+        global_position = global_position.lerp(interpolated_transform.origin, interpolation_speed * delta)
+
+        # Interpolate rotation (using slerp for spherical interpolation)
+        global_rotation_quat = global_rotation_quat.slerp(interpolated_transform.basis.get_rotation_quaternion(), interpolation_speed * delta)
+    ```
+
+Benefits of manual interpolation
+
+*   **Smoother visuals:** Achieve smoother camera movement, especially when physics frame rates fluctuate.
+*   **Fine-grained control:** Implement custom camera behaviors and effects that are difficult or impossible with automatic interpolation.
+*   **Decoupling:** Separate camera logic from physics simulation, making code more modular and easier to manage.
+
+When to use manual interpolation
+
+Manual camera interpolation is beneficial in games where:
+
+*   Smooth camera movement is critical for gameplay or player experience.
+*   The camera needs to perform complex following, aiming, or cinematic movements.
+*   You are experiencing visual artifacts or stuttering with the default physics interpolation due to inconsistent physics frame rates.
+
+Remember to profile your game to ensure that manual interpolation does not introduce significant performance overhead.
+---CHUNK---
+Document: advanced_physics_interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section explains how to ensure a Camera3D uses global coordinate space for physics interpolation.
+To ensure the camera is using global coordinate space for manual camera interpolation, the Camera3D transform must be specified in global space, not inheriting the transform of a moving parent. This prevents feedback loops between the camera's parent node movement and the camera's own movement, which can disrupt interpolation.
+
+There are two methods to achieve this:
+
+1.  Position the Camera3D on its own branch, making it independent of any moving parent objects.
+2.  Set the `top_level` property of the Camera3D node to `true`. This causes the camera to disregard its parent's transform.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: Explains a common issue with camera following in physics simulations where the camera jumps due to physics ticks.
+A typical example of a custom approach is to use the look_at function in the Camera3D every frame in _process() to look at a target node (such as the player).
+
+But there is a problem. If we use the traditional get_global_transform() on a Camera3D "target" node, this transform will only focus the Camera3D on the target at the current physics tick. This is not what we want, as the camera will jump about on each physics tick as the target moves. Even though the camera may be updated each frame, this does not help give smooth motion if the target is only changing each physics tick.
+---CHUNK---
+Document: advanced_physics_interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: Explains how to use get_global_transform_interpolated() for camera rendering in physics interpolation.
+get_global_transform_interpolated()
+What we really want to focus the camera on, is not the position of the target on the physics tick, but the *interpolated* position, i.e. the position at which the target will be rendered.
+
+We can do this using the Node3D.get_global_transform_interpolated function. This acts exactly like getting Node3D.global_transform but it gives you the *interpolated* transform (during a _process() call).
+
+Key Rule: get_global_transform_interpolated() should only be used once or twice for special cases such as cameras. It should **not** be used all over the place in your code (both for performance reasons, and to give correct gameplay).
+
+Note: Aside from exceptions like the camera, in most cases, your game logic should be in _physics_process(). In game logic you should be calling get_global_transform() or get_transform(), which will give the current physics transform (in global or local space respectively), which is usually what you will want for gameplay code.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section provides an example of a fixed camera script that manually follows an interpolated target node.
+
+GDScript:
+    extends Camera3D
+        
+    # Node that the camera will follow
+    var _target
+        
+    # We will smoothly lerp to follow the target
+    # rather than follow exactly
+    var _target_pos : Vector3 = Vector3()
+        
+    func _ready() -> void:
+        # Find the target node
+        _target = get_node("../Player")
+        
+        # Turn off automatic physics interpolation for the Camera3D,
+        # we will be doing this manually
+        set_physics_interpolation_mode(Node.PHYSICS_INTERPOLATION_MODE_OFF)
+        
+    func _process(delta: float) -> void:
+        # Find the current interpolated transform of the target
+        var tr : Transform = _target.get_global_transform_interpolated()
+        
+        # Provide some delayed smoothed lerping towards the target position 
+        _target_pos = lerp(_target_pos, tr.origin, min(delta, 1.0))
+        
+        # Fixed camera position, but it will follow the target
+        look_at(_target_pos, Vector3(0, 1, 0))
+---CHUNK---
+Document: advanced_physics_interpolation.rst
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: Explains how to handle mouse look for cameras in physics interpolation scenarios.
+
+Mouse look is a common camera control method that presents a challenge with physics interpolation. Unlike keyboard input, which is typically sampled on physics ticks, mouse movement events can occur continuously. Cameras are expected to react to these movements immediately, rather than waiting for the next physics tick.
+
+In such cases, it's often beneficial to disable physics interpolation for the camera node using `Node.physics_interpolation_mode`. This allows direct application of mouse input to the camera's rotation, bypassing the `_physics_process` function.
+
+A hybrid approach combining interpolation and non-interpolation is frequently used for cameras:
+
+*   A first-person camera might use `Node3D.get_global_transform_interpolated` to position the camera based on player location but control rotation via mouse look *without* interpolation.
+*   A third-person camera could determine the look-at target using `Node3D.get_global_transform_interpolated` but position the camera using mouse look *without* interpolation.
+
+While camera implementations vary, disabling automatic physics interpolation and managing it manually often yields superior results.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section explains how to disable physics interpolation on nodes other than cameras, providing an example of a top-down player character.
+
+You can disable physics interpolation on any Node that has physics properties. This is useful when you want a node to control its own interpolation or be non-interpolated. A common example is a player character in a top-down game where the rotation is controlled by mouse look. By disabling physics rotation for the player, its rotation can be updated in real-time to match the mouse cursor's position.
+---CHUNK---
+Document: Advanced Physics Interpolation
+Path: godot/tutorials/physics/interpolation/advanced_physics_interpolation.rst
+Summary: This section explains how MultiMeshes can be used for physics interpolation on a per-instance basis.
+MultiMeshes can control several instances from the same Node. Therefore, they have some extra functions for controlling interpolation functionality on a per-instance basis. You should explore these functions if you are using interpolated MultiMeshes.
+
+Key methods for interpolated MultiMeshes:
+- MultiMesh.reset_instance_physics_interpolation
+- MultiMesh.set_buffer_interpolated
+
+Full details are in the MultiMesh documentation.

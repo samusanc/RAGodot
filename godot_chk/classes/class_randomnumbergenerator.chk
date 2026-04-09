@@ -1,0 +1,156 @@
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: Provides a high-quality pseudo-random number generator.
+
+Inherits: Object < Object
+
+RandomNumberGenerator is a high-quality pseudo-random number generator. It uses the Mersenne Twister algorithm, which is known for its good statistical properties and long period.
+
+This class can be used to generate random numbers for various purposes, such as simulations, games, or cryptographic applications. It offers methods for generating random integers, floats, vectors, and more.
+
+Key Rule: The RandomNumberGenerator is not cryptographically secure. For security-sensitive applications, use a dedicated cryptographic random number generator.
+---CHUNK---
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: Provides methods for generating pseudo-random numbers.
+---CHUNK---
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: Provides methods for generating pseudo-random numbers using the PCG32 algorithm.
+
+RandomNumberGenerator is a class for generating pseudo-random numbers. It currently uses PCG32. Note: The underlying algorithm is an implementation detail and should not be depended upon.
+
+To generate a random float number (within a given range) based on a time-dependent seed:
+
+GDScript:
+```gdscript
+var rng = RandomNumberGenerator.new()
+func _ready():
+    var my_random_number = rng.randf_range(-10.0, 10.0)
+```
+---CHUNK---
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: This section provides an overview of the RandomNumberGenerator class in Godot.
+
+Inherits: Object
+
+Methods:
+Method: randi() → int
+Returns a random integer.
+
+Method: randfn(from: float, to: float, dev: float = 1.0) → float
+Returns a random float value following a normal distribution.
+
+Method: randi_range(from: int, to: int) → int
+Returns a random integer within the specified range (inclusive).
+
+Method: randf() → float
+Returns a random float value in the range [0, 1).
+
+Method: randf_range(from: float, to: float) → float
+Returns a random float value within the specified range.
+
+Method: seed(value: int)
+Seeds the random number generator with the given value.
+
+Method: get_seed() → int
+Returns the current seed of the random number generator.
+
+Method: get_state() → Dictionary
+Returns the current state of the random number generator.
+
+Method: set_state(state: Dictionary)
+Sets the random number generator's state from a dictionary.
+
+Properties:
+Property: algorithm
+Type: int
+Description: The algorithm used for random number generation.
+Default: 0
+
+Enums:
+Algorithm:
+ALGORITHM_MT_PASS = 0
+ALGORITHM_XOSHIRO128 = 1
+---CHUNK---
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: Defines the properties available for the RandomNumberGenerator class.
+
+Properties
+* seed (int): The seed used to initialize the random number generator. Default: 0.
+* state (int): The current state of the random number generator. Default: 0.
+---CHUNK---
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: Provides methods for generating various types of random numbers and seeding the generator.
+
+Methods
+* rand_weighted(weights: PackedFloat32Array) → int: Returns a random integer from the given weights.
+* randf() → float: Returns a random float between 0.0 and 1.0.
+* randf_range(from: float, to: float) → float: Returns a random float between the specified from and to values.
+* randfn(mean: float = 0.0, deviation: float = 1.0) → float: Returns a random float following a normal distribution.
+* randi() → int: Returns a random integer.
+* randi_range(from: int, to: int) → int: Returns a random integer between the specified from and to values.
+* randomize(): Reseeds the random number generator.
+---CHUNK---
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: Describes the `seed` and `state` properties of the RandomNumberGenerator class, explaining how to initialize and manage the generator's state for reproducible or saved random sequences.
+Property: seed
+Type: int
+Description: Initializes the random number generator state based on the given seed value. A given seed will give a reproducible sequence of pseudo-random numbers.
+Note: The RNG does not have an avalanche effect, and can output similar random streams given similar seeds. Consider using a hash function to improve your seed quality if they're sourced externally.
+Note: Setting this property produces a side effect of changing the internal state, so make sure to initialize the seed before modifying the state.
+Note: The default value of this property is pseudo-random, and changes when calling randomize(). The 0 value documented here is a placeholder, and not the actual default seed.
+GDScript:
+    var rng = RandomNumberGenerator.new()
+    rng.seed = hash("Godot")
+    rng.state = 100 # Restore to some previously saved state.
+Property: state
+Type: int
+Description: The current state of the random number generator. Save and restore this property to restore the generator to a previous state.
+GDScript:
+    var rng = RandomNumberGenerator.new()
+    print(rng.randf())
+    var saved_state = rng.state # Store current state.
+    print(rng.randf()) # Advance internal state.
+    rng.state = saved_state # Restore the state.
+    print(rng.randf()) # Prints the same value as previously.
+Note: Do not set state to arbitrary values, since the random number generator requires the state to have certain qualities to behave properly. It should only be set to values that came from the state property itself. To initialize the random number generator with arbitrary input, use seed instead.
+Note: The default value of this property is pseudo-random, and changes when calling randomize(). The 0 value documented here is a placeholder, and not the actual default state.
+---CHUNK---
+Document: RandomNumberGenerator
+Path: godot/classes/class_randomnumbergenerator.rst
+Summary: Describes methods for generating weighted random numbers, floats, and integers, as well as randomizing the generator's seed.
+Method: rand_weighted(weights: PackedFloat32Array) → int
+Returns a random index with non-uniform weights. Prints an error and returns -1 if the array is empty.
+GDScript:
+    var rng = RandomNumberGenerator.new()
+
+    var my_array = ["one", "two", "three", "four"]
+    var weights = PackedFloat32Array([0.5, 1, 1, 2])
+
+    # Prints one of the four elements in `my_array`.
+    # It is more likely to print "four", and less likely to print "one".
+    print(my_array[rng.rand_weighted(weights)])
+
+Method: randf() → float
+Returns a pseudo-random float between 0.0 and 1.0 (inclusive).
+
+Method: randf_range(from: float, to: float) → float
+Returns a pseudo-random float between from and to (inclusive).
+
+Method: randfn(mean: float = 0.0, deviation: float = 1.0) → float
+Returns a normally-distributed, pseudo-random floating-point number from the specified mean and a standard deviation. This is also known as a Gaussian distribution.
+Note: This method uses the Box-Muller transform algorithm.
+
+Method: randi() → int
+Returns a pseudo-random 32-bit unsigned integer between 0 and 4294967295 (inclusive).
+
+Method: randi_range(from: int, to: int) → int
+Returns a pseudo-random 32-bit signed integer between from and to (inclusive).
+
+Method: randomize() → void
+Sets up a time-based seed for this RandomNumberGenerator instance. Unlike the @GlobalScope random number generation functions, different RandomNumberGenerator instances can use different seeds.

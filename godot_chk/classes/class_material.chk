@@ -1,0 +1,113 @@
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: Base class for all material types in Godot, defining properties and methods common to shaders.
+
+Inherits: Resource < RefCounted
+
+The Material class is the base class for all material types in Godot. Materials are used to define the surface properties of objects, controlling how they interact with light and how they are rendered. This includes properties like color, texture, shininess, transparency, and more. All materials in Godot inherit from this base class, ensuring a consistent interface for accessing and manipulating material properties.
+
+Materials are typically assigned to the `material` property of a `MeshInstance` or other visual nodes. They are also used in conjunction with `ShaderMaterial` to apply custom shader code.
+
+Key Rule: Materials are resources, meaning they can be saved, loaded, and shared across multiple objects. This allows for efficient memory usage and easy management of visual assets.
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: Material is a virtual base class for applying visual properties like color and roughness to objects in Godot.
+
+Inherits: Resource < RefCounted < Object
+
+Inherited By: BaseMaterial3D, BlitMaterial, CanvasItemMaterial, FogMaterial, PanoramaSkyMaterial, ParticleProcessMaterial, PhysicalSkyMaterial, PlaceholderMaterial, ProceduralSkyMaterial, ShaderMaterial
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: Describes the base Material resource in Godot, its role in shading, and the possibility of creating custom material types.
+Material is a base resource used for coloring and shading geometry. All materials inherit from it and almost all VisualInstance3D derived nodes carry a Material. A few flags and parameters are shared between all material types and are configured here. Importantly, you can inherit from Material to create your own custom material type in script or in GDExtension.
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: Links to external demos that utilize the Material class.
+
+Tutorials:
+- 3D Material Testers Demo
+- Third Person Shooter (TPS) Demo
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: This section details the properties of the Material class in Godot Engine.
+
+Properties
+- next_pass (Material): The next Material in the render chain.
+- render_priority (int): The render priority of the material.
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: This section describes the methods available for the Material class in Godot Engine.
+
+Method: _can_do_next_pass() → bool
+This method is a virtual method and is const.
+
+Method: _can_use_render_priority() → bool
+This method is a virtual method and is const.
+
+Method: _get_shader_mode() → Mode
+This method is a virtual method, required, and const.
+
+Method: _get_shader_rid() → RID
+This method is a virtual method, required, and const.
+
+Method: create_placeholder() → Resource
+This method is const.
+
+Method: inspect_native_shader_code() → void
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: Defines constants for render priority limits in Godot Materials.
+
+Constants:
+RENDER_PRIORITY_MAX (-128): Minimum value for the render_priority parameter.
+RENDER_PRIORITY_MIN (127): Maximum value for the render_priority parameter.
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: Describes the properties of the Material class in Godot Engine, specifically focusing on next_pass and render_priority.
+
+Property: next_pass
+Type: Material
+Description: Sets the Material to be used for the next pass. This renders the object again using a different material.
+Note: next_pass materials are not necessarily drawn immediately after the source Material. Draw order is determined by material properties, render_priority, and distance to camera.
+Note: This only applies to StandardMaterial3D and ShaderMaterial with type "Spatial".
+Methods:
+- set_next_pass(value: Material) → void
+- get_next_pass() → Material
+
+Property: render_priority
+Type: int
+Description: Sets the render priority for objects in 3D scenes. Higher priority objects will be sorted in front of lower priority objects. In other words, all objects with render_priority 1 will render on top of all objects with render_priority 0.
+Note: This only applies to StandardMaterial3D and ShaderMaterial with type "Spatial".
+Note: This will not impact how transparent objects are sorted relative to opaque objects or how dynamic meshes will be sorted relative to other opaque meshes. This is because all transparent objects are drawn after all opaque objects and all dynamic opaque meshes are drawn before other opaque meshes.
+Methods:
+- set_render_priority(value: int) → void
+- get_render_priority() → int
+---CHUNK---
+Document: Material
+Path: godot/classes/class_material.rst
+Summary: This section details private and public methods of the Material class in Godot Engine.
+
+Method: _can_do_next_pass() -> bool
+This method is virtual and const. It is only exposed for overriding and cannot be called directly. Internally, it determines whether the `next_pass` property should be visible in the editor.
+
+Method: _can_use_render_priority() -> bool
+This method is virtual and const. It is only exposed for overriding and cannot be called directly. Internally, it determines whether the `render_priority` property should be visible in the editor.
+
+Method: _get_shader_mode() -> Shader.Mode
+This method is virtual, required, and const. It is only exposed for overriding and cannot be called directly. It is used internally by various editor tools.
+
+Method: _get_shader_rid() -> RID
+This method is virtual, required, and const. It is only exposed for overriding and cannot be called directly. It is used internally by various editor tools to access the RID of the Material's Shader.
+
+Method: create_placeholder() -> Resource
+This method is const. It creates a placeholder version of this resource, specifically a PlaceholderMaterial.
+
+Method: inspect_native_shader_code() -> void
+This method is available only when running in the editor. It opens a popup window that visualizes the generated shader code, including all variants and internal shader code. This is similar to Shader.inspect_native_shader_code().

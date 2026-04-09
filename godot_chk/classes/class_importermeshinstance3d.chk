@@ -1,0 +1,118 @@
+Document: ImporterMeshInstance3D
+Path: godot/classes/class_importermeshinstance3d.rst
+Summary: Represents a 3D mesh resource imported from an external file, allowing for manipulation and rendering within the scene.
+
+ImporterMeshInstance3D
+
+Inherits: MeshInstance3D < GeometryInstance3D < CullInstance3D < GeometryInstance < Node3D < Node
+
+A 3D node that imports and shows a Mesh resource. This node is used to instance a Mesh resource in the scene.
+
+The Mesh resource must be created by an importer. For example, when importing a glTF scene, the meshes within the glTF scene will be imported as Mesh resources.
+
+This node is a subclass of MeshInstance3D, so it inherits all of its properties and methods.
+
+Properties:
+mesh (Mesh): The Mesh resource to be drawn.
+
+Methods:
+_get_mesh_list() → Array: Returns a list of available meshes from the importer.
+_set_mesh(mesh_index: int) → void: Sets the mesh by its index in the list of available meshes.
+get_mesh_list() → Array: Returns a list of available meshes from the importer.
+set_mesh(mesh_index: int) → void: Sets the mesh by its index in the list of available meshes.
+---CHUNK---
+Document: ImporterMeshInstance3D
+Path: godot/classes/class_importermeshinstance3d.rst
+Summary: This document describes the ImporterMeshInstance3D class, which inherits from Node3D.
+
+Inherits: Node3D < Node < Object
+
+There is currently no description for this class. Please help us by contributing one!
+---CHUNK---
+Document: ImporterMeshInstance3D
+Path: godot/classes/class_importermeshinstance3d.rst
+Summary: This section details the properties of the ImporterMeshInstance3D class, including their types, names, and default values.
+
+Properties:
+* cast_shadow (ShadowCastingSetting): Controls how the mesh casts shadows. Default: 1.
+* layer_mask (int): Determines which physics layers the mesh belongs to. Default: 1.
+* mesh (ImporterMesh): The mesh resource to be displayed.
+* skeleton_path (NodePath): Path to the Skeleton node that controls the mesh's bones. Default: NodePath("").
+* skin (Skin): The skin resource used for skeletal animation.
+* visibility_range_begin (float): The near distance at which the mesh starts to fade out. Default: 0.0.
+* visibility_range_begin_margin (float): A margin added to the begin distance for fading. Default: 0.0.
+* visibility_range_end (float): The far distance at which the mesh completely fades out. Default: 0.0.
+* visibility_range_end_margin (float): A margin added to the end distance for fading. Default: 0.0.
+* visibility_range_fade_mode (VisibilityRangeFadeMode): The mode used for fading visibility based on distance. Default: 0.
+---CHUNK---
+Document: ImporterMeshInstance3D
+Path: godot/classes/class_importermeshinstance3d.rst
+Summary: This section details the properties of the ImporterMeshInstance3D class, including shadow casting, layer masks, mesh assignment, skeleton path, skinning, and visibility range settings.
+
+Property: cast_shadow
+Type: ShadowCastingSetting
+Default: 1
+Description: Controls how the object casts shadows.
+Setter: set_cast_shadows_setting(value: ShadowCastingSetting)
+Getter: get_cast_shadows_setting() -> ShadowCastingSetting
+
+Property: layer_mask
+Type: int
+Default: 1
+Description: Determines which layers the object belongs to for rendering and physics interactions.
+Setter: set_layer_mask(value: int)
+Getter: get_layer_mask() -> int
+
+Property: mesh
+Type: ImporterMesh
+Description: The ImporterMesh resource assigned to this instance.
+Setter: set_mesh(value: ImporterMesh)
+Getter: get_mesh() -> ImporterMesh
+
+Property: skeleton_path
+Type: NodePath
+Default: NodePath("")
+Description: The path to the Skeleton node that this mesh instance should follow.
+Setter: set_skeleton_path(value: NodePath)
+Getter: get_skeleton_path() -> NodePath
+
+Property: skin
+Type: Skin
+Description: The Skin resource used for skeletal animation.
+Setter: set_skin(value: Skin)
+Getter: get_skin() -> Skin
+
+Property: visibility_range_begin
+Type: float
+Default: 0.0
+Description: The distance at which the object starts to fade out based on camera distance.
+Setter: set_visibility_range_begin(value: float)
+Getter: get_visibility_range_begin() -> float
+
+Property: visibility_range_begin_margin
+Type: float
+Default: 0.0
+Description: A margin added to the visibility_range_begin, affecting the fade-in start point.
+Setter: set_visibility_range_begin_margin(value: float)
+Getter: get_visibility_range_begin_margin() -> float
+
+Property: visibility_range_end
+Type: float
+Default: 0.0
+Description: The distance at which the object completely fades out based on camera distance.
+Setter: set_visibility_range_end(value: float)
+Getter: get_visibility_range_end() -> float
+
+Property: visibility_range_end_margin
+Type: float
+Default: 0.0
+Description: A margin added to the visibility_range_end, affecting the fade-out end point.
+Setter: set_visibility_range_end_margin(value: float)
+Getter: get_visibility_range_end_margin() -> float
+
+Property: visibility_range_fade_mode
+Type: VisibilityRangeFadeMode
+Default: 0
+Description: Controls how the object fades in and out based on camera distance.
+Setter: set_visibility_range_fade_mode(value: VisibilityRangeFadeMode)
+Getter: get_visibility_range_fade_mode() -> VisibilityRangeFadeMode

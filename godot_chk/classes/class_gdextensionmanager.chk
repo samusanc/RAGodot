@@ -1,0 +1,84 @@
+Document: GDExtensionManager
+Path: godot/classes/class_gdextensionmanager.rst
+Summary: Manages GDExtension loading and unloading.
+
+Inherits: Object
+
+The GDExtensionManager class provides an interface for managing GDExtensions. GDExtensions are dynamic libraries that can extend Godot's functionality at runtime. This class allows you to load and unload GDExtensions, query their status, and access their exported classes.
+
+Key Rule: GDExtensions are loaded and unloaded by their library path.
+
+Methods:
+load_extension(path: String, entry_symbol: String = "") → Error
+Loads a GDExtension from the specified path. The entry_symbol is optional and specifies the entry point function in the library. Returns an Error code indicating success or failure.
+
+unload_extension(path: String) → Error
+Unloads a GDExtension from the specified path. Returns an Error code indicating success or failure.
+
+get_loaded_extensions() → PackedStringArray
+Returns an array of paths for all currently loaded GDExtensions.
+
+get_extension_status(path: String) → GDExtensionManager.ExtensionStatus
+Returns the current status of a GDExtension. Possible statuses include NOT_LOADED, LOADING, LOADED, and FAILED.
+
+get_extension_classes(path: String) → PackedStringArray
+Returns an array of names for all classes exported by a specific GDExtension.
+
+is_extension_loaded(path: String) → bool
+Checks if a GDExtension is currently loaded.
+
+get_extension_library_path(class_name: String) → String
+Returns the library path of the GDExtension that exported the given class.
+
+get_extension_entry_symbol(path: String) → String
+Returns the entry symbol of a loaded GDExtension.
+
+Enums:
+ExtensionStatus:
+  NOT_LOADED: 0
+  LOADING: 1
+  LOADED: 2
+  FAILED: 3
+---CHUNK---
+Document: GDExtensionManager
+Path: godot/classes/class_gdextensionmanager.rst
+Summary: Provides access to GDExtension functionality.
+---CHUNK---
+Document: GDExtensionManager
+Path: godot/classes/class_gdextensionmanager.rst
+Summary: Describes the GDExtensionManager class, which handles loading and managing GDExtension libraries.
+Note: Do not worry about GDExtension unless you know what you are doing.
+---CHUNK---
+Document: GDExtensionManager
+Path: godot/classes/class_gdextensionmanager.rst
+Summary: This document provides an overview of GDExtension and related tutorials.
+
+Tutorials:
+- GDExtension overview
+- GDExtension example in C++
+---CHUNK---
+Document: GDExtensionManager
+Path: godot/classes/class_gdextensionmanager.rst
+Summary: Provides methods for managing GDExtensions, including loading, unloading, and checking their status.
+
+Methods
+*   get_extension(path: String) → GDExtension: Returns the GDExtension at the given file path, or null if it has not been loaded or does not exist.
+*   get_loaded_extensions() → PackedStringArray: Returns the file paths of all currently loaded extensions.
+*   is_extension_loaded(path: String) → bool: Returns true if the extension at the given file path has already been loaded successfully.
+*   load_extension(path: String) → LoadStatus: Loads an extension by absolute file path. Returns LOAD_STATUS_OK if successful.
+*   load_extension_from_function(path: String, init_func: const GDExtensionInitializationFunction*) → LoadStatus: Loads the extension already in address space via the given path and initialization function. Returns LOAD_STATUS_OK if successful.
+*   reload_extension(path: String) → LoadStatus: Reloads the extension at the given file path. Note: You can only reload extensions in the editor. In release builds, this method always fails and returns LOAD_STATUS_FAILED.
+*   unload_extension(path: String) → LoadStatus: Unloads an extension by file path.
+
+Signals
+*   extension_loaded(extension: GDExtension): Emitted after the editor has finished loading a new extension. Note: This signal is only emitted in editor builds.
+*   extension_unloading(extension: GDExtension): Emitted before the editor starts unloading an extension. Note: This signal is only emitted in editor builds.
+*   extensions_reloaded(): Emitted after the editor has finished reloading one or more extensions.
+
+Enumerations
+*   enum LoadStatus:
+    *   LOAD_STATUS_OK = 0: The extension has loaded successfully.
+    *   LOAD_STATUS_FAILED = 1: The extension has failed to load, possibly because it does not exist or has missing dependencies.
+    *   LOAD_STATUS_ALREADY_LOADED = 2: The extension has already been loaded.
+    *   LOAD_STATUS_NOT_LOADED = 3: The extension has not been loaded.
+    *   LOAD_STATUS_NEEDS_RESTART = 4: The extension requires the application to restart to fully load.

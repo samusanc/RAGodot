@@ -1,0 +1,119 @@
+Document: Reflection Probes
+Path: godot/tutorials/3d/global_illumination/reflection_probes.rst
+Summary: This section explains how to use Reflection Probes in Godot to add realistic reflections to 3D scenes.
+
+Reflection probes capture the surrounding environment and use it to render reflections on objects. They are particularly useful for adding detail to glossy surfaces like metal, glass, and polished floors.
+
+**Adding a Reflection Probe**
+
+1.  In the Scene dock, click the "Add Node" button.
+2.  Search for "ReflectionProbe" and select it.
+3.  Place the ReflectionProbe node in your scene.
+
+**Configuring a Reflection Probe**
+
+The ReflectionProbe node has several properties that allow you to control its behavior:
+
+*   **Enabled**: Toggles the probe on or off.
+*   **Extents**: Defines the bounding box of the probe. The probe will only affect objects within this box.
+*   **Intensity**: Controls the brightness of the reflections.
+*   **Interior**: If enabled, the probe will capture the interior of enclosed spaces, which can be useful for indoor scenes.
+*   **Max Distance**: Sets the maximum distance at which the probe's reflections will be visible.
+*   **Mesh Library**: Allows you to specify a MeshLibrary resource to use for reflections, useful for procedural generation or complex scenes.
+*   **Origin Offset**: Adjusts the origin point of the probe's capture.
+*   **Projection**: Determines how the captured environment is projected onto surfaces. Options include "Planar" and "Sphere".
+*   **Update Mode**: Controls when the probe's capture is updated. Options include "Once", "Once Per Frame", "Disabled", and "Update In Editor".
+
+**Reflection Probe Types**
+
+There are two main types of reflection probes:
+
+*   **Box Projection**: This is the default type. It projects the captured environment onto surfaces within a box. This is suitable for most general-purpose reflections.
+*   **Sphere Projection**: This type projects the captured environment spherically. It's often used for smaller, more localized reflections, like those found on a doorknob or a small decorative object.
+
+**Updating Reflection Probes**
+
+By default, reflection probes update their captures automatically. However, you can manually control when they update using the **Update Mode** property.
+
+*   **Update In Editor**: This is useful for static scenes where you want to bake reflections during development without them changing every frame.
+*   **Once Per Frame**: The probe will capture the environment once per frame. This provides dynamic reflections but can be performance-intensive.
+*   **Once**: The probe will capture the environment only once when it is first added or when its properties are changed. This is the most performant option for static environments.
+*   **Disabled**: The probe will not update its capture automatically. You would need to manually trigger an update if needed.
+
+**Performance Considerations**
+
+Reflection probes can be computationally expensive, especially when set to update frequently or when capturing large environments. It's important to optimize their usage:
+
+*   Use probes only where necessary.
+*   Keep the **Extents** of probes as small as possible.
+*   Set the **Update Mode** to "Once" or "Update In Editor" for static environments.
+*   Consider using fewer probes with larger **Extents** rather than many small probes.
+---CHUNK---
+Document: Reflection Probes
+Path: godot/tutorials/3d/global_illumination/reflection_probes.rst
+Summary: This section explains the purpose and usage of ReflectionProbe nodes in Godot Engine for providing accurate reflections and ambient light.
+Reflection probes are used as a source of reflected and ambient light for objects within their area of influence. They can provide more accurate reflections than VoxelGI and SDFGI while being relatively inexpensive in terms of system resources. Reflection probes can also store ambient light, serving as a lower-end alternative to VoxelGI and SDFGI when baked lightmaps are not feasible, such as in procedurally generated levels. They can be used concurrently with screen-space reflections to offer reflections for off-screen objects, with Godot blending the two techniques.
+
+See also: For a comparison of global illumination techniques in Godot 4, refer to the introduction to global illumination comparison.
+---CHUNK---
+Document: Reflection Probes
+Path: godot/tutorials/3d/global_illumination/reflection_probes.rst
+Summary: This section visually compares the effects of ReflectionProbe nodes with and without screen-space reflections, demonstrating their combined benefits.
+
+The first image shows a scene where a ReflectionProbe is disabled, and the environment sky is used as a fallback for reflections. The second image shows the same scene with a ReflectionProbe enabled, providing more accurate reflections of the scene's geometry. The third image illustrates a scenario where both a ReflectionProbe and LightmapGI are used simultaneously, showing that the lightmap's indirect lighting appears within the reflection.
+
+Combining ReflectionProbe nodes with screen-space reflections (SSR) offers a powerful way to achieve high-quality reflections. Reflection probes provide stable, general reflections of the room's structure, which persist even for objects that are off-screen. Screen-space reflections, on the other hand, excel at capturing real-time, detailed reflections of small objects and dynamic elements that are currently visible on screen.
+
+The fourth image displays reflections in a room using only a ReflectionProbe. It highlights a limitation: small details within the scene do not have corresponding reflections because the probe captures a broader, less detailed view.
+
+The fifth image demonstrates reflections using only screen-space reflections. This image points out a drawback of SSR: reflections on the sides of the room's walls are partially missing because they fall outside the screen's view.
+
+The final image showcases the combined effect of using both a ReflectionProbe and screen-space reflections. In this setup, SSR reflections are blended with the ReflectionProbe's reflections. This blend acts as a fallback mechanism; when the ReflectionProbe might not provide a suitable reflection (e.g., for dynamic objects or specific angles), SSR can fill in the gaps with real-time, on-screen details, resulting in a more complete and visually appealing reflection system.
+---CHUNK---
+Document: Reflection Probes
+Path: godot/tutorials/3d/global_illumination/reflection_probes.rst
+Summary: This section explains how to set up and configure ReflectionProbe nodes in a Godot 3D scene for global illumination.
+To set up a ReflectionProbe, add a ReflectionProbe node to your scene. Configure the ReflectionProbe's extents in the inspector to fit your scene. For reasonably accurate reflections, generally use one ReflectionProbe node per room, or more for very large rooms. Tip: ReflectionProbe extents are not restricted to being square, and the ReflectionProbe node can be rotated to fit rooms not aligned with the X/Z grid. This allows for better room coverage without needing to place excessive ReflectionProbe nodes.
+---CHUNK---
+Document: ReflectionProbe properties
+Path: godot/tutorials/3d/global_illumination/reflection_probes.rst
+Summary: This section details the properties of the ReflectionProbe node in Godot Engine, covering update modes, visual appearance, and ambient lighting settings.
+
+- **Update Mode:** Controls when the reflection probe updates.
+  - **Once:** Renders the scene once every time the ReflectionProbe is moved. This is faster than **Always**.
+  - **Always:** Forces the probe to re-render everything around it every frame.
+  Key Rule: Leave this property on **Once** (default) unless you need the reflection probe to update every frame.
+- **Intensity:** The brightness of the reflections and ambient lighting. Default is 1.0. Can be decreased if reflections appear too strong.
+- **Max Distance:** Controls the maximum distance used by the ReflectionProbe's internal camera. The distance is always at least equal to the **Extents**, but this can be increased to make objects located outside the extents visible in reflections. This property does not affect the maximum distance at which the ReflectionProbe itself is visible.
+- **Extents:** The area that will be affected by the ReflectionProbe's lighting and reflections.
+- **Origin Offset:** The origin to use for the internal camera used for reflection probe rendering. This must always be constrained within the **Extents**. Adjust this to prevent the reflection from being obstructed by a solid object located exactly at the center of the ReflectionProbe.
+- **Box Projection:** Controls whether parallax correction is used when rendering the reflection probe. This adjusts the reflection's appearance depending on the camera's position relative to the reflection probe. This has a small performance cost but can significantly improve quality in box-shaped rooms. It is less effective in irregularly shaped rooms.
+- **Interior:** If enabled, ambient lighting will not be sourced from the environment sky, and the background sky won't be rendered onto the reflection probe.
+- **Enable Shadows:** Controls whether real-time light shadows are rendered within the reflection probe. Enabling this improves reflection quality at the cost of performance.
+  Key Rule: This should be left disabled for reflection probes with the **Always** update mode, as it's very expensive to render reflections with shadows every frame. Fully baked light shadows are not affected by this setting and will be rendered in the reflection probe regardless.
+- **Cull Mask:** Controls which objects are visible in the reflection. Can be used to improve performance by excluding small objects or to prevent an object from having self-reflection artifacts when **Origin Offset** cannot be used.
+- **Mesh LOD Threshold:** The automatic level of detail threshold for rendering meshes within the reflection. This only affects meshes with automatically generated LODs. Higher values can improve performance by using less detailed geometry, especially for distant objects.
+
+The Ambient category features several properties to adjust ambient lighting rendered by the ReflectionProbe:
+
+- **Mode:**
+  - **Disabled:** No ambient light is added by the probe.
+  - **Environment:** Ambient light color is sampled from the environment sky (if **Interior** is disabled) and the reflection's average color.
+  - **Constant Color:** The color specified in the **Color** property is used. This mode can approximate area lighting.
+- **Color:** The color to use when the ambient light mode is set to **Constant Color**.
+- **Color Energy:** The multiplier for the ambient light custom **Color**. This only has an effect when the ambient light mode is **Constant Color**.
+---CHUNK---
+Document: ReflectionProbe blending
+Path: godot/tutorials/3d/global_illumination/reflection_probes.rst
+Summary: Explains how ReflectionProbes blend with each other and with global illumination techniques for smoother reflections.
+ReflectionProbe blending
+To make transitions between reflection sources smoother, Godot supports automatic probe blending. Up to 4 ReflectionProbes can be blended together at a given location. A ReflectionProbe will also fade out smoothly back to environment lighting when it isn't touching any other ReflectionProbe node. SDFGI and VoxelGI will blend in smoothly with ReflectionProbes if used. This allows placing ReflectionProbes strategically to get more accurate (or fully real-time) reflections where needed, while still having rough reflections available in the VoxelGI or SDFGI's area of influence. To make several ReflectionProbes blend with each other, you need to have part of each ReflectionProbe overlap each other's area. The extents should only overlap as little as possible with other reflection probes to improve rendering performance (typically a few units in 3D space).
+---CHUNK---
+Document: Reflection Probes
+Path: godot/tutorials/3d/global_illumination/reflection_probes.rst
+Summary: This section details the limitations of reflection probes in different Godot renderers.
+When using the Forward+ renderer, Godot uses a clustering approach for reflection probe rendering. While many reflection probes can be added, there's a default limit of 512 clustered elements in the current camera view. A clustered element can be an omni light, a spot light, a decal, or a reflection probe. This limit can be increased in Project Settings under Rendering > Limits > Cluster Builder by adjusting Max Clustered Elements.
+
+When using the Mobile renderer, only 8 reflection probes can be applied to each individual Mesh resource. If more reflection probes affect a single mesh, not all of them will be rendered on that mesh.
+
+Similarly, when using the Compatibility renderer, up to 2 reflection probes can be applied per mesh. If more than 2 reflection probes affect a single mesh, additional probes will not be rendered.

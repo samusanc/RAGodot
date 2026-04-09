@@ -1,0 +1,83 @@
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: Base class for all 2D collision shapes.
+
+Inherits: Resource < RefCounted
+
+The Shape2D resource is the base class for all 2D collision shapes. It is used by physics bodies to define their collision boundaries.
+
+This class does not have any methods or properties of its own, but it serves as a base for various shape types like CircleShape2D, RectangleShape2D, CapsuleShape2D, and others. Each of these derived classes provides specific geometric properties to define a collision shape.
+
+Key Rule: All derived Shape2D resources are resources, meaning they can be saved and loaded independently of the nodes that use them.
+---CHUNK---
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: Abstract base class for 2D shapes used for physics collision.
+Shape2D
+Inherits: Resource < RefCounted < Object
+Inherited By: CapsuleShape2D, CircleShape2D, ConcavePolygonShape2D, ConvexPolygonShape2D, RectangleShape2D, SegmentShape2D, SeparationRayShape2D, WorldBoundaryShape2D
+Abstract base class for 2D shapes used for physics collision.
+---CHUNK---
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: Abstract base class for all 2D shapes used in physics.
+Abstract base class for all 2D shapes, intended for use in physics. Primitive shapes, especially CircleShape2D, are fast to check collisions against. ConvexPolygonShape2D is slower, and ConcavePolygonShape2D is the slowest.
+---CHUNK---
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: This document provides an overview of the Shape2D class in Godot Engine, which serves as a base class for 2D physics shapes.
+
+Shape2D is the base class for all 2D physics shapes in Godot. It is not intended to be used directly, but rather serves as a base for derived classes like CircleShape2D, RectangleShape2D, CapsuleShape2D, and ConcavePolygonShape2D. These derived classes define the actual geometry used for collision detection and physics simulation in Godot's 2D physics engine.
+
+Inherits: Resource < Object
+
+Tutorials:
+* Physics introduction
+---CHUNK---
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: Defines properties for 2D physics shapes.
+
+Properties
+- custom_solver_bias (float): Controls the bias for the physics solver when this shape is involved. Default: 0.0
+---CHUNK---
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: Provides methods for collision detection and drawing for 2D shapes.
+
+Methods
+* collide(local_xform: Transform2D, with_shape: Shape2D, shape_xform: Transform2D) → bool
+* collide_and_get_contacts(local_xform: Transform2D, with_shape: Shape2D, shape_xform: Transform2D) → PackedVector2Array
+* collide_with_motion(local_xform: Transform2D, local_motion: Vector2, with_shape: Shape2D, shape_xform: Transform2D, shape_motion: Vector2) → bool
+* collide_with_motion_and_get_contacts(local_xform: Transform2D, local_motion: Vector2, with_shape: Shape2D, shape_xform: Transform2D, shape_motion: Vector2) → PackedVector2Array
+* draw(canvas_item: RID, color: Color) → void
+* get_rect() → Rect2
+---CHUNK---
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: Describes the custom_solver_bias property for Shape2D, which controls how bodies react to enforce contact separation.
+Property: custom_solver_bias (float)
+The shape's custom solver bias. Defines how much bodies react to enforce contact separation when this shape is involved. When set to 0, the default value from ProjectSettings.physics/2d/solver/default_contact_bias is used.
+Method: set_custom_solver_bias(value: float)
+Method: get_custom_solver_bias() -> float
+---CHUNK---
+Document: Shape2D
+Path: godot/classes/class_shape2d.rst
+Summary: Describes methods for checking collisions, retrieving contact points, and drawing shapes in Godot.
+Method: collide(local_xform: Transform2D, with_shape: Shape2D, shape_xform: Transform2D) → bool
+Returns true if this shape is colliding with another. This method requires the transformation matrix for this shape (local_xform), the shape to check collisions with (with_shape), and the transformation matrix of that shape (shape_xform).
+
+Method: collide_and_get_contacts(local_xform: Transform2D, with_shape: Shape2D, shape_xform: Transform2D) → PackedVector2Array
+Returns a list of contact point pairs where this shape touches another. If there are no collisions, the returned list is empty. Otherwise, the returned list contains contact points arranged in pairs, with entries alternating between points on the boundary of this shape and points on the boundary of with_shape. A collision pair A, B can be used to calculate the collision normal with (B - A).normalized(), and the collision depth with (B - A).length(). This information is typically used to separate shapes, particularly in collision solvers. This method requires the transformation matrix for this shape (local_xform), the shape to check collisions with (with_shape), and the transformation matrix of that shape (shape_xform).
+
+Method: collide_with_motion(local_xform: Transform2D, local_motion: Vector2, with_shape: Shape2D, shape_xform: Transform2D, shape_motion: Vector2) → bool
+Returns whether this shape would collide with another, if a given movement was applied. This method requires the transformation matrix for this shape (local_xform), the movement to test on this shape (local_motion), the shape to check collisions with (with_shape), the transformation matrix of that shape (shape_xform), and the movement to test onto the other object (shape_motion).
+
+Method: collide_with_motion_and_get_contacts(local_xform: Transform2D, local_motion: Vector2, with_shape: Shape2D, shape_xform: Transform2D, shape_motion: Vector2) → PackedVector2Array
+Returns a list of contact point pairs where this shape would touch another, if a given movement was applied. If there would be no collisions, the returned list is empty. Otherwise, the returned list contains contact points arranged in pairs, with entries alternating between points on the boundary of this shape and points on the boundary of with_shape. A collision pair A, B can be used to calculate the collision normal with (B - A).normalized(), and the collision depth with (B - A).length(). This information is typically used to separate shapes, particularly in collision solvers. This method requires the transformation matrix for this shape (local_xform), the movement to test on this shape (local_motion), the shape to check collisions with (with_shape), the transformation matrix of that shape (shape_xform), and the movement to test onto the other object (shape_motion).
+
+Method: draw(canvas_item: RID, color: Color) → void
+Draws a solid shape onto a CanvasItem with the RenderingServer API filled with the specified color. The exact drawing method is specific for each shape and cannot be configured.
+
+Method: get_rect() → Rect2
+Returns a Rect2 representing the shapes boundary.

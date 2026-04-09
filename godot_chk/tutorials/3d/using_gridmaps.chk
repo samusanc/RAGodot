@@ -1,0 +1,208 @@
+Document: Using GridMaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This document explains how to use the GridMap node in Godot to create tile-based 3D environments.
+
+GridMaps are a powerful tool for creating tile-based 3D levels. They allow you to efficiently place and manage a large number of identical objects, such as walls, floors, and decorations, in a grid-like structure. This is particularly useful for games with a voxel or tile-based aesthetic, like dungeon crawlers or city builders.
+
+The core of a GridMap is its "mesh library." This library contains all the different 3D models (meshes) that you can use as tiles. You can populate this library with your own custom 3D models or use pre-made assets.
+
+To use a GridMap:
+
+1.  **Add a GridMap node** to your scene.
+2.  **Create a new MeshLibrary resource** in the Inspector panel for the GridMap node.
+3.  **Populate the MeshLibrary** by adding items. Each item can be a mesh resource. You can assign a unique ID to each mesh.
+4.  **Paint tiles** onto the grid using the GridMap editor tools. You can select a mesh from the library and then click on the grid to place it.
+
+The GridMap node uses a coordinate system based on cells. Each cell can hold a tile. You can set the size of these cells to match the scale of your tiles.
+
+Key Rule: The GridMap node is designed for static or semi-static environments. For dynamic environments with many moving parts, consider alternative approaches.
+
+You can also use the GridMap node to create complex structures by combining different meshes and using various painting tools. For example, you can paint walls, floors, and decorative elements to build a complete level.
+
+The GridMap node also supports collision shapes. When you add a mesh to the MeshLibrary, you can optionally assign a collision shape to it. This allows the GridMap to automatically generate collision for your level, so your player character can interact with the environment.
+
+GDScript:
+```gdscript
+# Example of accessing and modifying GridMap data
+var grid_map = get_node("GridMap")
+var mesh_library = grid_map.mesh_library
+
+# Get the mesh at cell (0, 0, 0)
+var cell_mesh_id = grid_map.get_cell_item(0, 0, 0)
+
+# Set the mesh at cell (1, 0, 0) to the mesh with ID 5
+grid_map.set_cell_item(1, 0, 0, 5)
+
+# Clear the cell at (2, 0, 0)
+grid_map.set_cell_item(2, 0, 0, -1)
+```
+
+C#:
+```csharp
+// Example of accessing and modifying GridMap data
+var gridMap = GetNode<GridMap>("GridMap");
+var meshLibrary = gridMap.MeshLibrary;
+
+// Get the mesh at cell (0, 0, 0)
+int cellMeshId = gridMap.GetCellItem(0, 0, 0);
+
+// Set the mesh at cell (1, 0, 0) to the mesh with ID 5
+gridMap.SetCellItem(1, 0, 0, 5);
+
+// Clear the cell at (2, 0, 0)
+gridMap.SetCellItem(2, 0, 0, -1);
+```
+---CHUNK---
+Document: Using GridMaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This tutorial explains how to use the GridMap node in Godot to create 3D levels with tile-based environments.
+
+GridMaps are a powerful tool for creating 3D levels using a tile-based approach. They allow you to efficiently place and manage a large number of identical meshes, making them ideal for games with voxel-like or tile-based worlds, such as dungeons, cities, or puzzle levels.
+
+The core concept of a GridMap is its grid. You define the size of this grid and then populate it with "items". Each item is essentially a reference to a Mesh resource and its associated transformation (position, rotation, scale) within the GridMap's local space.
+
+To use a GridMap, you first need to create a `MeshLibrary`. A `MeshLibrary` is a resource that holds all the different meshes you want to use as tiles. You can add meshes to the `MeshLibrary` and assign them an ID. This ID will be used later to reference the mesh when placing it on the GridMap.
+
+Once you have a `MeshLibrary`, you can create a GridMap node in your scene. You then assign your `MeshLibrary` to the `mesh_library` property of the GridMap. After that, you can start painting your level by selecting a mesh from the `MeshLibrary` and clicking on the grid cells in the 3D viewport.
+
+The GridMap node automatically handles the instantiation and placement of the meshes based on the data you provide. It also provides functions for efficiently querying and manipulating the grid, such as checking if a cell is occupied, getting the item at a specific cell, or clearing the grid.
+
+Key features of GridMaps include:
+
+*   **Efficient Rendering**: GridMaps are optimized for rendering large numbers of identical meshes, reducing draw calls and improving performance.
+*   **Tile-Based Editing**: The intuitive grid-based editing allows for quick and easy level design.
+*   **Customizable Meshes**: You can use any Mesh resource, including procedurally generated ones, within your `MeshLibrary`.
+*   **Collision Support**: GridMaps can generate collision shapes based on the placed meshes, enabling physics interactions.
+
+GridMaps are particularly useful for:
+
+*   Voxel games
+*   Dungeon generators
+*   City builders
+*   Puzzle games
+*   Any game requiring tile-based 3D environments.
+---CHUNK---
+Document: using_gridmaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: Introduces GridMaps as a tool for creating 3D levels using a collection of 3D meshes placed on a grid, similar to 2D TileMaps.
+
+GridMaps are a tool for creating 3D game levels, similar to the way TileMap works in 2D. You start with a predefined collection of 3D meshes (a MeshLibrary) that can be placed on a grid, as if you were building a level with an unlimited amount of Lego blocks. Collisions and navigation can also be added to the meshes, just like you would do with the tiles of a tilemap.
+---CHUNK---
+Document: Using GridMaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section provides instructions on how to download and import a starter project to learn about GridMaps.
+To learn how GridMaps work, start by downloading the sample project. Unzip this project and add it to the Project Manager using the "Import" button. You may get a popup saying that it needs to be converted to a newer Godot version, click Convert project.godot.
+---CHUNK---
+Document: Using GridMaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section explains how to create a MeshLibrary for use with GridMaps in Godot.
+Creating a MeshLibrary
+To begin, you need a MeshLibrary, which is a collection of individual meshes that can be used in the gridmap. Open the "mesh_library_source.tscn" scene to see an example of how to set up the mesh library.
+
+As you can see, this scene has a Node3D node as its root, and a number of MeshInstance3D node children.
+
+If you don't need any physics in your scene, then you're done. However, in most cases you'll want to assign collision bodies to the meshes.
+---CHUNK---
+Document: using_gridmaps.rst
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section explains how to add collision shapes to meshes within a GridMap.
+Collisions
+You can manually assign a StaticBody3D and CollisionShape3D to each mesh. Alternatively, you can use the "Mesh" menu to automatically create the collision body based on the mesh data. Note that a "Convex" collision body will work better for simple meshes. For more complex shapes, select "Create Trimesh Static Body". Once each mesh has a physics body and collision shape assigned, your mesh library is ready to be used.
+---CHUNK---
+Document: Using GridMaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section explains how materials are handled in GridMaps.
+Materials are only taken from within the meshes themselves when generating the mesh library. Materials that are set directly on the GridMap node are ignored.
+---CHUNK---
+Document: using_gridmaps.rst
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section explains how to use NavigationMeshes with GridMaps for 3D navigation.
+NavigationMeshes
+Like all mesh instances, MeshLibrary items can be assigned a NavigationMesh resource, which can be created manually, or baked.
+
+To create the NavigationMesh from a MeshLibrary scene export, place a NavigationRegion3D child node below the main MeshInstance3D for the GridMap item. Add a valid NavigationMesh resource to the NavigationRegion3D and some source geometry nodes below and bake the NavigationMesh.
+
+Note: With small grid cells it is often necessary to reduce the NavigationMesh properties for agent radius and region minimum size.
+
+Nodes below the NavigationRegion3D are ignored for the MeshLibrary scene export, so additional nodes can be added as source geometry just for baking the navmesh.
+
+Warning: The baked cell size of the NavigationMesh must match the NavigationServer map cell size to properly merge the navigation meshes of different grid cells.
+---CHUNK---
+Document: using_gridmaps.rst
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section explains how to bake lightmaps onto GridMaps, including how UV2 data is handled and how to configure texel size.
+Lightmaps
+It is possible to bake lightmaps onto a GridMap. Lightmap UV2 data will be reused from meshes if already present. If UV2 data is not present, then it will be automatically generated on bake with a lightmap texel size of 0.1 units. To generate UV2 data with a different lightmap texel size, you can set the global illumination mode in the Import dock to Static Lightmaps and specify the texel size there. This option must be changed before the scene is converted to a MeshLibrary, as changing it later on will not affect the existing MeshLibrary data.
+
+Aside from this peculiarity, the lightmap baking process is the same as for any other 3D scene. See using_lightmap_gi for more information about lightmap baking.
+---CHUNK---
+Document: using_gridmaps.rst
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section details the specific node structure required for a MeshLibrary scene in Godot.
+
+A MeshLibrary scene must have a Node3D as its root. Its children define the items within the MeshLibrary. Each child node must adhere to the following:
+* It must be a MeshInstance3D. This MeshInstance3D will be the visual mesh exported as a MeshLibrary item.
+* It must have a material assigned to its mesh's material slot, not the MeshInstance3D's own material slots.
+* It can have at most one StaticBody3D child for collision. This StaticBody3D must contain one or more CollisionShape3D children.
+* It can have at most one NavigationRegion3D child for navigation. This NavigationRegion3D can include additional MeshInstance3D children, which can be used for baking navigation data but will not be exported as visual meshes.
+
+Only nodes structured in this exact format will be recognized and exported by GridMap. Other node types added as children will be ignored. GridMap is specifically designed for placing meshes with associated collision and navigation data on a grid, not for general node placement.
+---CHUNK---
+Document: Using GridMaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section describes how to export a MeshLibrary from a GridMap scene.
+
+To export the library, click on Scene > Export As... > MeshLibrary..., and save it as a resource.
+
+You can find an already exported MeshLibrary in the project named MeshLibrary.tres.
+---CHUNK---
+Document: Using GridMap
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section explains how to set up a GridMap node by creating a new scene and assigning a mesh library.
+Create a new scene and add a GridMap node. Add the mesh library by dragging the resource file from the FileSystem dock and dropping it in the Mesh Library property in the Inspector.
+---CHUNK---
+Document: Using GridMaps
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: Overview of GridMap Inspector properties including physics, cell sizing, collision settings, and navigation baking.
+
+Inspector properties
+
+The Physics Material setting allows you to override the physics material for every mesh in the NavigationMesh.
+
+Under Cells, the Size property should be set to the size of your meshes. You can leave it at the default value for the demo. Uncheck the Center Y property.
+
+The Collision options allow you to set the collision layer, collision mask, and priority for the entire grid. For more information on how those work see the Physics Introduction section.
+
+Under Navigation is the Bake Navigation option. If enabled it creates a navigation region for each cell that uses a mesh library item with a navigation mesh.
+
+If you click on the MeshLibrary itself in the inspector you can adjust settings for individual meshes, such as their navigation mesh, navigation layers, or if the mesh casts shadows.
+---CHUNK---
+Document: using_gridmaps.rst
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: Describes the GridMap panel tools and settings in the Godot editor.
+The GridMap panel is located at the bottom of the editor and typically opens automatically when a GridMap node is added. The toolbar within this panel offers various tools for manipulating grid-based meshes:
+
+- Transform: Adds a gizmo to the scene for changing the relative position and rotation of the GridMap.
+- Selection: Enables selecting an area in the viewport, allowing for multi-space selection by clicking and dragging.
+- Erase: When active, clicking in the viewport deletes selected meshes.
+- Paint: When active, clicking in the viewport adds the currently selected mesh from the GridMap panel to the scene.
+- Pick: When active, clicking on a GridMap mesh in the viewport selects it in the GridMap panel.
+- Fill: Fills a selected area in the viewport with the mesh currently selected in the GridMap panel.
+- Move: Moves the currently selected mesh or meshes in the viewport.
+- Duplicate: Creates a copy of the selected mesh or meshes in the GridMap.
+- Delete: Deletes the entire selected area, similar to the Erase tool but for a larger region.
+- Cursor Rotate X: When the paint tool is selected, this rotates the mesh to be painted on the X-axis. It also rotates selected areas if they are being moved.
+- Cursor Rotate Y: When the paint tool is selected, this rotates the mesh to be painted on the Y-axis. It also rotates selected areas if they are being moved.
+- Cursor Rotate Z: When the paint tool is selected, this rotates the mesh to be painted on the Z-axis. It also rotates selected areas if they are being moved.
+- Change Grid Floor: Adjusts the current floor being worked on, which can be changed using arrows or by typing a value.
+- Filter Meshes: Used to search for a specific mesh within the bottom panel.
+- Zoom: Controls the zoom level for meshes displayed in the bottom panel.
+- Layout toggles: Two buttons that switch between different layout arrangements for meshes in the bottom panel.
+- Tools dropdown: Opens a menu containing additional options.
+
+Within the Tools dropdown, clicking on Settings opens a window where the Pick Distance can be adjusted. The Pick Distance defines the maximum distance from the camera (in meters) at which tiles can be placed on a GridMap.
+---CHUNK---
+Document: Using GridMaps in code
+Path: godot/tutorials/3d/using_gridmaps.rst
+Summary: This section explains how to interact with the GridMap node programmatically.
+See GridMap for details on the node's methods and member variables.

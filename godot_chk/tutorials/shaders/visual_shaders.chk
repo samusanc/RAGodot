@@ -1,0 +1,125 @@
+Document: Visual Shaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: This document introduces Visual Shaders in Godot, explaining their purpose and how they differ from text-based shaders.
+
+Visual Shaders are a node-based system for creating shaders in Godot. They allow you to visually construct shader logic by connecting nodes, which can be more intuitive for artists and designers who may not be familiar with shader programming languages like GLSL.
+
+Key Rule: Visual Shaders are compiled into text-based shaders (like GLSL) before being used by the engine. This means they offer the same power and flexibility as text shaders but with a different workflow.
+
+Visual Shaders are particularly useful for:
+*   Creating complex visual effects without writing code.
+*   Rapid prototyping of shader ideas.
+*   Collaborating between programmers and artists, as the visual representation is easily understandable.
+
+While Visual Shaders are powerful, understanding the underlying shader concepts can still be beneficial for advanced usage and debugging.
+---CHUNK---
+Document: VisualShaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Introduces VisualShaders as a node-based alternative to writing shader code, highlighting their convenience and limitations.
+Note: If you are not familiar with shaders, start by reading introduction to shaders.
+---CHUNK---
+Document: VisualShaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: This document explains how to create and use VisualShaders in Godot, covering the Shader Editor interface and its toolbar options.
+VisualShaders can be created in any ShaderMaterial. To start, create a new ``ShaderMaterial`` on an object, then assign a ``Shader`` resource to its ``Shader`` property. Clicking the new ``Shader`` resource will open the Create Shader dialog. Change the Type option to ``VisualShader`` and give it a name.
+
+Clicking the created visual shader opens the Shader Editor. The editor has four main areas: a file list on the left, the upper toolbar, the shader graph itself, and a material preview on the right (which can be toggled).
+
+The toolbar, from left to right, includes:
+- An arrow to toggle the visibility of the files panel.
+- A ``File`` button with options for saving, loading, and creating files.
+- An ``Add Node`` button to open a menu for adding nodes to the graph.
+- A drop-down menu for selecting the shader type (Vertex, Fragment, Light), which determines available built-in nodes.
+- Buttons and a number input for controlling zoom level, grid snapping, and grid line distance.
+- A toggle for the graph minimap in the bottom right.
+- A button to automatically arrange selected nodes.
+- A ``Manage Varyings`` button to add or remove varyings.
+- A button to show the generated shader code from the graph.
+- A toggle for the material preview.
+- An ``Online Docs`` button to open this documentation.
+- A button to detach the shader editor into its own window.
+
+Note: Although VisualShaders don't require coding, they use the same logic as script shaders. Understanding both is recommended for a full grasp of the shading pipeline. The visual shader graph is converted to script shader code behind the scenes, which can be viewed to understand node functionality and how to replicate it in scripts.
+---CHUNK---
+Document: Visual Shaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: This section describes how to use the Visual Shader Editor in Godot, including adding nodes, connecting them, and understanding scalar and vector conversions.
+
+The Visual Shader Editor is used to create shaders visually. A new `VisualShader` starts with an output node, and all node connections terminate at this output node's sockets. Nodes are the fundamental building blocks of shaders.
+
+To add a new node:
+- Click the "Add Node" button in the upper-left corner.
+- Right-click on an empty area in the graph.
+
+A popup menu will appear. Its properties are:
+- If you right-click on the graph, the menu appears at the cursor position, and the new node is created there. Otherwise, it appears at the graph's center.
+- The menu can be resized, and its size and content position are saved between uses.
+- "Expand All" and "Collapse All" options in the drop-down menu help manage the list of available nodes.
+- Nodes can be dragged and dropped from the popup onto the graph.
+
+While nodes are categorized, the menu can initially seem overwhelming. Experiment by adding nodes, connecting them to the output socket, and observing the results.
+
+When connecting nodes:
+- Connecting a scalar output to a vector input sets all vector components to the scalar's value.
+- Connecting a vector output to a scalar input sets the scalar's value to the average of the vector's components.
+---CHUNK---
+Document: Visual Shaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Describes the interface of Visual Shader nodes, including input/output ports and their corresponding types and colors.
+Visual shader nodes have input and output ports. The input ports are located on the left side of the node, and output ports are located on the right side of the node.
+
+Port types:
+* Scalar (Gray): A single value.
+* Vector (Purple): A set of values.
+* Boolean (Green): On or off, true or false.
+* Transform (Pink): A matrix, usually used to transform vertices.
+* Sampler (Orange): A texture sampler. It can be used to sample textures.
+
+All of the types are used in the calculations of vertices, fragments, and lights in the shader. For example: matrix multiplication, vector addition, or scalar division. There are other types but these are the main ones.
+---CHUNK---
+Document: Visual Shaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Introduces special nodes available in Godot's Visual Shader editor.
+Visual Shader nodes
+Below are some special nodes that are worth knowing about. The list is not exhaustive and might be expanded with more nodes and examples.
+---CHUNK---
+Document: Visual Shaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Describes the Expression node in Godot's visual shader editor, which allows embedding GLSL-like code.
+The Expression node allows you to write Godot Shading Language (GLSL-like) expressions inside your visual shaders. The node has buttons to add any amount of required input and output ports and can be resized. You can also set up the name and type of each port. The expression you have entered will apply immediately to the material once the focus leaves the expression text box. Any parsing or compilation errors will be printed to the Output tab. The outputs are initialized to their zero value by default. The node is located under the Special tab and can be used in all shader modes. The possibilities of this node are almost limitless – you can write complex procedures, and use all the power of text-based shaders, such as loops, the discard keyword, extended types, etc.
+---CHUNK---
+Document: Visual Shaders
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Explains the purpose and usage of the Reroute node in Godot's Visual Shader editor for improving graph organization.
+The Reroute node is used purely for organizational purposes. In a complicated shader with many nodes, you may find that the paths between nodes can make things hard to read. Reroute, as its name suggests, allows you to adjust the path between nodes to make things easier to read. You can even have multiple reroute nodes for a single path, which can be used to make right angles. To move a reroute node, move your mouse cursor above it and grab the handle that appears.
+---CHUNK---
+Document: Visual Shaders Tutorial
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Describes the Fresnel node in Visual Shaders, its function, and its use for rim lighting.
+
+The Fresnel node accepts normal and view vectors and outputs a scalar value representing the saturated dot product between them. It also allows for inversion and power adjustments to the equation. The Fresnel node is particularly useful for implementing rim lighting effects on objects.
+---CHUNK---
+Document: Visual Shaders Tutorial
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Explains the functionality of the Boolean node in Visual Shaders.
+The Boolean node can be converted to Scalar or Vector to represent 0 or 1 and (0, 0, 0) or (1, 1, 1) respectively. This property can be used to enable or disable some effect parts with one click.
+---CHUNK---
+Document: Visual Shaders Tutorial
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Describes the functionality of the If node in Visual Shaders.
+The If node allows you to set up a vector which will be returned as the result of the comparison between two input vectors, a and b. There are three comparison types: a == b (using a tolerance parameter for comparison threshold, defaulting to 0.00001), a > b, and a < b.
+---CHUNK---
+Document: Visual Shaders Tutorial
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Explains the functionality of the Switch node in Visual Shaders.
+The Switch node returns a vector if the boolean condition is true or false. Boolean was introduced above. If you want to convert a vector to a true boolean, all components of the vector should be non-zero.
+---CHUNK---
+Document: Visual Shaders Tutorial
+Path: godot/tutorials/shaders/visual_shaders.rst
+Summary: Explains the usage of the Mesh Emitter node in Visual Shaders for particle emission from mesh vertices.
+Mesh Emitter
+The Mesh Emitter node is used for emitting particles from mesh vertices. This is only available for shaders that are in Particles mode.
+
+Keep in mind that not all 3D objects are mesh files. a glTF file can't be dragged and dropped into the graph. However, you can create an inherited scene from it, save the mesh in that scene as its own file, and use that.
+
+You can also drag and drop obj files into the graph editor to add the node for that specific mesh, other mesh files will not work for this.

@@ -1,0 +1,302 @@
+Document: Navigation using NavigationPaths
+Path: godot/tutorials/navigation/navigation_using_navigationpaths.rst
+Summary: This document explains how to use NavigationPaths in Godot for defining navigation routes.
+---CHUNK---
+Document: NavigationPaths Tutorial
+Path: godot/tutorials/navigation/navigation_using_navigationpaths.rst
+Summary: This document explains how to use NavigationPaths in Godot for defining custom navigation routes.
+
+NavigationPaths
+=============
+
+This tutorial covers how to use NavigationPaths in Godot. NavigationPaths allow you to define custom navigation routes for your agents, which can be useful for specific scenarios where the standard NavigationMesh might not be sufficient or when you need more control over the pathfinding behavior.
+
+Key Rule: NavigationPaths are a lower-level API compared to NavigationMeshes and are intended for more advanced use cases.
+
+Creating a NavigationPath
+-------------------------
+
+To create a NavigationPath, you can do so either through the Godot editor or via script.
+
+In the editor:
+1. Add a NavigationPath node to your scene.
+2. In the Inspector, you can define the path points.
+
+Via script (GDScript):
+
+GDScript:
+	var nav_path = NavigationPath.new()
+	add_child(nav_path)
+	nav_path.set_point_position(0, Vector3(0, 0, 0))
+	nav_path.set_point_position(1, Vector3(5, 0, 0))
+	nav_path.set_point_position(2, Vector3(5, 0, 5))
+
+Configuring NavigationPath Properties
+-----------------------------------
+
+The NavigationPath node has several properties that you can configure to control its behavior:
+
+*   `point_count` (int): The number of points in the path.
+*   `point_position` (Vector3): The position of a specific point in the path. You can access and modify individual points using `get_point_position(index)` and `set_point_position(index, position)`.
+*   `up_direction` (Vector3): The direction considered "up" for the path. Defaults to Vector3.UP.
+*   `path_mode` (enum): Determines how the path is interpreted. Possible values are:
+    *   `PATH_MODE_STRAIGHT_LINE`: The path is a series of straight lines between points.
+    *   `PATH_MODE_CURVE`: The path is a curve (e.g., Bezier) defined by the points.
+
+Example: Setting path mode and points via script (GDScript):
+
+GDScript:
+	var nav_path = NavigationPath.new()
+	add_child(nav_path)
+	nav_path.path_mode = NavigationPath.PATH_MODE_CURVE
+	nav_path.set_point_position(0, Vector3(-2, 0, 0))
+	nav_path.set_point_position(1, Vector3(0, 2, 0))
+	nav_path.set_point_position(2, Vector3(2, 0, 0))
+
+Using NavigationPath with Agents
+--------------------------------
+
+To make agents follow a NavigationPath, you typically need a NavigationAgent node. The NavigationAgent can then be configured to use the NavigationPath as its target.
+
+1.  Add a NavigationAgent node to your agent.
+2.  Set the `target_location` property of the NavigationAgent to a point on the NavigationPath.
+3.  The NavigationAgent will then attempt to follow the path.
+
+Note: For complex paths or dynamic environments, you might need to combine NavigationPaths with other navigation techniques or custom logic.
+
+Key Rule: Ensure that the NavigationPath is correctly set up and visible within the navigation space your agent is operating in.
+
+Advanced Usage
+--------------
+
+NavigationPaths can be used for more than just simple point-to-point movement. They can be used to guide AI behavior, define patrol routes, or create complex movement patterns.
+
+For instance, you could dynamically update the points of a NavigationPath at runtime to change an agent's route.
+
+GDScript:
+	# Assuming 'nav_path' is a reference to a NavigationPath node
+	func update_path_route():
+		nav_path.set_point_position(1, Vector3(randf_range(-5, 5), 0, randf_range(-5, 5)))
+
+This provides a flexible way to manage agent movement in your game.
+---CHUNK---
+Document: Navigation Paths
+Path: godot/tutorials/navigation/navigation_using_navigationpaths.rst
+Summary: This document explains how to obtain and use navigation paths from the NavigationServer in Godot.
+
+Navigation paths can be directly queried from the NavigationServer without needing additional nodes, provided the navigation map has a navigation mesh.
+
+To obtain a 2D path, use NavigationServer2D.map_get_path(map, from, to, optimize, navigation_layers).
+To obtain a 3D path, use NavigationServer3D.map_get_path(map, from, to, optimize, navigation_layers).
+
+For more customizable path queries, refer to the documentation on NavigationPathQuery objects.
+
+A required parameter for path queries is the RID of the navigation map. Each game world has a default navigation map automatically created. The default maps can be retrieved using get_world_2d().get_navigation_map() from any Node2D inheriting node, or get_world_3d().get_navigation_map() from any Node3D inheriting node. The second and third parameters are the starting and target positions, specified as Vector2 for 2D or Vector3 for 3D.
+
+If the 'optimize' parameter is true, path positions are shortened along polygon corners using a funnel algorithm. This is effective for free movement on navigation meshes with varied polygon sizes, allowing the path to hug corners within the polygon corridor found by the A* algorithm. With small cells, A* can create narrow corridors, potentially leading to jagged paths when used with grids.
+
+If the 'optimize' parameter is false, path positions are placed at the center of each polygon edge. This is suitable for grid-based movement on navigation meshes with uniform polygon sizes, guiding the path through cell centers. Outside of grids, this can result in unnecessary detours if polygons cover large open areas with single, long edges.
+
+GDScript:
+extends Node2D
+
+# Basic query for a navigation path using the default navigation map.
+
+func get_navigation_path(p_start_position: Vector2, p_target_position: Vector2) -> PackedVector2Array:
+    if not is_inside_tree():
+        return PackedVector2Array()
+
+    var default_map_rid: RID = get_world_2d().get_navigation_map()
+    var path: PackedVector2Array = NavigationServer2D.map_get_path(
+        default_map_rid,
+        p_start_position,
+        p_target_position,
+        true
+    )
+    return path
+
+C#:
+using Godot;
+using System;
+
+public partial class MyNode2D : Node2D
+{
+    # Basic query for a navigation path using the default navigation map.
+
+    private Vector2[] GetNavigationPath(Vector2 startPosition, Vector2 targetPosition)
+    {
+        if (!IsInsideTree())
+        {
+            return Array.Empty<Vector2>();
+        }
+
+        Rid defaultMapRid = GetWorld2D().NavigationMap;
+        Vector2[] path = NavigationServer2D.MapGetPath(
+            defaultMapRid,
+            startPosition,
+            targetPosition,
+            true
+        );
+        return path;
+    }
+}
+
+GDScript:
+extends Node3D
+
+# Basic query for a navigation path using the default navigation map.
+
+func get_navigation_path(p_start_position: Vector3, p_target_position: Vector3) -> PackedVector3Array:
+    if not is_inside_tree():
+        return PackedVector3Array()
+
+    var default_map_rid: RID = get_world_3d().get_navigation_map()
+    var path: PackedVector3Array = NavigationServer3D.map_get_path(
+        default_map_rid,
+        p_start_position,
+        p_target_position,
+        true
+    )
+    return path
+
+C#:
+using Godot;
+using System;
+
+public partial class MyNode3D : Node3D
+{
+    # Basic query for a navigation path using the default navigation map.
+
+    private Vector3[] GetNavigationPath(Vector3 startPosition, Vector3 targetPosition)
+    {
+        if (!IsInsideTree())
+        {
+            return Array.Empty<Vector3>();
+        }
+
+        Rid defaultMapRid = GetWorld3D().NavigationMap;
+        Vector3[] path = NavigationServer3D.MapGetPath(
+            defaultMapRid,
+            startPosition,
+            targetPosition,
+            true
+        );
+        return path;
+    }
+}
+
+A returned path from the NavigationServer will be a PackedVector2Array for 2D or a PackedVector3Array for 3D. These are memory-optimized arrays of vector positions. All position vectors within the array are guaranteed to be within a NavigationPolygon or NavigationMesh. If the path array is not empty, the first index (path[0]) contains the navigation mesh position closest to the starting position. The last index (path[path.size()-1]) contains the navigation mesh position closest to the target position. All intermediate indexes represent the path points an actor should follow to reach the target without leaving the navigation mesh.
+
+Note: If the target position is on a different navigation mesh that is not merged or connected, the navigation path will lead to the closest possible position on the starting position's navigation mesh.
+
+The following script demonstrates moving a Node3D inheriting node along a navigation path using the default navigation map by setting the target position with set_movement_target().
+
+GDScript:
+@onready var default_3d_map_rid: RID = get_world_3d().get_navigation_map()
+
+var movement_speed: float = 4.0
+var movement_delta: float
+var path_point_margin: float = 0.5
+
+var current_path_index: int = 0
+var current_path_point: Vector3
+var current_path: PackedVector3Array
+
+func set_movement_target(target_position: Vector3):
+
+    var start_position: Vector3 = global_transform.origin
+
+    current_path = NavigationServer3D.map_get_path(
+        default_3d_map_rid,
+        start_position,
+        target_position,
+        true
+    )
+
+    if not current_path.is_empty():
+        current_path_index = 0
+        current_path_point = current_path[0]
+
+func _physics_process(delta):
+
+    if current_path.is_empty():
+        return
+
+    movement_delta = movement_speed * delta
+
+    if global_transform.origin.distance_to(current_path_point) <= path_point_margin:
+        current_path_index += 1
+        if current_path_index >= current_path.size():
+            current_path = []
+            current_path_index = 0
+            current_path_point = global_transform.origin
+            return
+
+    current_path_point = current_path[current_path_index]
+
+    var new_velocity: Vector3 = global_transform.origin.direction_to(current_path_point) * movement_delta
+
+    global_transform.origin = global_transform.origin.move_toward(global_transform.origin + new_velocity, movement_delta)
+
+C#:
+using Godot;
+
+public partial class MyNode3D : Node3D
+{
+    private Rid _default3DMapRid;
+
+    private float _movementSpeed = 4.0f;
+    private float _movementDelta;
+    private float _pathPointMargin = 0.5f;
+
+    private int _currentPathIndex = 0;
+    private Vector3 _currentPathPoint;
+    private Vector3[] _currentPath;
+
+    public override void _Ready()
+    {
+        _default3DMapRid = GetWorld3D().NavigationMap;
+    }
+
+    private void SetMovementTarget(Vector3 targetPosition)
+    {
+        Vector3 startPosition = GlobalTransform.Origin;
+
+        _currentPath = NavigationServer3D.MapGetPath(_default3DMapRid, startPosition, targetPosition, true);
+
+        if (!_currentPath.IsEmpty())
+        {
+            _currentPathIndex = 0;
+            _currentPathPoint = _currentPath[0];
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (_currentPath.IsEmpty())
+        {
+            return;
+        }
+
+        _movementDelta = _movementSpeed * (float)delta;
+
+        if (GlobalTransform.Origin.DistanceTo(_currentPathPoint) <= _pathPointMargin)
+        {
+            _currentPathIndex += 1;
+            if (_currentPathIndex >= _currentPath.Length)
+            {
+                _currentPath = Array.Empty<Vector3>();
+                _currentPathIndex = 0;
+                _currentPathPoint = GlobalTransform.Origin;
+                return;
+            }
+        }
+
+        _currentPathPoint = _currentPath[_currentPathIndex];
+
+        Vector3 newVelocity = GlobalTransform.Origin.DirectionTo(_currentPathPoint) * _movementDelta;
+        var globalTransform = GlobalTransform;
+        globalTransform.Origin = globalTransform.Origin.MoveToward(globalTransform.Origin + newVelocity, _movementDelta);
+        GlobalTransform = globalTransform;
+    }
+}

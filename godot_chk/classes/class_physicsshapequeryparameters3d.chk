@@ -1,0 +1,136 @@
+Document: PhysicsShapeQueryParameters3D
+Path: godot/classes/class_physicsshapequeryparameters3d.rst
+Summary: Defines parameters for physics shape queries in 3D.
+
+Inherits: Object
+
+This class holds parameters for shape queries in 3D physics. It's used by methods like PhysicsDirectSpaceState3D.shape_collide and PhysicsDirectSpaceState3D.intersect_shape.
+
+Properties:
+shape_rid (RID): The RID of the shape resource to use for the query.
+shape_form (Variant): The transform of the shape relative to the query origin.
+motion (Vector3): The motion vector to check for collisions.
+margin (float): The margin to use for the shape query.
+collision_mask (int): The collision layers to check against.
+exclude (Array[RID]): An array of RIDs to exclude from the query.
+collide_with_bodies (bool): Whether to collide with physics bodies.
+collide_with_areas (bool): Whether to collide with physics areas.
+space_override (PhysicsServer3D.SpaceOverrideMode): The space override mode to use.
+space_override_தரவு (Variant): The data for the space override.
+one_way_collision_down_direction (Vector3): The direction for one-way collisions.
+one_way_collision_max_depth (float): The maximum depth for one-way collisions.
+trip_on_contact (bool): Whether to trip on contact.
+query_rid (RID): The RID of the query.
+owner_rid (RID): The RID of the owner.
+---CHUNK---
+Document: PhysicsShapeQueryParameters3D
+Path: godot/classes/class_physicsshapequeryparameters3d.rst
+Summary: Provides parameters for PhysicsDirectSpaceState3D's methods.
+
+PhysicsShapeQueryParameters3D
+Inherits: RefCounted < Object
+
+Provides parameters for PhysicsDirectSpaceState3D's methods.
+---CHUNK---
+Document: PhysicsShapeQueryParameters3d
+Path: godot/classes/class_physicsshapequeryparameters3d.rst
+Summary: Configures parameters for PhysicsDirectSpaceState3D query methods.
+By changing various properties of this object, such as the shape, you can configure the parameters for PhysicsDirectSpaceState3D's methods.
+---CHUNK---
+Document: PhysicsShapeQueryParameters3D
+Path: godot/classes/class_physicsshapequeryparameters3d.rst
+Summary: Defines the properties for configuring a physics shape query in 3D.
+
+Properties:
+- collide_with_areas (bool): If true, the query will detect collisions with Area3D objects. Default: false.
+- collide_with_bodies (bool): If true, the query will detect collisions with PhysicsBody3D objects. Default: true.
+- collision_mask (int): The collision layers to check against. Default: 4294967295.
+- exclude (Array[RID]): An array of RIDs to exclude from the query. Default: [].
+- margin (float): The margin to use for the shape query. Default: 0.0.
+- motion (Vector3): The motion vector to consider for the query. Default: Vector3(0, 0, 0).
+- shape (Resource): The shape resource to use for the query.
+- shape_rid (RID): The RID of the shape to use for the query. Default: RID().
+- transform (Transform3D): The transform of the shape to use for the query. Default: Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0).
+---CHUNK---
+Document: PhysicsShapeQueryParameters3D
+Path: godot/classes/class_physicsshapequeryparameters3d.rst
+Summary: Describes the properties of PhysicsShapeQueryParameters3D, which are used to configure physics queries in Godot.
+
+Property Descriptions
+Property: collide_with_areas
+Type: bool
+Default: false
+Description: If true, the query will take Area3D s into account.
+Setget: set_collide_with_areas, is_collide_with_areas_enabled
+
+Property: collide_with_bodies
+Type: bool
+Default: true
+Description: If true, the query will take PhysicsBody3D s into account.
+Setget: set_collide_with_bodies, is_collide_with_bodies_enabled
+
+Property: collision_mask
+Type: int
+Default: 4294967295
+Description: The physics layers the query will detect (as a bitmask). By default, all collision layers are detected. See Collision layers and masks in the documentation for more information.
+Setget: set_collision_mask, get_collision_mask
+
+Property: exclude
+Type: Array[RID]
+Default: []
+Description: The list of object RIDs that will be excluded from collisions. Use CollisionObject3D.get_rid() to get the RID associated with a CollisionObject3D-derived node.
+Note: The returned array is copied and any changes to it will not update the original property value. To update the value you need to modify the returned array, and then assign it to the property again.
+Setget: set_exclude, get_exclude
+
+Property: margin
+Type: float
+Default: 0.0
+Description: The collision margin for the shape.
+Setget: set_margin, get_margin
+
+Property: motion
+Type: Vector3
+Default: Vector3(0, 0, 0)
+Description: The motion of the shape being queried for.
+Setget: set_motion, get_motion
+
+Property: shape
+Type: Resource
+Description: The Shape3D that will be used for collision/intersection queries. This stores the actual reference which avoids the shape to be released while being used for queries, so always prefer using this over shape_rid.
+Setget: set_shape, get_shape
+
+Property: shape_rid
+Type: RID
+Default: RID()
+Description: The queried shape's RID that will be used for collision/intersection queries. Use this over shape if you want to optimize for performance using the Servers API.
+GDScript:
+var shape_rid = PhysicsServer3D.sphere_shape_create()
+var radius = 2.0
+PhysicsServer3D.shape_set_data(shape_rid, radius)
+
+var params = PhysicsShapeQueryParameters3D.new()
+params.shape_rid = shape_rid
+
+# Execute physics queries here...
+
+# Release the shape when done with physics queries.
+PhysicsServer3D.free_rid(shape_rid)
+C#:
+RID shapeRid = PhysicsServer3D.SphereShapeCreate();
+float radius = 2.0f;
+PhysicsServer3D.ShapeSetData(shapeRid, radius);
+
+var params = new PhysicsShapeQueryParameters3D();
+params.ShapeRid = shapeRid;
+
+// Execute physics queries here...
+
+// Release the shape when done with physics queries.
+PhysicsServer3D.FreeRid(shapeRid);
+Setget: set_shape_rid, get_shape_rid
+
+Property: transform
+Type: Transform3D
+Default: Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+Description: The queried shape's transform matrix.
+Setget: set_transform, get_transform

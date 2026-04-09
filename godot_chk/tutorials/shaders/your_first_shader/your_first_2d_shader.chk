@@ -1,0 +1,271 @@
+Document: Your First 2D Shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This tutorial introduces the creation and application of a simple 2D shader in Godot.
+
+This tutorial will guide you through creating your first 2D shader in Godot. Shaders allow you to control how objects are rendered on screen, offering powerful visual customization beyond the engine's built-in rendering options. We'll start with a basic example to get you familiar with the process.
+
+To begin, create a new Godot project or open an existing one. You'll need a 2D scene with a Node2D or a CanvasItem-derived node (like Sprite2D or ColorRect) to apply the shader to.
+
+1.  **Create a Shader Material:**
+    In the Inspector dock, select the node you want to apply the shader to. Under the `Material` property, click the dropdown and choose `New ShaderMaterial`.
+
+2.  **Create a Shader:**
+    Click on the newly created `ShaderMaterial` resource to edit its properties. You'll see a `Shader` property. Click the dropdown and select `New Shader`.
+
+3.  **Edit the Shader:**
+    Click on the newly created `Shader` resource. This will open the Shader Editor at the bottom of the Godot editor. You can now start writing your shader code.
+
+For a 2D shader, the language is GLSL (OpenGL Shading Language) with Godot-specific extensions. The most basic 2D shader needs a `fragment()` function, which runs for every pixel of the object.
+
+Here's a minimal example of a 2D shader that simply colors the object red:
+
+GDScript:
+```glsl
+shader_type canvas_item;
+
+void fragment() {
+    COLOR = vec4(1.0, 0.0, 0.0, 1.0); // Red color
+}
+```
+
+Let's break this down:
+*   `shader_type canvas_item;`: This line declares that this is a shader for 2D nodes (CanvasItem). Other types include `spatial` for 3D and `particles` for particle systems.
+*   `void fragment()`: This is the main function for fragment shaders. It's executed for each pixel.
+*   `COLOR`: This is a built-in output variable in `canvas_item` shaders. It represents the final color of the pixel. It's a `vec4`, meaning it has four components: Red, Green, Blue, and Alpha.
+*   `vec4(1.0, 0.0, 0.0, 1.0)`: This creates a color vector. `1.0` for red, `0.0` for green, `0.0` for blue, and `1.0` for full opacity (alpha).
+
+When you apply this shader to a Sprite2D, for example, the entire sprite will appear solid red, regardless of its texture.
+
+You can also access the texture of the sprite using the `TEXTURE` uniform and the `UV` coordinates. `UV` represents the texture coordinates, ranging from (0,0) at the top-left to (1,1) at the bottom-right.
+
+Here's a shader that samples the texture and applies it:
+
+GDScript:
+```glsl
+shader_type canvas_item;
+
+void fragment() {
+    COLOR = texture(TEXTURE, UV);
+}
+```
+
+This shader essentially tells Godot to use the sprite's own texture as the color for each pixel. If the sprite has no texture assigned, it will likely appear black or transparent depending on the default behavior.
+
+This basic setup provides the foundation for creating more complex visual effects. You can manipulate the `COLOR` output based on various factors like time, screen position, or custom uniforms you define.
+---CHUNK---
+Document: Your first 2D shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This document introduces the creation of a basic 2D shader in Godot.
+
+This tutorial will guide you through creating your first 2D shader in Godot. Shaders are small programs that run on the GPU, allowing for custom visual effects. We will cover the basic structure of a 2D shader and how to apply it to a Sprite node.
+
+To begin, create a new Godot project or open an existing one. Add a Sprite node to your scene. You can assign any texture to the Sprite for now.
+
+Next, create a new Shader material resource. Right-click on the "Material" property of the Sprite node in the Inspector and select "New ShaderMaterial". Then, click on the newly created ShaderMaterial resource to edit its properties.
+
+In the ShaderMaterial properties, click on the "Shader" property and select "New Shader". Click on the new Shader resource to open the shader editor at the bottom of the Godot editor.
+
+The shader editor will present you with a template for a 2D shader. Here's a breakdown of the default template:
+
+```glsl
+shader_type canvas_item;
+
+void fragment() {
+	// Replace the fragment() function with your code.
+	// Example:
+	// COLOR = vec4(1.0, 0.0, 0.0, 1.0); // Red color
+}
+```
+
+The `shader_type canvas_item;` line declares that this is a 2D shader intended for use with nodes that draw on the canvas, such as Sprite, Label, and UI elements.
+
+The `void fragment() { ... }` function is the core of the shader. This function is called for every pixel (or fragment) that the Sprite needs to draw. Whatever you assign to the built-in `COLOR` variable within this function will be the final color of that pixel.
+
+Let's start with a simple example. Replace the contents of the `fragment()` function with the following line:
+
+```glsl
+COLOR = vec4(1.0, 0.0, 0.0, 1.0); // Red color
+```
+
+Save the shader. You should now see your Sprite node rendered in bright red.
+
+You can experiment with different colors by changing the `vec4` values. The `vec4` represents RGBA (Red, Green, Blue, Alpha), with each component ranging from 0.0 to 1.0. For example, to make it green:
+
+```glsl
+COLOR = vec4(0.0, 1.0, 0.0, 1.0); // Green color
+```
+
+To make it blue:
+
+```glsl
+COLOR = vec4(0.0, 0.0, 1.0, 1.0); // Blue color
+```
+
+To make it semi-transparent yellow:
+
+```glsl
+COLOR = vec4(1.0, 1.0, 0.0, 0.5); // Semi-transparent yellow
+```
+
+The `fragment()` function also has access to the original texture color. The default behavior of a 2D shader is to sample the texture and output its color. This is done using the `texture()` function.
+
+To access the texture color, you can use the built-in `TEXTURE` uniform, which represents the Sprite's texture. The `UV` variable represents the texture coordinates for the current pixel.
+
+Here's how you can sample the texture and tint it red:
+
+```glsl
+shader_type canvas_item;
+
+void fragment() {
+	vec4 tex_color = texture(TEXTURE, UV);
+	COLOR = tex_color * vec4(1.0, 0.0, 0.0, 1.0); // Tint red
+}
+```
+
+In this code:
+- `texture(TEXTURE, UV)` samples the color from the Sprite's texture at the current pixel's UV coordinates.
+- `tex_color * vec4(1.0, 0.0, 0.0, 1.0)` multiplies the sampled texture color by a red color vector. This effectively tints the texture red.
+
+Save the shader. Your Sprite should now appear red, but it will retain the shape and details of its original texture.
+
+This basic example demonstrates how to manipulate the color of a 2D object using a shader. You can build upon this foundation to create much more complex visual effects.
+---CHUNK---
+Document: your_first_2d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: Introduces shaders as GPU programs for graphics rendering and outlines the tutorial's focus on practical 2D shader creation for beginners.
+Shaders are special programs that execute on the GPU and are used for rendering graphics. All modern rendering is done with shaders. For a more detailed description of what shaders are please see What are shaders.
+
+This tutorial will focus on the practical aspects of writing shader programs by walking you through the process of writing a shader with both vertex and fragment functions. This tutorial targets absolute beginners to shaders.
+Note: If you have experience writing shaders and are just looking for an overview of how shaders work in Godot, see the Shading Reference.
+---CHUNK---
+Document: Your First 2D Shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section explains how to set up a 2D shader in Godot by creating a Sprite2D, assigning a texture, and creating a new ShaderMaterial and Shader.
+CanvasItem shaders are used for all 2D objects in Godot, while Spatial shaders are for 3D objects. To use a shader, it must be attached to a Material resource, which is then attached to an object. Materials can be shared among multiple objects. All objects inheriting from CanvasItem, including GUI elements, Sprite2Ds, TileMapLayers, and MeshInstance2Ds, have a material property and an option to inherit their parent's material.
+
+To start, create a Sprite2D node. Load the "icon.svg" texture into it. In the Inspector, under the CanvasItem section, click beside "Material" and select "New ShaderMaterial". This creates a new Material resource. Click on the newly created sphere icon to access its properties. By default, Godot previews Spatial shaders.
+
+Note: Materials inheriting from the Material resource, like StandardMaterial3D and ParticleProcessMaterial, can be converted to a ShaderMaterial. Their existing properties will be converted into a text shader. This conversion can be done by right-clicking the material in the FileSystem dock and selecting "Convert to ShaderMaterial", or by right-clicking any property holding a material reference in the inspector.
+
+Next, beside "Shader", select "New Shader". Click on the newly created shader, and the shader editor will open, ready for you to write your first shader.
+---CHUNK---
+Document: Your first 2D shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section explains the initial setup for a 2D CanvasItem shader in Godot, focusing on the `shader_type` declaration and the primary functions available.
+In Godot, all shaders start with a line specifying what type of shader they are.
+It uses the following format:
+GDScript:
+  shader_type canvas_item;
+
+Because we are writing a CanvasItem shader, we specify `canvas_item` in the first line. All our code will go beneath this declaration.
+This line tells the engine which built-in variables and functionality to supply you with.
+In Godot you can override three functions to control how the shader operates; `vertex`, `fragment`, and `light`. This tutorial will walk you through writing a shader with both vertex and fragment functions. Light functions are significantly more complex than vertex and fragment functions and so will not be covered here.
+---CHUNK---
+Document: your_first_2d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section explains the fragment function in Godot shaders, how it determines pixel color, and introduces the built-in variables COLOR and UV.
+
+The fragment function runs for every pixel in a Sprite2D and determines its color. These functions are restricted to the pixels covered by the Sprite2D.
+
+The most basic fragment function assigns a single color to every pixel by writing a `vec4` to the built-in variable `COLOR`. `vec4` constructs a vector with 4 numbers. `COLOR` is both an input and the final output of the fragment function.
+
+GDScript:
+  void fragment(){
+    COLOR = vec4(0.4, 0.6, 0.9, 1.0);
+  }
+
+To make shaders more complex, you can use inputs to the fragment function. `UV` is one such input. UV coordinates, specified implicitly in a Sprite2D, tell the shader where to read from textures for each part of the mesh.
+
+In the fragment function, `UV` can only be read from and used to assign values to `COLOR` directly or within other functions. `UV` varies between 0 and 1 from left to right and from top to bottom.
+
+GDScript:
+  void fragment() {
+    COLOR = vec4(UV, 0.5, 1.0);
+  }
+---CHUNK---
+Document: your_first_2d_shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section explains how to use the TEXTURE built-in in Godot shaders to access and manipulate the sprite's texture.
+
+The default fragment function reads from the set Sprite2D texture and displays it.
+
+When you want to adjust a color in a Sprite2D you can adjust the color from the texture manually.
+
+GDScript:
+  void fragment(){
+    // This shader will result in a blue-tinted icon
+    COLOR.b = 1.0;
+  }
+
+Certain nodes, like Sprite2Ds, have a dedicated texture variable that can be accessed in the shader using TEXTURE. If you want to use the Sprite2D texture to combine with other colors, you can use the UV with the texture function to access this variable. Use them to redraw the Sprite2D with the texture.
+
+GDScript:
+  void fragment(){
+    COLOR = texture(TEXTURE, UV); // Read from texture again.
+    COLOR.b = 1.0; //set blue channel to 1.0
+  }
+---CHUNK---
+Document: Your First 2D Shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section explains how to use uniform variables in Godot shaders to pass data from the editor into the shader.
+
+Uniform input is used to pass data into a shader that will be the same across the entire shader.
+
+You can use uniforms by defining them at the top of your shader like so:
+
+GDScript:
+uniform float size;
+
+Add a uniform to change the amount of blue in our Sprite2D.
+
+GDScript:
+uniform float blue = 1.0; // you can assign a default value to uniforms
+
+void fragment(){
+  COLOR = texture(TEXTURE, UV); // Read from texture
+  COLOR.b = blue;
+}
+
+Now you can change the amount of blue in the Sprite2D from the editor. Look back at the Inspector under where you created your shader. You should see a section called "Shader Param". Unfold that section and you will see the uniform you just declared. If you change the value in the editor, it will overwrite the default value you provided in the shader.
+---CHUNK---
+Document: Your First 2D Shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section explains how to interact with shader uniforms from GDScript and C# code.
+You can change uniforms from code using the function set_shader_parameter() which is called on the node's material resource. With a Sprite2D node, the following code can be used to set the "blue" uniform.
+GDScript:
+  var blue_value = 1.0
+  material.set_shader_parameter("blue", blue_value)
+C#:
+  var blueValue = 1.0;
+  ((ShaderMaterial)Material).SetShaderParameter("blue", blueValue);
+Note that the name of the uniform is a string. The string must match exactly with how it is written in the shader, including spelling and case.
+---CHUNK---
+Document: Your first 2D shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section explains how to write a vertex function in Godot shaders to manipulate vertex positions for animation.
+
+The vertex function is used to calculate the final screen position of each vertex. The `VERTEX` variable, initially representing vertex coordinates in local space, is modified within this function to determine the actual drawing location. `VERTEX` is a `vec2`.
+
+You can offset vertices by directly adding to `VERTEX`.
+
+GDScript:
+```glsl
+void vertex() {
+  VERTEX += vec2(10.0, 0.0);
+}
+```
+
+Combining `VERTEX` manipulation with the built-in `TIME` variable allows for basic animations.
+
+GDScript:
+```glsl
+void vertex() {
+  // Animate Sprite2D moving in big circle around its location
+  VERTEX += vec2(cos(TIME)*100.0, sin(TIME)*100.0);
+}
+```
+---CHUNK---
+Document: Your First 2D Shader
+Path: godot/tutorials/shaders/your_first_shader/your_first_2d_shader.rst
+Summary: This section concludes the tutorial on creating a first 2D shader, summarizing the core concepts and providing resources for further learning.
+At their core, shaders compute VERTEX and COLOR. It is up to you to dream up more complex mathematical strategies for assigning values to those variables. For inspiration, take a look at some of the more advanced shader tutorials, and look at other sites like Shadertoy and The Book of Shaders.

@@ -1,0 +1,126 @@
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: Defines the base properties and functionality for progress bar nodes in Godot.
+
+ProgressBar
+
+Inherits: Range < CanvasItem < Node < Object
+
+A progress bar is a graphical element used to show the progress of an operation. It displays a bar that fills up as the operation progresses.
+
+Properties:
+    value (float): The current value of the progress bar. This value is clamped between min_value and max_value. Default: 0.0
+    min_value (float): The minimum possible value for the progress bar. Default: 0.0
+    max_value (float): The maximum possible value for the progress bar. Default: 1.0
+    step (float): The value increment/decrement when using the step method. Default: 0.1
+    orientation (Orientation): The orientation of the progress bar. Can be vertical or horizontal. Default: horizontal
+    show_percentage (bool): If true, the percentage value will be displayed on the progress bar. Default: false
+    use_rounded_corners (bool): If true, the progress bar will use rounded corners. Default: false
+    texture_under (Texture2D): Texture to draw behind the progress bar.
+    texture_over (Texture2D): Texture to draw over the progress bar.
+    texture_progress (Texture2D): Texture to draw for the progress part of the bar.
+
+Methods:
+    step(): Increments the value by the step amount.
+
+Enums:
+    Orientation { HORIZONTAL = 0, VERTICAL = 1 }
+---CHUNK---
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: Introduces the ProgressBar node, a Control node used for visual representation of a percentage.
+
+Inherits: Range < Control < CanvasItem < Node < Object
+
+A control used for visual representation of a percentage.
+---CHUNK---
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: A control node that visually represents a percentage, displaying fill status and optionally indeterminate progress.
+
+Inherits: Range < CanvasItem < Node < Object
+
+A control used for visual representation of a percentage. Shows the fill percentage in the center. Can also be used to show indeterminate progress. For more fill modes, use TextureProgressBar instead.
+---CHUNK---
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: Defines the properties available for the ProgressBar node, including fill mode, indeterminate state, and percentage display.
+
+Properties:
+* editor_preview_indeterminate (bool):
+* fill_mode (int): Controls how the progress bar fills. Default: 0.
+* indeterminate (bool): If true, the progress bar displays an indeterminate state (e.g., a moving bar) instead of a fill level. Default: false.
+* show_percentage (bool): If true, the progress bar displays the current progress as a percentage. Default: true.
+---CHUNK---
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: Defines the theme properties for the ProgressBar node, including colors, fonts, and styles.
+
+Theme Properties:
+* font_color (Color): The color of the progress bar's font. Default: Color(0.95, 0.95, 0.95, 1).
+* font_outline_color (Color): The outline color of the progress bar's font. Default: Color(0, 0, 0, 1).
+* outline_size (int): The size of the outline for the progress bar's font. Default: 0.
+* font (Font): The font used for the progress bar's text.
+* font_size (int): The font size used for the progress bar's text.
+* background (StyleBox): The StyleBox for the progress bar's background.
+* fill (StyleBox): The StyleBox for the progress bar's fill.
+---CHUNK---
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: Defines fill modes for the ProgressBar node, controlling the direction of progress indication.
+
+Enumerations
+enum FillMode:
+  FILL_BEGIN_TO_END = 0
+    The progress bar fills from begin to end horizontally, according to the language direction. If is_layout_rtl returns false, it fills from left to right, and if it returns true, it fills from right to left.
+  FILL_END_TO_BEGIN = 1
+    The progress bar fills from end to begin horizontally, according to the language direction. If is_layout_rtl returns false, it fills from right to left, and if it returns true, it fills from left to right.
+  FILL_TOP_TO_BOTTOM = 2
+    The progress fills from top to bottom.
+  FILL_BOTTOM_TO_TOP = 3
+    The progress fills from bottom to top.
+---CHUNK---
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: Describes the properties of the ProgressBar node in Godot Engine.
+
+Property: editor_preview_indeterminate
+Type: bool
+Description: If false, the indeterminate animation will be paused in the editor.
+Setters: set_editor_preview_indeterminate(value: bool)
+Getters: is_editor_preview_indeterminate_enabled()
+
+Property: fill_mode
+Type: int
+Description: The fill direction. See FillMode for possible values.
+Default: 0
+Setters: set_fill_mode(value: int)
+Getters: get_fill_mode()
+
+Property: indeterminate
+Type: bool
+Description: When set to true, the progress bar indicates that something is happening with an animation, but does not show the fill percentage or value.
+Default: false
+Setters: set_indeterminate(value: bool)
+Getters: is_indeterminate()
+
+Property: show_percentage
+Type: bool
+Description: If true, the fill percentage is displayed on the bar.
+Default: true
+Setters: set_show_percentage(value: bool)
+Getters: is_percentage_shown()
+---CHUNK---
+Document: ProgressBar
+Path: godot/classes/class_progressbar.rst
+Summary: Describes the theme properties available for customizing the appearance of a ProgressBar node, including font colors, outline size, font styles, and background/fill styles.
+
+Theme Property Descriptions
+font_color (Color): The color of the text. Default: Color(0.95, 0.95, 0.95, 1).
+font_outline_color (Color): The tint of text outline of the ProgressBar. Default: Color(0, 0, 0, 1).
+outline_size (int): The size of the text outline. Default: 0.
+Note: If using a font with multichannel signed distance field enabled, its msdf pixel range must be set to at least twice the value of outline_size for outline rendering to look correct. Otherwise, the outline may appear to be cut off earlier than intended.
+font (Font): Font used to draw the fill percentage if show_percentage is true.
+font_size (int): Font size used to draw the fill percentage if show_percentage is true.
+background (StyleBox): The style of the background.
+fill (StyleBox): The style of the progress (i.e. the part that fills the bar).

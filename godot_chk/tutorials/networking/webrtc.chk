@@ -1,0 +1,213 @@
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This document provides an overview of WebRTC in Godot.
+
+This document is outdated.
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This document provides an overview of WebRTC functionality in Godot.
+WebRTC is a technology that allows for real-time communication between browsers and other applications. It is commonly used for video conferencing, file sharing, and online gaming. Godot supports WebRTC through its built-in classes, enabling developers to integrate peer-to-peer communication into their projects.
+
+The core components of WebRTC in Godot involve establishing connections between peers, managing data channels for various types of communication, and handling signaling. Signaling is the process of coordinating the connection setup between peers, which typically involves exchanging network information like IP addresses and port numbers, as well as session descriptions. Godot does not provide a built-in signaling server, so developers need to implement their own or use a third-party service.
+
+Key classes for WebRTC in Godot include:
+
+*   **WebRTCPeerConnection**: This class represents a connection between two peers. It handles the negotiation of connection parameters and the establishment of the peer-to-peer link.
+*   **WebRTCDataChannel**: This class allows for the transfer of arbitrary data between peers. It can be used for sending game state, chat messages, or other non-media data.
+*   **WebRTCSessionDescription**: This class represents the session description protocol (SDP) information exchanged during the signaling process. It contains details about the media capabilities and network configuration of a peer.
+
+To use WebRTC in Godot, a typical workflow involves:
+
+1.  Creating a `WebRTCPeerConnection` instance.
+2.  Setting up event listeners for connection state changes and data channel openings.
+3.  Creating and configuring `WebRTCDataChannel`s for desired communication.
+4.  Initiating or answering a connection by exchanging SDP offers and answers, along with ICE candidates (which describe network paths). This signaling process requires an external mechanism.
+5.  Once connected, data can be sent and received through the established data channels.
+
+WebRTC is a powerful tool for creating networked applications in Godot, offering low-latency communication capabilities suitable for a wide range of real-time features.
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This section introduces WebRTC as a networking option for Godot's HTML5 exports, highlighting its recent adoption by browsers.
+HTML5, WebSocket, WebRTC
+One of Godot's great features is its ability to export to the HTML5/WebAssembly platform, allowing your game to run directly in the browser when a user visit your webpage.
+
+This is a great opportunity for both demos and full games, but used to come with some limitations. In the area of networking, browsers used to support only HTTPRequests until recently, when first WebSocket and then WebRTC were proposed as standards.
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This section explains the limitations of WebSockets for real-time applications due to their reliance on TCP.
+WebSocket
+When the WebSocket protocol was standardized in December 2011, it allowed browsers to create stable and bidirectional connections to a WebSocket server. The protocol is a very powerful tool to send push notifications to browsers, and has been used to implement chats, turn-based games, etc.
+
+WebSockets, though, still use a TCP connection, which is good for reliability but not for latency, so not good for real-time applications like VoIP and fast-paced games.
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This section explains the basic concept of WebRTC and its signaling process for establishing peer-to-peer connections.
+WebRTC is a technology developed by Google, which became a W3C candidate recommendation in 2017. It provides fast, real-time, and secure communication between two peers by relying on technologies like ICE, DTLS, and SDP. The primary goal of WebRTC is to establish a direct communication route between peers whenever possible, minimizing reliance on relaying servers.
+
+To initiate a WebRTC connection, peers must exchange media information, typically in the form of Session Description Protocol (SDP) strings. This exchange is facilitated by a WebRTC Signaling Server. Peers connect to this signaling server, often a WebSocket server, and share their media information. The signaling server then relays this information to other connected peers. This allows the peers to establish a direct Peer-to-Peer (P2P) connection. Once the direct connection is established, the peers can disconnect from the signaling server and maintain their P2P communication.
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This section introduces WebRTC in Godot, detailing the core classes and platform-specific requirements.
+Using WebRTC in Godot
+WebRTC is implemented in Godot via two main classes WebRTCPeerConnection and WebRTCDataChannel, plus the multiplayer API implementation WebRTCMultiplayerPeer. See section on high-level multiplayer for more details.
+Note: These classes are available automatically in HTML5, but require an external GDExtension plugin on native (non-HTML5) platforms. Check out the webrtc-native plugin repository for instructions and to get the latest release.
+Warning: When exporting to Android, make sure to enable the INTERNET permission in the Android export preset before exporting the project or using one-click deploy. Otherwise, network communication of any kind will be blocked by Android.
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: Demonstrates a minimal WebRTC connection setup between two peers within the same application.
+GDScript:
+    extends Node
+
+    # Create the two peers
+    var p1 = WebRTCPeerConnection.new()
+    var p2 = WebRTCPeerConnection.new()
+    # And a negotiated channel for each each peer
+    var ch1 = p1.create_data_channel("chat", {"id": 1, "negotiated": true})
+    var ch2 = p2.create_data_channel("chat", {"id": 1, "negotiated": true})
+
+    func _ready():
+        # Connect P1 session created to itself to set local description.
+        p1.session_description_created.connect(p1.set_local_description)
+        # Connect P1 session and ICE created to p2 set remote description and candidates.
+        p1.session_description_created.connect(p2.set_remote_description)
+        p1.ice_candidate_created.connect(p2.add_ice_candidate)
+
+        # Same for P2
+        p2.session_description_created.connect(p2.set_local_description)
+        p2.session_description_created.connect(p1.set_remote_description)
+        p2.ice_candidate_created.connect(p1.add_ice_candidate)
+
+        # Let P1 create the offer
+        p1.create_offer()
+
+        # Wait a second and send message from P1.
+        await get_tree().create_timer(1).timeout
+        ch1.put_packet("Hi from P1".to_utf8_buffer())
+
+        # Wait a second and send message from P2.
+        await get_tree().create_timer(1).timeout
+        ch2.put_packet("Hi from P2".to_utf8_buffer())
+
+    func _process(_delta):
+        # Poll connections
+        p1.poll()
+        p2.poll()
+
+        # Check for messages
+        if ch1.get_ready_state() == ch1.STATE_OPEN and ch1.get_available_packet_count() > 0:
+            print("P1 received: ", ch1.get_packet().get_string_from_utf8())
+        if ch2.get_ready_state() == ch2.STATE_OPEN and ch2.get_available_packet_count() > 0:
+            print("P2 received: ", ch2.get_packet().get_string_from_utf8())
+This example demonstrates establishing a WebRTC connection between two peers within the same application. It initializes two `WebRTCPeerConnection` objects and creates a negotiated data channel for each. Signal connections are set up to handle session description and ICE candidate creation, allowing peers to exchange necessary information. The code initiates an offer from one peer, waits briefly, and then sends messages between the peers. The `_process` function continuously polls the connections and checks for incoming messages on the data channels, printing any received data. The expected output shows messages being successfully sent and received by both peers.
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This section provides GDScript examples for setting up a local signaling server and WebRTC peers for peer-to-peer communication within the same scene.
+
+GDScript:
+extends Node
+# An example p2p chat client.
+
+var peer = WebRTCPeerConnection.new()
+
+# Create negotiated data channel.
+var channel = peer.create_data_channel("chat", {"negotiated": true, "id": 1})
+
+func _ready():
+    # Connect all functions.
+    peer.ice_candidate_created.connect(self._on_ice_candidate)
+    peer.session_description_created.connect(self._on_session)
+
+    # Register to the local signaling server (see below for the implementation).
+    Signaling.register(String(get_path()))
+
+
+func _on_ice_candidate(mid, index, sdp):
+    # Send the ICE candidate to the other peer via signaling server.
+    Signaling.send_candidate(String(get_path()), mid, index, sdp)
+
+
+func _on_session(type, sdp):
+    # Send the session to other peer via signaling server.
+    Signaling.send_session(String(get_path()), type, sdp)
+    # Set generated description as local.
+    peer.set_local_description(type, sdp)
+
+
+func _process(delta):
+    # Always poll the connection frequently.
+    peer.poll()
+    if channel.get_ready_state() == WebRTCDataChannel.STATE_OPEN:
+        while channel.get_available_packet_count() > 0:
+            print(String(get_path()), " received: ", channel.get_packet().get_string_from_utf8())
+
+
+func send_message(message):
+    channel.put_packet(message.to_utf8_buffer())
+
+Note: This local signaling server is supposed to be used as a singleton to connect two peers in the same scene.
+
+GDScript:
+# A local signaling server. Add this to autoloads with name "Signaling" (/root/Signaling)
+extends Node
+
+# We will store the two peers here
+var peers = []
+
+func register(path):
+    assert(peers.size() < 2)
+    peers.append(path)
+    if peers.size() == 2:
+        get_node(peers[0]).peer.create_offer()
+
+
+func _find_other(path):
+    # Find the other registered peer.
+    for p in peers:
+        if p != path:
+            return p
+    return ""
+
+
+func send_session(path, type, sdp):
+    var other = _find_other(path)
+    assert(other != "")
+    get_node(other).peer.set_remote_description(type, sdp)
+
+
+func send_candidate(path, mid, index, sdp):
+    var other = _find_other(path)
+    assert(other != "")
+    get_node(other).peer.add_ice_candidate(mid, index, sdp)
+
+GDScript:
+# Main scene (main.gd)
+extends Node
+
+const Chat = preload("res://chat.gd")
+
+func _ready():
+    var p1 = Chat.new()
+    var p2 = Chat.new()
+    add_child(p1)
+    add_child(p2)
+
+    # Wait a second and send message from P1
+    await get_tree().create_timer(1).timeout
+    p1.send_message("Hi from %s" % String(p1.get_path()))
+
+    # Wait a second and send message from P2
+    await get_tree().create_timer(1).timeout
+    p2.send_message("Hi from %s" % String(p2.get_path()))
+---CHUNK---
+Document: WebRTC
+Path: godot/tutorials/networking/webrtc.rst
+Summary: This section describes how to use WebSocket for signaling peers in WebRTC.
+Remote signaling with WebSocket
+A more advanced demo using WebSocket for signaling peers and WebRTCMultiplayerPeer is available in the godot demo projects under networking/webrtc_signaling.

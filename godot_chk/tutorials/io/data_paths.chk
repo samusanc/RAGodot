@@ -1,0 +1,217 @@
+Document: Data Paths
+Path: godot/tutorials/io/data_paths.rst
+Summary: This document explains how to access various data paths within the Godot Engine.
+
+Godot provides several ways to access different data paths. These paths are essential for saving and loading game data, configuration files, and other persistent information.
+
+**Project Data Path**
+
+The project data path is where your game's save files, configuration files, and other user-generated data should be stored. This path is unique to your project and is typically located in the user's application data directory.
+
+You can access the project data path using the following method:
+
+```gdscript
+var data_dir = ProjectSettings.globalize_path("user://")
+print(data_dir)
+```
+
+This will print the absolute path to the project's data directory on your system.
+
+**User Data Path**
+
+The user data path is a more general location for storing user-specific data across different applications. While `user://` is the recommended path for project-specific data, you might encounter situations where you need to access a more global user data directory.
+
+**Configuration Paths**
+
+Godot also provides access to specific configuration file locations:
+
+*   **`config://`**: This path points to the global configuration directory for Godot itself. This is generally not recommended for storing game-specific data.
+
+**Accessing Paths**
+
+The `ProjectSettings.globalize_path()` method is crucial for converting these abstract paths (like `user://`) into absolute file system paths that your operating system understands.
+
+**Example: Saving and Loading Data**
+
+Here's a simple example of how you might save and load a configuration file using the `user://` path:
+
+```gdscript
+# Save data
+func save_game_data():
+    var file = FileAccess.open("user://savegame.cfg", FileAccess.WRITE)
+    file.store_line("player_score=100")
+    file.store_line("player_level=5")
+    file.close()
+
+# Load data
+func load_game_data():
+    if FileAccess.file_exists("user://savegame.cfg"):
+        var file = FileAccess.open("user://savegame.cfg", FileAccess.READ)
+        var score_line = file.get_line()
+        var level_line = file.get_line()
+        file.close()
+        # Process score_line and level_line
+        print("Score: ", score_line)
+        print("Level: ", level_line)
+    else:
+        print("Save file not found.")
+```
+
+This example demonstrates the basic usage of `FileAccess` in conjunction with the `user://` path for saving and loading simple text-based data. For more complex data structures, consider using formats like JSON or Godot's resource saver.
+---CHUNK---
+Document: Data Paths
+Path: godot/tutorials/io/data_paths.rst
+Summary: Explains how file paths work inside Godot projects using `res://` and `user://` notations.
+
+File paths in Godot projects
+This page explains how file paths work inside Godot projects. You will learn how to access paths in your projects using the `res://` and `user://` notations, and where Godot stores project and editor files on your and your users' systems.
+
+Project structure
+The project directory is the folder that contains your project's files. Godot uses the `res://` prefix to refer to files within this directory. For example, `res://icon.png` refers to the `icon.png` file in the root of your project.
+
+User data directory
+The user data directory is where Godot stores user-specific data, such as configuration files, save games, and downloaded content. The `user://` prefix refers to this directory. The exact location of the user data directory varies depending on the operating system:
+
+*   **Linux:** `~/.local/share/godot/app_name`
+*   **macOS:** `~/Library/Application Support/Godot/app_name`
+*   **Windows:** `%APPDATA%\Godot\app_name`
+
+Here, `app_name` is the name of your project as defined in the project settings.
+
+Accessing paths
+You can access file paths in your scripts using the `ProjectSettings` class. For example, to get the path to the user data directory, you can use:
+
+GDScript:
+```gdscript
+var user_data_path = ProjectSettings.globalize_path("user://")
+print(user_data_path)
+```
+
+C#:
+```csharp
+using Godot;
+
+public class Example : Node
+{
+    public override void _Ready()
+    {
+        string userDataPath = ProjectSettings.GlobalizePath("user://");
+        GD.Print(userDataPath);
+    }
+}
+```
+
+Key Rule: The `res://` path is read-only when running exported projects. For writing data, always use the `user://` path.
+
+Editor files
+Godot also stores editor-specific files in a separate directory. This directory is used for settings, plugins, and other editor-related data. The location of this directory also varies by operating system:
+
+*   **Linux:** `~/.config/godot`
+*   **macOS:** `~/Library/Preferences/Godot`
+*   **Windows:** `%APPDATA%\Godot`
+
+These paths are generally not meant to be accessed directly by your game code. They are managed by the Godot editor itself.
+---CHUNK---
+Document: Data Paths Tutorial
+Path: godot/tutorials/io/data_paths.rst
+Summary: This section explains how Godot handles path separators for cross-platform compatibility.
+
+Path separators
+To make supporting multiple platforms easier, Godot uses UNIX-style path separators (forward slash /). These work on all platforms, including Windows. Instead of writing paths like C:\Projects\Game, in Godot, you should write C:/Projects/Game.
+
+Windows-style path separators (backward slash \) are also supported in some path-related methods, but they need to be doubled (\\), as \ is normally used as an escape for characters with a special meaning. This makes it possible to work with paths returned by other Windows applications. We still recommend using only forward slashes in your own code to guarantee that everything will work as intended.
+
+Tip: The String class offers over a dozen methods to work with strings that represent file paths:
+- String.filecasecmp_to()
+- String.filenocasecmp_to()
+- String.get_base_dir()
+- String.get_basename()
+- String.get_extension()
+- String.get_file()
+- String.is_absolute_path()
+- String.is_relative_path()
+- String.is_valid_filename()
+- String.path_join()
+- String.simplify_path()
+- String.validate_filename()
+---CHUNK---
+Document: Data Paths Tutorial
+Path: godot/tutorials/io/data_paths.rst
+Summary: This section explains how to access files within the Godot project directory using the `res://` path prefix.
+Accessing files in the project folder (res://)
+Godot considers that a project exists in any folder that contains a project.godot text file, even if the file is empty. The folder that contains this file is your project's root folder. You can access any file relative to it by writing paths starting with res://, which stands for resources. For example, you can access an image file character.png located in the project's root folder in code with the following path: res://character.png.
+---CHUNK---
+Document: Data Paths
+Path: godot/tutorials/io/data_paths.rst
+Summary: This section explains how to use the `user://` path for storing persistent user data in Godot projects.
+
+The `user://` path is used for storing persistent data files, such as player saves or settings. It is preferred over `res://` because the project's file system is often read-only when the game is running. The `user://` prefix points to a directory that is automatically created and guaranteed to be writable, even in exported projects.
+
+The specific location of the `user://` folder depends on the Project Settings:
+* By default, it is located within Godot's editor data path in the `app_userdata/[project_name]` folder. This is useful for prototypes and test projects to remain self-contained.
+* If `application/config/use_custom_user_dir` is enabled in Project Settings, the `user://` folder is created next to the editor data path, in the standard location for application data.
+    * The folder name is usually inferred from the project name but can be customized using `application/config/custom_user_dir_name`. This allows for custom directory structures like "Studio Name/Game Name".
+
+On desktop platforms, the actual directory paths for `user://` are:
+* Default:
+    * Windows: `%APPDATA%\Godot\app_userdata\[project_name]`
+    * macOS: `~/Library/Application Support/Godot/app_userdata/[project_name]`
+    * Linux: `~/.local/share/godot/app_userdata/[project_name]`
+* Custom dir:
+    * Windows: `%APPDATA%\[project_name]`
+    * macOS: `~/Library/Application Support/[project_name]`
+    * Linux: `~/.local/share/[project_name]`
+* Custom dir and name:
+    * Windows: `%APPDATA%\[custom_user_dir_name]`
+    * macOS: `~/Library/Application Support/[custom_user_dir_name]`
+    * Linux: `~/.local/share/[custom_user_dir_name]`
+
+The `[project_name]` is derived from the application name in Project Settings but can be overridden per platform using feature tags.
+
+On mobile platforms, this path is unique to the project and secured from other applications.
+
+For HTML5 exports, `user://` refers to a virtual filesystem stored in IndexedDB. Interaction with the main filesystem can be done via the `JavaScriptBridge` singleton.
+---CHUNK---
+Document: Data Paths Tutorial
+Path: godot/tutorials/io/data_paths.rst
+Summary: This section explains how to find file logging documentation.
+File logging
+See also: Documentation on file logging has been moved to doc_logging.
+---CHUNK---
+Document: Data Paths
+Path: godot/tutorials/io/data_paths.rst
+Summary: This section explains how to convert between project-specific paths (res://, user://) and absolute OS paths using ProjectSettings.globalize_path() and ProjectSettings.localize_path().
+
+You can use ProjectSettings.globalize_path() to convert a "local" path like res://path/to/file.txt to an absolute OS path. For example, ProjectSettings.globalize_path() can be used to open "local" paths in the OS file manager using OS.shell_open() since it only accepts native OS paths.
+
+To convert an absolute OS path to a "local" path starting with res:// or user://, use ProjectSettings.localize_path(). This only works for absolute paths that point to files or folders in your project's root or user:// folders.
+---CHUNK---
+Document: data_paths
+Path: godot/tutorials/io/data_paths.rst
+Summary: This document details the default file paths used by the Godot editor for storing data, settings, and cache across different operating systems, and explains how these paths can be customized, particularly on Linux.
+The editor uses different paths for editor data, editor settings, and cache, depending on the platform. By default, these paths are:
+Editor data:
+Windows: %APPDATA%\Godot\
+macOS: ~/Library/Application Support/Godot/
+Linux: ~/.local/share/godot/
+Editor settings:
+Windows: %APPDATA%\Godot\
+macOS: ~/Library/Application Support/Godot/
+Linux: ~/.config/godot/
+Cache:
+Windows: %TEMP%\Godot\
+macOS: ~/Library/Caches/Godot/
+Linux: ~/.cache/godot/
+Editor data contains export templates and project-specific data.
+Editor settings contains the main editor settings configuration file as well as various other user-specific customizations (editor layouts, feature profiles, script templates, etc.).
+Cache contains data generated by the editor, or stored temporarily. It can safely be removed when Godot is closed.
+Godot complies with the XDG Base Directory Specification on Linux/*BSD. You can override the XDG_DATA_HOME, XDG_CONFIG_HOME and XDG_CACHE_HOME environment variables to change the editor and project data paths.
+Note: If you use Godot packaged as a Flatpak, the editor data paths will be located in subfolders in ~/.var/app/org.godotengine.Godot/.
+---CHUNK---
+Document: Data Paths
+Path: godot/tutorials/io/data_paths.rst
+Summary: This section explains how to enable self-contained mode for the Godot editor, allowing for portable installations.
+
+Self-contained mode is enabled by creating a file named `._sc_` or `_sc_` in the same directory as the editor binary. For macOS `.app` bundles, this file should be placed in `MacOS/`. When active, Godot writes all editor data, settings, and cache to an `editor_data/` directory located alongside the editor binary, facilitating portable installations. The Steam release of Godot utilizes this mode by default.
+
+Note: Self-contained mode is not currently supported in exported projects. To read and write files relative to the executable's path, use OS.get_executable_path(). Writing files to the executable's directory is only feasible if the executable resides in a writable location, such as not within Program Files or other read-only directories for standard users.

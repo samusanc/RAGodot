@@ -1,0 +1,141 @@
+Document: PhysicsShapeQueryParameters2D
+Path: godot/classes/class_physicsshapequeryparameters2d.rst
+Summary: Defines parameters for physics shape queries in 2D.
+
+Inherits: Resource < Object
+
+This class holds parameters for physics shape queries in 2D. It's used to configure how a shape should be queried against the physics world, for example, when performing raycasts or shape casts.
+
+Key properties include:
+* shape (Shape2D): The shape resource to use for the query.
+* transform (Transform2D): The transform of the shape in the physics world.
+* collision_mask (int): The collision layers the query should check against. Defaults to 4294967295 (all layers).
+* exclude (Array[RID]): An array of RIDs to exclude from the query results.
+* exclude_bodies (Array[NodePath]): An array of NodePaths to bodies to exclude from the query results.
+* exclude_rid (RID): A single RID to exclude from the query results.
+* space (RID): The physics space RID to query against. If empty, the default space is used.
+* motion (Vector2): The motion vector to consider for the query. Useful for detecting collisions along a path.
+* up_direction (Vector2): The up direction vector for queries that use it, like shape casts.
+* collide_with_bodies (bool): Whether to collide with physics bodies. Defaults to true.
+* collide_with_areas (bool): Whether to collide with physics areas. Defaults to false.
+* hit_from_inside (bool): If true, shapes that are fully inside the queried shape will also be returned. Defaults to false.
+* report_individual_hits (bool): If true, all individual shapes that collide will be reported. If false, only the first collision is reported. Defaults to false.
+---CHUNK---
+Document: PhysicsShapeQueryParameters2D
+Path: godot/classes/class_physicsshapequeryparameters2d.rst
+Summary: Provides parameters for PhysicsDirectSpaceState2D's methods.
+---CHUNK---
+Document: PhysicsShapeQueryParameters2D
+Path: godot/classes/class_physicsshapequeryparameters2d.rst
+Summary: Configures parameters for PhysicsDirectSpaceState2D methods related to shape queries.
+
+PhysicsShapeQueryParameters2D is used to configure the parameters for PhysicsDirectSpaceState2D's methods, allowing you to specify properties like the shape, collision mask, and other settings for physics queries in 2D.
+---CHUNK---
+Document: PhysicsShapeQueryParameters2D
+Path: godot/classes/class_physicsshapequeryparameters2d.rst
+Summary: Defines the properties for a 2D physics shape query.
+
+Properties:
+* collide_with_areas (bool): If true, the query will collide with PhysicsArea2D nodes. Default: false.
+* collide_with_bodies (bool): If true, the query will collide with PhysicsBody2D nodes. Default: true.
+* collision_mask (int): The collision layers the query will check against. Default: 4294967295.
+* exclude (Array[RID]): An array of RIDs to exclude from the query results. Default: [].
+* margin (float): The margin to use for the shape query. Default: 0.0.
+* motion (Vector2): The motion vector to use for the shape query. Default: Vector2(0, 0).
+* shape (Resource): The shape resource to use for the query.
+* shape_rid (RID): The RID of the shape resource to use for the query. Default: RID().
+* transform (Transform2D): The transform to use for the shape query. Default: Transform2D(1, 0, 0, 1, 0, 0).
+---CHUNK---
+Document: PhysicsShapeQueryParameters2D
+Path: godot/classes/class_physicsshapequeryparameters2d.rst
+Summary: Defines the properties for physics shape queries in 2D, including collision settings, masks, exclusions, and shape/transform data.
+
+Property Descriptions
+Property: collide_with_areas
+Type: bool
+Default: false
+Description: If true, the query will take Area2D s into account.
+Set Method: set_collide_with_areas(value: bool)
+Get Method: is_collide_with_areas_enabled()
+
+Property: collide_with_bodies
+Type: bool
+Default: true
+Description: If true, the query will take PhysicsBody2D s into account.
+Set Method: set_collide_with_bodies(value: bool)
+Get Method: is_collide_with_bodies_enabled()
+
+Property: collision_mask
+Type: int
+Default: 4294967295
+Description: The physics layers the query will detect (as a bitmask). By default, all collision layers are detected. See Collision layers and masks in the documentation for more information.
+Set Method: set_collision_mask(value: int)
+Get Method: get_collision_mask()
+
+Property: exclude
+Type: Array[RID]
+Default: []
+Description: The list of object RIDs that will be excluded from collisions. Use CollisionObject2D.get_rid() to get the RID associated with a CollisionObject2D-derived node.
+Note: The returned array is copied and any changes to it will not update the original property value. To update the value you need to modify the returned array, and then assign it to the property again.
+Set Method: set_exclude(value: Array[RID])
+Get Method: get_exclude()
+
+Property: margin
+Type: float
+Default: 0.0
+Description: The collision margin for the shape.
+Set Method: set_margin(value: float)
+Get Method: get_margin()
+
+Property: motion
+Type: Vector2
+Default: Vector2(0, 0)
+Description: The motion of the shape being queried for.
+Set Method: set_motion(value: Vector2)
+Get Method: get_motion()
+
+Property: shape
+Type: Resource
+Description: The Shape2D that will be used for collision/intersection queries. This stores the actual reference which avoids the shape to be released while being used for queries, so always prefer using this over shape_rid.
+Set Method: set_shape(value: Resource)
+Get Method: get_shape()
+
+Property: shape_rid
+Type: RID
+Default: RID()
+Description: The queried shape's RID that will be used for collision/intersection queries. Use this over shape if you want to optimize for performance using the Servers API.
+Set Method: set_shape_rid(value: RID)
+Get Method: get_shape_rid()
+
+GDScript:
+var shape_rid = PhysicsServer2D.circle_shape_create()
+var radius = 64
+PhysicsServer2D.shape_set_data(shape_rid, radius)
+
+var params = PhysicsShapeQueryParameters2D.new()
+params.shape_rid = shape_rid
+
+# Execute physics queries here...
+
+# Release the shape when done with physics queries.
+PhysicsServer2D.free_rid(shape_rid)
+
+C#:
+RID shapeRid = PhysicsServer2D.CircleShapeCreate();
+int radius = 64;
+PhysicsServer2D.ShapeSetData(shapeRid, radius);
+
+var params = new PhysicsShapeQueryParameters2D();
+params.ShapeRid = shapeRid;
+
+// Execute physics queries here...
+
+// Release the shape when done with physics queries.
+PhysicsServer2D.FreeRid(shapeRid);
+
+Property: transform
+Type: Transform2D
+Default: Transform2D(1, 0, 0, 1, 0, 0)
+Description: The queried shape's transform matrix.
+Set Method: set_transform(value: Transform2D)
+Get Method: get_transform()

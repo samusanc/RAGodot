@@ -1,0 +1,117 @@
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: Defines the base properties and behavior for 3D occluder instances in Godot.
+
+OccluderInstance3D
+
+Inherits: GeometryInstance3D < CullInstance3D < GeometryInstance3D < Node3D < Node
+
+Base class for 3D occluders. Occluders are used to optimize rendering by preventing objects that are hidden behind them from being rendered. This is known as occlusion culling.
+
+OccluderInstance3D is an abstract class and cannot be directly used. You should use one of its derived classes instead:
+
+*   OccluderBox3D
+*   OccluderSphere3D
+*   OccluderPolygon3D
+---CHUNK---
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: Provides occlusion culling for 3D nodes to improve performance in closed areas.
+Inherits: VisualInstance3D < Node3D < Node < Object
+
+OccluderInstance3D provides occlusion culling for 3D nodes, which improves performance in closed areas.
+---CHUNK---
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: Describes the OccluderInstance3D node, its role in occlusion culling for performance improvement, and how it interacts with the rendering system.
+
+Occlusion culling can improve rendering performance in closed or semi-open areas by hiding geometry that is occluded by other objects.
+
+The occlusion culling system is mostly static. OccluderInstance3D nodes can be moved or hidden at run-time, but doing so will trigger a background recomputation that can take several frames. It is recommended to only move OccluderInstance3D nodes sporadically, rather than doing so every frame.
+
+The occlusion culling system works by rendering the occluders on the CPU in parallel using Embree, drawing the result to a low-resolution buffer, and then using this to cull 3D nodes individually. In the 3D editor, you can preview the occlusion culling buffer by choosing Perspective > Display Advanced... > Occlusion Culling Buffer in the top-left corner of the 3D viewport. The occlusion culling buffer quality can be adjusted in the Project Settings.
+
+Baking: Select an OccluderInstance3D node, then use the Bake Occluders button at the top of the 3D editor. Only opaque materials will be taken into account; transparent materials (alpha-blended or alpha-tested) will be ignored by the occluder generation.
+
+Note: Occlusion culling is only effective if ProjectSettings.rendering/occlusion_culling/use_occlusion_culling is true. Enabling occlusion culling has a cost on the CPU. Only enable occlusion culling if you actually plan to use it. Large open scenes with few or no objects blocking the view will generally not benefit much from occlusion culling. Large open scenes generally benefit more from mesh LOD and visibility ranges compared to occlusion culling.
+
+Note: Due to memory constraints, occlusion culling is not supported by default in Web export templates. It can be enabled by compiling custom Web export templates with module_raycast_enabled=yes.
+---CHUNK---
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: This document describes the OccluderInstance3D node, which is used for occlusion culling in 3D scenes.
+
+OccluderInstance3D
+
+Inherits: GeometryInstance3D < CullInstance3D < GeometryInstance < Node3D < Node
+
+This node is used to occlude other objects. It's a 3D node that can be used to occlude other objects. This is useful for optimizing rendering by not drawing objects that are hidden behind other objects.
+
+The OccluderInstance3D node can be used to create occluders that are either convex or concave. Convex occluders are simpler and faster to process, while concave occluders are more flexible and can be used to occlude more complex shapes.
+
+The OccluderInstance3D node can be used to occlude other objects in the scene. This is done by setting the occluder's shape to match the shape of the object that is being occluded. The occluder can then be used to occlude other objects that are behind it.
+
+The OccluderInstance3D node can be used to improve the performance of your game by reducing the number of objects that need to be rendered. This is done by not drawing objects that are hidden behind other objects.
+
+Key Rule: OccluderInstance3D nodes are used for occlusion culling, which optimizes rendering by preventing objects hidden behind others from being drawn.
+
+Properties:
+- occluder (Resource): The occluder resource to use. This can be a ConvexPolygonShape3D, ConcavePolygonShape3D, or a HeightMapShape3D.
+
+Methods:
+- _get_aabb() → AABB: Returns the Axis Aligned Bounding Box of the occluder.
+- _get_mesh() → Mesh: Returns the mesh of the occluder.
+- _get_shape() → Shape3D: Returns the shape of the occluder.
+- _set_mesh(mesh: Mesh) → void: Sets the mesh of the occluder.
+- _set_shape(shape: Shape3D) → void: Sets the shape of the occluder.
+---CHUNK---
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: Defines the properties for the OccluderInstance3D class, including bake mask, bake simplification distance, and the occluder resource.
+
+Properties:
+* bake_mask (int): This property is not described in the provided RST. Default: 4294967295.
+* bake_simplification_distance (float): This property is not described in the provided RST. Default: 0.1.
+* occluder (Occluder3D): This property is not described in the provided RST.
+---CHUNK---
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: Methods for getting and setting bake mask values on an OccluderInstance3D.
+
+Method: get_bake_mask_value(layer_number: int) → bool
+Returns the value of the bake mask for the given layer.
+
+Method: set_bake_mask_value(layer_number: int, value: bool)
+Sets the value of the bake mask for the given layer.
+---CHUNK---
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: Describes the properties of the OccluderInstance3D node, including bake mask, simplification distance, and the occluder resource itself.
+
+Property: bake_mask
+Type: int
+Default: 4294967295
+Setter: set_bake_mask
+Getter: get_bake_mask
+Description: The visual layers to account for when baking for occluders. Only MeshInstance3D nodes whose VisualInstance3D.layers match with this bake_mask will be included in the generated occluder mesh. By default, all objects with opaque materials are taken into account for the occluder baking. To improve performance and avoid artifacts, it is recommended to exclude dynamic objects, small objects and fixtures from the baking process by moving them to a separate visual layer and excluding this layer in bake_mask.
+
+Property: bake_simplification_distance
+Type: float
+Default: 0.1
+Setter: set_bake_simplification_distance
+Getter: get_bake_simplification_distance
+Description: The simplification distance to use for simplifying the generated occluder polygon (in 3D units). Higher values result in a less detailed occluder mesh, which improves performance but reduces culling accuracy. The occluder geometry is rendered on the CPU, so it is important to keep its geometry as simple as possible. Since the buffer is rendered at a low resolution, less detailed occluder meshes generally still work well. The default value is fairly aggressive, so you may have to decrease it if you run into false negatives (objects being occluded even though they are visible by the camera). A value of 0.01 will act conservatively, and will keep geometry perceptually unaffected in the occlusion culling buffer. Depending on the scene, a value of 0.01 may still simplify the mesh noticeably compared to disabling simplification entirely. Setting this to 0.0 disables simplification entirely, but vertices in the exact same position will still be merged. The mesh will also be re-indexed to reduce both the number of vertices and indices. Note: This uses the meshoptimizer library under the hood, similar to LOD generation.
+
+Property: occluder
+Type: Occluder3D
+Setter: set_occluder
+Getter: get_occluder
+Description: The occluder resource for this OccluderInstance3D. You can generate an occluder resource by selecting an OccluderInstance3D node then using the Bake Occluders button at the top of the editor. You can also draw your own 2D occluder polygon by adding a new PolygonOccluder3D resource to the occluder property in the Inspector. Alternatively, you can select a primitive occluder to use: QuadOccluder3D, BoxOccluder3D or SphereOccluder3D.
+---CHUNK---
+Document: OccluderInstance3D
+Path: godot/classes/class_occluderinstance3d.rst
+Summary: Methods for managing the bake mask layers of an OccluderInstance3D.
+Method: get_bake_mask_value(layer_number: int) → bool |const|
+Returns whether or not the specified layer of the bake_mask is enabled, given a layer_number between 1 and 32.
+Method: set_bake_mask_value(layer_number: int, value: bool) → void
+Based on value, enables or disables the specified layer in the bake_mask, given a layer_number between 1 and 32.

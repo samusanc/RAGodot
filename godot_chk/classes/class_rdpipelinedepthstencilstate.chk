@@ -1,0 +1,70 @@
+Document: RDPipelineDepthStencilState
+Path: godot/classes/class_rdpipelinedepthstencilstate.rst
+Summary: This document describes the RDPipelineDepthStencilState class.
+---CHUNK---
+Document: RDPipelineDepthStencilState
+Path: godot/classes/class_rdpipelinedepthstencilstate.rst
+Summary: Pipeline depth/stencil state used by RenderingDevice.
+
+Inherits: RefCounted < Object
+
+Pipeline depth/stencil state (used by RenderingDevice).
+---CHUNK---
+Document: RDPipelineDepthStencilState
+Path: godot/classes/class_rdpipelinedepthstencilstate.rst
+Summary: Describes how RDPipelineDepthStencilState controls depth and stencil comparisons in RenderingDevice.
+
+RDPipelineDepthStencilState controls the way depth and stencil comparisons are performed when sampling those values using RenderingDevice.
+---CHUNK---
+Document: RDPipelineDepthStencilState
+Path: godot/classes/class_rdpipelinedepthstencilstate.rst
+Summary: This section describes the properties available for configuring depth and stencil testing in a rendering pipeline.
+
+Properties:
+*   back_op_compare (CompareOperator): Default: 7
+*   back_op_compare_mask (int): Default: 0
+*   back_op_depth_fail (StencilOperation): Default: 1
+*   back_op_fail (StencilOperation): Default: 1
+*   back_op_pass (StencilOperation): Default: 1
+*   back_op_reference (int): Default: 0
+*   back_op_write_mask (int): Default: 0
+*   depth_compare_operator (CompareOperator): Default: 7
+*   depth_range_max (float): Default: 0.0
+*   depth_range_min (float): Default: 0.0
+*   enable_depth_range (bool): Default: false
+*   enable_depth_test (bool): Default: false
+*   enable_depth_write (bool): Default: false
+*   enable_stencil (bool): Default: false
+*   front_op_compare (CompareOperator): Default: 7
+*   front_op_compare_mask (int): Default: 0
+*   front_op_depth_fail (StencilOperation): Default: 1
+*   front_op_fail (StencilOperation): Default: 1
+*   front_op_pass (StencilOperation): Default: 1
+*   front_op_reference (int): Default: 0
+*   front_op_write_mask (int): Default: 0
+---CHUNK---
+Document: RDPipelineDepthStencilState
+Path: godot/classes/class_rdpipelinedepthstencilstate.rst
+Summary: This section describes the properties of RDPipelineDepthStencilState related to depth and stencil testing, including back-facing and front-facing stencil operations, depth comparison, and depth range.
+
+- `back_op_compare` (CompareOperator): The method used for comparing the previous back stencil value and back_op_reference. Default: 7.
+- `back_op_compare_mask` (int): Selects which bits from the back stencil value will be compared. Default: 0.
+- `back_op_depth_fail` (StencilOperation): The operation to perform on the stencil buffer for back pixels that pass the stencil test but fail the depth test. Default: 1.
+- `back_op_fail` (StencilOperation): The operation to perform on the stencil buffer for back pixels that fail the stencil test. Default: 1.
+- `back_op_pass` (StencilOperation): The operation to perform on the stencil buffer for back pixels that pass the stencil test. Default: 1.
+- `back_op_reference` (int): The value the previous back stencil value will be compared to. Default: 0.
+- `back_op_write_mask` (int): Selects which bits from the back stencil value will be changed. Default: 0.
+- `depth_compare_operator` (CompareOperator): The method used for comparing the previous and current depth values. Default: 7.
+- `depth_range_max` (float): The maximum depth that returns true for enable_depth_range. Default: 0.0.
+- `depth_range_min` (float): The minimum depth that returns true for enable_depth_range. Default: 0.0.
+- `enable_depth_range` (bool): If true, each depth value will be tested to see if it is between depth_range_min and depth_range_max. If it is outside of these values, it is discarded. Default: false.
+- `enable_depth_test` (bool): If true, enables depth testing which allows objects to be automatically occluded by other objects based on their depth. This also allows objects to be partially occluded by other objects. If false, objects will appear in the order they were drawn (like in Godot's 2D renderer). Default: false.
+- `enable_depth_write` (bool): If true, writes to the depth buffer whenever the depth test returns true. Only works when enable_depth_test is also true. Default: false.
+- `enable_stencil` (bool): If true, enables stencil testing. There are separate stencil buffers for front-facing triangles and back-facing triangles. See properties that begin with "front_op" and properties with "back_op" for each. Default: false.
+- `front_op_compare` (CompareOperator): The method used for comparing the previous front stencil value and front_op_reference. Default: 7.
+- `front_op_compare_mask` (int): Selects which bits from the front stencil value will be compared. Default: 0.
+- `front_op_depth_fail` (StencilOperation): The operation to perform on the stencil buffer for front pixels that pass the stencil test but fail the depth test. Default: 1.
+- `front_op_fail` (StencilOperation): The operation to perform on the stencil buffer for front pixels that fail the stencil test. Default: 1.
+- `front_op_pass` (StencilOperation): The operation to perform on the stencil buffer for front pixels that pass the stencil test. Default: 1.
+- `front_op_reference` (int): The value the previous front stencil value will be compared to. Default: 0.
+- `front_op_write_mask` (int): Selects which bits from the front stencil value will be changed. Default: 0.

@@ -1,0 +1,124 @@
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: This document identifies the SkeletonModifier3D class.
+---CHUNK---
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: A base class for nodes that modify a Skeleton3D's bones.
+
+SkeletonModifier3D
+Inherits: Node3D < Node < Object
+
+Inherited By: BoneConstraint3D, BoneTwistDisperser3D, IKModifier3D, LimitAngularVelocityModifier3D, LookAtModifier3D, ModifierBoneTarget3D, PhysicalBoneSimulator3D, RetargetModifier3D, SkeletonIK3D, SpringBoneSimulator3D, XRBodyModifier3D, XRHandModifier3D
+
+A node that may modify a Skeleton3D's bones.
+---CHUNK---
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: This chunk describes the purpose and behavior of SkeletonModifier3D, a node for custom skeleton modifications.
+
+SkeletonModifier3D retrieves a target Skeleton3D by having a Skeleton3D parent.
+
+If there is an AnimationMixer, a modification always performs after playback process of the AnimationMixer.
+
+This node should be used to implement custom IK solvers, constraints, or skeleton physics.
+---CHUNK---
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: This section provides a link to a tutorial about the design of the Skeleton Modifier 3D.
+
+Tutorials
+- Design of the Skeleton Modifier 3D
+---CHUNK---
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: This section lists the properties available for SkeletonModifier3D.
+
+Properties:
+* active (bool): Default: true.
+* influence (float): Default: 1.0.
+---CHUNK---
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: This section details the methods, signals, and enumerations available in SkeletonModifier3D.
+
+Methods:
+Method: _process_modification() → void (virtual)
+Method: _process_modification_with_delta(delta: float) → void (virtual)
+Method: _skeleton_changed(old_skeleton: Skeleton3D, new_skeleton: Skeleton3D) → void (virtual)
+Method: _validate_bone_names() → void (virtual)
+Method: get_skeleton() → Skeleton3D (const)
+
+Signals:
+modification_processed(): Notifies when the modification has been finished. Note: If you want to get the modified bone pose by the modifier, you must use Skeleton3D.get_bone_pose() or Skeleton3D.get_bone_global_pose() at the moment this signal is fired.
+
+Enumerations:
+enum BoneAxis:
+- BONE_AXIS_PLUS_X = 0: Enumerated value for the +X axis.
+- BONE_AXIS_MINUS_X = 1: Enumerated value for the -X axis.
+- BONE_AXIS_PLUS_Y = 2: Enumerated value for the +Y axis.
+- BONE_AXIS_MINUS_Y = 3: Enumerated value for the -Y axis.
+- BONE_AXIS_PLUS_Z = 4: Enumerated value for the +Z axis.
+- BONE_AXIS_MINUS_Z = 5: Enumerated value for the -Z axis.
+
+enum BoneDirection:
+- BONE_DIRECTION_PLUS_X = 0: Enumerated value for the +X axis.
+- BONE_DIRECTION_MINUS_X = 1: Enumerated value for the -X axis.
+- BONE_DIRECTION_PLUS_Y = 2: Enumerated value for the +Y axis.
+- BONE_DIRECTION_MINUS_Y = 3: Enumerated value for the -Y axis.
+- BONE_DIRECTION_PLUS_Z = 4: Enumerated value for the +Z axis.
+- BONE_DIRECTION_MINUS_Z = 5: Enumerated value for the -Z axis.
+- BONE_DIRECTION_FROM_PARENT = 6: Enumerated value for the axis from a parent bone to the child bone.
+
+enum SecondaryDirection:
+- SECONDARY_DIRECTION_NONE = 0: Enumerated value for the case when the axis is undefined.
+- SECONDARY_DIRECTION_PLUS_X = 1: Enumerated value for the +X axis.
+- SECONDARY_DIRECTION_MINUS_X = 2: Enumerated value for the -X axis.
+- SECONDARY_DIRECTION_PLUS_Y = 3: Enumerated value for the +Y axis.
+- SECONDARY_DIRECTION_MINUS_Y = 4: Enumerated value for the -Y axis.
+- SECONDARY_DIRECTION_PLUS_Z = 5: Enumerated value for the +Z axis.
+- SECONDARY_DIRECTION_MINUS_Z = 6: Enumerated value for the -Z axis.
+- SECONDARY_DIRECTION_CUSTOM = 7: Enumerated value for an optional axis.
+
+enum RotationAxis:
+- ROTATION_AXIS_X = 0: Enumerated value for the rotation of the X axis.
+- ROTATION_AXIS_Y = 1: Enumerated value for the rotation of the Y axis.
+- ROTATION_AXIS_Z = 2: Enumerated value for the rotation of the Z axis.
+- ROTATION_AXIS_ALL = 3: Enumerated value for the unconstrained rotation.
+- ROTATION_AXIS_CUSTOM = 4: Enumerated value for an optional rotation axis.
+---CHUNK---
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: This chunk describes the `active` and `influence` properties of the `SkeletonModifier3D` class, including their types, default values, and descriptions.
+
+*   **active** (bool): If `true`, the SkeletonModifier3D will be processing. Default: `true`.
+    *   Method: set_active(value: bool) -> void
+    *   Method: is_active() -> bool
+*   **influence** (float): Sets the influence of the modification. Default: `1.0`.
+    *   Method: set_influence(value: float) -> void
+    *   Method: get_influence() -> float
+    Note: This value is used by Skeleton3D to blend, so the SkeletonModifier3D should always apply only 100% of the result without interpolation.
+---CHUNK---
+Document: SkeletonModifier3D
+Path: godot/classes/class_skeletonmodifier3d.rst
+Summary: This chunk describes virtual methods for custom skeleton modification, including processing, skeleton changes, bone name validation, and retrieving the parent Skeleton3D.
+
+Method: _process_modification() -> void
+Deprecated: Use _process_modification_with_delta() instead.
+Override this virtual method to implement a custom skeleton modifier. You should do things like get the Skeleton3D's current pose and apply the pose here.
+_process_modification() must not apply influence to bone poses because the Skeleton3D automatically applies influence to all bone poses set by the modifier.
+
+Method: _process_modification_with_delta(delta: float) -> void
+Override this virtual method to implement a custom skeleton modifier. You should do things like get the Skeleton3D's current pose and apply the pose here.
+_process_modification_with_delta() must not apply influence to bone poses because the Skeleton3D automatically applies influence to all bone poses set by the modifier.
+`delta` is passed from parent Skeleton3D. See also Skeleton3D.advance().
+Note: This method may be called outside Node._process() and Node._physics_process() with `delta` is `0.0`, since the modification should be processed immediately after initialization of the Skeleton3D.
+
+Method: _skeleton_changed(old_skeleton: Skeleton3D, new_skeleton: Skeleton3D) -> void
+Called when the skeleton is changed.
+
+Method: _validate_bone_names() -> void
+Called when bone names and indices need to be validated, such as when entering the scene tree or changing skeleton.
+
+Method: get_skeleton() -> Skeleton3D
+Returns the parent Skeleton3D node if it exists. Otherwise, returns `null`.

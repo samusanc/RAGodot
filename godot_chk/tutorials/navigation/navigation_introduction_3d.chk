@@ -1,0 +1,169 @@
+Document: Navigation Introduction 3D
+Path: godot/tutorials/navigation/navigation_introduction_3d.rst
+Summary: This document provides an introduction to the 3D navigation system in Godot, explaining its core components and how to set them up.
+
+The 3D navigation system in Godot allows characters and other agents to find paths and avoid obstacles in a 3D environment. It is built around the NavigationServer, which manages navigation meshes and agents.
+
+Core Components:
+
+*   **NavigationMesh:** A resource that defines the walkable areas in your 3D scene. It is typically generated from the scene's geometry.
+*   **NavigationAgent3D:** A node that represents an agent moving through the navigation mesh. It handles pathfinding requests and agent avoidance.
+*   **NavigationRegion3D:** A node that owns and manages a NavigationMesh resource, making it available for agents to use.
+
+Setting up Navigation:
+
+1.  **Create NavigationRegion3D:** Add a NavigationRegion3D node to your scene.
+2.  **Assign NavigationMesh:** In the Inspector, create a new NavigationMesh resource for the `Navmesh` property of the NavigationRegion3D.
+3.  **Bake NavigationMesh:** Select the NavigationRegion3D node and click the "Bake Navmesh" button in the toolbar. This generates the walkable areas based on the geometry within the region. You can also bake it from code.
+4.  **Add NavigationAgent3D:** Add a NavigationAgent3D node to the scene, typically as a child of the character that needs to navigate.
+5.  **Set Target:** In a script attached to the NavigationAgent3D or its parent, set the `target_position` property to the desired destination. The agent will then calculate a path to this target.
+
+The NavigationServer is the low-level API that handles all navigation calculations. While you can interact with it directly, it's generally recommended to use the higher-level nodes like NavigationRegion3D and NavigationAgent3D for most use cases.
+
+Key Rule: The NavigationServer is the core engine for all navigation calculations, but for most common tasks, using the NavigationRegion3D and NavigationAgent3D nodes is the recommended approach.
+---CHUNK---
+Document: Navigation Introduction 3D
+Path: godot/tutorials/navigation/navigation_introduction_3d.rst
+Summary: This document provides an overview of Godot's 3D navigation objects, classes, and resources, explaining their primary uses and how they interact.
+
+Godot provides several objects and classes for 3D navigation.
+
+Astar3D objects offer a way to find the shortest path within a graph of weighted points. AStar3D is ideal for cell-based 3D gameplay where movement is restricted to predefined, distinct positions rather than any location within an area.
+
+NavigationServer3D is a server API for finding the shortest path between two positions on an area defined by a navigation mesh. It is best suited for real-time 3D gameplay where agents need to reach any position within a navigation mesh. Mesh-based navigation is efficient for large game worlds, as a single polygon can often represent a large area, unlike grid-based systems.
+
+The NavigationServer3D manages different navigation maps, each containing regions with navigation mesh data. Agents can be placed on a map for avoidance calculations. RIDs (Resource IDs) are used to reference internal maps, regions, and agents when interacting with the server.
+
+Available NavigationServer RID types include:
+- NavMap RID: References a specific navigation map that holds regions and agents. The map attempts to merge navigation meshes of nearby regions and synchronizes regions and agents each physics frame.
+- NavRegion RID: References a specific navigation region containing navigation mesh data. Regions can be enabled/disabled, and their usage restricted via a navigation layer bitmask.
+- NavLink RID: References a specific navigation link that connects two navigation mesh positions over arbitrary distances.
+- NavAgent RID: References a specific avoidance agent, defined by a radius value.
+- NavObstacle RID: References a specific avoidance obstacle that influences the avoidance velocity of agents.
+
+The following scene tree nodes assist in working with the NavigationServer3D API:
+
+NavigationRegion3D Node: Holds a NavigationMesh resource, defining a navigation area for the NavigationServer3D. It can be enabled/disabled, and its pathfinding usage can be restricted using the navigation_layers bitmask. The NavigationServer3D merges nearby navigation meshes from multiple regions.
+
+NavigationLink3D Node: Connects two positions on navigation meshes over arbitrary distances for pathfinding. It can be enabled/disabled, set as one-way or bidirectional, and its pathfinding usage restricted via the navigation_layers bitmask. Links indicate the existence and cost of connections; agent movement logic must be implemented in custom scripts.
+
+NavigationAgent3D Node: A helper node that simplifies common NavigationServer3D API calls for pathfinding and avoidance. It should be used with a Node3D inheriting parent.
+
+NavigationObstacle3D Node: Affects and constrains the avoidance velocity of agents but does not influence pathfinding. To affect pathfinding, navigation meshes must be modified.
+
+3D navigation meshes are defined using the NavigationMesh resource.
+
+NavigationMesh Resource: Holds 3D navigation mesh data and provides options for baking geometry in the editor or at runtime. The NavigationRegion3D Node uses this resource to define its navigation area, the NavigationServer3D uses it to update region navigation meshes, and the GridMap Editor uses it when specific navigation meshes are defined per grid cell.
+---CHUNK---
+Document: Navigation Introduction 3D
+Path: godot/tutorials/navigation/navigation_introduction_3d.rst
+Summary: This section details the basic setup for 3D navigation using NavigationServer3D and NavigationAgent3D, including node setup, mesh baking, and scripting for character movement.
+
+To set up a basic 3D navigation scene:
+1. Add a NavigationRegion3D node to your scene.
+2. Assign a NavigationMesh resource to the NavigationRegion3D.
+3. Add a MeshInstance3D as a child of the NavigationRegion3D.
+4. Give the MeshInstance3D a PlaneMesh with an XY size of 10.
+5. Bake the NavigationMesh by clicking the "Bake Navmesh" button. A transparent navigation mesh will appear above the PlaneMesh.
+6. Add a CharacterBody3D node with a collision shape and visual mesh.
+7. Add a NavigationAgent3D node as a child of the CharacterBody3D.
+8. Attach a script to the CharacterBody3D to handle movement.
+
+GDScript:
+```gdscript
+extends CharacterBody3D
+
+var movement_speed: float = 2.0
+var movement_target_position: Vector3 = Vector3(-3.0,0.0,2.0)
+
+@onready var navigation_agent: NavigationAgent3D = $NavigationAgent3D
+
+func _ready():
+    # These values need to be adjusted for the actor's speed
+    # and the navigation layout.
+    navigation_agent.path_desired_distance = 0.5
+    navigation_agent.target_desired_distance = 0.5
+
+    # Make sure to not await during _ready.
+    actor_setup.call_deferred()
+
+func actor_setup():
+    # Wait for the first physics frame so the NavigationServer can sync.
+    await get_tree().physics_frame
+
+    # Now that the navigation map is no longer empty, set the movement target.
+    set_movement_target(movement_target_position)
+
+func set_movement_target(movement_target: Vector3):
+    navigation_agent.set_target_position(movement_target)
+
+func _physics_process(delta):
+    if navigation_agent.is_navigation_finished():
+        return
+
+    var current_agent_position: Vector3 = global_position
+    var next_path_position: Vector3 = navigation_agent.get_next_path_position()
+
+    velocity = current_agent_position.direction_to(next_path_position) * movement_speed
+    move_and_slide()
+```
+
+C#:
+```csharp
+using Godot;
+
+public partial class MyCharacterBody3D : CharacterBody3D
+{
+    private NavigationAgent3D _navigationAgent;
+
+    private float _movementSpeed = 2.0f;
+    private Vector3 _movementTargetPosition = new Vector3(-3.0f, 0.0f, 2.0f);
+
+    public Vector3 MovementTarget
+    {
+        get { return _navigationAgent.TargetPosition; }
+        set { _navigationAgent.TargetPosition = value; }
+    }
+
+    public override void _Ready()
+    {
+        base._Ready();
+
+        _navigationAgent = GetNode<NavigationAgent3D>("NavigationAgent3D");
+
+        // These values need to be adjusted for the actor's speed
+        // and the navigation layout.
+        _navigationAgent.PathDesiredDistance = 0.5f;
+        _navigationAgent.TargetDesiredDistance = 0.5f;
+
+        // Make sure to not await during _ready.
+        Callable.From(ActorSetup).CallDeferred();
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        base._PhysicsProcess(delta);
+
+        if (_navigationAgent.IsNavigationFinished())
+        {
+            return;
+        }
+
+        Vector3 currentAgentPosition = GlobalTransform.Origin;
+        Vector3 nextPathPosition = _navigationAgent.GetNextPathPosition();
+
+        Velocity = currentAgentPosition.DirectionTo(nextPathPosition) * _movementSpeed;
+        MoveAndSlide();
+    }
+
+    private async void ActorSetup()
+    {
+        // Wait for the first physics frame so the NavigationServer can sync.
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        // Now that the navigation map is no longer empty, set the movement target.
+        MovementTarget = _movementTargetPosition;
+    }
+}
+```
+Note: On the first frame, the NavigationServer map has not synchronized region data, and any path query will return empty. Wait for NavigationServer synchronization by awaiting one frame in the script.

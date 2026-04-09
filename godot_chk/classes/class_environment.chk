@@ -1,0 +1,304 @@
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: A resource that holds all the settings for the 3D rendering environment.
+---CHUNK---
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: An overview of the Environment resource, which defines multiple rendering options for nodes like WorldEnvironment.
+
+Inherits: Resource < RefCounted < Object
+
+The Environment resource is used by environment nodes (like WorldEnvironment) to define multiple rendering options.
+---CHUNK---
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: This resource defines multiple environment operations like background sky, ambient light, fog, and post-processing effects that affect the final render of a scene.
+
+Resource for environment nodes (like WorldEnvironment) that define multiple environment operations (such as background Sky or Color, ambient light, fog, depth-of-field...). These parameters affect the final render of the scene. The order of these operations is:
+
+- Depth of Field Blur
+- Auto Exposure
+- Glow
+- Tonemap
+- Adjustments
+---CHUNK---
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: This chunk lists related tutorials and demos for understanding and using the Environment resource.
+
+Related tutorials and demos include:
+- Environment and post-processing
+- High dynamic range lighting
+- 3D Material Testers Demo
+- Third Person Shooter (TPS) Demo
+---CHUNK---
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: This chunk lists all the properties of the Environment resource, including their types and default values, covering adjustments, ambient light, background, fog, glow, SDFGI, SSAO, SSR, tonemapping, and volumetric fog.
+
+Properties:
+* adjustment_brightness (float): Default: 1.0
+* adjustment_color_correction (Texture):
+* adjustment_contrast (float): Default: 1.0
+* adjustment_enabled (bool): Default: false
+* adjustment_saturation (float): Default: 1.0
+* ambient_light_color (Color): Default: Color(0, 0, 0, 1)
+* ambient_light_energy (float): Default: 1.0
+* ambient_light_sky_contribution (float): Default: 1.0
+* ambient_light_source (AmbientSource): Default: 0
+* background_camera_feed_id (int): Default: 1
+* background_canvas_max_layer (int): Default: 0
+* background_color (Color): Default: Color(0, 0, 0, 1)
+* background_energy_multiplier (float): Default: 1.0
+* background_intensity (float): Default: 30000.0
+* background_mode (BGMode): Default: 0
+* fog_aerial_perspective (float): Default: 0.0
+* fog_density (float): Default: 0.01
+* fog_depth_begin (float): Default: 10.0
+* fog_depth_curve (float): Default: 1.0
+* fog_depth_end (float): Default: 100.0
+* fog_enabled (bool): Default: false
+* fog_height (float): Default: 0.0
+* fog_height_density (float): Default: 0.0
+* fog_light_color (Color): Default: Color(0.518, 0.553, 0.608, 1)
+* fog_light_energy (float): Default: 1.0
+* fog_mode (FogMode): Default: 0
+* fog_sky_affect (float): Default: 1.0
+* fog_sun_scatter (float): Default: 0.0
+* glow_blend_mode (GlowBlendMode): Default: 1
+* glow_bloom (float): Default: 0.0
+* glow_enabled (bool): Default: false
+* glow_hdr_luminance_cap (float): Default: 12.0
+* glow_hdr_scale (float): Default: 2.0
+* glow_hdr_threshold (float): Default: 1.0
+* glow_intensity (float): Default: 0.3
+* glow_levels/1 (float): Default: 0.0
+* glow_levels/2 (float): Default: 0.8
+* glow_levels/3 (float): Default: 0.4
+* glow_levels/4 (float): Default: 0.1
+* glow_levels/5 (float): Default: 0.0
+* glow_levels/6 (float): Default: 0.0
+* glow_levels/7 (float): Default: 0.0
+* glow_map (Texture):
+* glow_map_strength (float): Default: 0.8
+* glow_mix (float): Default: 0.05
+* glow_normalized (bool): Default: false
+* glow_strength (float): Default: 1.0
+* reflected_light_source (ReflectionSource): Default: 0
+* sdfgi_bounce_feedback (float): Default: 0.5
+* sdfgi_cascade0_distance (float): Default: 12.8
+* sdfgi_cascades (int): Default: 4
+* sdfgi_enabled (bool): Default: false
+* sdfgi_energy (float): Default: 1.0
+* sdfgi_max_distance (float): Default: 204.8
+* sdfgi_min_cell_size (float): Default: 0.2
+* sdfgi_normal_bias (float): Default: 1.1
+* sdfgi_probe_bias (float): Default: 1.1
+* sdfgi_read_sky_light (bool): Default: true
+* sdfgi_use_occlusion (bool): Default: false
+* sdfgi_y_scale (SDFGIYScale): Default: 1
+* sky (Sky):
+* sky_custom_fov (float): Default: 0.0
+* sky_rotation (Vector3): Default: Vector3(0, 0, 0)
+* ssao_ao_channel_affect (float): Default: 0.0
+* ssao_detail (float): Default: 0.5
+* ssao_enabled (bool): Default: false
+* ssao_horizon (float): Default: 0.06
+* ssao_intensity (float): Default: 2.0
+* ssao_light_affect (float): Default: 0.0
+* ssao_power (float): Default: 1.5
+* ssao_radius (float): Default: 1.0
+* ssao_sharpness (float): Default: 0.98
+* ssil_enabled (bool): Default: false
+* ssil_intensity (float): Default: 1.0
+* ssil_normal_rejection (float): Default: 1.0
+* ssil_radius (float): Default: 5.0
+* ssil_sharpness (float): Default: 0.98
+* ssr_depth_tolerance (float): Default: 0.5
+* ssr_enabled (bool): Default: false
+* ssr_fade_in (float): Default: 0.15
+* ssr_fade_out (float): Default: 2.0
+* ssr_max_steps (int): Default: 64
+* tonemap_agx_contrast (float): Default: 1.25
+* tonemap_agx_white (float): Default: 16.29
+* tonemap_exposure (float): Default: 1.0
+* tonemap_mode (ToneMapper): Default: 0
+* tonemap_white (float): Default: 1.0
+* volumetric_fog_albedo (Color): Default: Color(1, 1, 1, 1)
+* volumetric_fog_ambient_inject (float): Default: 0.0
+* volumetric_fog_anisotropy (float): Default: 0.2
+* volumetric_fog_density (float): Default: 0.05
+* volumetric_fog_detail_spread (float): Default: 2.0
+* volumetric_fog_emission (Color): Default: Color(0, 0, 0, 1)
+* volumetric_fog_emission_energy (float): Default: 1.0
+* volumetric_fog_enabled (bool): Default: false
+* volumetric_fog_gi_inject (float): Default: 1.0
+* volumetric_fog_length (float): Default: 64.0
+* volumetric_fog_sky_affect (float): Default: 1.0
+* volumetric_fog_temporal_reprojection_amount (float): Default: 0.9
+* volumetric_fog_temporal_reprojection_enabled (bool): Default: true
+---CHUNK---
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: This chunk details the various enumerations used by the Environment resource to control rendering settings, including background modes, ambient light and reflection sources, tonemapping algorithms, glow blend modes, fog types, and SDFGI scaling options, along with methods for managing glow levels.
+
+Method: get_glow_level(idx: int) -> float
+Method: set_glow_level(idx: int, intensity: float) -> void
+
+Enumerations
+
+enum BGMode:
+- BG_CLEAR_COLOR = 0: Clears the background using the clear color defined in ProjectSettings.rendering/environment/defaults/default_clear_color.
+- BG_COLOR = 1: Clears the background using a custom clear color.
+- BG_SKY = 2: Displays a user-defined sky in the background.
+- BG_CANVAS = 3: Displays a CanvasLayer in the background.
+- BG_KEEP = 4: Keeps on screen every pixel drawn in the background. This is the fastest background mode, but it can only be safely used in fully-interior scenes (no visible sky or sky reflections). If enabled in a scene where the background is visible, "ghost trail" artifacts will be visible when moving the camera.
+- BG_CAMERA_FEED = 5: Displays a camera feed in the background.
+- BG_MAX = 6: Represents the size of the BGMode enum.
+
+enum AmbientSource:
+- AMBIENT_SOURCE_BG = 0: Gather ambient light from whichever source is specified as the background.
+- AMBIENT_SOURCE_DISABLED = 1: Disable ambient light. This provides a slight performance boost over AMBIENT_SOURCE_SKY.
+- AMBIENT_SOURCE_COLOR = 2: Specify a specific Color for ambient light. This provides a slight performance boost over AMBIENT_SOURCE_SKY.
+- AMBIENT_SOURCE_SKY = 3: Gather ambient light from the Sky regardless of what the background is.
+
+enum ReflectionSource:
+- REFLECTION_SOURCE_BG = 0: Use the background for reflections.
+- REFLECTION_SOURCE_DISABLED = 1: Disable reflections. This provides a slight performance boost over other options.
+- REFLECTION_SOURCE_SKY = 2: Use the Sky for reflections regardless of what the background is.
+
+enum ToneMapper:
+- TONE_MAPPER_LINEAR = 0: Does not modify color data, resulting in a linear tonemapping curve which unnaturally clips bright values, causing bright lighting to look blown out. The simplest and fastest tonemapper.
+- TONE_MAPPER_REINHARDT = 1: A simple tonemapping curve that rolls off bright values to prevent clipping. This results in an image that can appear dull and low contrast. Slower than TONE_MAPPER_LINEAR. Note: When tonemap_white is left at the default value of 1.0, TONE_MAPPER_REINHARDT produces an identical image to TONE_MAPPER_LINEAR.
+- TONE_MAPPER_FILMIC = 2: Uses a film-like tonemapping curve to prevent clipping of bright values and provide better contrast than TONE_MAPPER_REINHARDT. Slightly slower than TONE_MAPPER_REINHARDT. Note: This tonemapper does not support HDR output because it produces output in the SDR range. It is recommended to use a different tonemapper when rendering to an HDR screen.
+- TONE_MAPPER_ACES = 3: Uses a high-contrast film-like tonemapping curve and desaturates bright values for a more realistic appearance. Slightly slower than TONE_MAPPER_FILMIC. Note: This tonemapping operator is called "ACES Fitted" in Godot 3.x. Note: This tonemapper does not support HDR output because it produces output in the SDR range. It is recommended to use a different tonemapper when rendering to an HDR screen.
+- TONE_MAPPER_AGX = 4: Uses an adjustable film-like tonemapping curve and desaturates bright values for a more realistic appearance. Better than other tonemappers at maintaining the hue of colors as they become brighter. The slowest tonemapping option.
+
+enum GlowBlendMode:
+- GLOW_BLEND_MODE_ADDITIVE = 0: Adds the glow effect to the scene.
+- GLOW_BLEND_MODE_SCREEN = 1: Adds the glow effect to the scene after modifying the glow influence based on the scene value; dark values will be highly influenced by glow and bright values will not be influenced by glow. This approach avoids bright values becoming overly bright from the glow effect. tonemap_white is used to determine the maximum scene value where the glow should have no influence. When tonemap_mode is set to TONE_MAPPER_LINEAR and Viewport.use_hdr_2d is true, the parent window's Window.get_output_max_linear_value() will be used as the maximum scene value.
+- GLOW_BLEND_MODE_SOFTLIGHT = 2: Adds the glow effect to the tonemapped image after modifying the glow influence based on the image value; dark values and bright values will not be influenced by glow and mid-range values will be highly influenced by glow. This approach avoids bright values becoming overly bright from the glow effect. The glow will have the largest influence on image values of 0.25 and will have no influence when applied to image values greater than 1.0. Note: This blend mode does not support HDR output because expects a maximum output value of 1.0. It is recommended to use a different blend mode when rendering to an HDR screen.
+- GLOW_BLEND_MODE_REPLACE = 3: Replaces all pixels' color by the glow effect. This can be used to simulate a full-screen blur effect by tweaking the glow parameters to match the original image's brightness or to preview glow configuration in the editor.
+- GLOW_BLEND_MODE_MIX = 4: Mixes the glow image with the scene image. Best used with glow_bloom to avoid darkening the scene.
+
+enum FogMode:
+- FOG_MODE_EXPONENTIAL = 0: Use a physically-based fog model defined primarily by fog density.
+- FOG_MODE_DEPTH = 1: Use a simple fog model defined by start and end positions and a custom curve. While not physically accurate, this model can be useful when you need more artistic control.
+
+enum SDFGIYScale:
+- SDFGI_Y_SCALE_50_PERCENT = 0: Use 50% scale for SDFGI on the Y (vertical) axis. SDFGI cells will be twice as short as they are wide. This allows providing increased GI detail and reduced light leaking with thin floors and ceilings. This is usually the best choice for scenes that don't feature much verticality.
+- SDFGI_Y_SCALE_75_PERCENT = 1: Use 75% scale for SDFGI on the Y (vertical) axis. This is a balance between the 50% and 100% SDFGI Y scales.
+- SDFGI_Y_SCALE_100_PERCENT = 2: Use 100% scale for SDFGI on the Y (vertical) axis. SDFGI cells will be as tall as they are wide. This is usually the best choice for highly vertical scenes. The downside is that light leaking may become more noticeable with thin floors and ceilings.
+---CHUNK---
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: This chunk details the numerous properties of the Environment resource, covering post-processing adjustments, ambient and background lighting, standard and volumetric fog, glow effects, SDFGI, sky rendering, screen-space effects like SSAO, SSIL, and SSR, and tonemapping settings.
+
+Property Descriptions
+* adjustment_brightness (float): Applies a simple brightness adjustment to the rendered image after tonemaping. To adjust scene brightness use tonemap_exposure instead, which is applied before tonemapping and thus less prone to issues with bright colors. Effective only if adjustment_enabled is true. Default: 1.0.
+* adjustment_color_correction (Texture): The Texture2D or Texture3D lookup table (LUT) to use for the built-in post-process color grading. Can use a GradientTexture1D for a 1-dimensional LUT, or a Texture3D for a more complex LUT. Effective only if adjustment_enabled is true. Note: Color correction does not currently support HDR output due to only supporting values in the SDR (0.0 to 1.0) range.
+* adjustment_contrast (float): Increasing adjustment_contrast will make dark values darker and bright values brighter. This simple adjustment is applied to the rendered image after tonemaping. When set to a value greater than 1.0, adjustment_contrast is prone to clipping colors that become too bright or too dark. Effective only if adjustment_enabled is true. Default: 1.0.
+* adjustment_enabled (bool): If true, enables the `adjustment_*` properties provided by this resource. If false, modifications to the `adjustment_*` properties will have no effect on the rendered scene. Default: false.
+* adjustment_saturation (float): Applies a simple saturation adjustment to the rendered image after tonemaping. When adjustment_saturation is set to 0.0, the rendered image will be fully converted to a grayscale image. Effective only if adjustment_enabled is true. Default: 1.0.
+* ambient_light_color (Color): The ambient light's Color. Only effective if ambient_light_sky_contribution is lower than 1.0 (exclusive). Default: Color(0, 0, 0, 1).
+* ambient_light_energy (float): The ambient light's energy. The higher the value, the stronger the light. Only effective if ambient_light_sky_contribution is lower than 1.0 (exclusive). Default: 1.0.
+* ambient_light_sky_contribution (float): Defines the amount of light that the sky brings on the scene. A value of 0.0 means that the sky's light emission has no effect on the scene illumination, thus all ambient illumination is provided by the ambient light. On the contrary, a value of 1.0 means that all the light that affects the scene is provided by the sky, thus the ambient light parameter has no effect on the scene. Note: ambient_light_sky_contribution is internally clamped between 0.0 and 1.0 (inclusive). Default: 1.0.
+* ambient_light_source (AmbientSource): The ambient light source to use for rendering materials and global illumination. Default: 0.
+* background_camera_feed_id (int): The ID of the camera feed to show in the background. Default: 1.
+* background_canvas_max_layer (int): The maximum layer ID to display. Only effective when using the BG_CANVAS background mode. Default: 0.
+* background_color (Color): The Color displayed for clear areas of the scene. Only effective when using the BG_COLOR background mode. Default: Color(0, 0, 0, 1).
+* background_energy_multiplier (float): Multiplier for background energy. Increase to make background brighter, decrease to make background dimmer. Default: 1.0.
+* background_intensity (float): Luminance of background measured in nits (candela per square meter). Only used when ProjectSettings.rendering/lights_and_shadows/use_physical_light_units is enabled. The default value is roughly equivalent to the sky at midday. Default: 30000.0.
+* background_mode (BGMode): The background mode. Default: 0.
+* fog_aerial_perspective (float): If set above 0.0, blends between the fog's color and the color of the background Sky, as read from the radiance cubemap. This has a small performance cost. Must have background_mode set to BG_SKY. This is useful to simulate aerial perspective in large scenes with low density fog. When set to 1.0, the fog color comes completely from the Sky. If set to 0.0, aerial perspective is disabled. This samples a blurred version of the sky from the radiance cubemap, with more blur closer to the camera. Default: 0.0.
+* fog_density (float): The fog density. Its effect depends on the fog_mode:
+    - Exponential Fog Mode: Higher values result in denser, exponential fog like in real life.
+    - Depth Fog mode: The maximum intensity of the fog, which appears in the distance. At 1.0 the fog fully obscures the scene; at 0.0 it is not visible.
+    Default: 0.01.
+* fog_depth_begin (float): The fog's depth starting distance from the camera. Only available when fog_mode is set to FOG_MODE_DEPTH. Default: 10.0.
+* fog_depth_curve (float): The fog depth's intensity curve. Only available when fog_mode is set to FOG_MODE_DEPTH. Default: 1.0.
+* fog_depth_end (float): The fog's depth end distance from the camera. If this value is 0, it will equal the current camera's Camera3D.far value. Only available when fog_mode is set to FOG_MODE_DEPTH. Default: 100.0.
+* fog_enabled (bool): If true, fog effects are enabled. Default: false.
+* fog_height (float): The height at which the height fog effect begins. Default: 0.0.
+* fog_height_density (float): The density used to increase fog as height decreases. To make fog increase as height increases, use a negative value. Default: 0.0.
+* fog_light_color (Color): The fog's color. Default: Color(0.518, 0.553, 0.608, 1).
+* fog_light_energy (float): The fog's brightness. Higher values result in brighter fog. Default: 1.0.
+* fog_mode (FogMode): The fog mode. Default: 0.
+* fog_sky_affect (float): The factor for how non-volumetric fog affects the sky. 1.0 means fog can fully obscure the sky; 0.0 means it has no effect. Note: fog_sky_affect has no visual effect if fog_aerial_perspective is 1.0. Default: 1.0.
+* fog_sun_scatter (float): If set above 0.0, renders the scene's directional light(s) in the fog color depending on the view angle, giving the impression that the sun is "piercing" through the fog. Default: 0.0.
+* glow_blend_mode (GlowBlendMode): The glow blending mode. Note: The Compatibility renderer always uses GLOW_BLEND_MODE_SCREEN and this property will have no effect. Default: 1.
+* glow_bloom (float): The bloom's intensity. If set higher than 0, this will make glow visible in areas darker than the glow_hdr_threshold. Default: 0.0.
+* glow_enabled (bool): If true, the glow effect is enabled, causing bright pixels to bleed onto surrounding pixels. Note: Glow looks different in the Mobile renderer due to lower dynamic range. In the Compatibility renderer, glow uses a simpler implementation and several properties are unavailable: `glow_levels/*`, glow_normalized, glow_strength, glow_blend_mode, glow_mix, glow_map, and glow_map_strength. Default: false.
+* glow_hdr_luminance_cap (float): The higher threshold of the HDR glow. Areas brighter than this will be clamped for the glow effect. Default: 12.0.
+* glow_hdr_scale (float): Smooths the transition for values near glow_hdr_threshold by reducing their glow amount. Values above `glow_hdr_threshold + glow_hdr_scale` are not reduced. Default: 2.0.
+* glow_hdr_threshold (float): The lower threshold of the HDR glow. For the Mobile renderer, this may need to be below 1.0 (e.g., 0.9) for glow to be visible. It also needs to be below 1.0 for 2D glow, as 2D is rendered in SDR. Default: 1.0.
+* glow_intensity (float): The overall brightness multiplier for the glow effect. For the Mobile renderer, this should be increased to 1.5 to compensate for lower dynamic range. Default: 0.3.
+* glow_levels/1 to glow_levels/7 (float): The intensity of each of the 7 glow levels. Level 1 is the most "local" (least blurry), and level 7 is the most "global" (blurriest). Note: These properties have no effect in the Compatibility renderer. Defaults: 1: 0.0, 2: 0.8, 3: 0.4, 4: 0.1, 5: 0.0, 6: 0.0, 7: 0.0.
+* glow_map (Texture): A texture used to multiply the glow color, creating effects like "lens dirt". The texture's RGB channels are used, and it will be stretched to fit the screen. Note: This has no effect in the Compatibility renderer.
+* glow_map_strength (float): How strongly the glow_map influences the glow effect. 0.0 is no influence, 1.0 is full influence. Note: If the glow map has black areas, a value of 1.0 can turn off glow in those screen areas. This has no effect in the Compatibility renderer. Default: 0.8.
+* glow_mix (float): When using GLOW_BLEND_MODE_MIX, this controls how much the source image is blended with the glow layer. 0.0 makes glow invisible, 1.0 is equivalent to GLOW_BLEND_MODE_REPLACE. Note: This has no effect in the Compatibility renderer. Default: 0.05.
+* glow_normalized (bool): If true, glow levels are normalized so their summed intensities equal 1.0. Note: This has no effect in the Compatibility renderer. Default: false.
+* glow_strength (float): The strength used when blurring to generate the glow effect, affecting blur distance and intensity. In the Mobile renderer, this should be increased to compensate for lower dynamic range. Note: This has no effect in the Compatibility renderer. Default: 1.0.
+* reflected_light_source (ReflectionSource): The reflected (specular) light source. Default: 0.
+* sdfgi_bounce_feedback (float): The energy multiplier for each light bounce in SDFGI. Values > 0.0 simulate multiple bounces for more realism. Note: Values > 0.5 can cause infinite feedback loops. If this is 0.0, indirect lighting will not appear in reflections. Default: 0.5.
+* sdfgi_cascade0_distance (float): Linked to sdfgi_min_cell_size and sdfgi_max_distance. Changing this value automatically changes the others. Default: 12.8.
+* sdfgi_cascades (int): The number of cascades for SDFGI (1-8). More cascades improve quality at a distance but cost performance. For small levels, 1-4 cascades can improve performance. Default: 4.
+* sdfgi_enabled (bool): If true, enables Signed Distance Field Global Illumination for static geometry. SDFGI is a real-time GI technique suitable for dynamic levels. Note: SDFGI is only supported in the Forward+ renderer. It is GPU-demanding; consider LightmapGI for low-end hardware. Meshes should have thick walls to prevent light leaks. Default: false.
+* sdfgi_energy (float): The energy multiplier for SDFGI. Higher values mean brighter indirect lighting and reflections. Default: 1.0.
+* sdfgi_max_distance (float): The maximum distance at which SDFGI is visible. Beyond this, other GI sources are used. Note: This property is linked to sdfgi_min_cell_size and sdfgi_cascade0_distance. Default: 204.8.
+* sdfgi_min_cell_size (float): The cell size for the closest SDFGI cascade. Lower values give more detail up close but can cause stuttering on camera movement. Note: This property is linked to sdfgi_max_distance and sdfgi_cascade0_distance. Default: 0.2.
+* sdfgi_normal_bias (float): Normal bias for SDFGI probes. Increasing this can reduce streaking on sloped surfaces but may increase light leaking. Default: 1.1.
+* sdfgi_probe_bias (float): Constant bias for SDFGI probes. Increasing this can reduce streaking on sloped surfaces but may increase light leaking. Default: 1.1.
+* sdfgi_read_sky_light (bool): If true, SDFGI considers environment lighting. Should be false for interior scenes. Default: true.
+* sdfgi_use_occlusion (bool): If true, SDFGI uses an occlusion detection method to reduce light leaking, which can introduce dark blotches and has a performance cost. Default: false.
+* sdfgi_y_scale (SDFGIYScale): The Y scale for SDFGI cells. Lower values pack cells more closely on the Y axis, balancing quality vs. vertical coverage. Default: 1.
+* sky (Sky): The Sky resource used for this Environment.
+* sky_custom_fov (float): If > 0.0, overrides the camera's FOV for sky rendering. If 0.0, uses the current Camera3D's FOV. Default: 0.0.
+* sky_rotation (Vector3): The rotation to use for sky rendering. Default: Vector3(0, 0, 0).
+* ssao_ao_channel_affect (float): The SSAO intensity on materials with an AO texture. Values > 0 make SSAO visible in areas darkened by AO textures. Default: 0.0.
+* ssao_detail (float): Strength of the additional detail level for SSAO. High values make the detail pass more prominent but can cause aliasing. Default: 0.5.
+* ssao_enabled (bool): If true, enables screen-space ambient occlusion, which darkens corners and cavities. Note: SSAO is only supported in the Forward+ and Compatibility renderers, not Mobile. Default: false.
+* ssao_horizon (float): The threshold for occlusion, as an angle from the horizon mapped to 0.0-1.0. A value of 1.0 results in no occlusion. Default: 0.06.
+* ssao_intensity (float): The primary SSAO intensity multiplier. Higher values result in darker occlusion. Default: 2.0.
+* ssao_light_affect (float): The SSAO intensity in direct light. In real life, AO only affects indirect light. Values > 0 make SSAO visible in direct light. Default: 0.0.
+* ssao_power (float): The distribution of occlusion. A higher value results in darker occlusion with a sharper falloff. Default: 1.5.
+* ssao_radius (float): The distance at which objects can occlude each other for SSAO. Higher values mean longer-range occlusion at a cost to performance and quality. Default: 1.0.
+* ssao_sharpness (float): The amount SSAO is allowed to blur over object edges. Too high causes aliasing; too low causes blurriness. Default: 0.98.
+* ssil_enabled (bool): If true, enables screen-space indirect lighting, allowing diffuse light to bounce between nearby objects. It is meant to be used with another GI solution like SDFGI or VoxelGI. Note: SSIL is only supported in the Forward+ renderer. Default: false.
+* ssil_intensity (float): The brightness multiplier for the SSIL effect. Default: 1.0.
+* ssil_normal_rejection (float): Amount of normal rejection used to prevent light leaking. Can be disabled if light leaking is desirable (e.g., for emissive objects). Default: 1.0.
+* ssil_radius (float): The distance bounced light can travel for SSIL. Larger values can cause under-sampling artifacts. Default: 5.0.
+* ssil_sharpness (float): The amount SSIL is allowed to blur over object edges. Too high causes aliasing; too low causes blurriness. Default: 0.98.
+* ssr_depth_tolerance (float): The depth tolerance for screen-space reflections. Default: 0.5.
+* ssr_enabled (bool): If true, enables screen-space reflections. SSR is more accurate than other reflection methods but slower and cannot reflect occluded surfaces. Note: SSR is only supported in the Forward+ renderer and not on viewports with a transparent background. Default: false.
+* ssr_fade_in (float): The fade-in distance for SSR, affecting the area from the material to the reflection. Default: 0.15.
+* ssr_fade_out (float): The fade-out distance for SSR, affecting the area from the SSR to the global reflection. Default: 2.0.
+* ssr_max_steps (int): The maximum number of steps for SSR. Higher values are slower. Default: 64.
+* tonemap_agx_contrast (float): Increases contrast when using the TONE_MAPPER_AGX tonemapper, producing a higher quality result than adjustment_contrast. Default: 1.25.
+* tonemap_agx_white (float): The white reference value when using the TONE_MAPPER_AGX tonemapper. For photorealistic lighting, a value of at least 6.0 is recommended. Higher values reduce blown-out highlights but may lower contrast. Note: This is handled differently in the Mobile renderer and when using HDR output. Default: 16.29.
+* tonemap_exposure (float): Adjusts brightness before tonemapping. Higher values result in a brighter image. Note: Values are internally multiplied for Filmic and ACES tonemappers to match Linear's apparent brightness. Default: 1.0.
+* tonemap_mode (ToneMapper): The tonemapping mode used to convert HDR values for LDR displays. Default: 0.
+* tonemap_white (float): The white reference value for tonemapping (except for AGX). For photorealistic lighting, a value of at least 6.0 is recommended. Note: This must be 2.0 or lower on the Mobile renderer. It is ignored for Linear tonemapping and handled differently for Reinhardt with HDR. Default: 1.0.
+* volumetric_fog_albedo (Color): The color of volumetric fog when interacting with lights. Mist is close to white, while smoke is darker. Default: Color(1, 1, 1, 1).
+* volumetric_fog_ambient_inject (float): Scales the strength of ambient light in volumetric fog. A value of 0.0 means no impact. Has a small performance cost. Note: Has no effect if density is 0.0 or albedo is black. Default: 0.0.
+* volumetric_fog_anisotropy (float): The direction of scattered light. 1.0 scatters forward, 0.0 scatters equally, -1.0 scatters backward. Fog and mist scatter slightly forward. Default: 0.2.
+* volumetric_fog_density (float): The base exponential density of global volumetric fog. A value of 0.0 disables it but allows FogVolumes to work. For volumetric lighting effects, use a very low density (0.0001) and high light energy. Default: 0.05.
+* volumetric_fog_detail_spread (float): The distribution of detail along the fog's depth. Higher values compress detail closer to the camera. Default: 2.0.
+* volumetric_fog_emission (Color): Emitted light from the fog, useful for an ambient color and softening shadows. Does not cast light on other surfaces. Default: Color(0, 0, 0, 1).
+* volumetric_fog_emission_energy (float): The brightness of the emitted light from the volumetric fog. Default: 1.0.
+* volumetric_fog_enabled (bool): Enables the volumetric fog effect, which calculates volumetric scattering. Note: Only supported in the Forward+ renderer. Default: false.
+* volumetric_fog_gi_inject (float): Scales the strength of Global Illumination in the fog's albedo. A value of 0.0 means no impact. Has a small performance cost. Note: Only VoxelGI and SDFGI are considered; LightmapGI, ReflectionProbe, and SSIL are ignored. Has no effect if density is 0.0 or albedo is black. Default: 1.0.
+* volumetric_fog_length (float): The distance over which volumetric fog is computed. Keep as low as possible for best quality. Default: 64.0.
+* volumetric_fog_sky_affect (float): The factor for how volumetric fog affects the sky. 1.0 means it can fully obscure the sky. Note: This also affects FogVolumes; if they disappear when looking at the sky, set this to 1.0. Default: 1.0.
+* volumetric_fog_temporal_reprojection_amount (float): The blend amount between the current and last frame. Higher values are smoother but cause more ghosting. Default: 0.9.
+* volumetric_fog_temporal_reprojection_enabled (bool): Enables temporal reprojection to smooth out volumetric fog. This has a minimal performance cost but can cause ghosting with moving FogVolumes or lights. Default: true.
+---CHUNK---
+Document: Environment
+Path: godot/classes/class_environment.rst
+Summary: This chunk describes methods for getting and setting the intensity of individual glow levels in an Environment resource.
+
+Method: get_glow_level(idx: int) -> float
+Returns the intensity of the glow level idx.
+
+Method: set_glow_level(idx: int, intensity: float) -> void
+Sets the intensity of the glow level idx. A value above 0.0 enables the level. Each level relies on the previous level. This means that enabling higher glow levels will slow down the glow effect rendering, even if previous levels aren't enabled.

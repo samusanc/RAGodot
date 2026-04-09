@@ -1,0 +1,651 @@
+Document: Shader Functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This document serves as a reference for the built-in functions available in Godot's shader language.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: An introduction to Godot's built-in shader functions, explaining the type aliases used in the documentation and the concept of component-wise operations on vectors and matrices.
+
+Godot supports a large number of built-in functions, conforming roughly to the GLSL ES 3.0 specification.
+
+Note: The following type aliases are used in documentation to reduce repetitive function declarations. They can each refer to any of several actual types.
+*   vec_type: float, vec2, vec3, or vec4 (GLSL documentation alias: genType)
+*   vec_int_type: int, ivec2, ivec3, or ivec4 (GLSL documentation alias: genIType)
+*   vec_uint_type: uint, uvec2, uvec3, or uvec4 (GLSL documentation alias: genUType)
+*   vec_bool_type: bool, bvec2, bvec3, or bvec4 (GLSL documentation alias: genBType)
+*   mat_type: mat2, mat3, or mat4 (GLSL documentation alias: mat)
+*   gvec4_type: vec4, ivec4, or uvec4 (GLSL documentation alias: gvec4)
+*   gsampler2D: sampler2D, isampler2D, or uSampler2D (GLSL documentation alias: gsampler2D)
+*   gsampler2DArray: sampler2DArray, isampler2DArray, or uSampler2DArray (GLSL documentation alias: gsampler2DArray)
+*   gsampler3D: sampler3D, isampler3D, or uSampler3D (GLSL documentation alias: gsampler3D)
+
+If any of these are specified for multiple parameters, they must all be the same type unless otherwise noted.
+
+Note: Many functions that accept one or more vectors or matrices perform the described function on each component of the vector/matrix. Some examples:
+*   `sqrt(vec2(4, 64))` is equivalent to `vec2(sqrt(4), sqrt(64))`
+*   `min(vec2(3, 4), 1)` is equivalent to `vec2(min(3, 1), min(4, 1))`
+*   `min(vec3(1, 2, 3),vec3(5, 1, 3))` is equivalent to `vec3(min(1, 5), min(2, 1), min(3, 3))`
+*   `pow(vec3(3, 8, 5 ), 2)` is equivalent to `vec3(pow(3, 2), pow(8, 2), pow(5, 2))`
+*   `pow(vec3(3, 8, 5), vec3(1, 2, 4))` is equivalent to `vec3(pow(3, 1), pow(8, 2), pow(5, 4))`
+
+The GLSL Language Specification says under section 5.10 Vector and Matrix Operations: "With a few exceptions, operations are component-wise. Usually, when an operator operates on a vector or matrix, it is operating independently on each component of the vector or matrix, in a component-wise fashion. [...] The exceptions are matrix multiplied by vector, vector multiplied by matrix, and matrix multiplied by matrix. These do not operate component-wise, but rather perform the correct linear algebraic multiply."
+
+These function descriptions are adapted and modified from official OpenGL documentation originally published by Khronos Group under the Open Publication License. Each function description links to the corresponding official OpenGL documentation.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk lists the available trigonometric functions in Godot's shader language, including standard and hyperbolic functions, and their inverses.
+
+Trigonometric functions
+
+*   radians(vec_type degrees) (returns vec_type): Convert degrees to radians.
+*   degrees(vec_type radians) (returns vec_type): Convert radians to degrees.
+*   sin(vec_type x) (returns vec_type): Sine.
+*   cos(vec_type x) (returns vec_type): Cosine.
+*   tan(vec_type x) (returns vec_type): Tangent.
+*   asin(vec_type x) (returns vec_type): Arc sine.
+*   acos(vec_type x) (returns vec_type): Arc cosine.
+*   atan(vec_type y_over_x) (returns vec_type): Arc tangent.
+*   atan(vec_type y, vec_type x) (returns vec_type): Arc tangent.
+*   sinh(vec_type x) (returns vec_type): Hyperbolic sine.
+*   cosh(vec_type x) (returns vec_type): Hyperbolic cosine.
+*   tanh(vec_type x) (returns vec_type): Hyperbolic tangent.
+*   asinh(vec_type x) (returns vec_type): Arc hyperbolic sine.
+*   acosh(vec_type x) (returns vec_type): Arc hyperbolic cosine.
+*   atanh(vec_type x) (returns vec_type): Arc hyperbolic tangent.
+---CHUNK---
+Document: Shader Functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk covers the built-in trigonometric and hyperbolic functions available in Godot shaders, including sine, cosine, tangent, their inverses, and hyperbolic counterparts.
+
+All functions described here operate component-wise, meaning they apply the operation to each component of a vector type (vec2, vec3, vec4) or to a single float.
+
+Method: vec_type radians(vec_type degrees)
+Converts a quantity specified in degrees into radians, using the formula `degrees * (PI / 180)`. The `degrees` parameter is the quantity to be converted.
+
+Method: vec_type degrees(vec_type radians)
+Converts a quantity specified in radians into degrees, using the formula `radians * (180 / PI)`. The `radians` parameter is the quantity to be converted.
+
+Method: vec_type sin(vec_type angle)
+Returns the trigonometric sine of `angle`. The `angle` parameter must be in radians.
+
+Method: vec_type cos(vec_type angle)
+Returns the trigonometric cosine of `angle`. The `angle` parameter must be in radians.
+
+Method: vec_type tan(vec_type angle)
+Returns the trigonometric tangent of `angle`. The `angle` parameter must be in radians.
+
+Method: vec_type asin(vec_type x)
+Arc sine, or inverse sine. Calculates the angle whose sine is `x` and is in the range `[-PI/2, PI/2]`. The result is undefined if `x < -1` or `x > 1`.
+
+Method: vec_type acos(vec_type x)
+Arc cosine, or inverse cosine. Calculates the angle whose cosine is `x` and is in the range `[0, PI]`. The result is undefined if `x < -1` or `x > 1`.
+
+Method: vec_type atan(vec_type y_over_x)
+Calculates the arc tangent given a tangent value of `y/x`. The result is in the range `[-PI/2, PI/2]`. Note: Because of the sign ambiguity, this function cannot determine with certainty in which quadrant the angle falls only by its tangent value. If you need to know the quadrant, use the two-argument version `atan(vec_type y, vec_type x)`.
+
+Method: vec_type atan(vec_type y, vec_type x)
+Calculates the arc tangent given a numerator `y` and denominator `x`. The signs of `y` and `x` are used to determine the quadrant that the angle lies in. The result is in the range `[-PI, PI]`. The result is undefined if `x == 0`. This is equivalent to `atan2()` in GDScript.
+
+Method: vec_type sinh(vec_type x)
+Calculates the hyperbolic sine using the formula `(e^x - e^-x)/2`.
+
+Method: vec_type cosh(vec_type x)
+Calculates the hyperbolic cosine using the formula `(e^x + e^-x)/2`.
+
+Method: vec_type tanh(vec_type x)
+Calculates the hyperbolic tangent using the formula `sinh(x)/cosh(x)`.
+
+Method: vec_type asinh(vec_type x)
+Calculates the arc hyperbolic sine of `x`, which is the inverse of `sinh`.
+
+Method: vec_type acosh(vec_type x)
+Calculates the arc hyperbolic cosine of `x`, which is the non-negative inverse of `cosh`. The result is undefined if `x < 1`.
+
+Method: vec_type atanh(vec_type x)
+Calculates the arc hyperbolic tangent of `x`, which is the inverse of `tanh`. The result is undefined if `abs(x) > 1`.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This section lists the exponential and mathematical functions available in Godot's shader language, including functions for powers, logs, rounding, interpolation, and bitwise manipulation.
+
+Exponential and math functions:
+
+*   pow(vec_type x, vec_type y) -> vec_type: Power function. Undefined if `x < 0` or if `x == 0` and `y <= 0`.
+*   exp(vec_type x) -> vec_type: Base-e exponential.
+*   exp2(vec_type x) -> vec_type: Base-2 exponential.
+*   log(vec_type x) -> vec_type: Natural (base-e) logarithm.
+*   log2(vec_type x) -> vec_type: Base-2 logarithm.
+*   sqrt(vec_type x) -> vec_type: Square root.
+*   inversesqrt(vec_type x) -> vec_type: Inverse square root.
+*   abs(x) -> vec_type or vec_int_type: Absolute value (returns positive value if negative). Works on float and integer vector types.
+*   sign(x) -> vec_type or vec_int_type: For float types, returns 1.0 if positive, -1.0 if negative, 0.0 otherwise. For integer types, returns 1 if positive, -1 if negative, 0 otherwise.
+*   floor(vec_type x) -> vec_type: Rounds to the integer below.
+*   round(vec_type x) -> vec_type: Rounds to the nearest integer.
+*   roundEven(vec_type x) -> vec_type: Rounds to the nearest even integer.
+*   trunc(vec_type x) -> vec_type: Truncation.
+*   ceil(vec_type x) -> vec_type: Rounds to the integer above.
+*   fract(vec_type x) -> vec_type: Returns the fractional part of x (i.e., `x - floor(x)`).
+*   mod(vec_type x, vec_type y) or mod(vec_type x, float y) -> vec_type: Modulo (division remainder).
+*   modf(vec_type x, out vec_type i) -> vec_type: Returns the fractional part of `x`, with the integer part being written to the `out` parameter `i`.
+*   min(a, b): Returns the lowest value between `a` and `b`. Has overloads for float, int, and uint vector and scalar types.
+*   max(a, b): Returns the highest value between `a` and `b`. Has overloads for float, int, and uint vector and scalar types.
+*   clamp(x, min, max): Clamps `x` between `min` and `max` (inclusive). Has overloads for float, int, and uint vector and scalar types.
+*   mix(a, b, c): Linearly interpolates between `a` and `b` using `c` as the weight. Has overloads for float vectors and scalars, and also accepts a boolean vector for `c` to select between `a` and `b`.
+*   fma(vec_type a, vec_type b, vec_type c) -> vec_type: Fused multiply-add operation, calculating `(a * b + c)`.
+*   step(a, b): Returns `0.0` if `b < a` and `1.0` otherwise. Has overloads for float vectors and scalars.
+*   smoothstep(a, b, c): Performs a Hermite interpolation between `a` and `b` using `c` as the weight. Has overloads for float vectors and scalars.
+*   isnan(vec_type x) -> vec_bool_type: Returns `true` if any scalar or vector component is `NaN` (Not a Number).
+*   isinf(vec_type x) -> vec_bool_type: Returns `true` if any scalar or vector component is `INF` (Infinity).
+*   floatBitsToInt(vec_type x) -> vec_int_type: Copies the bit pattern of a float to an integer. No conversion is performed.
+*   floatBitsToUint(vec_type x) -> vec_uint_type: Copies the bit pattern of a float to an unsigned integer. No conversion is performed.
+*   intBitsToFloat(vec_int_type x) -> vec_type: Copies the bit pattern of an integer to a float. No conversion is performed.
+*   uintBitsToFloat(vec_uint_type x) -> vec_type: Copies the bit pattern of an unsigned integer to a float. No conversion is performed.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: A reference for built-in exponential, logarithmic, and common mathematical functions available in Godot shaders, including pow, sqrt, abs, floor, round, clamp, mix, and step.
+
+All functions in this section are component-wise, meaning they are applied to each component of a vector type individually.
+
+Method: pow(x, y)
+Raises `x` to the power of `y`. The result is undefined if `x < 0` or if `x == 0` and `y <= 0`. The parameter `x` is the value to be raised to the power `y`, and `y` is the power to which `x` will be raised. Returns the value of `x` raised to the `y` power.
+
+Method: exp(x)
+Raises `e` to the power of `x`, which is the natural exponentiation. This is equivalent to `pow(e, x)`. Returns the natural exponentiation of `x`.
+
+Method: exp2(x)
+Raises `2` to the power of `x`. This is equivalent to `pow(2.0, x)`. Returns `2` raised to the power of `x`.
+
+Method: log(x)
+Returns the natural logarithm of `x`, i.e., the value `y` which satisfies `x == pow(e, y)`. The result is undefined if `x <= 0`.
+
+Method: log2(x)
+Returns the base-2 logarithm of `x`, i.e., the value `y` which satisfies `x == pow(2, y)`. The result is undefined if `x <= 0`.
+
+Method: sqrt(x)
+Returns the square root of `x`. The result is undefined if `x < 0`.
+
+Method: inversesqrt(x)
+Returns the inverse of the square root of `x`, which is `1.0 / sqrt(x)`. The result is undefined if `x <= 0`.
+
+Method: abs(x)
+Returns the absolute value of `x`. It returns `x` if `x` is positive, otherwise it returns `-1 * x`. This function can take float or integer vector types.
+
+Method: sign(x)
+Returns `-1` if `x < 0`, `0` if `x == 0`, and `1` if `x > 0`. This function can take float or integer vector types.
+
+Method: floor(x)
+Returns a value equal to the nearest integer that is less than or equal to `x`.
+
+Method: round(x)
+Rounds `x` to the nearest integer. Note: Rounding of values with a fractional part of `0.5` is implementation-dependent. This includes the possibility that `round(x)` returns the same value as `roundEven(x)` for all values of `x`.
+
+Method: roundEven(x)
+Rounds `x` to the nearest integer. A value with a fractional part of `0.5` will always round toward the nearest even integer. For example, both `3.5` and `4.5` will round to `4.0`.
+
+Method: trunc(x)
+Truncates `x`. Returns a value equal to the nearest integer to `x` whose absolute value is not larger than the absolute value of `x`.
+
+Method: ceil(x)
+Returns a value equal to the nearest integer that is greater than or equal to `x`.
+
+Method: fract(x)
+Returns the fractional part of `x`. This is calculated as `x - floor(x)`.
+
+Method: mod(x, y)
+Method: mod(x, float y)
+Returns the value of `x modulo y`, also known as the remainder. This is computed as `x - y * floor(x/y)`.
+
+Method: modf(x, out i)
+Separates a floating-point value `x` into its integer and fractional parts. The fractional part is returned from the function, and the integer part (as a float) is returned in the output parameter `i`.
+
+Method: min(a, b)
+Method: min(a, float b)
+Method: min(a, int b)
+Method: min(a, uint b)
+Returns the minimum of two values `a` and `b`. It returns `b` if `b < a`, otherwise it returns `a`. This function works with float, int, and uint types, including vector and scalar combinations.
+
+Method: max(a, b)
+Method: max(a, float b)
+Method: max(a, int b)
+Method: max(a, uint b)
+Returns the maximum of two values `a` and `b`. It returns `b` if `b > a`, otherwise it returns `a`. This function works with float, int, and uint types, including vector and scalar combinations.
+
+Method: clamp(x, minVal, maxVal)
+Method: clamp(x, float minVal, float maxVal)
+Method: clamp(x, int minVal, int maxVal)
+Method: clamp(x, uint minVal, uint maxVal)
+Returns the value of `x` constrained to the range `minVal` to `maxVal`. The returned value is computed as `min(max(x, minVal), maxVal)`. This function works with float, int, and uint types, including vector and scalar combinations.
+
+Method: mix(a, b, c)
+Method: mix(a, b, float c)
+Performs a linear interpolation between `a` and `b` using `c` to weight between them. It is computed as `a * (1 - c) + b * c`. This is equivalent to `lerp()` in GDScript.
+
+Method: mix(a, b, c)
+Selects either value `a` or value `b` based on the boolean value of `c`. For a component of `c` that is false, the corresponding component of `a` is returned. For a component of `c` that is true, the corresponding component of `b` is returned. For example, `mix(vec2(42, 314), vec2(9.8, 6e23), bvec2(true, false))` will return `vec2(9.8, 314)`.
+
+Method: fma(a, b, c)
+Performs a fused multiply-add operation, returning `a * b + c`. When used with a `precise` variable, `fma()` is considered a single operation with potentially different precision than the expression `a * b + c`.
+
+Method: step(a, b)
+Method: step(float a, b)
+Generates a step function by comparing `b` to `a`. It is equivalent to `if (b < a) { return 0.0; } else { return 1.0; }`. For each element `i`, 0.0 is returned if `b[i] < a[i]`, and 1.0 is returned otherwise.
+
+Method: smoothstep(a, b, c)
+Method: smoothstep(float a, float b, c)
+Performs smooth Hermite interpolation between `0` and `1` when `a < c < b`. This is useful for creating a threshold function with a smooth transition. Results are undefined if `a >= b`. It is equivalent to:
+    vec_type t;
+    t = clamp((c - a) / (b - a), 0.0, 1.0);
+    return t * t * (3.0 - 2.0 * t);
+
+Method: isnan(x)
+For each component, returns `true` if `x` is a positive or negative floating-point NaN (Not a Number) and `false` otherwise.
+
+Method: isinf(x)
+For each component, returns `true` if `x` is a positive or negative floating-point infinity and `false` otherwise.
+
+Method: floatBitsToInt(x)
+Returns the integer encoding of a floating-point parameter, preserving the bit-level representation.
+
+Method: floatBitsToUint(x)
+Returns the unsigned integer encoding of a floating-point parameter, preserving the bit-level representation.
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk covers the shader functions `intBitsToFloat` and `uintBitsToFloat`, which convert integer bit encodings into floating-point values.
+
+Method: vec_type intBitsToFloat(vec_int_type x)
+This function operates component-wise. It converts a bit encoding to a floating-point value and is the opposite of `floatBitsToInt`. If the encoding of a NaN is passed in `x`, it will not signal and the resulting value will be undefined. If the encoding of a floating-point infinity is passed in parameter `x`, the resulting floating-point value is the corresponding (positive or negative) floating-point infinity.
+`x`: The bit encoding to return as a floating-point value.
+Returns: A floating-point value.
+
+Method: vec_type uintBitsToFloat(vec_uint_type x)
+This function operates component-wise. It converts a bit encoding to a floating-point value and is the opposite of `floatBitsToUint`. If the encoding of a NaN is passed in `x`, it will not signal and the resulting value will be undefined. If the encoding of a floating-point infinity is passed in parameter `x`, the resulting floating-point value is the corresponding (positive or negative) floating-point infinity.
+`x`: The bit encoding to return as a floating-point value.
+Returns: A floating-point value.
+---CHUNK---
+Document: Shader Language
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: A list of built-in geometric functions for vector and matrix manipulation available in the Godot shader language.
+
+Geometric functions
+
+* length(vec_type x) -> float: Vector length.
+* distance(vec_type a, vec_type b) -> float: Distance between vectors, i.e. `length(a - b)`.
+* dot(vec_type a, vec_type b) -> float: Dot product.
+* cross(vec3 a, vec3 b) -> vec3: Cross product.
+* normalize(vec_type x) -> vec_type: Normalize to unit length.
+* reflect(vec3 I, vec3 N) -> vec3: Reflect.
+* refract(vec3 I, vec3 N, float eta) -> vec3: Refract.
+* faceforward(vec_type N, vec_type I, vec_type Nref) -> vec_type: If `dot(Nref, I)` < 0, return `N`, otherwise `-N`.
+* matrixCompMult(mat_type x, mat_type y) -> mat_type: Matrix component multiplication.
+* outerProduct(vec_type column, vec_type row) -> mat_type: Matrix outer product.
+* transpose(mat_type m) -> mat_type: Transpose matrix.
+* determinant(mat_type m) -> float: Matrix determinant.
+* inverse(mat_type m) -> mat_type: Inverse matrix.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk describes built-in geometric and matrix functions available in Godot shaders, such as length, distance, dot, cross, normalize, reflect, refract, and various matrix operations.
+
+Method: float length(vec_type x)
+Returns the length of the vector, i.e. `sqrt(x[0] * x[0] + x[1] * x[1] + ... + x[n] * x[n])`. The parameter `x` is the vector.
+
+Method: float distance(vec_type a, vec_type b)
+Returns the distance between the two points `a` and `b`. This is equivalent to `length(b - a)`.
+
+Method: float dot(vec_type a, vec_type b)
+Returns the dot product of two vectors, `a` and `b`. This is equivalent to `a.x * b.x + a.y * b.y + ...`.
+
+Method: vec3 cross(vec3 a, vec3 b)
+Returns the cross product of two vectors, `a` and `b`.
+GLSL:
+    vec2( a.y * b.z - b.y * a.z,
+          a.z * b.x - b.z * a.x,
+          a.x * b.z - b.x * a.y)
+
+Method: vec_type normalize(vec_type x)
+Returns a vector with the same direction as `x` but with a length of `1.0`.
+
+Method: vec3 reflect(vec3 I, vec3 N)
+Calculates the reflection direction for an incident vector `I` and a surface normal `N`. The reflection direction is calculated as `I - 2.0 * dot(N, I) * N`. Note: `N` should be normalized in order to achieve the desired result.
+
+Method: vec3 refract(vec3 I, vec3 N, float eta)
+Calculates the refraction direction for an incident vector. For a given incident vector `I`, surface normal `N`, and ratio of indices of refraction `eta`, this function returns the refraction vector, `R`. `R` is calculated as:
+GLSL:
+    k = 1.0 - eta * eta * (1.0 - dot(N, I) * dot(N, I));
+    if (k < 0.0)
+        R = genType(0.0);       // or genDType(0.0)
+    else
+        R = eta * I - (eta * dot(N, I) + sqrt(k)) * N;
+Note: The input parameters `I` and `N` should be normalized in order to achieve the desired result.
+
+Method: vec_type faceforward(vec_type N, vec_type I, vec_type Nref)
+Returns a vector pointing in the same direction as another. It orients a vector `N` to point away from a surface as defined by its normal. If `dot(Nref, I) < 0`, `faceforward` returns `N`; otherwise, it returns `-N`.
+
+Method: mat_type matrixCompMult(mat_type x, mat_type y)
+Performs a component-wise multiplication of two matrices, `x` and `y`. This yields a result matrix where each component, `result[i][j]`, is computed as the scalar product of `x[i][j]` and `y[i][j]`.
+
+Method: mat_type outerProduct(vec_type column, vec_type row)
+Calculates the outer product of a pair of vectors. It performs a linear algebraic matrix multiplication of `column * row`, yielding a matrix whose number of rows is the number of components in `column` and whose number of columns is the number of components in `row`.
+
+Method: mat_type transpose(mat_type m)
+Calculates the transpose of a matrix `m`. It returns a new matrix that is the transpose of the input.
+
+Method: float determinant(mat_type m)
+Calculates the determinant of a matrix `m`.
+
+Method: mat_type inverse(mat_type m)
+Calculates the inverse of a matrix `m`. The values in the returned matrix are undefined if `m` is singular or poorly-conditioned (nearly singular).
+---CHUNK---
+Document: shader_reference/shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk describes built-in shader functions for component-wise vector comparisons and boolean vector operations.
+
+Comparison functions
+
+*   lessThan(vec_type x, vec_type y) -> vec_bool_type: Performs a component-wise boolean comparison using the '<' operator on int, uint, or float vectors.
+*   greaterThan(vec_type x, vec_type y) -> vec_bool_type: Performs a component-wise boolean comparison using the '>' operator on int, uint, or float vectors.
+*   lessThanEqual(vec_type x, vec_type y) -> vec_bool_type: Performs a component-wise boolean comparison using the '<=' operator on int, uint, or float vectors.
+*   greaterThanEqual(vec_type x, vec_type y) -> vec_bool_type: Performs a component-wise boolean comparison using the '>=' operator on int, uint, or float vectors.
+*   equal(vec_type x, vec_type y) -> vec_bool_type: Performs a component-wise boolean comparison using the '==' operator on int, uint, or float vectors.
+*   notEqual(vec_type x, vec_type y) -> vec_bool_type: Performs a component-wise boolean comparison using the '!=' operator on int, uint, or float vectors.
+*   any(vec_bool_type x) -> bool: Returns `true` if any component of the boolean vector `x` is `true`, and `false` otherwise.
+*   all(vec_bool_type x) -> bool: Returns `true` if all components of the boolean vector `x` are `true`, and `false` otherwise.
+*   not(vec_bool_type x) -> vec_bool_type: Inverts the boolean vector, returning a new boolean vector where each component is the logical opposite of the corresponding component in `x`.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk describes built-in shader functions for component-wise vector comparison and boolean vector operations.
+
+Method: vec_bool_type lessThan(vec_type x, vec_type y)
+Performs a component-wise less-than comparison of two vectors, `x` and `y`. Returns a boolean vector in which each element `i` is computed as `x[i] < y[i]`.
+
+Method: vec_bool_type greaterThan(vec_type x, vec_type y)
+Performs a component-wise greater-than comparison of two vectors, `x` and `y`. Returns a boolean vector in which each element `i` is computed as `x[i] > y[i]`.
+
+Method: vec_bool_type lessThanEqual(vec_type x, vec_type y)
+Performs a component-wise less-than-or-equal comparison of two vectors, `x` and `y`. Returns a boolean vector in which each element `i` is computed as `x[i] <= y[i]`.
+
+Method: vec_bool_type greaterThanEqual(vec_type x, vec_type y)
+Performs a component-wise greater-than-or-equal comparison of two vectors, `x` and `y`. Returns a boolean vector in which each element `i` is computed as `x[i] >= y[i]`.
+
+Method: vec_bool_type equal(vec_type x, vec_type y)
+Performs a component-wise equal-to comparison of two vectors, `x` and `y`. Returns a boolean vector in which each element `i` is computed as `x[i] == y[i]`.
+
+Method: vec_bool_type notEqual(vec_type x, vec_type y)
+Performs a component-wise not-equal-to comparison of two vectors, `x` and `y`. Returns a boolean vector in which each element `i` is computed as `x[i] != y[i]`.
+
+Method: bool any(vec_bool_type x)
+Returns `true` if any element of a boolean vector `x` is `true`, and `false` otherwise. Functionally equivalent to:
+    bool any(bvec x) {     // bvec can be bvec2, bvec3 or bvec4
+        bool result = false;
+        int i;
+        for (i = 0; i < x.length(); ++i) {
+            result |= x[i];
+        }
+        return result;
+    }
+
+Method: bool all(vec_bool_type x)
+Returns `true` if all elements of a boolean vector `x` are `true`, and `false` otherwise. Functionally equivalent to:
+    bool all(bvec x)       // bvec can be bvec2, bvec3 or bvec4
+    {
+        bool result = true;
+        int i;
+        for (i = 0; i < x.length(); ++i)
+        {
+            result &= x[i];
+        }
+        return result;
+    }
+
+Method: vec_bool_type not(vec_bool_type x)
+Logically inverts a boolean vector `x`. Returns a new boolean vector for which each element `i` is computed as `!x[i]`.
+---CHUNK---
+Document: shader_reference/shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: A list of built-in texture functions available in Godot shaders for sampling, querying, and calculating derivatives.
+
+Texture functions
+
+*   textureSize(sampler s, int lod) (ivec2 or ivec3): Get the size of a texture. Note: For performance reasons, this function should be avoided as it always performs a full texture read. When possible, you should pass the texture size as a uniform instead. Overloads exist for gsampler2D, samplerCube, samplerCubeArray, gsampler2DArray, and gsampler3D.
+*   textureQueryLod(sampler s, p) (vec2): Compute the level-of-detail that would be used to sample from a texture. Overloads exist for gsampler2D, gsampler2DArray, gsampler3D, and samplerCube.
+*   textureQueryLevels(sampler s) (int): Get the number of accessible mipmap levels of a texture. Overloads exist for gsampler2D, gsampler2DArray, gsampler3D, and samplerCube.
+*   texture(sampler s, vec p [, float bias]) (gvec4_type or vec4): Performs a texture read. Overloads exist for gsampler2D, gsampler2DArray, gsampler3D, samplerCube, samplerCubeArray, and samplerExternalOES.
+*   textureProj(sampler s, p [, float bias]) (gvec4_type): Performs a texture read with projection. Overloads exist for gsampler2D and gsampler3D.
+*   textureLod(sampler s, p, float lod) (gvec4_type or vec4): Performs a texture read at a custom mipmap level. Overloads exist for gsampler2D, gsampler2DArray, gsampler3D, samplerCube, and samplerCubeArray.
+*   textureProjLod(sampler s, p, float lod) (gvec4_type): Performs a texture read with projection and a custom mipmap level (LOD). Overloads exist for gsampler2D and gsampler3D.
+*   textureGrad(sampler s, p, dPdx, dPdy) (gvec4_type or vec4): Performs a texture read with explicit gradients. Overloads exist for gsampler2D, gsampler2DArray, gsampler3D, samplerCube, and samplerCubeArray.
+*   textureProjGrad(sampler s, p, dPdx, dPdy) (gvec4_type): Performs a texture read with projection/LOD and with explicit gradients. Overloads exist for gsampler2D and gsampler3D.
+*   texelFetch(sampler s, p, int lod) (gvec4_type): Fetches a single texel using integer coordinates. Overloads exist for gsampler2D, gsampler2DArray, and gsampler3D.
+*   textureGather(sampler s, p [, int comps]) (gvec4_type or vec4): Gathers four texels from a texture. Overloads exist for gsampler2D, gsampler2DArray, and samplerCube.
+*   dFdx(vec_type p) (vec_type): Derivative with respect to `x` window coordinate, automatic granularity.
+*   dFdxCoarse(vec_type p) (vec_type): Derivative with respect to `x` window coordinate, coarse granularity. Note: Not available when using the Compatibility renderer.
+*   dFdxFine(vec_type p) (vec_type): Derivative with respect to `x` window coordinate, fine granularity. Note: Not available when using the Compatibility renderer.
+*   dFdy(vec_type p) (vec_type): Derivative with respect to `y` window coordinate, automatic granularity.
+*   dFdyCoarse(vec_type p) (vec_type): Derivative with respect to `y` window coordinate, coarse granularity. Note: Not available when using the Compatibility renderer.
+*   dFdyFine(vec_type p) (vec_type): Derivative with respect to `y` window coordinate, fine granularity. Note: Not available when using the Compatibility renderer.
+*   fwidth(vec_type p) (vec_type): Sum of absolute derivative in `x` and `y`.
+*   fwidthCoarse(vec_type p) (vec_type): Sum of absolute derivative in `x` and `y`. Note: Not available when using the Compatibility renderer.
+*   fwidthFine(vec_type p) (vec_type): Sum of absolute derivative in `x` and `y`. Note: Not available when using the Compatibility renderer.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This document describes built-in Godot shader functions for texture sampling, querying texture properties, and calculating derivatives in the fragment shader.
+
+Method: ivec2 textureSize(gsampler2D s, int lod)
+Method: ivec2 textureSize(samplerCube s, int lod)
+Method: ivec2 textureSize(samplerCubeArray s, int lod)
+Method: ivec3 textureSize(gsampler2DArray s, int lod)
+Method: ivec3 textureSize(gsampler3D s, int lod)
+Retrieves the dimensions of a level of a texture. It returns the dimensions of level `lod` (if present) of the texture bound to the sampler `s`. The components in the return value are filled in order with the width, height, and depth of the texture. For array forms, the last component of the return value is the number of layers in the texture array.
+
+Method: vec2 textureQueryLod(gsampler2D s, vec2 p)
+Method: vec2 textureQueryLod(gsampler2DArray s, vec2 p)
+Method: vec2 textureQueryLod(gsampler3D s, vec3 p)
+Method: vec2 textureQueryLod(samplerCube s, vec3 p)
+Note: Available only in the fragment shader. Computes the level-of-detail that would be used to sample from a texture. The mipmap array(s) that would be accessed is returned in the x component of the return value. The computed level-of-detail relative to the base level is returned in the y component. If called on an incomplete texture, the result is undefined.
+
+Method: int textureQueryLevels(gsampler2D s)
+Method: int textureQueryLevels(gsampler2DArray s)
+Method: int textureQueryLevels(gsampler3D s)
+Method: int textureQueryLevels(samplerCube s)
+Computes the number of accessible mipmap levels of a texture. If called on an incomplete texture, or if no texture is associated with the sampler, `0` is returned.
+
+Method: gvec4_type texture(gsampler2D s, vec2 p [, float bias] )
+Method: gvec4_type texture(gsampler2DArray s, vec3 p [, float bias] )
+Method: gvec4_type texture(gsampler3D s, vec3 p [, float bias] )
+Method: vec4 texture(samplerCube s, vec3 p [, float bias] )
+Method: vec4 texture(samplerCubeArray s, vec4 p [, float bias] )
+Method: vec4 texture(samplerExternalOES s, vec2 p [, float bias] )
+Retrieves texels from a texture. It samples texels from the texture bound to `s` at texture coordinate `p`. An optional `bias` is included in the level-of-detail computation used to choose mipmaps. For shadow forms, the last component of `p` is used as Dsub and the array layer is specified in the second to last component of `p`. For non-shadow variants, the array layer comes from the last component of `p`.
+
+Method: gvec4_type textureProj(gsampler2D s, vec3 p [, float bias] )
+Method: gvec4_type textureProj(gsampler2D s, vec4 p [, float bias] )
+Method: gvec4_type textureProj(gsampler3D s, vec4 p [, float bias] )
+Performs a texture lookup with projection. The texture coordinates from `p`, excluding the last component, are divided by the last component of `p`. The resulting 3rd component of `p` in shadow forms is used as Dref. After these values are computed, the lookup proceeds as in `texture`.
+
+Method: gvec4_type textureLod(gsampler2D s, vec2 p, float lod)
+Method: gvec4_type textureLod(gsampler2DArray s, vec3 p, float lod)
+Method: gvec4_type textureLod(gsampler3D s, vec3 p, float lod)
+Method: vec4 textureLod(samplerCube s, vec3 p, float lod)
+Method: vec4 textureLod(samplerCubeArray s, vec4 p, float lod)
+Performs a texture lookup at coordinate `p` with an explicit level-of-detail `lod`. `lod` specifies λbase and sets the partial derivatives to zero (δu/δx=0, δv/δx=0, etc.).
+
+Method: gvec4_type textureProjLod(gsampler2D s, vec3 p, float lod)
+Method: gvec4_type textureProjLod(gsampler2D s, vec4 p, float lod)
+Method: gvec4_type textureProjLod(gsampler3D s, vec4 p, float lod)
+Performs a texture lookup with projection from an explicitly specified level-of-detail. The texture coordinates from `p`, excluding the last component, are divided by the last component of `p`. The resulting 3rd component of `p` in shadow forms is used as Dref. The lookup then proceeds as in `textureLod`, using `lod` to specify the level-of-detail.
+
+Method: gvec4_type textureGrad(gsampler2D s, vec2 p, vec2 dPdx, vec2 dPdy)
+Method: gvec4_type textureGrad(gsampler2DArray s, vec3 p, vec2 dPdx, vec2 dPdy)
+Method: gvec4_type textureGrad(gsampler3D s, vec3 p, vec2 dPdx, vec2 dPdy)
+Method: vec4 textureGrad(samplerCube s, vec3 p, vec3 dPdx, vec3 dPdy)
+Method: vec4 textureGrad(samplerCubeArray s, vec3 p, vec3 dPdx, vec3 dPdy)
+Performs a texture lookup with explicit texture coordinate gradients `dPdx` and `dPdy`. For the cube version, the partial derivatives of `p` are assumed to be in the coordinate system used before projection onto the cube face.
+
+Method: gvec4_type textureProjGrad(gsampler2D s, vec3 p, vec2 dPdx, vec2 dPdy)
+Method: gvec4_type textureProjGrad(gsampler2D s, vec4 p, vec2 dPdx, vec2 dPdy)
+Method: gvec4_type textureProjGrad(gsampler3D s, vec4 p, vec3 dPdx, vec3 dPdy)
+Performs a texture lookup with projection and explicit gradients. The texture coordinates from `p`, excluding the last component, are divided by the last component of `p`. The lookup then proceeds as in `textureGrad`, passing `dPdx` and `dPdy` as gradients.
+
+Method: gvec4_type texelFetch(gsampler2D s, ivec2 p, int lod)
+Method: gvec4_type texelFetch(gsampler2DArray s, ivec3 p, int lod)
+Method: gvec4_type texelFetch(gsampler3D s, ivec3 p, int lod)
+Performs a lookup of a single texel from integer texture coordinate `p` at a specific level-of-detail `lod`.
+
+Method: gvec4_type textureGather(gsampler2D s, vec2 p [, int comps] )
+Method: gvec4_type textureGather(gsampler2DArray s, vec3 p [, int comps] )
+Method: vec4 textureGather(samplerCube s, vec3 p [, int comps] )
+Gathers four texels from a texture. It returns a `vec4` composed of a single component from four texels in a 2x2 grid. The optional `comps` argument (0-3 for x-w) specifies which component to gather; it defaults to 0 (the x component).
+
+Method: vec_type dFdx(vec_type p)
+Note: Available only in the fragment shader. Returns the partial derivative of `p` with respect to the window x coordinate using local differencing. It may return either `dFdxCoarse` or `dFdxFine` based on performance or API hints. Warning: Higher order derivatives like `dFdx(dFdx(n))` or mixed-order derivatives like `dFdx(dFdy(n))` have undefined results. Note: The expression `p` is assumed to be continuous; non-uniform control flow may lead to undefined results.
+
+Method: vec_type dFdxCoarse(vec_type p)
+Note: Available only in the fragment shader and not in the Compatibility renderer. Returns the partial derivative of `p` with respect to the window x coordinate. It uses local differencing based on the current fragment's neighbors, and may not include the current fragment's value. This allows computation in fewer unique locations than `dFdxFine`. Warning: Higher order or mixed-order derivatives have undefined results. Note: The expression `p` is assumed to be continuous.
+
+Method: vec_type dFdxFine(vec_type p)
+Note: Available only in the fragment shader and not in the Compatibility renderer. Returns the partial derivative of `p` with respect to the window x coordinate. It uses local differencing based on the value of `p` for the current fragment and its immediate neighbor(s). Warning: Higher order or mixed-order derivatives have undefined results. Note: The expression `p` is assumed to be continuous.
+
+Method: vec_type dFdy(vec_type p)
+Note: Available only in the fragment shader. Returns the partial derivative of `p` with respect to the window y coordinate using local differencing. It may return either `dFdyCoarse` or `dFdyFine` based on performance or API hints. Warning: Higher order or mixed-order derivatives have undefined results. Note: The expression `p` is assumed to be continuous.
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk describes shader functions for calculating partial derivatives with respect to window coordinates, including coarse, fine, and width variations.
+
+Method: dFdyCoarse(vec_type p) -> vec_type
+Returns the partial derivative of the expression `p` with respect to the window y coordinate. Note: This function is available only in the fragment shader and is not available when using the Compatibility renderer. It calculates derivatives using local differencing based on the value of `p` for the current fragment's neighbors, and will possibly, but not necessarily, include the value for the current fragment. Over a given area, the implementation can compute derivatives in fewer unique locations than would be allowed for the corresponding dFdyFine function. Note: It is assumed that the expression `p` is continuous; therefore, expressions evaluated via non-uniform control flow may be undefined. Warning: Expressions that imply higher order derivatives such as `dFdx(dFdx(n))` have undefined results, as do mixed-order derivatives such as `dFdx(dFdy(n))`.
+
+Method: dFdyFine(vec_type p) -> vec_type
+Returns the partial derivative of the expression `p` with respect to the window y coordinate. Note: This function is available only in the fragment shader and is not available when using the Compatibility renderer. It calculates derivatives using local differencing based on the value of `p` for the current fragment and its immediate neighbor(s). Note: It is assumed that the expression `p` is continuous; therefore, expressions evaluated via non-uniform control flow may be undefined. Warning: Expressions that imply higher order derivatives such as `dFdx(dFdx(n))` have undefined results, as do mixed-order derivatives such as `dFdx(dFdy(n))`.
+
+Method: fwidth(vec_type p) -> vec_type
+Returns the sum of the absolute value of derivatives in x and y for the expression `p`. It uses local differencing for the input argument. This function is equivalent to `abs(dFdx(p)) + abs(dFdy(p))`.
+
+Method: fwidthCoarse(vec_type p) -> vec_type
+Returns the sum of the absolute value of derivatives in x and y for the expression `p`. Note: This function is available only in the fragment shader and is not available when using the Compatibility renderer. It uses local differencing for the input argument and is equivalent to `abs(dFdxCoarse(p)) + abs(dFdyCoarse(p))`.
+
+Method: fwidthFine(vec_type p) -> vec_type
+Returns the sum of the absolute value of derivatives in x and y for the expression `p`. Note: This function is available only in the fragment shader and is not available when using the Compatibility renderer. It uses local differencing for the input argument and is equivalent to `abs(dFdxFine(p)) + abs(dFdyFine(p))`.
+---CHUNK---
+Document: Shader Reference: Functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk describes shader functions for packing floating-point numbers into 32-bit unsigned integers and unpacking them back.
+
+Packing and unpacking functions
+These functions convert floating-point numbers into various sized integers and then pack those integers into a single 32-bit unsigned integer. The 'unpack' functions perform the opposite operation, returning the original floating-point numbers.
+
+*   `packHalf2x16(vec2 v) -> uint`: Convert two 32-bit floats to 16-bit floats and pack them.
+*   `unpackHalf2x16(uint v) -> vec2`: Unpacks a uint containing two 16-bit floats back into a vec2.
+*   `packUnorm2x16(vec2 v) -> uint`: Convert two normalized (range 0..1) 32-bit floats to 16-bit unsigned ints and pack them.
+*   `unpackUnorm2x16(uint v) -> vec2`: Unpacks a uint containing two 16-bit unsigned ints back into a normalized vec2.
+*   `packSnorm2x16(vec2 v) -> uint`: Convert two signed normalized (range -1..1) 32-bit floats to 16-bit signed ints and pack them.
+*   `unpackSnorm2x16(uint v) -> vec2`: Unpacks a uint containing two 16-bit signed ints back into a signed normalized vec2.
+*   `packUnorm4x8(vec4 v) -> uint`: Convert four normalized (range 0..1) 32-bit floats into 8-bit unsigned ints and pack them.
+*   `unpackUnorm4x8(uint v) -> vec4`: Unpacks a uint containing four 8-bit unsigned ints back into a normalized vec4.
+*   `packSnorm4x8(vec4 v) -> uint`: Convert four signed normalized (range -1..1) 32-bit floats into 8-bit signed ints and pack them.
+*   `unpackSnorm4x8(uint v) -> vec4`: Unpacks a uint containing four 8-bit signed ints back into a signed normalized vec4.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk describes shader functions for packing floating-point vector components into 32-bit unsigned integers and unpacking them back, covering half-floats, normalized unsigned values, and normalized signed values.
+
+Method: packHalf2x16(vec2 v) -> uint
+Converts two 32-bit floating-point quantities from the input `vec2 v` to 16-bit floating-point quantities and packs them into a single 32-bit unsigned integer. The first vector component specifies the 16 least-significant bits of the result; the second component specifies the 16 most-significant bits. It returns the packed unsigned integer.
+
+Method: unpackHalf2x16(uint v) -> vec2
+The inverse of packHalf2x16. It unpacks a 32-bit unsigned integer `v` into two 16-bit floating-point values, converts them to 32-bit floating-point values, and returns them in a `vec2`. The first component of the vector is obtained from the 16 least-significant bits of `v`; the second component is obtained from the 16 most-significant bits.
+
+Method: packUnorm2x16(vec2 v) -> uint
+Packs normalized floating-point values from `vec2 v` into a 32-bit unsigned integer. It converts each component `c` of the vector into a 16-bit integer using the formula `round(clamp(c, 0.0, 1.0) * 65535.0)`. The first component of the vector is written to the least significant bits of the output; the second component is written to the most significant bits. It returns the packed unsigned 32-bit integer.
+
+Method: unpackUnorm2x16(uint v) -> vec2
+Unpacks a single 32-bit unsigned integer `v` into a pair of 16-bit unsigned integers. Then, each component is converted to a normalized floating-point value to generate the returned two-component vector. The conversion for an unpacked fixed-point value `f` is performed as `f / 65535.0`. The first component of the returned vector is extracted from the least significant bits of the input; the second component is extracted from the most significant bits.
+
+Method: packSnorm2x16(vec2 v) -> uint
+Packs signed normalized floating-point values from `vec2 v` into a 32-bit unsigned integer. It converts each component `c` of the vector into a 16-bit integer using the formula `round(clamp(c, -1.0, 1.0) * 32767.0)`. The first component of the vector is written to the least significant bits of the output; the second component is written to the most significant bits. It returns the packed unsigned 32-bit integer.
+
+Method: unpackSnorm2x16(uint v) -> vec2
+Unpacks a single 32-bit unsigned integer `v` into a pair of 16-bit signed integers. Then, each component is converted to a normalized floating-point value to generate the returned two-component vector. The conversion for an unpacked fixed-point value `f` is performed as `clamp(f / 32727.0, -1.0, 1.0)`. The first component of the returned vector is extracted from the least significant bits of the input; the second component is extracted from the most significant bits.
+
+Method: packUnorm4x8(vec4 v) -> uint
+Packs normalized floating-point values from `vec4 v` into a 32-bit unsigned integer. It converts each component `c` of the vector into an 8-bit integer using the formula `round(clamp(c, 0.0, 1.0) * 255.0)`. The first component of the vector will be written to the least significant bits of the output; the last component will be written to the most significant bits. It returns the packed unsigned 32-bit integer.
+
+Method: unpackUnorm4x8(uint v) -> vec4
+Unpacks a single 32-bit unsigned integer `v` into four 8-bit unsigned integers. Then, each component is converted to a normalized floating-point value to generate the returned four-component vector. The conversion for an unpacked fixed-point value `f` is performed as `f / 255.0`. The first component of the returned vector is extracted from the least significant bits of the input; the last component is extracted from the most significant bits.
+
+Method: packSnorm4x8(vec4 v) -> uint
+Packs signed normalized floating-point values from `vec4 v` into a 32-bit unsigned integer. It converts each component `c` of the vector into an 8-bit integer using the formula `round(clamp(c, -1.0, 1.0) * 127.0)`. The first component of the vector will be written to the least significant bits of the output; the last component will be written to the most significant bits. It returns the packed unsigned 32-bit integer.
+
+Method: unpackSnorm4x8(uint v) -> vec4
+Unpacks a single 32-bit unsigned integer `v` into four 8-bit signed integers. Then, each component is converted to a normalized floating-point value to generate the returned four-component vector. The conversion for an unpacked fixed-point value `f` is performed as `clamp(f / 127.0, -1.0, 1.0)`. The first component of the returned vector is extracted from the least significant bits of the input; the last component is extracted from the most significant bits.
+---CHUNK---
+Document: Shader Reference
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk lists built-in bitwise functions available in Godot shaders for manipulating, analyzing, and performing extended arithmetic on integer types.
+
+Bitwise functions
+
+*   bitfieldExtract(vec_int_type value, int offset, int bits) -> vec_int_type: Extracts a range of bits from an integer. Also available for vec_uint_type.
+*   bitfieldInsert(vec_int_type base, vec_int_type insert, int offset, int bits) -> vec_int_type: Insert a range of bits into an integer. Also available for vec_uint_type.
+*   bitfieldReverse(vec_int_type value) -> vec_int_type: Reverse the order of bits in an integer. Also available for vec_uint_type.
+*   bitCount(vec_int_type value) -> vec_int_type: Counts the number of 1 bits in an integer. Also available for vec_uint_type.
+*   findLSB(vec_int_type value) -> vec_int_type: Find the index of the least significant bit set to 1 in an integer. Also available for vec_uint_type.
+*   findMSB(vec_int_type value) -> vec_int_type: Find the index of the most significant bit set to 1 in an integer. Also available for vec_uint_type.
+*   imulExtended(vec_int_type x, vec_int_type y, out vec_int_type msb, out vec_int_type lsb) -> void: Multiplies two 32-bit numbers and produce a 64-bit result.
+*   umulExtended(vec_uint_type x, vec_uint_type y, out vec_uint_type msb, out vec_uint_type lsb) -> void: Multiplies two 32-bit unsigned numbers and produce a 64-bit result.
+*   uaddCarry(vec_uint_type x, vec_uint_type y, out vec_uint_type carry) -> vec_uint_type: Adds two unsigned integers and generates carry.
+*   usubBorrow(vec_uint_type x, vec_uint_type y, out vec_uint_type borrow) -> vec_uint_type: Subtracts two unsigned integers and generates borrow.
+*   ldexp(vec_type x, out vec_int_type exp) -> vec_type: Assemble a floating-point number from a value and exponent.
+*   frexp(vec_type x, out vec_int_type exp) -> vec_type: Splits a floating-point number (x) into significand integral components.
+---CHUNK---
+Document: shader_functions
+Path: godot/tutorials/shaders/shader_reference/shader_functions.rst
+Summary: This chunk describes bitwise manipulation, extended-precision arithmetic, and floating-point decomposition functions available in Godot shaders.
+
+Method: vec_int_type bitfieldExtract(vec_int_type value, int offset, int bits)
+Extracts a subset of the bits of `value` and returns it in the least significant bits of the result. The range of bits extracted is `[offset, offset + bits - 1]`. The most significant bits of the result will be set to zero. Note: If bits is zero, the result will be zero. Warning: The result will be undefined if offset or bits is negative, or if the sum of offset and bits is greater than the number of bits used to store the operand.
+
+Method: vec_uint_type bitfieldExtract(vec_uint_type value, int offset, int bits)
+This is a component-wise function. It extracts a subset of the bits of `value` and returns it in the least significant bits of the result. The range of bits extracted is `[offset, offset + bits - 1]`. The most significant bits will be set to the value of `offset + base - 1` (i.e., it is sign extended to the width of the return type). Note: If bits is zero, the result will be zero. Warning: The result will be undefined if offset or bits is negative, or if the sum of offset and bits is greater than the number of bits used to store the operand.
+
+Method: vec_uint_type bitfieldInsert(vec_uint_type base, vec_uint_type insert, int offset, int bits)
+This is a component-wise function. It inserts the `bits` least significant bits of `insert` into `base` at offset `offset`. The returned value will have bits `[offset, offset + bits + 1]` taken from `[0, bits - 1]` of `insert` and all other bits taken directly from the corresponding bits of base. Note: If bits is zero, the result will be the original value of base. Warning: The result will be undefined if offset or bits is negative, or if the sum of offset and bits is greater than the number of bits used to store the operand.
+
+Method: vec_int_type bitfieldReverse(vec_int_type value)
+Method: vec_uint_type bitfieldReverse(vec_uint_type value)
+This is a component-wise function that reverses the order of bits in an integer. The bit numbered `n` will be taken from bit `(bits - 1) - n` of `value`, where `bits` is the total number of bits used to represent `value`. It returns `value` with its bits reversed.
+
+Method: vec_int_type bitCount(vec_int_type value)
+Method: vec_uint_type bitCount(vec_uint_type value)
+This is a component-wise function that counts the number of 1 bits in an integer. It returns the number of bits that are set to 1 in the binary representation of `value`.
+
+Method: vec_int_type findLSB(vec_int_type value)
+Method: vec_uint_type findLSB(vec_uint_type value)
+This is a component-wise function that finds the index of the least significant bit set to `1`. It returns the bit number of the least significant bit that is set to 1. Note: If `value` is zero, `-1` will be returned.
+
+Method: vec_int_type findMSB(vec_int_type value)
+Method: vec_uint_type findMSB(vec_uint_type value)
+This is a component-wise function that finds the index of the most significant bit set to 1. Note: For signed integer types, the sign bit is checked first. For positive integers, the result will be the bit number of the most significant bit that is set to 1. For negative integers, the result will be the bit number of the most significant bit set to 0. For a value of zero or negative one, -1 will be returned.
+
+Method: imulExtended(vec_int_type x, vec_int_type y, out vec_int_type msb, out vec_int_type lsb) -> void
+This is a component-wise function that performs a 32-bit by 32-bit signed multiplication to produce a 64-bit result. The 32 least significant bits of this product are returned in `lsb` and the 32 most significant bits are returned in `msb`.
+
+Method: umulExtended(vec_uint_type x, vec_uint_type y, out vec_uint_type msb, out vec_uint_type lsb) -> void
+This is a component-wise function that performs a 32-bit by 32-bit unsigned multiplication to produce a 64-bit result. The 32 least significant bits of this product are returned in `lsb` and the 32 most significant bits are returned in `msb`.
+
+Method: uaddCarry(vec_uint_type x, vec_uint_type y, out vec_uint_type carry) -> vec_uint_type
+This is a component-wise function that adds two 32-bit unsigned integer variables and generates a 32-bit unsigned integer result, along with a carry output. The `carry` output is 0 if the sum is less than 2^32, otherwise 1. The function returns `(x + y) % 2^32`.
+
+Method: usubBorrow(vec_uint_type x, vec_uint_type y, out vec_uint_type borrow) -> vec_uint_type
+This is a component-wise function that subtracts unsigned integers and generates a borrow. The `borrow` output is `0` if `x >= y`, otherwise `1`. The function returns the difference of `x` and `y` if non-negative, or 2^32 plus that difference otherwise.
+
+Method: ldexp(vec_type x, out vec_int_type exp) -> vec_type
+This is a component-wise function that assembles a floating-point number from a value and exponent, returning `x * 2^exp`. Warning: If this product is too large to be represented in the floating-point type, the result is undefined.
+
+Method: frexp(vec_type x, out vec_int_type exp) -> vec_type
+This is a component-wise function that extracts `x` into a floating-point significand in the range `[0.5, 1.0)` and an integral exponent of two, such that `x = significand * 2 ^ exponent`. The function returns the significand of `x`, and places the exponent into the `exp` out parameter. For a floating-point value of zero, the significand and exponent are both zero. Warning: For a floating-point value that is an infinity or a floating-point NaN, the results are undefined.

@@ -1,0 +1,107 @@
+Document: DPITexture
+Path: godot/classes/class_dpitexture.rst
+Summary: DPITexture is a texture that can store multiple resolutions of the same image.
+
+DPITexture is a texture that can store multiple resolutions of the same image. This allows for more efficient rendering on different screen densities, as the appropriate resolution can be chosen based on the device's DPI.
+
+Inherits: Texture2D < Texture < Resource < RefCounted
+---CHUNK---
+Document: DPITexture
+Path: godot/classes/class_dpinetexture.rst
+Summary: Describes the DPITexture class, an automatically scalable Texture2D based on an SVG image.
+
+DPITexture
+Inherits: Texture2D < Texture < Resource < RefCounted < Object
+
+An automatically scalable Texture2D based on an SVG image.
+---CHUNK---
+Document: DPITexture
+Path: godot/classes/class_dpitexture.rst
+Summary: Describes the DPITexture class, which provides a scalable Texture2D based on an SVG image for UI elements.
+DPITexture is an automatically scalable Texture2D based on an SVG image. DPITexture s are used to automatically re-rasterize icons and other texture based UI theme elements to match viewport scale and font oversampling. See also ProjectSettings.display/window/stretch/mode ("canvas_items" mode) and Viewport.oversampling_override.
+---CHUNK---
+Document: DPITexture
+Path: godot/classes/class_dpitexture.rst
+Summary: Defines the properties available for the DPITexture class, including their types, default values, and inheritance information.
+
+Properties:
+* base_scale (float): Default: 1.0
+* color_map (Dictionary): Default: {}
+* fix_alpha_border (bool): Default: false
+* premult_alpha (bool): Default: false
+* resource_local_to_scene (bool): Default: false (overrides Resource.resource_local_to_scene)
+* saturation (float): Default: 1.0
+---CHUNK---
+Document: DPITexture
+Path: godot/classes/class_dpitexture.rst
+Summary: This section describes the methods available for the DPITexture class in Godot Engine.
+
+Method: create_from_string(source: String, scale: float = 1.0, saturation: float = 1.0, color_map: Dictionary = {}) → RID |static|
+Creates a DPITexture from a string. The string is interpreted as a series of commands to draw shapes. The scale parameter controls the resolution of the generated texture. Saturation affects the color intensity. The color_map allows remapping of colors in the source string.
+
+Method: get_scaled_rid() → RID |const|
+Returns the RID of the scaled texture. This is the texture that is actually rendered and displayed.
+
+Method: get_source() → String |const|
+Returns the source string used to create the DPITexture.
+
+Method: set_size_override(size: Vector2i) → void
+Overrides the default size of the DPITexture. This can be used to force a specific resolution for the texture, independent of the source string or scale.
+
+Method: set_source(source: String) → void
+Sets a new source string for the DPITexture. This will cause the texture to be regenerated based on the new string.
+---CHUNK---
+Document: DPITexture
+Path: godot/classes/class_dpitexture.rst
+Summary: Describes the properties of the DPITexture class, including scaling, color mapping, alpha border fixing, premultiplied alpha, and saturation.
+
+Property: base_scale (float)
+Description: Texture scale. 1.0 is the original SVG size. Higher values result in a larger image.
+Default: 1.0
+Setter: set_base_scale(value: float)
+Getter: get_base_scale() -> float
+
+Property: color_map (Dictionary)
+Description: If set, remaps texture colors according to Color-Color map.
+Default: {}
+Setter: set_color_map(value: Dictionary)
+Getter: get_color_map() -> Dictionary
+
+Property: fix_alpha_border (bool)
+Description: If true, puts pixels of the same surrounding color in transition from transparent to opaque areas. For textures displayed with bilinear filtering, this helps to reduce the outline effect when exporting images from an image editor.
+Default: false
+Setter: set_fix_alpha_border(value: bool)
+Getter: get_fix_alpha_border() -> bool
+
+Property: premult_alpha (bool)
+Description: An alternative to fixing darkened borders with fix_alpha_border is to use premultiplied alpha. By enabling this option, the texture will be converted to this format. A premultiplied alpha texture requires specific materials to be displayed correctly.
+In 2D, a CanvasItemMaterial will need to be created and configured to use the CanvasItemMaterial.BLEND_MODE_PREMULT_ALPHA blend mode on CanvasItems that use this texture. In custom canvas_item shaders, render_mode blend_premul_alpha; should be used.
+In 3D, a BaseMaterial3D will need to be created and configured to use the BaseMaterial3D.BLEND_MODE_PREMULT_ALPHA blend mode on materials that use this texture. In custom spatial shaders, render_mode blend_premul_alpha; should be used.
+Default: false
+Setter: set_premult_alpha(value: bool)
+Getter: get_premult_alpha() -> bool
+
+Property: saturation (float)
+Description: Overrides texture saturation.
+Default: 1.0
+Setter: set_saturation(value: float)
+Getter: get_saturation() -> float
+---CHUNK---
+Document: DPITexture
+Path: godot/classes/class_dpitexture.rst
+Summary: This section describes the methods available for the DPITexture class in Godot Engine, including creating textures from strings, getting scaled RIDs, retrieving source code, and setting size overrides or source code.
+
+Method: create_from_string(source: String, scale: float = 1.0, saturation: float = 1.0, color_map: Dictionary = {}) -> DPITexture |static|
+Creates a new DPITexture and initializes it by allocating and setting the SVG data to source.
+
+Method: get_scaled_rid() -> RID |const|
+Returns the RID of the texture rasterized to match the oversampling of the currently drawn canvas item.
+
+Method: get_source() -> String |const|
+Returns this SVG texture's source code.
+
+Method: set_size_override(size: Vector2i) -> void
+Resizes the texture to the specified dimensions.
+
+Method: set_source(source: String) -> void
+Sets this SVG texture's source code.

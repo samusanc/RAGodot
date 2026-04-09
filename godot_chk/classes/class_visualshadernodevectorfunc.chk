@@ -1,0 +1,161 @@
+Document: VisualShaderNodeVectorFunc
+Path: godot/classes/class_visualshadernodevectorfunc.rst
+Summary: A VisualShader node that performs vector functions.
+
+Inherits: VisualShaderNode < Resource < RefCounted < Object
+
+This node selects a vector function to execute. It can perform operations like dot product, cross product, distance, and normalization on input vectors.
+
+Properties:
+function (enum): The function to execute. Options are:
+    FUNC_DOT_PRODUCT (0): Computes the dot product of two vectors.
+    FUNC_CROSS_PRODUCT (1): Computes the cross product of two vectors.
+    FUNC_DISTANCE (2): Computes the distance between two vectors.
+    FUNC_NORMALIZE (3): Normalizes a vector to unit length.
+    FUNC_LENGTH (4): Computes the length (magnitude) of a vector.
+    FUNC_MIN (5): Computes the element-wise minimum of two vectors.
+    FUNC_MAX (6): Computes the element-wise maximum of two vectors.
+    FUNC_CLAMP (7): Clamps a vector's components within a range.
+    FUNC_SQUARED_LENGTH (8): Computes the squared length (magnitude) of a vector.
+    FUNC_REFLECT (9): Reflects a vector off a surface normal.
+    FUNC_REFRACT (10): Refracts a vector through a surface.
+    FUNC_ নেওয়া (11): Computes the component-wise absolute value of a vector.
+    FUNC_CEIL (12): Computes the component-wise ceiling of a vector.
+    FUNC_FLOOR (13): Computes the component-wise floor of a vector.
+    FUNC_ROUND (14): Computes the component-wise rounding of a vector.
+    FUNC_SIN (15): Computes the component-wise sine of a vector.
+    FUNC_COS (16): Computes the component-wise cosine of a vector.
+    FUNC_TAN (17): Computes the component-wise tangent of a vector.
+    FUNC_ASIN (18): Computes the component-wise arcsine of a vector.
+    FUNC_ACOS (19): Computes the component-wise arccosine of a vector.
+    FUNC_ATAN (20): Computes the component-wise arctangent of a vector.
+    FUNC_ATAN2 (21): Computes the component-wise arctangent of two vectors.
+    FUNC_POW (22): Computes the component-wise power of two vectors.
+    FUNC_EXP (23): Computes the component-wise exponential of a vector.
+    FUNC_LOG (24): Computes the component-wise natural logarithm of a vector.
+    FUNC_SQRT (25): Computes the component-wise square root of a vector.
+    FUNC_ABS (26): Computes the component-wise absolute value of a vector.
+    FUNC_SIGN (27): Computes the component-wise sign of a vector.
+    FUNC_RADIANS (28): Converts degrees to radians.
+    FUNC_DEGREES (29): Converts radians to degrees.
+    FUNC_EXP2 (30): Computes the component-wise base-2 exponential of a vector.
+    FUNC_LOG2 (31): Computes the component-wise base-2 logarithm of a vector.
+    FUNC_HERMITE (32): Computes the Hermite interpolation between two vectors.
+    FUNC_HERMITE_INVERSE (33): Computes the inverse Hermite interpolation between two vectors.
+    FUNC_NORMALIZE_SAFE (34): Normalizes a vector to unit length, avoiding division by zero.
+    FUNC_SMOOTHSTEP (35): Smoothly interpolates between two values.
+    FUNC_STEP (36): Performs a step function.
+    FUNC_MAX_RESERVED (37): Maximum reserved function index.
+
+Input Ports:
+a (Vector): The first input vector. Used for most functions.
+b (Vector): The second input vector. Used for functions like dot product, cross product, distance, min, max, clamp, reflect, refract, atan2, pow, hermite, and smoothstep.
+normal (Vector): The normal vector. Used for reflect and refract functions.
+min (float): The minimum value for clamp and smoothstep functions.
+max (float): The maximum value for clamp and smoothstep functions.
+edge1 (float): The first edge for smoothstep and step functions.
+edge2 (float): The second edge for smoothstep and step functions.
+
+Output Ports:
+default (Vector): The result of the vector function.
+---CHUNK---
+Document: VisualShaderNodeVectorFunc
+Path: godot/classes/class_visualshadernodevectorfunc.rst
+Summary: Describes the VisualShaderNodeVectorFunc, a node for performing vector operations in the visual shader graph.
+A vector function to be used within the visual shader graph.
+Inherits: VisualShaderNodeVectorBase < VisualShaderNode < Resource < RefCounted < Object
+---CHUNK---
+Document: VisualShaderNodeVectorFunc
+Path: godot/classes/class_visualshadernodevectorfunc.rst
+Summary: A visual shader node for performing vector functions.
+
+VisualShaderNodeVectorFunc is a visual shader node that can perform various functions using vectors.
+
+Inherits: VisualShaderNode < Resource < RefCounted
+---CHUNK---
+Document: VisualShaderNodeVectorFunc
+Path: godot/classes/class_visualshadernodevectorfunc.rst
+Summary: Defines the properties for the VisualShaderNodeVectorFunc class, specifically its function type.
+
+Properties
+* function (enum VisualShaderNodeVectorFunc_Function): The type of vector function to apply. Default: 0
+---CHUNK---
+Document: VisualShaderNodeVectorFunc
+Path: godot/classes/class_visualshadernodevectorfunc.rst
+Summary: Defines the available mathematical functions for the VisualShaderNodeVectorFunc node.
+
+Enumerations
+enum Function:
+  FUNC_NORMALIZE = 0
+    Normalizes the vector so that it has a length of 1 but points in the same direction.
+  FUNC_SATURATE = 1
+    Clamps the value between 0.0 and 1.0.
+  FUNC_NEGATE = 2
+    Returns the opposite value of the parameter.
+  FUNC_RECIPROCAL = 3
+    Returns 1/vector.
+  FUNC_ABS = 4
+    Returns the absolute value of the parameter.
+  FUNC_ACOS = 5
+    Returns the arc-cosine of the parameter.
+  FUNC_ACOSH = 6
+    Returns the inverse hyperbolic cosine of the parameter.
+  FUNC_ASIN = 7
+    Returns the arc-sine of the parameter.
+  FUNC_ASINH = 8
+    Returns the inverse hyperbolic sine of the parameter.
+  FUNC_ATAN = 9
+    Returns the arc-tangent of the parameter.
+  FUNC_ATANH = 10
+    Returns the inverse hyperbolic tangent of the parameter.
+  FUNC_CEIL = 11
+    Finds the nearest integer that is greater than or equal to the parameter.
+  FUNC_COS = 12
+    Returns the cosine of the parameter.
+  FUNC_COSH = 13
+    Returns the hyperbolic cosine of the parameter.
+  FUNC_DEGREES = 14
+    Converts a quantity in radians to degrees.
+  FUNC_EXP = 15
+    Base-e Exponential.
+  FUNC_EXP2 = 16
+    Base-2 Exponential.
+  FUNC_FLOOR = 17
+    Finds the nearest integer less than or equal to the parameter.
+  FUNC_FRACT = 18
+    Computes the fractional part of the argument.
+  FUNC_INVERSE_SQRT = 19
+    Returns the inverse of the square root of the parameter.
+  FUNC_LOG = 20
+    Natural logarithm.
+  FUNC_LOG2 = 21
+    Base-2 logarithm.
+  FUNC_RADIANS = 22
+    Converts a quantity in degrees to radians.
+  FUNC_ROUND = 23
+    Finds the nearest integer to the parameter.
+  FUNC_ROUNDEVEN = 24
+    Finds the nearest even integer to the parameter.
+  FUNC_SIGN = 25
+    Extracts the sign of the parameter, i.e. returns -1 if the parameter is negative, 1 if it's positive and 0 otherwise.
+  FUNC_SIN = 26
+    Returns the sine of the parameter.
+  FUNC_SINH = 27
+    Returns the hyperbolic sine of the parameter.
+  FUNC_SQRT = 28
+    Returns the square root of the parameter.
+  FUNC_TAN = 29
+    Returns the tangent of the parameter.
+  FUNC_TANH = 30
+    Returns the hyperbolic tangent of the parameter.
+  FUNC_TRUNC = 31
+    Returns a value equal to the nearest integer to the parameter whose absolute value is not larger than the absolute value of the parameter.
+  FUNC_ONEMINUS = 32
+    Returns 1.0 - vector.
+  FUNC_MAX = 33
+    Represents the size of the Function enum.
+---CHUNK---
+Document: VisualShaderNodeVectorFunc
+Path: godot/classes/class_visualshadernodevectorfunc.rst
+Summary: Describes the properties of the VisualShaderNodeVectorFunc class, specifically the 'function' property.
+Property: function (Function) = 0: The function to be performed.

@@ -1,0 +1,344 @@
+Document: 2D Sprite Animation Tutorial
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This tutorial covers the basics of creating 2D sprite animations in Godot using the AnimationPlayer node.
+
+This tutorial will guide you through the process of creating 2D sprite animations in Godot. We will use the AnimationPlayer node, which is the standard way to handle animations in Godot.
+
+First, ensure you have a sprite sheet or a series of individual sprite frames for your animation. For this tutorial, we'll assume you have a sprite sheet.
+
+1.  **Set up the Scene:**
+    *   Create a new 2D scene.
+    *   Add a `Sprite2D` node to the scene.
+    *   In the Inspector for the `Sprite2D` node, drag your sprite sheet into the `Texture` property.
+    *   If using a sprite sheet, you'll need to configure the `Hframes` and `Vframes` properties to match the grid layout of your sheet. For example, if your sheet has 4 columns and 2 rows, set `Hframes` to 4 and `Vframes` to 2.
+    *   You can then select the specific frame to display using the `Frame` property.
+
+2.  **Add an AnimationPlayer Node:**
+    *   Add an `AnimationPlayer` node as a child of your root node. This node will manage all animations for your scene.
+
+3.  **Create a New Animation:**
+    *   Select the `AnimationPlayer` node.
+    *   In the bottom panel, click the "Animation" button and choose "New".
+    *   Name your animation (e.g., "walk", "idle", "jump").
+
+4.  **Configure Animation Properties:**
+    *   With the `AnimationPlayer` node selected and your animation created, you'll see animation controls in the bottom panel.
+    *   Set the animation's `Length` (in seconds).
+    *   You can enable `Autoplay` for an animation if you want it to start playing immediately when the scene loads.
+
+5.  **Animate the Sprite:**
+    *   Select the `Sprite2D` node.
+    *   In the Inspector, find the `Frame` property of the `Sprite2D`.
+    *   Click the key icon next to the `Frame` property. This will open the "Create New Track" dialog.
+    *   Choose "Property Track" and click "OK".
+    *   The `AnimationPlayer` will create a new track for the `Sprite2D:Frame` property.
+    *   Now, move the timeline cursor in the bottom panel to different points in time.
+    *   At each time point, change the `Frame` property of the `Sprite2D` to the desired frame number for that part of the animation.
+    *   After changing the `Frame` value, click the key icon next to it again to set a keyframe at the current time.
+    *   Repeat this process for all frames of your animation. Godot will interpolate between keyframes, but for sprite animations, you typically want discrete frame changes, so place keyframes at the exact time each frame should appear.
+
+6.  **Playing the Animation:**
+    *   You can preview the animation by pressing the play button in the animation panel.
+    *   To control animations via script, you'll use the `AnimationPlayer` node's methods.
+
+GDScript:
+```gdscript
+# Assuming your AnimationPlayer node is named "AnimationPlayer"
+# and the sprite node is named "Sprite2D"
+
+@onready var animation_player = $AnimationPlayer
+@onready var sprite_2d = $Sprite2D
+
+func _ready():
+    # Play the "walk" animation once
+    animation_player.play("walk")
+
+func _process(delta):
+    # Example: Stop animation if not moving
+    if Input.is_action_just_pressed("ui_left"):
+        animation_player.play("walk")
+    elif Input.is_action_just_released("ui_left"):
+        animation_player.stop()
+        # Optionally set to idle frame
+        sprite_2d.frame = 0
+```
+
+C#:
+```csharp
+using Godot;
+using System;
+
+public partial class SpriteAnimator : Node2D
+{
+    private AnimationPlayer _animationPlayer;
+    private Sprite2D _sprite2D;
+
+    public override void _Ready()
+    {
+        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+        _sprite2D = GetNode<Sprite2D>("Sprite2D");
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("ui_left"))
+        {
+            _animationPlayer.Play("walk");
+        }
+        else if (Input.IsActionJustReleased("ui_left"))
+        {
+            _animationPlayer.Stop();
+            // Optionally set to idle frame
+            _sprite2D.Frame = 0;
+        }
+    }
+}
+```
+
+This basic setup allows you to create frame-by-frame animations for your 2D sprites. You can add multiple animations (idle, run, jump, etc.) to the same `AnimationPlayer` node and switch between them using code. Remember to set the `Sprite2D:Frame` property at each keyframe for accurate sprite animation.
+---CHUNK---
+Document: 2D sprite animation
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This document explains how to create and manage 2D sprite animations in Godot Engine.
+
+This tutorial covers the basics of 2D sprite animation in Godot. It will guide you through setting up a sprite sheet, creating an animation player, defining animations, and controlling playback.
+
+**Sprite Sheets**
+
+A sprite sheet is a single image file containing multiple frames of an animation. Godot can efficiently use these sheets to display animations.
+
+**AnimationPlayer Node**
+
+The `AnimationPlayer` node is the core component for handling animations in Godot. It allows you to create, edit, and manage various types of animations, including sprite animations.
+
+**Steps to Create a Sprite Animation:**
+
+1.  **Add a Sprite Node:** Add a `Sprite2D` node to your scene. In the Inspector, assign your sprite sheet texture to the `Texture` property.
+
+2.  **Add an AnimationPlayer Node:** Add an `AnimationPlayer` node to your scene.
+
+3.  **Create a New Animation:** With the `AnimationPlayer` node selected, open the Animation panel at the bottom of the editor. Click the "Animation" button and select "New". Give your animation a name (e.g., "walk").
+
+4.  **Set Up the Sprite Sheet:**
+    *   Select the `Sprite2D` node.
+    *   In the Inspector, find the `Region` section. Enable `Enabled`.
+    *   Adjust the `X`, `Y`, `W`, and `H` properties to select the first frame of your animation from the sprite sheet.
+
+5.  **Animate Properties:**
+    *   With the `Sprite2D` node selected and the `AnimationPlayer` panel open, click the "Key" button next to the `Region` properties (`X`, `Y`, `W`, `H`). This creates the first keyframe for your animation.
+    *   Move the timeline cursor in the Animation panel to a new time (e.g., 0.5 seconds).
+    *   Update the `Region` properties (`X`, `Y`, `W`, `H`) to select the next frame from the sprite sheet.
+    *   Click the "Key" button again for the `Region` properties.
+    *   Repeat this process for each frame of your animation, moving the timeline cursor and updating the region to match each sprite frame.
+
+6.  **Adjust Animation Length and Looping:**
+    *   The total length of the animation is determined by the position of the last keyframe. You can adjust this by dragging the end of the timeline.
+    *   To make the animation loop, select the `AnimationPlayer` node, and in the Inspector, check the `Loop` property for the current animation.
+
+7.  **Playback Control:**
+    *   You can preview the animation directly in the Animation panel.
+    *   To control playback via script, you can use methods like `play()`, `stop()`, `pause()`, and `seek()` on the `AnimationPlayer` node.
+
+**Example GDScript for Playback:**
+
+GDScript:
+```gdscript
+extends Node2D
+
+@onready var animated_sprite = $Sprite2D
+@onready var animation_player = $AnimationPlayer
+
+func _ready():
+    # Play the "walk" animation once
+    animation_player.play("walk")
+
+func _process(delta):
+    # Example: Stop animation if player is not moving
+    if Input.is_action_just_released("move_right"):
+        animation_player.stop()
+```
+
+This setup allows for creating fluid 2D sprite animations by sequencing different frames from a sprite sheet using the `AnimationPlayer` node.
+---CHUNK---
+Document: 2D Sprite Animation
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This tutorial introduces creating 2D animated characters using AnimatedSprite2D and AnimationPlayer, covering both individual images and sprite sheets.
+Note: Art for the following examples by https://opengameart.org/users/ansimuz and tgfcoder.
+
+In this tutorial, you'll learn how to create 2D animated characters with the AnimatedSprite2D class and the AnimationPlayer. Typically, when you create or download an animated character, it will come in one of two ways: as individual images or as a single sprite sheet containing all the animation's frames. Both can be animated in Godot with the AnimatedSprite2D class.
+
+First, we'll use AnimatedSprite2D to animate a collection of individual images. Then we will animate a sprite sheet using this class. Finally, we will learn another way to animate a sprite sheet with AnimationPlayer and the Animation property of Sprite2D.
+---CHUNK---
+Document: 2D Sprite Animation
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This section explains how to create sprite animations using individual image frames with the AnimatedSprite2D node in Godot.
+Individual images with AnimatedSprite2D
+In this scenario, you have a collection of images, each containing one of your character's animation frames. For this example, we'll use the following animation:
+
+You can download the images here: 2d_sprite_animation_assets.zip
+
+Unzip the images and place them in your project folder. Set up your scene tree with the following nodes:
+
+Note: The root node could also be Area2D or RigidBody2D. The animation will still be made in the same way. Once the animation is completed, you can assign a shape to the CollisionShape2D. See Physics Introduction for more information.
+
+Now select the AnimatedSprite2D and in its SpriteFrames property, select "New SpriteFrames".
+
+Click on the new SpriteFrames resource and you'll see a new panel appear at the bottom of the editor window:
+
+From the FileSystem dock on the left side, drag the 8 individual images into the center part of the SpriteFrames panel. On the left side, change the name of the animation from "default" to "run".
+
+Use the "Play" buttons on the top-right of the Filter Animations input to preview the animation.
+You should now see the animation playing in the viewport.
+However, it is a bit slow. To fix this, change the Speed (FPS) setting in the SpriteFrames panel to 10.
+
+You can add additional animations by clicking the "Add Animation" button and adding additional images.
+---CHUNK---
+Document: 2D Sprite Animation
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This section explains how to control sprite animations using the play() and stop() methods in GDScript and C#.
+
+You can control the animation using the `play()` and `stop()` methods. The following example demonstrates how to play the "run" animation when the right arrow key is held down and stop it when the key is released.
+
+GDScript:
+```gdscript
+extends CharacterBody2D
+
+@onready var _animated_sprite = $AnimatedSprite2D
+
+func _process(_delta):
+    if Input.is_action_pressed("ui_right"):
+        _animated_sprite.play("run")
+    else:
+        _animated_sprite.stop()
+```
+
+C#:
+```csharp
+using Godot;
+
+public partial class Character : CharacterBody2D
+{
+    private AnimatedSprite2D _animatedSprite;
+
+    public override void _Ready()
+    {
+        _animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionPressed("ui_right"))
+        {
+            _animatedSprite.Play("run");
+        }
+        else
+        {
+            _animatedSprite.Stop();
+        }
+    }
+}
+```
+---CHUNK---
+Document: 2D Sprite Animation
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This section explains how to animate sprites using a sprite sheet with the AnimatedSprite2D node in Godot.
+GDScript:
+# Example of how to control an AnimatedSprite2D in GDScript
+# Assuming you have an AnimatedSprite2D node named "AnimatedSprite2D" in your scene
+var animated_sprite = $AnimatedSprite2D
+
+func _ready():
+    # Play the "jump" animation
+    animated_sprite.play("jump")
+
+func _input(event):
+    # Stop the animation when any key is pressed
+    if event is InputEventKey and event.pressed:
+        animated_sprite.stop()
+
+To animate from a sprite sheet using the AnimatedSprite2D node, follow these steps:
+
+1.  **Obtain a Sprite Sheet:** Download a sprite sheet image and place it in your Godot project folder.
+2.  **Set up the Scene Tree:** Add an AnimatedSprite2D node to your scene.
+3.  **Create a SpriteFrames Resource:** In the Inspector, find the *SpriteFrames* property of the AnimatedSprite2D node and select "New SpriteFrames".
+4.  **Add Frames from Sprite Sheet:** Click on the newly created SpriteFrames resource. In the bottom panel that appears, select "Add frames from a Sprite Sheet".
+5.  **Select the Sprite Sheet:** A file dialog will open. Choose your sprite sheet image.
+6.  **Configure Sprite Sheet Layout:** A new window will display your sprite sheet. Adjust the "Horizontal" and "Vertical" values to match the grid layout of your sprite sheet (e.g., 4 horizontal, 2 vertical for the example sprite sheet).
+7.  **Select Animation Frames:** Choose the specific frames from the sprite sheet that constitute your animation.
+8.  **Add Frames:** Click the "Add X frames" button (where X is the number of selected frames) to create the animation.
+9.  **Name the Animation:** In the bottom panel, double-click the default animation name and rename it to something descriptive, like "jump".
+10. **Preview Animation:** You can check the play button within the SpriteFrames editor to preview your animation.
+---CHUNK---
+Document: 2D Sprite Animation
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This section explains how to animate a Sprite2D node using an AnimationPlayer by changing its texture frames from a sprite sheet.
+Sprite sheet with AnimationPlayer
+Another way that you can animate when using a sprite sheet is to use a standard Sprite2D node to display the texture, and then animating the change from texture to texture with AnimationPlayer.
+
+Consider this sprite sheet, which contains 6 frames of animation:
+
+Our goal is to display these images one after another in a loop. Start by setting up your scene tree:
+
+Note: The root node could also be Area2D or RigidBody2D. The animation will still be made in the same way. Once the animation is completed, you can assign a shape to the CollisionShape2D. See Physics Introduction for more information.
+
+Drag the spritesheet into the Sprite's Texture property, and you'll see the whole sheet displayed on the screen. To slice it up into individual frames, expand the Animation section in the Inspector and set the Hframes to 6. Hframes and Vframes are the number of horizontal and vertical frames in your sprite sheet.
+
+Now try changing the value of the Frame property. You'll see that it ranges from 0 to 5 and the image displayed by the Sprite2D changes accordingly. This is the property we'll be animating.
+
+Select the AnimationPlayer and click the "Animation" button followed by "New". Name the new animation "walk". Set the animation length to 0.6 and click the "Loop" button so that our animation will repeat.
+
+Now select the Sprite2D node and click the key icon to add a new track.
+
+Continue adding frames at each point in the timeline (0.1 seconds by default), until you have all the frames from 0 to 5. You'll see the frames actually appearing in the animation track:
+
+Press "Play" on the animation to see how it looks.
+---CHUNK---
+Document: 2D Sprite Animation
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This section explains how to control an AnimationPlayer node's animations using GDScript and C# code.
+
+Controlling an AnimationPlayer animation
+Like with AnimatedSprite2D, you can control the animation via code using the play() and stop() methods. Again, here is an example to play the animation while the right arrow key is held, and stop it when the key is released.
+
+GDScript:
+extends CharacterBody2D
+
+@onready var _animation_player = $AnimationPlayer
+
+func _process(_delta):
+    if Input.is_action_pressed("ui_right"):
+        _animation_player.play("walk")
+    else:
+        _animation_player.stop()
+
+C#:
+using Godot;
+
+public partial class Character : CharacterBody2D
+{
+    private AnimationPlayer _animationPlayer;
+
+    public override void _Ready()
+    {
+        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionPressed("ui_right"))
+        {
+            _animationPlayer.Play("walk");
+        }
+        else
+        {
+            _animationPlayer.Stop();
+        }
+    }
+}
+
+Note: If updating both an animation and a separate property at once (for example, a platformer may update the sprite's h_flip/v_flip properties when a character turns while starting a 'turning' animation), it's important to keep in mind that play() isn't applied instantly. Instead, it's applied the next time the AnimationPlayer is processed. This may end up being on the next frame, causing a 'glitch' frame, where the property change was applied, but the animation was not. If this turns out to be a problem, after calling play(), you can call advance(0) to update the animation immediately.
+---CHUNK---
+Document: 2D Sprite Animation Tutorial
+Path: godot/tutorials/2d/2d_sprite_animation.rst
+Summary: This section introduces the AnimationPlayer and AnimatedSprite2D classes for 2D animation in Godot, highlighting their differences and potential uses.
+These examples illustrate the two classes you can use in Godot for 2D animation. AnimationPlayer is a bit more complex than AnimatedSprite2D, but it provides additional functionality, since you can also animate other properties like position or scale. The class AnimationPlayer can also be used with an AnimatedSprite2D. Experiment to see what works best for your needs.

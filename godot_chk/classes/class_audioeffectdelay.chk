@@ -1,0 +1,140 @@
+Document: AudioEffectDelay
+Path: godot/classes/class_audioeffectdelay.rst
+Summary: A delay audio effect that can be used to create echoes and other time-based effects.
+
+AudioEffectDelay
+
+Inherits: AudioEffect < AudioEffect
+Description: A delay audio effect that can be used to create echoes and other time-based effects.
+
+Properties:
+dry (float): The amount of the original signal to mix in. Default: 1.0. Range: 0.0 to 1.0.
+feedback (float): The amount of the delayed signal to mix back into the delay buffer. This controls the number of echoes. Default: 0.5. Range: 0.0 to 1.0.
+delay_time_ms (float): The delay time in milliseconds. Default: 1000.0. Range: 0.0 to 10000.0.
+low_pass (float): The cutoff frequency for the low-pass filter applied to the delayed signal. Default: 1000.0. Range: 20.0 to 20000.0.
+mix_wet (float): The amount of the delayed signal to mix in. Default: 0.5. Range: 0.0 to 1.0.
+---CHUNK---
+Document: AudioEffectDelay
+Path: godot/classes/class_audioeffectdelay.rst
+Summary: Adds a delay audio effect to an audio bus, emulating an echo by playing back input audio after a specified time.
+---CHUNK---
+Document: AudioEffectDelay
+Path: godot/classes/class_audioeffectdelay.rst
+Summary: Describes the AudioEffectDelay class, which implements an audio delay effect with repeating taps.
+A "delay" effect plays the input audio signal back after a period of time. Each repetition is called a "delay tap" or simply "tap". Delay taps may be played back multiple times to create the sound of a repeating, decaying echo. Delay effects range from a subtle echo to a pronounced blending of previous sounds with new sounds. See also AudioEffectReverb for a blurry, continuous echo.
+---CHUNK---
+Document: AudioEffectDelay
+Path: godot/classes/class_audioeffectdelay.rst
+Summary: This document describes the AudioEffectDelay class in Godot, which implements a delay audio effect.
+
+Inherits: AudioEffect < AudioEffect
+Introduced in: 3.0
+
+AudioEffectDelay
+================================================================================
+
+.. rst-class:: classref-introduction
+
+A delay audio effect.
+
+Properties
+----------
+
++------------------------------------+------------------------------------+------------------------------------+
+| Property                           | Type                               | Description                        |
++====================================+====================================+====================================+
+| :ref:`mix`                         | :ref:`float <class_float>`         | The amount of delay effect to mix. |
++------------------------------------+------------------------------------+------------------------------------+
+| :ref:`feedback`                    | :ref:`float <class_float>`         | The amount of feedback for the delay. |
++------------------------------------+------------------------------------+------------------------------------+
+| :ref:`delay_time_sec`              | :ref:`float <class_float>`         | The delay time in seconds.         |
++------------------------------------+------------------------------------+------------------------------------+
+| :ref:`dry`                         | :ref:`float <class_float>`         | The amount of dry signal to mix.   |
++------------------------------------+------------------------------------+------------------------------------+
+| :ref:`wet`                         | :ref:`float <class_float>`         | The amount of wet signal to mix.   |
++------------------------------------+------------------------------------+------------------------------------+
+
+Properties
+----------
+
+mix (float): The amount of delay effect to mix. Default: 1.0.
+feedback (float): The amount of feedback for the delay. Default: 0.0.
+delay_time_sec (float): The delay time in seconds. Default: 0.0.
+dry (float): The amount of dry signal to mix. Default: 1.0.
+wet (float): The amount of wet signal to mix. Default: 0.0.
+---CHUNK---
+Document: AudioEffectDelay
+Path: godot/classes/class_audioeffectdelay.rst
+Summary: This section details the properties of the AudioEffectDelay class, which controls delay effects in audio processing.
+
+Properties:
+* dry (float): The dry signal level. Default: 1.0
+* feedback_active (bool): Enables or disables the feedback loop for the delay. Default: false
+* feedback_delay_ms (float): The delay time in milliseconds for the feedback loop. Default: 340.0
+* feedback_level_db (float): The level in decibels for the feedback signal. Default: -6.0
+* feedback_lowpass (float): The cutoff frequency in Hz for the low-pass filter applied to the feedback signal. Default: 16000.0
+* tap1_active (bool): Enables or disables the first delay tap. Default: true
+* tap1_delay_ms (float): The delay time in milliseconds for the first tap. Default: 250.0
+* tap1_level_db (float): The level in decibels for the first tap. Default: -6.0
+* tap1_pan (float): The stereo panning for the first tap. Ranges from -1.0 (left) to 1.0 (right). Default: 0.2
+* tap2_active (bool): Enables or disables the second delay tap. Default: true
+* tap2_delay_ms (float): The delay time in milliseconds for the second tap. Default: 500.0
+* tap2_level_db (float): The level in decibels for the second tap. Default: -12.0
+* tap2_pan (float): The stereo panning for the second tap. Ranges from -1.0 (left) to 1.0 (right). Default: -0.4
+---CHUNK---
+Document: AudioEffectDelay
+Path: godot/classes/class_audioeffectdelay.rst
+Summary: Describes the properties of the AudioEffectDelay class, controlling dry volume, feedback, and two independent delay taps.
+
+Property Descriptions
+dry (float): The volume ratio of the original audio. Value can range from 0 to 1. Default: 1.0
+  Method: set_dry(value: float)
+  Method: get_dry() → float
+
+feedback_active (bool): If true, feedback is enabled, repeating taps after they are played. Default: false
+  Method: set_feedback_active(value: bool)
+  Method: is_feedback_active() → bool
+
+feedback_delay_ms (float): Feedback delay time in milliseconds. Value can range from 0 to 1500. Default: 340.0
+  Method: set_feedback_delay_ms(value: float)
+  Method: get_feedback_delay_ms() → float
+
+feedback_level_db (float): Gain for feedback, in dB. Value can range from -60 to 0. Default: -6.0
+  Method: set_feedback_level_db(value: float)
+  Method: get_feedback_level_db() → float
+
+feedback_lowpass (float): Low-pass filter for feedback, in Hz. Frequencies above this value are filtered out. Value can range from 1 to 16000. Default: 16000.0
+  Method: set_feedback_lowpass(value: float)
+  Method: get_feedback_lowpass() → float
+
+tap1_active (bool): If true, the first tap will be enabled. Default: true
+  Method: set_tap1_active(value: bool)
+  Method: is_tap1_active() → bool
+
+tap1_delay_ms (float): First tap delay time in milliseconds, compared to the original audio. Value can range from 0 to 1500. Default: 250.0
+  Method: set_tap1_delay_ms(value: float)
+  Method: get_tap1_delay_ms() → float
+
+tap1_level_db (float): Gain for the first tap, in dB. Value can range from -60 to 0. Default: -6.0
+  Method: set_tap1_level_db(value: float)
+  Method: get_tap1_level_db() → float
+
+tap1_pan (float): Pan position for the first tap. Negative values pan the sound to the left, positive pan to the right. Value can range from -1 to 1. Default: 0.2
+  Method: set_tap1_pan(value: float)
+  Method: get_tap1_pan() → float
+
+tap2_active (bool): If true, the second tap will be enabled. Default: true
+  Method: set_tap2_active(value: bool)
+  Method: is_tap2_active() → bool
+
+tap2_delay_ms (float): Second tap delay time in milliseconds, compared to the original audio. Value can range from 0 to 1500. Default: 500.0
+  Method: set_tap2_delay_ms(value: float)
+  Method: get_tap2_delay_ms() → float
+
+tap2_level_db (float): Gain for the second tap, in dB. Value can range from -60 to 0. Default: -12.0
+  Method: set_tap2_level_db(value: float)
+  Method: get_tap2_level_db() → float
+
+tap2_pan (float): Pan position for the second tap. Negative values pan the sound to the left, positive pan to the right. Value can range from -1 to 1. Default: -0.4
+  Method: set_tap2_pan(value: float)
+  Method: get_tap2_pan() → float

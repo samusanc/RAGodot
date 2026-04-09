@@ -1,0 +1,76 @@
+Document: Noise
+Path: godot/classes/class_noise.rst
+Summary: Base class for all noise generation classes in Godot.
+
+Inherits: Resource < RefCounted < Object
+
+The Noise class is the base class for all noise generation classes in Godot. It provides a common interface for generating noise values, which can be used for various purposes such as procedural terrain generation, texture creation, and more. Noise is a type of procedural generation that produces random-looking patterns that have a natural, organic feel.
+
+Noise functions typically take coordinates as input and return a value within a certain range, usually between -1.0 and 1.0 or 0.0 and 1.0. The output value represents the "height" or "intensity" of the noise at that point.
+
+Key features of noise generation include:
+
+*   **Frequency:** Controls the scale of the noise pattern. Higher frequencies result in more detailed, smaller features.
+*   **Amplitude:** Controls the intensity or range of the noise values.
+*   **Octaves:** Multiple layers of noise with different frequencies and amplitudes are combined to create more complex and detailed noise.
+*   **Persistence:** Determines how much the amplitude decreases for each successive octave.
+*   **Lacunarity:** Determines how much the frequency increases for each successive octave.
+*   **Seed:** An integer value used to initialize the random number generator, ensuring that the same noise pattern can be reproduced.
+
+This base class defines the fundamental properties and methods that all noise implementations must adhere to. Specific noise types like OpenSimplexNoise, FastNoiseLite, and SimplexNoise inherit from this class and provide their unique algorithms for generating noise.
+---CHUNK---
+Document: Noise
+Path: godot/classes/class_noise.rst
+Summary: Abstract base class for noise generators.
+Noise
+Inherits: Resource < RefCounted < Object
+Inherited By: FastNoiseLite
+
+Abstract base class for noise generators.
+---CHUNK---
+Document: Noise
+Path: godot/classes/class_noise.rst
+Summary: Defines the interface for noise generation libraries to inherit from, with a default implementation for seamless noise generation.
+
+Inherits: Object
+
+This class defines the interface for noise generation libraries to inherit from.
+
+A default get_seamless_image() implementation is provided for libraries that do not provide seamless noise. This function requests a larger image from the get_image() method, reverses the quadrants of the image, then uses the strips of extra width to blend over the seams.
+
+Inheriting noise classes can optionally override this function to provide a more optimal algorithm.
+---CHUNK---
+Document: Noise
+Path: godot/classes/class_noise.rst
+Summary: Provides methods for generating 1D, 2D, and 3D noise values, as well as generating images from noise data.
+
+Method: get_image(width: int, height: int, invert: bool = false, in_3d_space: bool = false, normalize: bool = true) → Image
+Returns an Image containing 2D noise values.
+Note: With normalize set to false, the default implementation expects the noise generator to return values in the range -1.0 to 1.0.
+
+Method: get_image_3d(width: int, height: int, depth: int, invert: bool = false, normalize: bool = true) → Array[Image]
+Returns an Array of Images containing 3D noise values for use with ImageTexture3D.create().
+Note: With normalize set to false, the default implementation expects the noise generator to return values in the range -1.0 to 1.0.
+
+Method: get_noise_1d(x: float) → float
+Returns the 1D noise value at the given (x) coordinate.
+
+Method: get_noise_2d(x: float, y: float) → float
+Returns the 2D noise value at the given position.
+
+Method: get_noise_2dv(v: Vector2) → float
+Returns the 2D noise value at the given position.
+
+Method: get_noise_3d(x: float, y: float, z: float) → float
+Returns the 3D noise value at the given position.
+
+Method: get_noise_3dv(v: Vector3) → float
+Returns the 3D noise value at the given position.
+
+Method: get_seamless_image(width: int, height: int, invert: bool = false, in_3d_space: bool = false, skirt: float = 0.1, normalize: bool = true) → Image
+Returns an Image containing seamless 2D noise values.
+Note: With normalize set to false, the default implementation expects the noise generator to return values in the range -1.0 to 1.0.
+
+Method: get_seamless_image_3d(width: int, height: int, depth: int, invert: bool = false, skirt: float = 0.1, normalize: bool = true) → Array[Image]
+Returns an Array of Images containing seamless 3D noise values for use with ImageTexture3D.create().
+Note: With normalize set to false, the default implementation expects the noise generator to return values in the range -1.0 to 1.0.

@@ -1,0 +1,90 @@
+Document: PhysicalSkyMaterial
+Path: godot/classes/class_physicalskymaterial.rst
+Summary: Defines a sky material for use with PhysicalSky.
+
+Inherits: SkyMaterial < Material < Resource < RefCounted
+
+This class is used to define a sky material for use with the PhysicalSky node. It allows for physically based sky rendering, taking into account atmospheric scattering and other physical properties to create realistic skyboxes.
+---CHUNK---
+Document: PhysicalSkyMaterial
+Path: godot/classes/class_physicalskymaterial.rst
+Summary: Defines a sky material using physical properties for a Sky resource.
+
+PhysicalSkyMaterial
+Inherits: Material < Resource < RefCounted < Object
+
+A material that defines a sky for a Sky resource by a set of physical properties.
+---CHUNK---
+Document: PhysicalSkyMaterial
+Path: godot/classes/class_physicalskymaterial.rst
+Summary: Describes the PhysicalSkyMaterial, which uses the Preetham analytic daylight model for realistic sky rendering, taking sun properties from a DirectionalLight3D.
+
+The PhysicalSkyMaterial uses the Preetham analytic daylight model to draw a sky based on physical properties. This results in a substantially more realistic sky than the ProceduralSkyMaterial, but it is slightly slower and less flexible.
+
+The PhysicalSkyMaterial only supports one sun. The color, energy, and direction of the sun are taken from the first DirectionalLight3D in the scene tree.
+---CHUNK---
+Document: PhysicalSkyMaterial
+Path: godot/classes/class_physicalskymaterial.rst
+Summary: Defines the properties that control the appearance of a physical sky material.
+
+Properties
+- energy_multiplier (float): Multiplies the sky's energy. Default: 1.0
+- ground_color (Color): The color of the ground. Default: Color(0.1, 0.07, 0.034, 1)
+- mie_coefficient (float): Controls the scattering of light by Mie particles. Default: 0.005
+- mie_color (Color): The color of light scattered by Mie particles. Default: Color(0.69, 0.729, 0.812, 1)
+- mie_eccentricity (float): Controls the directionality of Mie scattering. Default: 0.8
+- night_sky (Texture2D): A texture to use for the night sky.
+- rayleigh_coefficient (float): Controls the scattering of light by Rayleigh particles. Default: 2.0
+- rayleigh_color (Color): The color of light scattered by Rayleigh particles. Default: Color(0.3, 0.405, 0.6, 1)
+- sun_disk_scale (float): Scales the size of the sun disk. Default: 1.0
+- turbidity (float): Controls the amount of haze in the atmosphere. Default: 10.0
+- use_debanding (bool): Enables or disables debanding to reduce color banding. Default: true
+---CHUNK---
+Document: PhysicalSkyMaterial
+Path: godot/classes/class_physicalskymaterial.rst
+Summary: Describes the properties of the PhysicalSkyMaterial class in Godot Engine, including sky brightness, ground color, scattering coefficients, and atmospheric effects.
+
+Property Descriptions
+Method: set_energy_multiplier(value: float)
+Method: get_energy_multiplier() → float
+The sky's overall brightness multiplier. Higher values result in a brighter sky. Default: 1.0
+
+Method: set_ground_color(value: Color)
+Method: get_ground_color() → Color
+Modulates the Color on the bottom half of the sky to represent the ground. Default: Color(0.1, 0.07, 0.034, 1)
+
+Method: set_mie_coefficient(value: float)
+Method: get_mie_coefficient() → float
+Controls the strength of Mie scattering for the sky. Mie scattering results from light colliding with larger particles (like water). On earth, Mie scattering results in a whitish color around the sun and horizon. Default: 0.005
+
+Method: set_mie_color(value: Color)
+Method: get_mie_color() → Color
+Controls the Color of the Mie scattering effect. While not physically accurate, this allows for the creation of alien-looking planets. Default: Color(0.69, 0.729, 0.812, 1)
+
+Method: set_mie_eccentricity(value: float)
+Method: get_mie_eccentricity() → float
+Controls the direction of the Mie scattering. A value of 1 means that when light hits a particle it's passing through straight forward. A value of -1 means that all light is scatter backwards. Default: 0.8
+
+Method: set_night_sky(value: Texture2D)
+Method: get_night_sky() → Texture2D
+Texture2D for the night sky. This is added to the sky, so if it is bright enough, it may be visible during the day.
+
+Method: set_rayleigh_coefficient(value: float)
+Method: get_rayleigh_coefficient() → float
+Controls the strength of the Rayleigh scattering. Rayleigh scattering results from light colliding with small particles. It is responsible for the blue color of the sky. Default: 2.0
+
+Method: set_rayleigh_color(value: Color)
+Method: get_rayleigh_color() → Color
+Controls the Color of the Rayleigh scattering. While not physically accurate, this allows for the creation of alien-looking planets. For example, setting this to a red Color results in a Mars-looking atmosphere with a corresponding blue sunset. Default: Color(0.3, 0.405, 0.6, 1)
+
+Method: set_sun_disk_scale(value: float)
+Method: get_sun_disk_scale() → float
+Sets the size of the sun disk. Default value is based on Sol's perceived size from Earth. Default: 1.0
+
+Method: set_turbidity(value: float)
+Method: get_turbidity() → float
+Sets the thickness of the atmosphere. High turbidity creates a foggy-looking atmosphere, while a low turbidity results in a clearer atmosphere. Default: 10.0
+
+Method: set_use_debanding(value: bool)
+Method: get_use_debanding() → bool
+If true, enables debanding. Debanding adds a small amount of noise which helps reduce banding that appears from the smooth changes in color in the sky. Default: true

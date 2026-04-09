@@ -1,0 +1,166 @@
+Document: UPNPDevice
+Path: godot/classes/class_upnpdevice.rst
+Summary: Provides an interface for interacting with UPnP devices on the local network.
+
+UPNPDevice
+
+Inherits: Object < Object
+
+This class provides an interface for interacting with UPnP devices on the local network. It allows you to discover devices, query their capabilities, and manage port mappings.
+
+Key Rule: UPnP functionality is only available on the host operating system.
+
+Methods:
+add_device_blocked(device: UPNPDevice)
+Adds a device to the blocked list. Devices in the blocked list will not be considered for port mapping.
+
+get_gateway_device() → UPNPDevice
+Returns the gateway device, if one is available. The gateway device is typically the router on the local network.
+
+get_service(device: UPNPDevice, service_type: String) → UPNPService
+Returns the UPNPService with the given service type from the specified device.
+
+is_device_blocked(device: UPNPDevice) → bool
+Checks if the given device is in the blocked list.
+
+remove_device_blocked(device: UPNPDevice)
+Removes a device from the blocked list.
+
+search_gateway()
+Searches for a gateway device on the local network. This method should be called before attempting to use any other UPnP functionality.
+
+search_devices()
+Searches for UPnP devices on the local network.
+
+Signals:
+device_added(device: UPNPDevice)
+Emitted when a new UPnP device is discovered.
+
+device_removed(device: UPNPDevice)
+Emitted when a UPnP device is removed from the network.
+
+device_blocked_added(device: UPNPDevice)
+Emitted when a device is added to the blocked list.
+
+device_blocked_removed(device: UPNPDevice)
+Emitted when a device is removed from the blocked list.
+---CHUNK---
+Document: UPNPDevice
+Path: godot/classes/class_upnpdevice.rst
+Summary: Provides an interface for interacting with Universal Plug and Play (UPnP) devices.
+
+UPNPDevice
+Inherits: RefCounted < Object
+
+Universal Plug and Play (UPnP) device.
+---CHUNK---
+Document: UPNPDevice
+Path: godot/classes/class_upnpdevice.rst
+Summary: Provides low-level access to UPNP control commands for managing port mappings and querying network information.
+UPNPDevice is a Universal Plug and Play (UPnP) device. It offers low-level access to UPnP control commands, enabling the management of port mappings (port forwarding) and the querying of network information such as local and external IP addresses and status. Note that methods on this class are synchronous and block the calling thread.
+---CHUNK---
+Document: UPNPDevice
+Path: godot/classes/class_upnpdevice.rst
+Summary: This section details the properties of the UPNPDevice class, including URLs, addresses, service types, and IGD status.
+
+Properties:
+* description_url (String): The URL for the device's description. Default: ""
+* igd_control_url (String): The control URL for the IGD (Internet Gateway Device) service. Default: ""
+* igd_our_addr (String): The IP address of the IGD. Default: ""
+* igd_service_type (String): The service type of the IGD. Default: ""
+* igd_status (IGDStatus): The current status of the IGD connection. Default: 9
+* service_type (String): The service type of the UPnP device. Default: ""
+---CHUNK---
+Document: UPNPDevice
+Path: godot/classes/class_upnpdevice.rst
+Summary: Provides methods for managing UPnP port mappings and querying the external IP address.
+
+Methods
+* Method: add_port_mapping(port: int, port_internal: int = 0, desc: String = "", proto: String = "UDP", duration: int = 0) → int
+  Adds a port mapping to the UPnP device. Returns an integer error code.
+* Method: delete_port_mapping(port: int, proto: String = "UDP") → int
+  Deletes a port mapping from the UPnP device. Returns an integer error code.
+* Method: is_valid_gateway() → bool
+  Checks if the UPnP device is a valid gateway.
+* Method: query_external_address() → String
+  Queries the UPnP device for its external IP address.
+
+Enumerations
+enum IGDStatus:
+* IGD_STATUS_OK = 0
+  OK.
+* IGD_STATUS_HTTP_ERROR = 1
+  HTTP error.
+* IGD_STATUS_HTTP_EMPTY = 2
+  Empty HTTP response.
+* IGD_STATUS_NO_URLS = 3
+  Deprecated: This value is no longer used. Returned response contained no URLs.
+* IGD_STATUS_NO_IGD = 4
+  Not a valid IGD.
+* IGD_STATUS_DISCONNECTED = 5
+  Disconnected.
+* IGD_STATUS_UNKNOWN_DEVICE = 6
+  Unknown device.
+* IGD_STATUS_INVALID_CONTROL = 7
+  Invalid control.
+* IGD_STATUS_MALLOC_ERROR = 8
+  Deprecated: This value is no longer used. Memory allocation error.
+* IGD_STATUS_UNKNOWN_ERROR = 9
+  Unknown error.
+---CHUNK---
+Document: UPNPDevice
+Path: godot/classes/class_upnpdevice.rst
+Summary: Describes the properties of the UPNPDevice class, including URLs, addresses, and service types.
+
+Property Descriptions:
+Property: description_url (String)
+Description: URL to the device description.
+Default: ""
+Setter: set_description_url(value: String)
+Getter: get_description_url() -> String
+
+Property: igd_control_url (String)
+Description: IDG control URL.
+Default: ""
+Setter: set_igd_control_url(value: String)
+Getter: get_igd_control_url() -> String
+
+Property: igd_our_addr (String)
+Description: Address of the local machine in the network connecting it to this UPNPDevice.
+Default: ""
+Setter: set_igd_our_addr(value: String)
+Getter: get_igd_our_addr() -> String
+
+Property: igd_service_type (String)
+Description: IGD service type.
+Default: ""
+Setter: set_igd_service_type(value: String)
+Getter: get_igd_service_type() -> String
+
+Property: igd_status (IGDStatus)
+Description: IGD status.
+Default: 9
+Setter: set_igd_status(value: IGDStatus)
+Getter: get_igd_status() -> IGDStatus
+
+Property: service_type (String)
+Description: Service type.
+Default: ""
+Setter: set_service_type(value: String)
+Getter: get_service_type() -> String
+---CHUNK---
+Document: UPNPDevice
+Path: godot/classes/class_upnpdevice.rst
+Summary: Describes the methods available on a UPNPDevice object for managing port mappings and querying its external address.
+
+Method: add_port_mapping(port: int, port_internal: int = 0, desc: String = "", proto: String = "UDP", duration: int = 0) → int
+Adds a port mapping to forward the given external port on this UPNPDevice for the given protocol to the local machine. See UPNP.add_port_mapping().
+
+Method: delete_port_mapping(port: int, proto: String = "UDP") → int
+Deletes the port mapping identified by the given port and protocol combination on this device. See UPNP.delete_port_mapping().
+
+Method: is_valid_gateway() → bool
+Returns true if this is a valid IGD (InternetGatewayDevice) which potentially supports port forwarding.
+
+Method: query_external_address() → String
+Returns the external IP address of this UPNPDevice or an empty string.

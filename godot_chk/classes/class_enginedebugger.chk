@@ -1,0 +1,60 @@
+Document: EngineDebugger
+Path: godot/classes/class_enginedebugger.rst
+Summary: Provides an interface for debugging the engine.
+---CHUNK---
+Document: EngineDebugger
+Path: godot/classes/class_enginedebugger.rst
+Summary: Exposes the internal debugger.
+
+EngineDebugger
+Inherits: Object
+
+Exposes the internal debugger.
+---CHUNK---
+Document: EngineDebugger
+Path: godot/classes/class_enginedebugger.rst
+Summary: Describes the EngineDebugger class, which handles communication between the editor and the running game, and manages profilers.
+
+EngineDebugger handles the communication between the editor and the running game. It is active in the running game. Messages can be sent/received through it. It also manages the profilers.
+---CHUNK---
+Document: EngineDebugger
+Path: godot/classes/class_enginedebugger.rst
+Summary: This section details methods for managing breakpoints, debugging execution, and querying debugger state within the EngineDebugger.
+
+Method: clear_breakpoints() → void
+Clears all breakpoints.
+
+Method: debug(can_continue: bool = true, is_error_breakpoint: bool = false) → void
+Starts a debug break in script execution, optionally specifying whether the program can continue based on can_continue and whether the break was due to a breakpoint.
+
+Method: get_depth() → int
+Note: This method is experimental and may be changed or removed in future versions.
+Returns the current debug depth.
+
+Method: get_lines_left() → int
+Note: This method is experimental and may be changed or removed in future versions.
+Returns the number of lines that remain.
+
+Method: has_capture(name: StringName) → bool
+Returns true if a capture with the given name is present otherwise false.
+
+Method: has_profiler(name: StringName) → bool
+Returns true if a profiler with the given name is present otherwise false.
+
+Method: insert_breakpoint(line: int, source: StringName) → void
+Inserts a new breakpoint with the given source and line.
+
+Method: is_active() → bool
+Returns true if the debugger is active otherwise false.
+
+Method: is_breakpoint(line: int, source: StringName) → bool
+Returns true if the given source and line represent an existing breakpoint.
+
+Method: is_profiling(name: StringName) → bool
+Returns true if a profiler with the given name is present and active otherwise false.
+
+Method: is_skipping_breakpoints() → bool
+Returns true if the debugger is skipping breakpoints otherwise false.
+
+Method: line_poll() → void
+Forces a processing loop of debugger events. The purpose of this method is just processing events every now and then when the script might get too busy, so that bugs like infinite loops can be caught.

@@ -1,0 +1,112 @@
+Document: TextMesh
+Path: godot/classes/class_textmesh.rst
+Summary: This document describes the TextMesh class.
+---CHUNK---
+Document: TextMesh
+Path: godot/classes/class_textmesh.rst
+Summary: Describes the TextMesh class, which generates a PrimitiveMesh from text.
+
+TextMesh
+Inherits: PrimitiveMesh < Mesh < Resource < RefCounted < Object
+
+Generate a PrimitiveMesh from the text.
+---CHUNK---
+Document: TextMesh
+Path: godot/classes/class_textmesh.rst
+Summary: Describes the TextMesh class, its generation requirements, and UV layout.
+
+Generate a PrimitiveMesh from the text.
+
+TextMesh can be generated only when using dynamic fonts with vector glyph contours. Bitmap fonts (including bitmap data in the TrueType/OpenType containers, like color emoji fonts) are not supported.
+
+The UV layout is arranged in 4 horizontal strips, top to bottom: 40% of the height for the front face, 40% for the back face, 10% for the outer edges and 10% for the inner edges.
+---CHUNK---
+Document: TextMesh
+Path: godot/classes/class_textmesh.rst
+Summary: Lists related tutorials for 3D text.
+
+Tutorials
+- 3D text
+---CHUNK---
+Document: TextMesh
+Path: godot/classes/class_textmesh.rst
+Summary: Lists the properties available for TextMesh nodes.
+
+* autowrap_mode (AutowrapMode): Default: 0
+* curve_step (float): Default: 0.5
+* depth (float): Default: 0.05
+* font (Font):
+* font_size (int): Default: 16
+* horizontal_alignment (HorizontalAlignment): Default: 1
+* justification_flags (bitfield[JustificationFlag]): Default: 163
+* language (String): Default: ""
+* line_spacing (float): Default: 0.0
+* offset (Vector2): Default: Vector2(0, 0)
+* pixel_size (float): Default: 0.01
+* structured_text_bidi_override (StructuredTextParser): Default: 0
+* structured_text_bidi_override_options (Array): Default: []
+* text (String): Default: ""
+* text_direction (Direction): Default: 0
+* uppercase (bool): Default: false
+* vertical_alignment (VerticalAlignment): Default: 1
+* width (float): Default: 500.0
+---CHUNK---
+Document: TextMesh
+Path: godot/classes/class_textmesh.rst
+Summary: This section details the properties available for configuring a TextMesh node, including text content, font settings, layout, and rendering parameters.
+
+Properties:
+*   **autowrap_mode** (AutowrapMode): If set to something other than TextServer.AUTOWRAP_OFF, the text gets wrapped inside the node's bounding rectangle. If you resize the node, it will change its height automatically to show all the text. Default: 0.
+    *   Method: set_autowrap_mode(value: AutowrapMode)
+    *   Method: get_autowrap_mode()
+*   **curve_step** (float): Step (in pixels) used to approximate Bézier curves. Lower values result in smoother curves, but is slower to generate and render. Consider adjusting this according to the font size and the typical viewing distance. Note: Changing this property will regenerate the mesh, which is a slow operation, especially with large font sizes and long texts. Default: 0.5.
+    *   Method: set_curve_step(value: float)
+    *   Method: get_curve_step()
+*   **depth** (float): Depths of the mesh. If set to 0.0, only the front surface is generated, and UV layout is changed to use the full texture for the front face only. Default: 0.05.
+    *   Method: set_depth(value: float)
+    *   Method: get_depth()
+*   **font** (Font): Font configuration used to display text.
+    *   Method: set_font(value: Font)
+    *   Method: get_font()
+*   **font_size** (int): Font size of the TextMesh's text. This property works in tandem with pixel_size. Higher values will result in a more detailed font, regardless of curve_step and pixel_size. Consider keeping this value below 63 (inclusive) for good performance, and adjust pixel_size as needed to enlarge text. Note: Changing this property will regenerate the mesh, which is a slow operation, especially with large font sizes and long texts. To change the text's size in real-time efficiently, change the node's Node3D.scale instead. Default: 16.
+    *   Method: set_font_size(value: int)
+    *   Method: get_font_size()
+*   **horizontal_alignment** (HorizontalAlignment): Controls the text's horizontal alignment. Supports left, center, right, and fill (also known as justify). Default: 1.
+    *   Method: set_horizontal_alignment(value: HorizontalAlignment)
+    *   Method: get_horizontal_alignment()
+*   **justification_flags** (bitfield[JustificationFlag]): Line fill alignment rules. Default: 163.
+    *   Method: set_justification_flags(value: bitfield[JustificationFlag])
+    *   Method: get_justification_flags()
+*   **language** (String): Language code used for line-breaking and text shaping algorithms. If left empty, the current locale is used instead. Default: "".
+    *   Method: set_language(value: String)
+    *   Method: get_language()
+*   **line_spacing** (float): Additional vertical spacing between lines (in pixels). Spacing is added to line descent. This value can be negative. Default: 0.0.
+    *   Method: set_line_spacing(value: float)
+    *   Method: get_line_spacing()
+*   **offset** (Vector2): The text drawing offset (in pixels). Note: Changing this property will regenerate the mesh, which is a slow operation. To change the text's position in real-time efficiently, change the node's Node3D.position instead. Default: Vector2(0, 0).
+    *   Method: set_offset(value: Vector2)
+    *   Method: get_offset()
+*   **pixel_size** (float): The size of one pixel's width on the text to scale it in 3D. This property works in tandem with font_size. Note: Changing this property will regenerate the mesh, which is a slow operation, especially with large font sizes and long texts. To change the text's size in real-time efficiently, change the node's Node3D.scale instead. Default: 0.01.
+    *   Method: set_pixel_size(value: float)
+    *   Method: get_pixel_size()
+*   **structured_text_bidi_override** (StructuredTextParser): Set BiDi algorithm override for the structured text. Default: 0.
+    *   Method: set_structured_text_bidi_override(value: StructuredTextParser)
+    *   Method: get_structured_text_bidi_override()
+*   **structured_text_bidi_override_options** (Array): Set additional options for BiDi override. Default: [].
+    *   Method: set_structured_text_bidi_override_options(value: Array)
+    *   Method: get_structured_text_bidi_override_options()
+*   **text** (String): The text to generate mesh from. Note: Due to being a Resource, it doesn't follow the rules of Node.auto_translate_mode. If disabling translation is desired, it should be done manually with Object.set_message_translation(). Default: "".
+    *   Method: set_text(value: String)
+    *   Method: get_text()
+*   **text_direction** (Direction): Base text writing direction. Default: 0.
+    *   Method: set_text_direction(value: Direction)
+    *   Method: get_text_direction()
+*   **uppercase** (bool): If true, all the text displays as UPPERCASE. Default: false.
+    *   Method: set_uppercase(value: bool)
+    *   Method: is_uppercase()
+*   **vertical_alignment** (VerticalAlignment): Controls the text's vertical alignment. Supports top, center, and bottom. Default: 1.
+    *   Method: set_vertical_alignment(value: VerticalAlignment)
+    *   Method: get_vertical_alignment()
+*   **width** (float): Text width (in pixels), used for fill alignment. Default: 500.0.
+    *   Method: set_width(value: float)
+    *   Method: get_width()

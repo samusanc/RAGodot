@@ -1,0 +1,82 @@
+Document: Instancing
+Path: godot/getting_started/step_by_step/instancing.rst
+Summary: This section explains how to instance scenes in Godot, which is a fundamental concept for building complex game objects.
+---CHUNK---
+Document: Instancing
+Path: godot/getting_started/step_by_step/instancing.rst
+Summary: Explains the concept of instancing scenes in Godot, where saved scenes act as blueprints that can be duplicated and modified within other scenes.
+Instancing scenes allows you to create reusable components in your Godot projects. A scene, saved as a .tscn file, acts as a blueprint. You can then create multiple copies, or instances, of this scene within other scenes. These instances behave like individual nodes, and while they start with the same structure and properties as their source scene, each instance can be modified independently. For example, if you create a "Ball" scene with a RigidBody2D, Sprite2D, and CollisionShape2D, you can then instance this "Ball" scene multiple times in another scene. Each instance of the ball will have its own unique name and can have its properties, such as mass or bounciness, adjusted separately from other ball instances.
+
+Note: This tutorial focuses on instancing scenes within the editor. For instancing scenes via code, refer to the documentation on nodes and scene instances. Hardware instancing for rendering many similar objects is a separate concept and is covered in the documentation on using MultiMesh.
+---CHUNK---
+Document: instancing.rst
+Path: godot/getting_started/step_by_step/instancing.rst
+Summary: This section explains how to use scene instancing in Godot by walking through importing a sample project, adding a scene instance, and duplicating it to create multiple independent objects.
+---CHUNK---
+Document: Instancing
+Path: godot/getting_started/step_by_step/instancing.rst
+Summary: This section explains how to edit properties of individual instances and default properties of packed scenes, and how changes propagate.
+
+Editing scenes and instances
+There is more to instances. With this feature, you can:
+
+* Change the properties of one ball without affecting the others using the Inspector.
+* Change the default properties of every Ball by opening the ball.tscn scene and making a change to the Ball node there. Upon saving, all instances of the Ball in the project will see their values update.
+
+Note: Changing a property on an instance always overrides values from the corresponding packed scene.
+
+Let's try this. Double-click ball.tscn in the FileSystem to open it.
+
+In the Scene dock on the left, select the Ball node. Then, in the Inspector on the right, click on the PhysicsMaterial property to expand it.
+
+Set its Bounce property to 0.5 by clicking on the number field, typing 0.5, and pressing Enter.
+
+Play the game by pressing F5 (Cmd + B on macOS) and notice how all balls now bounce a lot more. As the Ball scene is a template for all instances, modifying it and saving causes all instances to update accordingly.
+
+Let's now adjust an individual instance. Head back to the Main scene by clicking on the corresponding tab above the viewport.
+
+Select one of the instanced Ball nodes and, in the Inspector, set its Gravity Scale value to 10.
+
+A grey "revert" button appears next to the adjusted property.
+
+This icon indicates you are overriding a value from the source packed scene. Even if you modify the property in the original scene, the value override will be preserved in the instance. Clicking the revert icon will restore the property to the value in the saved scene.
+
+Rerun the game and notice how this ball now falls much faster than the others.
+
+Note: You may notice you are unable to change the values of the PhysicsMaterial of the ball. This is because PhysicsMaterial is a resource, and needs to be made unique before you can edit it in a scene that is linking to its original scene. To make a resource unique for one instance, right-click on the Physics Material property in the Inspector and click Make Unique in the context menu.
+
+Resources are another essential building block of Godot games we will cover in a later lesson.
+---CHUNK---
+Document: Instancing
+Path: godot/getting_started/step_by_step/instancing.rst
+Summary: Explains how scene instancing serves as a core design language in Godot, encouraging a component-based approach over traditional architectural patterns.
+
+Scene instances and scenes in Godot provide a powerful design language. Godot was designed around this concept from the ground up.
+
+It is recommended to set aside traditional architectural code patterns like Model-View-Controller (MVC) or Entity-Relationship diagrams when developing games with Godot. Instead, begin by conceptualizing the elements players will encounter in your game and structure your code around these visual components.
+
+For instance, a shooter game could be broken down as follows:
+
+This diagrammatic approach can be applied to nearly any game genre. Each rectangle represents an entity visible to the player. Arrows indicate which scene instantiates another.
+
+After creating such a diagram, the recommended workflow is to develop a scene for each listed element. You will then use instancing, either through code or directly within the editor, to construct your scene hierarchy.
+
+Programmers often dedicate significant time to designing abstract architectures and fitting components into them. A design methodology centered on scenes accelerates and simplifies development, allowing for a greater focus on game logic. Since most game components can be directly represented by a scene, a design based on scene instantiation minimizes the need for extensive architectural code.
+
+Consider this example of a scene diagram for an open-world game featuring numerous assets and nested elements:
+
+Imagine starting with the creation of a room. You could develop several distinct room scenes, each with a unique arrangement of furniture. Subsequently, a house scene could be created, incorporating multiple room instances for its interior. A citadel could then be constructed from numerous instanced houses, placed upon a large terrain. Each of these would be a scene that instances one or more sub-scenes.
+
+Later, scenes representing guards could be created and added to the citadel, indirectly integrating them into the overall game world.
+
+Godot facilitates iterative game development through the straightforward process of creating and instantiating more scenes. The editor is designed to be accessible to programmers, designers, and artists. A typical team development process might involve 2D or 3D artists, level designers, game designers, and animators, all collaborating within the Godot editor.
+---CHUNK---
+Document: instancing
+Path: godot/getting_started/step_by_step/instancing.rst
+Summary: Explains the concept and benefits of instancing in Godot Engine.
+
+Instancing, the process of producing an object from a blueprint, has many handy uses. With scenes, it gives you:
+
+- The ability to divide your game into reusable components.
+- A tool to structure and encapsulate complex systems.
+- A language to think about your game project's structure in a natural way.

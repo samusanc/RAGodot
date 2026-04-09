@@ -1,0 +1,114 @@
+Document: VisualShaderNodeIntParameter
+Path: godot/classes/class_visualshadernodeintparameter.rst
+Summary: Defines an integer parameter for VisualShader nodes.
+
+VisualShaderNodeIntParameter
+
+Inherits: VisualShaderNodeParameter < VisualShaderNode < Resource < RefCounted
+
+A VisualShader node that represents an integer parameter.
+
+Properties
+----------
+
++-----------------------------------+-----------------------------------+-----------------------------------+
+| Name                              | Type                              | Description                       |
++===================================+===================================+===================================+
+| default_value                     | int                               | The default value of the parameter. |
++-----------------------------------+-----------------------------------+-----------------------------------+
+| hint                              | enum                              | Hint for the parameter.           |
++-----------------------------------+-----------------------------------+-----------------------------------+
+| hint_enabled                      | bool                              | If true, the hint is enabled.     |
++-----------------------------------+-----------------------------------+-----------------------------------+
+| max_value                         | int                               | The maximum value of the parameter. |
++-----------------------------------+-----------------------------------+-----------------------------------+
+| min_value                         | int                               | The minimum value of the parameter. |
++-----------------------------------+-----------------------------------+-----------------------------------+
+
+Enum ``Hint``
+~~~~~~~~~~~~
+
++-----------------------------------+-----------------------------------+
+| Value                             | Description                       |
++===================================+===================================+
+| HINT_NONE                         | No hint.                          |
++-----------------------------------+-----------------------------------+
+| HINT_RANGE                        | Range hint.                       |
++-----------------------------------+-----------------------------------+
+
+Methods
+-------
+
+No methods are defined for this class.
+---CHUNK---
+Document: VisualShaderNodeIntParameter
+Path: godot/classes/class_visualshadernodeintparameter.rst
+Summary: This document describes the VisualShaderNodeIntParameter class, which represents an integer shader parameter in Godot's visual shader system.
+
+VisualShaderNodeIntParameter
+Inherits: VisualShaderNodeParameter < VisualShaderNode < Resource < RefCounted < Object
+
+A visual shader node for shader parameter (uniform) of type int.
+---CHUNK---
+Document: VisualShaderNodeIntParameter
+Path: godot/classes/class_visualshadernodeintparameter.rst
+Summary: Defines an integer parameter node for Visual Shaders with range customization.
+VisualShaderNodeIntParameter is a VisualShaderNodeParameter of type int. It offers additional customization for the range of accepted values.
+---CHUNK---
+Document: VisualShaderNodeIntParameter
+Path: godot/classes/class_visualshadernodeintparameter.rst
+Summary: Defines properties for an integer parameter within a Visual Shader.
+
+Properties
+* default_value (int): The default value of the parameter. Default: 0
+* default_value_enabled (bool): Whether the default value is enabled. Default: false
+* enum_names (PackedStringArray): An array of strings representing the names of the enum values if the parameter is an enum. Default: PackedStringArray()
+* hint (Hint): The hint for the parameter, controlling its appearance and behavior in the editor. Default: 0
+* max (int): The maximum allowed value for the parameter. Default: 100
+* min (int): The minimum allowed value for the parameter. Default: 0
+* step (int): The step value for incrementing/decrementing the parameter. Default: 1
+---CHUNK---
+Document: VisualShaderNodeIntParameter
+Path: godot/classes/class_visualshadernodeintparameter.rst
+Summary: Defines the possible hints for integer parameters in the Visual Shader editor.
+
+Enumerations
+enum Hint:
+  HINT_NONE = 0
+    The parameter will not constrain its value.
+  HINT_RANGE = 1
+    The parameter's value must be within the specified min/max range.
+  HINT_RANGE_STEP = 2
+    The parameter's value must be within the specified range, with the given step between values.
+  HINT_ENUM = 3
+    The parameter uses an enum to associate preset values to names in the editor.
+  HINT_MAX = 4
+    Represents the size of the Hint enum.
+---CHUNK---
+Document: VisualShaderNodeIntParameter
+Path: godot/classes/class_visualshadernodeintparameter.rst
+Summary: Describes the properties of the VisualShaderNodeIntParameter class, which controls integer parameters in visual shaders.
+
+Property Descriptions:
+- default_value (int): Default value of this parameter, which will be used if not set externally. default_value_enabled must be enabled; defaults to 0 otherwise.
+  - Method: set_default_value(value: int)
+  - Method: get_default_value() → int
+- default_value_enabled (bool): If true, the node will have a custom default value.
+  - Method: set_default_value_enabled(value: bool)
+  - Method: is_default_value_enabled() → bool
+- enum_names (PackedStringArray): The names used for the enum select in the editor. hint must be HINT_ENUM for this to take effect.
+  Note: The returned array is copied and any changes to it will not update the original property value. See PackedStringArray for more details.
+  - Method: set_enum_names(value: PackedStringArray)
+  - Method: get_enum_names() → PackedStringArray
+- hint (Hint): Range hint of this node. Use it to customize valid parameter range.
+  - Method: set_hint(value: Hint)
+  - Method: get_hint() → Hint
+- max (int): The maximum value this parameter can take. hint must be either HINT_RANGE or HINT_RANGE_STEP for this to take effect. Defaults to 100.
+  - Method: set_max(value: int)
+  - Method: get_max() → int
+- min (int): The minimum value this parameter can take. hint must be either HINT_RANGE or HINT_RANGE_STEP for this to take effect. Defaults to 0.
+  - Method: set_min(value: int)
+  - Method: get_min() → int
+- step (int): The step between parameter's values. Forces the parameter to be a multiple of the given value. hint must be HINT_RANGE_STEP for this to take effect. Defaults to 1.
+  - Method: set_step(value: int)
+  - Method: get_step() → int

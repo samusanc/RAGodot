@@ -1,0 +1,159 @@
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: Represents a light source in a glTF scene.
+
+Inherits: Node3D < Node < Object
+
+GLTFLight is a Node3D that represents a light source in a glTF scene. It is used to import and export lights from glTF files.
+
+The following light types are supported:
+* Directional light: Simulates a distant light source, like the sun.
+* Point light: Emits light in all directions from a single point.
+* Spot light: Emits light in a cone shape.
+
+Properties:
+* type (int): The type of light. Possible values are DIRECTIONAL, POINT, and SPOT.
+* color (Color): The color of the light.
+* intensity (float): The intensity of the light.
+* range (float): The range of the light. Only applicable for POINT and SPOT lights.
+* outer_cone_angle (float): The outer cone angle for SPOT lights.
+* inner_cone_angle (float): The inner cone angle for SPOT lights.
+
+Methods:
+* get_type() → int: Returns the type of light.
+* set_type(value: int) → void: Sets the type of light.
+* get_color() → Color: Returns the color of the light.
+* set_color(value: Color) → void: Sets the color of the light.
+* get_intensity() → float: Returns the intensity of the light.
+* set_intensity(value: float) → void: Sets the intensity of the light.
+* get_range() → float: Returns the range of the light.
+* set_range(value: float) → void: Sets the range of the light.
+* get_outer_cone_angle() → float: Returns the outer cone angle for SPOT lights.
+* set_outer_cone_angle(value: float) → void: Sets the outer cone angle for SPOT lights.
+* get_inner_cone_angle() → float: Returns the inner cone angle for SPOT lights.
+* set_inner_cone_angle(value: float) → void: Sets the inner cone angle for SPOT lights.
+---CHUNK---
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: Represents a glTF light resource in Godot.
+
+Inherits: Resource < RefCounted < Object
+---CHUNK---
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: Describes the GLTFLight class, which represents a light in the glTF format using the KHR_lights_punctual extension.
+GLTFLight
+Represents a light as defined by the KHR_lights_punctual glTF extension.
+---CHUNK---
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: This document provides a reference for the GLTFLight class in Godot Engine.
+
+Inherits: Node < Object
+
+GLTFLight is a Node that represents a light source within a glTF scene. It is used to import and export light information from glTF files.
+
+Properties:
+- light_type (LightType): The type of light. Possible values are LIGHT_DIRECTIONAL, LIGHT_POINT, and LIGHT_SPOT.
+- color (Color): The color of the light.
+- intensity (float): The intensity of the light.
+- range (float): The range of the light. Only applicable for LIGHT_POINT and LIGHT_SPOT.
+- spot_angle (float): The angle of the spotlight. Only applicable for LIGHT_SPOT.
+- cast_shadow (bool): Whether the light casts shadows.
+
+Methods:
+- _get_light_type() → LightType: Returns the type of light.
+- _set_light_type(value: LightType): Sets the type of light.
+- _get_color() → Color: Returns the color of the light.
+- _set_color(value: Color): Sets the color of the light.
+- _get_intensity() → float: Returns the intensity of the light.
+- _set_intensity(value: float): Sets the intensity of the light.
+- _get_range() → float: Returns the range of the light.
+- _set_range(value: float): Sets the range of the light.
+- _get_spot_angle() → float: Returns the angle of the spotlight.
+- _set_spot_angle(value: float): Sets the angle of the spotlight.
+- _get_cast_shadow() → bool: Returns whether the light casts shadows.
+- _set_cast_shadow(value: bool): Sets whether the light casts shadows.
+
+Note: The GLTFLight class is primarily used for importing and exporting glTF scenes. It is not intended for direct use in game logic.
+
+Key Rule: The GLTFLight node is automatically created when importing a glTF scene with light sources. You typically do not need to create GLTFLight nodes manually.
+---CHUNK---
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: Properties of the GLTFLight class, including color, cone angles, intensity, type, and range.
+
+Properties:
+* color (Color): The light's color and intensity. Default: Color(1, 1, 1, 1).
+* inner_cone_angle (float): The inner cone angle for spot lights. Default: 0.0.
+* intensity (float): The light's intensity. Default: 1.0.
+* light_type (String): The type of light. Possible values are "point", "spot", "directional". Default: "".
+* outer_cone_angle (float): The outer cone angle for spot lights. Default: 0.7853982.
+* range (float): The light's range. Default: inf.
+---CHUNK---
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: Describes the methods available for the GLTFLight class, including static methods for creating GLTFLight objects from dictionaries or nodes, and methods for handling additional data and converting to/from dictionary and node representations.
+
+Method: from_dictionary(dictionary: Dictionary) → GLTFLight static
+Creates a GLTFLight from a dictionary.
+
+Method: from_node(light_node: Light3D) → GLTFLight static
+Creates a GLTFLight from a Light3D node.
+
+Method: get_additional_data(extension_name: StringName) → Variant
+Returns the additional data associated with the given extension name.
+
+Method: set_additional_data(extension_name: StringName, additional_data: Variant)
+Sets the additional data for the given extension name.
+
+Method: to_dictionary() → Dictionary const
+Converts the GLTFLight to a dictionary.
+
+Method: to_node() → Light3D const
+Converts the GLTFLight to a Light3D node.
+---CHUNK---
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: Describes the properties of a GLTFLight, including its color, cone angles for spotlights, intensity, type, and range.
+
+Property Descriptions
+Method: set_color(value: Color)
+Method: get_color() → Color
+The color of the light in linear space. Defaults to white. A black color causes the light to have no effect. This value is linear to match glTF, but will be converted to nonlinear sRGB when creating a Godot Light3D node upon import, or converted to linear when exporting a Godot Light3D to glTF.
+
+Method: set_inner_cone_angle(value: float)
+Method: get_inner_cone_angle() → float
+The inner angle of the cone in a spotlight. Must be less than or equal to the outer cone angle. Within this angle, the light is at full brightness. Between the inner and outer cone angles, there is a transition from full brightness to zero brightness. When creating a Godot SpotLight3D, the ratio between the inner and outer cone angles is used to calculate the attenuation of the light.
+
+Method: set_intensity(value: float)
+Method: get_intensity() → float
+The intensity of the light. This is expressed in candelas (lumens per steradian) for point and spot lights, and lux (lumens per m²) for directional lights. When creating a Godot light, this value is converted to a unitless multiplier.
+
+Method: set_light_type(value: String)
+Method: get_light_type() → String
+The type of the light. The values accepted by Godot are "point", "spot", and "directional", which correspond to Godot's OmniLight3D, SpotLight3D, and DirectionalLight3D respectively.
+
+Method: set_outer_cone_angle(value: float)
+Method: get_outer_cone_angle() → float
+The outer angle of the cone in a spotlight. Must be greater than or equal to the inner angle. At this angle, the light drops off to zero brightness. Between the inner and outer cone angles, there is a transition from full brightness to zero brightness. If this angle is a half turn, then the spotlight emits in all directions. When creating a Godot SpotLight3D, the outer cone angle is used as the angle of the spotlight.
+
+Method: set_range(value: float)
+Method: get_range() → float
+The range of the light, beyond which the light has no effect. glTF lights with no range defined behave like physical lights (which have infinite range). When creating a Godot light, the range is clamped to 4096.0.
+---CHUNK---
+Document: GLTFLight
+Path: godot/classes/class_gltflight.rst
+Summary: Provides methods for creating, serializing, and deserializing GLTFLight objects, including conversions to and from Godot's Light3D nodes.
+Method: from_dictionary(dictionary: Dictionary) → GLTFLight (static)
+Creates a new GLTFLight instance by parsing the given Dictionary.
+Method: from_node(light_node: Light3D) → GLTFLight (static)
+Create a new GLTFLight instance from the given Godot Light3D node.
+Method: get_additional_data(extension_name: StringName) → Variant
+There is currently no description for this method. Please help us by contributing one.
+Method: set_additional_data(extension_name: StringName, additional_data: Variant) → void
+There is currently no description for this method. Please help us by contributing one.
+Method: to_dictionary() → Dictionary (const)
+Serializes this GLTFLight instance into a Dictionary.
+Method: to_node() → Light3D (const)
+Converts this GLTFLight instance into a Godot Light3D node.

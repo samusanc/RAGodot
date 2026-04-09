@@ -1,0 +1,57 @@
+Document: WebRTCMultiplayerPeer
+Path: godot/classes/class_webrtcmultiplayerpeer.rst
+Summary: Provides a multiplayer peer implementation using WebRTC.
+
+WebRTCMultiplayerPeer is a multiplayer peer implementation that uses WebRTC for peer-to-peer communication. It allows for establishing connections between multiple peers and sending data reliably or unreliably. This class is useful for creating real-time multiplayer games or applications that require direct peer-to-peer communication.
+
+Inherits: MultiplayerPeer < RefCounted
+---CHUNK---
+Document: WebRTCMultiplayerPeer
+Path: godot/classes/class_webrtcmultiplayerpeer.rst
+Summary: Provides a simple interface for creating a peer-to-peer mesh network using WebRTCPeerConnection, compatible with the MultiplayerAPI.
+
+Inherits: MultiplayerPeer < PacketPeer < RefCounted < Object
+
+A simple interface to create a peer-to-peer mesh network composed of WebRTCPeerConnection that is compatible with the MultiplayerAPI.
+---CHUNK---
+Document: WebRTCMultiplayerPeer
+Path: godot/classes/class_webrtcmultiplayerpeer.rst
+Summary: This class constructs a full mesh of WebRTCPeerConnection objects for use with MultiplayerAPI.
+
+Inherits: MultiplayerPeer < PacketPeerExtension < PacketPeer < RefCounted
+
+This class constructs a full mesh of WebRTCPeerConnection (one connection for each peer) that can be used as a MultiplayerAPI.multiplayer_peer.
+
+You can add each WebRTCPeerConnection via add_peer() or remove them via remove_peer(). Peers must be added in WebRTCPeerConnection.STATE_NEW state to allow it to create the appropriate channels. This class will not create offers nor set descriptions, it will only poll them, and notify connections and disconnections.
+
+When creating the peer via create_client() or create_server() the MultiplayerPeer.is_server_relay_supported() method will return true enabling peer exchange and packet relaying when supported by the MultiplayerAPI implementation.
+
+Note: When exporting to Android, make sure to enable the INTERNET permission in the Android export preset before exporting the project or using one-click deploy. Otherwise, network communication of any kind will be blocked by Android.
+---CHUNK---
+Document: WebRTCMultiplayerPeer
+Path: godot/classes/class_webrtcmultiplayerpeer.rst
+Summary: Provides methods for managing WebRTC peers in a multiplayer setup, including creating client/server connections, adding/removing peers, and retrieving peer information.
+
+Method: add_peer(peer: WebRTCPeerConnection, peer_id: int, unreliable_lifetime: int = 1) → Error
+Adds a new peer to the mesh with the given peer_id. The WebRTCPeerConnection must be in the STATE_NEW state. Three channels will be created: reliable, unreliable, and ordered. The unreliable_lifetime parameter is used for the "maxPacketLifetime" option when creating unreliable and ordered channels.
+
+Method: create_client(peer_id: int, channels_config: Array = []) → Error
+Initializes the multiplayer peer as a client with the specified peer_id (must be between 2 and 2147483647). This mode enables server relay support for peer exchange and packet relaying. Optionally, a channels_config array of TransferMode can be provided to create extra channels.
+
+Method: create_mesh(peer_id: int, channels_config: Array = []) → Error
+Initializes the multiplayer peer as a mesh (all peers connect to each other) with the given peer_id (must be between 1 and 2147483647).
+
+Method: create_server(channels_config: Array = []) → Error
+Initializes the multiplayer peer as a server with a unique ID of 1. This mode enables server relay support for peer exchange and packet relaying. Optionally, a channels_config array of TransferMode can be provided to create extra channels.
+
+Method: get_peer(peer_id: int) → Dictionary
+Returns a dictionary representation of the peer with the given peer_id. The dictionary contains "connection" (the WebRTCPeerConnection), "channels" (an array of three WebRTCDataChannel objects), and "connected" (a boolean indicating if the peer connection is currently active).
+
+Method: get_peers() → Dictionary
+Returns a dictionary where keys are peer IDs and values are the peer representations as returned by get_peer().
+
+Method: has_peer(peer_id: int) → bool
+Returns true if the given peer_id exists in the peers map, regardless of whether it is currently connected.
+
+Method: remove_peer(peer_id: int) → void
+Removes the peer with the specified peer_id from the mesh. If the peer was connected, this will emit the peer_disconnected signal.

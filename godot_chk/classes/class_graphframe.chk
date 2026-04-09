@@ -1,0 +1,114 @@
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Represents a frame within a GraphEdit node, allowing for grouping and organization of other GraphNode elements.
+
+Inherits: Control < CanvasItem < Node < Object
+
+GraphFrame is a control node that acts as a container for other GraphNode nodes within a GraphEdit. It provides a visual boundary and can be used to group related nodes together, improving the organization and readability of complex node graphs. GraphFrames can be moved, resized, and collapsed, offering flexibility in managing the layout of your graph editor.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Introduces the GraphFrame node, a specialized GraphElement for organizing other GraphElements within a GraphEdit.
+GraphFrame is a special GraphElement that can be used to organize other GraphElements inside a GraphEdit.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Describes the GraphFrame class, a special GraphElement that can contain other GraphElements and automatically manages their positioning.
+GraphFrame is a special GraphElement to which other GraphElements can be attached. It can be configured to automatically resize to enclose all attached GraphElements. If the frame is moved, all the attached GraphElements inside it will be moved as well.
+
+A GraphFrame is always kept behind the connection layer and other GraphElements inside a GraphEdit.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Describes the properties of the GraphFrame class in Godot Engine.
+
+Properties:
+* autoshrink_enabled (bool): If true, the frame will automatically shrink to fit its content. Default: true.
+* autoshrink_margin (int): The margin to apply when autoshrinking. Default: 40.
+* drag_margin (int): The margin around the frame that allows dragging. Default: 16.
+* mouse_filter (MouseFilter): Controls how mouse events are handled by the control. Default: 0. This property overrides the Control.mouse_filter property.
+* tint_color (Color): The color used for tinting the frame. Default: Color(0.3, 0.3, 0.3, 0.75).
+* tint_color_enabled (bool): If true, the tint_color will be applied to the frame. Default: false.
+* title (String): The title displayed on the frame. Default: "".
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Provides methods for interacting with the title bar of a GraphFrame.
+
+Method: get_titlebar_hbox() → HBoxContainer
+Retrieves the HBoxContainer that holds the title bar elements of the GraphFrame.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Defines theme properties for customizing the appearance of GraphFrame nodes.
+
+Theme Properties:
+* resizer_color (Color): The color of the resizer handle. Default: Color(0.875, 0.875, 0.875, 1).
+* panel (StyleBox): The StyleBox for the main panel of the frame.
+* panel_selected (StyleBox): The StyleBox for the main panel of the frame when selected.
+* titlebar (StyleBox): The StyleBox for the title bar of the frame.
+* titlebar_selected (StyleBox): The StyleBox for the title bar of the frame when selected.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Describes the autoshrink_changed signal for the GraphFrame class.
+
+Signal: autoshrink_changed()
+Emitted when autoshrink_enabled or autoshrink_margin changes.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Properties for configuring the GraphFrame's appearance and behavior, including autoshrinking, margins, and tinting.
+
+Property: autoshrink_enabled (bool)
+Default: true
+Setter: set_autoshrink_enabled(value: bool)
+Getter: is_autoshrink_enabled()
+Description: If true, the frame's rect will be adjusted automatically to enclose all attached GraphElement nodes.
+
+Property: autoshrink_margin (int)
+Default: 40
+Setter: set_autoshrink_margin(value: int)
+Getter: get_autoshrink_margin()
+Description: The margin around the attached nodes that is used to calculate the size of the frame when autoshrink_enabled is true.
+
+Property: drag_margin (int)
+Default: 16
+Setter: set_drag_margin(value: int)
+Getter: get_drag_margin()
+Description: The margin inside the frame that can be used to drag the frame.
+
+Property: tint_color (Color)
+Default: Color(0.3, 0.3, 0.3, 0.75)
+Setter: set_tint_color(value: Color)
+Getter: get_tint_color()
+Description: The color of the frame when tint_color_enabled is true.
+
+Property: tint_color_enabled (bool)
+Default: false
+Setter: set_tint_color_enabled(value: bool)
+Getter: is_tint_color_enabled()
+Description: If true, the tint color will be used to tint the frame.
+
+Property: title (String)
+Default: ""
+Setter: set_title(value: String)
+Getter: get_title()
+Description: Title of the frame.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Returns the HBoxContainer used for the title bar of the GraphFrame.
+Method: get_titlebar_hbox() → HBoxContainer
+Returns the HBoxContainer used for the title bar, only containing a Label for displaying the title by default. This can be used to add custom controls to the title bar such as option or close buttons.
+---CHUNK---
+Document: GraphFrame
+Path: godot/classes/class_graphframe.rst
+Summary: Describes the theme properties available for customizing the appearance of a GraphFrame node.
+
+Theme Property Descriptions
+resizer_color (Color): The color modulation applied to the resizer icon. Default: Color(0.875, 0.875, 0.875, 1).
+panel (StyleBox): The default StyleBox used for the background of the GraphFrame.
+panel_selected (StyleBox): The StyleBox used for the background of the GraphFrame when it is selected.
+titlebar (StyleBox): The StyleBox used for the title bar of the GraphFrame.
+titlebar_selected (StyleBox): The StyleBox used for the title bar of the GraphFrame when it is selected.

@@ -1,0 +1,259 @@
+Document: 3D Particles Properties
+Path: godot/tutorials/3d/particles/properties.rst
+Summary: This document details the various properties available for configuring 3D particle systems in Godot Engine.
+
+Inherits: Node < Object
+
+Properties:
+
+*   **Amount (int):** The total number of particles to emit.
+*   **Lifetime (float):** The duration in seconds each particle will live. Default: 1.0.
+*   **One Shot (bool):** If true, the particle system will emit all particles at once and then stop. Default: false.
+*   **Speed Scale (float):** Multiplies the particle's speed. Default: 1.0.
+*   **Local Coords (bool):** If true, particles are emitted in the node's local coordinate system. If false, they are emitted in the parent's coordinate system. Default: true.
+*   **Explosiveness (float):** Controls how much the particles spread out from the emitter. A value of 0 means particles are emitted in a straight line, while a value of 1 means they are emitted in all directions. Default: 0.0.
+*   **Radius (float):** The radius of the emitter shape. Default: 1.0.
+*   **Direction (Vector3):** The direction in which particles are emitted. Default: (0, 0, 0).
+*   **Spread (float):** The angle in degrees that particles can spread out from the emission direction. Default: 0.0.
+*   **Gravity (Vector3):** The gravity force applied to particles. Default: (0, 0, 0).
+*   **Linear Velocity (Vector3):** The initial linear velocity of particles. Default: (0, 0, 0).
+*   **Radial Acceleration (float):** The acceleration of particles away from or towards the emitter center. Default: 0.0.
+*   **Tangential Acceleration (float):** The acceleration of particles tangential to the emitter center. Default: 0.0.
+*   **Color Ramp (Gradient):** The color of particles over their lifetime.
+*   **Color Initial Ramp (Gradient):** The initial color of particles.
+*   **Scale Curve (Curve):** The scale of particles over their lifetime.
+*   **Scale Amount Curve (Curve):** The amount of scale applied to particles over their lifetime.
+*   **Rotation Curve (Curve):** The rotation of particles over their lifetime.
+*   **Rotation Amount Curve (Curve):** The amount of rotation applied to particles over their lifetime.
+*   **Hue Variation (float):** The variation in hue applied to particles. Default: 0.0.
+*   **Saturation Variation (float):** The variation in saturation applied to particles. Default: 0.0.
+*   **Value Variation (float):** The variation in value applied to particles. Default: 0.0.
+*   **Alpha Variation (float):** The variation in alpha applied to particles. Default: 0.0.
+*   **Mesh (Mesh):** The mesh to use for rendering particles.
+*   **Material (Material):** The material to use for rendering particles.
+*   **Texture (Texture):** The texture to use for rendering particles.
+*   **Shading (int):** The shading mode for particles.
+*   **Billboard Mode (int):** The billboard mode for particles.
+*   **Depth Draw Mode (int):** The depth draw mode for particles.
+*   **Cull Mode (int):** The cull mode for particles.
+*   **Transparency (int):** The transparency mode for particles.
+*   **Render Priority (int):** The render priority for particles.
+*   **Visibility Range Begin (float):** The distance at which particles become visible. Default: 0.0.
+*   **Visibility Range End (float):** The distance at which particles become invisible. Default: 0.0.
+*   **Visibility Range Curve (Curve):** The visibility of particles over their distance from the camera.
+*   **Process Material (Material):** The material to use for processing particles.
+*   **Draw Behind (bool):** If true, particles are drawn behind other objects. Default: false.
+*   **Fixed Size (bool):** If true, particles maintain a fixed size regardless of distance. Default: false.
+*   **Max Particle Size (float):** The maximum size of particles when using fixed size. Default: 1.0.
+*   **Align Y (bool):** If true, particles are aligned with the Y-axis. Default: false.
+*   **Soft Particles (bool):** If true, enables soft particles. Default: false.
+*   **Soft Particles Far (float):** The distance for soft particles fade-out. Default: 0.0.
+*   **Soft Particles Near (float):** The distance for soft particles fade-in. Default: 0.0.
+*   **Soft Particles Far Fade Width (float):** The width of the fade-out for soft particles. Default: 0.0.
+*   **Soft Particles Near Fade Width (float):** The width of the fade-in for soft particles. Default: 0.0.
+*   **Emit From Point (bool):** If true, particles are emitted from a single point. Default: false.
+*   **Emit From Point Randomness (float):** The randomness of emission from a point. Default: 0.0.
+*   **Emit From Point Spread (float):** The spread of emission from a point. Default: 0.0.
+*   **Emit From Point Direction (Vector3):** The direction of emission from a point. Default: (0, 0, 0).
+*   **Emit From Point Velocity (float):** The velocity of emission from a point. Default: 0.0.
+*   **Emit From Point Gravity (Vector3):** The gravity applied to particles emitted from a point. Default: (0, 0, 0).
+*   **Emit From Point Radial Acceleration (float):** The radial acceleration of particles emitted from a point. Default: 0.0.
+*   **Emit From Point Tangential Acceleration (float):** The tangential acceleration of particles emitted from a point. Default: 0.0.
+*   **Emit From Point Color Ramp (Gradient):** The color ramp for particles emitted from a point.
+*   **Emit From Point Scale Curve (Curve):** The scale curve for particles emitted from a point.
+*   **Emit From Point Rotation Curve (Curve):** The rotation curve for particles emitted from a point.
+*   **Emit From Point Hue Variation (float):** The hue variation for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Saturation Variation (float):** The saturation variation for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Value Variation (float):** The value variation for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Alpha Variation (float):** The alpha variation for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Mesh (Mesh):** The mesh to use for particles emitted from a point.
+*   **Emit From Point Material (Material):** The material to use for particles emitted from a point.
+*   **Emit From Point Texture (Texture):** The texture to use for particles emitted from a point.
+*   **Emit From Point Shading (int):** The shading mode for particles emitted from a point.
+*   **Emit From Point Billboard Mode (int):** The billboard mode for particles emitted from a point.
+*   **Emit From Point Depth Draw Mode (int):** The depth draw mode for particles emitted from a point.
+*   **Emit From Point Cull Mode (int):** The cull mode for particles emitted from a point.
+*   **Emit From Point Transparency (int):** The transparency mode for particles emitted from a point.
+*   **Emit From Point Render Priority (int):** The render priority for particles emitted from a point.
+*   **Emit From Point Visibility Range Begin (float):** The visibility range begin for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Visibility Range End (float):** The visibility range end for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Visibility Range Curve (Curve):** The visibility range curve for particles emitted from a point.
+*   **Emit From Point Process Material (Material):** The process material for particles emitted from a point.
+*   **Emit From Point Draw Behind (bool):** If true, particles emitted from a point are drawn behind other objects. Default: false.
+*   **Emit From Point Fixed Size (bool):** If true, particles emitted from a point maintain a fixed size. Default: false.
+*   **Emit From Point Max Particle Size (float):** The maximum particle size when using fixed size for particles emitted from a point. Default: 1.0.
+*   **Emit From Point Align Y (bool):** If true, particles emitted from a point are aligned with the Y-axis. Default: false.
+*   **Emit From Point Soft Particles (bool):** If true, enables soft particles for particles emitted from a point. Default: false.
+*   **Emit From Point Soft Particles Far (float):** The distance for soft particles fade-out for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Soft Particles Near (float):** The distance for soft particles fade-in for particles emitted from a point. Default: 0.0.
+*   **Emit From Point Soft Particles Far Fade Width (float):** The width of the fade-out for soft particles emitted from a point. Default: 0.0.
+*   **Emit From Point Soft Particles Near Fade Width (float):** The width of the fade-in for soft particles emitted from a point. Default: 0.0.
+---CHUNK---
+Document: 3D Particle system properties
+Path: godot/tutorials/3d/particles/properties.rst
+Summary: This document describes the properties of the 3D particle system in Godot Engine.
+
+The 3D Particle system in Godot Engine offers a wide range of properties to control the behavior and appearance of particles. These properties are organized into several sections within the Inspector panel when a CPUParticles3D or GPUParticles3D node is selected.
+
+**Process Material**
+This section deals with the material applied to the particles.
+
+*   **Material:** Specifies the material used for rendering particles. This can be a StandardMaterial3D or a ShaderMaterial.
+*   **Render Priority:** Determines the rendering order of particles. Higher values are rendered first.
+
+**Emission**
+Controls how particles are generated.
+
+*   **Amount:** The total number of particles to emit.
+*   **Lifetime:** The duration each particle exists.
+*   **One Shot:** If enabled, particles are emitted only once when the system starts.
+*   **Speed Scale:** Multiplies the speed of all particles.
+*   **Local Coords:** If enabled, particles move in their own local coordinate system. Otherwise, they move in the parent's coordinate system.
+*   **Explosiveness:** Controls the rate of emission. A value of 0 means particles are emitted over time, while a value of 1 means all particles are emitted at once.
+*   **Max Particle Count:** The maximum number of particles that can exist simultaneously.
+
+**Shape**
+Defines the volume from which particles are emitted.
+
+*   **Shape:** The type of emission shape (e.g., Point, Sphere, Box, Cylinder, Disc, Points, Custom Mesh).
+*   **Shape Extents:** Dimensions of the selected shape.
+*   **Emit From:** Specifies whether particles are emitted from the surface or volume of the shape.
+*   **Direction:** The initial direction of emitted particles.
+
+**Velocity**
+Sets the initial velocity of particles.
+
+*   **Linear Velocity:** The initial linear speed and direction of particles.
+*   **Angular Velocity:** The initial angular speed and direction of particles.
+*   **Directional Velocity:** If enabled, particles are emitted in a specific direction.
+
+**Gravity, Damping, and Acceleration**
+These properties control forces acting on particles over time.
+
+*   **Gravity:** A constant force pulling particles in a specific direction.
+*   **Damping:** A force that reduces particle velocity over time.
+*   **Linear Accel:** A constant acceleration applied to particles.
+*   **Radial Accel:** An acceleration that pushes particles away from or towards the origin.
+*   **Tangential Accel:** An acceleration that acts perpendicular to the particle's velocity.
+
+**Color, Size, and Rotation**
+These properties allow for variation in particle appearance over their lifetime.
+
+*   **Color Ramp:** A gradient that defines the particle's color over its lifetime.
+*   **Initial Color:** The starting color of particles.
+*   **Scale:** The initial size of particles.
+*   **Scale Curve:** A curve that defines how the particle's scale changes over its lifetime.
+*   **Initial Velocity:** The initial velocity of particles.
+*   **Initial Angle:** The initial rotation of particles.
+*   **Angular Velocity:** The initial angular velocity of particles.
+*   **Rotation Curve:** A curve that defines how the particle's rotation changes over its lifetime.
+
+**Attractors**
+These allow particles to be influenced by attractor nodes.
+
+*   **Attractor:** A list of attractor nodes that affect the particles.
+*   **Attractor Turn:** Controls how strongly particles are attracted to the attractor.
+
+**Visibility**
+Controls when particles are visible.
+
+*   **Visible:** Toggles the visibility of the particle system.
+*   **Cull Mode:** Determines how the particle system is culled when not visible.
+
+**Trail**
+Enables and configures particle trails.
+
+*   **Trail:** If enabled, particles will leave trails.
+*   **Trail Carbon:** Controls the width of the trail.
+*   **Trail Color Ramp:** A gradient that defines the trail's color over time.
+
+**Animation**
+For animated textures.
+
+*   **Animation:** If enabled, particles will use an animated texture.
+*   **Animation Speed:** The speed of the animation.
+*   **Animation Blend:** Controls the blending between animation frames.
+
+**GPU Particles Specifics**
+GPUParticles3D nodes have additional properties for performance optimization.
+
+*   **Draw Passes:** The number of times the particle material is drawn.
+*   **Trail Mask:** A texture used to mask particle trails.
+*   **Process GPU:** If enabled, particle processing is offloaded to the GPU.
+
+Understanding and adjusting these properties allows for the creation of complex and visually appealing particle effects in Godot Engine.
+---CHUNK---
+Document: Particle Emitter Properties
+Path: godot/tutorials/3d/particles/properties.rst
+Summary: This section describes the properties of the particle emitter node in Godot Engine, including emission control, particle count, and sub-emitters.
+
+Emitter properties
+The checkbox next to the Emitting property activates and deactivates the particle system. Particles will only be processed and rendered if the box is checked. This property can be set at runtime to activate or deactivate particle systems dynamically.
+
+The Amount property controls the maximum number of particles visible at any given time. Increasing this value spawns more particles at the cost of performance.
+
+The Amount Ratio property defines the ratio of particles compared to the amount that will be emitted. If it's less than 1.0, the total number of particles emitted over the lifetime will be Amount * Amount Ratio. Changing this value while particles are being emitted does not affect already created particles and does not cause the particle system to restart. It is useful for creating effects where the number of emitted particles varies over time.
+
+Another particle node can be set as a Sub Emitter, which will be spawned as a child of each particle. Refer to the Sub-emitters section for a detailed explanation of how to add a sub-emitter to a particle system.
+---CHUNK---
+Document: Particle Properties Tutorial
+Path: godot/tutorials/3d/particles/properties.rst
+Summary: This section details the time-related properties of Godot's particle systems, including lifetime, emission rate, one-shot behavior, preprocessing, speed scaling, explosiveness, randomness, fixed FPS, and interpolation.
+
+Time properties
+
+The Lifetime property controls how long each particle exists before it disappears again. It is measured in seconds. Many particle properties can be set to change over the particle's lifetime and blend smoothly from one value to another.
+
+Lifetime and Amount are related. They determine the particle system's emission rate. The formula for particles per second is: Amount / Lifetime. For example, emitting 32 particles with a lifetime of 4 seconds each means the system emits 8 particles per second.
+
+The Interp to End property causes all the particles in the node to interpolate towards the end of their lifetime.
+
+If the checkbox next to the One Shot property is checked, the particle system will emit the specified amount of particles and then disable itself, running only once. This property is unchecked by default, so the system will keep emitting particles until it is disabled or destroyed manually. One-shot particles are suitable for effects that react to a single event, like item pickups or splinters that burst away when a bullet hits a wall.
+
+The Preprocess property allows fast-forwarding to a point in the middle of the particle system's lifetime and starting rendering from there. It is measured in seconds. A value of 1 means that when the particle system starts, it will appear as if it has been running for one second already. This is useful for making particle systems look active from the beginning, even if they were just loaded. For instance, a dust effect might not be noticeable for the first few seconds without preprocessing, but with preprocessing, the dust is fully visible from the start.
+
+You can slow down or speed up the particle system with the Speed Scale property. This affects both data processing and particle rendering. Setting it to 0 pauses the particle system completely, while a value of 2 makes it move twice as fast.
+
+The Explosiveness property controls whether particles are emitted sequentially or simultaneously. A value of 0 means particles emit one after another. A value of 1 means all particles emit at the same time, creating a more "explosive" appearance.
+
+The Randomness property adds randomness to particle emission timing. A value of 0 results in regular intervals between particle emissions. A value of 1 makes the interval completely random, helping to break up uniformity in effects. This property has no effect when Explosiveness is set to 1.
+
+The Fixed FPS property limits how often the particle system is processed, including property updates, collision, and attractors. This can significantly improve performance, especially with particle collision. It does not change the speed at which particles move or rotate; use Speed Scale for that.
+
+When Fixed FPS is set to very low values, particle animation can appear choppy. The Interpolate property addresses this by blending particle properties between updates, ensuring smooth animation even at low FPS values like 10.
+
+Note: When using particle collision, tunneling can occur if particles move fast and colliders are thin. This can be fixed by increasing Fixed FPS, though it may impact performance.
+---CHUNK---
+Document: Particle Properties
+Path: godot/tutorials/3d/particles/properties.rst
+Summary: This section describes the Base Size property for particle collision.
+The Base Size property defines each particle's default collision size, which is used to check whether a particle is currently colliding with the environment. You would usually want this to be about the same size as the particle. It can make sense to increase this value for particles that are very small and move very fast to prevent them from clipping through the collision geometry.
+---CHUNK---
+Document: Particle Properties Tutorial
+Path: godot/tutorials/3d/particles/properties.rst
+Summary: This section details the drawing properties of particle systems in Godot, including Visibility AABB, Local Coords, Draw Order, and Transform Align.
+
+The Visibility AABB property defines a box around the particle system's origin. As long as any part of this box is in the camera's field of view, the particle system is visible. As soon as it leaves the camera's field of view, the particle system stops being rendered at all. You can use this property to boost performance by keeping the box as small as possible.
+
+Key Rule: Particles that are outside of the Visibility AABB's bounds disappear instantly when it leaves the camera's field of view. Particle collision will also not occur outside the Visibility AABB.
+
+When the Local Coords property is checked, all particle calculations use the local coordinate system to determine things like up and down, gravity, and movement direction. Up and down, for example, would follow the particle system's or its parent node's rotation. When the property is unchecked, the global world space is used for these calculations: Down will always be -Y in world space, regardless of the particle system's rotation.
+
+The Draw Order property controls the order in which individual particles are drawn.
+- Index: Particles are drawn in the order of emission; particles spawned later are drawn on top of earlier ones.
+- Lifetime: Particles are drawn in the order of their remaining lifetime.
+- Reverse Lifetime: Reverses the Lifetime draw order.
+- View Depth: Particles are drawn according to their distance from the camera; the ones closer to the camera are on top of those farther away.
+
+The Transform Align property controls the particle's default rotation.
+- Disabled: Particles don't align in any particular way. Their rotation is determined by the values set in the process material.
+- Z-Billboard: Particles will always face the camera. This is similar to the Billboard property in the Standard Material.
+- Y to Velocity: Each particle's Y-axis aligns with its movement direction. This can be useful for things like bullets or arrows, where you want particles to always point "forward".
+- Z-Billboard + Y to Velocity: Combines the previous two modes. Each particle's Z-axis will point towards the camera while its Y-axis will align with their velocity.
+---CHUNK---
+Document: Particle Trails Properties
+Path: godot/tutorials/3d/particles/properties.rst
+Summary: This section describes the properties related to particle trails in Godot Engine.
+The Enabled property controls whether particles are rendered as trails. The box needs to be checked if you want to make use of particle trails.
+The Length Secs property controls for how long a trail should be emitted. The longer this duration is, the longer the trail will be.
+See the Particle trails section in this manual for a detailed explanation of how particle trails work and how to set them up.

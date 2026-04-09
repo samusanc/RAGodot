@@ -1,0 +1,269 @@
+Document: AudioStreamGenerator
+Path: godot/classes/class_audiostreamgenerator.rst
+Summary: Provides a way to generate audio data procedurally at runtime.
+
+AudioStreamGenerator
+
+Inherits: AudioStream < Resource < RefCounted < Object
+
+A virtual audio stream that can be used to generate audio data procedurally at runtime.
+
+This class allows you to create custom audio effects or procedural music by writing audio data to an internal buffer. The audio server then reads from this buffer to play the sound.
+
+Key Rule: You must provide audio data to the AudioStreamGeneratorPlayback instance obtained from this stream. If you don't provide data, silence will be played.
+
+Methods:
+mix_buffer(buffer: PackedVector2Array) → void
+    Mixes the provided audio data into the generator's buffer. The buffer should contain stereo audio data (Vector2 with x and y components).
+
+Methods:
+get_buffer_size() → int
+    Returns the size of the internal buffer in frames.
+
+Methods:
+get_frames_available() → int
+    Returns the number of frames currently available in the buffer.
+
+Methods:
+get_frames_mixed() → int
+    Returns the total number of frames that have been mixed into the buffer since the stream started.
+
+Methods:
+get_playback() → AudioStreamGeneratorPlayback
+    Returns the AudioStreamGeneratorPlayback instance associated with this stream. This is the object you'll use to push audio data.
+
+Example:
+GDScript:
+var audio_stream_generator = AudioStreamGenerator.new()
+var playback = audio_stream_generator.get_playback()
+var buffer = PackedVector2Array()
+
+# Fill buffer with some audio data (e.g., a sine wave)
+for i in range(playback.get_buffer_length()):
+    var time = float(i) / playback.get_sample_rate()
+    var frequency = 440.0 # A4 note
+    var amplitude = 0.5
+    var sample = sin(time * 2.0 * PI * frequency) * amplitude
+    buffer.append(Vector2(sample, sample))
+
+audio_stream_generator.mix_buffer(buffer)
+
+# Assign the stream to an AudioStreamPlayer node
+$AudioStreamPlayer.stream = audio_stream_generator
+
+$AudioStreamPlayer.play()
+---CHUNK---
+Document: AudioStreamGenerator
+Path: godot/classes/class_audiostreamgenerator.rst
+Summary: An audio stream with utilities for procedural sound generation.
+
+AudioStreamGenerator
+Inherits: AudioStream < Resource < RefCounted < Object
+
+An audio stream with utilities for procedural sound generation.
+---CHUNK---
+Document: AudioStreamGenerator
+Path: godot/classes/class_audiostreamgenerator.rst
+Summary: An AudioStream that generates audio data via a script, commonly used for procedural audio generation.
+AudioStreamGenerator is a type of audio stream that does not play back sounds on its own; instead, it expects a script to generate audio data for it. See also AudioStreamGeneratorPlayback.
+
+Here's a sample on how to use it to generate a sine wave:
+
+GDScript:
+    var playback # Will hold the AudioStreamGeneratorPlayback.
+    @onready var sample_hz = $AudioStreamPlayer.stream.mix_rate
+    var pulse_hz = 440.0 # The frequency of the sound wave.
+    var phase = 0.0
+
+    func _ready():
+        $AudioStreamPlayer.play()
+        playback = $AudioStreamPlayer.get_stream_playback()
+        fill_buffer()
+
+    func fill_buffer():
+        var increment = pulse_hz / sample_hz
+        var frames_available = playback.get_frames_available()
+
+        for i in range(frames_available):
+            playback.push_frame(Vector2.ONE * sin(phase * TAU))
+            phase = fmod(phase + increment, 1.0)
+
+C#:
+    [Export] public AudioStreamPlayer Player { get; set; }
+
+    private AudioStreamGeneratorPlayback _playback; // Will hold the AudioStreamGeneratorPlayback.
+    private float _sampleHz;
+    private float _pulseHz = 440.0f; // The frequency of the sound wave.
+    private double phase = 0.0;
+
+    public override void _Ready()
+    {
+        if (Player.Stream is AudioStreamGenerator generator) // Type as a generator to access MixRate.
+        {
+            _sampleHz = generator.MixRate;
+            Player.Play();
+            _playback = (AudioStreamGeneratorPlayback)Player.GetStreamPlayback();
+            FillBuffer();
+        }
+    }
+
+    public void FillBuffer()
+    {
+        float increment = _pulseHz / _sampleHz;
+        int framesAvailable = _playback.GetFramesAvailable();
+
+        for (int i = 0; i < framesAvailable; i++)
+        {
+            _playback.PushFrame(Vector2.One * (float)Mathf.Sin(phase * Mathf.Tau));
+            phase = Mathf.PosMod(phase + increment, 1.0);
+        }
+    }
+
+In the example above, the "AudioStreamPlayer" node must use an AudioStreamGenerator as its stream. The fill_buffer function provides audio data for approximating a sine wave.
+
+See also AudioEffectSpectrumAnalyzer for performing real-time audio spectrum analysis.
+
+Note: Due to performance constraints, this class is best used from C# or from a compiled language via GDExtension. If you still want to use this class from GDScript, consider using a lower mix_rate such as 11,025 Hz or 22,050 Hz.
+---CHUNK---
+Document: AudioStreamGenerator
+Path: godot/classes/class_audiostreamgenerator.rst
+Summary: This document provides an overview of the AudioStreamGenerator class in Godot Engine.
+
+Inherits: AudioStream < Resource < RefCounted < Object
+
+AudioStreamGenerator
+AudioStreamGenerator is a special type of AudioStream that can be used to generate audio procedurally.
+
+It works by providing a callback function that is called whenever new audio data is needed. This callback function is responsible for generating the audio samples and returning them to the AudioStreamPlayer.
+
+This is useful for generating dynamic audio effects, procedural music, or any other type of audio that needs to be generated on the fly.
+
+Methods
+- void push_buffer(buffer: PackedByteArray)
+Pushes a buffer of audio data to the generator. The buffer must be in the format expected by the AudioStreamGenerator.
+
+- void push_frame(frame: Vector2)
+Pushes a single audio frame (left and right channels) to the generator.
+
+- int get_buffer_size()
+Returns the current size of the audio buffer in samples.
+
+- int get_latency()
+Returns the current latency of the audio generator in seconds.
+
+Properties
+- int mix_rate
+The mix rate of the audio generator in Hz. This should match the project's audio output mix rate.
+
+- int channels
+The number of audio channels. Currently only mono (1) and stereo (2) are supported.
+
+Example
+Here's a simple example of how to use AudioStreamGenerator to generate a sine wave:
+
+GDScript:
+```gdscript
+extends Node
+
+var audio_stream_generator = AudioStreamGenerator.new()
+var audio_stream_player = AudioStreamPlayer.new()
+var frequency = 440.0
+var sample_rate = ProjectSettings.get_setting("audio/general/mix_rate")
+var time = 0.0
+var amplitude = 0.5
+
+func _ready():
+    add_child(audio_stream_player)
+    audio_stream_player.stream = audio_stream_generator
+    audio_stream_player.play()
+
+func _process(delta):
+    var buffer_size = int(sample_rate * delta)
+    var buffer = PackedByteArray()
+    for i in range(buffer_size):
+        var sample = sin(time * frequency * 2.0 * PI) * amplitude
+        buffer.append(int(sample * 32767.0)) # Convert to 16-bit integer
+        time += 1.0 / sample_rate
+    audio_stream_generator.push_buffer(buffer)
+```
+
+C#:
+```csharp
+using Godot;
+using System;
+
+public class AudioGeneratorExample : Node
+{
+    private AudioStreamGenerator _audioStreamGenerator = new AudioStreamGenerator();
+    private AudioStreamPlayer _audioStreamPlayer = new AudioStreamPlayer();
+    private float _frequency = 440.0f;
+    private int _sampleRate = ProjectSettings.GetSetting("audio/general/mix_rate").AsInt32();
+    private float _time = 0.0f;
+    private float _amplitude = 0.5f;
+
+    public override void _Ready()
+    {
+        AddChild(_audioStreamPlayer);
+        _audioStreamPlayer.Stream = _audioStreamGenerator;
+        _audioStreamPlayer.Play();
+    }
+
+    public override void _Process(float delta)
+    {
+        int bufferSize = (int)(_sampleRate * delta);
+        PackedByteArray buffer = new PackedByteArray();
+        for (int i = 0; i < bufferSize; i++)
+        {
+            float sample = (float)Math.Sin(_time * _frequency * 2.0 * Math.PI) * _amplitude;
+            buffer.Add((int)(sample * 32767.0f)); // Convert to 16-bit integer
+            _time += 1.0f / _sampleRate;
+        }
+        _audioStreamGenerator.PushBuffer(buffer);
+    }
+}
+```
+---CHUNK---
+Document: AudioStreamGenerator
+Path: godot/classes/class_audiostreamgenerator.rst
+Summary: Defines properties for configuring the AudioStreamGenerator, including buffer length, mix rate, and mix rate mode.
+
+Properties
+* buffer_length (float): The length of the buffer in seconds. Default: 0.5
+* mix_rate (float): The mix rate of the audio in Hz. Default: 44100.0
+* mix_rate_mode (AudioStreamGeneratorMixRate): The mode for the mix rate. Default: 2
+---CHUNK---
+Document: AudioStreamGenerator
+Path: godot/classes/class_audiostreamgenerator.rst
+Summary: Defines mixing rate options for the AudioStreamGenerator.
+
+Enumerations
+enum AudioStreamGeneratorMixRate:
+  MIX_RATE_OUTPUT (0): Current AudioServer output mixing rate.
+  MIX_RATE_INPUT (1): Current AudioServer input mixing rate.
+  MIX_RATE_CUSTOM (2): Custom mixing rate, specified by mix_rate.
+  MIX_RATE_MAX (3): Maximum value for the mixing rate mode enum.
+---CHUNK---
+Document: AudioStreamGenerator
+Path: godot/classes/class_audiostreamgenerator.rst
+Summary: Describes the properties of the AudioStreamGenerator class, including buffer length, mix rate, and mixing rate mode.
+
+Property Descriptions
+Property: buffer_length (float)
+Description: The length of the buffer to generate (in seconds). Lower values result in less latency, but require the script to generate audio data faster, resulting in increased CPU usage and more risk for audio cracking if the CPU can't keep up.
+Default: 0.5
+Method: set_buffer_length(value: float)
+Method: get_buffer_length() → float
+
+Property: mix_rate (float)
+Description: The sample rate to use (in Hz). Higher values are more demanding for the CPU to generate, but result in better quality. In games, common sample rates in use are 11025, 16000, 22050, 32000, 44100, and 48000. According to the Nyquist-Shannon sampling theorem, there is no quality difference to human hearing when going past 40,000 Hz (since most humans can only hear up to ~20,000 Hz, often less). If you are generating lower-pitched sounds such as voices, lower sample rates such as 32000 or 22050 may be usable with no loss in quality.
+Note: AudioStreamGenerator is not automatically resampling input data, to produce expected result mix_rate_mode should match the sampling rate of input data.
+Note: If you are using AudioEffectCapture as the source of your data, set mix_rate_mode to MIX_RATE_INPUT or MIX_RATE_OUTPUT to automatically match current AudioServer mixing rate.
+Default: 44100.0
+Method: set_mix_rate(value: float)
+Method: get_mix_rate() → float
+
+Property: mix_rate_mode (AudioStreamGeneratorMixRate)
+Description: Mixing rate mode. If set to MIX_RATE_CUSTOM, mix_rate is used, otherwise current AudioServer mixing rate is used.
+Default: 2
+Method: set_mix_rate_mode(value: AudioStreamGeneratorMixRate)
+Method: get_mix_rate_mode() → AudioStreamGeneratorMixRate

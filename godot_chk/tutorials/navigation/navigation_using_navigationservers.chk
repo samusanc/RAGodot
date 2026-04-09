@@ -1,0 +1,221 @@
+Document: Navigation using NavigationServer
+Path: godot/tutorials/navigation/navigation_using_navigationservers.rst
+Summary: This document explains how to use the NavigationServer API for advanced navigation mesh generation and management in Godot.
+
+This tutorial covers advanced usage of the NavigationServer API, which is the core engine for navigation in Godot. It allows for more fine-grained control over navigation meshes, agents, and pathfinding compared to the high-level Navigation nodes.
+
+NavigationServer is a low-level API that provides direct access to the navigation system. It's useful for scenarios where you need to:
+
+*   Generate navigation meshes dynamically at runtime.
+*   Manage multiple navigation meshes and agents independently.
+*   Perform complex pathfinding queries.
+*   Integrate custom navigation solutions.
+
+To use NavigationServer, you typically interact with it through the `NavigationServer3D` singleton (or `NavigationServer2D` for 2D projects).
+
+Key concepts:
+
+*   **Navigation Mesh:** A data structure representing the walkable areas in a scene.
+*   **Navigation Agent:** An entity that navigates the navigation mesh, typically used for AI characters.
+*   **Region:** A component that defines a navigation mesh resource.
+*   **Agent:** A component that defines a navigation agent resource.
+
+The primary way to interact with `NavigationServer3D` is by creating and managing `RID`s (Resource IDs). These IDs are handles to internal navigation resources.
+
+Creating a Navigation Mesh:
+
+You can create a navigation mesh from geometry data. This involves:
+
+1.  Creating a new navigation mesh resource using `NavigationServer3D.navigation_mesh_create()`.
+2.  Setting the mesh properties, such as vertices, faces, and other geometry details.
+3.  Baking the navigation mesh using `NavigationServer3D.navigation_mesh_bake()`.
+
+Example of creating a simple navigation mesh:
+
+GDScript:
+```gdscript
+var nav_mesh_rid = NavigationServer3D.navigation_mesh_create()
+var mesh_data = RD.mesh_create_from_data(...) # Populate with geometry
+NavigationServer3D.navigation_mesh_update(nav_mesh_rid, mesh_data)
+```
+
+Managing Navigation Agents:
+
+Agents are used to find paths. You create an agent, set its properties (like radius, height, avoidance), and then use it to query paths.
+
+1.  Create an agent using `NavigationServer3D.agent_create()`.
+2.  Set agent properties like `set_agent_max_distance`, `set_agent_radius`, `set_agent_height`, `set_agent_neighbor_dist`, `set_agent_max_neighbors`, `set_agent_time_horizon`, `set_agent_radius_correction`, `set_agent_max_speed`.
+3.  Add the agent to a navigation map using `NavigationServer3D.agent_set_map()`.
+4.  Query for paths using `NavigationServer3D.agent_get_path()`.
+
+Example of agent setup and pathfinding:
+
+GDScript:
+```gdscript
+var agent_rid = NavigationServer3D.agent_create()
+NavigationServer3D.agent_set_map(agent_rid, get_world_3d().navigation_map)
+NavigationServer3D.agent_set_position(agent_rid, start_position)
+NavigationServer3D.agent_set_target_position(agent_rid, end_position)
+
+var path = NavigationServer3D.agent_get_path(agent_rid, start_position, end_position)
+```
+
+The `NavigationServer3D.get_navigation_map()` function returns the default navigation map RID. You can also create custom navigation maps for different navigation layers or environments.
+
+Key Rule: When using NavigationServer, remember that all operations are performed on RIDs. You must manage these RIDs and ensure they are properly freed when no longer needed to prevent memory leaks. Use `NavigationServer3D.free(rid)` to release resources.
+
+This API is powerful but requires a deeper understanding of the underlying navigation system. For most common use cases, the high-level Navigation nodes (`NavigationRegion3D`, `CharacterBody3D` with navigation) are sufficient and easier to use.
+---CHUNK---
+Document: NavigationServer
+Path: godot/tutorials/navigation/navigation_using_navigationservers.rst
+Summary: Introduces the NavigationServer for 2D and 3D navigation.
+The 2D and 3D versions of the NavigationServer are available as NavigationServer2D and NavigationServer3D respectively.
+---CHUNK---
+Document: NavigationServer
+Path: godot/tutorials/navigation/navigation_using_navigationservers.rst
+Summary: This section explains how to communicate with the NavigationServer using RIDs to reference internal objects.
+To work with the NavigationServer means to prepare parameters for a query that can be sent to the NavigationServer for updates or requesting data. To reference the internal NavigationServer objects like maps, regions and agents RIDs are used as identification numbers. Every navigation related node in the scene tree has a function that returns the RID for this node.
+---CHUNK---
+Document: NavigationServer Synchronization
+Path: godot/tutorials/navigation/navigation_using_navigationservers.rst
+Summary: Explains how NavigationServer synchronizes changes at the end of the physics frame and its thread-safe nature.
+The NavigationServer does not update every change immediately but waits until the end of the physics frame to synchronize all the changes together. Waiting for synchronization is required to apply changes to all maps, regions and agents. Synchronization is done because some updates like a recalculation of the entire navigation map are very expensive and require updated data from all other objects. Also the NavigationServer uses a threadpool by default for some functionality like avoidance calculation between agents. Waiting is not required for most get() functions that only request data from the NavigationServer without making changes. Note that not all data will account for changes made in the same frame. E.g. if an avoidance agent changed the navigation map this frame the agent_get_map() function will still return the old map before the synchronization. The exception to this are nodes that store their values internally before sending the update to the NavigationServer. When a getter on a node is used for a value that was updated in the same frame it will return the already updated value stored on the node. The NavigationServer is thread-safe as it places all API calls that want to make changes in a queue to be executed in the synchronization phase. Synchronization for the NavigationServer happens in the middle of the physics frame after scene input from scripts and nodes are all done. Note: The important takeaway is that most NavigationServer changes take effect after the next physics frame and not immediately. This includes all changes made by navigation related nodes in the scene tree or through scripts. Note: All setters and delete functions require synchronization.
+---CHUNK---
+Document: NavigationServer
+Path: godot/tutorials/navigation/navigation_using_navigationservers.rst
+Summary: This section details the functional equivalence and potential cross-dimensional usage of NavigationServer2D and NavigationServer3D.
+NavigationServer2D and NavigationServer3D are equivalent in functionality for their dimension.
+
+It is technically possible to use the tools for creating navigation meshes in one dimension for the other dimension. For example, baking a 2D navigation mesh with the 3D NavigationMesh when using flat 3D source geometry, or creating 3D flat navigation meshes with the polygon outline draw tools of NavigationRegion2D and NavigationPolygons.
+---CHUNK---
+Document: NavigationServer Navigation
+Path: godot/tutorials/navigation/navigation_using_navigationservers.rst
+Summary: Explains how to handle synchronization issues when making navigation changes at the start of a game or scene.
+
+When making navigation changes at the start of a game or scene, path queries to the NavigationServer might initially return empty or incorrect results because the navigation map is not yet updated. All nodes need to upload their navigation data, and each map, region, and agent must be registered with the NavigationServer. A physics frame is then required for the NavigationServer to synchronize and update these elements.
+
+A common workaround is to use a deferred call to a custom setup function. This ensures all nodes are ready before making navigation changes, such as adding procedural elements. After these changes are made, the function should wait for the next physics frame before proceeding with path queries.
+
+GDScript:
+```gdscript
+extends Node3D
+
+func _ready():
+    # Use call deferred to make sure the entire scene tree nodes are setup
+    # else await on 'physics_frame' in a _ready() might get stuck.
+    custom_setup.call_deferred()
+
+func custom_setup():
+
+    # Create a new navigation map.
+    var map: RID = NavigationServer3D.map_create()
+    NavigationServer3D.map_set_up(map, Vector3.UP)
+    NavigationServer3D.map_set_active(map, true)
+
+    # Create a new navigation region and add it to the map.
+    var region: RID = NavigationServer3D.region_create()
+    NavigationServer3D.region_set_transform(region, Transform3D())
+    NavigationServer3D.region_set_map(region, map)
+
+    # Create a procedural navigation mesh for the region.
+    var new_navigation_mesh: NavigationMesh = NavigationMesh.new()
+    var vertices: PackedVector3Array = PackedVector3Array([
+        Vector3(0, 0, 0),
+        Vector3(9.0, 0, 0),
+        Vector3(0, 0, 9.0)
+    ])
+    new_navigation_mesh.set_vertices(vertices)
+    var polygon: PackedInt32Array = PackedInt32Array([0, 1, 2])
+    new_navigation_mesh.add_polygon(polygon)
+    NavigationServer3D.region_set_navigation_mesh(region, new_navigation_mesh)
+
+    # Wait for NavigationServer sync to adapt to made changes.
+    await get_tree().physics_frame
+
+    # Query the path from the navigation server.
+    var start_position: Vector3 = Vector3(0.1, 0.0, 0.1)
+    var target_position: Vector3 = Vector3(1.0, 0.0, 1.0)
+    var optimize_path: bool = true
+
+    var path: PackedVector3Array = NavigationServer3D.map_get_path(
+        map,
+        start_position,
+        target_position,
+        optimize_path
+    )
+
+    print("Found a path!")
+    print(path)
+```
+C#:
+```csharp
+using Godot;
+
+public partial class MyNode3D : Node3D
+{
+    public override void _Ready()
+    {
+        // Use call deferred to make sure the entire scene tree nodes are setup
+        // else await on 'physics_frame' in a _ready() might get stuck.
+        CallDeferred(MethodName.CustomSetup);
+    }
+
+    private async void CustomSetup()
+    {
+        // Create a new navigation map.
+        Rid map = NavigationServer3D.MapCreate();
+        NavigationServer3D.MapSetUp(map, Vector3.Up);
+        NavigationServer3D.MapSetActive(map, true);
+
+        // Create a new navigation region and add it to the map.
+        Rid region = NavigationServer3D.RegionCreate();
+        NavigationServer3D.RegionSetTransform(region, Transform3D.Identity);
+        NavigationServer3D.RegionSetMap(region, map);
+
+        // Create a procedural navigation mesh for the region.
+        var newNavigationMesh = new NavigationMesh()
+        {
+            Vertices =
+            [
+                new Vector3(0.0f, 0.0f, 0.0f),
+                new Vector3(9.0f, 0.0f, 0.0f),
+                new Vector3(0.0f, 0.0f, 9.0f),
+            ],
+        };
+        int[] polygon = [0, 1, 2];
+        newNavigationMesh.AddPolygon(polygon);
+        NavigationServer3D.RegionSetNavigationMesh(region, newNavigationMesh);
+
+        // Wait for NavigationServer sync to adapt to made changes.
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        // Query the path from the navigation server.
+        var startPosition = new Vector3(0.1f, 0.0f, 0.1f);
+        var targetPosition = new Vector3(1.0f, 0.0f, 1.0f);
+
+        Vector3[] path = NavigationServer3D.MapGetPath(map, startPosition, targetPosition, optimize: true);
+
+        GD.Print("Found a path!");
+        GD.Print((Variant)path);
+    }
+}
+```
+---CHUNK---
+Document: NavigationServer
+Path: godot/tutorials/navigation/navigation_using_navigationservers.rst
+Summary: Explains how RVO avoidance agents in NavigationServer dispatch velocity computed signals before physics synchronization.
+Server Avoidance Callbacks
+If RVO avoidance agents are registered for avoidance callbacks the NavigationServer dispatches their velocity_computed signals just before the PhysicsServer synchronization.
+To learn more about NavigationAgents see NavigationAgents.
+The simplified order of execution for NavigationAgents that use avoidance:
+- physics frame starts.
+- _physics_process(delta).
+- velocity property is set on NavigationAgent Node.
+- Agent sends velocity and position to NavigationServer.
+- NavigationServer waits for synchronization.
+- NavigationServer synchronizes and computes avoidance velocities for all registered avoidance agents.
+- NavigationServer sends safe velocity vector with signals for each registered avoidance agents.
+- Agents receive the signal and move their parent e.g. with move_and_slide or linear_velocity.
+- PhysicsServer synchronizes.
+- physics frame ends.
+Therefore moving a physicsbody actor in the callback function with the safe velocity is perfectly thread- and physics-safe as all happens inside the same physics frame before the PhysicsServer commits to changes and does its own calculations.

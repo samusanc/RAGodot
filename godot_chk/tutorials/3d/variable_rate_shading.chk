@@ -1,0 +1,149 @@
+Document: Variable Rate Shading
+Path: godot/tutorials/3d/variable_rate_shading.rst
+Summary: This document explains how to use Variable Rate Shading (VRS) in Godot Engine to optimize rendering performance.
+
+Variable Rate Shading (VRS) is a technique that allows the GPU to render different parts of the screen at different resolutions. This can significantly improve performance by reducing the amount of work the GPU has to do, especially in scenes with complex geometry or high-resolution textures.
+
+Godot Engine supports VRS through the Vulkan renderer. To enable VRS, you need to configure it in the Project Settings.
+
+Project Settings:
+Go to Project -> Project Settings -> Rendering -> Vulkan.
+Find the "Variable Rate Shading" option.
+You can choose from several modes:
+- Disabled: VRS is not used.
+- Adaptive: The renderer dynamically adjusts the shading rate based on content complexity.
+- Fixed Foveated: Shading rate is fixed based on a foveated rendering approach (center is high resolution, periphery is lower).
+- Custom: Allows you to define custom shading rate configurations.
+
+Adaptive VRS:
+When set to "Adaptive", Godot analyzes the scene and determines which areas can be rendered at a lower shading rate without a noticeable impact on visual quality. This is often the most effective mode for general-purpose optimization.
+
+Fixed Foveated VRS:
+This mode is useful for VR/AR applications or when you want to ensure the center of the screen has the highest detail. It divides the screen into concentric rings or a grid, with the innermost areas having the highest shading rate and outer areas having progressively lower rates.
+
+Custom VRS:
+The "Custom" mode provides the most control. You can define specific regions of the screen and assign different shading rates to them. This requires a deeper understanding of VRS and your scene's rendering characteristics.
+
+Enabling VRS:
+Once you have selected a mode in the Project Settings, VRS will be enabled automatically when using the Vulkan renderer. You can verify if VRS is active by monitoring GPU performance metrics or by observing potential visual differences (though the goal of VRS is to minimize visual impact).
+
+Performance Considerations:
+- VRS is most effective on GPUs that support it. Check your GPU vendor's documentation for compatibility.
+- The performance gains from VRS can vary depending on the scene complexity, resolution, and the chosen VRS mode.
+- Experiment with different modes and settings to find the optimal configuration for your project.
+- Always profile your application to measure the actual performance impact of VRS.
+
+Note: Variable Rate Shading is a hardware-dependent feature and requires a compatible GPU and graphics driver.
+---CHUNK---
+Document: Variable Rate Shading
+Path: godot/tutorials/3d/variable_rate_shading.rst
+Summary: This document explains the concept and implementation of Variable Rate Shading (VRS) in Godot Engine.
+
+Variable rate shading (VRS) is a technique that allows you to reduce the shading rate in certain parts of the screen, saving performance with minimal visual impact. This is particularly useful for areas where the detail is not as important, such as distant objects or areas with less visual complexity.
+
+VRS works by dividing the screen into tiles and applying a different shading rate to each tile. For example, you can use a lower shading rate for background elements and a higher shading rate for foreground elements. This can significantly reduce the amount of computation required for shading, freeing up GPU resources for other tasks.
+
+Godot Engine supports VRS through its rendering features. To enable and configure VRS, you typically need to access project settings or specific rendering options within the editor. The exact implementation details and available options may vary depending on the Godot version and the graphics API being used (e.g., Vulkan).
+
+Key Rule: Variable rate shading is a performance optimization technique that reduces shading computation in less visually important screen areas.
+
+To effectively use VRS, you should identify areas of your scene where visual fidelity can be sacrificed without noticeable degradation. This often involves profiling your application to understand where the most significant performance gains can be achieved. Experiment with different shading rates and configurations to find the optimal balance between performance and visual quality.
+
+The benefits of VRS include:
+* Improved frame rates
+* Reduced GPU load
+* Potential for higher visual fidelity in critical areas by reallocating resources
+
+Considerations for using VRS:
+* Visual artifacts: In some cases, aggressive VRS settings might lead to noticeable artifacts, especially in areas with high-frequency details or rapid motion.
+* Hardware support: VRS is a hardware-dependent feature, and not all GPUs support it. Ensure your target hardware is compatible.
+* Configuration complexity: Setting up VRS might require some experimentation and tuning to achieve the desired results.
+
+By understanding and implementing variable rate shading, developers can significantly enhance the performance of their Godot applications, especially in graphically demanding 3D scenes.
+---CHUNK---
+Document: Variable Rate Shading
+Path: godot/tutorials/3d/variable_rate_shading.rst
+Summary: Explains what Variable Rate Shading (VRS) is and how it reduces rendering costs by lowering the resolution of per-pixel shading.
+
+Variable Rate Shading (VRS) is a technique used in modern 3D rendering to decrease shading costs. It achieves this by reducing the resolution of per-pixel (or fragment) shading while maintaining the original resolution for rendering geometry, ensuring that geometry edges remain sharp. VRS can be combined with various anti-aliasing techniques like MSAA, FXAA, TAA, and SSAA.
+
+VRS enables specifying shading quality locally, allowing different parts of the viewport to receive varying levels of detail. This is particularly beneficial for foveated rendering in virtual reality (VR), where the center of the view is rendered with higher detail than the periphery.
+
+The document includes visual examples comparing scenes with VRS disabled and enabled. These examples demonstrate the performance gains and potential visual quality reduction associated with VRS, both in textured and untextured scenes. When used with scenes featuring low-frequency detail, such as stylized or low-poly aesthetics, VRS can offer significant performance improvements with minimal impact on visual quality.
+---CHUNK---
+Document: Variable Rate Shading
+Path: godot/tutorials/3d/variable_rate_shading.rst
+Summary: This section details the hardware requirements for Variable Rate Shading support.
+Variable rate shading is only supported on specific GPUs.
+
+Desktop GPUs:
+- NVIDIA Turing and newer (including GTX 1600 series)
+- AMD RDNA2 and newer (both integrated and dedicated GPUs – including Steam Deck)
+- Intel Arc Alchemist and newer (dedicated GPUs only)
+  - Intel integrated graphics do not support variable rate shading.
+
+Mobile SoCs:
+- Snapdragon 888 and newer
+- MediaTek Dimensity 9000 and newer
+- ARM Mali-G615 and newer
+
+As of January 2023, Apple and Raspberry Pi GPUs do not support variable rate shading.
+---CHUNK---
+Document: Variable Rate Shading
+Path: godot/tutorials/3d/variable_rate_shading.rst
+Summary: This section explains how to enable and configure Variable Rate Shading (VRS) in Godot, covering its support across different renderers and modes.
+
+Variable rate shading (VRS) is supported by the Forward+ and Mobile renderers in both standard and XR display modes. The Compatibility renderer does not support VRS; for XR, foveation level can be used as an alternative.
+
+In the advanced Project Settings, under the **Rendering > VRS** section, you can control VRS for the root viewport:
+
+*   **Mode:** This setting determines how VRS is applied.
+    *   **Disabled:** Turns off VRS.
+    *   **Texture:** Utilizes a manually created texture to define shading density.
+    *   **XR:** Automatically generates a texture optimized for foveated rendering in VR/AR.
+*   **Texture:** Specifies the texture used to control shading density when the **Mode** is set to **Texture**.
+
+For custom viewports, the VRS mode and texture need to be configured directly on the :ref:`class_Viewport` node.
+
+Note: If your hardware does not support VRS, enabling it will have no visible effect. You can verify hardware support by running the editor or project with the `--verbose` command line argument.
+---CHUNK---
+Document: Variable Rate Shading
+Path: godot/tutorials/3d/variable_rate_shading.rst
+Summary: Explains how to create and configure a density map texture for Variable Rate Shading (VRS) in Godot.
+
+To use the **Texture** VRS mode, a density map texture is mandatory. Without it, VRS will not be visible. This texture can be created manually in an image editor or programmatically using classes like `Image` or shaders. If generating the texture dynamically, ensure the process is efficient to avoid negating VRS performance benefits.
+
+The VRS density texture must adhere to specific rules:
+- It must use a lossless compression format for precise color matching.
+- Specific colors map to different VRS densities, with brighter colors indicating lower shading precision:
+    - 1x1 (highest detail): rgb(0, 0, 0) - #000000
+    - 1x2: rgb(0, 85, 0) - #005500
+    - 2x1: rgb(85, 0, 0) - #550000
+    - 2x2: rgb(85, 85, 0) - #555500
+    - 2x4: rgb(85, 170, 0) - #55aa00
+    - 4x2: rgb(170, 85, 0) - #aa5500
+    - 4x4: rgb(170, 170, 0) - #aaaa00
+    - 4x8: rgb(170, 255, 0) - #aaff00 (Not supported on most hardware)
+    - 8x4: rgb(255, 170, 0) - #ffaa00 (Not supported on most hardware)
+    - 8x8 (lowest detail): rgb(255, 255, 0) - #ffff00 (Not supported on most hardware)
+
+An example VRS density texture can simulate foveated rendering, providing higher shading density in the center and lower density towards the corners.
+
+There are no strict size or aspect ratio requirements for the VRS density texture. However, using a texture larger than the viewport resolution divided by the GPU's tile size offers no additional benefit. The GPU tile size, typically 8x8 pixels on most hardware, defines the smallest area where shading density can be independently adjusted. This tile size can be found in the VRS debugging information when running Godot with the `--verbose` command line argument. Recommended texture resolutions are relatively low, such as 256x256 or 480x270, with square textures potentially being more suitable than those matching common aspect ratios like 16:9, depending on the project's needs.
+
+Tip: When using variable rate shading, a negative texture mipmap LOD bias can reduce blurriness in areas with reduced shading rates. However, this bias is global and affects all areas, including those with full shading rates. Use cautiously to avoid grainy textures.
+---CHUNK---
+Document: Variable Rate Shading
+Path: godot/tutorials/3d/variable_rate_shading.rst
+Summary: This section compares the performance of a scene with and without Variable Rate Shading (VRS) enabled across various resolutions.
+
+Performance comparison:
+To give an idea of how much VRS can improve performance in theory, here's a performance comparison with the textured example scene shown at the top of this page. The VRS density map example present on this page is used. Results were captured on a GeForce RTX 4090 with the NVIDIA 525.60.11 driver.
+
+*   1920×1080 (Full HD): VRS disabled: 2832 FPS, VRS enabled: 3136 FPS, Performance improvement: +10.7%
+*   2560×1440 (QHD): VRS disabled: 2008 FPS, VRS enabled: 2256 FPS, Performance improvement: +12.3%
+*   3840×2160 (4K): VRS disabled: 1236 FPS, VRS enabled: 1436 FPS, Performance improvement: +16.2%
+*   7680×4320 (8K): VRS disabled: 384 FPS, VRS enabled: 473 FPS, Performance improvement: +23.1%
+
+In terms of performance improvements, variable rate shading is more beneficial at higher target resolutions. The reduction in visual quality is also less noticeable at high resolutions.
+Note: For non-VR games, you will probably have to use a less aggressive VRS texture than what was used in this example. As a result, the effective performance gains will be lower.

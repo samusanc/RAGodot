@@ -1,0 +1,79 @@
+Document: Mesh LOD
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: This document explains how to implement Level of Detail (LOD) for meshes in Godot Engine to optimize rendering performance.
+---CHUNK---
+Document: Mesh LOD
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: This section introduces Mesh Level of Detail (LOD) as a performance optimization technique in Godot 3D projects and outlines what the tutorial will cover.
+
+Level of detail (LOD) is one of the most important ways to optimize rendering performance in a 3D project, along with occlusion culling.
+
+On this page, you'll learn:
+- How mesh LOD can improve your 3D project's rendering performance.
+- How to set up mesh LOD in Godot.
+- How to measure mesh LOD's effectiveness in your project (and alternatives you can explore if it doesn't meet your expectations).
+
+You can see how mesh LOD works in action using the Occlusion Culling and Mesh LOD demo project.
+---CHUNK---
+Document: Mesh LOD
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: This section introduces the concept of Level of Detail (LOD) in 3D graphics and explains how Godot automatically generates LOD meshes during import using the meshoptimizer library.
+
+Historically, level of detail in 3D games involved manually authoring meshes with lower geometry density, then configuring the distance thresholds at which these lower-detailed meshes should be drawn. This approach is still used today when increased control is needed.
+
+However, in projects that have a large amount of detailed 3D assets, setting up LOD manually can be a very time-consuming process. As a result, automatic mesh decimation and LOD configuration is becoming increasingly popular.
+
+Godot provides a way to automatically generate less detailed meshes for LOD usage on import, then use those LOD meshes when needed automatically. This is completely transparent to the user. The meshoptimizer library is used for LOD mesh generation behind the scenes.
+
+Mesh LOD works with any node that draws 3D meshes. This includes MeshInstance3D, MultiMeshInstance3D, GPUParticles3D and CPUParticles3D.
+---CHUNK---
+Document: Mesh LOD
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: This section provides a visual comparison of Level of Detail (LOD) meshes generated during import, showing how lower-detail meshes are used when the camera is further away.
+
+The first image displays a shaded view of LOD meshes, progressing from the most detailed on the left to the least detailed on the right. The second image shows the same LOD meshes in wireframe rendering, which helps to visualize the decimation process.
+
+See also: If you need to manually configure level of detail with artist-created meshes, use visibility ranges instead of automatic mesh LOD.
+---CHUNK---
+Document: mesh_lod
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: This section explains how mesh LOD generation works by default and how to enable it for OBJ files.
+Mesh LOD generation occurs automatically for imported 3D scenes like glTF, .blend, Collada, and FBX, and the generated LOD meshes are used automatically during rendering without manual configuration. However, mesh LOD generation does not automatically happen for imported OBJ meshes because they are typically imported as individual mesh resources rather than full 3D scenes.
+
+To enable mesh LOD generation for an OBJ file, select it in the FileSystem dock, navigate to the Import dock, change the "Import As" option to "Scene", and then click "Reimport". This action requires restarting the editor after reimporting.
+
+Note: The mesh LOD generation process may sometimes result in rendering issues, particularly with skinned meshes, and can be time-consuming for complex meshes. If mesh LOD causes a specific mesh to appear broken, LOD generation can be disabled for it within the Import dock, which also accelerates resource importing. This disabling can be applied globally within the 3D scene's import settings or on a per-mesh basis through the Advanced Import Settings dialog. For further details, refer to the documentation on Importing 3D scenes using the Import dock.
+---CHUNK---
+Document: Mesh LOD
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: This section explains how to compare mesh LOD visuals and performance in the Godot editor.
+To disable mesh LOD in the editor for comparison purposes, use the **Disable Mesh LOD** advanced debug draw mode. This can be done using the menu in the top-left corner of the 3D viewport (labeled **Perspective** or **Orthogonal** depending on camera mode). Enable **View Frame Time** in the same menu to view FPS in the top-right corner. Also enable **View Information** in the same menu to view the number of primitives (vertices + indices) rendered in the bottom-right corner. If mesh LOD is working correctly in your scene and your camera is far away enough from the mesh, you should notice the number of drawn primitives decreasing and FPS increasing when mesh LOD is left enabled (unless you are CPU-bottlenecked). To see mesh LOD decimation in action, change the debug draw mode to **Display Wireframe** in the menu specified above, then adjust the **Rendering > Mesh LOD > LOD Change > Threshold Pixels** project setting.
+---CHUNK---
+Document: Mesh LOD
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: This section explains how to configure mesh Level of Detail (LOD) transitions for performance and quality in Godot Engine.
+
+You can adjust the aggressiveness of mesh LOD transitions globally in the project settings under **Rendering > Mesh LOD > LOD Change > Threshold Pixels**. To modify this at runtime, set the `mesh_lod_threshold` property on the root viewport.
+
+GDScript:
+get_tree().root.mesh_lod_threshold = 4.0
+
+C#:
+GetTree().Root.MeshLodThreshold = 4.0f;
+
+Each viewport has an independent `mesh_lod_threshold` property. The default threshold of 1 pixel is designed to be perceptually lossless, offering significant performance gains with no noticeable quality loss. Increasing this value causes LOD transitions to occur sooner as the camera moves away, boosting performance at the cost of quality.
+
+For per-object LOD adjustments, use the **LOD Bias** property on nodes inheriting from GeometryInstance3D. Values greater than 1.0 delay LOD transitions, improving quality but reducing performance. Values less than 1.0 accelerate transitions, decreasing quality but improving performance.
+
+ReflectionProbe nodes also have a **Mesh LOD Threshold** property to enhance rendering performance during updates, particularly for probes set to update **Always**.
+
+Note: Mesh LOD selection is based on a screen-space metric, automatically accounting for camera field of view and viewport resolution. A wider camera FOV or lower viewport resolution will make LOD selection more aggressive, displaying more decimated models earlier. Unlike visibility ranges, no specific project configuration is needed to incorporate these factors.
+---CHUNK---
+Document: Mesh LOD with MultiMesh and particles
+Path: godot/tutorials/3d/mesh_lod.rst
+Summary: Explains how mesh LOD selection works with MultiMeshInstance3D and GPUParticles3D, focusing on AABB and instance separation.
+Mesh LOD selection uses the point of the node's Axis-Aligned Bounding Box (AABB) closest to the camera as a basis. This method applies to all mesh LODs, including those for individual MeshInstance3D nodes. However, it has implications for nodes displaying multiple meshes simultaneously, such as MultiMeshInstance3D and GPUParticles3D. The primary consequence is that all instances within such nodes will be rendered at the same LOD level concurrently.
+
+For GPUParticles3D, if incorrect LOD selection is observed, ensure the node's visibility AABB is properly configured. This can be done by selecting the GPUParticles3D node and using the "GPUParticles3D > Generate AABB" option in the 3D viewport.
+
+If a MultiMesh contains instances that are spatially distant from each other, it is recommended to place these instances in separate MultiMeshInstance3D nodes. This practice not only helps in managing LOD selection more effectively but also enhances rendering performance. Frustum and occlusion culling can then be applied to individual MultiMeshInstance3D nodes, which is not possible for individual instances within a single MultiMesh.

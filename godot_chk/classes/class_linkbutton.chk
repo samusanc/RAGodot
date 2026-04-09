@@ -1,0 +1,132 @@
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: This section identifies the LinkButton class.
+---CHUNK---
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: Describes the LinkButton class, which is a button representing a link.
+
+LinkButton
+Inherits: BaseButton < Control < CanvasItem < Node < Object
+
+A button that represents a link.
+---CHUNK---
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: A button that represents a link, primarily used for context changes.
+
+A button that represents a link. This type of button is primarily used for interactions that cause a context change (like linking to a web page).
+
+See also BaseButton which contains common properties and methods associated with this node.
+---CHUNK---
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: This section lists and describes the properties available for the LinkButton node.
+
+ellipsis_char (String): Default: "…"
+focus_mode (FocusMode): Overrides Control.focus_mode. Default: 3
+language (String): Default: ""
+mouse_default_cursor_shape (CursorShape): Overrides Control.mouse_default_cursor_shape. Default: 2
+structured_text_bidi_override (StructuredTextParser): Default: 0
+structured_text_bidi_override_options (Array): Default: []
+text (String): Default: ""
+text_direction (TextDirection): Default: 0
+text_overrun_behavior (OverrunBehavior): Default: 0
+underline (UnderlineMode): Default: 0
+uri (String): Default: ""
+---CHUNK---
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: This section details the theme properties available for LinkButton, including various font colors, outline size, underline spacing, font, font size, and focus style.
+
+Theme Properties
+* font_color (Color): font_color. Default: Color(0.875, 0.875, 0.875, 1).
+* font_disabled_color (Color): font_disabled_color. Default: Color(0, 0, 0, 1).
+* font_focus_color (Color): font_focus_color. Default: Color(0.95, 0.95, 0.95, 1).
+* font_hover_color (Color): font_hover_color. Default: Color(0.95, 0.95, 0.95, 1).
+* font_hover_pressed_color (Color): font_hover_pressed_color. Default: Color(0, 0, 0, 1).
+* font_outline_color (Color): font_outline_color. Default: Color(0, 0, 0, 1).
+* font_pressed_color (Color): font_pressed_color. Default: Color(1, 1, 1, 1).
+* outline_size (int): outline_size. Default: 0.
+* underline_spacing (int): underline_spacing. Default: 2.
+* font (Font): font.
+* font_size (int): font_size.
+* focus (StyleBox): focus.
+---CHUNK---
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: Describes the UnderlineMode enumeration for LinkButton, controlling text underlining behavior.
+
+Enumerations
+enum UnderlineMode:
+*   UNDERLINE_MODE_ALWAYS = 0: The LinkButton will always show an underline at the bottom of its text.
+*   UNDERLINE_MODE_ON_HOVER = 1: The LinkButton will show an underline at the bottom of its text when the mouse cursor is over it.
+*   UNDERLINE_MODE_NEVER = 2: The LinkButton will never show an underline at the bottom of its text.
+---CHUNK---
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: This section details the properties available for configuring a LinkButton, including text, language, URI, and text rendering behaviors.
+
+ellipsis_char (String): Ellipsis character used for text clipping. Default: "…"
+Method: set_ellipsis_char(value: String)
+Method: get_ellipsis_char()
+
+language (String): Language code used for line-breaking and text shaping algorithms. If left empty, the current locale is used instead. Default: ""
+Method: set_language(value: String)
+Method: get_language()
+
+structured_text_bidi_override (StructuredTextParser): Set BiDi algorithm override for the structured text. Default: 0
+Method: set_structured_text_bidi_override(value: StructuredTextParser)
+Method: get_structured_text_bidi_override()
+
+structured_text_bidi_override_options (Array): Set additional options for BiDi override. Default: []
+Method: set_structured_text_bidi_override_options(value: Array)
+Method: get_structured_text_bidi_override_options()
+
+text (String): The button's text that will be displayed inside the button's area. Default: ""
+Method: set_text(value: String)
+Method: get_text()
+
+text_direction (TextDirection): Base text writing direction. Default: 0
+Method: set_text_direction(value: TextDirection)
+Method: get_text_direction()
+
+text_overrun_behavior (OverrunBehavior): Sets the clipping behavior when the text exceeds the node's bounding rectangle. Default: 0
+Method: set_text_overrun_behavior(value: OverrunBehavior)
+Method: get_text_overrun_behavior()
+
+underline (UnderlineMode): The underline mode to use for the text. Default: 0
+Method: set_underline_mode(value: UnderlineMode)
+Method: get_underline_mode()
+
+uri (String): The URI for this LinkButton. If set to a valid URI, pressing the button opens the URI using the operating system's default program for the protocol (via OS.shell_open). HTTP and HTTPS URLs open the default web browser. Default: ""
+Method: set_uri(value: String)
+Method: get_uri()
+
+GDScript:
+uri = "https://godotengine.org" # Opens the URL in the default web browser.
+uri = "C:\SomeFolder" # Opens the file explorer at the given path.
+uri = "C:\SomeImage.png" # Opens the given image in the default viewing app.
+
+C#:
+Uri = "https://godotengine.org"; // Opens the URL in the default web browser.
+Uri = "C:\SomeFolder"; // Opens the file explorer at the given path.
+Uri = "C:\SomeImage.png"; // Opens the given image in the default viewing app.
+---CHUNK---
+Document: LinkButton
+Path: godot/classes/class_linkbutton.rst
+Summary: This section details the theme properties available for customizing the appearance of a LinkButton, including various font colors, outline settings, and focus styles.
+
+Theme Property Descriptions
+*   font_color (Color): Default text Color of the LinkButton. Default: Color(0.875, 0.875, 0.875, 1).
+*   font_disabled_color (Color): Text Color used when the LinkButton is disabled. Default: Color(0, 0, 0, 1).
+*   font_focus_color (Color): Text Color used when the LinkButton is focused. Only replaces the normal text color of the button. Disabled, hovered, and pressed states take precedence over this color. Default: Color(0.95, 0.95, 0.95, 1).
+*   font_hover_color (Color): Text Color used when the LinkButton is being hovered. Default: Color(0.95, 0.95, 0.95, 1).
+*   font_hover_pressed_color (Color): Text Color used when the LinkButton is being hovered and pressed. Default: Color(0, 0, 0, 1).
+*   font_outline_color (Color): The tint of text outline of the LinkButton. Default: Color(0, 0, 0, 1).
+*   font_pressed_color (Color): Text Color used when the LinkButton is being pressed. Default: Color(1, 1, 1, 1).
+*   outline_size (int): The size of the text outline. Note: If using a font with FontFile.multichannel_signed_distance_field enabled, its FontFile.msdf_pixel_range must be set to at least twice the value of outline_size for outline rendering to look correct. Otherwise, the outline may appear to be cut off earlier than intended. Default: 0.
+*   underline_spacing (int): The vertical space between the baseline of text and the underline. Default: 2.
+*   font (Font): Font of the LinkButton's text.
+*   font_size (int): Font size of the LinkButton's text.
+*   focus (StyleBox): StyleBox used when the LinkButton is focused. The focus StyleBox is displayed over the base StyleBox, so a partially transparent StyleBox should be used to ensure the base StyleBox remains visible. A StyleBox that represents an outline or an underline works well for this purpose. To disable the focus visual effect, assign a StyleBoxEmpty resource. Note that disabling the focus visual effect will harm keyboard/controller navigation usability, so this is not recommended for accessibility reasons.

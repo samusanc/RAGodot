@@ -1,0 +1,857 @@
+Document: MeshDataTool
+Path: godot/tutorials/3d/procedural_geometry/meshdatatool.rst
+Summary: This document explains the MeshDataTool class in Godot, which allows for direct manipulation of mesh data like vertices, normals, and UVs.
+
+Mesh data can be accessed and modified directly using the MeshDataTool class. This is useful for procedural geometry generation or modifying existing meshes.
+
+Inherits: RefCounted < Object
+
+Methods:
+Method: create_from_surface(mesh: Mesh, surface_index: int) → Error
+Creates a MeshDataTool from a specific surface of a Mesh. Returns an Error code.
+
+Method: get_vertex_count() → int
+Returns the number of vertices in the mesh.
+
+Method: get_vertex(vertex_index: int) → Vector3
+Returns the position of a vertex.
+
+Method: set_vertex(vertex_index: int, vertex: Vector3)
+Sets the position of a vertex.
+
+Method: get_normal_count() → int
+Returns the number of normals in the mesh.
+
+Method: get_normal(vertex_index: int) → Vector3
+Returns the normal of a vertex.
+
+Method: set_normal(vertex_index: int, normal: Vector3)
+Sets the normal of a vertex.
+
+Method: get_uv_count() → int
+Returns the number of UV layers in the mesh.
+
+Method: get_uv(vertex_index: int, layer: int = 0) → Vector2
+Returns the UV coordinates of a vertex for a given layer.
+
+Method: set_uv(vertex_index: int, uv: Vector2, layer: int = 0)
+Sets the UV coordinates of a vertex for a given layer.
+
+Method: get_color_count() → int
+Returns the number of vertex colors in the mesh.
+
+Method: get_color(vertex_index: int) → Color
+Returns the color of a vertex.
+
+Method: set_color(vertex_index: int, color: Color)
+Sets the color of a vertex.
+
+Method: get_tangent_count() → int
+Returns the number of tangents in the mesh.
+
+Method: get_tangent(vertex_index: int) → Plane
+Returns the tangent of a vertex.
+
+Method: set_tangent(vertex_index: int, tangent: Plane)
+Sets the tangent of a vertex.
+
+Method: get_bone_count() → int
+Returns the number of bones in the mesh.
+
+Method: get_bone_weight_count(vertex_index: int) → int
+Returns the number of bone weights for a vertex.
+
+Method: get_bone_weight(vertex_index: int, bone_index: int) → float
+Returns the weight of a bone for a vertex.
+
+Method: add_bone_weight(vertex_index: int, bone_index: int, weight: float)
+Adds a bone weight to a vertex.
+
+Method: remove_bone_weight(vertex_index: int, bone_index: int)
+Removes a bone weight from a vertex.
+
+Method: clear_bones()
+Removes all bones from the mesh.
+
+Method: commit_to_surface(mesh: Mesh, surface_index: int) → Error
+Commits the modified mesh data back to a surface of a Mesh. Returns an Error code.
+
+Method: clear()
+Clears the MeshDataTool, freeing its resources.
+
+Method: get_face_count() → int
+Returns the number of faces in the mesh.
+
+Method: get_face_vertex(face_index: int, vertex_index: int) → int
+Returns the index of a vertex belonging to a face.
+
+Method: get_face_normal(face_index: int) → Vector3
+Returns the normal of a face.
+
+Method: get_face_uv(face_index: int, layer: int = 0) → Vector2
+Returns the UV coordinates of a face for a given layer.
+
+Method: get_face_color(face_index: int) → Color
+Returns the color of a face.
+
+Method: get_face_tangent(face_index: int) → Plane
+Returns the tangent of a face.
+
+Method: delete_face(face_index: int) → Error
+Deletes a face from the mesh. Returns an Error code.
+
+Method: add_vertex(vertex: Vector3) → int
+Adds a new vertex to the mesh and returns its index.
+
+Method: add_normal(normal: Vector3) → int
+Adds a new normal to the mesh and returns its index.
+
+Method: add_uv(uv: Vector2, layer: int = 0) → int
+Adds new UV coordinates to the mesh for a given layer and returns its index.
+
+Method: add_color(color: Color) → int
+Adds a new vertex color to the mesh and returns its index.
+
+Method: add_tangent(tangent: Plane) → int
+Adds a new tangent to the mesh and returns its index.
+
+Method: add_face(vertex_indices: PackedInt64Array, normal: Vector3, uv: PackedVector2Array, color: Color, tangent: Plane) → Error
+Adds a new face to the mesh. Returns an Error code.
+
+Method: add_triangle_fan(vertex_indices: PackedInt64Array, normal: Vector3, uv: PackedVector2Array, color: Color, tangent: Plane) → Error
+Adds a new triangle fan to the mesh. Returns an Error code.
+
+Method: add_indexed_triangle(a: int, b: int, c: int, normal: Vector3, uv: PackedVector2Array, color: Color, tangent: Plane) → Error
+Adds a new indexed triangle to the mesh. Returns an Error code.
+
+Method: get_surface_count() → int
+Returns the number of surfaces in the mesh.
+
+Method: get_surface_material(surface_index: int) → Material
+Returns the material of a surface.
+
+Method: set_surface_material(surface_index: int, material: Material)
+Sets the material of a surface.
+
+Method: get_surface_arrays(surface_index: int) → Array
+Returns the arrays of a surface.
+
+Method: surface_set_vertex_format(surface_index: int, format: int)
+Sets the vertex format for a surface.
+
+Method: surface_get_vertex_format(surface_index: int) → int
+Returns the vertex format of a surface.
+
+Method: surface_set_normal_format(surface_index: int, format: int)
+Sets the normal format for a surface.
+
+Method: surface_get_normal_format(surface_index: int) → int
+Returns the normal format of a surface.
+
+Method: surface_set_uv_format(surface_index: int, layer: int, format: int)
+Sets the UV format for a surface for a given layer.
+
+Method: surface_get_uv_format(surface_index: int, layer: int) → int
+Returns the UV format of a surface for a given layer.
+
+Method: surface_set_color_format(surface_index: int, format: int)
+Sets the color format for a surface.
+
+Method: surface_get_color_format(surface_index: int) → int
+Returns the color format of a surface.
+
+Method: surface_set_tangent_format(surface_index: int, format: int)
+Sets the tangent format for a surface.
+
+Method: surface_get_tangent_format(surface_index: int) → int
+Returns the tangent format of a surface.
+
+Method: surface_find_by_material(material: Material) → int
+Finds a surface by its material. Returns -1 if not found.
+
+Method: get_mesh() → Mesh
+Returns the Mesh resource associated with this MeshDataTool.
+
+Method: get_mesh_arrays() → Array
+Returns the mesh arrays.
+
+Method: get_mesh_surface_count() → int
+Returns the number of surfaces in the mesh.
+
+Method: get_mesh_surface_material(surface_index: int) → Material
+Returns the material of a surface.
+
+Method: set_mesh_surface_material(surface_index: int, material: Material)
+Sets the material of a surface.
+
+Method: get_mesh_surface_arrays(surface_index: int) → Array
+Returns the arrays of a surface.
+
+Method: mesh_surface_set_vertex_format(surface_index: int, format: int)
+Sets the vertex format for a surface.
+
+Method: mesh_surface_get_vertex_format(surface_index: int) → int
+Returns the vertex format of a surface.
+
+Method: mesh_surface_set_normal_format(surface_index: int, format: int)
+Sets the normal format for a surface.
+
+Method: mesh_surface_get_normal_format(surface_index: int) → int
+Returns the normal format of a surface.
+
+Method: mesh_surface_set_uv_format(surface_index: int, layer: int, format: int)
+Sets the UV format for a surface for a given layer.
+
+Method: mesh_surface_get_uv_format(surface_index: int, layer: int) → int
+Returns the UV format of a surface for a given layer.
+
+Method: mesh_surface_set_color_format(surface_index: int, format: int)
+Sets the color format for a surface.
+
+Method: mesh_surface_get_color_format(surface_index: int) → int
+Returns the color format of a surface.
+
+Method: mesh_surface_set_tangent_format(surface_index: int, format: int)
+Sets the tangent format for a surface.
+
+Method: mesh_surface_get_tangent_format(surface_index: int) → int
+Returns the tangent format of a surface.
+
+Method: mesh_surface_find_by_material(material: Material) → int
+Finds a surface by its material. Returns -1 if not found.
+
+Method: get_vertex_bone_count(vertex_index: int) → int
+Returns the number of bones affecting a vertex.
+
+Method: get_vertex_bone_index(vertex_index: int, bone_index: int) → int
+Returns the index of a bone affecting a vertex.
+
+Method: get_vertex_bone_weight(vertex_index: int, bone_index: int) → float
+Returns the weight of a bone affecting a vertex.
+
+Method: set_vertex_bone_weight(vertex_index: int, bone_index: int, weight: float)
+Sets the weight of a bone affecting a vertex.
+
+Method: remove_vertex_bone_weight(vertex_index: int, bone_index: int)
+Removes a bone weight from a vertex.
+
+Method: clear_vertex_bones(vertex_index: int)
+Clears all bone weights from a vertex.
+
+Method: get_vertex_normal(vertex_index: int) → Vector3
+Returns the normal of a vertex.
+
+Method: set_vertex_normal(vertex_index: int, normal: Vector3)
+Sets the normal of a vertex.
+
+Method: get_vertex_uv(vertex_index: int, layer: int = 0) → Vector2
+Returns the UV coordinates of a vertex for a given layer.
+
+Method: set_vertex_uv(vertex_index: int, uv: Vector2, layer: int = 0)
+Sets the UV coordinates of a vertex for a given layer.
+
+Method: get_vertex_color(vertex_index: int) → Color
+Returns the color of a vertex.
+
+Method: set_vertex_color(vertex_index: int, color: Color)
+Sets the color of a vertex.
+
+Method: get_vertex_tangent(vertex_index: int) → Plane
+Returns the tangent of a vertex.
+
+Method: set_vertex_tangent(vertex_index: int, tangent: Plane)
+Sets the tangent of a vertex.
+
+Method: get_vertex_format() → int
+Returns the vertex format.
+
+Method: set_vertex_format(format: int)
+Sets the vertex format.
+
+Method: get_normal_format() → int
+Returns the normal format.
+
+Method: set_normal_format(format: int)
+Sets the normal format.
+
+Method: get_uv_format(layer: int = 0) → int
+Returns the UV format for a given layer.
+
+Method: set_uv_format(layer: int, format: int)
+Sets the UV format for a given layer.
+
+Method: get_color_format() → int
+Returns the color format.
+
+Method: set_color_format(format: int)
+Sets the color format.
+
+Method: get_tangent_format() → int
+Returns the tangent format.
+
+Method: set_tangent_format(format: int)
+Sets the tangent format.
+
+Method: get_vertex_array() → PackedVector3Array
+Returns the vertex array.
+
+Method: set_vertex_array(array: PackedVector3Array)
+Sets the vertex array.
+
+Method: get_normal_array() → PackedVector3Array
+Returns the normal array.
+
+Method: set_normal_array(array: PackedVector3Array)
+Sets the normal array.
+
+Method: get_uv_array(layer: int = 0) → PackedVector2Array
+Returns the UV array for a given layer.
+
+Method: set_uv_array(layer: int, array: PackedVector2Array)
+Sets the UV array for a given layer.
+
+Method: get_color_array() → PackedColorArray
+Returns the color array.
+
+Method: set_color_array(array: PackedColorArray)
+Sets the color array.
+
+Method: get_tangent_array() → PackedPlaneArray
+Returns the tangent array.
+
+Method: set_tangent_array(array: PackedPlaneArray)
+Sets the tangent array.
+
+Method: get_index_array() → PackedInt64Array
+Returns the index array.
+
+Method: set_index_array(array: PackedInt64Array)
+Sets the index array.
+
+Method: get_bone_array() → PackedInt64Array
+Returns the bone array.
+
+Method: set_bone_array(array: PackedInt64Array)
+Sets the bone array.
+
+Method: get_weight_array() → PackedFloat32Array
+Returns the weight array.
+
+Method: set_weight_array(array: PackedFloat32Array)
+Sets the weight array.
+
+Method: get_surface_vertex_format(surface_index: int) → int
+Returns the vertex format of a surface.
+
+Method: surface_set_vertex_format(surface_index: int, format: int)
+Sets the vertex format for a surface.
+
+Method: get_surface_normal_format(surface_index: int) → int
+Returns the normal format of a surface.
+
+Method: surface_set_normal_format(surface_index: int, format: int)
+Sets the normal format for a surface.
+
+Method: get_surface_uv_format(surface_index: int, layer: int) → int
+Returns the UV format of a surface for a given layer.
+
+Method: surface_set_uv_format(surface_index: int, layer: int, format: int)
+Sets the UV format for a surface for a given layer.
+
+Method: get_surface_color_format(surface_index: int) → int
+Returns the color format of a surface.
+
+Method: surface_set_color_format(surface_index: int, format: int)
+Sets the color format for a surface.
+
+Method: get_surface_tangent_format(surface_index: int) → int
+Returns the tangent format of a surface.
+
+Method: surface_set_tangent_format(surface_index: int, format: int)
+Sets the tangent format for a surface.
+
+Method: get_surface_vertex_array(surface_index: int) → PackedVector3Array
+Returns the vertex array of a surface.
+
+Method: surface_set_vertex_array(surface_index: int, array: PackedVector3Array)
+Sets the vertex array of a surface.
+
+Method: get_surface_normal_array(surface_index: int) → PackedVector3Array
+Returns the normal array of a surface.
+
+Method: surface_set_normal_array(surface_index: int, array: PackedVector3Array)
+Sets the normal array of a surface.
+
+Method: get_surface_uv_array(surface_index: int, layer: int) → PackedVector2Array
+Returns the UV array of a surface for a given layer.
+
+Method: surface_set_uv_array(surface_index: int, layer: int, array: PackedVector2Array)
+Sets the UV array of a surface for a given layer.
+
+Method: get_surface_color_array(surface_index: int) → PackedColorArray
+Returns the color array of a surface.
+
+Method: surface_set_color_array(surface_index: int, array: PackedColorArray)
+Sets the color array of a surface.
+
+Method: get_surface_tangent_array(surface_index: int) → PackedPlaneArray
+Returns the tangent array of a surface.
+
+Method: surface_set_tangent_array(surface_index: int, array: PackedPlaneArray)
+Sets the tangent array of a surface.
+
+Method: get_surface_index_array(surface_index: int) → PackedInt64Array
+Returns the index array of a surface.
+
+Method: surface_set_index_array(surface_index: int, array: PackedInt64Array)
+Sets the index array of a surface.
+
+Method: get_surface_bone_array(surface_index: int) → PackedInt64Array
+Returns the bone array of a surface.
+
+Method: surface_set_bone_array(surface_index: int, array: PackedInt64Array)
+Sets the bone array of a surface.
+
+Method: get_surface_weight_array(surface_index: int) → PackedFloat32Array
+Returns the weight array of a surface.
+
+Method: surface_set_weight_array(surface_index: int, array: PackedFloat32Array)
+Sets the weight array of a surface.
+
+Method: get_surface_material(surface_index: int) → Material
+Returns the material of a surface.
+
+Method: set_surface_material(surface_index: int, material: Material)
+Sets the material of a surface.
+
+Method: get_surface_arrays(surface_index: int) → Array
+Returns the arrays of a surface.
+
+Method: get_surface_count() → int
+Returns the number of surfaces in the mesh.
+
+Method: get_mesh() → Mesh
+Returns the Mesh resource associated with this MeshDataTool.
+
+Method: get_mesh_arrays() → Array
+Returns the mesh arrays.
+
+Method: get_mesh_surface_count() → int
+Returns the number of surfaces in the mesh.
+
+Method: get_mesh_surface_material(surface_index: int) → Material
+Returns the material of a surface.
+
+Method: set_mesh_surface_material(surface_index: int, material: Material)
+Sets the material of a surface.
+
+Method: get_mesh_surface_arrays(surface_index: int) → Array
+Returns the arrays of a surface.
+
+Method: mesh_surface_set_vertex_format(surface_index: int, format: int)
+Sets the vertex format for a surface.
+
+Method: mesh_surface_get_vertex_format(surface_index: int) → int
+Returns the vertex format of a surface.
+
+Method: mesh_surface_set_normal_format(surface_index: int, format: int)
+Sets the normal format for a surface.
+
+Method: mesh_surface_get_normal_format(surface_index: int) → int
+Returns the normal format of a surface.
+
+Method: mesh_surface_set_uv_format(surface_index: int, layer: int, format: int)
+Sets the UV format for a surface for a given layer.
+
+Method: mesh_surface_get_uv_format(surface_index: int, layer: int) → int
+Returns the UV format of a surface for a given layer.
+
+Method: mesh_surface_set_color_format(surface_index: int, format: int)
+Sets the color format for a surface.
+
+Method: mesh_surface_get_color_format(surface_index: int) → int
+Returns the color format of a surface.
+
+Method: mesh_surface_set_tangent_format(surface_index: int, format: int)
+Sets the tangent format for a surface.
+
+Method: mesh_surface_get_tangent_format(surface_index: int) → int
+Returns the tangent format of a surface.
+
+Method: mesh_surface_find_by_material(material: Material) → int
+Finds a surface by its material. Returns -1 if not found.
+
+Method: get_vertex_bone_count(vertex_index: int) → int
+Returns the number of bones affecting a vertex.
+
+Method: get_vertex_bone_index(vertex_index: int, bone_index: int) → int
+Returns the index of a bone affecting a vertex.
+
+Method: get_vertex_bone_weight(vertex_index: int, bone_index: int) → float
+Returns the weight of a bone affecting a vertex.
+
+Method: set_vertex_bone_weight(vertex_index: int, bone_index: int, weight: float)
+Sets the weight of a bone affecting a vertex.
+
+Method: remove_vertex_bone_weight(vertex_index: int, bone_index: int)
+Removes a bone weight from a vertex.
+
+Method: clear_vertex_bones(vertex_index: int)
+Clears all bone weights from a vertex.
+
+Method: get_vertex_normal(vertex_index: int) → Vector3
+Returns the normal of a vertex.
+
+Method: set_vertex_normal(vertex_index: int, normal: Vector3)
+Sets the normal of a vertex.
+
+Method: get_vertex_uv(vertex_index: int, layer: int = 0) → Vector2
+Returns the UV coordinates of a vertex for a given layer.
+
+Method: set_vertex_uv(vertex_index: int, uv: Vector2, layer: int = 0)
+Sets the UV coordinates of a vertex for a given layer.
+
+Method: get_vertex_color(vertex_index: int) → Color
+Returns the color of a vertex.
+
+Method: set_vertex_color(vertex_index: int, color: Color)
+Sets the color of a vertex.
+
+Method: get_vertex_tangent(vertex_index: int) → Plane
+Returns the tangent of a vertex.
+
+Method: set_vertex_tangent(vertex_index: int, tangent: Plane)
+Sets the tangent of a vertex.
+
+Method: get_vertex_format() → int
+Returns the vertex format.
+
+Method: set_vertex_format(format: int)
+Sets the vertex format.
+
+Method: get_normal_format() → int
+Returns the normal format.
+
+Method: set_normal_format(format: int)
+Sets the normal format.
+
+Method: get_uv_format(layer: int = 0) → int
+Returns the UV format for a given layer.
+
+Method: set_uv_format(layer: int, format: int)
+Sets the UV format for a given layer.
+
+Method: get_color_format() → int
+Returns the color format.
+
+Method: set_color_format(format: int)
+Sets the color format.
+
+Method: get_tangent_format() → int
+Returns the tangent format.
+
+Method: set_tangent_format(format: int)
+Sets the tangent format.
+
+Method: get_vertex_array() → PackedVector3Array
+Returns the vertex array.
+
+Method: set_vertex_array(array: PackedVector3Array)
+Sets the vertex array.
+
+Method: get_normal_array() → PackedVector3Array
+Returns the normal array.
+
+Method: set_normal_array(array: PackedVector3Array)
+Sets the normal array.
+
+Method: get_uv_array(layer: int = 0) → PackedVector2Array
+Returns the UV array for a given layer.
+
+Method: set_uv_array(layer: int, array: PackedVector2Array)
+Sets the UV array for a given layer.
+
+Method: get_color_array() → PackedColorArray
+Returns the color array.
+
+Method: set_color_array(array: PackedColorArray)
+Sets the color array.
+
+Method: get_tangent_array() → PackedPlaneArray
+Returns the tangent array.
+
+Method: set_tangent_array(array: PackedPlaneArray)
+Sets the tangent array.
+
+Method: get_index_array() → PackedInt64Array
+Returns the index array.
+
+Method: set_index_array(array: PackedInt64Array)
+Sets the index array.
+
+Method: get_bone_array() → PackedInt64Array
+Returns the bone array.
+
+Method: set_bone_array(array: PackedInt64Array)
+Sets the bone array.
+
+Method: get_weight_array() → PackedFloat32Array
+Returns the weight array.
+
+Method: set_weight_array(array: PackedFloat32Array)
+Sets the weight array.
+
+Method: get_surface_vertex_format(surface_index: int) → int
+Returns the vertex format of a surface.
+
+Method: surface_set_vertex_format(surface_index: int, format: int)
+Sets the vertex format for a surface.
+
+Method: get_surface_normal_format(surface_index: int) → int
+Returns the normal format of a surface.
+
+Method: surface_set_normal_format(surface_index: int, format: int)
+Sets the normal format for a surface.
+
+Method: get_surface_uv_format(surface_index: int, layer: int) → int
+Returns the UV format of a surface for a given layer.
+
+Method: surface_set_uv_format(surface_index: int, layer: int, format: int)
+Sets the UV format for a surface for a given layer.
+
+Method: get_surface_color_format(surface_index: int) → int
+Returns the color format of a surface.
+
+Method: surface_set_color_format(surface_index: int, format: int)
+Sets the color format for a surface.
+
+Method: get_surface_tangent_format(surface_index: int) → int
+Returns the tangent format of a surface.
+
+Method: surface_set_tangent_format(surface_index: int, format: int)
+Sets the tangent format for a surface.
+
+Method: get_surface_vertex_array(surface_index: int) → PackedVector3Array
+Returns the vertex array of a surface.
+
+Method: surface_set_vertex_array(surface_index: int, array: PackedVector3Array)
+Sets the vertex array of a surface.
+
+Method: get_surface_normal_array(surface_index: int) → PackedVector3Array
+Returns the normal array of a surface.
+
+Method: surface_set_normal_array(surface_index: int, array: PackedVector3Array)
+Sets the normal array of a surface.
+
+Method: get_surface_uv_array(surface_index: int, layer: int) → PackedVector2Array
+Returns the UV array of a surface for a given layer.
+
+Method: surface_set_uv_array(surface_index: int, layer: int, array: PackedVector2Array)
+Sets the UV array of a surface for a given layer.
+
+Method: get_surface_color_array(surface_index: int) → PackedColorArray
+Returns the color array of a surface.
+
+Method: surface_set_color_array(surface_index: int, array: PackedColorArray)
+Sets the color array of a surface.
+
+Method: get_surface_tangent_array(surface_index: int) → PackedPlaneArray
+Returns the tangent array of a surface.
+
+Method: surface_set_tangent_array(surface_index: int, array: PackedPlaneArray)
+Sets the tangent array of a surface.
+
+Method: get_surface_index_array(surface_index: int) → PackedInt64Array
+Returns the index array of a surface.
+
+Method: surface_set_index_array(surface_index: int, array: PackedInt64Array)
+Sets the index array of a surface.
+
+Method: get_surface_bone_array(surface_index: int) → PackedInt64Array
+Returns the bone array of a surface.
+
+Method: surface_set_bone_array(surface_index: int, array: PackedInt64Array)
+Sets the bone array of a surface.
+
+Method: get_surface_weight_array(surface_index: int) → PackedFloat32Array
+Returns the weight array of a surface.
+
+Method: surface_set_weight_array(surface_index: int, array: PackedFloat32Array)
+Sets the weight array of a surface.
+---CHUNK---
+Document: MeshDataTool
+Path: godot/tutorials/3d/procedural_geometry/meshdatatool.rst
+Summary: This document explains how to use the MeshDataTool to dynamically alter mesh geometry by accessing and modifying vertex, edge, and face data.
+
+The MeshDataTool is used for dynamically altering geometry, such as tessellating, simplifying, or deforming meshes. It is not as fast as directly altering arrays with ArrayMesh but provides more information, including faces and edges, which are necessary for certain mesh algorithms.
+
+Key Rule: MeshDataTool can only be used on Meshes that use the PrimitiveType Mesh.PRIMITIVE_TRIANGLES.
+
+To initialize the MeshDataTool, use `create_from_surface(mesh, surface_index)`. This method clears any existing data in the MeshDataTool. Alternatively, `clear()` can be called manually.
+
+The `create_from_surface()` method calculates three arrays: vertex, edge, and face.
+- An edge connects two vertices and can be part of up to two faces.
+- A face is a triangle composed of three vertices and three edges.
+- The vertex array contains information about edges, faces, normals, colors, tangents, UVs, bones, and weights associated with each vertex.
+
+Accessing data is done via `get_*()` functions:
+- `get_vertex_count()`: Returns the number of vertices.
+- `get_vertex_faces(vertex_index)`: Returns an array of faces connected to a specific vertex.
+- `get_face_normal(face_index)`: Calculates and returns the normal of a specific face.
+- `get_edge_vertex(edge_index, vertex_index_in_edge)`: Returns a vertex of a specific edge.
+
+Modifications made with MeshDataTool are not applied directly to the ArrayMesh. To update an existing ArrayMesh, first clear its surfaces using `clear_surfaces()` and then commit the changes using `commit_to_surface(mesh)`.
+
+GDScript:
+```gdscript
+var mdt = MeshDataTool.new()
+mdt.create_from_surface(mesh, 0)
+```
+
+C#:
+```csharp
+var mdt = new MeshDataTool();
+mdt.CreateFromSurface(mesh, 0);
+```
+
+Iterating over vertices to modify them:
+
+GDScript:
+```gdscript
+for i in range(mdt.get_vertex_count()):
+    var vert = mdt.get_vertex(i)
+    vert *= 2.0 # Scales the vertex by doubling its size.
+    mdt.set_vertex(i, vert)
+```
+
+C#:
+```csharp
+for (var i = 0; i < mdt.GetVertexCount(); i++)
+{
+    Vector3 vert = mdt.GetVertex(i);
+    vert *= 2.0f; # Scales the vertex by doubling its size.
+    mdt.SetVertex(i, vert);
+}
+```
+
+Committing changes to the mesh:
+
+GDScript:
+```gdscript
+mesh.clear_surfaces() # Deletes all of the mesh's surfaces.
+mdt.commit_to_surface(mesh)
+```
+
+C#:
+```csharp
+mesh.ClearSurfaces(); # Deletes all of the mesh's surfaces.
+mdt.CommitToSurface(mesh);
+```
+
+A complete example demonstrates deforming a spherical mesh into a blob with updated normals and vertex colors:
+
+GDScript:
+```gdscript
+extends MeshInstance3D
+
+var fnl = FastNoiseLite.new()
+var mdt = MeshDataTool.new()
+
+func _ready():
+    fnl.frequency = 0.7
+
+    mdt.create_from_surface(mesh, 0)
+
+    for i in range(mdt.get_vertex_count()):
+        var vertex = mdt.get_vertex(i).normalized()
+        # Scale the vertices using noise.
+        vertex = vertex * (fnl.get_noise_3dv(vertex) * 0.5 + 0.75)
+        mdt.set_vertex(i, vertex)
+
+    # Calculate the vertex normals, face-by-face.
+    for i in range(mdt.get_face_count()):
+        # Get the index in the vertex array.
+        var a = mdt.get_face_vertex(i, 0)
+        var b = mdt.get_face_vertex(i, 1)
+        var c = mdt.get_face_vertex(i, 2)
+        # Get the vertex position using the vertex index.
+        var ap = mdt.get_vertex(a)
+        var bp = mdt.get_vertex(b)
+        var cp = mdt.get_vertex(c)
+        # Calculate the normal of the face.
+        var n = (bp - cp).cross(ap - bp).normalized()
+        # Add this face normal to the current vertex normals.
+        # This will not result in perfect normals, but it will be close.
+        mdt.set_vertex_normal(a, n + mdt.get_vertex_normal(a))
+        mdt.set_vertex_normal(b, n + mdt.get_vertex_normal(b))
+        mdt.set_vertex_normal(c, n + mdt.get_vertex_normal(c))
+
+    # Run through the vertices one last time to normalize their normals and
+    # set the vertex colors to these new normals.
+    for i in range(mdt.get_vertex_count()):
+        var v = mdt.get_vertex_normal(i).normalized()
+        mdt.set_vertex_normal(i, v)
+        mdt.set_vertex_color(i, Color(v.x, v.y, v.z))
+
+    mesh.clear_surfaces()
+    mdt.commit_to_surface(mesh)
+```
+
+C#:
+```csharp
+using Godot;
+
+public partial class MyMeshInstance3D : MeshInstance3D
+{
+    MeshDataTool mdt = new MeshDataTool();
+    FastNoiseLite fnl = new FastNoiseLite();
+
+    public override void _Ready()
+    {
+        fnl.Frequency = 0.7f;
+
+        ArrayMesh mesh = Mesh as ArrayMesh; # The mesh assigned the MeshInstance3D needs to be an ArrayMesh.
+        mdt.CreateFromSurface(mesh, 0);
+
+        for (var i = 0; i < mdt.GetVertexCount(); i++)
+        {
+            Vector3 vertex = mdt.GetVertex(i).Normalized();
+            # Scale the vertices using noise.
+            vertex = vertex * (fnl.GetNoise3Dv(vertex) * 0.5f + 0.75f);
+            mdt.SetVertex(i, vertex);
+        }
+
+        # Calculate the vertex normals, face-by-face.
+        for (var i = 0; i < mdt.GetFaceCount(); i++)
+        {
+            # Get the index in the vertex array.
+            var a = mdt.GetFaceVertex(i, 0);
+            var b = mdt.GetFaceVertex(i, 1);
+            var c = mdt.GetFaceVertex(i, 2);
+            # Get the vertex position using the vertex index.
+            var ap = mdt.GetVertex(a);
+            var bp = mdt.GetVertex(b);
+            var cp = mdt.GetVertex(c);
+            # Calculate the normal of the face.
+            var n = (bp - cp).Cross(ap - bp).Normalized();
+            # Add this face normal to the current vertex normals.
+            # This will not result in perfect normals, but it will be close.
+            mdt.SetVertexNormal(a, n + mdt.GetVertexNormal(a));
+            mdt.SetVertexNormal(b, n + mdt.GetVertexNormal(b));
+            mdt.SetVertexNormal(c, n + mdt.GetVertexNormal(c));
+        }
+
+        # Run through the vertices one last time to normalize their normals and
+        # set the vertex colors to these new normals.
+        for (var i = 0; i < mdt.GetVertexCount(); i++)
+        {
+            var v = mdt.GetVertexNormal(i).Normalized();
+            mdt.SetVertexNormal(i, v);
+            mdt.SetVertexColor(i, new Color(v.X, v.Y, v.Z));
+        }
+
+        mesh.ClearSurfaces();
+        mdt.CommitToSurface(mesh);
+    }
+}
+```

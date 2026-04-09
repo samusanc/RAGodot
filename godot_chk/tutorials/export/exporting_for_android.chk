@@ -1,0 +1,180 @@
+Document: Exporting for Android
+Path: godot/tutorials/exporting/exporting_for_android.rst
+Summary: This document explains how to export Godot projects for the Android platform.
+
+This tutorial covers the process of exporting your Godot projects to run on Android devices. It details the necessary steps, configurations, and considerations to ensure a smooth export and deployment experience.
+
+Key Rule: Ensure you have the Android build template downloaded and configured in Godot's export settings before proceeding.
+
+The export process involves several stages:
+
+1.  **Project Setup**:
+    *   Open your Godot project.
+    *   Navigate to `Project -> Export...`.
+    *   Click `Add...` and select `Android` from the list of platforms.
+
+2.  **Build Configuration**:
+    *   **Keystore**: You will need a keystore file to sign your Android application. If you don't have one, you can create a new one directly from the export dialog.
+        *   `Debug Key`: For testing and development.
+        *   `Release Key`: For distributing your application.
+    *   **Package Name**: This is a unique identifier for your app, typically in reverse domain name notation (e.g., `com.yourcompany.yourgame`).
+    *   **Version Code**: An integer representing the version of your app. It must be incremented for each new release.
+    *   **Version Name**: A human-readable string representing the version (e.g., `1.0.0`).
+    *   **Target SDK**: The Android API level your app is designed to run on.
+    *   **Minimum SDK**: The lowest Android API level your app supports.
+
+3.  **Templates**:
+    *   Godot uses build templates to package your project. You need to download the Android build templates from the Godot website or GitHub.
+    *   In the export settings, under `Android -> Templates`, specify the path to your downloaded debug and release templates.
+
+4.  **Permissions**:
+    *   You can specify required Android permissions in the export settings. For example, `INTERNET` for network access or `WRITE_EXTERNAL_STORAGE` for file storage.
+
+5.  **Exporting**:
+    *   Once configured, click `Export Project`.
+    *   Choose a location and filename for your `.apk` or `.aab` file.
+    *   The `.apk` file can be directly installed on Android devices.
+    *   The `.aab` (Android App Bundle) is the recommended format for publishing on the Google Play Store.
+
+GDScript:
+```gdscript
+# Example of checking for Android platform at runtime
+if OS.has_feature("android"):
+    print("Running on Android!")
+```
+
+C#:
+```csharp
+// Example of checking for Android platform at runtime
+if (OS.HasFeature("android"))
+{
+    GD.Print("Running on Android!");
+}
+```
+
+Considerations for Android export:
+
+*   **Performance**: Optimize your game for mobile performance, paying attention to draw calls, shader complexity, and memory usage.
+*   **Input**: Adapt your input methods for touchscreens, considering virtual joysticks, buttons, and gestures.
+*   **Screen Sizes**: Design your UI and game elements to be responsive across various screen resolutions and aspect ratios.
+*   **Testing**: Thoroughly test your exported game on different Android devices to catch compatibility issues and performance bottlenecks.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section outlines the requirements and steps for exporting Godot projects to the Android platform.
+Exporting for Android has fewer requirements than compiling Godot for Android. The following steps detail what is needed to set up the Android SDK and the engine. Note: Projects written in C# can be exported to Android as of Godot 4.2, but support is experimental and some limitations apply.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/exporting_for_android.rst
+Summary: Instructions for installing OpenJDK 17 for Android export.
+Note: Higher versions of the JDK are also supported, but we recommend using JDK 17 for optimal compatibility and stability.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section details how to download and set up the necessary Android SDK components for exporting Godot projects to Android.
+
+To export your Godot project for Android, you need to download and install the Android SDK.
+
+You can install the Android SDK using Android Studio Iguana (version 2023.2.1) or later.
+- Run Android Studio once to complete the SDK setup using the provided instructions.
+- Ensure that the required packages are installed:
+    - Android SDK Platform-Tools version 35.0.0 or later
+    - Android SDK Build-Tools version 35.0.1
+    - Android SDK Platform 35
+    - Android SDK Command-line Tools (latest)
+- Ensure that the NDK and CMake are installed and configured:
+    - CMake version 3.10.2.4988404
+    - NDK version r28b (28.1.13356709)
+
+Alternatively, you can install the Android SDK with the `sdkmanager` command line tool.
+- Install the command line tools package using the provided instructions.
+- Once the command line tools are installed, run the following `sdkmanager` command to complete the setup process:
+GDScript:
+    sdkmanager --sdk_root=<android_sdk_path> "platform-tools" "build-tools;35.0.1" "platforms;android-35" "cmdline-tools;latest" "cmake;3.10.2.4988404" "ndk;28.1.13356709"
+
+Note: If you are using Linux, do not use an Android SDK provided by your distribution's repositories as it will often be outdated.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section details the necessary configuration steps within Godot's editor settings to prepare for exporting projects to the Android platform.
+
+In the Editor Settings, navigate to the Android section. Two crucial paths must be configured:
+
+*   **Java SDK Path**: Specify the installation directory for OpenJDK 17.
+*   **Android SDK Path**: Specify the installation directory for the Android SDK. This directory must contain the `platform-tools/adb` subfolder. Examples include `%LOCALAPPDATA%\Android\Sdk\` on Windows and `/Users/$USER/Library/Android/sdk/` on macOS.
+
+After setting these paths, the project is ready for Android export.
+
+Note: If an error like "Could not install to device." occurs, verify that no application with the same Android package name, but signed with a different key, is already installed on the target device. If such an application exists, it must be uninstalled from the Android device before attempting to export again.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section explains how to provide launcher icons for Android exports, detailing the requirements for main, adaptive, and themed icons.
+
+Launcher icons are used by Android launcher apps to represent your application to users. Godot only requires high-resolution icons (for xxxhdpi density screens) and will automatically generate lower-resolution variants.
+
+There are three types of icons:
+
+*   **Main Icon:** The "classic" icon. This will be used on all Android versions up to Android 8 (Oreo), exclusive. Must be at least 192×192 px.
+*   **Adaptive Icons:** Starting from Android 8 (inclusive), Adaptive Icons were introduced. Applications will need to include separate background and foreground icons to have a native look. The user's launcher application will control the icon's animation and masking. Must be at least 432×432 px.
+*   **Themed Icons (optional):** Starting from Android 13 (inclusive), Themed Icons were introduced. Applications will need to include a monochrome icon to enable this feature. The user's launcher application will control the icon's theme. Must be at least 432×432 px.
+
+Note: It's important to adhere to some rules when designing adaptive icons. Google Design has provided a nice article that helps to understand those rules and some of the capabilities of adaptive icons.
+
+Warning: The most important adaptive icon design rule is to have your icon critical elements inside the safe zone: a centered circle with a diameter of 66dp (264 pixels on xxxhdpi) to avoid being clipped by the launcher.
+
+If you don't provide the requested icons (except for Monochrome), Godot will replace them using a fallback chain, trying the next in line when the current one fails:
+
+*   **Main Icon:** Provided main icon -> Project icon -> Default Godot main icon.
+*   **Adaptive Icon Foreground:** Provided foreground icon -> Provided main icon -> Project icon -> Default Godot foreground icon.
+*   **Adaptive Icon Background:** Provided background icon -> Default Godot background icon.
+
+It's highly recommended to provide all the requested icons with their specified resolutions. This way, your application will look great on all Android devices and versions.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section explains how to export Android projects for the Google Play Store, focusing on generating a keystore and configuring export presets.
+Exporting for Google Play Store
+All new apps uploaded to Google Play after August 2021 must be an AAB (Android App Bundle) file.
+
+Uploading an AAB or APK to Google's Play Store requires you to sign using a non-debug keystore file; such a file can be generated like this:
+GDScript:
+keytool -v -genkey -keystore mygame.keystore -alias mygame -keyalg RSA -validity 10000
+
+This keystore and key are used to verify your developer identity, remember the password and keep it in a safe place! It is suggested to use only upper and lowercase letters and numbers. Special characters may cause errors. Use Google's Android Developer guides to learn more about app signing.
+
+Now fill in the following forms in your Android Export Presets:
+*   **Release:** Enter the path to the keystore file you just generated.
+*   **Release User:** Replace with the key alias.
+*   **Release Password:** Key password. Note that the keystore password and the key password currently have to be the same.
+
+Don't forget to uncheck the **Export With Debug** checkbox while exporting.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section explains how to optimize the file size of Android exports by selecting specific architectures and compiling custom export templates.
+Optimizing the file size
+If you're working with APKs and not AABs, by default, the APK will contain native libraries for both ARMv7 and ARMv8 architectures. This increases its size significantly. To create a smaller file, uncheck either Armeabi-v7a or Arm64-v8a in your project's Android export preset. This will create an APK that only contains a library for a single architecture. Note that applications targeting ARMv7 can also run on ARMv8 devices, but the opposite is not true. The reason you don't do this to save space with AABs is that Google automatically splits up the AAB on their backend, so the user only downloads what they need.
+
+You can optimize the size further by compiling an Android export template with only the features you need. See Optimizing for Size for more information.
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section details environment variables that can be used to configure Android export options outside of the Godot editor.
+
+Environment variables can be used to set export options externally, overriding editor settings during the export process.
+
+Android export environment variables:
+* Encryption / Encryption Key (Environment variable: GODOT_SCRIPT_ENCRYPTION_KEY)
+* Options / Keystore / Debug (Environment variable: GODOT_ANDROID_KEYSTORE_DEBUG_PATH)
+* Options / Keystore / Debug User (Environment variable: GODOT_ANDROID_KEYSTORE_DEBUG_USER)
+* Options / Keystore / Debug Password (Environment variable: GODOT_ANDROID_KEYSTORE_DEBUG_PASSWORD)
+* Options / Keystore / Release (Environment variable: GODOT_ANDROID_KEYSTORE_RELEASE_PATH)
+* Options / Keystore / Release User (Environment variable: GODOT_ANDROID_KEYSTORE_RELEASE_USER)
+* Options / Keystore / Release Password (Environment variable: GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD)
+---CHUNK---
+Document: Exporting for Android
+Path: godot/tutorials/export/exporting_for_android.rst
+Summary: This section lists the available export options for Android development.
+Export options
+You can find a full list of export options available in the EditorExportPlatformAndroid class reference.

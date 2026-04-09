@@ -1,0 +1,228 @@
+Document: Your First 2D Game: Heads-Up Display
+Path: godot/getting_started/first_2d_game/06.heads_up_display.rst
+Summary: This section explains how to create a Heads-Up Display (HUD) in Godot to show game information like score and lives.
+
+This tutorial section covers the creation of a Heads-Up Display (HUD) for your first 2D game in Godot. A HUD is essential for displaying important game information to the player, such as their score, remaining lives, or other relevant stats, without obstructing the main game view.
+
+We will focus on setting up a separate scene for the HUD, which can then be instantiated and managed within your main game scene. This approach promotes modularity and makes it easier to update or modify the HUD independently.
+
+Key steps typically involve:
+*   Creating a new scene for the HUD.
+*   Adding UI elements like Labels to display text.
+*   Connecting signals from game logic to update the HUD.
+*   Positioning the HUD elements appropriately on the screen.
+
+By the end of this section, you will have a functional HUD displaying dynamic game information, enhancing the player's experience and providing crucial feedback during gameplay.
+---CHUNK---
+Document: Heads up display
+Path: godot/getting_started/first_2d_game/06.heads_up_display.rst
+Summary: This section describes how to create a Heads-Up Display (HUD) for a 2D game in Godot, including adding UI elements like score labels, messages, and a start button.
+
+The final piece our game needs is a User Interface (UI) to display things like score, a "game over" message, and a restart button.
+
+Create a new scene, click the "Other Node" button and add a CanvasLayer node named HUD. HUD stands for "heads-up display", an informational display that appears as an overlay on top of the game view.
+
+The CanvasLayer node lets us draw our UI elements on a layer above the rest of the game, so that the information it displays isn't covered up by any game elements like the player or mobs.
+
+The HUD needs to display the following information:
+- Score, changed by ScoreTimer.
+- A message, such as "Game Over" or "Get Ready!"
+- A "Start" button to begin the game.
+
+The basic node for UI elements is Control. To create our UI, we'll use two types of Control nodes: Label and Button.
+
+Create the following as children of the HUD node:
+- Label named ScoreLabel.
+- Label named Message.
+- Button named StartButton.
+- Timer named MessageTimer.
+
+Click on the ScoreLabel and type a number into the Text field in the Inspector. The default font for Control nodes is small and doesn't scale well. There is a font file included in the game assets called "Xolonium-Regular.ttf". To use this font, do the following:
+
+Under "Theme Overrides > Fonts", choose "Load" and select the "Xolonium-Regular.ttf" file.
+
+The font size is still too small, increase it to 64 under "Theme Overrides > Font Sizes". Once you've done this with the ScoreLabel, repeat the changes for the Message and StartButton nodes.
+
+Note: Control nodes have a position and size, but they also have anchors. Anchors define the origin - the reference point for the edges of the node.
+
+Arrange the nodes as shown below. You can drag the nodes to place them manually, or for more precise placement, use "Anchor Presets".
+---CHUNK---
+Document: Heads Up Display
+Path: godot/getting_started/first_2d_game/06.heads_up_display.rst
+Summary: Instructions for configuring the ScoreLabel node in a Godot 2D game.
+
+ScoreLabel
+1. Add the text "0".
+2. Set the "Horizontal Alignment" and "Vertical Alignment" to "Center".
+3. Choose the "Anchor Preset" "Center Top".
+---CHUNK---
+Document: Heads Up Display
+Path: godot/getting_started/first_2d_game/06.heads_up_display.rst
+Summary: This section describes how to add and configure a Label node for a Heads Up Display in a Godot game.
+
+To add the text "Dodge the Creeps!", configure the Label node's properties. Set the "Horizontal Alignment" and "Vertical Alignment" to "Center". Set the "Autowrap Mode" to "Word" to ensure the text wraps correctly. Under "Control - Layout/Transform", set the "Size X" property to 480 to make the label span the entire width of the screen. Finally, choose the "Anchor Preset" option and select "Center".
+---CHUNK---
+Document: Heads Up Display
+Path: godot/getting_started/first_2d_game/06.heads_up_display.rst
+Summary: This section details how to set up and script a Heads-Up Display (HUD) for a 2D game in Godot, including adding buttons, timers, labels, and handling game events like starting the game, showing messages, and game over sequences.
+
+The StartButton is configured with specific text, size, and anchor preset.
+- Text: "Start"
+- Size X: 200
+- Size Y: 100
+- Anchor Preset: Center Bottom
+- Position Y: 580
+
+The MessageTimer is configured with:
+- Wait Time: 2
+- One Shot: On
+
+The HUD script is added to the HUD node.
+GDScript:
+extends CanvasLayer
+
+# Notifies `Main` node that the button has been pressed
+signal start_game
+C#:
+using Godot;
+
+public partial class HUD : CanvasLayer
+{
+    // Don't forget to rebuild the project so the editor knows about the new signal.
+
+    [Signal]
+    public delegate void StartGameEventHandler();
+}
+
+The show_message function displays temporary messages.
+GDScript:
+func show_message(text):
+    $Message.text = text
+    $Message.show()
+    $MessageTimer.start()
+C#:
+public void ShowMessage(string text)
+{
+    var message = GetNode<Label>("Message");
+    message.Text = text;
+    message.Show();
+
+    GetNode<Timer>("MessageTimer").Start();
+}
+
+The show_game_over function handles the game over sequence.
+GDScript:
+func show_game_over():
+    show_message("Game Over")
+    # Wait until the MessageTimer has counted down.
+    await $MessageTimer.timeout
+
+    $Message.text = "Dodge the Creeps!"
+    $Message.show()
+    # Make a one-shot timer and wait for it to finish.
+    await get_tree().create_timer(1.0).timeout
+    $StartButton.show()
+C#:
+async public void ShowGameOver()
+{
+    ShowMessage("Game Over");
+
+    var messageTimer = GetNode<Timer>("MessageTimer");
+    await ToSignal(messageTimer, Timer.SignalName.Timeout);
+
+    var message = GetNode<Label>("Message");
+    message.Text = "Dodge the Creeps!";
+    message.Show();
+
+    await ToSignal(GetTree().CreateTimer(1.0), SceneTreeTimer.SignalName.Timeout);
+    GetNode<Button>("StartButton").Show();
+}
+
+Note: When you need to pause for a brief time, an alternative to using a Timer node is to use the SceneTree's create_timer() function. This can be very useful to add delays such as in the above code, where we want to wait some time before showing the "Start" button.
+
+The update_score function updates the displayed score.
+GDScript:
+func update_score(score):
+    $ScoreLabel.text = str(score)
+C#:
+public void UpdateScore(int score)
+{
+    GetNode<Label>("ScoreLabel").Text = score.ToString();
+}
+
+The StartButton's pressed() signal and MessageTimer's timeout() signal are connected to the HUD node.
+GDScript:
+func _on_start_button_pressed():
+    $StartButton.hide()
+    start_game.emit()
+
+func _on_message_timer_timeout():
+    $Message.hide()
+C#:
+// We also specified this function name in PascalCase in the editor's connection window.
+private void OnStartButtonPressed()
+{
+    GetNode<Button>("StartButton").Hide();
+    EmitSignal(SignalName.StartGame);
+}
+
+// We also specified this function name in PascalCase in the editor's connection window.
+private void OnMessageTimerTimeout()
+{
+    GetNode<Label>("Message").Hide();
+}
+---CHUNK---
+Document: Heads Up Display
+Path: godot/getting_started/first_2d_game/06.heads_up_display.rst
+Summary: This section explains how to connect the Heads Up Display (HUD) scene to the main game scene and update its functionality.
+
+Connecting HUD to Main
+Instance the HUD scene in Main. The scene tree should include the HUD node.
+
+Connect the HUD's `start_game` signal to the `new_game()` function of the Main node.
+
+In `new_game()`, update the score display and show the "Get Ready" message:
+GDScript:
+        $HUD.update_score(score)
+        $HUD.show_message("Get Ready")
+C#:
+        var hud = GetNode<HUD>("HUD");
+        hud.UpdateScore(_score);
+        hud.ShowMessage("Get Ready!");
+
+In `game_over()`, call the corresponding HUD function:
+GDScript:
+        $HUD.show_game_over()
+C#:
+        GetNode<HUD>("HUD").ShowGameOver();
+
+In `_on_score_timer_timeout()`, keep the display in sync with the changing score:
+GDScript:
+        $HUD.update_score(score)
+C#:
+        GetNode<HUD>("HUD").UpdateScore(_score);
+
+Warning: Remember to remove the call to `new_game()` from `_ready()` if you haven't already, otherwise your game will start automatically.
+---CHUNK---
+Document: First 2D Game Tutorial
+Path: godot/getting_started/first_2d_game/06.heads_up_display.rst
+Summary: This section explains how to use Godot's group feature to remove all mobs from the previous game when a new game starts.
+
+To remove old creeps when starting a new game, you can use the group feature.
+In the Mob scene, select the root node and go to the Groups tab.
+Add a new group named "mobs".
+
+Now all mobs will be in the "mobs" group.
+To make all mobs disappear at the start of a new game, add the following line to the new_game() function in Main:
+
+GDScript:
+        get_tree().call_group("mobs", "queue_free")
+
+C#:
+        // Note that for calling Godot-provided methods with strings,
+        // we have to use the original Godot snake_case name.
+        GetTree().CallGroup("mobs", Node.MethodName.QueueFree);
+
+The call_group() function calls the named function on every node in a group. In this case, it tells every mob to delete itself.
+
+The game is mostly done at this point. The next part will cover adding a background, looping music, and keyboard shortcuts.

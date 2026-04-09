@@ -1,0 +1,99 @@
+Document: RenderSceneBuffersConfiguration
+Path: godot/classes/class_renderscenebuffersconfiguration.rst
+Summary: Configuration for render scene buffers.
+
+Inherits: Resource < RefCounted < Object
+
+This class holds configuration for render scene buffers. It allows for fine-grained control over how the scene is rendered, including buffer formats, resolutions, and other rendering-related settings. This is useful for advanced rendering techniques and custom render pipelines.
+---CHUNK---
+Document: RenderSceneBuffersConfiguration
+Path: godot/classes/class_renderscenebuffersconfiguration.rst
+Summary: Configuration object used to setup a RenderSceneBuffers object.
+
+Inherits: RefCounted < Object
+---CHUNK---
+Document: RenderSceneBuffersConfiguration
+Path: godot/classes/class_renderscenebuffersconfiguration.rst
+Summary: Describes the RenderSceneBuffersConfiguration object, which is used to configure RenderSceneBuffers.
+
+RenderSceneBuffersConfiguration is a configuration object created and populated by the render engine on a viewport change. It is used to reconfigure a RenderSceneBuffers object.
+---CHUNK---
+Document: RenderSceneBuffersConfiguration
+Path: godot/classes/class_renderscenebuffersconfiguration.rst
+Summary: Defines the properties for configuring render scene buffers, including anisotropic filtering, FSR sharpness, internal and target sizes, MSAA, render targets, scaling mode, screen space AA, mipmap bias, and view count.
+
+Properties:
+* anisotropic_filtering_level (ViewportAnisotropicFiltering): Controls the level of anisotropic filtering applied. Default: 2.
+* fsr_sharpness (float): Controls the sharpness of the FidelityFX Super Resolution (FSR) upscaling. Default: 0.0.
+* internal_size (Vector2i): The internal resolution used for rendering before upscaling. Default: Vector2i(0, 0).
+* msaa_3d (ViewportMSAA): The Multi-Sample Anti-Aliasing (MSAA) mode for 3D rendering. Default: 0.
+* render_target (RID): The RID of the render target to use. Default: RID().
+* scaling_3d_mode (ViewportScaling3DMode): The mode for 3D viewport scaling. Default: 255.
+* screen_space_aa (ViewportScreenSpaceAA): The screen-space anti-aliasing mode. Default: 0.
+* target_size (Vector2i): The final resolution of the rendered output. Default: Vector2i(0, 0).
+* texture_mipmap_bias (float): Bias applied to texture mipmap levels. Default: 0.0.
+* view_count (int): The number of views to render. Default: 1.
+---CHUNK---
+Document: RenderSceneBuffersConfiguration
+Path: godot/classes/class_renderscenebuffersconfiguration.rst
+Summary: This section describes the properties of the RenderSceneBuffersConfiguration class, which control various rendering buffer settings.
+
+Property: anisotropic_filtering_level (ViewportAnisotropicFiltering)
+Description: Level of the anisotropic filter.
+Default: 2
+Method: set_anisotropic_filtering_level(value: ViewportAnisotropicFiltering)
+Method: get_anisotropic_filtering_level() -> ViewportAnisotropicFiltering
+
+Property: fsr_sharpness (float)
+Description: FSR Sharpness applicable if FSR upscaling is used.
+Default: 0.0
+Method: set_fsr_sharpness(value: float)
+Method: get_fsr_sharpness() -> float
+
+Property: internal_size (Vector2i)
+Description: The size of the 3D render buffer used for rendering.
+Default: Vector2i(0, 0)
+Method: set_internal_size(value: Vector2i)
+Method: get_internal_size() -> Vector2i
+
+Property: msaa_3d (ViewportMSAA)
+Description: The MSAA mode we're using for 3D rendering.
+Default: 0
+Method: set_msaa_3d(value: ViewportMSAA)
+Method: get_msaa_3d() -> ViewportMSAA
+
+Property: render_target (RID)
+Description: The render target associated with these buffer.
+Default: RID()
+Method: set_render_target(value: RID)
+Method: get_render_target() -> RID
+
+Property: scaling_3d_mode (ViewportScaling3DMode)
+Description: The requested scaling mode with which we upscale/downscale if internal_size and target_size are not equal.
+Default: 255
+Method: set_scaling_3d_mode(value: ViewportScaling3DMode)
+Method: get_scaling_3d_mode() -> ViewportScaling3DMode
+
+Property: screen_space_aa (ViewportScreenSpaceAA)
+Description: The requested screen space AA applied in post processing.
+Default: 0
+Method: set_screen_space_aa(value: ViewportScreenSpaceAA)
+Method: get_screen_space_aa() -> ViewportScreenSpaceAA
+
+Property: target_size (Vector2i)
+Description: The target (upscale) size if scaling is used.
+Default: Vector2i(0, 0)
+Method: set_target_size(value: Vector2i)
+Method: get_target_size() -> Vector2i
+
+Property: texture_mipmap_bias (float)
+Description: Bias applied to mipmaps.
+Default: 0.0
+Method: set_texture_mipmap_bias(value: float)
+Method: get_texture_mipmap_bias() -> float
+
+Property: view_count (int)
+Description: The number of views we're rendering.
+Default: 1
+Method: set_view_count(value: int)
+Method: get_view_count() -> int

@@ -1,0 +1,193 @@
+Document: Beziers and Curves
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: This document explains Bezier curves and their use in Godot.
+
+Bezier curves are a powerful tool for creating smooth, animated motion paths. They are defined by a set of control points that influence the shape of the curve. Godot provides several ways to work with Bezier curves, including the `Curve` resource and the `Path2D` and `Path3D` nodes.
+
+A Bezier curve is defined by its control points. The simplest form is a quadratic Bezier curve, which has three control points: a start point, an end point, and one control point in between. The curve starts at the start point, moves towards the control point, and ends at the end point. The control point "pulls" the curve towards it.
+
+A cubic Bezier curve has four control points: a start point, an end point, and two control points in between. The first control point influences the curve's direction leaving the start point, and the second control point influences the curve's direction arriving at the end point.
+
+Godot's `Curve` resource can represent Bezier curves. It allows you to define curves with multiple segments, each potentially using different Bezier types. You can manipulate these curves visually in the editor or programmatically via GDScript or C#.
+
+The `Path2D` and `Path3D` nodes use `Curve` resources to define paths in 2D and 3D space, respectively. These nodes are useful for creating movement along a predefined track, such as a camera following a character or an enemy patrolling a route.
+
+Key Rule: Bezier curves are defined by control points that dictate the curve's shape and tangent directions.
+
+GDScript:
+```gdscript
+# Example of creating and using a Curve resource
+var curve = Curve.new()
+curve.add_point(Vector2(0, 0))
+curve.add_point(Vector2(100, 100), -50, 50) # Control points for the first segment
+curve.add_point(Vector2(200, 0), 50, -50) # Control points for the second segment
+
+# Get a point on the curve
+var point_on_curve = curve.interpolate_baked(0.5) # Get point at 50% of the curve's length
+print(point_on_curve)
+```
+
+C#:
+```csharp
+// Example of creating and using a Curve resource
+var curve = new Curve();
+curve.AddPoint(new Vector2(0, 0));
+curve.AddPoint(new Vector2(100, 100), -50, 50); // Control points for the first segment
+curve.AddPoint(new Vector2(200, 0), 50, -50); // Control points for the second segment
+
+// Get a point on the curve
+var pointOnCurve = curve.InterpolateBaked(0.5f); // Get point at 50% of the curve's length
+Console.WriteLine(pointOnCurve);
+```
+
+Understanding Bezier curves is fundamental for creating fluid animations and procedural content in Godot. They offer a flexible way to define complex shapes and motion paths with a relatively small number of control points.
+---CHUNK---
+Document: Beziers, curves and paths
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: Introduces Bezier curves as a mathematical approximation for natural geometric shapes, highlighting their use in industrial design and graphics software, and their reliance on interpolation.
+---CHUNK---
+Document: beziers_and_curves
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: Explains the mathematical concept and implementation of Quadratic Bezier curves using linear interpolation.
+GDScript:
+func _quadratic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, t: float):
+    var q0 = p0.lerp(p1, t)
+    var q1 = p1.lerp(p2, t)
+    var r = q0.lerp(q1, t)
+    return r
+
+C#:
+private Vector2 QuadraticBezier(Vector2 p0, Vector2 p1, Vector2 p2, float t)
+{
+    Vector2 q0 = p0.Lerp(p1, t);
+    Vector2 q1 = p1.Lerp(p2, t);
+    Vector2 r = q0.Lerp(q1, t);
+    return r;
+}
+
+A Quadratic Bezier curve is defined by three points. To draw a curve between them, we first interpolate between the first two points (p0 and p1) and the second two points (p1 and p2) using a parameter 't' that ranges from 0 to 1. This results in two intermediate points, q0 and q1, which move along their respective line segments as 't' changes. Subsequently, we interpolate between these two intermediate points (q0 and q1) using the same parameter 't' to obtain the final point 'r' that traces the Quadratic Bezier curve.
+---CHUNK---
+Document: godot/tutorials/math/beziers_and_curves.rst
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: This section explains how to implement a cubic Bezier curve interpolation using four points and linear interpolation.
+
+A cubic Bezier curve is created by interpolating between four points: p0, p1, p2, and p3. The interpolation process involves multiple steps of linear interpolation (lerp).
+
+First, linear interpolation is applied to pairs of points to reduce the set from four points to three.
+GDScript:
+        var q0 = p0.lerp(p1, t)
+        var q1 = p1.lerp(p2, t)
+        var q2 = p2.lerp(p3, t)
+C#:
+        Vector2 q0 = p0.Lerp(p1, t);
+        Vector2 q1 = p1.Lerp(p2, t);
+        Vector2 q2 = p2.Lerp(p3, t);
+
+Next, these three points are reduced to two through another round of linear interpolation.
+GDScript:
+        var r0 = q0.lerp(q1, t)
+        var r1 = q1.lerp(q2, t)
+C#:
+        Vector2 r0 = q0.Lerp(q1, t);
+        Vector2 r1 = q1.Lerp(q2, t);
+
+Finally, the two resulting points are interpolated to produce a single point, which is the point on the cubic Bezier curve for the given parameter t.
+GDScript:
+        var s = r0.lerp(r1, t)
+        return s
+C#:
+        Vector2 s = r0.Lerp(r1, t);
+        return s;
+
+The complete function for calculating a point on a cubic Bezier curve is as follows:
+GDScript:
+    func _cubic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, p3: Vector2, t: float):
+        var q0 = p0.lerp(p1, t)
+        var q1 = p1.lerp(p2, t)
+        var q2 = p2.lerp(p3, t)
+
+        var r0 = q0.lerp(q1, t)
+        var r1 = q1.lerp(q2, t)
+
+        var s = r0.lerp(r1, t)
+        return s
+C#:
+    private Vector2 CubicBezier(Vector2 p0, Vector2 p1, Vector2 p2, Vector2 p3, float t)
+    {
+        Vector2 q0 = p0.Lerp(p1, t);
+        Vector2 q1 = p1.Lerp(p2, t);
+        Vector2 q2 = p2.Lerp(p3, t);
+
+        Vector2 r0 = q0.Lerp(q1, t);
+        Vector2 r1 = q1.Lerp(q2, t);
+
+        Vector2 s = r0.Lerp(r1, t);
+        return s;
+    }
+
+Note: Cubic Bezier interpolation works the same in 3D, just use Vector3 instead of Vector2.
+---CHUNK---
+Document: Bezier Curves and Curves
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: Explains an alternative representation of Bezier curves using two points and two relative control vectors, common in graphics software.
+* point0 = p0: The first point, the source.
+* control0 = p1 - p0: A vector relative to the first control point.
+* control1 = p3 - p2: A vector relative to the second control point.
+* point1 = p3: The second point, the destination.
+This representation uses two points and two control points, where the control points are relative vectors to their respective points. This is a common way Bezier curves are presented and used in graphics and animation software, and how they function in Godot.
+---CHUNK---
+Document: Beziers and Curves
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: Introduces Curve2D, Curve3D, Path2D, and Path3D nodes for creating and using Bezier curves in Godot.
+There are two objects that contain curves: Curve3D and Curve2D (for 3D and 2D respectively). They can contain several points, allowing for longer paths. It is also possible to set them to nodes: Path3D and Path2D (also for 3D and 2D respectively). Using them, however, may not be completely obvious, so following is a description of the most common use cases for Bezier curves.
+---CHUNK---
+Document: Beziers and Curves
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: Explains the limitations of directly evaluating Bezier curves for constant speed movement.
+
+Evaluating Bezier curves directly by interpolating a parameter `t` from 0 to 1 does not result in constant speed movement along the curve. The speed varies because it depends on the distances between the control points. There isn't a simple mathematical method to achieve constant speed traversal.
+
+An example using pseudocode illustrates this:
+
+GDScript:
+    var t = 0.0
+
+    func _process(delta):
+        t += delta
+        position = _cubic_bezier(p0, p1, p2, p3, t)
+
+C#:
+    private float _t = 0.0f;
+
+    public override void _Process(double delta)
+    {
+        _t += (float)delta;
+        Position = CubicBezier(p0, p1, p2, p3, _t);
+    }
+
+This variation in speed makes Bezier curves less practical for applications requiring consistent movement without further processing.
+---CHUNK---
+Document: Beziers and Curves
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: Explains the concept of tessellation for drawing Bezier curves and introduces the Curve2D.tessellate() method.
+Drawing beziers (or objects based on the curve) is a very common use case, but it's also not easy. For pretty much any case, Bezier curves need to be converted to some sort of segments. This is normally difficult, however, without creating a very high amount of them. The reason is that some sections of a curve (specifically, corners) may require considerable amounts of points, while other sections may not. Additionally, if both control points were 0, 0 (remember they are relative vectors), the Bezier curve would just be a straight line (so drawing a high amount of points would be wasteful). Before drawing Bezier curves, tessellation is required. This is often done with a recursive or divide and conquer function that splits the curve until the curvature amount becomes less than a certain threshold. The Curve classes provide this via the Curve2D.tessellate() function (which receives optional stages of recursion and angle tolerance arguments). This way, drawing something based on a curve is easier.
+---CHUNK---
+Document: Beziers and Curves
+Path: godot/tutorials/math/beziers_and_curves.rst
+Summary: This section explains how to traverse curves at a constant speed by baking them into equidistant points.
+GDScript:
+    var t = 0.0
+
+    func _process(delta):
+        t += delta
+        position = curve.sample_baked(t * curve.get_baked_length(), true)
+
+C#:
+    private float _t = 0.0f;
+
+    public override void _Process(double delta)
+    {
+        _t += (float)delta;
+        Position = curve.SampleBaked(_t * curve.GetBakedLength(), true);
+    }
+The last common use case for the curves is to traverse them. Because of what was mentioned before regarding constant speed, this is also difficult. To make this easier, the curves need to be *baked* into equidistant points. This way, they can be approximated with regular interpolation (which can be improved further with a cubic option). To do this, just use the Curve3D.sample_baked() method together with Curve2D.get_baked_length(). The first call to either of them will bake the curve internally. Traversal at constant speed, then, can be done with the following pseudo-code. And the output will, then, move at constant speed.

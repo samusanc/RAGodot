@@ -1,0 +1,134 @@
+Document: LimitAngularVelocityModifier3D
+Path: godot/classes/class_limitangularvelocitymodifier3d.rst
+Summary: Defines a modifier for limiting the angular velocity of a physics body in Godot.
+
+LimitAngularVelocityModifier3D
+
+A modifier that limits the angular velocity of a physics body.
+
+Inherits: Resource < Object
+
+This modifier is used to limit the angular velocity of a physics body. It can be used in conjunction with other modifiers to create complex physics behaviors. For example, you could use this modifier to prevent a rigid body from spinning too fast, or to apply a damping effect to its rotation.
+
+The modifier works by checking the current angular velocity of the physics body and, if it exceeds a certain threshold, applying a force or torque to reduce it. The threshold and the amount of force or torque applied can be configured through the properties of the modifier.
+
+This modifier is a subclass of Resource, which means it can be saved and loaded as a separate file. This allows for easy reuse and sharing of physics configurations.
+
+Properties:
+* angular_velocity_limit (float): The maximum angular velocity allowed. Default: 0.0.
+* modifier_scale (float): The scale factor for the modifier. Default: 1.0.
+* priority (int): The priority of the modifier. Higher values have higher priority. Default: 0.
+
+Methods:
+* _get_configuration_warnings() → Array[StringName]
+* _set_configuration_warnings(warnings: Array[StringName])
+
+This class provides a way to control the rotational speed of physics bodies, ensuring stability and predictable behavior in simulations.
+---CHUNK---
+Document: LimitAngularVelocityModifier3D
+Path: godot/classes/class_limitangularvelocitymodifier3d.rst
+Summary: Limits the angular velocity of bones in a 3D skeleton.
+
+Inherits: SkeletonModifier3D < Node3D < Node < Object
+
+Limit bone rotation angular velocity.
+---CHUNK---
+Document: LimitAngularVelocityModifier3D
+Path: godot/classes/class_limitangularvelocitymodifier3d.rst
+Summary: This modifier limits bone rotation angular velocity by comparing poses between previous and current frame.
+
+This modifier limits bone rotation angular velocity by comparing poses between previous and current frame.
+
+You can add bone chains by specifying their root and end bones, then add the bones between them to a list. Modifier processes either that list or the bones excluding those in the list depending on the option exclude.
+
+Note: Most methods in this class take an index parameter. This parameter specifies which setting list entry to return if the IK has multiple entries (e.g. settings/index/root_bone_name).
+---CHUNK---
+Document: LimitAngularVelocityModifier3D
+Path: godot/classes/class_limitangularvelocitymodifier3d.rst
+Summary: Defines properties for modifying angular velocity limits in a 3D physics context.
+
+Properties
+* chain_count (int): The number of physics chains to affect. Default: 0
+* exclude (bool): If true, the modifier will affect all chains except the specified ones. Default: false
+* joint_count (int): The number of physics joints to affect. Default: 0
+* max_angular_velocity (float): The maximum angular velocity allowed for the affected chains/joints. Default: 6.2831855
+---CHUNK---
+Document: LimitAngularVelocityModifier3D
+Path: godot/classes/class_limitangularvelocitymodifier3d.rst
+Summary: This section details the methods available for the LimitAngularVelocityModifier3D class in Godot Engine.
+
+Methods:
+* Method: clear_chains() → void
+* Method: get_end_bone(index: int) → int
+* Method: get_end_bone_name(index: int) → String
+* Method: get_root_bone(index: int) → int
+* Method: get_root_bone_name(index: int) → String
+* Method: reset() → void
+* Method: set_end_bone(index: int, bone: int) → void
+* Method: set_end_bone_name(index: int, bone_name: String) → void
+* Method: set_root_bone(index: int, bone: int) → void
+* Method: set_root_bone_name(index: int, bone_name: String) → void
+---CHUNK---
+Document: LimitAngularVelocityModifier3D
+Path: godot/classes/class_limitangularvelocitymodifier3d.rst
+Summary: Describes the properties of the LimitAngularVelocityModifier3D class in Godot Engine.
+
+Property: chain_count
+Type: int
+Default: 0
+Description: The number of chains.
+Method: set_chain_count(value: int) → void
+Method: get_chain_count() → int
+
+Property: exclude
+Type: bool
+Default: false
+Description: If true, the modifier processes bones not included in the bone list. If false, the bones processed by the modifier are equal to the bone list.
+Method: set_exclude(value: bool) → void
+Method: is_exclude() → bool
+
+Property: joint_count
+Type: int
+Default: 0
+Description: The number of joints in the list which created by chains dynamically.
+
+Property: max_angular_velocity
+Type: float
+Default: 6.2831855
+Description: The maximum angular velocity per second.
+Method: set_max_angular_velocity(value: float) → void
+Method: get_max_angular_velocity() → float
+---CHUNK---
+Document: LimitAngularVelocityModifier3D
+Path: godot/classes/class_limitangularvelocitymodifier3d.rst
+Summary: This section details the methods available for managing bone chains within the LimitAngularVelocityModifier3D class, including setting, getting, and clearing bone indices and names, as well as resetting the reference pose.
+
+Method: clear_chains() → void
+Clear all bone chains.
+
+Method: get_end_bone(index: int) → int
+Returns the end bone index of the specified bone chain.
+
+Method: get_end_bone_name(index: int) → String
+Returns the end bone name of the specified bone chain.
+
+Method: get_root_bone(index: int) → int
+Returns the root bone index of the specified bone chain.
+
+Method: get_root_bone_name(index: int) → String
+Returns the root bone name of the specified bone chain.
+
+Method: reset() → void
+Sets the reference pose for angle comparison to the current pose with the influence of constraints removed. This function is automatically triggered when joints change or upon activation.
+
+Method: set_end_bone(index: int, bone: int) → void
+Sets the end bone index for the specified bone chain.
+
+Method: set_end_bone_name(index: int, bone_name: String) → void
+Sets the end bone name for the specified bone chain. Note: End bone must be the root bone or a child of the root bone.
+
+Method: set_root_bone(index: int, bone: int) → void
+Sets the root bone index for the specified bone chain.
+
+Method: set_root_bone_name(index: int, bone_name: String) → void
+Sets the root bone name for the specified bone chain.

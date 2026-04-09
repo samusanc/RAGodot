@@ -1,0 +1,109 @@
+Document: 3D Particles Collision
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: This document explains how to configure particle collision in Godot 3D.
+
+This tutorial covers how to make particles collide with the 3D environment.
+
+To enable collision, you need to add a Collision tab to your ParticleProcessMaterial.
+
+Collision Tab Settings:
+
+*   **Enabled**: Toggles particle collision.
+*   **Particle Rigidbody**: The Rigidbody node that particles will collide with.
+*   **Particle Collision Range**: The maximum distance from the particle at which collision is detected.
+*   **Particle Collision Mask**: A bitmask that determines which physics layers the particles will collide with.
+*   **Particle Collision Response**: How particles react to collisions. Options include:
+    *   **Bounce**: Particles bounce off surfaces.
+    *   **Stop**: Particles stop upon collision.
+    *   **Destroy**: Particles are destroyed upon collision.
+*   **Particle Collision Friction**: The amount of friction applied to particles upon collision.
+*   **Particle Collision Dampening**: The amount of energy lost by particles upon collision.
+*   **Particle Collision Normal Offset**: An offset applied to the collision normal, which can be used to adjust the direction of bounces.
+*   **Particle Collision Sphere Radius**: The radius of the sphere used for collision detection. This is useful for particles that are not point-like.
+*   **Particle Collision Shape**: The shape of the collision volume used for particles. Options include:
+    *   **Sphere**: Spherical collision.
+    *   **Box**: Box-shaped collision.
+    *   **Capsule**: Capsule-shaped collision.
+*   **Particle Collision Offset**: An offset applied to the collision shape.
+*   **Particle Collision Rotation**: The rotation of the collision shape.
+*   **Particle Collision Scale**: The scale of the collision shape.
+
+Example Usage:
+
+To make particles bounce off a floor, you would:
+
+1.  Add a Collision tab to your ParticleProcessMaterial.
+2.  Enable collision.
+3.  Set the Particle Rigidbody to your floor's Rigidbody node.
+4.  Set the Particle Collision Response to Bounce.
+5.  Adjust other settings like Particle Collision Range and Particle Collision Dampening as needed.
+
+Key Rule: Collision is only possible with physics bodies (RigidBody, StaticBody, KinematicBody) that have a CollisionShape.
+---CHUNK---
+Document: 3D Particle collisions
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: This section introduces the concept of particle collisions in Godot 3D and lists the available collision node types.
+Since GPU particles are processed entirely on the GPU, they don't have access to the game's physical world. If you need particles to collide with the environment, you have to set up particle collision nodes. There are four of them: GPUParticlesCollisionBox3D, GPUParticlesCollisionSphere3D, GPUParticlesCollisionSDF3D, and GPUParticlesCollisionHeightField3D.
+---CHUNK---
+Document: GPUParticlesCollision3D
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: Describes common properties of particle collision nodes, specifically the Cull Mask.
+There are some properties that you can find on all collision nodes. They're located in the GPUParticlesCollision3D section in the inspector.
+
+The Cull Mask property controls which particle systems are affected by a collision node based on each system's visibility layers. A particle system collides with a collision node only if at least one of the system's visibility layers is enabled in the collider's cull mask.
+---CHUNK---
+Document: GPUParticlesCollisionBox3D
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: Describes the GPUParticlesCollisionBox3D node, its properties, and how to use it for particle collision.
+GPUParticlesCollisionBox3D nodes are shaped like a solid, rectangular box. You control their size with the Extents property. Box extents always measure half of the sides of its bounds, so a value of (X=1.0,Y=1.0,Z=1.0) creates a box that is 2 meters wide on each side. GPUParticlesCollisionBox3D nodes are useful for simulating floor and wall geometry that particles should collide against.
+
+To create a GPUParticlesCollisionBox3D node, add a new child node to your scene and select GPUParticlesCollisionBox3D from the list of available nodes. You can animate the box position or attach it to a moving node for more dynamic effects.
+---CHUNK---
+Document: GPUParticlesCollisionSphere3D
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: This section describes how to use GPUParticlesCollisionSphere3D nodes for particle collision in Godot.
+Sphere collision nodes are shaped like a solid sphere. The Radius property controls the size of the sphere. While box collision nodes don't have to be perfect cubes, sphere collision nodes will always be spheres. If you want to set width independently from height, you have to change the Scale property in the Node3D section.
+
+To create a sphere collision node, add a new child node to your scene and select GPUParticlesCollisionSphere3D from the list of available nodes. You can animate the sphere's position or attach it to a moving node for more dynamic effects.
+---CHUNK---
+Document: GPUParticlesCollisionHeightField3D
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: This section explains how to use the GPUParticlesCollisionHeightField3D node for particle collision in large outdoor areas.
+
+Height field particle collision is useful for large outdoor areas that need to collide with particles. At runtime, the node creates a height field from all the meshes within its bounds that match its cull mask, and particles collide against this generated height field. The height field generation is done dynamically, allowing it to follow the player camera and react to level changes. The height field density settings offer performance adjustments.
+
+To create a height field collision node, add a new child node to your scene and select GPUParticlesCollisionHeightField3D from the list of available nodes.
+
+A GPUParticlesCollisionHeightField3D node is shaped like a box. The Extents property controls its size, with values measuring half of the sides of its bounds (e.g., (X=1.0,Y=1.0,Z=1.0) creates a 2-meter box). Anything outside the node's extents is ignored for height field creation.
+
+The Resolution property controls the detail of the height field. Lower resolutions perform faster but reduce accuracy, potentially causing particles to penetrate geometry, get stuck in the air, or ignore smaller meshes.
+
+The Update Mode property controls when the height field is recreated.
+- When Moved: Refreshes only when the height field node itself moves. This is suitable for static scenes.
+- Always: Refreshes every frame, suitable for dynamic objects but impacts performance.
+
+Note: When Update Mode is set to When Moved, it is the height field node's movement that triggers an update, not the movement of meshes within it.
+
+The Follow Camera Enabled property makes the height field follow the current camera when enabled, updating whenever the camera moves. This ensures particle collision around the player without wasting performance on unseen or distant regions.
+---CHUNK---
+Document: GPUParticlesCollisionSDF3D
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: This section describes how to use GPUParticlesCollisionSDF3D nodes for particle collision, including their properties and baking process.
+SDF collision nodes create a signed distance field that particles can collide with. SDF collision is similar to height field collision in that it turns multiple meshes within its bounds into a single collision volume for particles. A major difference is that signed distance fields can represent holes, tunnels and overhangs, which is impossible to do with height fields alone. The performance overhead is larger compared to height fields, so they're best suited for small-to-medium-sized environments.
+Note: Particle SDF collision is only supported in the Forward+ and Mobile renderers, not Compatibility.
+To create an SDF collision node, add a new child node to your scene and select GPUParticlesCollisionSDF3D from the list of available nodes. SDF collision nodes have to be baked in order to have any effect on particles in the level. To do that, click the Bake SDF button in the viewport toolbar while the SDF collision node is selected and choose a directory to store the baked data. Since SDF collision needs to be baked in the editor, it's static and cannot change at runtime.
+SDF particle collision allows for very detailed 3-dimensional collision shapes.
+An SDF collision node is shaped like a box. The Extents property controls its size. Extents always measure half of the sides of its bounds, so a value of (X=1.0,Y=1.0,Z=1.0) creates a box that is 2 meters wide on each side. Anything outside of the node's extents is ignored for collision.
+The Resolution property controls how detailed the distance field is. A lower resolution performs faster at the cost of accuracy. If the resolution is too low, it may look like particles penetrate level geometry or get stuck in the air during collision events. They might also ignore some smaller meshes completely.
+The same area covered by a signed distance field at different resolutions: 16 (left) and 256 (right).
+The Thickness property gives the distance field, which is usually hollow on the inside, a thickness to prevent particles from penetrating at high speeds. If you find that some particles don't collide with the level geometry and instead shoot right through it, try setting this property to a higher value.
+The Bake Mask property controls which meshes will be considered when the SDF is baked. Only meshes that render on the active layers in the bake mask contribute to particle collision.
+---CHUNK---
+Document: Particles Collision
+Path: godot/tutorials/3d/particles/collision.rst
+Summary: This section provides troubleshooting steps for particle collision issues in Godot, focusing on AABB overlap and handling fast-moving particles with thin colliders.
+For particle collision to work, the particle's visibility AABB must overlap with the collider's AABB. If collisions appear to be not working despite colliders being set up, generate an updated visibility AABB by selecting the GPUParticles3D node and choosing GPUParticles3D > Generate Visibility AABB… at the top of the 3D editor viewport.
+
+If the particles move fast and colliders are thin, there are two solutions:
+* Make the colliders thicker. For instance, if particles cannot get below a solid floor, you could make the collider representing the floor thicker than its actual visual representation. The heightfield collider automatically handles this by design, as heightfields cannot represent "room over room" collision.
+* Increased Fixed FPS in the GPUParticles3D node, which will perform collision checks more often. This comes at a performance cost, so avoid setting this too high.

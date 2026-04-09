@@ -1,0 +1,100 @@
+Document: Logic Preferences
+Path: godot/tutorials/best_practices/logic_preferences.rst
+Summary: This document discusses preferences for structuring game logic in Godot.
+
+When writing game logic, you'll often encounter situations where you need to decide how to structure your code. There are many ways to do this, and the best approach often depends on the specific game you're making. However, there are some general principles that can help you make good decisions.
+
+One common decision is whether to use a single script for all of your game's logic or to break it up into multiple smaller scripts. For simple games, a single script might be sufficient. However, as your game grows in complexity, it becomes increasingly difficult to manage a single large script. Breaking your logic into smaller, more manageable scripts can make your code easier to understand, debug, and maintain.
+
+Another consideration is how to handle communication between different parts of your game. You can use signals, direct method calls, or a central event bus. Each approach has its own advantages and disadvantages. Signals are a good choice for decoupling systems, while direct method calls can be more performant but create tighter coupling. An event bus can be useful for broadcasting events to multiple listeners without direct coupling.
+
+When designing your game's logic, it's also important to think about reusability. Can you create components or systems that can be used in multiple places in your game, or even in future projects? This can save you a lot of time and effort in the long run.
+
+Finally, don't be afraid to experiment. The best way to find out what works for you is to try different approaches and see what feels most comfortable and effective. The Godot engine provides a lot of flexibility, so you can tailor your game's logic to your specific needs.
+---CHUNK---
+Document: Logic Preferences Tutorial
+Path: godot/tutorials/best_practices/logic_preferences.rst
+Summary: This article covers a variety of topics related to common logic dilemmas in game development.
+---CHUNK---
+Document: Logic Preferences
+Path: godot/tutorials/best_practices/logic_preferences.rst
+Summary: This section explains the best practice for setting node properties before adding them to the scene tree.
+When initializing nodes from a script at runtime, you may need to change properties such as the node's name or position. A common dilemma is, when should you change those values?
+
+It is the best practice to change values on a node before adding it to the scene tree. Some properties' setters have code to update other corresponding values, and that code can be slow. For most cases, this code has no impact on your game's performance, but in heavy use cases such as procedural generation, it can bring your game to a crawl.
+
+For these reasons, it is usually best practice to set the initial values of a node before adding it to the scene tree. There are some exceptions where values can't be set before being added to the scene tree, like setting global position.
+---CHUNK---
+Document: Logic Preferences
+Path: godot/tutorials/best_practices/logic_preferences.rst
+Summary: Explains the difference between `preload` and `load` in GDScript and when to use each.
+
+GDScript:
+# my_buildings.gd
+extends Node
+
+const BuildingScn = preload("res://building.tscn")
+
+@export var a_building : PackedScene = preload("office.tscn")
+
+const OfficeScn = load("res://office.tscn")
+
+var office_scn = load("res://office.tscn")
+
+C#:
+using Godot;
+
+public partial class MyBuildings : Node
+{
+    public readonly PackedScene Building = ResourceLoader.Load<PackedScene>("res://building.tscn");
+
+    public PackedScene ABuilding;
+
+    public override void _Ready()
+    {
+        ABuilding = GD.Load<PackedScene>("res://Office.tscn");
+    }
+}
+
+C++:
+using namespace godot;
+
+class MyBuildings : public Node {
+    GDCLASS(MyBuildings, Node)
+
+public:
+    const Ref<PackedScene> building = ResourceLoader::get_singleton()->load("res://building.tscn");
+    Ref<PackedScene> a_building;
+
+    virtual void _ready() override {
+        a_building = ResourceLoader::get_singleton()->load("res://office.tscn");
+    }
+};
+
+In GDScript, `preload` loads resources as early as possible to front-load loading operations and avoid loading resources during performance-sensitive code. `load` loads a resource only when the load statement is reached, which can cause slowdowns. `load()` is an alias for `ResourceLoader.load(path)`.
+
+Considerations for using `preload` vs. `load`:
+1. If the script's loading time is unpredictable, preloading resources might lead to unexpected load times.
+2. If a value can be replaced (e.g., by scene export initialization), preloading it might be meaningless.
+3. For importing other class resources (scripts or scenes), a preloaded constant is often best. However:
+    a. If the imported class is likely to change, use a property initialized with `@export` or `load()`.
+    b. If the script has many dependencies and memory is a concern, load and unload dependencies at runtime. Preloaded constants require unloading the entire script to unload resources. Properties can be set to `null` to allow resources to be garbage collected if they are `RefCounted`-extending types.
+---CHUNK---
+Document: logic_preferences
+Path: godot/tutorials/best_practices/logic_preferences.rst
+Summary: This section discusses the trade-offs between static and dynamic level loading in Godot Engine, offering guidance on when to use each approach.
+
+When creating large levels in Godot, developers face a choice between a single static level or loading the level in pieces dynamically. The decision hinges on performance requirements and the classic programming trade-off between memory usage and speed.
+
+A naive approach is to use a static level that loads everything at once. However, this can consume significant memory, potentially slowing down the program or causing crashes due to resource contention with other applications.
+
+It is generally recommended to break larger scenes into smaller ones to improve asset reusability. Developers can then implement a node that manages the real-time creation, loading, deletion, and unloading of resources and nodes. This strategy is common in games with large, varied environments or procedural generation to conserve memory.
+
+Conversely, implementing a dynamic system is more complex and involves more programming logic, increasing the potential for errors and bugs. Without careful implementation, a dynamic system can lead to technical debt.
+
+The best options are:
+1. Use static levels for smaller games.
+2. For medium to large games, if time and resources permit, create a reusable library or plugin to manage nodes and resources programmatically. This can evolve into a stable tool for multiple projects.
+3. For medium to large games, use dynamic logic if you have the coding skills but lack the time or resources to refine the code. This approach prioritizes getting the game done, with the possibility of refactoring into a plugin later.
+
+For examples of runtime scene swapping, refer to the documentation on changing scenes manually.

@@ -1,0 +1,178 @@
+Document: WebRTCDataChannel
+Path: godot/classes/class_webrtcdatachannel.rst
+Summary: Provides an interface for sending and receiving data over a WebRTC connection.
+
+WebRTCDataChannel
+
+Inherits: Object < Object
+
+This class represents a WebRTC Data Channel, which is used for sending and receiving arbitrary data between peers. It can be used for real-time communication of any kind of data, such as game state, chat messages, or sensor data.
+
+The Data Channel is established over an existing WebRTC peer connection. Once established, it provides a reliable or unreliable transport for data.
+
+Key Rule: The WebRTCDataChannel can only be created after a WebRTC connection has been established.
+
+Key Rule: Data channels can be configured to be ordered or unordered, and reliable or unreliable.
+
+Key Rule: The state of the data channel can be monitored to determine when it is ready for use.
+
+Methods:
+close() → void
+Closes the data channel.
+
+create_offer() → Error
+Creates an offer to establish a data channel.
+
+get_state() → int
+Returns the current state of the data channel.
+
+is_datachannel_ready() → bool
+Checks if the data channel is ready to send data.
+
+send_bytes(data: PackedByteArray) → Error
+Sends binary data over the data channel.
+
+send_mode_is_reliable() → bool
+Returns true if the data channel is configured for reliable transfer.
+
+send_string(data: String) → Error
+Sends string data over the data channel.
+
+Signals:
+closed → void
+Emitted when the data channel is closed.
+
+error → void
+Emitted when an error occurs with the data channel.
+
+message_from(message: Variant) → void
+Emitted when a message is received from the peer.
+
+sctp_connected → void
+Emitted when the SCTP connection is established.
+
+state_changed → void
+Emitted when the state of the data channel changes.
+
+Enums:
+State:
+STATE_CONNECTING: 0
+STATE_OPEN: 1
+STATE_CLOSING: 2
+STATE_CLOSED: 3
+---CHUNK---
+Document: WebRTCDataChannel
+Path: godot/classes/class_webrtcdatachannel.rst
+Summary: This document provides information about the WebRTCDataChannel class, which inherits from PacketPeer and RefCounted.
+
+Inherits: PacketPeer < RefCounted < Object
+Inherited By: WebRTCDataChannelExtension
+
+There is currently no description for this class. Please help us by contributing one!
+---CHUNK---
+Document: WebRTCDataChannel
+Path: godot/classes/class_webrtcdatachannel.rst
+Summary: Defines properties for the WebRTCDataChannel class, including its write mode.
+
+Properties
+* write_mode (WriteMode): Controls how data is written to the channel. Default: 1.
+---CHUNK---
+Document: WebRTCDataChannel
+Path: godot/classes/class_webrtcdatachannel.rst
+Summary: This section details the methods and enumerations available for the WebRTCDataChannel class in Godot.
+
+Methods
+Method: close()
+Closes the data channel.
+
+Method: get_buffered_amount() → int
+Returns the number of bytes of data that has been sent but not yet acknowledged by the remote peer.
+
+Method: get_id() → int
+Returns the unique ID of this data channel.
+
+Method: get_label() → String
+Returns the label of this data channel.
+
+Method: get_max_packet_life_time() → int
+Returns the maximum amount of time in milliseconds that a packet will be kept if it's not acknowledged by the remote peer.
+
+Method: get_max_retransmits() → int
+Returns the maximum number of retransmits that will be attempted for a packet if it's not acknowledged by the remote peer.
+
+Method: get_protocol() → String
+Returns the sub-protocol used by this data channel.
+
+Method: get_ready_state() → ChannelState
+Returns the current state of the data channel.
+
+Method: is_negotiated() → bool
+Returns true if this data channel was created by the user, false if it was created automatically by WebRTC.
+
+Method: is_ordered() → bool
+Returns true if this data channel guarantees in-order delivery of messages.
+
+Method: poll() → Error
+Polls the data channel for incoming data and events.
+
+Method: was_string_packet() → bool
+Returns true if the last packet received was a string, false if it was binary.
+
+Enumerations
+enum WriteMode:
+WRITE_MODE_TEXT = 0: Tells the channel to send data over this channel as text. An external peer (non-Godot) would receive this as a string.
+WRITE_MODE_BINARY = 1: Tells the channel to send data over this channel as binary. An external peer (non-Godot) would receive this as array buffer or blob.
+
+enum ChannelState:
+STATE_CONNECTING = 0: The channel was created, but it's still trying to connect.
+STATE_OPEN = 1: The channel is currently open, and data can flow over it.
+STATE_CLOSING = 2: The channel is being closed, no new messages will be accepted, but those already in queue will be flushed.
+STATE_CLOSED = 3: The channel was closed, or connection failed.
+---CHUNK---
+Document: WebRTCDataChannel
+Path: godot/classes/class_webrtcdatachannel.rst
+Summary: Configures the transfer mode for outgoing data packets in a WebRTC data channel.
+Property: write_mode
+The transfer mode to use when sending outgoing packet. Either text or binary.
+Method: set_write_mode(value: WriteMode)
+Method: get_write_mode() → WriteMode
+---CHUNK---
+Document: WebRTCDataChannel
+Path: godot/classes/class_webrtcdatachannel.rst
+Summary: Provides methods for managing and querying the state of a WebRTC data channel.
+
+Method: close()
+Closes this data channel, notifying the other peer.
+
+Method: get_buffered_amount() → int
+Returns the number of bytes currently queued to be sent over this channel.
+
+Method: get_id() → int
+Returns the ID assigned to this channel during creation (or auto-assigned during negotiation). If the channel is not negotiated out-of-band the ID will only be available after the connection is established (will return 65535 until then).
+
+Method: get_label() → String
+Returns the label assigned to this channel during creation.
+
+Method: get_max_packet_life_time() → int
+Returns the maxPacketLifeTime value assigned to this channel during creation. Will be 65535 if not specified.
+
+Method: get_max_retransmits() → int
+Returns the maxRetransmits value assigned to this channel during creation. Will be 65535 if not specified.
+
+Method: get_protocol() → String
+Returns the sub-protocol assigned to this channel during creation. An empty string if not specified.
+
+Method: get_ready_state() → ChannelState
+Returns the current state of this channel.
+
+Method: is_negotiated() → bool
+Returns true if this channel was created with out-of-band configuration.
+
+Method: is_ordered() → bool
+Returns true if this channel was created with ordering enabled (default).
+
+Method: poll() → Error
+Reserved, but not used for now.
+
+Method: was_string_packet() → bool
+Returns true if the last received packet was transferred as text. See write_mode.

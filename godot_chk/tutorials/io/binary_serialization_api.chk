@@ -1,0 +1,394 @@
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This document is marked as outdated.
+---CHUNK---
+Document: Binary serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This document introduces the binary serialization API.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section introduces Godot's Variant-based serialization API, explaining its purpose and where it is used within the engine.
+
+Godot has a serialization API based on Variant. It's used for converting data types to an array of bytes efficiently. This API is exposed via the global bytes_to_var() and var_to_bytes() functions, but it is also used in the get_var and store_var methods of FileAccess as well as the packet APIs for PacketPeer. This format is not used for binary scenes and resources.
+---CHUNK---
+Document: binary_serialization_api
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the difference between serializing full objects and object instance IDs.
+
+If a variable is serialized with `full_objects = true`, then any Objects contained in the variable will be serialized and included in the result. This is recursive. If `full_objects = false`, then only the instance IDs will be serialized for any Objects contained in the variable.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the packet specification for Godot's binary serialization, including padding, endianness, header structure, and data types.
+
+The packet is designed to be always padded to 4 bytes. All values are little-endian-encoded. All packets have a 4-byte header representing an integer, specifying the type of data.
+
+The lowest value two bytes are used to determine the type, while the highest value two bytes contain flags:
+
+GDScript:
+    base_type = val & 0xFFFF;
+    flags = val >> 16;
+
+*   Type 0: null
+*   Type 1: bool
+*   Type 2: integer
+*   Type 3: float
+*   Type 4: string
+*   Type 5: vector2
+*   Type 6: rect2
+*   Type 7: vector3
+*   Type 8: transform2d
+*   Type 9: plane
+*   Type 10: quaternion
+*   Type 11: aabb
+*   Type 12: basis
+*   Type 13: transform3d
+*   Type 14: color
+*   Type 15: node path
+*   Type 16: rid
+*   Type 17: object
+*   Type 18: dictionary
+*   Type 19: array
+*   Type 20: raw array
+*   Type 21: int32 array
+*   Type 22: int64 array
+*   Type 23: float32 array
+*   Type 24: float64 array
+*   Type 25: string array
+*   Type 26: vector2 array
+*   Type 27: vector3 array
+*   Type 28: color array
+*   Type 29: max
+
+Following this is the actual packet contents, which varies for each type of packet. Note: this assumes Godot is compiled with single-precision floats, which is the default. If Godot was compiled with double-precision floats, the length of "Float" fields within data structures should be 8, and the offset should be (offset - 4) * 2 + 4. The "float" type itself always uses double precision.
+---CHUNK---
+Document: Unknown
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section is empty.
+---CHUNK---
+Document: binary_serialization_api
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This chunk describes the binary serialization format for boolean values.
+
+bool:
+*   Offset: 4, Length: 4, Type: Integer, Description: 0 for False, 1 for True.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes how integers are encoded in the binary serialization API based on flags.
+
+int
+If no flags are set (flags == 0), the integer is sent as a 32 bit integer:
+* Offset: 4
+* Len: 4
+* Type: Integer
+* Description: 32-bit signed integer
+
+If flag ENCODE_FLAG_64 is set (flags & 1 == 1), the integer is sent as a 64-bit integer:
+* Offset: 4
+* Len: 8
+* Type: Integer
+* Description: 64-bit signed integer
+---CHUNK---
+Document: binary_serialization_api
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes how float values are encoded in the binary serialization API based on flags.
+
+float
+If no flags are set (flags == 0), the float is sent as a 32-bit single-precision IEEE 754 float, occupying 4 bytes at offset 4.
+If flag ENCODE_FLAG_64 is set (flags & 1 == 1), the float is sent as a 64-bit double-precision IEEE 754 float, occupying 8 bytes at offset 4.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for the String type.
+
+The String type is serialized with the following structure:
+*   String length (Integer): The length of the string in bytes. This field is located at offset 4 and has a length of 4 bytes.
+*   UTF-8 encoded string (Bytes): The actual UTF-8 encoded string data. This field is located at offset 8 and has a variable length (X).
+This field is padded to 4 bytes.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for Vector2.
+
+Vector2
+* X (Float): X coordinate.
+* Y (Float): Y coordinate.
+---CHUNK---
+Document: Rect2
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization of a Rect2 object.
+
+Rect2
+- Offset: 4, Length: 4, Type: Float, Description: X coordinate.
+- Offset: 8, Length: 4, Type: Float, Description: Y coordinate.
+- Offset: 12, Length: 4, Type: Float, Description: X size.
+- Offset: 16, Length: 4, Type: Float, Description: Y size.
+---CHUNK---
+Document: Vector3
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization structure of a Vector3.
+
+Vector3
+- X coordinate (Float): X coordinate, located at offset 4 with length 4.
+- Y coordinate (Float): Y coordinate, located at offset 8 with length 4.
+- Z coordinate (Float): Z coordinate, located at offset 12 with length 4.
+---CHUNK---
+Document: binary_serialization_api
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for Transform2D.
+
+Transform2D
+- The X component of the X column vector, accessed via [0][0] (Float): Offset: 4, Length: 4.
+- The Y component of the X column vector, accessed via [0][1] (Float): Offset: 8, Length: 4.
+- The X component of the Y column vector, accessed via [1][0] (Float): Offset: 12, Length: 4.
+- The Y component of the Y column vector, accessed via [1][1] (Float): Offset: 16, Length: 4.
+- The X component of the origin vector, accessed via [2][0] (Float): Offset: 20, Length: 4.
+- The Y component of the origin vector, accessed via [2][1] (Float): Offset: 24, Length: 4.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization format for the Plane data type.
+
+Plane
+*   Normal X (Float)
+*   Normal Y (Float)
+*   Normal Z (Float)
+*   Distance (Float)
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for a Quaternion.
+
+Quaternion
+*   Imaginary X (Float): Imaginary X.
+*   Imaginary Y (Float): Imaginary Y.
+*   Imaginary Z (Float): Imaginary Z.
+*   Real W (Float): Real W.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for AABB.
+
+AABB binary serialization format:
+*   X coordinate (Float): at offset 4, length 4.
+*   Y coordinate (Float): at offset 8, length 4.
+*   Z coordinate (Float): at offset 12, length 4.
+*   X size (Float): at offset 16, length 4.
+*   Y size (Float): at offset 20, length 4.
+*   Z size (Float): at offset 24, length 4.
+---CHUNK---
+Document: Basis
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization format for the Basis type.
+Basis
+- X component of X column vector (Float): accessed via [0][0].
+- Y component of X column vector (Float): accessed via [0][1].
+- Z component of X column vector (Float): accessed via [0][2].
+- X component of Y column vector (Float): accessed via [1][0].
+- Y component of Y column vector (Float): accessed via [1][1].
+- Z component of Y column vector (Float): accessed via [1][2].
+- X component of Z column vector (Float): accessed via [2][0].
+- Y component of Z column vector (Float): accessed via [2][1].
+- Z component of Z column vector (Float): accessed via [2][2].
+---CHUNK---
+Document: Transform3D
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section details the binary serialization structure of a Transform3D object, including component offsets, lengths, and types.
+
+Transform3D
+*   Offset 4, Length 4, Type Float: The X component of the X column vector, accessed via [0][0]
+*   Offset 8, Length 4, Type Float: The Y component of the X column vector, accessed via [0][1]
+*   Offset 12, Length 4, Type Float: The Z component of the X column vector, accessed via [0][2]
+*   Offset 16, Length 4, Type Float: The X component of the Y column vector, accessed via [1][0]
+*   Offset 20, Length 4, Type Float: The Y component of the Y column vector, accessed via [1][1]
+*   Offset 24, Length 4, Type Float: The Z component of the Y column vector, accessed via [1][2]
+*   Offset 28, Length 4, Type Float: The X component of the Z column vector, accessed via [2][0]
+*   Offset 32, Length 4, Type Float: The Y component of the Z column vector, accessed via [2][1]
+*   Offset 36, Length 4, Type Float: The Z component of the Z column vector, accessed via [2][2]
+*   Offset 40, Length 4, Type Float: The X component of the origin vector, accessed via [3][0]
+*   Offset 44, Length 4, Type Float: The Y component of the origin vector, accessed via [3][1]
+*   Offset 48, Length 4, Type Float: The Z component of the origin vector, accessed via [3][2]
+---CHUNK---
+Document: Color
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization format for the Color data type.
+
+Color
+*   Red (Float): typically 0..1, can be above 1 for overbright colors.
+*   Green (Float): typically 0..1, can be above 1 for overbright colors.
+*   Blue (Float): typically 0..1, can be above 1 for overbright colors.
+*   Alpha (Float): 0..1.
+---CHUNK---
+Document: NodePath Serialization
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization format for NodePath, including offset, length, type, and description of its components.
+
+*   Offset 4, Length 4, Type Integer: String length, or new format (val&0x80000000!=0 and NameCount=val&0x7FFFFFFF).
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes a specific format for binary serialization, including string encoding and padding.
+
+For old format:
+*   Offset: 8. Len: X. Type: Bytes. Description: UTF-8 encoded string.
+
+Padded to 4 bytes.
+---CHUNK---
+Document: binary_serialization_api
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This chunk describes the format for names and sub-names in the binary serialization API.
+
+For new format:
+*   Offset 4, Length 4 (Integer): Sub-name count.
+*   Offset 8, Length 4 (Integer): Flags (absolute: val&1 != 0).
+
+For each Name and Sub-Name:
+*   Offset X+0, Length 4 (Integer): String length.
+*   Offset X+4, Length X (Bytes): UTF-8 encoded string.
+
+Every name string is padded to 4 bytes.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section notes that the RID type is currently unsupported for binary serialization.
+
+RID (unsupported)
+---CHUNK---
+Document: Object
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes how an Object can be serialized.
+
+An Object could be serialized in three different ways: as a null value, with `full_objects = false`, or with `full_objects = true`.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes how a null value is represented in binary serialization.
+
+A null value is represented in binary serialization as follows:
+*   Offset 4, Length 4: Integer. This integer is zero (32-bit signed integer).
+---CHUNK---
+Document: binary_serialization_api
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the structure of an object instance ID in binary serialization when full_objects is disabled.
+
+When `full_objects` is disabled:
+*   Offset: 4. Length: 8. Type: Integer. Description: The Object instance ID (64-bit signed integer).
+---CHUNK---
+Document: binary_serialization_api
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format when `full_objects` is enabled, detailing how class names and properties are stored, and noting which properties are serialized based on usage flags.
+
+`full_objects` enabled
+
+*   Offset 4 (Length 4): Integer - Class name (String length).
+*   Offset 8 (Length X): Bytes - Class name (UTF-8 encoded string).
+*   Offset X+8 (Length 4): Integer - The number of properties that are serialized.
+
+For each property:
+
+*   Offset Y (Length 4): Integer - Property name (String length).
+*   Offset Y+4 (Length Z): Bytes - Property name (UTF-8 encoded string).
+*   Offset Y+4+Z (Length W): <variable> - Property value, using this same format.
+
+Note: Not all properties are included. Only properties that are configured with the PROPERTY_USAGE_STORAGE flag set will be serialized. You can add a new usage flag to a property by overriding the _get_property_list method in your class. You can also check how property usage is configured by calling Object._get_property_list. See PropertyUsageFlags for the possible usage flags.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for a Dictionary.
+
+Dictionary
+- Offset: 4, Length: 4, Type: Integer. Description: `val&0x7FFFFFFF` equals elements, `val&0x80000000` equals shared (boolean).
+
+Then what follows is, for amount of "elements", pairs of key and value, one after the other, using this same format.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for an Array.
+
+An Array is serialized starting with a 4-byte Integer. The lower 31 bits of this integer (`val&0x7FFFFFFF`) represent the number of elements in the array. The most significant bit (`val&0x80000000`) indicates whether the array is shared (boolean). Then, for the amount of "elements", values are serialized one after the other, using this same format.
+---CHUNK---
+Document: PackedByteArray
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This chunk describes the binary serialization format for PackedByteArray.
+
+PackedByteArray
+- Offset 4, Length 4: Integer representing the array length in bytes.
+- Offset 8 to 8+length, Length 1: Byte (0-255).
+The array data is padded to 4 bytes.
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization structure of a PackedInt32Array.
+
+PackedInt32Array:
+*   Offset: 4, Length: 4, Type: Integer, Description: Array length (Integers).
+*   Offset: 8..8+length*4, Length: 4, Type: Integer, Description: 32-bit signed integer.
+---CHUNK---
+Document: PackedInt64Array Binary Format
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization format for PackedInt64Array.
+
+PackedInt64Array
+*   Offset: 4, Length: 8, Type: Integer, Description: Array length (Integers)
+*   Offset: 8..8+length*8, Length: 8, Type: Integer, Description: 64-bit signed integer
+---CHUNK---
+Document: PackedFloat32Array
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This chunk describes the binary serialization format for PackedFloat32Array.
+
+PackedFloat32Array
+*   Offset 4: A 4-byte Integer representing the array length (number of floats).
+*   Offset 8 to 8 + length * 4: A 4-byte value representing a 32-bit IEEE 754 single-precision float.
+---CHUNK---
+Document: PackedFloat64Array
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization format for PackedFloat64Array.
+
+PackedFloat64Array
+*   Offset 4 (Integer): Array length (Floats).
+*   Offset 8 to 8 + length * 8 (64-bit IEEE 754 double-precision float): Data for the floats.
+---CHUNK---
+Document: PackedStringArray Serialization
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section details the binary serialization format for PackedStringArray.
+
+PackedStringArray
+The serialization format for PackedStringArray is as follows:
+- At offset 4, an Integer (4 bytes) represents the array length (number of Strings).
+For each String:
+- At offset X+0, an Integer (4 bytes) represents the String length.
+- At offset X+4, Bytes (X bytes) represent the UTF-8 encoded string.
+Every string is padded to 4 bytes.
+---CHUNK---
+Document: PackedVector2Array
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This chunk describes the binary serialization format for PackedVector2Array.
+
+For PackedVector2Array serialization:
+*   At offset 4, an Integer (4 bytes) specifies the array length.
+*   Following the array length, for each element in the array (total `length` elements):
+    *   An X coordinate (Float, 4 bytes).
+    *   A Y coordinate (Float, 4 bytes).
+---CHUNK---
+Document: Binary Serialization API
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: This section describes the binary serialization format for PackedVector3Array.
+
+PackedVector3Array
+*   Array length (Integer): Stored at offset 4, 4 bytes long.
+*   X coordinate (Float): Stored starting at offset 8, 4 bytes long, repeated for each element in the array.
+*   Y coordinate (Float): Stored starting at offset 8 + 4, 4 bytes long, repeated for each element in the array.
+*   Z coordinate (Float): Stored starting at offset 8 + 8, 4 bytes long, repeated for each element in the array.
+---CHUNK---
+Document: PackedColorArray
+Path: godot/tutorials/io/binary_serialization_api.rst
+Summary: Describes the binary serialization format for PackedColorArray.
+
+The binary serialization format for PackedColorArray is as follows:
+*   Offset 4 (Length 4, Integer): Array length.
+*   Offset 8..8+length*16 (Length 4, Float): Red component (typically 0..1, can be above 1 for overbright colors).
+*   Offset 8..12+length*16 (Length 4, Float): Green component (typically 0..1, can be above 1 for overbright colors).
+*   Offset 8..16+length*16 (Length 4, Float): Blue component (typically 0..1, can be above 1 for overbright colors).
+*   Offset 8..20+length*16 (Length 4, Float): Alpha component (0..1).

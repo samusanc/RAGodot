@@ -1,0 +1,103 @@
+Document: CanvasItemMaterial
+Path: godot/classes/class_canvasitemmaterial.rst
+Summary: Base class for materials applied to CanvasItem nodes.
+
+Inherits: Resource < RefCounted
+
+CanvasItemMaterial is the base class for materials that can be applied to CanvasItem nodes. It provides basic properties for controlling how a CanvasItem is rendered, such as its transparency, blend mode, and shading. This class itself cannot be instantiated directly; instead, you should use one of its derived classes, such as CanvasItemMaterial or ShaderMaterial, to create specific material effects.
+
+Key properties include:
+
+*   **Blend Mode**: Determines how the material's color is blended with the background. Options include Mix, Add, Sub, Mul, and Screen.
+*   **Light Mode**: Controls how the material interacts with lighting. Options are Normal, Unshaded, and LightOnly.
+*   **Shading Mode**: Defines the shading behavior. Options are Mix, Unshaded, and LightOnly.
+*   **Transparency**: Manages the transparency of the material. Options are Alpha, AlphaScissor, and AlphaHash.
+
+These properties allow for a wide range of visual effects, from simple transparency to complex lighting interactions.
+---CHUNK---
+Document: CanvasItemMaterial
+Path: godot/classes/class_canvasitemmaterial.rst
+Summary: Defines a material specifically for CanvasItem nodes in Godot.
+CanvasItemMaterial
+Inherits: Material < Resource < RefCounted < Object
+
+A material for CanvasItem nodes.
+---CHUNK---
+Document: CanvasItemMaterial
+Path: godot/classes/class_canvasitemmaterial.rst
+Summary: Describes CanvasItemMaterial's purpose in modifying textures for CanvasItems, focusing on blend and lighting behaviors.
+
+CanvasItemMaterials provide a means of modifying the textures associated with a CanvasItem. They specialize in describing blend and lighting behaviors for textures. Use a ShaderMaterial to more fully customize a material's interactions with a CanvasItem.
+---CHUNK---
+Document: CanvasItemMaterial
+Path: godot/classes/class_canvasitemmaterial.rst
+Summary: This section details the properties available for the CanvasItemMaterial class in Godot Engine.
+
+Properties:
+* BlendMode blend_mode (int): Controls the transparency and blending behavior of the material. Default: 0.
+* LightMode light_mode (int): Determines how light interacts with the material. Default: 0.
+* particles_anim_h_frames (int): The number of horizontal frames in a particle animation texture.
+* particles_anim_loop (bool): If true, the particle animation will loop.
+* particles_anim_v_frames (int): The number of vertical frames in a particle animation texture.
+* particles_animation (bool): If true, enables particle animation. Default: false.
+---CHUNK---
+Document: CanvasItemMaterial
+Path: godot/classes/class_canvasitemmaterial.rst
+Summary: Defines the blend and light modes for CanvasItem materials.
+
+Enumerations:
+BlendMode:
+  BLEND_MODE_MIX (0): Mix blending mode. Colors are assumed to be independent of the alpha (opacity) value.
+  BLEND_MODE_ADD (1): Additive blending mode.
+  BLEND_MODE_SUB (2): Subtractive blending mode.
+  BLEND_MODE_MUL (3): Multiplicative blending mode.
+  BLEND_MODE_PREMULT_ALPHA (4): Mix blending mode. Colors are assumed to be premultiplied by the alpha (opacity) value.
+
+LightMode:
+  LIGHT_MODE_NORMAL (0): Render the material using both light and non-light sensitive material properties.
+  LIGHT_MODE_UNSHADED (1): Render the material as if there were no light.
+  LIGHT_MODE_LIGHT_ONLY (2): Render the material as if there were only light.
+---CHUNK---
+Document: CanvasItemMaterial
+Path: godot/classes/class_canvasitemmaterial.rst
+Summary: Describes the properties of the CanvasItemMaterial class, including blend mode, light mode, and particle animation settings.
+
+Property: blend_mode
+Type: BlendMode
+Description: The manner in which a material's rendering is applied to underlying textures.
+Setters: set_blend_mode(value: BlendMode)
+Getters: get_blend_mode() -> BlendMode
+
+Property: light_mode
+Type: LightMode
+Description: The manner in which material reacts to lighting.
+Setters: set_light_mode(value: LightMode)
+Getters: get_light_mode() -> LightMode
+
+Property: particles_anim_h_frames
+Type: int
+Description: The number of columns in the spritesheet assigned as Texture2D for a GPUParticles2D or CPUParticles2D.
+Note: This property is only used and visible in the editor if particles_animation is true.
+Setters: set_particles_anim_h_frames(value: int)
+Getters: get_particles_anim_h_frames() -> int
+
+Property: particles_anim_loop
+Type: bool
+Description: If true, the particles animation will loop.
+Note: This property is only used and visible in the editor if particles_animation is true.
+Setters: set_particles_anim_loop(value: bool)
+Getters: get_particles_anim_loop() -> bool
+
+Property: particles_anim_v_frames
+Type: int
+Description: The number of rows in the spritesheet assigned as Texture2D for a GPUParticles2D or CPUParticles2D.
+Note: This property is only used and visible in the editor if particles_animation is true.
+Setters: set_particles_anim_v_frames(value: int)
+Getters: get_particles_anim_v_frames() -> int
+
+Property: particles_animation
+Type: bool
+Default: false
+Description: If true, enable spritesheet-based animation features when assigned to GPUParticles2D and CPUParticles2D nodes. The ParticleProcessMaterial.anim_speed_max or CPUParticles2D.anim_speed_max should also be set to a positive value for the animation to play. This property (and other particles_anim_* properties that depend on it) has no effect on other types of nodes.
+Setters: set_particles_animation(value: bool)
+Getters: get_particles_animation() -> bool
